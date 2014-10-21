@@ -1,1 +1,0 @@
-D:\Dev\Git\DNDGenSite\DNDGenSite.Tests.Unit\obj\Debug\DNDGenSite.Tests.Unit.csprojResolveAssemblyReference.cache
