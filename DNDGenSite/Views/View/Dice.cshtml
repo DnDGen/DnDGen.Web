@@ -2,17 +2,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
+@section ngApp {
+    ng-app="app.dice"
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/dice/dice.module.js"></script>
+    <script src="~/Scripts/app/dice/diceService.js"></script>
+    <script src="~/Scripts/app/dice/dice.js"></script>
+}
+
+<div ng-controller="Dice">
     <h1>D20 Dice</h1>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1"/>d2
+            <input type="number" title="Quantity" value="1" min="1" />d2
         </div>
         <div class="col-sm-1">
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d2Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -23,7 +33,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d3Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -34,7 +44,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d4Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -45,7 +55,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d6Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -56,7 +66,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d8Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -67,7 +77,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d10Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -78,7 +88,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d12Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -89,7 +99,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{d20Roll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -100,7 +110,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{percentileRoll}}</b>
         </div>
     </div>
     <div class="row top-buffer">
@@ -111,7 +121,7 @@
             <button type="button" class="btn btn-success">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>the roll goes here in angular</b>
+            <b>{{customRoll}}</b>
         </div>
     </div>
 </div>
