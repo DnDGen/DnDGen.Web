@@ -5,3 +5,7 @@
 .full-body {
     background-color: wheat;
 }
+
+.top-buffer {
+    margin-top: 10px;
+}

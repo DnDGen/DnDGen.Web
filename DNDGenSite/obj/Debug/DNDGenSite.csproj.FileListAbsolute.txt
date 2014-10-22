@@ -34,3 +34,4 @@ D:\Dev\Git\DNDGenSite\DNDGenSite\bin\System.Web.Helpers.xml
 D:\Dev\Git\DNDGenSite\DNDGenSite\bin\System.Web.Mvc.xml
 D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.dll
 D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.pdb
+D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.csprojResolveAssemblyReference.cache
