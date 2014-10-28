@@ -7,11 +7,13 @@
         <script src="~/Scripts/jQuery/jquery-1.9.0.min.js"></script>
         <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script> 
         <script src="~/Scripts/Angular/angular.min.js"></script>
-        <script src="~/Scripts/Angular/angular-animate-min.js"></script>
+        <script src="~/Scripts/Angular/angular-animate.min.js"></script>
         @RenderSection("Scripts", false)
 
         <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="~/Content/layout.css">
+        @RenderSection("Styles", false)
+
         <link rel="shortcut icon" href="http://theonlysheet.com/community/images/smilies/d20.png">
     </head>
 <body @RenderSection("ngApp", false) class="full-body">

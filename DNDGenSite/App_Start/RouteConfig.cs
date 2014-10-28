@@ -12,7 +12,19 @@ namespace DNDGenSite
             routes.MapRoute(
                 name: "Default",
                 url: "{action}",
-                defaults: new { controller = "View", action = "Home" }
+                defaults: new { Controller = "View", Action = "Home" }
+            );
+
+            routes.MapRoute(
+                name: "Dice",
+                url: "Dice/{action}/{quantity}",
+                defaults: new { Controller = "Dice" }
+            );
+
+            routes.MapRoute(
+                name: "CustomDice",
+                url: "Dice/Custom/{quantity}/{die}",
+                defaults: new { Controller = "Dice", Action = "Custom" }
             );
         }
     }

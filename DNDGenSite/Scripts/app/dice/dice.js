@@ -8,89 +8,91 @@
     Dice.$inject = ['$scope', 'diceService'];
 
     function Dice($scope, diceService) {
-        $scope.d2Roll = "";
-        $scope.d3Roll = "";
-        $scope.d4Roll = "";
-        $scope.d6Roll = "";
-        $scope.d8Roll = "";
-        $scope.d10Roll = "";
-        $scope.d12Roll = "";
-        $scope.d20Roll = "";
-        $scope.percentileRoll = "";
-        $scope.customRoll = "";
-
-        $scope.rollD2 = function (quantity) {
-            var model = getModelFor(documentId);
-            model.Status = status;
+        $scope.quantities = {
+            d2: 1,
+            d3: 1,
+            d4: 1,
+            d6: 1,
+            d8: 1,
+            d10: 1,
+            d12: 1,
+            d20: 1,
+            percentile: 1,
+            custom: 1
         };
 
-        function getModelFor(documentId) {
-            if ($scope.checkInModel.MainDocument.Id === documentId)
-                return $scope.checkInModel.MainDocument;
+        $scope.customDie = 1;
 
-            for (var i = 0; i < $scope.checkInModel.Dependencies.length; i++)
-                if ($scope.checkInModel.Dependencies[i].Id === documentId)
-                    return $scope.checkInModel.Dependencies[i];
-        }
-
-        $scope.formattedDependencies = [];
-        var tableRow = [];
-        for (var i = 0; i < $scope.checkInModel.Dependencies.length; i++) {
-            var dependency = $scope.checkInModel.Dependencies[i];
-            tableRow.push(dependency);
-
-            if (tableRow.length >= 3) {
-                $scope.formattedDependencies.push(tableRow);
-                tableRow = [];
-            }
-        }
-
-        if (tableRow.length > 0)
-            $scope.formattedDependencies.push(tableRow);
-
-        $scope.getCorrespondingDocumentId = function (fileName) {
-            if (fileNameMatches(fileName, $scope.checkInModel.MainDocument.FileName))
-                return $scope.checkInModel.MainDocument.Id;
-
-            for (var i = 0; i < $scope.checkInModel.Dependencies.length; i++)
-                if (fileNameMatches(fileName, $scope.checkInModel.Dependencies[i].FileName))
-                    return $scope.checkInModel.Dependencies[i].Id;
-
-            return 0;
+        $scope.rolls = {
+            d2: 0,
+            d3: 0,
+            d4: 0,
+            d6: 0,
+            d8: 0,
+            d10: 0,
+            d12: 0,
+            d20: 0,
+            percentile: 0,
+            custom: 0
         };
 
-        function fileNameMatches(fileName, fileNameModel) {
-            var beginningIndex = fileName.indexOf(fileNameModel.Base);
-            var endingIndex = fileName.lastIndexOf(fileNameModel.Extension);
-            var expectedEndingIndex = fileName.length - fileNameModel.Extension.length;
-
-            return beginningIndex === 0 && endingIndex === expectedEndingIndex;
+        $scope.rollD2 = function () {
+            diceService.getD2Roll($scope.quantities.d2).then(function (data) {
+                $scope.rolls.d2 = data.roll;
+            });
         };
 
-        $scope.getCorrespondingFileName = function (documentId) {
-            var model = getModelFor(documentId);
-            return model.FileName.Full;
+        $scope.rollD3 = function () {
+            diceService.getD3Roll($scope.quantities.d3).then(function (data) {
+                $scope.rolls.d3 = data.roll;
+            });
         };
 
-        $scope.checkInDocument = function (documentId) {
-            updateIcon(documentId);
-            $scope.setStatus(documentId, "checked in");
-            updateProcessingButtons(documentId);
+        $scope.rollD4 = function () {
+            diceService.getD4Roll($scope.quantities.d4).then(function (data) {
+                $scope.rolls.d4 = data.roll;
+            });
         };
 
-        function updateProcessingButtons(documentId) {
-            if ($scope.checkInModel.MainDocument.Id !== documentId)
-                return;
-
-            checkInService.getUpdatedProcessingButtons(documentId)
-                .then(loadProcessingButtons).catch(showUnknownErrorInAlert);
+        $scope.rollD6 = function () {
+            diceService.getD6Roll($scope.quantities.d6).then(function (data) {
+                $scope.rolls.d6 = data.roll;
+            });
         };
 
-        function updateIcon(documentId) {
-            var model = getModelFor(documentId);
+        $scope.rollD8 = function () {
+            diceService.getD8Roll($scope.quantities.d8).then(function (data) {
+                $scope.rolls.d8 = data.roll;
+            });
+        };
 
-            checkInService.getFileIconUrl(documentId).then(function (data) {
-                model.FileIconUrl = data.fileIconUrl;
+        $scope.rollD10 = function () {
+            diceService.getD10Roll($scope.quantities.d10).then(function (data) {
+                $scope.rolls.d10 = data.roll;
+            });
+        };
+
+        $scope.rollD12 = function () {
+            diceService.getD12Roll($scope.quantities.d12).then(function (data) {
+                $scope.rolls.d12 = data.roll;
+            });
+        };
+
+        $scope.rollD20 = function () {
+            diceService.getD20Roll($scope.quantities.d20).then(function (data) {
+                $scope.rolls.d20 = data.roll;
+            });
+        };
+
+        $scope.rollPercentile = function () {
+            diceService.getPercentileRoll($scope.quantities.percentile).then(function (data) {
+                $scope.rolls.percentile = data.roll;
+            });
+        };
+
+        $scope.rollCustom = function () {
+            diceService.getCustomRoll($scope.quantities.custom, $scope.customDie).then(function (data) {
+                $scope.rolls.custom = data.roll;
             });
         };
     };

@@ -12,116 +12,120 @@
     <script src="~/Scripts/app/dice/dice.js"></script>
 }
 
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/dice.css">
+}
+
 <div ng-controller="Dice">
     <h1>D20 Dice</h1>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d2
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d2" class="dice-input"/>d2
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD2()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d2Roll}}</b>
+            <b>{{rolls.d2 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d3
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d3" class="dice-input" />d3
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD3()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d3Roll}}</b>
+            <b>{{rolls.d3 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d4
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d4" class="dice-input" />d4
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD4()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d4Roll}}</b>
+            <b>{{rolls.d4 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d6
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d6" class="dice-input" />d6
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD6()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d6Roll}}</b>
+            <b>{{rolls.d6 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d8
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d8" class="dice-input" />d8
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD8()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d8Roll}}</b>
+            <b>{{rolls.d8 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d10
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d10" class="dice-input" />d10
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD10()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d10Roll}}</b>
+            <b>{{rolls.d10 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d12
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d12" class="dice-input" />d12
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD12()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d12Roll}}</b>
+            <b>{{rolls.d12 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d20
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d20" class="dice-input" />d20
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollD20()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{d20Roll}}</b>
+            <b>{{rolls.d20 | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d100 (Percentile)
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.percentile" class="dice-input" />d100 (Percentile)
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollPercentile()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{percentileRoll}}</b>
+            <b>{{rolls.percentile | number}}</b>
         </div>
     </div>
     <div class="row top-buffer">
         <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" />d<input type="number" title="Die" value="1" min="1" />
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.custom" class="dice-input" />d<input type="number" title="Die" value="1" min="1" ng-model="customDie" class="dice-input" />
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-success">Roll</button>
+            <button type="button" class="btn btn-success" ng-click="rollCustom()">Roll</button>
         </div>
         <div class="col-sm-2">
-            <b>{{customRoll}}</b>
+            <b>{{rolls.custom | number}}</b>
         </div>
     </div>
 </div>
