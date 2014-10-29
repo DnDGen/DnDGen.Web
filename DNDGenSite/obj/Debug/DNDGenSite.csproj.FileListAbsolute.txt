@@ -35,3 +35,38 @@ D:\Dev\Git\DNDGenSite\DNDGenSite\bin\System.Web.Mvc.xml
 D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.dll
 D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.pdb
 D:\Dev\Git\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.csprojResolveAssemblyReference.cache
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\DNDGenSite.dll.config
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\DNDGenSite.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\DNDGenSite.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\D20Dice.Bootstrap.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\D20Dice.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Bootstrap.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Common.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Generators.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Generators.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Mappers.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Mappers.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Selectors.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Selectors.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Tables.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\EquipmentGen.Tables.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.Web.Common.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Helpers.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Mvc.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Razor.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.Deployment.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.Razor.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\WebActivatorEx.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.Web.Common.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Razor.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.Deployment.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Webpages.Razor.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Helpers.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\System.Web.Mvc.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.csprojResolveAssemblyReference.cache
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.pdb

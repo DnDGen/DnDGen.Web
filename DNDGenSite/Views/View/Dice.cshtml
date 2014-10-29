@@ -18,15 +18,11 @@
 
 <div ng-controller="Dice">
     <h1>D20 Dice</h1>
-    <div class="row top-buffer">
-        <div class="col-sm-4">
-            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d2" class="dice-input"/>d2
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn btn-success" ng-click="rollD2()">Roll</button>
-        </div>
-        <div class="col-sm-2">
-            <b>{{rolls.d2 | number}}</b>
+    <div class="flex-container top-buffer">
+        <div class="flex-child">
+            <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d2" class="dice-input flex-child" />d2
+            <button type="button" class="btn btn-success flex-child" ng-click="rollD2()">Roll</button>
+            <span class="flex-child"><b>{{rolls.d2 | number}}</b></span>
         </div>
     </div>
     <div class="row top-buffer">

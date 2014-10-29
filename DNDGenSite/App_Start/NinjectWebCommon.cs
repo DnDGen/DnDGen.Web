@@ -6,6 +6,7 @@ namespace DNDGenSite.App_Start
     using System;
     using System.Web;
     using D20Dice.Bootstrap;
+    using DNDGenSite.Controllers;
     using EquipmentGen.Bootstrap;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
@@ -36,6 +37,7 @@ namespace DNDGenSite.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                BindControllers(kernel);
                 return kernel;
             }
             catch
@@ -43,6 +45,11 @@ namespace DNDGenSite.App_Start
                 kernel.Dispose();
                 throw;
             }
+        }
+
+        private static void BindControllers(IKernel kernel)
+        {
+            kernel.Bind<DiceController>().ToSelf();
         }
 
         private static void RegisterServices(IKernel kernel)
