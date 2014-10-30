@@ -1,3 +1,19 @@
 .dice-input {
     width: 60px;
+    padding: 5px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.flex-child {
+    flex-grow: 1;
+    padding: 5px;
+    width: 25%;
+    margin: auto;
 }

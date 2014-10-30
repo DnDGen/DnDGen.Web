@@ -6,7 +6,6 @@ namespace DNDGenSite.App_Start
     using System;
     using System.Web;
     using D20Dice.Bootstrap;
-    using DNDGenSite.Controllers;
     using EquipmentGen.Bootstrap;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
@@ -37,7 +36,7 @@ namespace DNDGenSite.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
-                BindControllers(kernel);
+
                 return kernel;
             }
             catch
@@ -47,11 +46,6 @@ namespace DNDGenSite.App_Start
             }
         }
 
-        private static void BindControllers(IKernel kernel)
-        {
-            kernel.Bind<DiceController>().ToSelf();
-        }
-
         private static void RegisterServices(IKernel kernel)
         {
             var diceLoader = new D20DiceModuleLoader();
@@ -59,6 +53,8 @@ namespace DNDGenSite.App_Start
 
             var equipmentGenLoader = new EquipmentGenModuleLoader();
             equipmentGenLoader.LoadModules(kernel);
+
+            kernel.Load<WebModule>();
         }
     }
 }

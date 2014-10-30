@@ -2,19 +2,6 @@
     padding-top: 70px;
 }
 
-.flex-container {
-    display: flexbox;
-    justify-content: center;
-    align-items: baseline;
-    flex-direction: row;
-    width: 100%;
-}
-
-.flex-child {
-    flex-grow: 1;
-    padding: 5px;
-}
-
 .full-body {
     background-color: wheat;
 }
