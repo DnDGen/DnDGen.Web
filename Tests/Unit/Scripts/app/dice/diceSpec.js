@@ -242,7 +242,6 @@
     it('rolls a custom roll', function () {
         scope.quantities.custom = 9266;
         scope.customDie = 42;
-
         scope.rollCustom();
         scope.$apply();
 
@@ -256,5 +255,35 @@
         expect(scope.rolls.d20).toBe(0);
         expect(scope.rolls.percentile).toBe(0);
         expect(scope.rolls.custom).toBe(9266 * 42);
+    });
+
+    it('does not reset unrelated rolls', function () {
+        scope.quantities.custom = 9266;
+        scope.customDie = 42;
+        scope.rollCustom();
+        scope.$apply();
+
+        expect(scope.rolls.percentile).toBe(0);
+        expect(scope.rolls.custom).toBe(9266 * 42);
+
+        scope.quantities.percentile = 9266;
+        scope.rollPercentile();
+        scope.$apply();
+
+        expect(scope.rolls.percentile).toBe(9266 * 100);
+        expect(scope.rolls.custom).toBe(9266 * 42);
+    });
+
+    it('overwrites previous roll', function () {
+        scope.quantities.custom = 9266;
+        scope.customDie = 42;
+        scope.rollCustom();
+        scope.$apply();
+        expect(scope.rolls.custom).toBe(9266 * 42);
+
+        scope.customDie = 90210;
+        scope.rollCustom();
+        scope.$apply();
+        expect(scope.rolls.custom).toBe(9266 * 90210);
     });
 })

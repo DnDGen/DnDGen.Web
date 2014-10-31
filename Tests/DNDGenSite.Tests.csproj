@@ -109,9 +109,7 @@
     <Compile Include="Unit\Controllers\ViewControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Integration\e2e\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -122,6 +120,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Integration\e2e\navigationSpec.js" />
+    <Content Include="Integration\e2e\homePageSpec.js" />
+    <Content Include="Integration\e2e\dicePageSpec.js" />
     <Content Include="Unit\Scripts\app\dice\diceSpec.js" />
   </ItemGroup>
   <Choose>

@@ -11,7 +11,8 @@ exports.config = {
 
    multiCapabilities: [
         { browserName: 'firefox' },
-        { browserName: 'chrome' }
+        { browserName: 'chrome' },
+        { browserName: 'ie' }
     ],
 
     onPrepare: function () {
