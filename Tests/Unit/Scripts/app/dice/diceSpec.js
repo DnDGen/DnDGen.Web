@@ -105,6 +105,7 @@
 
     it('rolls a d3', function () {
         scope.quantities.d3 = 9266;
+        scope.rollD3();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -121,6 +122,7 @@
 
     it('rolls a d4', function () {
         scope.quantities.d4 = 9266;
+        scope.rollD4();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -137,6 +139,7 @@
 
     it('rolls a d6', function () {
         scope.quantities.d6 = 9266;
+        scope.rollD6();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -153,6 +156,7 @@
 
     it('rolls a d8', function () {
         scope.quantities.d8 = 9266;
+        scope.rollD8();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -169,6 +173,7 @@
 
     it('rolls a d10', function () {
         scope.quantities.d10 = 9266;
+        scope.rollD10();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -185,6 +190,7 @@
 
     it('rolls a d12', function () {
         scope.quantities.d12 = 9266;
+        scope.rollD12();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -201,6 +207,7 @@
 
     it('rolls a d20', function () {
         scope.quantities.d20 = 9266;
+        scope.rollD20();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);
@@ -217,6 +224,7 @@
 
     it('rolls a percentile', function () {
         scope.quantities.percentile = 9266;
+        scope.rollPercentile();
         scope.$apply();
 
         expect(scope.rolls.d2).toBe(0);

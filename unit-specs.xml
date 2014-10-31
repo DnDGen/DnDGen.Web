@@ -1,45 +1,21 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2014-10-30T21:21:22" id="0" hostname="ws-kspear1" tests="13" errors="0" failures="8" time="0.023">
+  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2014-10-31T14:37:20" id="0" hostname="ws-kspear1" tests="13" errors="0" failures="0" time="0.022">
     <properties>
       <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
-    <testcase name="has quantities of 1 at beginning" time="0.009" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="has quantities of 1 at beginning" time="0.007" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
     <testcase name="has custom die of 1 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
     <testcase name="has rolls of 0 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
-    <testcase name="rolls a d2" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
-    <testcase name="rolls a d3" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 27798.
-</failure>
-    </testcase>
-    <testcase name="rolls a d4" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 37064.
-</failure>
-    </testcase>
-    <testcase name="rolls a d6" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 55596.
-</failure>
-    </testcase>
-    <testcase name="rolls a d8" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 74128.
-</failure>
-    </testcase>
-    <testcase name="rolls a d10" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 92660.
-</failure>
-    </testcase>
-    <testcase name="rolls a d12" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 111192.
-</failure>
-    </testcase>
-    <testcase name="rolls a d20" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 185320.
-</failure>
-    </testcase>
-    <testcase name="rolls a percentile" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController">
-      <failure type="">Expected 0 to be 926600.
-</failure>
-    </testcase>
+    <testcase name="rolls a d2" time="0.004" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d3" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d4" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d6" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d8" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d10" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d12" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a d20" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
+    <testcase name="rolls a percentile" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
     <testcase name="rolls a custom roll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).Unit: DiceController"/>
     <system-out><![CDATA[
 ]]></system-out>
