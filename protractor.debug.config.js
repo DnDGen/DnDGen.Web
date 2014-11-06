@@ -3,16 +3,15 @@ exports.config = {
     seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.43.1.jar',
     seleniumPort: null,
     chromeDriver: 'node_modules/protractor/selenium/chromedriver',
-    seleniumArgs: [],
+    seleniumArgs: ['-Dwebdriver.ie.driver=<node_modules/protractor/selenium/IEDriverServer.exe>'],
 
     specs: [
       'Tests/Integration/e2e/*.js'
     ],
 
     multiCapabilities: [
-      { browserName: 'firefox' },
-      { browserName: 'chrome' },
-      { browserName: 'ie' }
+        { browserName: 'firefox' },
+        { browserName: 'chrome' }
     ],
 
     onPrepare: function () {

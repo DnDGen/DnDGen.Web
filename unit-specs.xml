@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="PhantomJS 1.9.8 (Windows 7)" package="unit" timestamp="2014-11-06T16:20:30" id="0" hostname="AndrewWiggin-PC" tests="15" errors="0" failures="0" time="0.05">
+  <testsuite name="PhantomJS 1.9.8 (Windows 7)" package="unit" timestamp="2014-11-06T16:39:56" id="0" hostname="AndrewWiggin-PC" tests="15" errors="0" failures="0" time="0.05">
     <properties>
       <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
@@ -10,15 +10,15 @@
     <testcase name="rolls a d2" time="0.007" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d3" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d4" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
-    <testcase name="rolls a d6" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
+    <testcase name="rolls a d6" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d8" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d10" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d12" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a d20" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <testcase name="rolls a percentile" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
-    <testcase name="rolls a custom roll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
-    <testcase name="does not reset unrelated rolls" time="0.008" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
-    <testcase name="overwrites previous roll" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
+    <testcase name="rolls a custom roll" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
+    <testcase name="does not reset unrelated rolls" time="0.007" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
+    <testcase name="overwrites previous roll" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 7).Unit: DiceController"/>
     <system-out><![CDATA[
 ]]></system-out>
     <system-err/>

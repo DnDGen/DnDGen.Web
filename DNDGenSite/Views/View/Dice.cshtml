@@ -21,67 +21,49 @@
     <div class="flex-container top-buffer">
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d2" class="dice-input" />d2
-            <button type="button" class="btn btn-success" ng-click="rollD2()">Roll</button>
+            <button id="d2Button" type="button" class="btn btn-success" ng-click="rollD2()">Roll</button>
             <span><b>{{rolls.d2 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d3" class="dice-input" />d3
             <button type="button" class="btn btn-success" ng-click="rollD3()">Roll</button>
             <span><b>{{rolls.d3 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d4" class="dice-input" />d4
             <button type="button" class="btn btn-success" ng-click="rollD4()">Roll</button>
             <span><b>{{rolls.d4 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d6" class="dice-input" />d6
             <button type="button" class="btn btn-success" ng-click="rollD6()">Roll</button>
             <span><b>{{rolls.d6 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d8" class="dice-input" />d8
             <button type="button" class="btn btn-success" ng-click="rollD8()">Roll</button>
             <span><b>{{rolls.d8 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d10" class="dice-input" />d10
             <button type="button" class="btn btn-success" ng-click="rollD10()">Roll</button>
             <span><b>{{rolls.d10 | number}}</b></span>
         </div>
-    @*</div>
-    <div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d12" class="dice-input" />d12
             <button type="button" class="btn btn-success" ng-click="rollD12()">Roll</button>
             <span><b>{{rolls.d12 | number}}</b></span>
         </div>
-    @*</div>*@
-    @*<div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.d20" class="dice-input" />d20
             <button type="button" class="btn btn-success" ng-click="rollD20()">Roll</button>
             <span><b>{{rolls.d20 | number}}</b></span>
         </div>
-    @*</div>*@
-    @*<div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.percentile" class="dice-input" />d100 (Percentile)
             <button type="button" class="btn btn-success" ng-click="rollPercentile()">Roll</button>
             <span><b>{{rolls.percentile | number}}</b></span>
         </div>
-    @*</div>*@
-    @*<div class="flex-container top-buffer">*@
         <div class="flex-child">
             <input type="number" title="Quantity" value="1" min="1" ng-model="quantities.custom" class="dice-input" />d<input type="number" title="Die" value="1" min="1" ng-model="customDie" class="dice-input" />
             <button type="button" class="btn btn-success" ng-click="rollCustom()">Roll</button>
