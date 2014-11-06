@@ -9,7 +9,7 @@ exports.config = {
       'Tests/Integration/e2e/*.js'
     ],
 
-   multiCapabilities: [
+    multiCapabilities: [
         { browserName: 'firefox' },
         { browserName: 'chrome' },
         { browserName: 'ie' }
