@@ -16,8 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		gruntfile.js = gruntfile.js
 		karma.config.js = karma.config.js
-		protractor.build.config.js = protractor.build.config.js
-		protractor.debug.config.js = protractor.debug.config.js
+		protractor.config.js = protractor.config.js
 	EndProjectSection
 EndProject
 Global

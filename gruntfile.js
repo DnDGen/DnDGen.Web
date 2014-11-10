@@ -16,39 +16,34 @@ module.exports = function(grunt) {
       }
     },
     protractor: {
-        options: {
-            keepAlive: false,           
-        },
-        ci: { configFile: "protractor.build.config.js" },
-        debug: { configFile: "protractor.debug.config.js" },
+      options: { keepAlive: false },
+      integration: { configFile: "protractor.config.js" },
     },
     karma: {
-      unit: {
-        configFile: 'karma.config.js'
-      }
+      unit: { configFile: 'karma.config.js' }
 	},
-	  msbuild: {
-	      src: ['DNDGenSite/DNDGenSite.csproj'],
-            options: {
-                projectConfiguration: 'Debug',
-                targets: ['Build'],
-                stdout: true
-         }
+	msbuild: {
+	  src: ['DNDGenSite/DNDGenSite.csproj'],
+	  options: {
+	    projectConfiguration: 'Debug',
+	    targets: ['Build'],
+	    stdout: true
+	  }
     },
   	iisexpress: {
-          server: {
-              options: {
-                  port: 3000,
-                  path: 'DNDGenSite'
-              }
-          }
+      server: {
+        options: {
+          port: 3000,
+          path: 'DNDGenSite'
+        }
+      }
     },
 	rename: {
-        publishResults: {
-            src: 'e2e-results-temp.xml',
-            dest:'e2e-results.xml'
-        }
-	}
+      publishResults: {
+        src: 'e2e-results-temp.xml',
+        dest:'e2e-results.xml'
+      }
+    }
   });
 
 
@@ -59,8 +54,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-rename');
 
-  grunt.registerTask('e2e', ['protractor:debug']);
-  grunt.registerTask('e2e-ci', ['protractor:ci', 'rename:publishResults']);
+  grunt.registerTask('e2e', ['protractor']);
   grunt.registerTask('unit', ['karma']);
   grunt.registerTask('build', ['msbuild']);
   grunt.registerTask('serve-dev', ['build', 'iisexpress']);
