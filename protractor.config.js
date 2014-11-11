@@ -15,10 +15,10 @@ exports.config = {
     ],
 
     onPrepare: function () {
-        browser.driver.get('http://localhost:3000/');
+        browser.driver.get('http://localhost:9266/');
     },
 
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:9266',
     rootElement: 'body',
 
     jasmineNodeOpts: {

@@ -33,8 +33,8 @@ module.exports = function(grunt) {
   	iisexpress: {
       server: {
         options: {
-          port: 3000,
-          path: 'DNDGenSite'
+            port: 9266,
+            path: 'DNDGenSite'
         }
       }
     },
@@ -56,6 +56,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('e2e', ['protractor']);
   grunt.registerTask('unit', ['karma']);
-  grunt.registerTask('build', ['msbuild']);
-  grunt.registerTask('serve-dev', ['build', 'iisexpress']);
+  grunt.registerTask('serve-dev', ['msbuild', 'iisexpress']);
 };

@@ -39,6 +39,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\D20Dice.8.0\lib\D20Dice.dll</HintPath>
     </Reference>
+    <Reference Include="EquipmentGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.2.0\lib\EquipmentGen.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Generators.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.2.0\lib\EquipmentGen.Generators.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
