@@ -162,6 +162,9 @@
     <Content Include="Scripts\app\dice\dice.module.js" />
     <Content Include="Scripts\app\dice\diceService.js" />
     <Content Include="Scripts\app\dice\dice.js" />
+    <Content Include="Scripts\app\equipment\equipment.js" />
+    <Content Include="Scripts\app\equipment\equipment.module.js" />
+    <Content Include="Scripts\app\equipment\equipmentService.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_aa-dj.js" />
@@ -913,7 +916,22 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebModule.cs" />
     <Compile Include="Controllers\DiceController.cs" />
-    <Compile Include="Controllers\EquipmentController.cs" />
+    <Compile Include="Controllers\Equipment\AlchemicalItemController.cs" />
+    <Compile Include="Controllers\Equipment\ArmorController.cs" />
+    <Compile Include="Controllers\Equipment\PotionController.cs" />
+    <Compile Include="Controllers\Equipment\RingController.cs" />
+    <Compile Include="Controllers\Equipment\ScrollController.cs" />
+    <Compile Include="Controllers\Equipment\StaffController.cs" />
+    <Compile Include="Controllers\Equipment\ToolController.cs" />
+    <Compile Include="Controllers\Equipment\WandController.cs" />
+    <Compile Include="Controllers\Equipment\WeaponController.cs" />
+    <Compile Include="Controllers\Equipment\WondrousItemController.cs" />
+    <Compile Include="Controllers\Equipment\RodController.cs" />
+    <Compile Include="Controllers\Equipment\TreasureController.cs" />
+    <Compile Include="Controllers\Equipment\CoinController.cs" />
+    <Compile Include="Controllers\Equipment\GoodsController.cs" />
+    <Compile Include="Controllers\Equipment\ItemsController.cs" />
+    <Compile Include="Controllers\Equipment\EquipmentController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

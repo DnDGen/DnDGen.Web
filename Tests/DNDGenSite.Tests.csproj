@@ -114,7 +114,21 @@
   <ItemGroup>
     <Compile Include="Unit\Controllers\AttributeProvider.cs" />
     <Compile Include="Unit\Controllers\DiceControllerTests.cs" />
-    <Compile Include="Unit\Controllers\EquipmentControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\TreasureControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\GoodsControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\ItemsControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\AlchemicalItemControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\ArmorControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\PotionControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\RingControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\RodControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\ScrollControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\StaffControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\ToolControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\WandControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\WeaponControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\WondrousItemControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Equipment\CoinControllerTests.cs" />
     <Compile Include="Unit\Controllers\ViewControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -136,6 +150,7 @@
     <Content Include="Integration\e2e\homePageSpec.js" />
     <Content Include="Integration\e2e\dicePageSpec.js" />
     <Content Include="Unit\Scripts\app\dice\diceSpec.js" />
+    <Content Include="Unit\Scripts\app\equipment\equipmentSpec.js" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
