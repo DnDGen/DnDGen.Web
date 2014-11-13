@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using DNDGenSite.Models;
+using EquipmentGen.Common.Items;
 
 namespace DNDGenSite.Controllers
 {
@@ -19,7 +21,13 @@ namespace DNDGenSite.Controllers
         [HttpGet]
         public ActionResult Equipment()
         {
-            return View();
+            var model = new EquipmentModel();
+            model.Major = PowerConstants.Major;
+            model.Medium = PowerConstants.Medium;
+            model.Minor = PowerConstants.Minor;
+            model.Mundane = PowerConstants.Mundane;
+
+            return View(model);
         }
 
         [HttpGet]

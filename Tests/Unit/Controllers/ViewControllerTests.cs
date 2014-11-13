@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
 using DNDGenSite.Controllers;
+using DNDGenSite.Models;
+using EquipmentGen.Common.Items;
 using NUnit.Framework;
 
 namespace DNDGenSite.Tests.Unit.Controllers
@@ -46,6 +48,25 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             var result = controller.Equipment();
             Assert.That(result, Is.InstanceOf<ViewResult>());
+        }
+
+        [Test]
+        public void EquipmentViewContainsModel()
+        {
+            var result = controller.Equipment() as ViewResult;
+            Assert.That(result.Model, Is.InstanceOf<EquipmentModel>());
+        }
+
+        [Test]
+        public void EquipmentViewHasPowerConstants()
+        {
+            var result = controller.Equipment() as ViewResult;
+            var model = result.Model as EquipmentModel;
+
+            Assert.That(model.Mundane, Is.EqualTo(PowerConstants.Mundane));
+            Assert.That(model.Minor, Is.EqualTo(PowerConstants.Minor));
+            Assert.That(model.Medium, Is.EqualTo(PowerConstants.Medium));
+            Assert.That(model.Major, Is.EqualTo(PowerConstants.Major));
         }
 
         [Test]
