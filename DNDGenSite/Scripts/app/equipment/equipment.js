@@ -3,7 +3,7 @@
 
     angular
         .module('app.equipment')
-        .controller('Equipment', Dice);
+        .controller('Equipment', Equipment);
 
     Equipment.$inject = ['$scope', 'bootstrapData', 'equipmentService'];
 
@@ -28,15 +28,15 @@
         };
 
         $scope.selectedPowers = {
-            armor: $scope.powerOptions.armor[0],
-            potion: $scope.powerOptions.potion[0],
-            ring: $scope.powerOptions.ring[0],
-            rod: $scope.powerOptions.rod[0],
-            scroll: $scope.powerOptions.scroll[0],
-            staff: $$scope.powerOptions.staff[0],
-            wand: $scope.powerOptions.wand[0],
-            weapon: $scope.powerOptions.weapon[0],
-            wondrousItem: $scope.powerOptions.wondrousItem[0]
+            armor: $scope.powers.armor[0],
+            potion: $scope.powers.potion[0],
+            ring: $scope.powers.ring[0],
+            rod: $scope.powers.rod[0],
+            scroll: $scope.powers.scroll[0],
+            staff: $scope.powers.staff[0],
+            wand: $scope.powers.wand[0],
+            weapon: $scope.powers.weapon[0],
+            wondrousItem: $scope.powers.wondrousItem[0]
         };
 
         $scope.generateTreasure = function () {
