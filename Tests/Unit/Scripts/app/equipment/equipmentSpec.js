@@ -181,100 +181,137 @@
     });
 
     it('sets the empty treasure at beginning', function () {
-        expect(scope.treasure).toBeDefined();
-        expect(scope.treasure.description).toBe('');
         expect(scope.treasure).toBe(bootstrapDataMock.equipmentModel.Treasure);
     });
 
     it('generates treasure', function () {
         scope.selectedLevels.treasure = 9266;
-        spyOn(equipmentServiceMock, 'getTreasure').andCallThrough();
 
         scope.generateTreasure();
-        expect(equipmentServiceMock.getTreasure).toHaveBeenCalledWith(9266);
-        expect(scope.treasure).toBeDefined();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('treasure9266');
     });
 
     it('generates coin', function () {
         scope.selectedLevels.coin = 9266;
+
         scope.generateCoin();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('coin9266');
     });
 
     it('generates goods', function () {
         scope.selectedLevels.goods = 9266;
+
         scope.generateGoods();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('goods9266');
     });
 
     it('generates items', function () {
         scope.selectedLevels.items = 9266;
+
         scope.generateItems();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('items9266');
     });
 
     it('generates alchemical item', function () {
         scope.generateAlchemicalItem();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('alchemical item');
     });
 
     it('generates armor', function () {
         scope.selectedPowers.armor = 'power';
+
         scope.generateArmor();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('armorpower');
     });
 
     it('generates potion', function () {
         scope.selectedPowers.potion = 'power';
+
         scope.generatePotion();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('potionpower');
     });
 
     it('generates ring', function () {
         scope.selectedPowers.ring = 'power';
+
         scope.generateRing();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('ringpower');
     });
 
     it('generates rod', function () {
         scope.selectedPowers.rod = 'power';
+
         scope.generateRod();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('rodpower');
     });
 
     it('generates scroll', function () {
         scope.selectedPowers.scroll = 'power';
+
         scope.generateScroll();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('scrollpower');
     });
 
     it('generates staff', function () {
         scope.selectedPowers.staff = 'power';
+
         scope.generateStaff();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('staffpower');
     });
 
     it('generates tool', function () {
         scope.generateTool();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('tool');
     });
 
     it('generates wand', function () {
         scope.selectedPowers.wand = 'power';
+
         scope.generateWand();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('wandpower');
     });
 
     it('generates weapon', function () {
         scope.selectedPowers.weapon = 'power';
+
         scope.generateWeapon();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('weaponpower');
     });
 
     it('generates wondrous item', function () {
         scope.selectedPowers.wondrousItem = 'power';
+
         scope.generateWondrousItem();
+        scope.$apply();
+
         expect(scope.treasure.description).toBe('wondrous itempower');
     });
 })

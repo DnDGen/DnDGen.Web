@@ -1,5 +1,6 @@
 ﻿describe('Dice Page', function () {
     browser.ignoreSynchronization = true;
+
     var rolls = {
         d2: element(by.binding('rolls.d2')),
         d3: element(by.binding('rolls.d3')),

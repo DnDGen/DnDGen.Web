@@ -64,7 +64,7 @@
         };
 
         $scope.generateAlchemicalItem = function () {
-            equipmentService.getAlchemicalItem($scope.selectedLevels.items).then(setTreasure);
+            equipmentService.getAlchemicalItem().then(setTreasure);
         };
 
         $scope.generateArmor = function () {

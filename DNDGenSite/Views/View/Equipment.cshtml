@@ -3,9 +3,228 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h1>Hi!</h1>
-    <p>This is where you can generate equipment and treasure.  I still have to wire up this part of the site.</p>
+@section ngApp {
+    ng-app="app.equipment"
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/equipment/equipment.module.js"></script>
+    <script src="~/Scripts/app/equipment/equipmentService.js"></script>
+    <script src="~/Scripts/app/equipment/equipment.js"></script>
+}
+
+<div ng-controller="Equipment">
+    <h1>EquipmentGen</h1>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="treasureForm">
+                        <span>Treasure</span>
+                        Level: <input type="number" title="Quantity" value="1" min="1" ng-model="selectedLevels.treasure" required />
+                        <button id="treasureButton" type="button" class="btn btn-success" ng-click="generateTreasure()" ng-disabled="treasureForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="coinForm">
+                        <span>Coin</span>
+                        Level: <input type="number" title="Quantity" value="1" min="1" ng-model="selectedLevels.coin" required />
+                        <button id="coinButton" type="button" class="btn btn-success" ng-click="generateCoin()" ng-disabled="coinForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="goodsForm">
+                        <span>Goods</span>
+                        Level: <input type="number" title="Quantity" value="1" min="1" ng-model="selectedLevels.goods" required />
+                        <button id="goodsButton" type="button" class="btn btn-success" ng-click="generateGoods()" ng-disabled="goodsForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="itemsForm">
+                        <span>Items</span>
+                        Level: <input type="number" title="Quantity" value="1" min="1" ng-model="selectedLevels.items" required />
+                        <button id="itemsButton" type="button" class="btn btn-success" ng-click="generateItems()" ng-disabled="itemsForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <span>Alchemical Item</span>
+                    <button id="alchemicalItemButton" type="button" class="btn btn-success" ng-click="generateAlchemicalItem()">Generate</button>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="armorForm">
+                        <span>Armor</span>
+                        Power: <select ng-model="selectedPowers.armor" ng-options="power in powers.armor" required></select>
+                        <button id="armorButton" type="button" class="btn btn-success" ng-click="generateArmor()" ng-disabled="armorForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="potionForm">
+                        <span>Potion</span>
+                        Power: <select ng-model="selectedPowers.potion" ng-options="power in powers.potion" required></select>
+                        <button id="potionButton" type="button" class="btn btn-success" ng-click="generatePotion()" ng-disabled="potionForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="ringForm">
+                        <span>Ring</span>
+                        Power: <select ng-model="selectedPowers.ring" ng-options="power in powers.ring" required></select>
+                        <button id="ringButton" type="button" class="btn btn-success" ng-click="generateRing()" ng-disabled="ringForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="rodForm">
+                        <span>Rod</span>
+                        Power: <select ng-model="selectedPowers.rod" ng-options="power in powers.rod" required></select>
+                        <button id="rodButton" type="button" class="btn btn-success" ng-click="generateRod()" ng-disabled="rodForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="scrollForm">
+                        <span>Scroll</span>
+                        Power: <select ng-model="selectedPowers.scroll" ng-options="power in powers.scroll" required></select>
+                        <button id="scrollButton" type="button" class="btn btn-success" ng-click="generateScroll()" ng-disabled="scrollForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="staffForm">
+                        <span>Staff</span>
+                        Power: <select ng-model="selectedPowers.staff" ng-options="power in powers.staff" required></select>
+                        <button id="staffButton" type="button" class="btn btn-success" ng-click="generateStaff()" ng-disabled="staffForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <span>Tool</span>
+                    <button id="toolButton" type="button" class="btn btn-success" ng-click="generateTool()">Generate</button>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="wandForm">
+                        <span>Wand</span>
+                        Power: <select ng-model="selectedPowers.wand" ng-options="power in powers.wand" required></select>
+                        <button id="wandButton" type="button" class="btn btn-success" ng-click="generateWand()" ng-disabled="wandForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="weaponForm">
+                        <span>Weapon</span>
+                        Power: <select ng-model="selectedPowers.weapon" ng-options="power in powers.weapon" required></select>
+                        <button id="weaponButton" type="button" class="btn btn-success" ng-click="generateWeapon()" ng-disabled="weaponForm.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <form name="wondrousItemForm">
+                        <span>Wondrous Item</span>
+                        Power: <select ng-model="selectedPowers.wondrousItem" ng-options="power in powers.wondrousItem" required></select>
+                        <button id="wondrousItemButton" type="button" class="btn btn-success" ng-click="generateWondrousItem()" ng-disabled="wondrousItem.$invalid">Generate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <span ng-show="treasure.Coin.Quantity > 0">{{treasure.Coin.Quantity | number}} {{treasure.Coin.Currency}}</span>
+            <div ng-show="treasure.Goods.length > 0">
+                <span>Goods:</span>
+                <ul>
+                    <li ng-repeat="good in treasure.Goods">
+                        {{good.Description}} ({{good.ValueInGold}}gp)
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="treasure.Items.length > 0">
+                <span>Items:</span>
+                <ul>
+                    <li ng-repeat="item in treasure.Items">
+                        <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
+                        <ul>
+                            <li ng-show="item.Contents">
+                                <span>Contents:</span>
+                                <ul>
+                                    <li ng-repeat="content in item.Contents">{{content}}</li>
+                                </ul>
+                            </li>
+                            <li ng-show="item.Traits.length > 0">
+                                <span>Traits</span>
+                                <ul>
+                                    <li ng-repeat="trait in item.Traits">{{trait}}</li>
+                                </ul>
+                            </li>
+                            <li ng-show="item.Magic.Bonus > 0">Bonus: {{item.Magic.Bonus}}</li>
+                            <li ng-show="item.Magic.SpecialAbilities.length > 0">
+                                <span>Special Abilities:</span>
+                                <ul>
+                                    <li ng-repeat="ability in item.Magic.SpecialAbilities">
+                                        <span>{{ability.Name}}</span> <span ng-show="ability.Strength > 5">({{ability.Strength}})</span>
+                                    </li>
+                                </ul>
+                            <li ng-show="item.Magic.Charges > 0">Charges: {{item.Magic.Charges}}</li>
+                            <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
+                            <li ng-show="item.Magic.Intelligence.Ego > 0">
+                                <span>Intelligent:</span>
+                                <ul>
+                                    <li>Ego: {{item.Magic.Intelligence.Ego}}</li>
+                                    <li>Intelligence: {{item.Magic.Intelligence.IntelligenceStat}}</li>
+                                    <li>Wisdom: {{item.Magic.Intelligence.WisdomStat}}</li>
+                                    <li>Charisma: {{item.Magic.Intelligence.CharismaStat}}</li>
+                                    <li>Alignment: {{item.Magic.Intelligence.Alignment}}</li>
+                                    <li>
+                                        <span>Communication:</span>
+                                        <ul>
+                                            <li ng-repeat="method in item.Magic.Intelligence.Communication">{{method}}</li>
+                                            <li ng-show="item.Magic.Intelligence.Languages.length > 0">
+                                                <span>Languages:</span>
+                                                <ul>
+                                                    <li ng-repeat="language in item.Magic.Intelligence.Languages">{{language}}</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Senses: {{item.Magic.Intelligence.Senses}}</li>
+                                    <li>
+                                        <span>Powers:</span>
+                                        <ul>
+                                            <li ng-repeat="power in item.Magic.Intelligence.Powers">{{power}}</li>
+                                        </ul>
+                                    </li>
+                                    <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
+                                        <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span>
+                                        <span>Dedicated Power: {{item.Magic.Intelligence.edicatedPower}}</span>
+                                    </li>
+                                    <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section PostBodyScripts {
