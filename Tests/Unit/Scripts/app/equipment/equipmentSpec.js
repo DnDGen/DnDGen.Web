@@ -3,6 +3,7 @@
     var scope;
     var equipmentServiceMock;
     var q;
+    var bootstrapDataMock;
 
     beforeEach(module('app.equipment'));
 
@@ -13,68 +14,69 @@
                 Minor: 'Minor',
                 Medium: 'Medium',
                 Major: 'Major',
+                Treasure: { description: '' }
             }
         };
 
         equipmentServiceMock = {
-            getTreasure: function (quantity) {
-                var treasure = { description: 'treasure' };
+            getTreasure: function (level) {
+                var treasure = { description: 'treasure' + level };
                 return getMockedPromise(treasure);
             },
-            getCoin: function (quantity) {
-                var treasure = { description: 'coin' };
+            getCoin: function (level) {
+                var treasure = { description: 'coin' + level };
                 return getMockedPromise(treasure);
             },
-            getGoods: function (quantity) {
-                var treasure = { description: 'goods' };
+            getGoods: function (level) {
+                var treasure = { description: 'goods' + level };
                 return getMockedPromise(treasure);
             },
-            getItems: function (quantity) {
-                var treasure = { description: 'items' };
+            getItems: function (level) {
+                var treasure = { description: 'items' + level };
                 return getMockedPromise(treasure);
             },
-            getAlchemicalItem: function (quantity) {
-                var treasure = { description: 'alchemical items' };
+            getAlchemicalItem: function () {
+                var treasure = { description: 'alchemical item' };
                 return getMockedPromise(treasure);
             },
-            getArmor: function (quantity) {
-                var treasure = { description: 'armor' };
+            getArmor: function (power) {
+                var treasure = { description: 'armor' + power };
                 return getMockedPromise(treasure);
             },
-            getPotion: function (quantity) {
-                var treasure = { description: 'potion' };
+            getPotion: function (power) {
+                var treasure = { description: 'potion' + power };
                 return getMockedPromise(treasure);
             },
-            getRing: function (quantity) {
-                var treasure = { description: 'ring' };
+            getRing: function (power) {
+                var treasure = { description: 'ring' + power };
                 return getMockedPromise(treasure);
             },
-            getRod: function (quantity) {
-                var treasure = { description: 'rod' };
+            getRod: function (power) {
+                var treasure = { description: 'rod' + power };
                 return getMockedPromise(treasure);
             },
-            getScroll: function (quantity, die) {
-                var treasure = { description: 'scroll' };
+            getScroll: function (power) {
+                var treasure = { description: 'scroll' + power };
                 return getMockedPromise(treasure);
             },
-            getStaff: function (quantity, die) {
-                var treasure = { description: 'staff' };
+            getStaff: function (power) {
+                var treasure = { description: 'staff' + power };
                 return getMockedPromise(treasure);
             },
-            getTool: function (quantity, die) {
+            getTool: function () {
                 var treasure = { description: 'tool' };
                 return getMockedPromise(treasure);
             },
-            getWand: function (quantity, die) {
-                var treasure = { description: 'wand' };
+            getWand: function (power) {
+                var treasure = { description: 'wand' + power };
                 return getMockedPromise(treasure);
             },
-            getWeapon: function (quantity, die) {
-                var treasure = { description: 'weapon' };
+            getWeapon: function (power) {
+                var treasure = { description: 'weapon' + power };
                 return getMockedPromise(treasure);
             },
-            getWondrousItem: function (quantity, die) {
-                var treasure = { description: 'wondrous item' };
+            getWondrousItem: function (power) {
+                var treasure = { description: 'wondrous item' + power };
                 return getMockedPromise(treasure);
             },
         };
@@ -176,5 +178,103 @@
         expect(scope.selectedPowers.wand).toBe(scope.powers.wand[0]);
         expect(scope.selectedPowers.weapon).toBe(scope.powers.weapon[0]);
         expect(scope.selectedPowers.wondrousItem).toBe(scope.powers.wondrousItem[0]);
+    });
+
+    it('sets the empty treasure at beginning', function () {
+        expect(scope.treasure).toBeDefined();
+        expect(scope.treasure.description).toBe('');
+        expect(scope.treasure).toBe(bootstrapDataMock.equipmentModel.Treasure);
+    });
+
+    it('generates treasure', function () {
+        scope.selectedLevels.treasure = 9266;
+        spyOn(equipmentServiceMock, 'getTreasure').andCallThrough();
+
+        scope.generateTreasure();
+        expect(equipmentServiceMock.getTreasure).toHaveBeenCalledWith(9266);
+        expect(scope.treasure).toBeDefined();
+        expect(scope.treasure.description).toBe('treasure9266');
+    });
+
+    it('generates coin', function () {
+        scope.selectedLevels.coin = 9266;
+        scope.generateCoin();
+        expect(scope.treasure.description).toBe('coin9266');
+    });
+
+    it('generates goods', function () {
+        scope.selectedLevels.goods = 9266;
+        scope.generateGoods();
+        expect(scope.treasure.description).toBe('goods9266');
+    });
+
+    it('generates items', function () {
+        scope.selectedLevels.items = 9266;
+        scope.generateItems();
+        expect(scope.treasure.description).toBe('items9266');
+    });
+
+    it('generates alchemical item', function () {
+        scope.generateAlchemicalItem();
+        expect(scope.treasure.description).toBe('alchemical item');
+    });
+
+    it('generates armor', function () {
+        scope.selectedPowers.armor = 'power';
+        scope.generateArmor();
+        expect(scope.treasure.description).toBe('armorpower');
+    });
+
+    it('generates potion', function () {
+        scope.selectedPowers.potion = 'power';
+        scope.generatePotion();
+        expect(scope.treasure.description).toBe('potionpower');
+    });
+
+    it('generates ring', function () {
+        scope.selectedPowers.ring = 'power';
+        scope.generateRing();
+        expect(scope.treasure.description).toBe('ringpower');
+    });
+
+    it('generates rod', function () {
+        scope.selectedPowers.rod = 'power';
+        scope.generateRod();
+        expect(scope.treasure.description).toBe('rodpower');
+    });
+
+    it('generates scroll', function () {
+        scope.selectedPowers.scroll = 'power';
+        scope.generateScroll();
+        expect(scope.treasure.description).toBe('scrollpower');
+    });
+
+    it('generates staff', function () {
+        scope.selectedPowers.staff = 'power';
+        scope.generateStaff();
+        expect(scope.treasure.description).toBe('staffpower');
+    });
+
+    it('generates tool', function () {
+        scope.generateTool();
+        expect(scope.treasure.description).toBe('tool');
+    });
+
+    it('generates wand', function () {
+        scope.selectedPowers.wand = 'power';
+        scope.generateWand();
+        expect(scope.treasure.description).toBe('wandpower');
+    });
+
+    it('generates weapon', function () {
+        scope.selectedPowers.weapon = 'power';
+        scope.generateWeapon();
+        expect(scope.treasure.description).toBe('weaponpower');
+    });
+
+    it('generates wondrous item', function () {
+        scope.selectedPowers.wondrousItem = 'power';
+        scope.generateWondrousItem();
+        expect(scope.treasure.description).toBe('wondrous itempower');
     });
 })
