@@ -63,7 +63,7 @@
                 <div class="col-sm-12">
                     <form name="armorForm">
                         <span>Armor</span>
-                        Power: <select ng-model="selectedPowers.armor" ng-options="power in powers.armor" required></select>
+                        Power: <select ng-model="selectedPowers.armor" ng-options="power for power in powers.armor" required></select>
                         <button id="armorButton" type="button" class="btn btn-success" ng-click="generateArmor()" ng-disabled="armorForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -72,7 +72,7 @@
                 <div class="col-sm-12">
                     <form name="potionForm">
                         <span>Potion</span>
-                        Power: <select ng-model="selectedPowers.potion" ng-options="power in powers.potion" required></select>
+                        Power: <select ng-model="selectedPowers.potion" ng-options="power for power in powers.potion" required></select>
                         <button id="potionButton" type="button" class="btn btn-success" ng-click="generatePotion()" ng-disabled="potionForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="col-sm-12">
                     <form name="ringForm">
                         <span>Ring</span>
-                        Power: <select ng-model="selectedPowers.ring" ng-options="power in powers.ring" required></select>
+                        Power: <select ng-model="selectedPowers.ring" ng-options="power for power in powers.ring" required></select>
                         <button id="ringButton" type="button" class="btn btn-success" ng-click="generateRing()" ng-disabled="ringForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -90,7 +90,7 @@
                 <div class="col-sm-12">
                     <form name="rodForm">
                         <span>Rod</span>
-                        Power: <select ng-model="selectedPowers.rod" ng-options="power in powers.rod" required></select>
+                        Power: <select ng-model="selectedPowers.rod" ng-options="power for power in powers.rod" required></select>
                         <button id="rodButton" type="button" class="btn btn-success" ng-click="generateRod()" ng-disabled="rodForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="col-sm-12">
                     <form name="scrollForm">
                         <span>Scroll</span>
-                        Power: <select ng-model="selectedPowers.scroll" ng-options="power in powers.scroll" required></select>
+                        Power: <select ng-model="selectedPowers.scroll" ng-options="power for power in powers.scroll" required></select>
                         <button id="scrollButton" type="button" class="btn btn-success" ng-click="generateScroll()" ng-disabled="scrollForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -108,7 +108,7 @@
                 <div class="col-sm-12">
                     <form name="staffForm">
                         <span>Staff</span>
-                        Power: <select ng-model="selectedPowers.staff" ng-options="power in powers.staff" required></select>
+                        Power: <select ng-model="selectedPowers.staff" ng-options="power for power in powers.staff" required></select>
                         <button id="staffButton" type="button" class="btn btn-success" ng-click="generateStaff()" ng-disabled="staffForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -123,7 +123,7 @@
                 <div class="col-sm-12">
                     <form name="wandForm">
                         <span>Wand</span>
-                        Power: <select ng-model="selectedPowers.wand" ng-options="power in powers.wand" required></select>
+                        Power: <select ng-model="selectedPowers.wand" ng-options="power for power in powers.wand" required></select>
                         <button id="wandButton" type="button" class="btn btn-success" ng-click="generateWand()" ng-disabled="wandForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -132,7 +132,7 @@
                 <div class="col-sm-12">
                     <form name="weaponForm">
                         <span>Weapon</span>
-                        Power: <select ng-model="selectedPowers.weapon" ng-options="power in powers.weapon" required></select>
+                        Power: <select ng-model="selectedPowers.weapon" ng-options="power for power in powers.weapon" required></select>
                         <button id="weaponButton" type="button" class="btn btn-success" ng-click="generateWeapon()" ng-disabled="weaponForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -141,7 +141,7 @@
                 <div class="col-sm-12">
                     <form name="wondrousItemForm">
                         <span>Wondrous Item</span>
-                        Power: <select ng-model="selectedPowers.wondrousItem" ng-options="power in powers.wondrousItem" required></select>
+                        Power: <select ng-model="selectedPowers.wondrousItem" ng-options="power for power in powers.wondrousItem" required></select>
                         <button id="wondrousItemButton" type="button" class="btn btn-success" ng-click="generateWondrousItem()" ng-disabled="wondrousItem.$invalid">Generate</button>
                     </form>
                 </div>
