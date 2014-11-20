@@ -75,7 +75,130 @@
 
     it('should have no treasure', function () {
         expect(treasure.coin.getText()).toBe('');
-        expect(treasure.goods.length).toBe(0);
-        expect(treasure.items.length).toBe(0);
+        expect(treasure.goods.count()).toBe(0);
+        expect(treasure.items.count()).toBe(0);
+    });
+
+    it('should not show coin if none', function () {
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+    });
+
+    it('should not show goods if none', function () {
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    it('should not show items if none', function () {
+        expect(element(by.id('itemsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    //treaure tests
+
+    it('should generate treasure', function () {
+        sendInput(levels.treasure, 20);
+
+        buttons.treasure.click();
+        var coinGenerated = treasure.coin.getText().length > 0;
+        var goodsGenerated = treasure.goods.count() > 0;
+        var itemsGenerated = treasure.items.count() > 0;
+        var treasureGenerated = coinGenerated || goodsGenerated || itemsGenerated;
+
+        expect(treasureGenerated).toBeTruthy();
+    });
+
+    function sendInput(input, keys) {
+        input.clear();
+        input.sendKeys(keys);
+    }
+
+    it('should re-generate treasure', function () {
+        sendInput(levels.treasure, 20);
+
+        buttons.treasure.click();
+        var coin = treasure.coin.getText();
+        var goods = treasure.goods.map(function (element, index) {
+            return { text: element.getText() };
+        });
+
+        var items = treasure.items.map(function (element, index) {
+            return { text: element.element(by.binding('item.Name')).getText() };
+        });
+
+        buttons.treasure.click();
+        var coinDifferent = coin != treasure.coin.getText();
+        var goodsDifferent = goods != treasure.goods.map(function (element, index) {
+            return { text: element.getText() };
+        });
+
+        var itemsDifferent = items != treasure.items.map(function (element, index) {
+            return { text: element.element(by.binding('item.Name')).getText() };
+        });
+
+        var treasureDifferent = coinDifferent || goodsDifferent || itemsDifferent;
+        expect(treasureDifferent).toBeTruthy();
+    });
+
+    it('should show coin', function () {
+        sendInput(levels.treasure, 20);
+        buttons.treasure.click();
+        expect(treasure.coin.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show goods', function () {
+        sendInput(levels.treasure, 20);
+        buttons.treasure.click();
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeTruthy();
+    });
+
+    it('should show items', function () {
+        sendInput(levels.treasure, 20);
+        buttons.treasure.click();
+        expect(element(by.id('itemsDiv')).isDisplayed()).toBeTruthy();
+    });
+
+    it('should allow level between 1 and 20', function () {
+        for (var i = 20; i > 0; i--) {
+            sendInput(levels.treasure, i);
+            expect(buttons.treasure.isEnabled()).toBeTruthy();
+        }
+    });
+
+    it('should not allow decimal levels', function () {
+        sendInput(levels.treasure, 1.5);
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level of 0', function () {
+        sendInput(levels.treasure, 0);
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level less than 0', function () {
+        sendInput(levels.treasure, -1);
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow non-numeric level', function () {
+        sendInput(levels.treasure, 'two');
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level greater than 20', function () {
+        sendInput(levels.treasure, 21);
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should format coin', function () {
+        sendInput(levels.treasure, 20);
+        buttons.treasure.click();
+        expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
+    });
+
+    it('should format goods', function () {
+        sendInput(levels.treasure, 20);
+        buttons.treasure.click();
+
+        treasure.goods.each(function (element) {
+            expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);
+        });
     });
 });

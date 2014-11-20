@@ -133,27 +133,32 @@
     });
 
     it('should allow quantity of 1 for d2', function () {
-        expect(buttons.d2.isEnabled()).toEqual(true);
+        expect(buttons.d2.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d2', function () {
         setQuantity(quantities.d2, 2);
-        expect(buttons.d2.isEnabled()).toEqual(true);
+        expect(buttons.d2.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d2', function () {
+        setQuantity(quantities.d2, 1.5);
+        expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d2', function () {
         setQuantity(quantities.d2, 0);
-        expect(buttons.d2.isEnabled()).toEqual(false);
+        expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d2', function () {
         setQuantity(quantities.d2, -1);
-        expect(buttons.d2.isEnabled()).toEqual(false);
+        expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d2', function () {
         setQuantity(quantities.d2, 'two');
-        expect(buttons.d2.isEnabled()).toEqual(false);
+        expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     //d3 tests
@@ -202,27 +207,32 @@
     });
 
     it('should allow quantity of 1 for d3', function () {
-        expect(buttons.d3.isEnabled()).toEqual(true);
+        expect(buttons.d3.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d3', function () {
         setQuantity(quantities.d3, 2);
-        expect(buttons.d3.isEnabled()).toEqual(true);
+        expect(buttons.d3.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d3', function () {
+        setQuantity(quantities.d3, 1.5);
+        expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d3', function () {
         setQuantity(quantities.d3, 0);
-        expect(buttons.d3.isEnabled()).toEqual(false);
+        expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d3', function () {
         setQuantity(quantities.d3, -1);
-        expect(buttons.d3.isEnabled()).toEqual(false);
+        expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d3', function () {
         setQuantity(quantities.d3, 'two');
-        expect(buttons.d3.isEnabled()).toEqual(false);
+        expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     //d4 tests
@@ -271,27 +281,32 @@
     });
 
     it('should allow quantity of 1 for d4', function () {
-        expect(buttons.d4.isEnabled()).toEqual(true);
+        expect(buttons.d4.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d4', function () {
         setQuantity(quantities.d4, 2);
-        expect(buttons.d4.isEnabled()).toEqual(true);
+        expect(buttons.d4.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d4', function () {
+        setQuantity(quantities.d4, 1.5);
+        expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d4', function () {
         setQuantity(quantities.d4, 0);
-        expect(buttons.d4.isEnabled()).toEqual(false);
+        expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d4', function () {
         setQuantity(quantities.d4, -1);
-        expect(buttons.d4.isEnabled()).toEqual(false);
+        expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d4', function () {
         setQuantity(quantities.d4, 'two');
-        expect(buttons.d4.isEnabled()).toEqual(false);
+        expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     //d6 tests
@@ -340,27 +355,32 @@
     });
 
     it('should allow quantity of 1 for d6', function () {
-        expect(buttons.d6.isEnabled()).toEqual(true);
+        expect(buttons.d6.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d6', function () {
         setQuantity(quantities.d6, 2);
-        expect(buttons.d6.isEnabled()).toEqual(true);
+        expect(buttons.d6.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d6', function () {
+        setQuantity(quantities.d6, 1.5);
+        expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d6', function () {
         setQuantity(quantities.d6, 0);
-        expect(buttons.d6.isEnabled()).toEqual(false);
+        expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d6', function () {
         setQuantity(quantities.d6, -1);
-        expect(buttons.d6.isEnabled()).toEqual(false);
+        expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d6', function () {
         setQuantity(quantities.d6, 'two');
-        expect(buttons.d6.isEnabled()).toEqual(false);
+        expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     //d8 tests
@@ -409,27 +429,32 @@
     });
 
     it('should allow quantity of 1 for d8', function () {
-        expect(buttons.d8.isEnabled()).toEqual(true);
+        expect(buttons.d8.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d8', function () {
         setQuantity(quantities.d8, 2);
-        expect(buttons.d8.isEnabled()).toEqual(true);
+        expect(buttons.d8.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d8', function () {
+        setQuantity(quantities.d8, 1.5);
+        expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d8', function () {
         setQuantity(quantities.d8, 0);
-        expect(buttons.d8.isEnabled()).toEqual(false);
+        expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d8', function () {
         setQuantity(quantities.d8, -1);
-        expect(buttons.d8.isEnabled()).toEqual(false);
+        expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d8', function () {
         setQuantity(quantities.d8, 'two');
-        expect(buttons.d8.isEnabled()).toEqual(false);
+        expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     //d10 tests
@@ -478,27 +503,32 @@
     });
 
     it('should allow quantity of 1 for d10', function () {
-        expect(buttons.d10.isEnabled()).toEqual(true);
+        expect(buttons.d10.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d10', function () {
         setQuantity(quantities.d10, 2);
-        expect(buttons.d10.isEnabled()).toEqual(true);
+        expect(buttons.d10.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d10', function () {
+        setQuantity(quantities.d10, 1.5);
+        expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d10', function () {
         setQuantity(quantities.d10, 0);
-        expect(buttons.d10.isEnabled()).toEqual(false);
+        expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d10', function () {
         setQuantity(quantities.d10, -1);
-        expect(buttons.d10.isEnabled()).toEqual(false);
+        expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d10', function () {
         setQuantity(quantities.d10, 'two');
-        expect(buttons.d10.isEnabled()).toEqual(false);
+        expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     //d12 tests
@@ -547,27 +577,32 @@
     });
 
     it('should allow quantity of 1 for d12', function () {
-        expect(buttons.d12.isEnabled()).toEqual(true);
+        expect(buttons.d12.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d12', function () {
         setQuantity(quantities.d12, 2);
-        expect(buttons.d12.isEnabled()).toEqual(true);
+        expect(buttons.d12.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d12', function () {
+        setQuantity(quantities.d12, 1.5);
+        expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d12', function () {
         setQuantity(quantities.d12, 0);
-        expect(buttons.d12.isEnabled()).toEqual(false);
+        expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d12', function () {
         setQuantity(quantities.d12, -1);
-        expect(buttons.d12.isEnabled()).toEqual(false);
+        expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d12', function () {
         setQuantity(quantities.d12, 'two');
-        expect(buttons.d12.isEnabled()).toEqual(false);
+        expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     //d20 tests
@@ -616,27 +651,32 @@
     });
 
     it('should allow quantity of 1 for d20', function () {
-        expect(buttons.d20.isEnabled()).toEqual(true);
+        expect(buttons.d20.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for d20', function () {
         setQuantity(quantities.d20, 2);
-        expect(buttons.d20.isEnabled()).toEqual(true);
+        expect(buttons.d20.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for d20', function () {
+        setQuantity(quantities.d20, 1.5);
+        expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d20', function () {
         setQuantity(quantities.d20, 0);
-        expect(buttons.d20.isEnabled()).toEqual(false);
+        expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d20', function () {
         setQuantity(quantities.d20, -1);
-        expect(buttons.d20.isEnabled()).toEqual(false);
+        expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d20', function () {
         setQuantity(quantities.d20, 'two');
-        expect(buttons.d20.isEnabled()).toEqual(false);
+        expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     //percentile tests
@@ -689,27 +729,32 @@
     });
 
     it('should allow quantity of 1 for percentile', function () {
-        expect(buttons.percentile.isEnabled()).toEqual(true);
+        expect(buttons.percentile.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for percentile', function () {
         setQuantity(quantities.percentile, 2);
-        expect(buttons.percentile.isEnabled()).toEqual(true);
+        expect(buttons.percentile.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for percentile', function () {
+        setQuantity(quantities.percentile, 1.5);
+        expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for percentile', function () {
         setQuantity(quantities.percentile, 0);
-        expect(buttons.percentile.isEnabled()).toEqual(false);
+        expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for percentile', function () {
         setQuantity(quantities.percentile, -1);
-        expect(buttons.percentile.isEnabled()).toEqual(false);
+        expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for percentile', function () {
         setQuantity(quantities.percentile, 'two');
-        expect(buttons.percentile.isEnabled()).toEqual(false);
+        expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     //custom tests
@@ -761,50 +806,60 @@
     });
 
     it('should allow quantity of 1 for custom', function () {
-        expect(buttons.custom.isEnabled()).toEqual(true);
+        expect(buttons.custom.isEnabled()).toBeTruthy();
     });
 
     it('should allow quantities greater than 1 for custom', function () {
         setQuantity(quantities.custom, 2);
-        expect(buttons.custom.isEnabled()).toEqual(true);
+        expect(buttons.custom.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal quantities for custom', function () {
+        setQuantity(quantities.custom, 1.5);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for custom', function () {
         setQuantity(quantities.custom, 0);
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for custom', function () {
         setQuantity(quantities.custom, -1);
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for custom', function () {
         setQuantity(quantities.custom, 'two');
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should allow die of 1 for custom', function () {
-        expect(buttons.custom.isEnabled()).toEqual(true);
+        expect(buttons.custom.isEnabled()).toBeTruthy();
     });
 
     it('should allow die greater than 1 for custom', function () {
         setQuantity(customDie, 2);
-        expect(buttons.custom.isEnabled()).toEqual(true);
+        expect(buttons.custom.isEnabled()).toBeTruthy();
+    });
+
+    it('should not allow decimal die for custom', function () {
+        setQuantity(customDie, 1.5);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow die of 0 for custom', function () {
         setQuantity(customDie, 0);
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative die for custom', function () {
         setQuantity(customDie, -1);
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric die for custom', function () {
         setQuantity(customDie, 'two');
-        expect(buttons.custom.isEnabled()).toEqual(false);
+        expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 });
