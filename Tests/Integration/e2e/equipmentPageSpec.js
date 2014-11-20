@@ -155,36 +155,41 @@
         expect(element(by.id('itemsDiv')).isDisplayed()).toBeTruthy();
     });
 
-    it('should allow level between 1 and 20', function () {
+    it('should allow level between 1 and 20 for treasure', function () {
         for (var i = 20; i > 0; i--) {
             sendInput(levels.treasure, i);
             expect(buttons.treasure.isEnabled()).toBeTruthy();
         }
     });
 
-    it('should not allow decimal levels', function () {
+    it('should not allow decimal levels for treasure', function () {
         sendInput(levels.treasure, 1.5);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
-    it('should not allow level of 0', function () {
+    it('should not allow level of 0 for treasure', function () {
         sendInput(levels.treasure, 0);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
-    it('should not allow level less than 0', function () {
+    it('should not allow level less than 0 for treasure', function () {
         sendInput(levels.treasure, -1);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
-    it('should not allow non-numeric level', function () {
+    it('should not allow non-numeric level for treasure', function () {
         sendInput(levels.treasure, 'two');
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
-    it('should not allow level greater than 20', function () {
+    it('should not allow level greater than 20 for treasure', function () {
         sendInput(levels.treasure, 21);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty level for treasure', function () {
+        setQuantity(quantities.d20, '');
+        expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should format coin', function () {

@@ -21,7 +21,7 @@
                 <div class="col-sm-12">
                     <form name="treasureForm">
                         <span>Treasure</span>
-                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" ng-model="selectedLevels.treasure" required />
+                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" step="1" ng-model="selectedLevels.treasure" required />
                         <button id="treasureButton" type="button" class="btn btn-success" ng-click="generateTreasure()" ng-disabled="treasureForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="col-sm-12">
                     <form name="coinForm">
                         <span>Coin</span>
-                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" ng-model="selectedLevels.coin" required />
+                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" step="1" ng-model="selectedLevels.coin" required />
                         <button id="coinButton" type="button" class="btn btn-success" ng-click="generateCoin()" ng-disabled="coinForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="col-sm-12">
                     <form name="goodsForm">
                         <span>Goods</span>
-                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" ng-model="selectedLevels.goods" required />
+                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" step="1" ng-model="selectedLevels.goods" required />
                         <button id="goodsButton" type="button" class="btn btn-success" ng-click="generateGoods()" ng-disabled="goodsForm.$invalid">Generate</button>
                     </form>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="col-sm-12">
                     <form name="itemsForm">
                         <span>Items</span>
-                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" ng-model="selectedLevels.items" required />
+                        Level: <input type="number" title="Quantity" value="1" min="1" max="20" step="1" ng-model="selectedLevels.items" required />
                         <button id="itemsButton" type="button" class="btn btn-success" ng-click="generateItems()" ng-disabled="itemsForm.$invalid">Generate</button>
                     </form>
                 </div>

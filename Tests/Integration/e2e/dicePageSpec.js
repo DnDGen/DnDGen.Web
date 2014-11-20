@@ -161,6 +161,11 @@
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for d2', function () {
+        setQuantity(quantities.d2, '');
+        expect(buttons.d2.isEnabled()).toBeFalsy();
+    });
+
     //d3 tests
 
     it('should roll a d3', function () {
@@ -232,6 +237,11 @@
 
     it('should not allow non-numeric quantites for d3', function () {
         setQuantity(quantities.d3, 'two');
+        expect(buttons.d3.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty quantites for d3', function () {
+        setQuantity(quantities.d3, '');
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
@@ -309,6 +319,11 @@
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for d4', function () {
+        setQuantity(quantities.d4, '');
+        expect(buttons.d4.isEnabled()).toBeFalsy();
+    });
+
     //d6 tests
 
     it('should roll a d6', function () {
@@ -380,6 +395,11 @@
 
     it('should not allow non-numeric quantites for d6', function () {
         setQuantity(quantities.d6, 'two');
+        expect(buttons.d6.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty quantites for d6', function () {
+        setQuantity(quantities.d6, '');
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
@@ -457,6 +477,11 @@
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for d8', function () {
+        setQuantity(quantities.d8, '');
+        expect(buttons.d8.isEnabled()).toBeFalsy();
+    });
+
     //d10 tests
 
     it('should roll a d10', function () {
@@ -528,6 +553,11 @@
 
     it('should not allow non-numeric quantites for d10', function () {
         setQuantity(quantities.d10, 'two');
+        expect(buttons.d10.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty quantites for d10', function () {
+        setQuantity(quantities.d10, '');
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
@@ -605,6 +635,11 @@
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for d12', function () {
+        setQuantity(quantities.d12, '');
+        expect(buttons.d12.isEnabled()).toBeFalsy();
+    });
+
     //d20 tests
 
     it('should roll a d20', function () {
@@ -676,6 +711,11 @@
 
     it('should not allow non-numeric quantites for d20', function () {
         setQuantity(quantities.d20, 'two');
+        expect(buttons.d20.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty quantites for d20', function () {
+        setQuantity(quantities.d20, '');
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
@@ -757,6 +797,11 @@
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for percentile', function () {
+        setQuantity(quantities.percentile, '');
+        expect(buttons.percentile.isEnabled()).toBeFalsy();
+    });
+
     //custom tests
 
     it('should roll a custom roll', function () {
@@ -834,6 +879,11 @@
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
+    it('should not allow empty quantites for custom', function () {
+        setQuantity(quantities.custom, '');
+        expect(buttons.custom.isEnabled()).toBeFalsy();
+    });
+
     it('should allow die of 1 for custom', function () {
         expect(buttons.custom.isEnabled()).toBeTruthy();
     });
@@ -860,6 +910,11 @@
 
     it('should not allow non-numeric die for custom', function () {
         setQuantity(customDie, 'two');
+        expect(buttons.custom.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty die for custom', function () {
+        setQuantity(customDie, '');
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 });
