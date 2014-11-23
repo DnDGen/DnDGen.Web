@@ -165,6 +165,8 @@
     <Content Include="Scripts\app\equipment\equipment.js" />
     <Content Include="Scripts\app\equipment\equipment.module.js" />
     <Content Include="Scripts\app\equipment\equipmentService.js" />
+    <Content Include="Scripts\app\shared\shared.module.js" />
+    <Content Include="Scripts\app\shared\noDecimals.directive.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_aa-dj.js" />

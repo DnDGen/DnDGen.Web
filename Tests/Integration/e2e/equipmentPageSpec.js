@@ -188,8 +188,8 @@
     });
 
     it('should not allow empty level for treasure', function () {
-        setQuantity(quantities.d20, '');
-        expect(buttons.d20.isEnabled()).toBeFalsy();
+        setQuantity(levels.treasure, '');
+        expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should format coin', function () {
