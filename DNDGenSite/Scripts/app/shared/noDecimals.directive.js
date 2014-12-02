@@ -15,7 +15,7 @@
 
     function checkForDecimals(scope, element, attr, ctrl) {
         ctrl.$parsers.push(function (value) {
-            if (value.indexOf(".") > -1) {
+            if (value % 1 !== 0) {
                 ctrl.$setValidity("notDecimal", false);
                 return undefined;
             }

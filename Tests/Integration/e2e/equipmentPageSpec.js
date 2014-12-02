@@ -188,7 +188,7 @@
     });
 
     it('should not allow empty level for treasure', function () {
-        setQuantity(levels.treasure, '');
+        sendInput(levels.treasure, '');
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
