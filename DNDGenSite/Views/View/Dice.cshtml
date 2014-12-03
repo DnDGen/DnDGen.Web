@@ -3,14 +3,15 @@
 }
 
 @section ngApp {
-    ng-app="app.dice"
+    ng-app='app.dice'
 }
 
 @section Scripts {
+    <script src="~/Scripts/app/shared/shared.module.js"></script>
+    <script src="~/Scripts/app/shared/noDecimals.directive.js"></script>
     <script src="~/Scripts/app/dice/dice.module.js"></script>
     <script src="~/Scripts/app/dice/diceService.js"></script>
     <script src="~/Scripts/app/dice/dice.js"></script>
-    <script src="~/Scripts/app/shared/noDecimals.directive.js"></script>
 }
 
 @section Styles {

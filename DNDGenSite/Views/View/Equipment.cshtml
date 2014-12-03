@@ -4,10 +4,12 @@
 }
 
 @section ngApp {
-    ng-app="app.equipment"
+    ng-app='app.equipment'
 }
 
 @section Scripts {
+    <script src="~/Scripts/app/shared/shared.module.js"></script>
+    <script src="~/Scripts/app/shared/noDecimals.directive.js"></script>
     <script src="~/Scripts/app/equipment/equipment.module.js"></script>
     <script src="~/Scripts/app/equipment/equipmentService.js"></script>
     <script src="~/Scripts/app/equipment/equipment.js"></script>
