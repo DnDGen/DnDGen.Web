@@ -2,22 +2,22 @@
     browser.ignoreSynchronization = true;
 
     var levels = {
-        treasure: element(by.model('selectedLevels.treasure')),
-        coin: element(by.model('selectedLevels.coin')),
-        goods: element(by.model('selectedLevels.goods')),
-        items: element(by.model('selectedLevels.items'))
+        treasure: element(by.model('vm.selectedLevels.treasure')),
+        coin: element(by.model('vm.selectedLevels.coin')),
+        goods: element(by.model('vm.selectedLevels.goods')),
+        items: element(by.model('vm.selectedLevels.items'))
     };
 
     var powers = {
-        armor: element(by.model('selectedPowers.armor')).$('option:checked'),
-        potion: element(by.model('selectedPowers.potion')).$('option:checked'),
-        ring: element(by.model('selectedPowers.ring')).$('option:checked'),
-        rod: element(by.model('selectedPowers.rod')).$('option:checked'),
-        scroll: element(by.model('selectedPowers.scroll')).$('option:checked'),
-        staff: element(by.model('selectedPowers.staff')).$('option:checked'),
-        wand: element(by.model('selectedPowers.wand')).$('option:checked'),
-        weapon: element(by.model('selectedPowers.weapon')).$('option:checked'),
-        wondrousItem: element(by.model('selectedPowers.wondrousItem')).$('option:checked')
+        armor: element(by.model('vm.selectedPowers.armor')).$('option:checked'),
+        potion: element(by.model('vm.selectedPowers.potion')).$('option:checked'),
+        ring: element(by.model('vm.selectedPowers.ring')).$('option:checked'),
+        rod: element(by.model('vm.selectedPowers.rod')).$('option:checked'),
+        scroll: element(by.model('vm.selectedPowers.scroll')).$('option:checked'),
+        staff: element(by.model('vm.selectedPowers.staff')).$('option:checked'),
+        wand: element(by.model('vm.selectedPowers.wand')).$('option:checked'),
+        weapon: element(by.model('vm.selectedPowers.weapon')).$('option:checked'),
+        wondrousItem: element(by.model('vm.selectedPowers.wondrousItem')).$('option:checked')
     };
 
     var buttons = {
@@ -39,9 +39,9 @@
     };
 
     var treasure = {
-        coin: element(by.binding('treasure.Coin.Currency')),
-        goods: element.all(by.repeater('good in treasure.Goods')),
-        items: element.all(by.repeater('item in treasure.Items'))
+        coin: element(by.binding('vm.treasure.Coin.Currency')),
+        goods: element.all(by.repeater('good in vm.treasure.Goods')),
+        items: element.all(by.repeater('item in vm.treasure.Items'))
     };
 
     beforeEach(function () {

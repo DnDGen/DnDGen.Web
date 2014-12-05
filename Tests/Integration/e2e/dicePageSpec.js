@@ -2,29 +2,29 @@
     browser.ignoreSynchronization = true;
 
     var rolls = {
-        d2: element(by.binding('rolls.d2')),
-        d3: element(by.binding('rolls.d3')),
-        d4: element(by.binding('rolls.d4')),
-        d6: element(by.binding('rolls.d6')),
-        d8: element(by.binding('rolls.d8')),
-        d10: element(by.binding('rolls.d10')),
-        d12: element(by.binding('rolls.d12')),
-        d20: element(by.binding('rolls.d20')),
-        percentile: element(by.binding('rolls.percentile')),
-        custom: element(by.binding('rolls.custom'))
+        d2: element(by.binding('vm.rolls.d2')),
+        d3: element(by.binding('vm.rolls.d3')),
+        d4: element(by.binding('vm.rolls.d4')),
+        d6: element(by.binding('vm.rolls.d6')),
+        d8: element(by.binding('vm.rolls.d8')),
+        d10: element(by.binding('vm.rolls.d10')),
+        d12: element(by.binding('vm.rolls.d12')),
+        d20: element(by.binding('vm.rolls.d20')),
+        percentile: element(by.binding('vm.rolls.percentile')),
+        custom: element(by.binding('vm.rolls.custom'))
     };
 
     var quantities = {
-        d2: element(by.model('quantities.d2')),
-        d3: element(by.model('quantities.d3')),
-        d4: element(by.model('quantities.d4')),
-        d6: element(by.model('quantities.d6')),
-        d8: element(by.model('quantities.d8')),
-        d10: element(by.model('quantities.d10')),
-        d12: element(by.model('quantities.d12')),
-        d20: element(by.model('quantities.d20')),
-        percentile: element(by.model('quantities.percentile')),
-        custom: element(by.model('quantities.custom'))
+        d2: element(by.model('vm.quantities.d2')),
+        d3: element(by.model('vm.quantities.d3')),
+        d4: element(by.model('vm.quantities.d4')),
+        d6: element(by.model('vm.quantities.d6')),
+        d8: element(by.model('vm.quantities.d8')),
+        d10: element(by.model('vm.quantities.d10')),
+        d12: element(by.model('vm.quantities.d12')),
+        d20: element(by.model('vm.quantities.d20')),
+        percentile: element(by.model('vm.quantities.percentile')),
+        custom: element(by.model('vm.quantities.custom'))
     };
 
     var buttons = {
@@ -40,7 +40,7 @@
         custom: element(by.id('customButton'))
     };
 
-    var customDie = element(by.model('customDie'));
+    var customDie = element(by.model('vm.customDie'));
 
     beforeEach(function () {
         browser.get(browser.baseUrl + '/Dice');
