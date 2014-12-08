@@ -1,5 +1,10 @@
-﻿describe('Equipment Page', function () {
+﻿'use strict';
+
+var CommonTestFunctions = require('./commonTestFunctions.js');
+
+describe('Equipment Page', function () {
     browser.ignoreSynchronization = true;
+    var commonTestFunctions = new CommonTestFunctions();
 
     var levels = {
         treasure: element(by.model('vm.selectedLevels.treasure')),
@@ -94,9 +99,9 @@
     //treaure tests
 
     it('should generate treasure', function () {
-        sendInput(levels.treasure, 20);
+        commonTestFunctions.sendInput(levels.treasure, 20);
 
-        buttons.treasure.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         var coinGenerated = treasure.coin.getText().length > 0;
         var goodsGenerated = treasure.goods.count() > 0;
         var itemsGenerated = treasure.items.count() > 0;
@@ -105,15 +110,10 @@
         expect(treasureGenerated).toBeTruthy();
     });
 
-    function sendInput(input, keys) {
-        input.clear();
-        input.sendKeys(keys);
-    }
-
     it('should re-generate treasure', function () {
-        sendInput(levels.treasure, 20);
+        commonTestFunctions.sendInput(levels.treasure, 20);
 
-        buttons.treasure.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         var coin = treasure.coin.getText();
         var goods = treasure.goods.map(function (element, index) {
             return { text: element.getText() };
@@ -123,7 +123,7 @@
             return { text: element.element(by.binding('item.Name')).getText() };
         });
 
-        buttons.treasure.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         var coinDifferent = coin != treasure.coin.getText();
         var goodsDifferent = goods != treasure.goods.map(function (element, index) {
             return { text: element.getText() };
@@ -138,69 +138,69 @@
     });
 
     it('should show coin', function () {
-        sendInput(levels.treasure, 20);
-        buttons.treasure.click();
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(treasure.coin.isDisplayed()).toBeTruthy();
     });
 
     it('should show goods', function () {
-        sendInput(levels.treasure, 20);
-        buttons.treasure.click();
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(element(by.id('goodsDiv')).isDisplayed()).toBeTruthy();
     });
 
     it('should show items', function () {
-        sendInput(levels.treasure, 20);
-        buttons.treasure.click();
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(element(by.id('itemsDiv')).isDisplayed()).toBeTruthy();
     });
 
     it('should allow level between 1 and 20 for treasure', function () {
         for (var i = 20; i > 0; i--) {
-            sendInput(levels.treasure, i);
+            commonTestFunctions.sendInput(levels.treasure, i);
             expect(buttons.treasure.isEnabled()).toBeTruthy();
         }
     });
 
     it('should not allow decimal levels for treasure', function () {
-        sendInput(levels.treasure, 1.5);
+        commonTestFunctions.sendInput(levels.treasure, 1.5);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should not allow level of 0 for treasure', function () {
-        sendInput(levels.treasure, 0);
+        commonTestFunctions.sendInput(levels.treasure, 0);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should not allow level less than 0 for treasure', function () {
-        sendInput(levels.treasure, -1);
+        commonTestFunctions.sendInput(levels.treasure, -1);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric level for treasure', function () {
-        sendInput(levels.treasure, 'two');
+        commonTestFunctions.sendInput(levels.treasure, 'two');
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should not allow level greater than 20 for treasure', function () {
-        sendInput(levels.treasure, 21);
+        commonTestFunctions.sendInput(levels.treasure, 21);
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty level for treasure', function () {
-        sendInput(levels.treasure, '');
+        commonTestFunctions.sendInput(levels.treasure, '');
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
     it('should format coin', function () {
-        sendInput(levels.treasure, 20);
-        buttons.treasure.click();
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
     });
 
     it('should format goods', function () {
-        sendInput(levels.treasure, 20);
-        buttons.treasure.click();
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
 
         treasure.goods.each(function (element) {
             expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);

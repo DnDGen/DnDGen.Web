@@ -1,5 +1,10 @@
-﻿describe('Dice Page', function () {
+﻿'use strict';
+
+var CommonTestFunctions = require('./commonTestFunctions.js');
+
+describe('Dice Page', function () {
     browser.ignoreSynchronization = true;
+    var commonTestFunctions = new CommonTestFunctions();
 
     var rolls = {
         d2: element(by.binding('vm.rolls.d2')),
@@ -85,12 +90,12 @@
     //d2 tests
 
     it('should roll a d2', function () {
-        buttons.d2.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
         expect(rolls.d2.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d2', function () {
-        buttons.d2.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
 
         expect(rolls.d3.getText()).toEqual('0');
         expect(rolls.d4.getText()).toEqual('0');
@@ -104,29 +109,24 @@
     });
 
     it('should roll 3d2', function () {
-        setQuantity(quantities.d2, 3);
-        buttons.d2.click();
+        commonTestFunctions.sendInput(quantities.d2, 3);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
         expect(rolls.d2.getText()).toBeGreaterThan(2);
     });
 
-    function setQuantity(input, quantity) {
-        input.clear();
-        input.sendKeys(quantity);
-    }
-
     it('should format the roll of d2', function () {
-        setQuantity(quantities.d2, 1000);
-        buttons.d2.click();
+        commonTestFunctions.sendInput(quantities.d2, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
         expect(rolls.d2.getText()).toContain(',');
     });
 
     it('should re-roll 9266d2', function () {
-        setQuantity(quantities.d2, 9266);
+        commonTestFunctions.sendInput(quantities.d2, 9266);
 
-        buttons.d2.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
         var first = rolls.d2.getText();
 
-        buttons.d2.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
         var second = rolls.d2.getText();
 
         expect(first).not.toEqual(second);
@@ -137,44 +137,44 @@
     });
 
     it('should allow quantities greater than 1 for d2', function () {
-        setQuantity(quantities.d2, 2);
+        commonTestFunctions.sendInput(quantities.d2, 2);
         expect(buttons.d2.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d2', function () {
-        setQuantity(quantities.d2, 1.5);
+        commonTestFunctions.sendInput(quantities.d2, 1.5);
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d2', function () {
-        setQuantity(quantities.d2, 0);
+        commonTestFunctions.sendInput(quantities.d2, 0);
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d2', function () {
-        setQuantity(quantities.d2, -1);
+        commonTestFunctions.sendInput(quantities.d2, -1);
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d2', function () {
-        setQuantity(quantities.d2, 'two');
+        commonTestFunctions.sendInput(quantities.d2, 'two');
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d2', function () {
-        setQuantity(quantities.d2, '');
+        commonTestFunctions.sendInput(quantities.d2, '');
         expect(buttons.d2.isEnabled()).toBeFalsy();
     });
 
     //d3 tests
 
     it('should roll a d3', function () {
-        buttons.d3.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
         expect(rolls.d3.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d3', function () {
-        buttons.d3.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d4.getText()).toEqual('0');
@@ -188,24 +188,24 @@
     });
 
     it('should roll 4d3', function () {
-        setQuantity(quantities.d3, 4);
-        buttons.d3.click();
+        commonTestFunctions.sendInput(quantities.d3, 4);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
         expect(rolls.d3.getText()).toBeGreaterThan(3);
     });
 
     it('should format the roll of d3', function () {
-        setQuantity(quantities.d3, 1000);
-        buttons.d3.click();
+        commonTestFunctions.sendInput(quantities.d3, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
         expect(rolls.d3.getText()).toContain(',');
     });
 
     it('should re-roll 9266d3', function () {
-        setQuantity(quantities.d3, 9266);
+        commonTestFunctions.sendInput(quantities.d3, 9266);
 
-        buttons.d3.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
         var first = rolls.d3.getText();
 
-        buttons.d3.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
         var second = rolls.d3.getText();
 
         expect(first).not.toEqual(second);
@@ -216,44 +216,44 @@
     });
 
     it('should allow quantities greater than 1 for d3', function () {
-        setQuantity(quantities.d3, 2);
+        commonTestFunctions.sendInput(quantities.d3, 2);
         expect(buttons.d3.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d3', function () {
-        setQuantity(quantities.d3, 1.5);
+        commonTestFunctions.sendInput(quantities.d3, 1.5);
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d3', function () {
-        setQuantity(quantities.d3, 0);
+        commonTestFunctions.sendInput(quantities.d3, 0);
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d3', function () {
-        setQuantity(quantities.d3, -1);
+        commonTestFunctions.sendInput(quantities.d3, -1);
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d3', function () {
-        setQuantity(quantities.d3, 'two');
+        commonTestFunctions.sendInput(quantities.d3, 'two');
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d3', function () {
-        setQuantity(quantities.d3, '');
+        commonTestFunctions.sendInput(quantities.d3, '');
         expect(buttons.d3.isEnabled()).toBeFalsy();
     });
 
     //d4 tests
 
     it('should roll a d4', function () {
-        buttons.d4.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
         expect(rolls.d4.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d4', function () {
-        buttons.d4.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -267,24 +267,24 @@
     });
 
     it('should roll 5d4', function () {
-        setQuantity(quantities.d4, 5);
-        buttons.d4.click();
+        commonTestFunctions.sendInput(quantities.d4, 5);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
         expect(rolls.d4.getText()).toBeGreaterThan(4);
     });
 
     it('should format the roll of d4', function () {
-        setQuantity(quantities.d4, 1000);
-        buttons.d4.click();
+        commonTestFunctions.sendInput(quantities.d4, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
         expect(rolls.d4.getText()).toContain(',');
     });
 
     it('should re-roll 9266d4', function () {
-        setQuantity(quantities.d4, 9266);
+        commonTestFunctions.sendInput(quantities.d4, 9266);
 
-        buttons.d4.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
         var first = rolls.d4.getText();
 
-        buttons.d4.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
         var second = rolls.d4.getText();
 
         expect(first).not.toEqual(second);
@@ -295,44 +295,44 @@
     });
 
     it('should allow quantities greater than 1 for d4', function () {
-        setQuantity(quantities.d4, 2);
+        commonTestFunctions.sendInput(quantities.d4, 2);
         expect(buttons.d4.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d4', function () {
-        setQuantity(quantities.d4, 1.5);
+        commonTestFunctions.sendInput(quantities.d4, 1.5);
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d4', function () {
-        setQuantity(quantities.d4, 0);
+        commonTestFunctions.sendInput(quantities.d4, 0);
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d4', function () {
-        setQuantity(quantities.d4, -1);
+        commonTestFunctions.sendInput(quantities.d4, -1);
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d4', function () {
-        setQuantity(quantities.d4, 'two');
+        commonTestFunctions.sendInput(quantities.d4, 'two');
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d4', function () {
-        setQuantity(quantities.d4, '');
+        commonTestFunctions.sendInput(quantities.d4, '');
         expect(buttons.d4.isEnabled()).toBeFalsy();
     });
 
     //d6 tests
 
     it('should roll a d6', function () {
-        buttons.d6.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
         expect(rolls.d6.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d6', function () {
-        buttons.d6.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -346,24 +346,24 @@
     });
 
     it('should roll 7d6', function () {
-        setQuantity(quantities.d6, 7);
-        buttons.d6.click();
+        commonTestFunctions.sendInput(quantities.d6, 7);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
         expect(rolls.d6.getText()).toBeGreaterThan(6);
     });
 
     it('should format the roll of d6', function () {
-        setQuantity(quantities.d6, 1000);
-        buttons.d6.click();
+        commonTestFunctions.sendInput(quantities.d6, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
         expect(rolls.d6.getText()).toContain(',');
     });
 
     it('should re-roll 9266d6', function () {
-        setQuantity(quantities.d6, 9266);
+        commonTestFunctions.sendInput(quantities.d6, 9266);
 
-        buttons.d6.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
         var first = rolls.d6.getText();
 
-        buttons.d6.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
         var second = rolls.d6.getText();
 
         expect(first).not.toEqual(second);
@@ -374,44 +374,44 @@
     });
 
     it('should allow quantities greater than 1 for d6', function () {
-        setQuantity(quantities.d6, 2);
+        commonTestFunctions.sendInput(quantities.d6, 2);
         expect(buttons.d6.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d6', function () {
-        setQuantity(quantities.d6, 1.5);
+        commonTestFunctions.sendInput(quantities.d6, 1.5);
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d6', function () {
-        setQuantity(quantities.d6, 0);
+        commonTestFunctions.sendInput(quantities.d6, 0);
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d6', function () {
-        setQuantity(quantities.d6, -1);
+        commonTestFunctions.sendInput(quantities.d6, -1);
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d6', function () {
-        setQuantity(quantities.d6, 'two');
+        commonTestFunctions.sendInput(quantities.d6, 'two');
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d6', function () {
-        setQuantity(quantities.d6, '');
+        commonTestFunctions.sendInput(quantities.d6, '');
         expect(buttons.d6.isEnabled()).toBeFalsy();
     });
 
     //d8 tests
 
     it('should roll a d8', function () {
-        buttons.d8.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
         expect(rolls.d8.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d8', function () {
-        buttons.d8.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -425,24 +425,24 @@
     });
 
     it('should roll 9d8', function () {
-        setQuantity(quantities.d8, 9);
-        buttons.d8.click();
+        commonTestFunctions.sendInput(quantities.d8, 9);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
         expect(rolls.d8.getText()).toBeGreaterThan(8);
     });
 
     it('should format the roll of d8', function () {
-        setQuantity(quantities.d8, 1000);
-        buttons.d8.click();
+        commonTestFunctions.sendInput(quantities.d8, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
         expect(rolls.d8.getText()).toContain(',');
     });
 
     it('should re-roll 9266d8', function () {
-        setQuantity(quantities.d8, 9266);
+        commonTestFunctions.sendInput(quantities.d8, 9266);
 
-        buttons.d8.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
         var first = rolls.d8.getText();
 
-        buttons.d8.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
         var second = rolls.d8.getText();
 
         expect(first).not.toEqual(second);
@@ -453,44 +453,44 @@
     });
 
     it('should allow quantities greater than 1 for d8', function () {
-        setQuantity(quantities.d8, 2);
+        commonTestFunctions.sendInput(quantities.d8, 2);
         expect(buttons.d8.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d8', function () {
-        setQuantity(quantities.d8, 1.5);
+        commonTestFunctions.sendInput(quantities.d8, 1.5);
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d8', function () {
-        setQuantity(quantities.d8, 0);
+        commonTestFunctions.sendInput(quantities.d8, 0);
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d8', function () {
-        setQuantity(quantities.d8, -1);
+        commonTestFunctions.sendInput(quantities.d8, -1);
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d8', function () {
-        setQuantity(quantities.d8, 'two');
+        commonTestFunctions.sendInput(quantities.d8, 'two');
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d8', function () {
-        setQuantity(quantities.d8, '');
+        commonTestFunctions.sendInput(quantities.d8, '');
         expect(buttons.d8.isEnabled()).toBeFalsy();
     });
 
     //d10 tests
 
     it('should roll a d10', function () {
-        buttons.d10.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
         expect(rolls.d10.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d10', function () {
-        buttons.d10.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -504,24 +504,24 @@
     });
 
     it('should roll 11d10', function () {
-        setQuantity(quantities.d10, 11);
-        buttons.d10.click();
+        commonTestFunctions.sendInput(quantities.d10, 11);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
         expect(rolls.d10.getText()).toBeGreaterThan(10);
     });
 
     it('should format the roll of d10', function () {
-        setQuantity(quantities.d10, 1000);
-        buttons.d10.click();
+        commonTestFunctions.sendInput(quantities.d10, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
         expect(rolls.d10.getText()).toContain(',');
     });
 
     it('should re-roll 9266d10', function () {
-        setQuantity(quantities.d10, 9266);
+        commonTestFunctions.sendInput(quantities.d10, 9266);
 
-        buttons.d10.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
         var first = rolls.d10.getText();
 
-        buttons.d10.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
         var second = rolls.d10.getText();
 
         expect(first).not.toEqual(second);
@@ -532,44 +532,44 @@
     });
 
     it('should allow quantities greater than 1 for d10', function () {
-        setQuantity(quantities.d10, 2);
+        commonTestFunctions.sendInput(quantities.d10, 2);
         expect(buttons.d10.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d10', function () {
-        setQuantity(quantities.d10, 1.5);
+        commonTestFunctions.sendInput(quantities.d10, 1.5);
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d10', function () {
-        setQuantity(quantities.d10, 0);
+        commonTestFunctions.sendInput(quantities.d10, 0);
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d10', function () {
-        setQuantity(quantities.d10, -1);
+        commonTestFunctions.sendInput(quantities.d10, -1);
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d10', function () {
-        setQuantity(quantities.d10, 'two');
+        commonTestFunctions.sendInput(quantities.d10, 'two');
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d10', function () {
-        setQuantity(quantities.d10, '');
+        commonTestFunctions.sendInput(quantities.d10, '');
         expect(buttons.d10.isEnabled()).toBeFalsy();
     });
 
     //d12 tests
 
     it('should roll a d12', function () {
-        buttons.d12.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
         expect(rolls.d12.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d12', function () {
-        buttons.d12.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -583,24 +583,24 @@
     });
 
     it('should roll 13d12', function () {
-        setQuantity(quantities.d12, 13);
-        buttons.d12.click();
+        commonTestFunctions.sendInput(quantities.d12, 13);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
         expect(rolls.d12.getText()).toBeGreaterThan(12);
     });
 
     it('should format the roll of d12', function () {
-        setQuantity(quantities.d12, 1000);
-        buttons.d12.click();
+        commonTestFunctions.sendInput(quantities.d12, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
         expect(rolls.d12.getText()).toContain(',');
     });
 
     it('should re-roll 9266d12', function () {
-        setQuantity(quantities.d12, 9266);
+        commonTestFunctions.sendInput(quantities.d12, 9266);
 
-        buttons.d12.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
         var first = rolls.d12.getText();
 
-        buttons.d12.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
         var second = rolls.d12.getText();
 
         expect(first).not.toEqual(second);
@@ -611,44 +611,44 @@
     });
 
     it('should allow quantities greater than 1 for d12', function () {
-        setQuantity(quantities.d12, 2);
+        commonTestFunctions.sendInput(quantities.d12, 2);
         expect(buttons.d12.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d12', function () {
-        setQuantity(quantities.d12, 1.5);
+        commonTestFunctions.sendInput(quantities.d12, 1.5);
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d12', function () {
-        setQuantity(quantities.d12, 0);
+        commonTestFunctions.sendInput(quantities.d12, 0);
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d12', function () {
-        setQuantity(quantities.d12, -1);
+        commonTestFunctions.sendInput(quantities.d12, -1);
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d12', function () {
-        setQuantity(quantities.d12, 'two');
+        commonTestFunctions.sendInput(quantities.d12, 'two');
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d12', function () {
-        setQuantity(quantities.d12, '');
+        commonTestFunctions.sendInput(quantities.d12, '');
         expect(buttons.d12.isEnabled()).toBeFalsy();
     });
 
     //d20 tests
 
     it('should roll a d20', function () {
-        buttons.d20.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
         expect(rolls.d20.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a d20', function () {
-        buttons.d20.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -662,24 +662,24 @@
     });
 
     it('should roll 21d20', function () {
-        setQuantity(quantities.d20, 21);
-        buttons.d20.click();
+        commonTestFunctions.sendInput(quantities.d20, 21);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
         expect(rolls.d20.getText()).toBeGreaterThan(20);
     });
 
     it('should format the roll of d20', function () {
-        setQuantity(quantities.d20, 1000);
-        buttons.d20.click();
+        commonTestFunctions.sendInput(quantities.d20, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
         expect(rolls.d20.getText()).toContain(',');
     });
 
     it('should re-roll 9266d20', function () {
-        setQuantity(quantities.d20, 9266);
+        commonTestFunctions.sendInput(quantities.d20, 9266);
 
-        buttons.d20.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
         var first = rolls.d20.getText();
 
-        buttons.d20.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
         var second = rolls.d20.getText();
 
         expect(first).not.toEqual(second);
@@ -690,44 +690,44 @@
     });
 
     it('should allow quantities greater than 1 for d20', function () {
-        setQuantity(quantities.d20, 2);
+        commonTestFunctions.sendInput(quantities.d20, 2);
         expect(buttons.d20.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for d20', function () {
-        setQuantity(quantities.d20, 1.5);
+        commonTestFunctions.sendInput(quantities.d20, 1.5);
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for d20', function () {
-        setQuantity(quantities.d20, 0);
+        commonTestFunctions.sendInput(quantities.d20, 0);
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for d20', function () {
-        setQuantity(quantities.d20, -1);
+        commonTestFunctions.sendInput(quantities.d20, -1);
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for d20', function () {
-        setQuantity(quantities.d20, 'two');
+        commonTestFunctions.sendInput(quantities.d20, 'two');
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for d20', function () {
-        setQuantity(quantities.d20, '');
+        commonTestFunctions.sendInput(quantities.d20, '');
         expect(buttons.d20.isEnabled()).toBeFalsy();
     });
 
     //percentile tests
 
     it('should roll a percentile', function () {
-        buttons.percentile.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
         expect(rolls.percentile.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a percentile', function () {
-        buttons.percentile.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -741,8 +741,8 @@
     });
 
     it('should roll 101d100', function () {
-        setQuantity(quantities.percentile, 101);
-        buttons.percentile.click();
+        commonTestFunctions.sendInput(quantities.percentile, 101);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
 
         //HACK: This verifies that it is at least 1000, when the min is 100
         //No good way I have found so far to extract the formatted number from the element
@@ -751,18 +751,18 @@
     });
 
     it('should format the roll of percentile', function () {
-        setQuantity(quantities.percentile, 1000);
-        buttons.percentile.click();
+        commonTestFunctions.sendInput(quantities.percentile, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
         expect(rolls.percentile.getText()).toContain(',');
     });
 
     it('should re-roll 9266d100', function () {
-        setQuantity(quantities.percentile, 9266);
+        commonTestFunctions.sendInput(quantities.percentile, 9266);
 
-        buttons.percentile.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
         var first = rolls.percentile.getText();
 
-        buttons.percentile.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
         var second = rolls.percentile.getText();
 
         expect(first).not.toEqual(second);
@@ -773,44 +773,44 @@
     });
 
     it('should allow quantities greater than 1 for percentile', function () {
-        setQuantity(quantities.percentile, 2);
+        commonTestFunctions.sendInput(quantities.percentile, 2);
         expect(buttons.percentile.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for percentile', function () {
-        setQuantity(quantities.percentile, 1.5);
+        commonTestFunctions.sendInput(quantities.percentile, 1.5);
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for percentile', function () {
-        setQuantity(quantities.percentile, 0);
+        commonTestFunctions.sendInput(quantities.percentile, 0);
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for percentile', function () {
-        setQuantity(quantities.percentile, -1);
+        commonTestFunctions.sendInput(quantities.percentile, -1);
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for percentile', function () {
-        setQuantity(quantities.percentile, 'two');
+        commonTestFunctions.sendInput(quantities.percentile, 'two');
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for percentile', function () {
-        setQuantity(quantities.percentile, '');
+        commonTestFunctions.sendInput(quantities.percentile, '');
         expect(buttons.percentile.isEnabled()).toBeFalsy();
     });
 
     //custom tests
 
     it('should roll a custom roll', function () {
-        buttons.custom.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
         expect(rolls.custom.getText()).toBeGreaterThan(0);
     });
 
     it('should only roll a custom roll', function () {
-        buttons.custom.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
 
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');
@@ -824,27 +824,27 @@
     });
 
     it('should roll 6d5', function () {
-        setQuantity(quantities.custom, 6);
-        setQuantity(customDie, 5);
+        commonTestFunctions.sendInput(quantities.custom, 6);
+        commonTestFunctions.sendInput(customDie, 5);
 
-        buttons.custom.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
         expect(rolls.custom.getText()).toBeGreaterThan(5);
     });
 
     it('should format the custom roll', function () {
-        setQuantity(quantities.custom, 1000);
-        buttons.custom.click();
+        commonTestFunctions.sendInput(quantities.custom, 1000);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
         expect(rolls.custom.getText()).toContain(',');
     });
 
     it('should re-roll 9266d5', function () {
-        setQuantity(quantities.custom, 9266);
-        setQuantity(customDie, 5);
+        commonTestFunctions.sendInput(quantities.custom, 9266);
+        commonTestFunctions.sendInput(customDie, 5);
 
-        buttons.custom.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
         var first = rolls.custom.getText();
 
-        buttons.custom.click();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
         var second = rolls.custom.getText();
 
         expect(first).not.toEqual(second);
@@ -855,32 +855,32 @@
     });
 
     it('should allow quantities greater than 1 for custom', function () {
-        setQuantity(quantities.custom, 2);
+        commonTestFunctions.sendInput(quantities.custom, 2);
         expect(buttons.custom.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal quantities for custom', function () {
-        setQuantity(quantities.custom, 1.5);
+        commonTestFunctions.sendInput(quantities.custom, 1.5);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow quantity of 0 for custom', function () {
-        setQuantity(quantities.custom, 0);
+        commonTestFunctions.sendInput(quantities.custom, 0);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative quantities for custom', function () {
-        setQuantity(quantities.custom, -1);
+        commonTestFunctions.sendInput(quantities.custom, -1);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric quantites for custom', function () {
-        setQuantity(quantities.custom, 'two');
+        commonTestFunctions.sendInput(quantities.custom, 'two');
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty quantites for custom', function () {
-        setQuantity(quantities.custom, '');
+        commonTestFunctions.sendInput(quantities.custom, '');
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
@@ -889,32 +889,32 @@
     });
 
     it('should allow die greater than 1 for custom', function () {
-        setQuantity(customDie, 2);
+        commonTestFunctions.sendInput(customDie, 2);
         expect(buttons.custom.isEnabled()).toBeTruthy();
     });
 
     it('should not allow decimal die for custom', function () {
-        setQuantity(customDie, 1.5);
+        commonTestFunctions.sendInput(customDie, 1.5);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow die of 0 for custom', function () {
-        setQuantity(customDie, 0);
+        commonTestFunctions.sendInput(customDie, 0);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow negative die for custom', function () {
-        setQuantity(customDie, -1);
+        commonTestFunctions.sendInput(customDie, -1);
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow non-numeric die for custom', function () {
-        setQuantity(customDie, 'two');
+        commonTestFunctions.sendInput(customDie, 'two');
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 
     it('should not allow empty die for custom', function () {
-        setQuantity(customDie, '');
+        commonTestFunctions.sendInput(customDie, '');
         expect(buttons.custom.isEnabled()).toBeFalsy();
     });
 });

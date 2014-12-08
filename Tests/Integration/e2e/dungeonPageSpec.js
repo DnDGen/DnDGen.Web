@@ -1,4 +1,6 @@
-﻿describe('Dungeon Page', function () {
+﻿'use strict';
+
+describe('Dungeon Page', function () {
     browser.ignoreSynchronization = true;
 
     beforeEach(function () {

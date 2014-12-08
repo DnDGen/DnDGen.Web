@@ -1,4 +1,6 @@
-﻿describe('Navigation', function () {
+﻿'use strict';
+
+describe('Navigation', function () {
     browser.ignoreSynchronization = true;
 
     beforeEach(function () {

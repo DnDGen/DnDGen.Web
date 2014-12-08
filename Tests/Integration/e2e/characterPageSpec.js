@@ -1,4 +1,6 @@
-﻿describe('Character Page', function () {
+﻿'use strict';
+
+describe('Character Page', function () {
     browser.ignoreSynchronization = true;
 
     beforeEach(function () {

@@ -165,7 +165,7 @@
                     <li ng-repeat="item in vm.treasure.Items">
                         <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
                         <ul>
-                            <li ng-show="item.Contents">
+                            <li ng-show="item.Contents.length > 0">
                                 <span>Contents:</span>
                                 <ul>
                                     <li ng-repeat="content in item.Contents">{{content}}</li>

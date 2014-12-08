@@ -1,4 +1,6 @@
-﻿describe('Home Page', function () {
+﻿'use strict';
+
+describe('Home Page', function () {
     browser.ignoreSynchronization = true;
 
     beforeEach(function () {
