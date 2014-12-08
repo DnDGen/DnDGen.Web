@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var CommonTestFunctions = require('./commonTestFunctions.js');
+var CommonTestFunctions = require('./Common/commonTestFunctions.js');
 
 describe('Dice Page', function () {
     browser.ignoreSynchronization = true;

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var CommonTestFunctions = require('./commonTestFunctions.js');
+var CommonTestFunctions = require('./Common/commonTestFunctions.js');
 
 describe('Equipment Page', function () {
     browser.ignoreSynchronization = true;
@@ -98,19 +98,48 @@ describe('Equipment Page', function () {
 
     //treaure tests
 
-    it('should generate treasure', function () {
+    it('should generate treasure and show coin', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
 
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        var coinGenerated = treasure.coin.getText().length > 0;
-        var goodsGenerated = treasure.goods.count() > 0;
-        var itemsGenerated = treasure.items.count() > 0;
-        var treasureGenerated = coinGenerated || goodsGenerated || itemsGenerated;
+        //commonTestFunctions.runInLoopToEliminateChance(function () {
+        //    commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        //}, function () {
+        //    return treasure.coin.isDisplayed();
+        //});
 
-        expect(treasureGenerated).toBeTruthy();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        expect(treasure.coin.isDisplayed()).toBeTruthy();
     });
 
-    it('should re-generate treasure', function () {
+    it('should generate treasure and show goods', function () {
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        var goods = element(by.id('goodsDiv'));
+
+        //commonTestFunctions.runInLoopToEliminateChance(function () {
+        //    commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        //}, function () {
+        //    return goods.isDisplayed();
+        //});
+
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        expect(goods.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate treasure and show items', function () {
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        var items = element(by.id('itemsDiv'));
+
+        //commonTestFunctions.runInLoopToEliminateChance(function () {
+        //    commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        //}, function () {
+        //    return items.isDisplayed();
+        //});
+
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        expect(items.isDisplayed()).toBeTruthy();
+    });
+
+    it('should regenerate treasure', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
 
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
@@ -135,24 +164,6 @@ describe('Equipment Page', function () {
 
         var treasureDifferent = coinDifferent || goodsDifferent || itemsDifferent;
         expect(treasureDifferent).toBeTruthy();
-    });
-
-    it('should show coin', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(treasure.coin.isDisplayed()).toBeTruthy();
-    });
-
-    it('should show goods', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(element(by.id('goodsDiv')).isDisplayed()).toBeTruthy();
-    });
-
-    it('should show items', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(element(by.id('itemsDiv')).isDisplayed()).toBeTruthy();
     });
 
     it('should allow level between 1 and 20 for treasure', function () {
@@ -194,14 +205,27 @@ describe('Equipment Page', function () {
 
     it('should format coin', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
+
+        //commonTestFunctions.runInLoopToEliminateChance(function () {
+        //    commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        //}, function () {
+        //    return treasure.coin.getText().length > 0;
+        //});
+
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
     });
 
     it('should format goods', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
 
+        //commonTestFunctions.runInLoopToEliminateChance(function () {
+        //    commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        //}, function () {
+        //    return treasure.goods.count() > 0;
+        //});
+
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         treasure.goods.each(function (element) {
             expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);
         });

@@ -143,7 +143,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Integration\e2e\commonTestFunctions.js" />
+    <Content Include="Integration\e2e\Common\stopwatch.js" />
+    <Content Include="Integration\e2e\Common\commonTestFunctions.js" />
     <Content Include="Integration\e2e\equipmentPageSpec.js" />
     <Content Include="Integration\e2e\characterPageSpec.js" />
     <Content Include="Integration\e2e\dungeonPageSpec.js" />
