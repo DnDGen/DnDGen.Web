@@ -20,22 +20,32 @@
     <div class="row top-buffer">
         <div class="col-sm-6">
             <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="treasureForm">
-                        <span>Treasure</span>
-                        Level: <input dndgen-no-decimals type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.treasure" required />
-                        <button id="treasureButton" type="button" class="btn btn-success" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid">Generate</button>
-                    </form>
-                </div>
+                <form name="treasureForm" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="treasureLevel" class="col-sm-4 control-label">Treasure</label>
+                        <label for="treasureLevel" class="col-sm-2 control-label">Level:</label>
+                        <div class="col-sm-2">
+                            <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.treasure" required />
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="treasureButton" type="button" class="btn btn-success" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid">Generate</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="coinForm">
-                        <span>Coin</span>
-                        Level: <input dndgen-no-decimals type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.coin" required />
-                        <button id="coinButton" type="button" class="btn btn-success" ng-click="vm.generateCoin()" ng-disabled="coinForm.$invalid">Generate</button>
-                    </form>
-                </div>
+                <form name="coinForm" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="coinLevel" class="col-sm-4 control-label">Coin</label>
+                        <label for="coinLevel" class="col-sm-2 control-label">Level:</label>
+                        <div class="col-sm-2">
+                            <input dndgen-no-decimals id="coinLevel" class="form-control" type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.coin" required />
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="coinButton" type="button" class="btn btn-success" ng-click="vm.generateCoin()" ng-disabled="coinForm.$invalid">Generate</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="row top-buffer">
                 <div class="col-sm-12">
