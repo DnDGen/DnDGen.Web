@@ -128,7 +128,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\equipment.css" />
     <Content Include="Content\dice.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\bootstrap-theme.css" />
