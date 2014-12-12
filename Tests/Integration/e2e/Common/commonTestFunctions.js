@@ -16,17 +16,6 @@
             input.clear();
             input.sendKeys(keys);
         };
-
-        app.runInLoopToEliminateChance = function (functionToLoop, escapeFunction) {
-            stopwatch.start();
-
-            while (!escapeFunction() && stopwatch.getElapsed().seconds <= 1) {
-                functionToLoop();
-            }
-
-            stopwatch.stop();
-            stopwatch.reset();
-        };
     };
 
     module.exports = function () {
