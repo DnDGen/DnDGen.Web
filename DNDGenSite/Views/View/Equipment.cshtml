@@ -21,8 +21,8 @@
         <div class="col-sm-6">
             <form name="treasureForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <label for="treasureLevel" class="col-sm-3 control-label">Treasure Level:</label>
-                    <div class="col-sm-2">
+                    <label for="treasureLevel" class="col-sm-4 control-label">Treasure Level:</label>
+                    <div class="col-sm-4">
                         <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="20" ng-model="vm.selectedLevels.treasure" required />
                     </div>
                     <div class="col-sm-2">
@@ -32,8 +32,8 @@
             </form>
             <form name="coinForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <label for="coinLevel" class="col-sm-3 control-label">Coin Level:</label>
-                    <div class="col-sm-2">
+                    <label for="coinLevel" class="col-sm-4 control-label">Coin Level:</label>
+                    <div class="col-sm-4">
                         <input dndgen-no-decimals id="coinLevel" class="form-control" type="number" min="1" max="20" ng-model="vm.selectedLevels.coin" required />
                     </div>
                     <div class="col-sm-2">
@@ -43,8 +43,8 @@
             </form>
             <form name="goodsForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <label for="goodsLevel" class="col-sm-3 control-label">Goods Level:</label>
-                    <div class="col-sm-2">
+                    <label for="goodsLevel" class="col-sm-4 control-label">Goods Level:</label>
+                    <div class="col-sm-4">
                         <input dndgen-no-decimals id="goodsLevel" class="form-control" type="number" min="1" max="20" ng-model="vm.selectedLevels.goods" required />
                     </div>
                     <div class="col-sm-2">
@@ -52,11 +52,11 @@
                     </div>
                 </div>
             </form>
-            <form name="goodsForm" class="form-horizontal top-buffer" role="form">
+            <form name="itemsForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <label for="itemsForm" class="col-sm-3 control-label">Items Level:</label>
-                    <div class="col-sm-2">
-                        <input dndgen-no-decimals id="itemsForm" class="form-control" type="number" min="1" max="20" ng-model="vm.selectedLevels.items" required />
+                    <label for="itemsLevel" class="col-sm-4 control-label">Items Level:</label>
+                    <div class="col-sm-4">
+                        <input dndgen-no-decimals id="itemsLevel" class="form-control" type="number" min="1" max="20" ng-model="vm.selectedLevels.items" required />
                     </div>
                     <div class="col-sm-2">
                         <button id="itemsButton" type="button" class="btn btn-success" ng-click="vm.generateItems()" ng-disabled="itemsForm.$invalid">Generate</button>

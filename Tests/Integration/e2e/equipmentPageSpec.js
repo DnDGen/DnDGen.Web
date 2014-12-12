@@ -154,14 +154,14 @@ describe('Equipment Page', function () {
     });
 
     it('increments treasure level by 1 when up is pressed', function () {
-        levels.treasure.sendKeys(webdriver.Key.Up);
-        expect(levels.treasure.getAttribute('value')).toBe(2);
+        levels.treasure.sendKeys(protractor.Key.UP);
+        expect(levels.treasure.getAttribute('value')).toBe('2');
     });
 
     it('decrements treasure level by 1 when down is pressed', function () {
         commonTestFunctions.sendInput(levels.treasure, 3);
-        levels.treasure.sendKeys(webdriver.Key.Down);
-        expect(levels.treasure.getAttribute('value')).toBe(2);
+        levels.treasure.sendKeys(protractor.Key.DOWN);
+        expect(levels.treasure.getAttribute('value')).toBe('2');
     });
 
     it('should format coin', function () {
@@ -177,5 +177,279 @@ describe('Equipment Page', function () {
         treasure.goods.each(function (element) {
             expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);
         });
+    });
+
+    //coin tests
+
+    it('should generate coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.coin);
+        expect(treasure.coin.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.coin);
+
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeFalsy();
+        expect(element(by.id('itemsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    it('should allow level between 1 and 20 for coin', function () {
+        for (var i = 20; i > 0; i--) {
+            commonTestFunctions.sendInput(levels.coin, i);
+            expect(buttons.coin.isEnabled()).toBeTruthy();
+        }
+    });
+
+    it('should not allow decimal levels for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 1.5);
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level of 0 for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 0);
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level less than 0 for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, -1);
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow non-numeric level for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 'two');
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level greater than 20 for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 21);
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty level for coin', function () {
+        commonTestFunctions.sendInput(levels.coin, '');
+        expect(buttons.coin.isEnabled()).toBeFalsy();
+    });
+
+    it('increments coin level by 1 when up is pressed', function () {
+        levels.coin.sendKeys(protractor.Key.UP);
+        expect(levels.coin.getAttribute('value')).toBe('2');
+    });
+
+    it('decrements coin level by 1 when down is pressed', function () {
+        commonTestFunctions.sendInput(levels.coin, 3);
+        levels.coin.sendKeys(protractor.Key.DOWN);
+        expect(levels.coin.getAttribute('value')).toBe('2');
+    });
+
+    it('should format coin', function () {
+        commonTestFunctions.sendInput(levels.coin, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.coin);
+        expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
+    });
+
+    //goods tests
+
+    it('should generate goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.goods);
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.goods);
+
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(element(by.id('itemsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    it('should allow level between 1 and 20 for goods', function () {
+        for (var i = 20; i > 0; i--) {
+            commonTestFunctions.sendInput(levels.goods, i);
+            expect(buttons.goods.isEnabled()).toBeTruthy();
+        }
+    });
+
+    it('should not allow decimal levels for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 1.5);
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level of 0 for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 0);
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level less than 0 for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, -1);
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow non-numeric level for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 'two');
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level greater than 20 for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 21);
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty level for goods', function () {
+        commonTestFunctions.sendInput(levels.goods, '');
+        expect(buttons.goods.isEnabled()).toBeFalsy();
+    });
+
+    it('increments goods level by 1 when up is pressed', function () {
+        levels.goods.sendKeys(protractor.Key.UP);
+        expect(levels.goods.getAttribute('value')).toBe('2');
+    });
+
+    it('decrements goods level by 1 when down is pressed', function () {
+        commonTestFunctions.sendInput(levels.goods, 3);
+        levels.goods.sendKeys(protractor.Key.DOWN);
+        expect(levels.goods.getAttribute('value')).toBe('2');
+    });
+
+    it('should format goods', function () {
+        commonTestFunctions.sendInput(levels.goods, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.goods);
+
+        treasure.goods.each(function (element) {
+            expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);
+        });
+    });
+
+    //items tests
+
+    it('should generate items', function () {
+        commonTestFunctions.sendInput(levels.items, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.items);
+        expect(element(by.id('itemsDiv')).isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only items', function () {
+        commonTestFunctions.sendInput(levels.items, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.items);
+
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    it('should allow level between 1 and 20 for items', function () {
+        for (var i = 20; i > 0; i--) {
+            commonTestFunctions.sendInput(levels.items, i);
+            expect(buttons.items.isEnabled()).toBeTruthy();
+        }
+    });
+
+    it('should not allow decimal levels for items', function () {
+        commonTestFunctions.sendInput(levels.items, 1.5);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level of 0 for items', function () {
+        commonTestFunctions.sendInput(levels.items, 0);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level less than 0 for items', function () {
+        commonTestFunctions.sendInput(levels.items, -1);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow non-numeric level for items', function () {
+        commonTestFunctions.sendInput(levels.items, 'two');
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level greater than 20 for items', function () {
+        commonTestFunctions.sendInput(levels.items, 21);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty level for items', function () {
+        commonTestFunctions.sendInput(levels.items, '');
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('increments items level by 1 when up is pressed', function () {
+        levels.items.sendKeys(protractor.Key.UP);
+        expect(levels.items.getAttribute('value')).toBe('2');
+    });
+
+    it('decrements items level by 1 when down is pressed', function () {
+        commonTestFunctions.sendInput(levels.items, 3);
+        levels.items.sendKeys(protractor.Key.DOWN);
+        expect(levels.items.getAttribute('value')).toBe('2');
+    });
+
+    //alchemical item tests
+
+    it('should generate alchemical item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only alchemical items', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(element(by.id('goodsDiv')).isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 alchemical item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should allow level between 1 and 20 for items', function () {
+        for (var i = 20; i > 0; i--) {
+            commonTestFunctions.sendInput(levels.items, i);
+            expect(buttons.items.isEnabled()).toBeTruthy();
+        }
+    });
+
+    it('should not allow decimal levels for items', function () {
+        commonTestFunctions.sendInput(levels.items, 1.5);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level of 0 for items', function () {
+        commonTestFunctions.sendInput(levels.items, 0);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level less than 0 for items', function () {
+        commonTestFunctions.sendInput(levels.items, -1);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow non-numeric level for items', function () {
+        commonTestFunctions.sendInput(levels.items, 'two');
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow level greater than 20 for items', function () {
+        commonTestFunctions.sendInput(levels.items, 21);
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('should not allow empty level for items', function () {
+        commonTestFunctions.sendInput(levels.items, '');
+        expect(buttons.items.isEnabled()).toBeFalsy();
+    });
+
+    it('increments items level by 1 when up is pressed', function () {
+        levels.items.sendKeys(protractor.Key.UP);
+        expect(levels.items.getAttribute('value')).toBe('2');
+    });
+
+    it('decrements items level by 1 when down is pressed', function () {
+        commonTestFunctions.sendInput(levels.items, 3);
+        levels.items.sendKeys(protractor.Key.DOWN);
+        expect(levels.items.getAttribute('value')).toBe('2');
     });
 });
