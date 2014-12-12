@@ -153,6 +153,17 @@ describe('Equipment Page', function () {
         expect(buttons.treasure.isEnabled()).toBeFalsy();
     });
 
+    it('increments treasure level by 1 when up is pressed', function () {
+        levels.treasure.sendKeys(webdriver.Key.Up);
+        expect(levels.treasure.getAttribute('value')).toBe(2);
+    });
+
+    it('decrements treasure level by 1 when down is pressed', function () {
+        commonTestFunctions.sendInput(levels.treasure, 3);
+        levels.treasure.sendKeys(webdriver.Key.Down);
+        expect(levels.treasure.getAttribute('value')).toBe(2);
+    });
+
     it('should format coin', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
