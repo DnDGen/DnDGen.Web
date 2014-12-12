@@ -22,8 +22,7 @@
             <div class="row top-buffer">
                 <form name="treasureForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="treasureLevel" class="col-sm-4 control-label">Treasure</label>
-                        <label for="treasureLevel" class="col-sm-2 control-label">Level:</label>
+                        <label for="treasureLevel" class="col-sm-4 control-label">Treasure Level:</label>
                         <div class="col-sm-2">
                             <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.treasure" required />
                         </div>
@@ -36,8 +35,7 @@
             <div class="row top-buffer">
                 <form name="coinForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="coinLevel" class="col-sm-4 control-label">Coin</label>
-                        <label for="coinLevel" class="col-sm-2 control-label">Level:</label>
+                        <label for="coinLevel" class="col-sm-4 control-label">Coin Level:</label>
                         <div class="col-sm-2">
                             <input dndgen-no-decimals id="coinLevel" class="form-control" type="number" min="1" max="20" step="1" ng-model="vm.selectedLevels.coin" required />
                         </div>
@@ -164,7 +162,7 @@
             <div id="goodsDiv" ng-show="vm.treasure.Goods.length > 0">
                 <span>Goods:</span>
                 <ul>
-                    <li ng-repeat="good in vm.treasure.Goods">
+                    <li ng-repeat="good in vm.treasure.Goods track by $index">
                         {{good.Description}} ({{good.ValueInGold | number}}gp)
                     </li>
                 </ul>
@@ -172,26 +170,26 @@
             <div id="itemsDiv" ng-show="vm.treasure.Items.length > 0">
                 <span>Items:</span>
                 <ul>
-                    <li ng-repeat="item in vm.treasure.Items">
+                    <li ng-repeat="item in vm.treasure.Items track by $index">
                         <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
                         <ul>
                             <li ng-show="item.Contents.length > 0">
                                 <span>Contents:</span>
                                 <ul>
-                                    <li ng-repeat="content in item.Contents">{{content}}</li>
+                                    <li ng-repeat="content in item.Contents track by $index">{{content}}</li>
                                 </ul>
                             </li>
                             <li ng-show="item.Traits.length > 0">
                                 <span>Traits</span>
                                 <ul>
-                                    <li ng-repeat="trait in item.Traits">{{trait}}</li>
+                                    <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li>
                                 </ul>
                             </li>
                             <li ng-show="item.Magic.Bonus > 0">Bonus: {{item.Magic.Bonus}}</li>
                             <li ng-show="item.Magic.SpecialAbilities.length > 0">
                                 <span>Special Abilities:</span>
                                 <ul>
-                                    <li ng-repeat="ability in item.Magic.SpecialAbilities">
+                                    <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">
                                         <span>{{ability.Name}}</span> <span ng-show="ability.Strength > 5">({{ability.Strength}})</span>
                                     </li>
                                 </ul>
@@ -208,7 +206,7 @@
                                     <li>
                                         <span>Communication:</span>
                                         <ul>
-                                            <li ng-repeat="method in item.Magic.Intelligence.Communication">{{method}}</li>
+                                            <li ng-repeat="method in item.Magic.Intelligence.Communication track by $index">{{method}}</li>
                                             <li ng-show="item.Magic.Intelligence.Languages.length > 0">
                                                 <span>Languages:</span>
                                                 <ul>
@@ -221,7 +219,7 @@
                                     <li>
                                         <span>Powers:</span>
                                         <ul>
-                                            <li ng-repeat="power in item.Magic.Intelligence.Powers">{{power}}</li>
+                                            <li ng-repeat="power in item.Magic.Intelligence.Powers track by $index">{{power}}</li>
                                         </ul>
                                     </li>
                                     <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
