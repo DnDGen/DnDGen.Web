@@ -158,8 +158,9 @@
             </div>
         </div>
         <div class="col-sm-6">
+            <span id="noTreasure" ng-show="vm.treasure.Coin.Quantity == 0 && vm.treasure.Goods.length == 0 && vm.treasure.Items.length == 0">No treasure was generated</span>
             <span ng-show="vm.treasure.Coin.Quantity > 0">{{vm.treasure.Coin.Quantity | number}} {{vm.treasure.Coin.Currency}}</span>
-            <div id="goodsDiv" ng-show="vm.treasure.Goods.length > 0">
+            <div id="goodsWrapper" ng-show="vm.treasure.Goods.length > 0">
                 <span>Goods:</span>
                 <ul>
                     <li ng-repeat="good in vm.treasure.Goods track by $index">
@@ -167,7 +168,7 @@
                     </li>
                 </ul>
             </div>
-            <div id="itemsDiv" ng-show="vm.treasure.Items.length > 0">
+            <div id="itemsWrapper" ng-show="vm.treasure.Items.length > 0">
                 <span>Items:</span>
                 <ul>
                     <li ng-repeat="item in vm.treasure.Items track by $index">

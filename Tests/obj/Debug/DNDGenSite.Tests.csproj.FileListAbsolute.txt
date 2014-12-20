@@ -80,3 +80,44 @@ D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.xml
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.csprojResolveAssemblyReference.cache
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.dll
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\D20Dice.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\DNDGenSite.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Common.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Generators.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Moq.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\nunit.framework.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Helpers.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Mvc.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Razor.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Ninject.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\WebActivatorEx.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\D20Dice.Bootstrap.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Bootstrap.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Mappers.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Tables.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Selectors.Interfaces.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Mappers.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Selectors.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Generators.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\EquipmentGen.Tables.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\DNDGenSite.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Moq.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\nunit.framework.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Helpers.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Mvc.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.Razor.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Ninject.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.pdb
