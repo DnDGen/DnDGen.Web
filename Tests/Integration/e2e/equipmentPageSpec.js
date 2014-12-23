@@ -14,15 +14,27 @@ describe('Equipment Page', function () {
     };
 
     var powers = {
-        armor: element(by.model('vm.selectedPowers.armor')).$('option:checked'),
-        potion: element(by.model('vm.selectedPowers.potion')).$('option:checked'),
-        ring: element(by.model('vm.selectedPowers.ring')).$('option:checked'),
-        rod: element(by.model('vm.selectedPowers.rod')).$('option:checked'),
-        scroll: element(by.model('vm.selectedPowers.scroll')).$('option:checked'),
-        staff: element(by.model('vm.selectedPowers.staff')).$('option:checked'),
-        wand: element(by.model('vm.selectedPowers.wand')).$('option:checked'),
-        weapon: element(by.model('vm.selectedPowers.weapon')).$('option:checked'),
-        wondrousItem: element(by.model('vm.selectedPowers.wondrousItem')).$('option:checked')
+        armor: element(by.model('vm.selectedPowers.armor')),
+        potion: element(by.model('vm.selectedPowers.potion')),
+        ring: element(by.model('vm.selectedPowers.ring')),
+        rod: element(by.model('vm.selectedPowers.rod')),
+        scroll: element(by.model('vm.selectedPowers.scroll')),
+        staff: element(by.model('vm.selectedPowers.staff')),
+        wand: element(by.model('vm.selectedPowers.wand')),
+        weapon: element(by.model('vm.selectedPowers.weapon')),
+        wondrousItem: element(by.model('vm.selectedPowers.wondrousItem'))
+    };
+
+    var selectedPowers = {
+        armor: powers.armor.$('option:checked'),
+        potion: powers.potion.$('option:checked'),
+        ring: powers.ring.$('option:checked'),
+        rod: powers.rod.$('option:checked'),
+        scroll: powers.scroll.$('option:checked'),
+        staff: powers.staff.$('option:checked'),
+        wand: powers.wand.$('option:checked'),
+        weapon: powers.weapon.$('option:checked'),
+        wondrousItem: powers.wondrousItem.$('option:checked')
     };
 
     var buttons = {
@@ -70,15 +82,15 @@ describe('Equipment Page', function () {
     });
 
     it('should set powers to first option', function () {
-        expect(powers.armor.getText()).toBe('Mundane');
-        expect(powers.potion.getText()).toBe('Minor');
-        expect(powers.ring.getText()).toBe('Minor');
-        expect(powers.rod.getText()).toBe('Medium');
-        expect(powers.scroll.getText()).toBe('Minor');
-        expect(powers.staff.getText()).toBe('Medium');
-        expect(powers.wand.getText()).toBe('Minor');
-        expect(powers.weapon.getText()).toBe('Mundane');
-        expect(powers.wondrousItem.getText()).toBe('Minor');
+        expect(selectedPowers.armor.getText()).toBe('Mundane');
+        expect(selectedPowers.potion.getText()).toBe('Minor');
+        expect(selectedPowers.ring.getText()).toBe('Minor');
+        expect(selectedPowers.rod.getText()).toBe('Medium');
+        expect(selectedPowers.scroll.getText()).toBe('Minor');
+        expect(selectedPowers.staff.getText()).toBe('Medium');
+        expect(selectedPowers.wand.getText()).toBe('Minor');
+        expect(selectedPowers.weapon.getText()).toBe('Mundane');
+        expect(selectedPowers.wondrousItem.getText()).toBe('Minor');
     });
 
     it('should have no treasure', function () {
@@ -408,6 +420,30 @@ describe('Equipment Page', function () {
     });
 
     it('should generate 1 alchemical item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    //armor tests
+
+    it('should generate armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
+
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
+
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
         expect(treasure.coin.isDisplayed()).toBeFalsy();
         expect(treasure.items.count()).toBe(1);

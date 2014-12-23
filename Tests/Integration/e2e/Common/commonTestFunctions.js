@@ -16,6 +16,11 @@
             input.clear();
             input.sendKeys(keys);
         };
+
+        app.selectItemInDropdown = function (element, value) {
+            var cssFilterString = '[value="' + value + '"]';
+            element.$(cssFilterString).click();
+        };
     };
 
     module.exports = function () {
