@@ -18,8 +18,10 @@
         };
 
         app.selectItemInDropdown = function (element, value) {
-            var cssFilterString = '[value="' + value + '"]';
-            element.$(cssFilterString).click();
+            element.element(by.cssContainingText('option', value)).click();
+
+            //var cssFilterString = '[value="' + value + '"]';
+            //element.$(cssFilterString).click();
         };
     };
 
