@@ -16,6 +16,9 @@ $RECYCLE.BIN/
 
 #Custom ignores
 *.log
+*.user
+*.suo
+unit-specs.xml
 bin/
 obj/
 .bin/
@@ -24,9 +27,6 @@ bin
 obj
 .bin
 .obj
-*.user
-unit-specs.xml
-*.suo
 
 # =========================
 # Operating System Files

@@ -70,3 +70,5 @@ C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.csprojResolveAssemblyReference.cache
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.dll
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\obj\Debug\DNDGenSite.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.Web.Mvc.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\DNDGenSite\bin\Ninject.Web.Mvc.xml

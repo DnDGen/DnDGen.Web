@@ -65,7 +65,8 @@ describe('Equipment Page', function () {
         itemProperties: {
             name: element(by.binding('item.Name')),
             contents: element.all(by.repeater('content in item.Contents')),
-            charges: element(by.binding('item.Magic.Charges'))
+            charges: element(by.binding('item.Magic.Charges')),
+            traits: element.all(by.repeater('trait in item.Traits'))
         }
     };
 
@@ -658,7 +659,6 @@ describe('Equipment Page', function () {
     });
 
     it('should show scroll contents', function () {
-        commonTestFunctions.selectItemInDropdown(powers.scroll, 'Major');
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
         expect(treasure.itemProperties.contents.count()).toBeGreaterThan(0);
     });
@@ -666,7 +666,16 @@ describe('Equipment Page', function () {
     it('should show scroll name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
         expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
-        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+        expect(treasure.itemProperties.name.getText()).toBe('Scroll');
+    });
+
+    it('should show scroll traits', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemProperties.traits.count()).toBe(1);
+
+        treasure.itemProperties.traits.each(function (element) {
+            expect(element.getText()).toMatch(/(Divine|Arcane)/);
+        });
     });
 
     //staff tests
