@@ -51,43 +51,45 @@ describe('Dice Page', function () {
         browser.get(browser.baseUrl + '/Dice');
     });
 
-    //page load tests
+    //#region page load tests
 
     it('should have a title', function () {
         expect(browser.driver.getTitle()).toEqual('DNDGen');
     });
 
     it('has all rolls starting at 0', function () {
-        expect(rolls.d2.getText()).toEqual(0);
-        expect(rolls.d3.getText()).toEqual(0);
-        expect(rolls.d4.getText()).toEqual(0);
-        expect(rolls.d6.getText()).toEqual(0);
-        expect(rolls.d8.getText()).toEqual(0);
-        expect(rolls.d10.getText()).toEqual(0);
-        expect(rolls.d12.getText()).toEqual(0);
-        expect(rolls.d20.getText()).toEqual(0);
-        expect(rolls.percentile.getText()).toEqual(0);
-        expect(rolls.custom.getText()).toEqual(0);
+        expect(rolls.d2.getText()).toEqual('0');
+        expect(rolls.d3.getText()).toEqual('0');
+        expect(rolls.d4.getText()).toEqual('0');
+        expect(rolls.d6.getText()).toEqual('0');
+        expect(rolls.d8.getText()).toEqual('0');
+        expect(rolls.d10.getText()).toEqual('0');
+        expect(rolls.d12.getText()).toEqual('0');
+        expect(rolls.d20.getText()).toEqual('0');
+        expect(rolls.percentile.getText()).toEqual('0');
+        expect(rolls.custom.getText()).toEqual('0');
     });
 
     it('has all quantities starting at 1', function () {
-        expect(quantities.d2.getAttribute('value')).toEqual(1);
-        expect(quantities.d3.getAttribute('value')).toEqual(1);
-        expect(quantities.d4.getAttribute('value')).toEqual(1);
-        expect(quantities.d6.getAttribute('value')).toEqual(1);
-        expect(quantities.d8.getAttribute('value')).toEqual(1);
-        expect(quantities.d10.getAttribute('value')).toEqual(1);
-        expect(quantities.d12.getAttribute('value')).toEqual(1);
-        expect(quantities.d20.getAttribute('value')).toEqual(1);
-        expect(quantities.percentile.getAttribute('value')).toEqual(1);
-        expect(quantities.custom.getAttribute('value')).toEqual(1);
+        expect(quantities.d2.getAttribute('value')).toEqual('1');
+        expect(quantities.d3.getAttribute('value')).toEqual('1');
+        expect(quantities.d4.getAttribute('value')).toEqual('1');
+        expect(quantities.d6.getAttribute('value')).toEqual('1');
+        expect(quantities.d8.getAttribute('value')).toEqual('1');
+        expect(quantities.d10.getAttribute('value')).toEqual('1');
+        expect(quantities.d12.getAttribute('value')).toEqual('1');
+        expect(quantities.d20.getAttribute('value')).toEqual('1');
+        expect(quantities.percentile.getAttribute('value')).toEqual('1');
+        expect(quantities.custom.getAttribute('value')).toEqual('1');
     });
 
     it('has custom die starting at 1', function () {
         expect(customDie.getAttribute('value')).toEqual('1');
     });
 
-    //d2 tests
+    //#endregion
+
+    //#region d2 tests
 
     it('should roll a d2', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d2);
@@ -165,7 +167,15 @@ describe('Dice Page', function () {
         expect(quantities.d2.getAttribute('value')).toBe('2');
     });
 
-    //d3 tests
+    it('cannot key down d2 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d2, 1);
+        quantities.d2.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d2.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d3 tests
 
     it('should roll a d3', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d3);
@@ -243,7 +253,15 @@ describe('Dice Page', function () {
         expect(quantities.d3.getAttribute('value')).toBe('2');
     });
 
-    //d4 tests
+    it('cannot key down d3 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d3, 1);
+        quantities.d3.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d3.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d4 tests
 
     it('should roll a d4', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d4);
@@ -321,7 +339,15 @@ describe('Dice Page', function () {
         expect(quantities.d4.getAttribute('value')).toBe('2');
     });
 
-    //d6 tests
+    it('cannot key down d4 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d4, 1);
+        quantities.d4.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d4.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d6 tests
 
     it('should roll a d6', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d6);
@@ -399,7 +425,15 @@ describe('Dice Page', function () {
         expect(quantities.d6.getAttribute('value')).toBe('2');
     });
 
-    //d8 tests
+    it('cannot key down d6 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d6, 1);
+        quantities.d6.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d6.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d8 tests
 
     it('should roll a d8', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d8);
@@ -477,7 +511,15 @@ describe('Dice Page', function () {
         expect(quantities.d8.getAttribute('value')).toBe('2');
     });
 
-    //d10 tests
+    it('cannot key down d8 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d8, 1);
+        quantities.d8.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d8.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d10 tests
 
     it('should roll a d10', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d10);
@@ -555,7 +597,15 @@ describe('Dice Page', function () {
         expect(quantities.d10.getAttribute('value')).toBe('2');
     });
 
-    //d12 tests
+    it('cannot key down d10 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d10, 1);
+        quantities.d10.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d10.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d12 tests
 
     it('should roll a d12', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d12);
@@ -633,7 +683,15 @@ describe('Dice Page', function () {
         expect(quantities.d12.getAttribute('value')).toBe('2');
     });
 
-    //d20 tests
+    it('cannot key down d12 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d12, 1);
+        quantities.d12.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d12.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region d20 tests
 
     it('should roll a d20', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.d20);
@@ -711,7 +769,15 @@ describe('Dice Page', function () {
         expect(quantities.d20.getAttribute('value')).toBe('2');
     });
 
-    //percentile tests
+    it('cannot key down d20 quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.d20, 1);
+        quantities.d20.sendKeys(protractor.Key.DOWN);
+        expect(quantities.d20.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region percentile tests
 
     it('should roll a percentile', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.percentile);
@@ -793,7 +859,15 @@ describe('Dice Page', function () {
         expect(quantities.percentile.getAttribute('value')).toBe('2');
     });
 
-    //custom tests
+    it('cannot key down percentile quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.percentile, 1);
+        quantities.percentile.sendKeys(protractor.Key.DOWN);
+        expect(quantities.percentile.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
+
+    //#region custom tests
 
     it('should roll a custom roll', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.custom);
@@ -873,6 +947,12 @@ describe('Dice Page', function () {
         expect(quantities.custom.getAttribute('value')).toBe('2');
     });
 
+    it('cannot key down custom quantity below 1', function () {
+        commonTestFunctions.sendInput(quantities.custom, 1);
+        quantities.custom.sendKeys(protractor.Key.DOWN);
+        expect(quantities.custom.getAttribute('value')).toBe('1');
+    });
+
     it('should allow die of 1 for custom', function () {
         expect(buttons.custom.isEnabled()).toBeTruthy();
     });
@@ -917,4 +997,12 @@ describe('Dice Page', function () {
         customDie.sendKeys(protractor.Key.DOWN);
         expect(customDie.getAttribute('value')).toBe('2');
     });
+
+    it('cannot key down custom die below 1', function () {
+        commonTestFunctions.sendInput(customDie, 1);
+        customDie.sendKeys(protractor.Key.DOWN);
+        expect(customDie.getAttribute('value')).toBe('1');
+    });
+
+    //#endregion
 });

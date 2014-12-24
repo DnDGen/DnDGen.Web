@@ -19,14 +19,14 @@ $RECYCLE.BIN/
 *.user
 *.suo
 unit-specs.xml
-bin/
-obj/
-.bin/
-.obj/
-bin
-obj
-.bin
-.obj
+*/bin
+*/obj/
+*/.bin/
+*/.obj/
+*/bin
+*/obj
+*/.bin
+*/.obj
 
 # =========================
 # Operating System Files

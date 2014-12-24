@@ -74,7 +74,7 @@ describe('Equipment Page', function () {
         browser.get(browser.baseUrl + '/Equipment');
     });
 
-    //page load tests
+    //#region page load tests
 
     it('should have a title', function () {
         expect(browser.driver.getTitle()).toEqual('DNDGen');
@@ -118,29 +118,16 @@ describe('Equipment Page', function () {
     });
 
     it('should show a label saying no treasure was generated if no treasure is generated', function () {
-        expect(treasure.noTreasure.isDisplayed()).toBeTruthy();
         expect(treasure.noTreasure.getText()).toBe('No treasure was generated');
     });
 
-    //treaure tests
+    //#endregion
 
-    it('should generate treasure and show coin', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(treasure.coin.isDisplayed()).toBeTruthy();
-    });
+    //#region treaure tests
 
-    it('should generate treasure and show goods', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
-    });
-
-    it('should generate treasure and show items', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+    //INFO: Wanted to have tests that verified treasure is generated, but since it is chance,
+    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
+    //to always pass
 
     it('should allow level between 1 and 20 for treasure', function () {
         for (var i = 20; i > 0; i--) {
@@ -190,6 +177,18 @@ describe('Equipment Page', function () {
         expect(levels.treasure.getAttribute('value')).toBe('2');
     });
 
+    it('cannot key up treasure level beyond 20', function () {
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        levels.treasure.sendKeys(protractor.Key.UP);
+        expect(levels.treasure.getAttribute('value')).toBe('20');
+    });
+
+    it('cannot key down treasure level below 1', function () {
+        commonTestFunctions.sendInput(levels.treasure, 1);
+        levels.treasure.sendKeys(protractor.Key.DOWN);
+        expect(levels.treasure.getAttribute('value')).toBe('1');
+    });
+
     it('should format coin from treasure', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
@@ -210,17 +209,17 @@ describe('Equipment Page', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
 
         treasure.items.each(function (element) {
-            expect(element.findElement(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
+            expect(element.element(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
         });
     });
 
-    //coin tests
+    //#endregion
 
-    it('should generate coin', function () {
-        commonTestFunctions.sendInput(levels.coin, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.coin);
-        expect(treasure.coin.isDisplayed()).toBeTruthy();
-    });
+    //#region coin tests
+
+    //INFO: Wanted to have tests that verified coin is generated, but since it is chance,
+    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
+    //to always pass
 
     it('should generate only coin', function () {
         commonTestFunctions.sendInput(levels.coin, 20);
@@ -278,19 +277,29 @@ describe('Equipment Page', function () {
         expect(levels.coin.getAttribute('value')).toBe('2');
     });
 
-    it('should format coin', function () {
+    it('cannot key up coin level beyond 20', function () {
         commonTestFunctions.sendInput(levels.coin, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.coin);
-        expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
+        levels.coin.sendKeys(protractor.Key.UP);
+        expect(levels.coin.getAttribute('value')).toBe('20');
     });
 
-    //goods tests
-
-    it('should generate goods', function () {
-        commonTestFunctions.sendInput(levels.goods, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.goods);
-        expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
+    it('cannot key down coin level below 1', function () {
+        commonTestFunctions.sendInput(levels.coin, 1);
+        levels.coin.sendKeys(protractor.Key.DOWN);
+        expect(levels.coin.getAttribute('value')).toBe('1');
     });
+
+    //INFO: Wanted to have tests that verified the format of the coin, but since it is chance,
+    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
+    //to always pass
+
+    //#endregion
+
+    //#region goods tests
+
+    //INFO: Wanted to have tests that verified goods are generated, but since it is chance,
+    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
+    //to always pass
 
     it('should generate only goods', function () {
         commonTestFunctions.sendInput(levels.goods, 20);
@@ -339,13 +348,25 @@ describe('Equipment Page', function () {
 
     it('increments goods level by 1 when up is pressed', function () {
         levels.goods.sendKeys(protractor.Key.UP);
-        expect(levels.goods.getAttribute('value')).toBe('2');
+        expect(levels.goods.getAttribute('value')).toEqual('2');
     });
 
     it('decrements goods level by 1 when down is pressed', function () {
         commonTestFunctions.sendInput(levels.goods, 3);
         levels.goods.sendKeys(protractor.Key.DOWN);
-        expect(levels.goods.getAttribute('value')).toBe('2');
+        expect(levels.goods.getAttribute('value')).toEqual('2');
+    });
+
+    it('cannot key up goods level beyond 20', function () {
+        commonTestFunctions.sendInput(levels.goods, 20);
+        levels.goods.sendKeys(protractor.Key.UP);
+        expect(levels.goods.getAttribute('value')).toBe('20');
+    });
+
+    it('cannot key down goods level below 1', function () {
+        commonTestFunctions.sendInput(levels.goods, 1);
+        levels.goods.sendKeys(protractor.Key.DOWN);
+        expect(levels.goods.getAttribute('value')).toBe('1');
     });
 
     it('should format goods', function () {
@@ -357,13 +378,13 @@ describe('Equipment Page', function () {
         });
     });
 
-    //items tests
+    //#endregion
 
-    it('should generate items', function () {
-        commonTestFunctions.sendInput(levels.items, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.items);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+    //#region items tests
+
+    //INFO: Wanted to have tests that verified items are generated, but since it is chance,
+    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
+    //to always pass
 
     it('should generate only items', function () {
         commonTestFunctions.sendInput(levels.items, 20);
@@ -412,25 +433,39 @@ describe('Equipment Page', function () {
 
     it('increments items level by 1 when up is pressed', function () {
         levels.items.sendKeys(protractor.Key.UP);
-        expect(levels.items.getAttribute('value')).toBe('2');
+        expect(levels.items.getAttribute('value')).toEqual('2');
     });
 
     it('decrements items level by 1 when down is pressed', function () {
         commonTestFunctions.sendInput(levels.items, 3);
         levels.items.sendKeys(protractor.Key.DOWN);
-        expect(levels.items.getAttribute('value')).toBe('2');
+        expect(levels.items.getAttribute('value')).toEqual('2');
+    });
+
+    it('cannot key up items level beyond 20', function () {
+        commonTestFunctions.sendInput(levels.items, 20);
+        levels.items.sendKeys(protractor.Key.UP);
+        expect(levels.items.getAttribute('value')).toBe('20');
+    });
+
+    it('cannot key down items level below 1', function () {
+        commonTestFunctions.sendInput(levels.items, 1);
+        levels.items.sendKeys(protractor.Key.DOWN);
+        expect(levels.items.getAttribute('value')).toBe('1');
     });
 
     it('should at least show item names', function () {
-        commonTestFunctions.sendInput(levels.treasure, 20);
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+        commonTestFunctions.sendInput(levels.items, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.items);
 
         treasure.items.each(function (element) {
-            expect(element.findElement(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
+            expect(element.element(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
         });
     });
 
-    //alchemical item tests
+    //#endregion
+
+    //#region alchemical item tests
 
     it('should generate alchemical item', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
@@ -450,11 +485,12 @@ describe('Equipment Page', function () {
 
     it('should show alchemical item name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //armor tests
+    //#endregion
+
+    //#region armor tests
 
     it('should generate armor', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
@@ -498,11 +534,12 @@ describe('Equipment Page', function () {
 
     it('should show armor name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //potion tests
+    //#endregion
+
+    //#region potion tests
 
     it('should generate potion', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
@@ -540,11 +577,12 @@ describe('Equipment Page', function () {
 
     it('should show potion name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //ring tests
+    //#endregion
+
+    //#region ring tests
 
     it('should generate ring', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
@@ -582,11 +620,12 @@ describe('Equipment Page', function () {
 
     it('should show ring name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //rod tests
+    //#endregion
+
+    //#region rod tests
 
     it('should generate rod', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
@@ -618,11 +657,12 @@ describe('Equipment Page', function () {
 
     it('should show rod name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //scroll tests
+    //#endregion
+
+    //#region scroll tests
 
     it('should generate scroll', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
@@ -665,11 +705,10 @@ describe('Equipment Page', function () {
 
     it('should show scroll name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toBe('Scroll');
     });
 
-    it('should show scroll traits', function () {
+    it('should show scroll traits that are exclusively divine or arcane', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
         expect(treasure.itemProperties.traits.count()).toBe(1);
 
@@ -678,7 +717,9 @@ describe('Equipment Page', function () {
         });
     });
 
-    //staff tests
+    //#endregion
+
+    //#region staff tests
 
     it('should generate staff', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
@@ -710,17 +751,17 @@ describe('Equipment Page', function () {
 
     it('should show staff charges', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
-        expect(treasure.itemProperties.charges.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.charges.getText()).toMatch(/Charges: \d+/);
     });
 
     it('should show staff name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //tool tests
+    //#endregion
+
+    //#region tool tests
 
     it('should generate tool', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
@@ -740,11 +781,12 @@ describe('Equipment Page', function () {
 
     it('should show tool name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //wand tests
+    //#endregion
+
+    //#region wand tests
 
     it('should generate wand', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
@@ -782,17 +824,17 @@ describe('Equipment Page', function () {
 
     it('should show wand charges', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
-        expect(treasure.itemProperties.charges.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.charges.getText()).toMatch(/Charges: \d+/);
     });
 
     it('should show wand name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //weapon tests
+    //#endregion
+
+    //#region weapon tests
 
     it('should generate weapon', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
@@ -836,11 +878,12 @@ describe('Equipment Page', function () {
 
     it('should show weapon name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
-    //wondrous item tests
+    //#endregion
+
+    //#region wondrous item tests
 
     it('should generate wondrous item', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
@@ -878,7 +921,8 @@ describe('Equipment Page', function () {
 
     it('should show wondrous item name', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
-        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
         expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
+
+    //#endregion
 });

@@ -73,4 +73,58 @@ describe('Navigation', function () {
         element(by.id('officialDndLink')).click();
         expect(browser.getCurrentUrl()).toEqual('http://dnd.wizards.com/');
     });
+
+    it('should navigate to home from the empty url', function () {
+        expect(element(by.css('h1')).getText()).toBe('Welcome!');
+    });
+
+    it('should have implicit view route for home', function () {
+        browser.get(browser.baseUrl + '/Home');
+        expect(element(by.css('h1')).getText()).toBe('Welcome!');
+    });
+
+    it('should have implicit view route for dice', function () {
+        browser.get(browser.baseUrl + '/Dice');
+        expect(element(by.css('h1')).getText()).toBe('D20 Dice');
+    });
+
+    it('should have implicit view route for equipment', function () {
+        browser.get(browser.baseUrl + '/Equipment');
+        expect(element(by.css('h1')).getText()).toBe('EquipmentGen');
+    });
+
+    it('should have implicit view route for character', function () {
+        browser.get(browser.baseUrl + '/Character');
+        expect(element(by.css('h1')).getText()).toBe('CharacterGen');
+    });
+
+    it('should have implicit view route for dungeon', function () {
+        browser.get(browser.baseUrl + '/Dungeon');
+        expect(element(by.css('h1')).getText()).toBe('DungeonGen');
+    });
+
+    it('should have explicit view route for home', function () {
+        browser.get(browser.baseUrl + '/View/Home');
+        expect(element(by.css('h1')).getText()).toBe('Welcome!');
+    });
+
+    it('should have explicit view route for dice', function () {
+        browser.get(browser.baseUrl + '/View/Dice');
+        expect(element(by.css('h1')).getText()).toBe('D20 Dice');
+    });
+
+    it('should have explicit view route for equipment', function () {
+        browser.get(browser.baseUrl + '/View/Equipment');
+        expect(element(by.css('h1')).getText()).toBe('EquipmentGen');
+    });
+
+    it('should have explicit view route for character', function () {
+        browser.get(browser.baseUrl + '/View/Character');
+        expect(element(by.css('h1')).getText()).toBe('CharacterGen');
+    });
+
+    it('should have explicit view route for dungeon', function () {
+        browser.get(browser.baseUrl + '/View/Dungeon');
+        expect(element(by.css('h1')).getText()).toBe('DungeonGen');
+    });
 });
