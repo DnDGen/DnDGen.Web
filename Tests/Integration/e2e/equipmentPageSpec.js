@@ -61,7 +61,12 @@ describe('Equipment Page', function () {
         items: element.all(by.repeater('item in vm.treasure.Items')),
         goodsWrapper: element(by.id('goodsWrapper')),
         itemsWrapper: element(by.id('itemsWrapper')),
-        noTreasure: element(by.id('noTreasure'))
+        noTreasure: element(by.id('noTreasure')),
+        itemProperties: {
+            name: element(by.binding('item.Name')),
+            contents: element.all(by.repeater('content in item.Contents')),
+            charges: element(by.binding('item.Magic.Charges'))
+        }
     };
 
     beforeEach(function () {
@@ -184,18 +189,27 @@ describe('Equipment Page', function () {
         expect(levels.treasure.getAttribute('value')).toBe('2');
     });
 
-    it('should format coin', function () {
+    it('should format coin from treasure', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
         expect(treasure.coin.getText()).toMatch(/(\d|,)+ [a-zA-z]+/);
     });
 
-    it('should format goods', function () {
+    it('should format goods from treasure', function () {
         commonTestFunctions.sendInput(levels.treasure, 20);
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
 
         treasure.goods.each(function (element) {
-            expect(element.getText()).toMatch(/.* \((\d|,)+gp\)/);
+            expect(element.getText()).toMatch(/.+ \((\d|,)+gp\)/);
+        });
+    });
+
+    it('should at least show item names from treasure', function () {
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+
+        treasure.items.each(function (element) {
+            expect(element.findElement(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
         });
     });
 
@@ -406,6 +420,15 @@ describe('Equipment Page', function () {
         expect(levels.items.getAttribute('value')).toBe('2');
     });
 
+    it('should at least show item names', function () {
+        commonTestFunctions.sendInput(levels.treasure, 20);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.treasure);
+
+        treasure.items.each(function (element) {
+            expect(element.findElement(by.binding('item.Name')).getText()).toMatch(/[a-zA-z]+/);
+        });
+    });
+
     //alchemical item tests
 
     it('should generate alchemical item', function () {
@@ -421,31 +444,432 @@ describe('Equipment Page', function () {
 
     it('should generate 1 alchemical item', function () {
         commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
         expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should show alchemical item name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 
     //armor tests
 
     it('should generate armor', function () {
-        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
         expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
     });
 
     it('should generate only armor', function () {
-        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
-
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
         expect(treasure.coin.isDisplayed()).toBeFalsy();
         expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
     });
 
     it('should generate 1 armor', function () {
-        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
-
-        commonTestFunctions.clickButtonAndWaitForResolution(buttons.alchemicalItem);
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
         expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate mundane armor', function () {
+        commonTestFunctions.selectItemInDropdown(powers.armor, 'Mundane');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show armor name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.armor);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //potion tests
+
+    it('should generate potion', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only potion', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 potion', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major potion', function () {
+        commonTestFunctions.selectItemInDropdown(powers.potion, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium potion', function () {
+        commonTestFunctions.selectItemInDropdown(powers.potion, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor potion', function () {
+        commonTestFunctions.selectItemInDropdown(powers.potion, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show potion name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.potion);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //ring tests
+
+    it('should generate ring', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only ring', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 ring', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major ring', function () {
+        commonTestFunctions.selectItemInDropdown(powers.ring, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium ring', function () {
+        commonTestFunctions.selectItemInDropdown(powers.ring, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor ring', function () {
+        commonTestFunctions.selectItemInDropdown(powers.ring, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show ring name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.ring);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //rod tests
+
+    it('should generate rod', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only rod', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 rod', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major rod', function () {
+        commonTestFunctions.selectItemInDropdown(powers.rod, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium rod', function () {
+        commonTestFunctions.selectItemInDropdown(powers.rod, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show rod name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.rod);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //scroll tests
+
+    it('should generate scroll', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only scroll', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 scroll', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major scroll', function () {
+        commonTestFunctions.selectItemInDropdown(powers.scroll, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium scroll', function () {
+        commonTestFunctions.selectItemInDropdown(powers.scroll, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor scroll', function () {
+        commonTestFunctions.selectItemInDropdown(powers.scroll, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show scroll contents', function () {
+        commonTestFunctions.selectItemInDropdown(powers.scroll, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemProperties.contents.count()).toBeGreaterThan(0);
+    });
+
+    it('should show scroll name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.scroll);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //staff tests
+
+    it('should generate staff', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only staff', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 staff', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major staff', function () {
+        commonTestFunctions.selectItemInDropdown(powers.staff, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium staff', function () {
+        commonTestFunctions.selectItemInDropdown(powers.staff, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show staff charges', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.itemProperties.charges.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.charges.getText()).toMatch(/Charges: \d+/);
+    });
+
+    it('should show staff name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.staff);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //tool tests
+
+    it('should generate tool', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only tools', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 tool', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should show tool name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.tool);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //wand tests
+
+    it('should generate wand', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only wand', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 wand', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major wand', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wand, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium wand', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wand, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor wand', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wand, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show wand charges', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemProperties.charges.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.charges.getText()).toMatch(/Charges: \d+/);
+    });
+
+    it('should show wand name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wand);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //weapon tests
+
+    it('should generate weapon', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only weapon', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 weapon', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major weapon', function () {
+        commonTestFunctions.selectItemInDropdown(powers.weapon, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium weapon', function () {
+        commonTestFunctions.selectItemInDropdown(powers.weapon, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor weapon', function () {
+        commonTestFunctions.selectItemInDropdown(powers.weapon, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate mundane weapon', function () {
+        commonTestFunctions.selectItemInDropdown(powers.weapon, 'Mundane');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show weapon name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.weapon);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
+    });
+
+    //wondrous item tests
+
+    it('should generate wondrous item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate only wondrous item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.coin.isDisplayed()).toBeFalsy();
+        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+    });
+
+    it('should generate 1 wondrous item', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.items.count()).toBe(1);
+    });
+
+    it('should generate major wondrous item', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wondrousItem, 'Major');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate medium wondrous item', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wondrousItem, 'Medium');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should generate minor wondrous item', function () {
+        commonTestFunctions.selectItemInDropdown(powers.wondrousItem, 'Minor');
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+    });
+
+    it('should show wondrous item name', function () {
+        commonTestFunctions.clickButtonAndWaitForResolution(buttons.wondrousItem);
+        expect(treasure.itemProperties.name.isDisplayed()).toBeTruthy();
+        expect(treasure.itemProperties.name.getText()).toMatch(/[a-zA-z]+/);
     });
 });

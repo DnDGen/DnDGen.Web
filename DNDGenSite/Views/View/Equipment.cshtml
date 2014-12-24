@@ -158,7 +158,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <span id="noTreasure" ng-show="vm.treasure.Coin.Quantity == 0 && vm.treasure.Goods.length == 0 && vm.treasure.Items.length == 0">No treasure was generated</span>
+            <span id="noTreasure" ng-show="vm.treasure.Coin.Quantity == 0 && vm.treasure.Goods.length == 0 && vm.treasure.Items.length == 0"><i>No treasure was generated</i></span>
             <span ng-show="vm.treasure.Coin.Quantity > 0">{{vm.treasure.Coin.Quantity | number}} {{vm.treasure.Coin.Currency}}</span>
             <div id="goodsWrapper" ng-show="vm.treasure.Goods.length > 0">
                 <span>Goods:</span>
@@ -186,7 +186,7 @@
                                     <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li>
                                 </ul>
                             </li>
-                            <li ng-show="item.Magic.Bonus > 0">Bonus: {{item.Magic.Bonus}}</li>
+                            <li ng-show="item.Magic.Bonus > 0">Bonus: +{{item.Magic.Bonus}}</li>
                             <li ng-show="item.Magic.SpecialAbilities.length > 0">
                                 <span>Special Abilities:</span>
                                 <ul>

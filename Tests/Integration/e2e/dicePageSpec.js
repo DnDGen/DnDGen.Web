@@ -58,29 +58,29 @@ describe('Dice Page', function () {
     });
 
     it('has all rolls starting at 0', function () {
-        expect(rolls.d2.getText()).toEqual('0');
-        expect(rolls.d3.getText()).toEqual('0');
-        expect(rolls.d4.getText()).toEqual('0');
-        expect(rolls.d6.getText()).toEqual('0');
-        expect(rolls.d8.getText()).toEqual('0');
-        expect(rolls.d10.getText()).toEqual('0');
-        expect(rolls.d12.getText()).toEqual('0');
-        expect(rolls.d20.getText()).toEqual('0');
-        expect(rolls.percentile.getText()).toEqual('0');
-        expect(rolls.custom.getText()).toEqual('0');
+        expect(rolls.d2.getText()).toEqual(0);
+        expect(rolls.d3.getText()).toEqual(0);
+        expect(rolls.d4.getText()).toEqual(0);
+        expect(rolls.d6.getText()).toEqual(0);
+        expect(rolls.d8.getText()).toEqual(0);
+        expect(rolls.d10.getText()).toEqual(0);
+        expect(rolls.d12.getText()).toEqual(0);
+        expect(rolls.d20.getText()).toEqual(0);
+        expect(rolls.percentile.getText()).toEqual(0);
+        expect(rolls.custom.getText()).toEqual(0);
     });
 
     it('has all quantities starting at 1', function () {
-        expect(quantities.d2.getAttribute('value')).toEqual('1');
-        expect(quantities.d3.getAttribute('value')).toEqual('1');
-        expect(quantities.d4.getAttribute('value')).toEqual('1');
-        expect(quantities.d6.getAttribute('value')).toEqual('1');
-        expect(quantities.d8.getAttribute('value')).toEqual('1');
-        expect(quantities.d10.getAttribute('value')).toEqual('1');
-        expect(quantities.d12.getAttribute('value')).toEqual('1');
-        expect(quantities.d20.getAttribute('value')).toEqual('1');
-        expect(quantities.percentile.getAttribute('value')).toEqual('1');
-        expect(quantities.custom.getAttribute('value')).toEqual('1');
+        expect(quantities.d2.getAttribute('value')).toEqual(1);
+        expect(quantities.d3.getAttribute('value')).toEqual(1);
+        expect(quantities.d4.getAttribute('value')).toEqual(1);
+        expect(quantities.d6.getAttribute('value')).toEqual(1);
+        expect(quantities.d8.getAttribute('value')).toEqual(1);
+        expect(quantities.d10.getAttribute('value')).toEqual(1);
+        expect(quantities.d12.getAttribute('value')).toEqual(1);
+        expect(quantities.d20.getAttribute('value')).toEqual(1);
+        expect(quantities.percentile.getAttribute('value')).toEqual(1);
+        expect(quantities.custom.getAttribute('value')).toEqual(1);
     });
 
     it('has custom die starting at 1', function () {
