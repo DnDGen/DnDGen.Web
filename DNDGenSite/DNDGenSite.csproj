@@ -78,8 +78,9 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Web.Common">
-      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web.Mvc">
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
@@ -93,6 +94,30 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -100,41 +125,24 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivatorEx">
-      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivatorEx.2.0.6\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Web.Razor">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.0\lib\net45\System.Web.Webpages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages.Deployment">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.0\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages.Razor">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.0\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Helpers">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\equipment.css" />
-    <Content Include="Content\dice.css" />
-    <Content Include="Content\layout.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\equipment.css" />
+    <Content Include="Content\dice.css" />
+    <Content Include="Content\layout.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Angular\angular-animate.js" />
@@ -170,6 +178,23 @@
     <Content Include="Scripts\app\shared\noDecimals.directive.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Angular\errors.json" />
+    <Content Include="Scripts\Angular\angular-touch.min.js.map" />
+    <Content Include="Scripts\Angular\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\Angular\angular-route.min.js.map" />
+    <Content Include="Scripts\Angular\angular-resource.min.js.map" />
+    <Content Include="Scripts\Angular\angular-messages.min.js.map" />
+    <Content Include="Scripts\Angular\angular-loader.min.js.map" />
+    <Content Include="Scripts\Angular\angular-cookies.min.js.map" />
+    <Content Include="Scripts\Angular\angular-aria.min.js.map" />
+    <Content Include="Scripts\Angular\angular-animate.min.js.map" />
+    <Content Include="Scripts\Angular\angular.min.js.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <None Include="Scripts\jQuery\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_aa-er.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_aa-et.js" />
@@ -233,6 +258,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_bez.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_bg-bg.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_bg.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_bm-latn-ml.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_bm-latn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_bm-ml.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_bm.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_bn-bd.js" />
@@ -288,6 +315,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_de.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_dje-ne.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_dje.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_dsb-de.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_dsb.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_dua-cm.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_dua.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_dyo-sn.js" />
@@ -321,8 +350,6 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_en-cx.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-dg.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-dm.js" />
-    <Content Include="Scripts\Angular\i18n\angular-locale_en-dsrt-us.js" />
-    <Content Include="Scripts\Angular\i18n\angular-locale_en-dsrt.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-er.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-fj.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-fk.js" />
@@ -358,6 +385,7 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_en-mt.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-mu.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-mw.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_en-my.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-na.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-nf.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_en-ng.js" />
@@ -505,6 +533,7 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_gl-es.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_gl.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_gsw-ch.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_gsw-fr.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_gsw-li.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_gsw.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_gu-in.js" />
@@ -527,6 +556,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_hr-ba.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_hr-hr.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_hr.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_hsb-de.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_hsb.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_hu-hu.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_hu.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_hy-am.js" />
@@ -601,6 +632,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_ky.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_lag-tz.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_lag.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_lb-lu.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_lb.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_lg-ug.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_lg.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_lkt-us.js" />
@@ -644,12 +677,10 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_mn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_mr-in.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_mr.js" />
-    <Content Include="Scripts\Angular\i18n\angular-locale_ms-bn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_ms-latn-bn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_ms-latn-my.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_ms-latn-sg.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_ms-latn.js" />
-    <Content Include="Scripts\Angular\i18n\angular-locale_ms-my.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_ms.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_mt-mt.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_mt.js" />
@@ -718,6 +749,10 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_pt-st.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_pt-tl.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_pt.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_qu-bo.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_qu-ec.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_qu-pe.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_qu.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_rm-ch.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_rm.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_rn-bi.js" />
@@ -746,6 +781,7 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_sbp.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_se-fi.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_se-no.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_se-se.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_se.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_seh-mz.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_seh.js" />
@@ -764,6 +800,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_sk.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_sl-si.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_sl.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_smn-fi.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_smn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_sn-zw.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_sn.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_so-dj.js" />
@@ -878,6 +916,8 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_xog.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_yav-cm.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_yav.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_yi-001.js" />
+    <Content Include="Scripts\Angular\i18n\angular-locale_yi.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_yo-bj.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_yo-ng.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_yo.js" />
@@ -898,10 +938,6 @@
     <Content Include="Scripts\Angular\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\Angular\i18n\angular-locale_zu.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Scripts\jQuery\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.1.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.1.min.map" />
@@ -945,17 +981,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Scripts\Angular\version.json" />
-    <Content Include="Scripts\Angular\errors.json" />
-    <Content Include="Scripts\Angular\angular-touch.min.js.map" />
-    <Content Include="Scripts\Angular\angular-sanitize.min.js.map" />
-    <Content Include="Scripts\Angular\angular-route.min.js.map" />
-    <Content Include="Scripts\Angular\angular-resource.min.js.map" />
-    <Content Include="Scripts\Angular\angular-messages.min.js.map" />
-    <Content Include="Scripts\Angular\angular-loader.min.js.map" />
-    <Content Include="Scripts\Angular\angular-cookies.min.js.map" />
-    <Content Include="Scripts\Angular\angular-aria.min.js.map" />
-    <Content Include="Scripts\Angular\angular-animate.min.js.map" />
-    <Content Include="Scripts\Angular\angular.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

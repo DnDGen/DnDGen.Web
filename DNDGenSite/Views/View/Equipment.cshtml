@@ -67,99 +67,121 @@
                     </div>
                 </div>
             </form>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <span>Alchemical Item</span>
-                    <button id="alchemicalItemButton" type="button" class="btn btn-success" ng-click="vm.generateAlchemicalItem()">Generate</button>
+            <form name="alchemicalItemForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label class="col-sm-offset-4 col-sm-4 control-label">Alchemical Item</label>
+                    <div class="col-sm-2">
+                        <button id="alchemicalItemButton" type="button" class="btn btn-success" ng-click="vm.generateAlchemicalItem()">Generate</button>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="armorForm">
-                        <span>Armor</span>
-                        Power: <select ng-model="vm.selectedPowers.armor" ng-options="power for power in vm.powers.armor" required></select>
+            </form>
+            <form name="armorForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="armorPower" class="col-sm-4 control-label">Armor Power:</label>
+                    <div class="col-sm-4">
+                        <select id="armorPower" class="form-control" ng-model="vm.selectedPowers.armor" ng-options="power for power in vm.powers.armor" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="armorButton" type="button" class="btn btn-success" ng-click="vm.generateArmor()" ng-disabled="armorForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="potionForm">
-                        <span>Potion</span>
-                        Power: <select ng-model="vm.selectedPowers.potion" ng-options="power for power in vm.powers.potion" required></select>
+            </form>
+            <form name="potionForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="potionPower" class="col-sm-4 control-label">Potion Power:</label>
+                    <div class="col-sm-4">
+                        <select id="potionPower" class="form-control" ng-model="vm.selectedPowers.potion" ng-options="power for power in vm.powers.potion" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="potionButton" type="button" class="btn btn-success" ng-click="vm.generatePotion()" ng-disabled="potionForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="ringForm">
-                        <span>Ring</span>
-                        Power: <select ng-model="vm.selectedPowers.ring" ng-options="power for power in vm.powers.ring" required></select>
+            </form>
+            <form name="ringForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="ringPower" class="col-sm-4 control-label">Ring Power:</label>
+                    <div class="col-sm-4">
+                        <select id="ringPower" class="form-control" ng-model="vm.selectedPowers.ring" ng-options="power for power in vm.powers.ring" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="ringButton" type="button" class="btn btn-success" ng-click="vm.generateRing()" ng-disabled="ringForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="rodForm">
-                        <span>Rod</span>
-                        Power: <select ng-model="vm.selectedPowers.rod" ng-options="power for power in vm.powers.rod" required></select>
+            </form>
+            <form name="rodForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="rodPower" class="col-sm-4 control-label">Rod Power:</label>
+                    <div class="col-sm-4">
+                        <select id="rodPower" class="form-control" ng-model="vm.selectedPowers.rod" ng-options="power for power in vm.powers.rod" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="rodButton" type="button" class="btn btn-success" ng-click="vm.generateRod()" ng-disabled="rodForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="scrollForm">
-                        <span>Scroll</span>
-                        Power: <select ng-model="vm.selectedPowers.scroll" ng-options="power for power in vm.powers.scroll" required></select>
+            </form>
+            <form name="scrollForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="scrollPower" class="col-sm-4 control-label">Scroll Power:</label>
+                    <div class="col-sm-4">
+                        <select id="scrollPower" class="form-control" ng-model="vm.selectedPowers.scroll" ng-options="power for power in vm.powers.scroll" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="scrollButton" type="button" class="btn btn-success" ng-click="vm.generateScroll()" ng-disabled="scrollForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="staffForm">
-                        <span>Staff</span>
-                        Power: <select ng-model="vm.selectedPowers.staff" ng-options="power for power in vm.powers.staff" required></select>
+            </form>
+            <form name="staffForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="staffPower" class="col-sm-4 control-label">Staff Power:</label>
+                    <div class="col-sm-4">
+                        <select id="staffPower" class="form-control" ng-model="vm.selectedPowers.staff" ng-options="power for power in vm.powers.staff" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="staffButton" type="button" class="btn btn-success" ng-click="vm.generateStaff()" ng-disabled="staffForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <span>Tool</span>
-                    <button id="toolButton" type="button" class="btn btn-success" ng-click="vm.generateTool()">Generate</button>
+            </form>
+            <form name="toolForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label class="col-sm-offset-4 col-sm-4 control-label">Tool</label>
+                    <div class="col-sm-2">
+                        <button id="toolButton" type="button" class="btn btn-success" ng-click="vm.generateTool()">Generate</button>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="wandForm">
-                        <span>Wand</span>
-                        Power: <select ng-model="vm.selectedPowers.wand" ng-options="power for power in vm.powers.wand" required></select>
+            </form>
+            <form name="wandForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="wandPower" class="col-sm-4 control-label">Wand Power:</label>
+                    <div class="col-sm-4">
+                        <select id="wandPower" class="form-control" ng-model="vm.selectedPowers.wand" ng-options="power for power in vm.powers.wand" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="wandButton" type="button" class="btn btn-success" ng-click="vm.generateWand()" ng-disabled="wandForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="weaponForm">
-                        <span>Weapon</span>
-                        Power: <select ng-model="vm.selectedPowers.weapon" ng-options="power for power in vm.powers.weapon" required></select>
+            </form>
+            <form name="weaponForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="weaponPower" class="col-sm-4 control-label">Weapon Power:</label>
+                    <div class="col-sm-4">
+                        <select id="weaponPower" class="form-control" ng-model="vm.selectedPowers.weapon" ng-options="power for power in vm.powers.weapon" required></select>
+                    </div>
+                    <div class="col-sm-2">
                         <button id="weaponButton" type="button" class="btn btn-success" ng-click="vm.generateWeapon()" ng-disabled="weaponForm.$invalid">Generate</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row top-buffer">
-                <div class="col-sm-12">
-                    <form name="wondrousItemForm">
-                        <span>Wondrous Item</span>
-                        Power: <select ng-model="vm.selectedPowers.wondrousItem" ng-options="power for power in vm.powers.wondrousItem" required></select>
-                        <button id="wondrousItemButton" type="button" class="btn btn-success" ng-click="vm.generateWondrousItem()" ng-disabled="wondrousItem.$invalid">Generate</button>
-                    </form>
+            </form>
+            <form name="wondrousItemForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="wondrousItemPower" class="col-sm-4 control-label">Wondrous Item Power:</label>
+                    <div class="col-sm-4">
+                        <select id="wondrousItemPower" class="form-control" ng-model="vm.selectedPowers.wondrousItem" ng-options="power for power in vm.powers.wondrousItem" required></select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="wondrousItemButton" type="button" class="btn btn-success" ng-click="vm.generateWondrousItem()" ng-disabled="wondrousItemForm.$invalid">Generate</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="col-sm-6">
             <span id="noTreasure" class="italicize" ng-hide="vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0">No treasure was generated</span>
