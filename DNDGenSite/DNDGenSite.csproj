@@ -47,32 +47,41 @@
     <Reference Include="EquipmentGen.Bootstrap">
       <HintPath>..\packages\EquipmentGen.Bootstrap.2.0\lib\EquipmentGen.Bootstrap.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Common">
-      <HintPath>..\packages\EquipmentGen.2.0\lib\EquipmentGen.Common.dll</HintPath>
+    <Reference Include="EquipmentGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.2.1\lib\EquipmentGen.Common.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Generators">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Generators.dll</HintPath>
+    <Reference Include="EquipmentGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Generators.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Generators.Interfaces">
-      <HintPath>..\packages\EquipmentGen.2.0\lib\EquipmentGen.Generators.Interfaces.dll</HintPath>
+    <Reference Include="EquipmentGen.Generators.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.2.1\lib\EquipmentGen.Generators.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Mappers">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Mappers.dll</HintPath>
+    <Reference Include="EquipmentGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Mappers.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Mappers.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Mappers.Interfaces.dll</HintPath>
+    <Reference Include="EquipmentGen.Mappers.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Mappers.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Selectors">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Selectors.dll</HintPath>
+    <Reference Include="EquipmentGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Selectors.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Selectors.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Selectors.Interfaces.dll</HintPath>
+    <Reference Include="EquipmentGen.Selectors.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Selectors.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Tables">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Tables.dll</HintPath>
+    <Reference Include="EquipmentGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Tables.dll</HintPath>
     </Reference>
-    <Reference Include="EquipmentGen.Tables.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.0\lib\EquipmentGen.Tables.Interfaces.dll</HintPath>
+    <Reference Include="EquipmentGen.Tables.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EquipmentGen.Backend.2.1\lib\EquipmentGen.Tables.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
