@@ -80,6 +80,10 @@ describe('Equipment Page', function () {
         expect(browser.driver.getTitle()).toEqual('DNDGen');
     });
 
+    it('should have a header', function () {
+        expect(element(by.css('h1')).getText()).toBe('EquipmentGen');
+    });
+
     it('should set levels to 1', function () {
         expect(levels.treasure.getAttribute('value')).toBe('1');
         expect(levels.coin.getAttribute('value')).toBe('1');

@@ -57,6 +57,10 @@ describe('Dice Page', function () {
         expect(browser.driver.getTitle()).toEqual('DNDGen');
     });
 
+    it('should have a header', function () {
+        expect(element(by.css('h1')).getText()).toBe('D20 Dice');
+    });
+
     it('has all rolls starting at 0', function () {
         expect(rolls.d2.getText()).toEqual('0');
         expect(rolls.d3.getText()).toEqual('0');

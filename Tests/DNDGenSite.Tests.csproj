@@ -39,13 +39,40 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\D20Dice.8.0\lib\D20Dice.dll</HintPath>
     </Reference>
+    <Reference Include="D20Dice.Bootstrap">
+      <HintPath>..\packages\D20Dice.Bootstrap.6.2\lib\D20Dice.Bootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Bootstrap">
+      <HintPath>..\packages\EquipmentGen.Bootstrap.2.0.1\lib\EquipmentGen.Bootstrap.dll</HintPath>
+    </Reference>
     <Reference Include="EquipmentGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EquipmentGen.2.1.1\lib\EquipmentGen.Common.dll</HintPath>
     </Reference>
+    <Reference Include="EquipmentGen.Generators">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Generators.dll</HintPath>
+    </Reference>
     <Reference Include="EquipmentGen.Generators.Interfaces, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EquipmentGen.2.1.1\lib\EquipmentGen.Generators.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Mappers">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Mappers.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Mappers.Interfaces">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Mappers.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Selectors">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Selectors.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Selectors.Interfaces">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Selectors.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Tables">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Tables.dll</HintPath>
+    </Reference>
+    <Reference Include="EquipmentGen.Tables.Interfaces">
+      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Tables.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -54,6 +81,10 @@
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core">
       <HintPath>..\packages\NUnitTestAdapter.1.2\lib\nunit.core.dll</HintPath>
@@ -113,6 +144,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Integration\App_Start\WebModuleTests.cs" />
+    <Compile Include="Integration\IntegrationTests.cs" />
     <Compile Include="Unit\Controllers\AttributeProvider.cs" />
     <Compile Include="Unit\Controllers\DiceControllerTests.cs" />
     <Compile Include="Unit\Controllers\Equipment\TreasureControllerTests.cs" />

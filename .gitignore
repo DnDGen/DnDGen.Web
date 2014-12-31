@@ -28,6 +28,41 @@ unit-specs.xml
 */.bin
 */.obj
 
+*.suo
+*.user
+*.cache
+*.sdf
+TestResults
+bin
+obj
+*.o
+*.lo
+*.la
+*.al
+.libs
+*.so
+*.so.[0-9]*
+*.a
+*.pyc
+*.pyo
+*.rej
+*~
+#*#
+.#*
+.*.swp
+.DS_Store
+Installers/*/Express/*
+CArtWebChart*.png
+UpgradeLog.htm
+*.css*
+*.sass-cache*
+*.orig
+node_modules
+unit-specs.xml
+e2e-results.xml
+npm-debug.log
+
+
 # =========================
 # Operating System Files
 # =========================

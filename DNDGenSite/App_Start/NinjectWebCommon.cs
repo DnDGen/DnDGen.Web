@@ -5,9 +5,9 @@ namespace DNDGenSite.App_Start
 {
     using System;
     using System.Web;
-
+    using D20Dice.Bootstrap;
+    using EquipmentGen.Bootstrap;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
     using Ninject;
     using Ninject.Web.Common;
 
@@ -61,6 +61,12 @@ namespace DNDGenSite.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            var diceLoader = new D20DiceModuleLoader();
+            diceLoader.LoadModules(kernel);
+
+            var equipmentGenLoader = new EquipmentGenModuleLoader();
+            equipmentGenLoader.LoadModules(kernel);
+
             kernel.Load<WebModule>();
         }
     }
