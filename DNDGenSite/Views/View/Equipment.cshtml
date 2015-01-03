@@ -251,7 +251,9 @@
                                     </li>
                                     <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
                                         <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span>
-                                        <span>Dedicated Power: {{item.Magic.Intelligence.edicatedPower}}</span>
+                                    </li>
+                                    <li ng-show="item.Magic.Intelligence.DedicatedPower.length > 0">
+                                        <span>Dedicated Power: {{item.Magic.Intelligence.DedicatedPower}}</span>
                                     </li>
                                     <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li>
                                 </ul>
