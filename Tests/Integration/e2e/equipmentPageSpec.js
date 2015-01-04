@@ -929,4 +929,190 @@ describe('Equipment Page', function () {
     });
 
     //#endregion
+
+    //#region Display tests
+
+    it('does not display intelligence if ego is 0', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 0 } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'))
+            expect(intelligence.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence if ego is greater than 0', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1 } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'))
+            expect(intelligence.isDisplayed()).toBeTruthy();
+        });
+    });
+
+    it('does not display intelligence special purpose if none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: '' } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'))
+            expect(specialPurpose.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence special purpose if there is one', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: 'special purpose' } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'))
+            expect(specialPurpose.isDisplayed()).toBeTruthy();
+            expect(specialPurpose.getText()).toBe('Special Purpose: special purpose');
+        });
+    });
+
+    it('does not display intelligence dedicated power if no special purpose', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                SpecialPurpose: '',
+                                DedicatedPower: 'dedicated power'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'))
+            expect(dedicatedPower.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence dedicated power if there is a special purpose', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                SpecialPurpose: 'special purpose',
+                                DedicatedPower: 'dedicated power'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'))
+            expect(dedicatedPower.isDisplayed()).toBeTruthy();
+            expect(dedicatedPower.getText()).toBe('Dedicated Power: dedicated power');
+        });
+    });
+
+    it('should not display special abilities if none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [ { Name: "Karl's item", Magic: { SpecialAbilities: [] } } ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('ability in item.Magic.SpecialAbilities'))
+                .then(function (abilities) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(abilities.length).toBe(0);
+                });
+        });
+    });
+
+    it('should display ability names', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            SpecialAbilities: [
+                                { Name: "first special ability", Strength: 2 },
+                                { Name: "second special ability", Strength: 5 },
+                            ]
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('ability in item.Magic.SpecialAbilities'))
+                .then(function (abilities) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(abilities.length).toBe(2);
+                    expect(abilities[0].getText()).toBe("first special ability");
+                    expect(abilities[1].getText()).toBe("second special ability");
+                });
+        });
+    });
+
+    //#endregion
 });
