@@ -102,29 +102,4 @@ describe('Navigation', function () {
         browser.get(browser.baseUrl + '/Dungeon');
         expect(element(by.css('h1')).getText()).toBe('DungeonGen');
     });
-
-    it('should have explicit view route for home', function () {
-        browser.get(browser.baseUrl + '/View/Home');
-        expect(element(by.css('h1')).getText()).toBe('Welcome!');
-    });
-
-    it('should have explicit view route for dice', function () {
-        browser.get(browser.baseUrl + '/View/Dice');
-        expect(element(by.css('h1')).getText()).toBe('D20 Dice');
-    });
-
-    it('should have explicit view route for equipment', function () {
-        browser.get(browser.baseUrl + '/View/Equipment');
-        expect(element(by.css('h1')).getText()).toBe('EquipmentGen');
-    });
-
-    it('should have explicit view route for character', function () {
-        browser.get(browser.baseUrl + '/View/Character');
-        expect(element(by.css('h1')).getText()).toBe('CharacterGen');
-    });
-
-    it('should have explicit view route for dungeon', function () {
-        browser.get(browser.baseUrl + '/View/Dungeon');
-        expect(element(by.css('h1')).getText()).toBe('DungeonGen');
-    });
 });

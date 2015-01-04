@@ -1,11 +1,8 @@
 ﻿'use strict';
 
 (function () {
-    var Stopwatch = require('./stopwatch.js');
-
     var CommonTestFunctions = function () {
         var app = this;
-        var stopwatch = new Stopwatch();
 
         app.clickButtonAndWaitForResolution = function (button) {
             button.click();
