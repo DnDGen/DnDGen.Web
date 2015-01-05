@@ -5,106 +5,40 @@
         .module('app.equipment')
         .controller('Equipment', Equipment);
 
-    Equipment.$inject = ['bootstrapData', 'equipmentService'];
+    Equipment.$inject = ['$scope', 'bootstrapData', 'equipmentService'];
 
-    function Equipment(bootstrapData, equipmentService) {
+    function Equipment($scope, bootstrapData, equipmentService) {
         var vm = this;
+        vm.equipmentModel = bootstrapData.equipmentModel;
 
-        vm.selectedLevels = {
-            treasure: 1,
-            coin: 1,
-            goods: 1,
-            items: 1
-        };
-
-        vm.powers = {
-            armor: [bootstrapData.equipmentModel.Mundane, bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            potion: [bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            ring: [bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            rod: [bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            scroll: [bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            staff: [bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            wand: [bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            weapon: [bootstrapData.equipmentModel.Mundane, bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major],
-            wondrousItem: [bootstrapData.equipmentModel.Minor, bootstrapData.equipmentModel.Medium, bootstrapData.equipmentModel.Major]
-        };
-
-        vm.selectedPowers = {
-            armor: vm.powers.armor[0],
-            potion: vm.powers.potion[0],
-            ring: vm.powers.ring[0],
-            rod: vm.powers.rod[0],
-            scroll: vm.powers.scroll[0],
-            staff: vm.powers.staff[0],
-            wand: vm.powers.wand[0],
-            weapon: vm.powers.weapon[0],
-            wondrousItem: vm.powers.wondrousItem[0]
-        };
-
-        vm.treasure = bootstrapData.equipmentModel.Treasure;
+        vm.treasureLevel = 1;
+        vm.treasureType = vm.equipmentModel.TreasureTypes[0];
+        vm.mundaneItemType = vm.equipmentModel.MundaneItemTypes[0];
+        vm.poweredItemType = vm.equipmentModel.PoweredItemTypes[0];
+        vm.itemPowers = [];
+        vm.itemPower = '';
+        vm.treasure = null;
 
         vm.generateTreasure = function () {
-            equipmentService.getTreasure(vm.selectedLevels.treasure).then(setTreasure);
+            equipmentService.getTreasure(vm.treasureType, vm.treasureLevel).then(setTreasure);
         };
 
         function setTreasure(data) {
             vm.treasure = data.treasure;
         }
 
-        vm.generateCoin = function () {
-            equipmentService.getCoin(vm.selectedLevels.coin).then(setTreasure);
+        vm.generateMundaneItem = function () {
+            equipmentService.getMundaneItem(vm.mundaneItemType).then(setTreasure);
         };
 
-        vm.generateGoods = function () {
-            equipmentService.getGoods(vm.selectedLevels.goods).then(setTreasure);
+        vm.generatePoweredItem = function () {
+            equipmentService.getPoweredItem(vm.poweredItemType, vm.itemPower).then(setTreasure);
         };
 
-        vm.generateItems = function () {
-            equipmentService.getItems(vm.selectedLevels.items).then(setTreasure);
-        };
-
-        vm.generateAlchemicalItem = function () {
-            equipmentService.getAlchemicalItem().then(setTreasure);
-        };
-
-        vm.generateArmor = function () {
-            equipmentService.getArmor(vm.selectedPowers.armor).then(setTreasure);
-        };
-
-        vm.generatePotion = function () {
-            equipmentService.getPotion(vm.selectedPowers.potion).then(setTreasure);
-        };
-
-        vm.generateRing = function () {
-            equipmentService.getRing(vm.selectedPowers.ring).then(setTreasure);
-        };
-
-        vm.generateRod = function () {
-            equipmentService.getRod(vm.selectedPowers.rod).then(setTreasure);
-        };
-
-        vm.generateScroll = function () {
-            equipmentService.getScroll(vm.selectedPowers.scroll).then(setTreasure);
-        };
-
-        vm.generateStaff = function () {
-            equipmentService.getStaff(vm.selectedPowers.staff).then(setTreasure);
-        };
-
-        vm.generateTool = function () {
-            equipmentService.getTool().then(setTreasure);
-        };
-
-        vm.generateWand = function () {
-            equipmentService.getWand(vm.selectedPowers.wand).then(setTreasure);
-        };
-
-        vm.generateWeapon = function () {
-            equipmentService.getWeapon(vm.selectedPowers.weapon).then(setTreasure);
-        };
-
-        vm.generateWondrousItem = function () {
-            equipmentService.getWondrousItem(vm.selectedPowers.wondrousItem).then(setTreasure);
-        };
+        $scope.$watch('vm.poweredItemType', function (newValue, oldValue) {
+            var index = vm.equipmentModel.PoweredItemTypes.indexOf(newValue);
+            vm.itemPowers = vm.equipmentModel.ItemPowers[index];
+            vm.itemPower = vm.itemPowers[0];
+        });
     };
 })();

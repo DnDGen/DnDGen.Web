@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using DNDGenSite.Controllers;
 using DNDGenSite.Models;
@@ -58,15 +59,97 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [Test]
-        public void EquipmentViewHasPowerConstants()
+        public void EquipmentViewHasMaxLevel()
         {
             var result = controller.Equipment() as ViewResult;
             var model = result.Model as EquipmentModel;
 
-            Assert.That(model.Mundane, Is.EqualTo(PowerConstants.Mundane));
-            Assert.That(model.Minor, Is.EqualTo(PowerConstants.Minor));
-            Assert.That(model.Medium, Is.EqualTo(PowerConstants.Medium));
-            Assert.That(model.Major, Is.EqualTo(PowerConstants.Major));
+            Assert.That(model.MaxTreasureLevel, Is.EqualTo(20));
+        }
+
+        [Test]
+        public void EquipmentViewHasMundaneItemTypes()
+        {
+            var result = controller.Equipment() as ViewResult;
+            var model = result.Model as EquipmentModel;
+
+            Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.AlchemicalItem));
+            Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.Tool));
+            Assert.That(model.MundaneItemTypes.Count(), Is.EqualTo(2));
+        }
+
+        [TestCase(ItemTypeConstants.Armor,
+            PowerConstants.Mundane,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Potion,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Ring,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Rod,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Scroll,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Staff,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Wand,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.Weapon,
+            PowerConstants.Mundane,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        [TestCase(ItemTypeConstants.WondrousItem,
+            PowerConstants.Minor,
+            PowerConstants.Medium,
+            PowerConstants.Major)]
+        public void EquipmentViewHasPoweredItemTypes(String itemType, params String[] powers)
+        {
+            var result = controller.Equipment() as ViewResult;
+            var model = result.Model as EquipmentModel;
+
+            Assert.That(model.PoweredItemTypes, Contains.Item(itemType));
+
+            var index = model.PoweredItemTypes.ToList().IndexOf(itemType);
+            var itemPowers = model.ItemPowers.ElementAt(index);
+
+            foreach (var power in powers)
+                Assert.That(itemPowers, Contains.Item(power));
+
+            var extraPowers = itemPowers.Except(powers);
+            Assert.That(extraPowers, Is.Empty);
+        }
+
+        [Test]
+        public void EquipmentViewHas9PoweredItemTypes()
+        {
+            var result = controller.Equipment() as ViewResult;
+            var model = result.Model as EquipmentModel;
+            Assert.That(model.PoweredItemTypes.Count(), Is.EqualTo(9));
+        }
+
+        [Test]
+        public void EquipmentViewHasTreasureTypes()
+        {
+            var result = controller.Equipment() as ViewResult;
+            var model = result.Model as EquipmentModel;
+
+            Assert.That(model.TreasureTypes, Contains.Item("Treasure"));
+            Assert.That(model.TreasureTypes, Contains.Item("Coin"));
+            Assert.That(model.TreasureTypes, Contains.Item("Goods"));
+            Assert.That(model.TreasureTypes, Contains.Item("Items"));
+            Assert.That(model.TreasureTypes.Count(), Is.EqualTo(4));
         }
 
         [Test]

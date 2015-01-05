@@ -165,6 +165,7 @@
     <Compile Include="Unit\Controllers\Equipment\CoinControllerTests.cs" />
     <Compile Include="Unit\Controllers\ViewControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Models\EquipmentModelTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
