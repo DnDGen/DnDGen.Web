@@ -1,8 +1,6 @@
 ﻿'use strict';
 
 describe('Dungeon Page', function () {
-    browser.ignoreSynchronization = true;
-
     beforeEach(function () {
         browser.get(browser.baseUrl + '/Dungeon');
     });

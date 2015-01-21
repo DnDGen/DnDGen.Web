@@ -1,8 +1,6 @@
 ﻿'use strict';
 
 describe('Navigation', function () {
-    browser.ignoreSynchronization = true;
-
     beforeEach(function () {
         browser.get(browser.baseUrl);
     });

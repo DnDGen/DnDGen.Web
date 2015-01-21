@@ -1,51 +1,24 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2015-01-04T22:52:17" id="0" hostname="ws-kspear1" tests="42" errors="0" failures="0" time="0.052">
+  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2015-02-01T15:09:34" id="0" hostname="ws-kspear1" tests="15" errors="0" failures="0" time="0.028">
     <properties>
       <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
-    <testcase name="has quantities of 1 at beginning" time="0.009" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has custom die of 1 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has rolls of 0 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d2" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d3" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d4" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d6" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d8" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d10" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d12" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a d20" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="rolls a percentile" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has quantities of 1 at beginning" time="0.008" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has custom die of 1 at beginning" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has roll of 0 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has standard dice" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has selected d20 as a standard dice on load" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="rolls a standard die" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
     <testcase name="rolls a custom roll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="does not reset unrelated rolls" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="overwrites previous roll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has selected levels of 1 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets armor be any power" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets potions be anything but mundane" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets rings be anything but mundane" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets rods be medium or major" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets scrolls be anything but mundane" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets staves be medium or major" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets wands be anything but mundane" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets weapons be any power" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="lets wondrous items be anything but mundane" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="has first selected powers at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="sets the empty treasure at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="has a bootstrapped model" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="has initial values for inputs" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="has an empty treasure for results" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
     <testcase name="generates treasure" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates coin" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates goods" time="0.005" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates items" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates alchemical item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates armor" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates potion" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates ring" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates rod" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates scroll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates staff" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates tool" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates wand" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates weapon" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates wondrous item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="generates mundane item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="generates powered item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="updates the item powers on load" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="updates the item powers when the power item type is changed" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
     <system-out><![CDATA[
 ]]></system-out>
     <system-err/>

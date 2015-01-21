@@ -3,7 +3,6 @@
 var CommonTestFunctions = require('./Common/commonTestFunctions.js');
 
 describe('Equipment Page', function () {
-    browser.ignoreSynchronization = true;
     var commonTestFunctions = new CommonTestFunctions();
     var treasureLevel = element(by.model('vm.treasureLevel'));
     var treasureTypes = element(by.model('vm.treasureType'));

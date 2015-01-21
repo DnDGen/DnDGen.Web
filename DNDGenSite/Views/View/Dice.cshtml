@@ -20,76 +20,39 @@
 
 <div ng-controller="Dice as vm">
     <h1>D20 Dice</h1>
-    <div class="flex-container top-buffer">
-        <div class="flex-child">
-            <form name="d2Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d2" class="dice-input" required />d2
-                <button id="d2Button" type="button" class="btn btn-success" ng-click="vm.rollD2()" ng-disabled="d2Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d2 | number}}</b></span>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <form name="standardRollForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input dndgen-no-decimals class="form-control " type="number" min="1" ng-model="vm.standardQuantity" required />
+                    </div>
+                    <label for="standardRolls" class="col-sm-1 control-label no-side-padding">d</label>
+                    <div class="col-sm-3 no-side-padding">
+                        <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid">Roll</button>
+                    </div>
+                </div>
+            </form>
+            <form name="customRollForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input dndgen-no-decimals class="form-control" type="number" min="1" ng-model="vm.customQuantity" required />
+                    </div>
+                    <label for="customDie" class="col-sm-1 control-label no-side-padding">d</label>
+                    <div class="col-sm-2 no-side-padding">
+                        <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" ng-model="vm.customDie" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid">Roll</button>
+                    </div>
+                </div>
             </form>
         </div>
-        <div class="flex-child">
-            <form name="d3Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d3" class="dice-input" required />d3
-                <button id="d3Button" type="button" class="btn btn-success" ng-click="vm.rollD3()" ng-disabled="d3Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d3 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d4Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d4" class="dice-input" required />d4
-                <button id="d4Button" type="button" class="btn btn-success" ng-click="vm.rollD4()" ng-disabled="d4Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d4 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d6Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d6" class="dice-input" required />d6
-                <button id="d6Button" type="button" class="btn btn-success" ng-click="vm.rollD6()" ng-disabled="d6Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d6 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d8Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d8" class="dice-input" required />d8
-                <button id="d8Button" type="button" class="btn btn-success" ng-click="vm.rollD8()" ng-disabled="d8Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d8 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d10Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d10" class="dice-input" required />d10
-                <button id="d10Button" type="button" class="btn btn-success" ng-click="vm.rollD10()" ng-disabled="d10Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d10 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d12Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d12" class="dice-input" required />d12
-                <button id="d12Button" type="button" class="btn btn-success" ng-click="vm.rollD12()" ng-disabled="d12Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d12 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="d20Form">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.d20" class="dice-input" required />d20
-                <button id="d20Button" type="button" class="btn btn-success" ng-click="vm.rollD20()" ng-disabled="d20Form.$invalid">Roll</button>
-                <span><b>{{vm.rolls.d20 | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="percentileForm">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.percentile" class="dice-input" required />d100 (Percentile)
-                <button id="percentileButton" type="button" class="btn btn-success" ng-click="vm.rollPercentile()" ng-disabled="percentileForm.$invalid">Roll</button>
-                <span><b>{{vm.rolls.percentile | number}}</b></span>
-            </form>
-        </div>
-        <div class="flex-child">
-            <form name="customForm">
-                <input dndgen-no-decimals type="number" min="1" ng-model="vm.quantities.custom" class="dice-input" required />d<input dndgen-no-decimals type="number" min="1" ng-model="vm.customDie" class="dice-input" required />
-                <button id="customButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customForm.$invalid">Roll</button>
-                <span><b>{{vm.rolls.custom | number}}</b></span>
-            </form>
+        <div class="col-sm-6">
+            <span class="font-green font-big">{{vm.roll | number}}</span>
         </div>
     </div>
 </div>

@@ -14,6 +14,7 @@ exports.config = {
     ],
 
     onPrepare: function () {
+        browser.ignoreSynchronization = true;
         browser.driver.get('http://localhost:9266/');
     },
 

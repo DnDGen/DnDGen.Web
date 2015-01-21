@@ -70,7 +70,7 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public JsonResult Percentile(Int32 quantity)
+        public JsonResult D100(Int32 quantity)
         {
             var roll = dice.Roll(quantity).Percentile();
             return BuildJsonResult(roll);

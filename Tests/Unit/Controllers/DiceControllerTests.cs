@@ -32,7 +32,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [TestCase("D10")]
         [TestCase("D12")]
         [TestCase("D20")]
-        [TestCase("Percentile")]
+        [TestCase("D100")]
         [TestCase("Custom")]
         public void ActionHandlesGetVerb(String methodName)
         {
@@ -291,21 +291,21 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void PercentileReturnsJsonResult()
         {
-            var result = controller.Percentile(9266);
+            var result = controller.D100(9266);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
         public void PercentileJsonResultAllowsGet()
         {
-            var result = controller.Percentile(9266) as JsonResult;
+            var result = controller.D100(9266) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
         public void PercentileRollsQuantityTimes()
         {
-            var result = controller.Percentile(9266);
+            var result = controller.D100(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
@@ -314,7 +314,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             mockRoll.Setup(r => r.Percentile()).Returns(42);
 
-            var result = controller.Percentile(9266) as JsonResult;
+            var result = controller.D100(9266) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(42));
         }

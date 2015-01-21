@@ -24,7 +24,7 @@ obj
 Installers/*/Express/*
 CArtWebChart*.png
 UpgradeLog.htm
-*.sass-cache*
+*.sass-cache
 *.orig
 node_modules
 unit-specs.xml
