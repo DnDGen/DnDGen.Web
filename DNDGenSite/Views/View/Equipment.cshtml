@@ -39,10 +39,10 @@
             </form>
             <form name="mundaneItemForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                         <select id="mundaneItemTypes" class="form-control" ng-model="vm.mundaneItemType" ng-options="mundaneItemType for mundaneItemType in vm.equipmentModel.MundaneItemTypes" required></select>
                     </div>
-                    <div class="col-sm-2 col-sm-offset-6">
+                    <div class="col-sm-2 col-sm-offset-5">
                         <button id="mundaneItemButton" type="button" class="btn btn-success" ng-click="vm.generateMundaneItem()" ng-disabled="mundaneItemForm.$invalid">Generate</button>
                     </div>
                 </div>
@@ -77,7 +77,9 @@
                 <span>Items:</span>
                 <ul>
                     <li ng-repeat="item in vm.treasure.Items track by $index">
-                        <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
+                        <div id="itemName">
+                            <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
+                        </div>
                         <ul>
                             <li ng-show="item.Contents.length > 0">
                                 <span>Contents:</span>

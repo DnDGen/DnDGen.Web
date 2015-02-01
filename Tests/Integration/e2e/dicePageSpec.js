@@ -158,15 +158,12 @@ describe('Dice Page', function () {
         expect(roll.getText()).toBeGreaterThan(20);
     });
 
-    it('rolls 101d100', function () {
-        commonTestFunctions.sendInput(standardQuantity, 101);
+    it('rolls 10d100', function () {
+        commonTestFunctions.sendInput(standardQuantity, 10);
         commonTestFunctions.selectItemInDropdown(standardDice, 'Percentile');
         commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
 
-        //HACK: This verifies that it is at least 1000, when the min is 100
-        //No good way I have found so far to extract the formatted number from the element
-        //to do an actual comparison
-        expect(roll.getText()).toContain(',');
+        expect(roll.getText()).toBeGreaterThan(100);
     });
 
     it('rolls a custom roll', function () {
@@ -282,5 +279,17 @@ describe('Dice Page', function () {
         commonTestFunctions.sendInput(customDie, 1);
         customDie.sendKeys(protractor.Key.DOWN);
         expect(customDie.getAttribute('value')).toBe('1');
+    });
+
+    it('formats the roll as a number', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Dice as vm"]');
+            var vm = controllerElement.controller();
+            vm.roll = 9266;
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(roll.getText()).toBe('9,266');
+        });
     });
 });

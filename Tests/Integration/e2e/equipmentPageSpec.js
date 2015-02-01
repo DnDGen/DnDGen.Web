@@ -25,13 +25,7 @@ describe('Equipment Page', function () {
         items: element.all(by.repeater('item in vm.treasure.Items')),
         goodsWrapper: element(by.id('goodsWrapper')),
         itemsWrapper: element(by.id('itemsWrapper')),
-        noTreasure: element(by.id('noTreasure')),
-        itemProperties: {
-            name: element(by.binding('item.Name')),
-            contents: element.all(by.repeater('content in item.Contents')),
-            charges: element(by.binding('item.Magic.Charges')),
-            traits: element.all(by.repeater('trait in item.Traits'))
-        }
+        noTreasure: element(by.id('noTreasure'))
     };
 
     beforeEach(function () {
@@ -58,10 +52,6 @@ describe('Equipment Page', function () {
         expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
         expect(treasure.itemsWrapper.isDisplayed()).toBeFalsy();
     });
-
-    //INFO: Wanted to have tests that verified treasure is generated, but since it is chance,
-    //and nothing coming back is a legitimate response, the tests cannot be guaranteed
-    //to always pass
 
     it('allows level between 1 and 20 for treasure', function () {
         for (var i = 20; i > 0; i--) {
@@ -560,137 +550,481 @@ describe('Equipment Page', function () {
         expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
     });
 
-    it('does not display intelligence if ego is 0', function () {
+    it('shows nothing if there is nothing', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: { Intelligence: { Ego: 0 } }
-                    }
-                ]
+                Coin: { Currency: '', Quantity: 0 },
+                Goods: [],
+                Items: []
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var intelligence = element(by.id('intelligenceListItem'))
-            expect(intelligence.isDisplayed()).toBeFalsy();
+            expect(treasure.noTreasure.isDisplayed()).toBeTruthy();
+            expect(treasure.noTreasure.getText()).toBe('No treasure was generated');
+
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeFalsy();
         });
     });
 
-    it('displays intelligence if ego is greater than 0', function () {
+    it('does not show nothing if there is coin', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: { Intelligence: { Ego: 1 } }
-                    }
-                ]
+                Coin: { Currency: 'munny', Quantity: 1 },
+                Goods: [],
+                Items: []
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var intelligence = element(by.id('intelligenceListItem'))
-            expect(intelligence.isDisplayed()).toBeTruthy();
+            expect(treasure.noTreasure.isDisplayed()).toBeFalsy();
         });
     });
 
-    it('does not display intelligence special purpose if none', function () {
+    it('does not show nothing if there are goods', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: '' } }
-                    }
-                ]
+                Coin: { Currency: 'munny', Quantity: 0 },
+                Goods: [{ Description: 'goody goody', ValueInGold: 1 }],
+                Items: []
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'))
-            expect(specialPurpose.isDisplayed()).toBeFalsy();
+            expect(treasure.noTreasure.isDisplayed()).toBeFalsy();
         });
     });
 
-    it('displays intelligence special purpose if there is one', function () {
+    it('does not show nothing if there are items', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: 'special purpose' } }
-                    }
-                ]
+                Coin: { Currency: 'munny', Quantity: 0 },
+                Goods: [],
+                Items: [{ Name: "Karl's item" }]
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'))
-            expect(specialPurpose.isDisplayed()).toBeTruthy();
-            expect(specialPurpose.getText()).toBe('Special Purpose: special purpose');
+            expect(treasure.noTreasure.isDisplayed()).toBeFalsy();
         });
     });
 
-    it('does not display intelligence dedicated power if no special purpose', function () {
+    it('does not show coin if quantity is 0', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: {
-                            Intelligence: {
-                                Ego: 1,
-                                SpecialPurpose: '',
-                                DedicatedPower: 'dedicated power'
-                            }
-                        }
-                    }
-                ]
+                Coin: { Currency: 'munny', Quantity: 0 }
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'))
-            expect(dedicatedPower.isDisplayed()).toBeFalsy();
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
         });
     });
 
-    it('displays intelligence dedicated power if there is a special purpose', function () {
+    it('shows coin', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [
-                    {
-                        Name: "Karl's item",
-                        Magic: {
-                            Intelligence: {
-                                Ego: 1,
-                                SpecialPurpose: 'special purpose',
-                                DedicatedPower: 'dedicated power'
-                            }
-                        }
-                    }
+                Coin: { Currency: 'munny', Quantity: 1 }
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.coin.isDisplayed()).toBeTruthy();
+            expect(treasure.coin.getText()).toBe('1 munny');
+        });
+    });
+
+    it('formats coin', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Coin: { Currency: 'munny', Quantity: 9266 }
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.coin.isDisplayed()).toBeTruthy();
+            expect(treasure.coin.getText()).toBe('9,266 munny');
+        });
+    });
+
+    it('does not show goods if none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Goods: []
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('shows goods', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Goods: [{ Description: 'goody goody', ValueInGold: 1 }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('good in vm.treasure.Goods'))
+                .then(function (goods) {
+                    expect(treasure.goods.count()).toBe(1);
+                    expect(goods.length).toBe(1);
+                    expect(goods[0].getText()).toBe("goody goody (1gp)");
+                });
+        });
+    });
+
+    it('shows multiple goods', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Goods: [
+                    { Description: 'goody goody', ValueInGold: 1 },
+                    { Description: 'other goody', ValueInGold: 2 }
                 ]
             };
 
             controllerElement.scope().$apply();
         }).then(function () {
-            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'))
-            expect(dedicatedPower.isDisplayed()).toBeTruthy();
-            expect(dedicatedPower.getText()).toBe('Dedicated Power: dedicated power');
+            expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('good in vm.treasure.Goods'))
+                .then(function (goods) {
+                    expect(treasure.goods.count()).toBe(2);
+                    expect(goods.length).toBe(2);
+                    expect(goods[0].getText()).toBe("goody goody (1gp)");
+                    expect(goods[1].getText()).toBe("other goody (2gp)");
+                });
+        });
+    });
+
+    it('shows duplicate goods', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Goods: [
+                    { Description: 'goody goody', ValueInGold: 1 },
+                    { Description: 'goody goody', ValueInGold: 1 }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('good in vm.treasure.Goods'))
+                .then(function (goods) {
+                    expect(treasure.goods.count()).toBe(2);
+                    expect(goods.length).toBe(2);
+                    expect(goods[0].getText()).toBe("goody goody (1gp)");
+                    expect(goods[1].getText()).toBe("goody goody (1gp)");
+                });
+        });
+    });
+
+    it('formats goods', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Goods: [{ Description: 'goody goody', ValueInGold: 9266 }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('good in vm.treasure.Goods'))
+                .then(function (goods) {
+                    expect(treasure.goods.count()).toBe(1);
+                    expect(goods.length).toBe(1);
+                    expect(goods[0].getText()).toBe("goody goody (9,266gp)");
+                });
+        });
+    });
+
+    it('does not show items if none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: []
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.itemsWrapper.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('shows items', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item" }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('item in vm.treasure.Items'))
+                .then(function (items) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(items.length).toBe(1);
+                });
+        });
+    });
+
+    it('shows multiple items', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item" }, { Name: "Grell's item" }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('item in vm.treasure.Items'))
+                .then(function (items) {
+                    expect(treasure.items.count()).toBe(2);
+                    expect(items.length).toBe(2);
+                });
+        });
+    });
+
+    it('shows duplicate items', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item" }, { Name: "Karl's item" }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('item in vm.treasure.Items'))
+                .then(function (items) {
+                    expect(treasure.items.count()).toBe(2);
+                    expect(items.length).toBe(2);
+                });
+        });
+    });
+
+    it('shows item name', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item" }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var name = element(by.id('itemName'));
+            expect(name.isDisplayed()).toBeTruthy();
+            expect(name.getText()).toBe("Karl's item");
+        });
+    });
+
+    function applyTreasureToController(treasure) {
+        return browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = treasure;
+
+            controllerElement.scope().$apply();
+        });
+    }
+
+    it('shows only item name when quantity is 1', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Quantity: 1 }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var name = element(by.id('itemName'));
+            expect(name.isDisplayed()).toBeTruthy();
+            expect(name.getText()).toBe("Karl's item");
+        });
+    });
+
+    it('shows item name and quantity when quantity is greater than 1', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Quantity: 2 }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var name = element(by.id('itemName'));
+            expect(name.isDisplayed()).toBeTruthy();
+            expect(name.getText()).toBe("Karl's item (x2)");
+        });
+    });
+
+    it('does not show contents when there is none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Contents: [] }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('content in item.Contents'))
+                .then(function (contents) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(contents.length).toBe(0);
+                });
+        });
+    });
+
+    it('shows contents', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Contents: ['thing 1', 'thing 2'] }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('content in item.Contents'))
+                .then(function (contents) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(contents.length).toBe(2);
+                    expect(contents[0].getText()).toBe("thing 1");
+                    expect(contents[1].getText()).toBe("thing 2");
+                });
+        });
+    });
+
+    it('shows duplicate contents', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Contents: ['thing 1', 'thing 1'] }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('content in item.Contents'))
+                .then(function (contents) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(contents.length).toBe(2);
+                    expect(contents[0].getText()).toBe("thing 1");
+                    expect(contents[1].getText()).toBe("thing 1");
+                });
+        });
+    });
+
+    it('does not show traits when there is none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Traits: [] }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('trait in item.Traits'))
+                .then(function (traits) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(traits.length).toBe(0);
+                });
+        });
+    });
+
+    it('shows traits', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Traits: ['trait 1', 'trait 2'] }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            element.all(by.repeater('trait in item.Traits'))
+                .then(function (traits) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(traits.length).toBe(2);
+                    expect(traits[0].getText()).toBe("trait 1");
+                    expect(traits[1].getText()).toBe("trait 2");
+                });
+        });
+    });
+
+    it('does not show magic bonus when there is none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Bonus: 0 } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var bonus = element(by.binding('item.Magic.Bonus'));
+            expect(bonus.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('shows magic bonus', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Bonus: 1 } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var bonus = element(by.binding('item.Magic.Bonus'));
+            expect(bonus.isDisplayed()).toBeTruthy();
+            expect(bonus.getText()).toBe('Bonus: +1');
         });
     });
 
@@ -699,7 +1033,7 @@ describe('Equipment Page', function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [ { Name: "Karl's item", Magic: { SpecialAbilities: [] } } ]
+                Items: [{ Name: "Karl's item", Magic: { SpecialAbilities: [] } }]
             };
 
             controllerElement.scope().$apply();
@@ -739,6 +1073,509 @@ describe('Equipment Page', function () {
                     expect(abilities[0].getText()).toBe("first special ability");
                     expect(abilities[1].getText()).toBe("second special ability");
                 });
+        });
+    });
+
+    it('does not show charges when there are none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Charges: 0 } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var charges = element(by.binding('item.Magic.Charges'));
+            expect(charges.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('shows charges', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Charges: 1 } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var charges = element(by.binding('item.Magic.Charges'));
+            expect(charges.isDisplayed()).toBeTruthy();
+            expect(charges.getText()).toBe('Charges: 1');
+        });
+    });
+
+    it('does not show curse when there is none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Curse: '' } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var curse = element(by.binding('item.Magic.Curse'));
+            expect(curse.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('shows curse', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{ Name: "Karl's item", Magic: { Curse: 'A terrible curse' } }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var curse = element(by.binding('item.Magic.Curse'));
+            expect(curse.isDisplayed()).toBeTruthy();
+            expect(curse.getText()).toBe('Curse: A terrible curse');
+        });
+    });
+
+    it('does not display intelligence if ego is 0', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 0 } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence if ego is greater than 0', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1 } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+        });
+    });
+
+    it('displays intelligence ego', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1 } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            var ego = element(by.binding('item.Magic.Intelligence.Ego'));
+            expect(ego.getText()).toBe('Ego: 1');
+        });
+    });
+
+    it('displays intelligence stats', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                IntelligenceStat: 92,
+                                WisdomStat: 66,
+                                CharismaStat: 42
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            var intelligenceStat = element(by.binding('item.Magic.Intelligence.IntelligenceStat'));
+            expect(intelligenceStat.getText()).toBe('Intelligence: 92');
+
+            var wisdomStat = element(by.binding('item.Magic.Intelligence.WisdomStat'));
+            expect(wisdomStat.getText()).toBe('Wisdom: 66');
+
+            var charismaStat = element(by.binding('item.Magic.Intelligence.CharismaStat'));
+            expect(charismaStat.getText()).toBe('Charisma: 42');
+        });
+    });
+
+    it('displays intelligence alignment', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Alignment: 'my alignment'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            var alignment = element(by.binding('item.Magic.Intelligence.Alignment'));
+            expect(alignment.getText()).toBe('Alignment: my alignment');
+        });
+    });
+
+    it('shows intelligence communication', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Communication: ['form 1', 'form 2']
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('method in item.Magic.Intelligence.Communication'))
+                .then(function (methods) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(methods.length).toBe(2);
+                    expect(methods[0].getText()).toBe('form 1');
+                    expect(methods[1].getText()).toBe('form 2');
+                });
+        });
+    });
+
+    it('does not show intelligence languages if there are none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Communication: ['form 1', 'form 2'],
+                                Languages: []
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('method in item.Magic.Intelligence.Communication'))
+                .then(function (methods) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(methods.length).toBe(2);
+                    expect(methods[0].getText()).toBe('form 1');
+                    expect(methods[1].getText()).toBe('form 2');
+                });
+
+            element.all(by.repeater('language in item.Magic.Intelligence.Languages'))
+                .then(function (languages) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(languages.length).toBe(0);
+                });
+        });
+    });
+
+    it('shows intelligence languages', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Communication: ['form 1', 'form 2'],
+                                Languages: ['English', 'Klingon']
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('language in item.Magic.Intelligence.Languages'))
+                .then(function (languages) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(languages.length).toBe(2);
+                    expect(languages[0].getText()).toBe('English');
+                    expect(languages[1].getText()).toBe('Klingon');
+                });
+        });
+    });
+
+    it('shows intelligence senses', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Senses: 'ALL THE SENSES'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            var senses = element(by.binding('item.Magic.Intelligence.Senses'));
+            expect(senses.getText()).toBe('Senses: ALL THE SENSES');
+        });
+    });
+
+    it('shows intelligence powers', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Powers: ['power 1', 'power 2']
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var intelligence = element(by.id('intelligenceListItem'));
+            expect(intelligence.isDisplayed()).toBeTruthy();
+
+            element.all(by.repeater('power in item.Magic.Intelligence.Powers'))
+                .then(function (powers) {
+                    expect(treasure.items.count()).toBe(1);
+                    expect(powers.length).toBe(2);
+                    expect(powers[0].getText()).toBe('power 1');
+                    expect(powers[1].getText()).toBe('power 2');
+                });
+        });
+    });
+
+    it('shows personality when there is none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Personality: ''
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var personality = element(by.binding('item.Magic.Intelligence.Personality'));
+            expect(personality.isDisplayed()).toBeTruthy();
+            expect(personality.getText()).toBe('Personality: None');
+        });
+    });
+
+    it('shows personality', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                Personality: 'interesting!'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var personality = element(by.binding('item.Magic.Intelligence.Personality'));
+            expect(personality.isDisplayed()).toBeTruthy();
+            expect(personality.getText()).toBe('Personality: interesting!');
+        });
+    });
+
+    it('does not display intelligence special purpose if none', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: '' } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'));
+            expect(specialPurpose.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence special purpose if there is one', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: { Intelligence: { Ego: 1, SpecialPurpose: 'special purpose' } }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var specialPurpose = element(by.binding('item.Magic.Intelligence.SpecialPurpose'));
+            expect(specialPurpose.isDisplayed()).toBeTruthy();
+            expect(specialPurpose.getText()).toBe('Special Purpose: special purpose');
+        });
+    });
+
+    it('does not display intelligence dedicated power if no special purpose', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                SpecialPurpose: '',
+                                DedicatedPower: 'dedicated power'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'));
+            expect(dedicatedPower.isDisplayed()).toBeFalsy();
+        });
+    });
+
+    it('displays intelligence dedicated power if there is a special purpose', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [
+                    {
+                        Name: "Karl's item",
+                        Magic: {
+                            Intelligence: {
+                                Ego: 1,
+                                SpecialPurpose: 'special purpose',
+                                DedicatedPower: 'dedicated power'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'));
+            expect(dedicatedPower.isDisplayed()).toBeTruthy();
+            expect(dedicatedPower.getText()).toBe('Dedicated Power: dedicated power');
         });
     });
 });
