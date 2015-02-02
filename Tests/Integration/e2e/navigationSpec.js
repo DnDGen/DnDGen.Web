@@ -16,9 +16,9 @@ describe('Navigation', function () {
         expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
     });
 
-    it('should navigate to the equipment page', function () {
-        element(by.id('equipmentLink')).click();
-        expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Equipment');
+    it('should navigate to the treasure page', function () {
+        element(by.id('treasureLink')).click();
+        expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Treasure');
     });
 
     it('should navigate to the character page', function () {
@@ -86,9 +86,9 @@ describe('Navigation', function () {
         expect(element(by.css('h1')).getText()).toBe('D20 Dice');
     });
 
-    it('should have implicit view route for equipment', function () {
-        browser.get(browser.baseUrl + '/Equipment');
-        expect(element(by.css('h1')).getText()).toBe('EquipmentGen');
+    it('should have implicit view route for treasure', function () {
+        browser.get(browser.baseUrl + '/Treasure');
+        expect(element(by.css('h1')).getText()).toBe('TreasureGen');
     });
 
     it('should have implicit view route for character', function () {

@@ -29,91 +29,91 @@ namespace DNDGenSite
 
             routes.MapRoute(
                 name: "Treasure",
-                url: "Equipment/Treasure/Generate/{level}",
+                url: "Treasures/Treasure/Generate/{level}",
                 defaults: new { Controller = "Treasure", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Coin",
-                url: "Equipment/Coin/Generate/{level}",
+                url: "Treasures/Coin/Generate/{level}",
                 defaults: new { Controller = "Coin", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Goods",
-                url: "Equipment/Goods/Generate/{level}",
+                url: "Treasures/Goods/Generate/{level}",
                 defaults: new { Controller = "Goods", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Items",
-                url: "Equipment/Items/Generate/{level}",
+                url: "Treasures/Items/Generate/{level}",
                 defaults: new { Controller = "Items", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "AlchemicalItem",
-                url: "Equipment/AlchemicalItem/Generate",
+                url: "Treasures/AlchemicalItem/Generate",
                 defaults: new { Controller = "AlchemicalItem", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Tool",
-                url: "Equipment/Tool/Generate",
+                url: "Treasures/Tool/Generate",
                 defaults: new { Controller = "Tool", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Armor",
-                url: "Equipment/Armor/Generate/{power}",
+                url: "Treasures/Armor/Generate/{power}",
                 defaults: new { Controller = "Armor", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Potion",
-                url: "Equipment/Potion/Generate/{power}",
+                url: "Treasures/Potion/Generate/{power}",
                 defaults: new { Controller = "Potion", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Ring",
-                url: "Equipment/Ring/Generate/{power}",
+                url: "Treasures/Ring/Generate/{power}",
                 defaults: new { Controller = "Ring", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Rod",
-                url: "Equipment/Rod/Generate/{power}",
+                url: "Treasures/Rod/Generate/{power}",
                 defaults: new { Controller = "Rod", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Scroll",
-                url: "Equipment/Scroll/Generate/{power}",
+                url: "Treasures/Scroll/Generate/{power}",
                 defaults: new { Controller = "Scroll", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Staff",
-                url: "Equipment/Staff/Generate/{power}",
+                url: "Treasures/Staff/Generate/{power}",
                 defaults: new { Controller = "Staff", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Wand",
-                url: "Equipment/Wand/Generate/{power}",
+                url: "Treasures/Wand/Generate/{power}",
                 defaults: new { Controller = "Wand", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "Weapon",
-                url: "Equipment/Weapon/Generate/{power}",
+                url: "Treasures/Weapon/Generate/{power}",
                 defaults: new { Controller = "Weapon", Action = "Generate" }
             );
 
             routes.MapRoute(
                 name: "WondrousItem",
-                url: "Equipment/WondrousItem/Generate/{power}",
+                url: "Treasures/WondrousItem/Generate/{power}",
                 defaults: new { Controller = "WondrousItem", Action = "Generate" }
             );
         }

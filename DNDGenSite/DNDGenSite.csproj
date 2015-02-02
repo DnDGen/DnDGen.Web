@@ -151,7 +151,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dice.css" />
-    <Content Include="Content\equipment.css" />
+    <Content Include="Content\treasure.css" />
     <Content Include="Content\layout.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -181,9 +181,9 @@
     <Content Include="Scripts\app\dice\dice.module.js" />
     <Content Include="Scripts\app\dice\diceService.js" />
     <Content Include="Scripts\app\dice\dice.js" />
-    <Content Include="Scripts\app\equipment\equipment.js" />
-    <Content Include="Scripts\app\equipment\equipment.module.js" />
-    <Content Include="Scripts\app\equipment\equipmentService.js" />
+    <Content Include="Scripts\app\treasure\treasure.js" />
+    <Content Include="Scripts\app\treasure\treasure.module.js" />
+    <Content Include="Scripts\app\treasure\treasureService.js" />
     <Content Include="Scripts\app\shared\shared.module.js" />
     <Content Include="Scripts\app\shared\noDecimals.directive.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
@@ -956,7 +956,7 @@
     <Content Include="Views\View\Home.cshtml" />
     <Content Include="Views\View\Dungeon.cshtml" />
     <Content Include="Views\View\Dice.cshtml" />
-    <Content Include="Views\View\Equipment.cshtml" />
+    <Content Include="Views\View\Treasure.cshtml" />
     <Content Include="Views\View\Character.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -964,27 +964,27 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebModule.cs" />
     <Compile Include="Controllers\DiceController.cs" />
-    <Compile Include="Controllers\Equipment\AlchemicalItemController.cs" />
-    <Compile Include="Controllers\Equipment\ArmorController.cs" />
-    <Compile Include="Controllers\Equipment\PotionController.cs" />
-    <Compile Include="Controllers\Equipment\RingController.cs" />
-    <Compile Include="Controllers\Equipment\ScrollController.cs" />
-    <Compile Include="Controllers\Equipment\StaffController.cs" />
-    <Compile Include="Controllers\Equipment\ToolController.cs" />
-    <Compile Include="Controllers\Equipment\WandController.cs" />
-    <Compile Include="Controllers\Equipment\WeaponController.cs" />
-    <Compile Include="Controllers\Equipment\WondrousItemController.cs" />
-    <Compile Include="Controllers\Equipment\RodController.cs" />
-    <Compile Include="Controllers\Equipment\TreasureController.cs" />
-    <Compile Include="Controllers\Equipment\CoinController.cs" />
-    <Compile Include="Controllers\Equipment\GoodsController.cs" />
-    <Compile Include="Controllers\Equipment\ItemsController.cs" />
-    <Compile Include="Controllers\Equipment\EquipmentController.cs" />
+    <Compile Include="Controllers\Treasures\AlchemicalItemController.cs" />
+    <Compile Include="Controllers\Treasures\ArmorController.cs" />
+    <Compile Include="Controllers\Treasures\PotionController.cs" />
+    <Compile Include="Controllers\Treasures\RingController.cs" />
+    <Compile Include="Controllers\Treasures\ScrollController.cs" />
+    <Compile Include="Controllers\Treasures\StaffController.cs" />
+    <Compile Include="Controllers\Treasures\ToolController.cs" />
+    <Compile Include="Controllers\Treasures\WandController.cs" />
+    <Compile Include="Controllers\Treasures\WeaponController.cs" />
+    <Compile Include="Controllers\Treasures\WondrousItemController.cs" />
+    <Compile Include="Controllers\Treasures\RodController.cs" />
+    <Compile Include="Controllers\Treasures\TreasureController.cs" />
+    <Compile Include="Controllers\Treasures\CoinController.cs" />
+    <Compile Include="Controllers\Treasures\GoodsController.cs" />
+    <Compile Include="Controllers\Treasures\ItemsController.cs" />
+    <Compile Include="Controllers\Treasures\TreasuresController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EquipmentModel.cs" />
+    <Compile Include="Models\TreasureModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

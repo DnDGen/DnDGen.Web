@@ -21,9 +21,9 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public ActionResult Equipment()
+        public ActionResult Treasure()
         {
-            var model = new EquipmentModel();
+            var model = new TreasureModel();
 
             model.MaxTreasureLevel = 20;
             model.MundaneItemTypes = new[] { ItemTypeConstants.AlchemicalItem, ItemTypeConstants.Tool };

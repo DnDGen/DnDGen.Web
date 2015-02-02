@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2015-02-01T15:09:34" id="0" hostname="ws-kspear1" tests="15" errors="0" failures="0" time="0.028">
+  <testsuite name="PhantomJS 1.9.8 (Windows 8)" package="unit" timestamp="2015-02-02T21:12:06" id="0" hostname="ws-kspear1" tests="15" errors="0" failures="0" time="0.024">
     <properties>
       <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
-    <testcase name="has quantities of 1 at beginning" time="0.008" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has custom die of 1 at beginning" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has quantities of 1 at beginning" time="0.007" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has custom die of 1 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
     <testcase name="has roll of 0 at beginning" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has standard dice" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
+    <testcase name="has standard dice" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
     <testcase name="has selected d20 as a standard dice on load" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
     <testcase name="rolls a standard die" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
     <testcase name="rolls a custom roll" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the DiceController"/>
-    <testcase name="has a bootstrapped model" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="has initial values for inputs" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="has an empty treasure for results" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates treasure" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates mundane item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="generates powered item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="updates the item powers on load" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
-    <testcase name="updates the item powers when the power item type is changed" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the EquipmentController"/>
+    <testcase name="has a bootstrapped model" time="0.002" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="has initial values for inputs" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="has an empty treasure for results" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="generates treasure" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="generates mundane item" time="0" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="generates powered item" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="updates the item powers on load" time="0.003" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
+    <testcase name="updates the item powers when the power item type is changed" time="0.001" classname="unit PhantomJS 1.9.8 (Windows 8).the TreasureController"/>
     <system-out><![CDATA[
 ]]></system-out>
     <system-err/>

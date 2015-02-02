@@ -1,4 +1,4 @@
-﻿using DNDGenSite.Controllers.Equipment;
+﻿using DNDGenSite.Controllers.Treasures;
 using EquipmentGen.Common.Items;
 using EquipmentGen.Generators.Interfaces.Items.Magical;
 using EquipmentGen.Generators.Interfaces.Items.Mundane;

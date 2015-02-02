@@ -1,5 +1,5 @@
 ﻿using DNDGenSite.Controllers;
-using DNDGenSite.Controllers.Equipment;
+using DNDGenSite.Controllers.Treasures;
 using NUnit.Framework;
 
 namespace DNDGenSite.Tests.Integration.App_Start

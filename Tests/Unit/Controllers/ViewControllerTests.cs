@@ -21,7 +21,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
 
         [TestCase("Home")]
         [TestCase("Dice")]
-        [TestCase("Equipment")]
+        [TestCase("Treasure")]
         [TestCase("Character")]
         [TestCase("Dungeon")]
         public void ActionHandlesGetVerb(String methodName)
@@ -45,33 +45,33 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [Test]
-        public void EquipmentReturnsView()
+        public void TreasureReturnsView()
         {
-            var result = controller.Equipment();
+            var result = controller.Treasure();
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
 
         [Test]
-        public void EquipmentViewContainsModel()
+        public void TreasureViewContainsModel()
         {
-            var result = controller.Equipment() as ViewResult;
-            Assert.That(result.Model, Is.InstanceOf<EquipmentModel>());
+            var result = controller.Treasure() as ViewResult;
+            Assert.That(result.Model, Is.InstanceOf<TreasureModel>());
         }
 
         [Test]
-        public void EquipmentViewHasMaxLevel()
+        public void TreasureViewHasMaxLevel()
         {
-            var result = controller.Equipment() as ViewResult;
-            var model = result.Model as EquipmentModel;
+            var result = controller.Treasure() as ViewResult;
+            var model = result.Model as TreasureModel;
 
             Assert.That(model.MaxTreasureLevel, Is.EqualTo(20));
         }
 
         [Test]
-        public void EquipmentViewHasMundaneItemTypes()
+        public void TreasureViewHasMundaneItemTypes()
         {
-            var result = controller.Equipment() as ViewResult;
-            var model = result.Model as EquipmentModel;
+            var result = controller.Treasure() as ViewResult;
+            var model = result.Model as TreasureModel;
 
             Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.AlchemicalItem));
             Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.Tool));
@@ -114,10 +114,10 @@ namespace DNDGenSite.Tests.Unit.Controllers
             PowerConstants.Minor,
             PowerConstants.Medium,
             PowerConstants.Major)]
-        public void EquipmentViewHasPoweredItemTypes(String itemType, params String[] powers)
+        public void TreasureViewHasPoweredItemTypes(String itemType, params String[] powers)
         {
-            var result = controller.Equipment() as ViewResult;
-            var model = result.Model as EquipmentModel;
+            var result = controller.Treasure() as ViewResult;
+            var model = result.Model as TreasureModel;
 
             Assert.That(model.PoweredItemTypes, Contains.Item(itemType));
 
@@ -132,18 +132,18 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [Test]
-        public void EquipmentViewHas9PoweredItemTypes()
+        public void TreasureViewHas9PoweredItemTypes()
         {
-            var result = controller.Equipment() as ViewResult;
-            var model = result.Model as EquipmentModel;
+            var result = controller.Treasure() as ViewResult;
+            var model = result.Model as TreasureModel;
             Assert.That(model.PoweredItemTypes.Count(), Is.EqualTo(9));
         }
 
         [Test]
-        public void EquipmentViewHasTreasureTypes()
+        public void TreasureViewHasTreasureTypes()
         {
-            var result = controller.Equipment() as ViewResult;
-            var model = result.Model as EquipmentModel;
+            var result = controller.Treasure() as ViewResult;
+            var model = result.Model as TreasureModel;
 
             Assert.That(model.TreasureTypes, Contains.Item("Treasure"));
             Assert.That(model.TreasureTypes, Contains.Item("Coin"));
