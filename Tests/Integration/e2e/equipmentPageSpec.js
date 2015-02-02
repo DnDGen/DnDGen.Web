@@ -859,16 +859,6 @@ describe('Equipment Page', function () {
         });
     });
 
-    function applyTreasureToController(treasure) {
-        return browser.executeScript(function () {
-            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
-            var vm = controllerElement.controller();
-            vm.treasure = treasure;
-
-            controllerElement.scope().$apply();
-        });
-    }
-
     it('shows only item name when quantity is 1', function () {
         browser.executeScript(function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
@@ -1081,7 +1071,11 @@ describe('Equipment Page', function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [{ Name: "Karl's item", Magic: { Charges: 0 } }]
+                Items: [{
+                    Name: "Karl's item",
+                    Attributes: ['Other attribute'],
+                    Magic: { Charges: 0 }
+                }]
             };
 
             controllerElement.scope().$apply();
@@ -1096,7 +1090,11 @@ describe('Equipment Page', function () {
             var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
             var vm = controllerElement.controller();
             vm.treasure = {
-                Items: [{ Name: "Karl's item", Magic: { Charges: 1 } }]
+                Items: [{
+                    Name: "Karl's item",
+                    Attributes: ['Charged'],
+                    Magic: { Charges: 1 }
+                }]
             };
 
             controllerElement.scope().$apply();
@@ -1104,6 +1102,26 @@ describe('Equipment Page', function () {
             var charges = element(by.binding('item.Magic.Charges'));
             expect(charges.isDisplayed()).toBeTruthy();
             expect(charges.getText()).toBe('Charges: 1');
+        });
+    });
+
+    it('shows charge of 0 for charged item', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Equipment as vm"]');
+            var vm = controllerElement.controller();
+            vm.treasure = {
+                Items: [{
+                    Name: "Karl's item",
+                    Attributes: ['Charged'],
+                    Magic: { Charges: 0 }
+                }]
+            };
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            var charges = element(by.binding('item.Magic.Charges'));
+            expect(charges.isDisplayed()).toBeTruthy();
+            expect(charges.getText()).toBe('Charges: 0');
         });
     });
 

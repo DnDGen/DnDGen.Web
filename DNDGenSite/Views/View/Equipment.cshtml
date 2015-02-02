@@ -99,7 +99,7 @@
                                 <ul>
                                     <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">{{ability.Name}}</li>
                                 </ul>
-                            <li ng-show="item.Magic.Charges > 0">Charges: {{item.Magic.Charges}}</li>
+                            <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li>
                             <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
                             <li id="intelligenceListItem" ng-show="item.Magic.Intelligence.Ego > 0">
                                 <span>Intelligent:</span>
