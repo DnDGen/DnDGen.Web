@@ -5,9 +5,9 @@
         .module('app.dice')
         .factory('diceService', diceService);
 
-    diceService.$inject = ['$http', '$q'];
+    diceService.$inject = ['promiseService'];
 
-    function diceService($http, $q) {
+    function diceService(promiseService) {
 
         return {
             getRoll: getRoll,
@@ -17,19 +17,12 @@
         function getRoll(quantity, die)
         {
             var url = "Dice/" + die + "/" + quantity;
-            return getPromise(url);
+            return promiseService.getPromise(url);
         }
 
         function getCustomRoll(quantity, die) {
             var url = "Dice/Custom/" + quantity + "/" + die;
-            return getPromise(url);
-        }
-
-        function getPromise(url) {
-            var deferred = $q.defer();
-            $http.get(url).success(deferred.resolve).error(deferred.reject);
-
-            return deferred.promise;
+            return promiseService.getPromise(url);
         }
     };
 })();

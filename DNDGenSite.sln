@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNDGenSite", "DNDGenSite\DNDGenSite.csproj", "{8D18A9AC-4946-4043-98FB-554C93BEDBB4}"
 EndProject
@@ -15,7 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{CEE48E85-CE1B-4888-BCBF-D1B74058F24D}"
 	ProjectSection(SolutionItems) = preProject
 		gruntfile.js = gruntfile.js
-		karma.config.js = karma.config.js
+		package.json = package.json
 		protractor.config.js = protractor.config.js
 	EndProjectSection
 EndProject

@@ -27,8 +27,9 @@ namespace DNDGenSite.Tests.Integration
             kernel.Inject(this);
         }
 
-        //The commented-out code below is for troubleshooting issues with the bindings and injecting,
-        //sicne the SetUp fail message just says that the setup failed, instead of showing the specific ninject issue
+        //INFO: The commented-out code below is for troubleshooting issues with the bindings and injecting,
+        //since the SetUp fail message just says that the setup failed, instead of showing the specific ninject issue
+        //Also, the SetupFixture provided by NUnit fires after Ninject, so it can't help here
 
         //[SetUp]
         //public void IntegrationTestsSetup()

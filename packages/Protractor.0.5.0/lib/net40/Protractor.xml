@@ -1,0 +1,448 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Protractor</name>
+    </assembly>
+    <members>
+        <member name="T:Protractor.NgBy">
+            <summary>
+            Mechanism used to locate elements within Angular applications by binding, model, etc.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgBy.Binding(System.String)">
+            <summary>
+            Gets a mechanism to find elements by their Angular binding.
+            </summary>
+            <param name="binding">The binding, e.g. '{{cat.name}}'.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.Input(System.String)">
+            <summary>
+            Gets a mechanism to find input elements by their model name.
+            </summary>
+            <param name="model">The model name.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.Model(System.String)">
+            <summary>
+            Gets a mechanism to find elements by their model name.
+            </summary>
+            <param name="model"></param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.TextArea(System.String)">
+            <summary>
+            Gets a mechanism to find textarea elements by their model name.
+            </summary>
+            <param name="model">The model name.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.Select(System.String)">
+            <summary>
+            Gets a mechanism to find select elements by their model name.
+            </summary>
+            <param name="model">The model name.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.SelectedOption(System.String)">
+            <summary>
+            Gets a mechanism to find select option elements by their model name.
+            </summary>
+            <param name="model">The model name.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="M:Protractor.NgBy.Repeater(System.String)">
+            <summary>
+            Gets a mechanism to find all rows of an ng-repeat.
+            </summary>
+            <param name="repeat">The text of the repeater, e.g. 'cat in cats'.</param>
+            <returns>A <see cref="T:OpenQA.Selenium.By"/> object the driver can use to find the elements.</returns>
+        </member>
+        <member name="T:Protractor.NgNavigation">
+            <summary>
+            Provides a mechanism for navigating against an AngularJS application.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgNavigation.#ctor(Protractor.NgWebDriver,OpenQA.Selenium.INavigation)">
+            <summary>
+            Creates a new instance of <see cref="T:Protractor.NgNavigation"/> by wrapping a <see cref="T:OpenQA.Selenium.INavigation"/> instance.
+            </summary>
+            <param name="ngDriver">The <see cref="T:Protractor.NgWebDriver"/> in use.</param>
+            <param name="navigation">The existing <see cref="T:OpenQA.Selenium.INavigation"/> instance.</param>
+        </member>
+        <member name="M:Protractor.NgNavigation.Back">
+            <summary>
+            Move back a single entry in the browser's history.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgNavigation.Forward">
+            <summary>
+            Move a single "item" forward in the browser's history.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgNavigation.GoToUrl(System.Uri)">
+            <summary>
+            Load a new web page in the current browser window.
+            </summary>
+            <param name="url">The URL to load.</param>
+        </member>
+        <member name="M:Protractor.NgNavigation.GoToUrl(System.String)">
+            <summary>
+             Load a new web page in the current browser window.
+            </summary>
+            <param name="url">The URL to load. It is best to use a fully qualified URL</param>
+        </member>
+        <member name="M:Protractor.NgNavigation.Refresh">
+            <summary>
+            Refreshes the current page.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgNavigation.WrappedNavigation">
+            <summary>
+            Gets the wrapped <see cref="T:OpenQA.Selenium.INavigation"/> instance.
+            </summary>
+        </member>
+        <member name="T:Protractor.NgWebDriver">
+            <summary>
+            Provides a mechanism to write tests against an AngularJS application.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebDriver.#ctor(OpenQA.Selenium.IWebDriver,Protractor.NgModule[])">
+            <summary>
+            Creates a new instance of <see cref="T:Protractor.NgWebDriver"/> by wrapping a <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.
+            </summary>
+            <param name="driver">The configured webdriver instance.</param>
+            <param name="mockModules">
+            The modules to load before Angular whenever Url setter or Navigate().GoToUrl() is called.
+            </param>
+        </member>
+        <member name="M:Protractor.NgWebDriver.#ctor(OpenQA.Selenium.IWebDriver,System.String,Protractor.NgModule[])">
+            <summary>
+            Creates a new instance of <see cref="T:Protractor.NgWebDriver"/> by wrapping a <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.
+            </summary>
+            <param name="driver">The configured webdriver instance.</param>
+            <param name="rootElement">
+            The CSS selector for an element on which to find Angular. 
+            <para/>
+            This is usually 'body' but if your ng-app is on a subsection of the page it may be a subelement.
+            </param>
+            <param name="mockModules">
+            The modules to load before Angular whenever Url setter or Navigate().GoToUrl() is called.
+            </param>
+        </member>
+        <member name="M:Protractor.NgWebDriver.Close">
+            <summary>
+            Close the current window, quitting the browser if it is the last window currently open.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebDriver.Manage">
+            <summary>
+            Instructs the driver to change its settings.
+            </summary>
+            <returns>
+            An <see cref="T:OpenQA.Selenium.IOptions"/> object allowing the user to change the settings of the driver.
+            </returns>
+        </member>
+        <member name="M:Protractor.NgWebDriver.Navigate">
+            <summary>
+            Instructs the driver to navigate the browser to another location.
+            </summary>
+            <returns>
+            An <see cref="T:OpenQA.Selenium.INavigation"/> object allowing the user to access 
+            the browser's history and to navigate to a given URL.
+            </returns>
+        </member>
+        <member name="M:Protractor.NgWebDriver.Quit">
+            <summary>
+            Quits this driver, closing every associated window.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebDriver.SwitchTo">
+            <summary>
+            Instructs the driver to send future commands to a different frame or window.
+            </summary>
+            <returns>
+            An <see cref="T:OpenQA.Selenium.ITargetLocator"/> object which can be used to select a frame or window.
+            </returns>
+        </member>
+        <member name="M:Protractor.NgWebDriver.FindElement(OpenQA.Selenium.By)">
+            <summary>
+            Finds the first <see cref="T:Protractor.NgWebElement"/> using the given mechanism. 
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>The first matching <see cref="T:Protractor.NgWebElement"/> on the current context.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        </member>
+        <member name="M:Protractor.NgWebDriver.FindElements(OpenQA.Selenium.By)">
+            <summary>
+            Finds all <see cref="T:Protractor.NgWebElement"/>s within the current context 
+            using the given mechanism.
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>
+            A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> of all <see cref="T:Protractor.NgWebElement"/>s 
+            matching the current criteria, or an empty list if nothing matches.
+            </returns>
+        </member>
+        <member name="M:Protractor.NgWebDriver.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, 
+            releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.WrappedDriver">
+            <summary>
+            Gets the wrapped <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.
+            <para/>
+            Use this to interact with pages that do not contain Angular (such as a log-in screen).
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.RootElement">
+            <summary>
+            Gets the CSS selector for an element on which to find Angular. 
+            <para/>
+            This is usually 'body' but if your ng-app is on a subsection of the page it may be a subelement.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.IgnoreSynchronization">
+            <summary>
+            If true, Protractor will not attempt to synchronize with the page before performing actions. 
+            This can be harmful because Protractor will not wait until $timeouts and $http calls have been processed, 
+            which can cause tests to become flaky. 
+            This should be used only when necessary, such as when a page continuously polls an API using $timeout.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.CurrentWindowHandle">
+            <summary>
+            Gets the current window handle, which is an opaque handle to this 
+            window that uniquely identifies it within this driver instance.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.PageSource">
+            <summary>
+            Gets the source of the page last loaded by the browser.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.Title">
+            <summary>
+            Gets the title of the current browser window.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.Url">
+            <summary>
+            Gets or sets the URL the browser is currently displaying.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebDriver.WindowHandles">
+            <summary>
+            Gets the window handles of open browser windows.
+            </summary>
+        </member>
+        <member name="T:Protractor.ClientSideScripts">
+            All scripts to be run on the client via ExecuteAsyncScript or
+            ExecuteScript should be put here. These scripts are transmitted over
+            the wire using their toString representation, and cannot reference
+            external variables. They can, however use the array passed in to
+            arguments. Instead of params, all functions on clientSideScripts
+            should list the arguments array they expect.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.WaitForAngular">
+             Wait until Angular has finished rendering and has
+             no outstanding $http calls before continuing.
+            
+             arguments[0] {string} The selector housing an ng-app
+             arguments[1] {function} callback
+        </member>
+        <member name="F:Protractor.ClientSideScripts.TestForAngular">
+             Tests whether the angular global variable is present on a page. 
+             Retries in case the page is just loading slowly.
+            
+             arguments[0] {string} none.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.ResumeAngularBootstrap">
+            Continue to bootstrap Angular. 
+            
+            arguments[0] {array} The module names to load.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.GetLocationAbsUrl">
+            Return the current url using $location.absUrl().
+            
+            arguments[0] {string} The selector housing an ng-app
+        </member>
+        <member name="F:Protractor.ClientSideScripts.Evaluate">
+             Evaluate an Angular expression in the context of a given element.
+            
+             arguments[0] {Element} The element in whose scope to evaluate.
+             arguments[1] {string} The expression to evaluate.
+            
+             @return {?Object} The result of the evaluation.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.FindBindings">
+             Find a list of elements in the page by their angular binding.
+            
+             arguments[0] {Element} The scope of the search.
+             arguments[1] {string} The binding, e.g. {{cat.name}}.
+            
+             @return {Array.WebElement} The elements containing the binding.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.FindModel">
+             Find elements by model name.
+            
+             arguments[0] {Element} The scope of the search.
+             arguments[1] {string} The model name.
+            
+             @return {Array.WebElement} The matching input elements.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.FindSelectedOptions">
+             Find selected option elements by model name.
+            
+             arguments[0] {Element} The scope of the search.
+             arguments[1] {string} The model name.
+            
+             @return {Array.WebElement} The matching select elements.
+        </member>
+        <member name="F:Protractor.ClientSideScripts.FindAllRepeaterRows">
+             Find all rows of an ng-repeat.
+            
+             arguments[0] {Element} The scope of the search.
+             arguments[1] {string} The text of the repeater, e.g. 'cat in cats'.
+            
+             @return {Array.WebElement} All rows of the repeater.
+        </member>
+        <member name="T:Protractor.NgModule">
+            <summary>
+            Represents an Angular module to load before Angular is loaded.
+            <para/>
+            The modules will be registered after existing modules, 
+            so any module registered will override preexisting modules with the same name.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgModule.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Protractor.NgModule"/>.
+            </summary>
+            <param name="name">The name of the module to load or override.</param>
+            <param name="script">The JavaScript to load the module.</param>
+        </member>
+        <member name="P:Protractor.NgModule.Name">
+            <summary>
+            Gets or sets the name of the module to load or override.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgModule.Script">
+            <summary>
+            Gets or sets the JavaScript to load the module.
+            </summary>
+        </member>
+        <member name="T:Protractor.NgWebElement">
+            <summary>
+            Provides a mechanism to get elements off the page for test.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.#ctor(Protractor.NgWebDriver,OpenQA.Selenium.IWebElement)">
+            <summary>
+            Creates a new instance of <see cref="T:Protractor.NgWebElement"/> by wrapping a <see cref="T:OpenQA.Selenium.IWebElement"/> instance.
+            </summary>
+            <param name="ngDriver">The <see cref="T:Protractor.NgWebDriver"/> in use.</param>
+            <param name="element">The existing <see cref="T:OpenQA.Selenium.IWebElement"/> instance.</param>
+        </member>
+        <member name="M:Protractor.NgWebElement.Clear">
+            <summary>
+            Clears the content of this element.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.Click">
+            <summary>
+            Clicks this element. 
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.GetAttribute(System.String)">
+            <summary>
+            Gets the value of the specified attribute for this element.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.GetCssValue(System.String)">
+            <summary>
+            Gets the value of a CSS property of this element.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.SendKeys(System.String)">
+            <summary>
+            Simulates typing text into the element.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.Submit">
+            <summary>
+            Submits this element to the web server.
+            </summary>
+        </member>
+        <member name="M:Protractor.NgWebElement.FindElement(OpenQA.Selenium.By)">
+            <summary>
+            Finds the first <see cref="T:Protractor.NgWebElement"/> using the given mechanism. 
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>The first matching <see cref="T:Protractor.NgWebElement"/> on the current context.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        </member>
+        <member name="M:Protractor.NgWebElement.FindElements(OpenQA.Selenium.By)">
+            <summary>
+            Finds all <see cref="T:Protractor.NgWebElement"/>s within the current context 
+            using the given mechanism.
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>
+            A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> of all <see cref="T:Protractor.NgWebElement"/>s 
+            matching the current criteria, or an empty list if nothing matches.
+            </returns>
+        </member>
+        <member name="M:Protractor.NgWebElement.Evaluate(System.String)">
+            <summary>
+            Evaluates the expression as if it were on the scope of the current element.
+            </summary>
+            <param name="expression">The expression to evaluate.</param>
+            <returns>The expression evaluated by Angular.</returns>
+        </member>
+        <member name="P:Protractor.NgWebElement.WrappedElement">
+            <summary>
+            Gets the wrapped <see cref="T:OpenQA.Selenium.IWebElement"/> instance.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Displayed">
+            <summary>
+            Gets a value indicating whether or not this element is displayed.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Enabled">
+            <summary>
+            Gets a value indicating whether or not this element is enabled.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Location">
+            <summary>
+            Gets a <see cref="T:System.Drawing.Point"/> object containing the coordinates of the upper-left corner
+            of this element relative to the upper-left corner of the page.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Selected">
+            <summary>
+            Gets a value indicating whether or not this element is selected.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Size">
+            <summary>
+            Gets a <see cref="P:Protractor.NgWebElement.Size"/> object containing the height and width of this element.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.TagName">
+            <summary>
+            Gets the tag name of this element.
+            </summary>
+        </member>
+        <member name="P:Protractor.NgWebElement.Text">
+            <summary>
+            Gets the innerText of this element, without any leading or trailing whitespace,
+            and with other whitespace collapsed.
+            </summary>
+        </member>
+    </members>
+</doc>

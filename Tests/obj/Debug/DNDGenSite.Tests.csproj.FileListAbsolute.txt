@@ -80,6 +80,7 @@ C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.xml
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.dll
 C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.pdb
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\chromedriver.exe
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.dll.config
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.pdb
@@ -100,24 +101,29 @@ D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Moq.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\nunit.framework.dll
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Protractor.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Helpers.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Mvc.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Razor.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Deployment.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\WebDriver.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\WebActivatorEx.dll
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\DNDGenSite.pdb
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Moq.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\nunit.framework.xml
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Protractor.pdb
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Protractor.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Helpers.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Mvc.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.Razor.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Dev\Git\DNDGenSite\Tests\bin\Debug\WebDriver.xml
 D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.xml
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.csprojResolveAssemblyReference.cache
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.dll

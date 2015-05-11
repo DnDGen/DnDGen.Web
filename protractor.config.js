@@ -6,7 +6,7 @@ exports.config = {
     seleniumArgs: ['-Dwebdriver.ie.driver=<node_modules/protractor/selenium/IEDriverServer.exe>'],
 
     specs: [
-      'Tests/Integration/e2e/*.js'
+      'Tests/Integration/**/*.js'
     ],
 
     multiCapabilities: [

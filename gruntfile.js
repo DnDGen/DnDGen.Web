@@ -19,9 +19,6 @@ module.exports = function(grunt) {
       options: { keepAlive: false },
       integration: { configFile: "protractor.config.js" },
     },
-    karma: {
-      unit: { configFile: 'karma.config.js' }
-	},
 	msbuild: {
 	  src: ['DNDGenSite/DNDGenSite.csproj'],
 	  options: {
@@ -55,6 +52,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-rename');
 
   grunt.registerTask('e2e', ['protractor']);
-  grunt.registerTask('unit', ['karma']);
   grunt.registerTask('serve-dev', ['msbuild', 'iisexpress']);
 };
