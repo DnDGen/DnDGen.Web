@@ -128,3 +128,10 @@ D:\Dev\Git\DNDGenSite\Tests\bin\Debug\Ninject.Web.Common.xml
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.csprojResolveAssemblyReference.cache
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.dll
 D:\Dev\Git\DNDGenSite\Tests\obj\Debug\DNDGenSite.Tests.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\chromedriver.exe
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\DNDGenSite.Tests.dll.config
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Protractor.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\WebDriver.dll
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Protractor.pdb
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\Protractor.xml
+C:\Users\Andrew Wiggin\Documents\Programming\Projects\DNDGenSite\Tests\bin\Debug\WebDriver.xml
