@@ -13,6 +13,7 @@
         vm.standardQuantity = 1;
         vm.customQuantity = 1;
         vm.customDie = 1;
+        vm.rolling = false;
 
         vm.roll = 0;
 
@@ -31,16 +32,20 @@
         vm.standardDie = vm.standardDice[7];
 
         vm.rollStandard = function () {
+            vm.rolling = true;
             diceService.getRoll(vm.standardQuantity, vm.standardDie.die)
                 .then(function (data) {
                     vm.roll = data.roll;
+                    vm.rolling = false;
                 });
         };
 
         vm.rollCustom = function () {
+            vm.rolling = true;
             diceService.getCustomRoll(vm.customQuantity, vm.customDie)
                 .then(function (data) {
                     vm.roll = data.roll;
+                    vm.rolling = false;
                 });
         };
     };

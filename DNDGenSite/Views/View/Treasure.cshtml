@@ -31,7 +31,7 @@
                         <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="{{vm.treasureModel.MaxTreasureLevel}}" ng-model="vm.treasureLevel" required />
                     </div>
                     <div class="col-sm-2">
-                        <button id="treasureButton" type="button" class="btn btn-success" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid">Generate</button>
+                        <button id="treasureButton" type="button" class="btn btn-success" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
                     </div>
                 </div>
             </form>
@@ -41,7 +41,7 @@
                         <select id="mundaneItemTypes" class="form-control" ng-model="vm.mundaneItemType" ng-options="mundaneItemType for mundaneItemType in vm.treasureModel.MundaneItemTypes" required></select>
                     </div>
                     <div class="col-sm-2 col-sm-offset-5">
-                        <button id="mundaneItemButton" type="button" class="btn btn-success" ng-click="vm.generateMundaneItem()" ng-disabled="mundaneItemForm.$invalid">Generate</button>
+                        <button id="mundaneItemButton" type="button" class="btn btn-success" ng-click="vm.generateMundaneItem()" ng-disabled="mundaneItemForm.$invalid || vm.generating">Generate</button>
                     </div>
                 </div>
             </form>
@@ -55,90 +55,95 @@
                         <select id="itemPowers" class="form-control" ng-model="vm.itemPower" ng-options="type for type in vm.itemPowers" required></select>
                     </div>
                     <div class="col-sm-2">
-                        <button id="poweredItemButton" type="button" class="btn btn-success" ng-click="vm.generatePoweredItem()" ng-disabled="poweredItemForm.$invalid">Generate</button>
+                        <button id="poweredItemButton" type="button" class="btn btn-success" ng-click="vm.generatePoweredItem()" ng-disabled="poweredItemForm.$invalid || vm.generating">Generate</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-sm-5 col-sm-offset-1">
-            <span id="noTreasure" class="italicize" ng-hide="vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0">No treasure was generated</span>
-            <span ng-show="vm.treasure.Coin.Quantity > 0">{{vm.treasure.Coin.Quantity | number}} {{vm.treasure.Coin.Currency}}</span>
-            <div id="goodsWrapper" ng-show="vm.treasure.Goods.length > 0">
-                <span>Goods:</span>
-                <ul>
-                    <li ng-repeat="good in vm.treasure.Goods track by $index">
-                        {{good.Description}} ({{good.ValueInGold | number}}gp)
-                    </li>
-                </ul>
+        <div class="col-sm-5 col-sm-offset-1" >
+            <div ng-show="vm.generating">
+                <span>Generating...</span>
             </div>
-            <div id="itemsWrapper" ng-show="vm.treasure.Items.length > 0">
-                <span>Items:</span>
-                <ul>
-                    <li ng-repeat="item in vm.treasure.Items track by $index">
-                        <div id="itemName">
-                            <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
-                        </div>
-                        <ul>
-                            <li ng-show="item.Contents.length > 0">
-                                <span>Contents:</span>
-                                <ul>
-                                    <li ng-repeat="content in item.Contents track by $index">{{content}}</li>
-                                </ul>
-                            </li>
-                            <li ng-show="item.Traits.length > 0">
-                                <span>Traits</span>
-                                <ul>
-                                    <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li>
-                                </ul>
-                            </li>
-                            <li ng-show="item.Magic.Bonus > 0">Bonus: +{{item.Magic.Bonus}}</li>
-                            <li ng-show="item.Magic.SpecialAbilities.length > 0">
-                                <span>Special Abilities:</span>
-                                <ul>
-                                    <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">{{ability.Name}}</li>
-                                </ul>
-                            <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li>
-                            <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
-                            <li id="intelligenceListItem" ng-show="item.Magic.Intelligence.Ego > 0">
-                                <span>Intelligent:</span>
-                                <ul>
-                                    <li>Ego: {{item.Magic.Intelligence.Ego}}</li>
-                                    <li>Intelligence: {{item.Magic.Intelligence.IntelligenceStat}}</li>
-                                    <li>Wisdom: {{item.Magic.Intelligence.WisdomStat}}</li>
-                                    <li>Charisma: {{item.Magic.Intelligence.CharismaStat}}</li>
-                                    <li>Alignment: {{item.Magic.Intelligence.Alignment}}</li>
-                                    <li>
-                                        <span>Communication:</span>
-                                        <ul>
-                                            <li ng-repeat="method in item.Magic.Intelligence.Communication track by $index">{{method}}</li>
-                                            <li ng-show="item.Magic.Intelligence.Languages.length > 0">
-                                                <span>Languages:</span>
-                                                <ul>
-                                                    <li ng-repeat="language in item.Magic.Intelligence.Languages">{{language}}</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>Senses: {{item.Magic.Intelligence.Senses}}</li>
-                                    <li>
-                                        <span>Powers:</span>
-                                        <ul>
-                                            <li ng-repeat="power in item.Magic.Intelligence.Powers track by $index">{{power}}</li>
-                                        </ul>
-                                    </li>
-                                    <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
-                                        <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span>
-                                    </li>
-                                    <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
-                                        <span>Dedicated Power: {{item.Magic.Intelligence.DedicatedPower}}</span>
-                                    </li>
-                                    <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+            <div ng-hide="vm.generating">
+                <span id="noTreasure" class="italicize" ng-hide="vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0">No treasure was generated</span>
+                <span ng-show="vm.treasure.Coin.Quantity > 0">{{vm.treasure.Coin.Quantity | number}} {{vm.treasure.Coin.Currency}}</span>
+                <div id="goodsWrapper" ng-show="vm.treasure.Goods.length > 0">
+                    <span>Goods:</span>
+                    <ul>
+                        <li ng-repeat="good in vm.treasure.Goods track by $index">
+                            {{good.Description}} ({{good.ValueInGold | number}}gp)
+                        </li>
+                    </ul>
+                </div>
+                <div id="itemsWrapper" ng-show="vm.treasure.Items.length > 0">
+                    <span>Items:</span>
+                    <ul>
+                        <li ng-repeat="item in vm.treasure.Items track by $index">
+                            <div id="itemName">
+                                <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
+                            </div>
+                            <ul>
+                                <li ng-show="item.Contents.length > 0">
+                                    <span>Contents:</span>
+                                    <ul>
+                                        <li ng-repeat="content in item.Contents track by $index">{{content}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-show="item.Traits.length > 0">
+                                    <span>Traits</span>
+                                    <ul>
+                                        <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li>
+                                    </ul>
+                                </li>
+                                <li ng-show="item.Magic.Bonus > 0">Bonus: +{{item.Magic.Bonus}}</li>
+                                <li ng-show="item.Magic.SpecialAbilities.length > 0">
+                                    <span>Special Abilities:</span>
+                                    <ul>
+                                        <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">{{ability.Name}}</li>
+                                    </ul>
+                                <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li>
+                                <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
+                                <li id="intelligenceListItem" ng-show="item.Magic.Intelligence.Ego > 0">
+                                    <span>Intelligent:</span>
+                                    <ul>
+                                        <li>Ego: {{item.Magic.Intelligence.Ego}}</li>
+                                        <li>Intelligence: {{item.Magic.Intelligence.IntelligenceStat}}</li>
+                                        <li>Wisdom: {{item.Magic.Intelligence.WisdomStat}}</li>
+                                        <li>Charisma: {{item.Magic.Intelligence.CharismaStat}}</li>
+                                        <li>Alignment: {{item.Magic.Intelligence.Alignment}}</li>
+                                        <li>
+                                            <span>Communication:</span>
+                                            <ul>
+                                                <li ng-repeat="method in item.Magic.Intelligence.Communication track by $index">{{method}}</li>
+                                                <li ng-show="item.Magic.Intelligence.Languages.length > 0">
+                                                    <span>Languages:</span>
+                                                    <ul>
+                                                        <li ng-repeat="language in item.Magic.Intelligence.Languages">{{language}}</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>Senses: {{item.Magic.Intelligence.Senses}}</li>
+                                        <li>
+                                            <span>Powers:</span>
+                                            <ul>
+                                                <li ng-repeat="power in item.Magic.Intelligence.Powers track by $index">{{power}}</li>
+                                            </ul>
+                                        </li>
+                                        <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
+                                            <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span>
+                                        </li>
+                                        <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
+                                            <span>Dedicated Power: {{item.Magic.Intelligence.DedicatedPower}}</span>
+                                        </li>
+                                        <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </divng-hide>
         </div>
     </div>
 </div>

@@ -71,6 +71,10 @@ describe('the Treasure Controller', function () {
         expect(vm.treasure).toBeNull();
     });
 
+    it('is not generating on load', function () {
+        expect(vm.generating).toBeFalsy();
+    });
+
     it('generates treasure', function () {
         vm.treasureType = 'treasure type';
         vm.treasureLevel = 9266;
@@ -119,5 +123,60 @@ describe('the Treasure Controller', function () {
         expect(vm.itemPowers[1]).toBe('2-2');
         expect(vm.itemPowers.length).toBe(2);
         expect(vm.itemPower).toBe('2-1');
+    });
+
+    it('says it is generating while fetching treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+
+        expect(vm.generating).toBeTruthy();
+    });
+
+    it('says it is done generating while fetching treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is generating while fetching a mundane item', function () {
+        vm.mundaneItemType = 'mundane item type';
+
+        vm.generateMundaneItem();
+
+        expect(vm.generating).toBeTruthy();
+    });
+
+    it('says it is done generating while fetching a mundane item', function () {
+        vm.mundaneItemType = 'mundane item type';
+
+        vm.generateMundaneItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is generating while fetching a powered item', function () {
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = 'power';
+
+        vm.generatePoweredItem();
+
+        expect(vm.generating).toBeTruthy();
+    });
+
+    it('says it is done generating while fetching a powered item', function () {
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = 'power';
+
+        vm.generatePoweredItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
     });
 })

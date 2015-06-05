@@ -50,6 +50,10 @@ describe('the Dice Controller', function () {
         expect(vm.roll).toBe(0);
     });
 
+    it('is not rolling on load', function () {
+        expect(vm.rolling).toBeFalsy();
+    });
+
     it('has standard dice', function () {
         expect(vm.standardDice[0].name).toBe('2');
         expect(vm.standardDice[1].name).toBe('3');
@@ -100,5 +104,43 @@ describe('the Dice Controller', function () {
 
         expect(vm.roll).toBe(9266 * 42);
         expect(diceServiceMock.getCustomRoll).toHaveBeenCalledWith(9266, 42);
+    });
+
+    it('says it is rolling while fetching a standard roll', function () {
+        vm.standardQuantity = 9266;
+        vm.standardDie = vm.standardDice[2];
+
+        vm.rollStandard();
+
+        expect(vm.rolling).toBeTruthy();
+    });
+
+    it('says it is done rolling while fetching a standard roll', function () {
+        vm.standardQuantity = 9266;
+        vm.standardDie = vm.standardDice[2];
+
+        vm.rollStandard();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
+    });
+
+    it('says it is rolling while fetching a custom roll', function () {
+        vm.customQuantity = 9266;
+        vm.customDie = 42;
+
+        vm.rollCustom();
+
+        expect(vm.rolling).toBeTruthy();
+    });
+
+    it('says it is done rolling while fetching a custom roll', function () {
+        vm.customQuantity = 9266;
+        vm.customDie = 42;
+
+        vm.rollCustom();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
     });
 })

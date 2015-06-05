@@ -30,7 +30,7 @@
                         <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
                     </div>
                     <div class="col-sm-2">
-                        <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid">Roll</button>
+                        <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid || vm.rolling">Roll</button>
                     </div>
                 </div>
             </form>
@@ -44,13 +44,14 @@
                         <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" ng-model="vm.customDie" required />
                     </div>
                     <div class="col-sm-2">
-                        <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid">Roll</button>
+                        <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid || vm.rolling">Roll</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-sm-6">
-            <span class="font-green font-big">{{vm.roll | number}}</span>
+            <span ng-hide="vm.rolling" class="font-green font-big">{{vm.roll | number}}</span>
+            <span ng-show="vm.rolling" class="font-green font-big">Rolling...</span>
         </div>
     </div>
 </div>

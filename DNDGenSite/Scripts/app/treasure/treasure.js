@@ -18,20 +18,25 @@
         vm.itemPowers = [];
         vm.itemPower = '';
         vm.treasure = null;
+        vm.generating = false;
 
         vm.generateTreasure = function () {
+            vm.generating = true;
             treasureService.getTreasure(vm.treasureType, vm.treasureLevel).then(setTreasure);
         };
 
         function setTreasure(data) {
             vm.treasure = data.treasure;
+            vm.generating = false;
         }
 
         vm.generateMundaneItem = function () {
+            vm.generating = true;
             treasureService.getMundaneItem(vm.mundaneItemType).then(setTreasure);
         };
 
         vm.generatePoweredItem = function () {
+            vm.generating = true;
             treasureService.getPoweredItem(vm.poweredItemType, vm.itemPower).then(setTreasure);
         };
 
