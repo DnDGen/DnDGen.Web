@@ -5,6 +5,12 @@
 TestResults
 bin
 obj
+bin/
+obj/
+/bin
+/obj
+/bin/
+/obj/
 *.o
 *.lo
 *.la
@@ -26,7 +32,6 @@ CArtWebChart*.png
 UpgradeLog.htm
 *.sass-cache
 *.orig
-node_modules
 unit-specs.xml
 e2e-results.xml
 npm-debug.log
