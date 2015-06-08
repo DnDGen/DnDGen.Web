@@ -5,12 +5,6 @@
 TestResults
 bin
 obj
-bin/
-obj/
-/bin
-/obj
-/bin/
-/obj/
 *.o
 *.lo
 *.la
