@@ -45,7 +45,6 @@ module.exports = function(grunt) {
 
 
   grunt.loadNpmTasks('grunt-protractor-runner');
-  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-msbuild');
   grunt.loadNpmTasks('grunt-iisexpress');
   grunt.loadNpmTasks('grunt-contrib-jshint');
