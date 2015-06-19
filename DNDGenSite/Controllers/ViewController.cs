@@ -105,9 +105,14 @@ namespace DNDGenSite.Controllers
             return powers;
         }
 
-
         [HttpGet]
         public ActionResult Character()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Encounter()
         {
             return View();
         }

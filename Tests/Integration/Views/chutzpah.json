@@ -1,0 +1,7 @@
+{
+    "Framework": "jasmine",
+    "RootReferencePathMode": "SettingsFileDirectory",
+    "Tests": [
+        { "Excludes": [ "*PageSpec.js" ] }
+    ]
+}

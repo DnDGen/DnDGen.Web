@@ -2,7 +2,7 @@
 
 var CommonTestFunctions = require('./../commonTestFunctions.js');
 
-describe('the Character Page', function () {
+describe('Character Page', function () {
     beforeEach(function () {
         browser.get(browser.baseUrl + '/Character');
     });

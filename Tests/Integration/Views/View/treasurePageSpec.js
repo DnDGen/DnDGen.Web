@@ -2,7 +2,7 @@
 
 var CommonTestFunctions = require('./../commonTestFunctions.js');
 
-describe('the Treasure Page', function () {
+describe('Treasure Page', function () {
     var commonTestFunctions = new CommonTestFunctions();
     var treasureLevel = element(by.model('vm.treasureLevel'));
     var treasureTypes = element(by.model('vm.treasureType'));
@@ -27,6 +27,8 @@ describe('the Treasure Page', function () {
         itemsWrapper: element(by.id('itemsWrapper')),
         noTreasure: element(by.id('noTreasure'))
     };
+
+    var generatingSection = element(by.id('generatingSection'));
 
     beforeEach(function () {
         browser.get(browser.baseUrl + '/Treasure');
@@ -53,501 +55,627 @@ describe('the Treasure Page', function () {
         expect(treasure.itemsWrapper.isDisplayed()).toBeFalsy();
     });
 
-    it('allows level between 1 and 20 for treasure', function () {
-        for (var i = 20; i > 0; i--) {
-            commonTestFunctions.sendInput(treasureLevel, i);
+    describe('treasure level input', function () {
+        it('allows level 20', function () {
+            commonTestFunctions.sendInput(treasureLevel, 20);
             expect(treasureButton.isEnabled()).toBeTruthy();
-        }
-    });
+        });
+
+        it('allows level 19', function () {
+            commonTestFunctions.sendInput(treasureLevel, 19);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 18', function () {
+            commonTestFunctions.sendInput(treasureLevel, 18);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 17', function () {
+            commonTestFunctions.sendInput(treasureLevel, 17);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 16', function () {
+            commonTestFunctions.sendInput(treasureLevel, 16);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 15', function () {
+            commonTestFunctions.sendInput(treasureLevel, 15);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 14', function () {
+            commonTestFunctions.sendInput(treasureLevel, 14);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 13', function () {
+            commonTestFunctions.sendInput(treasureLevel, 13);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 12', function () {
+            commonTestFunctions.sendInput(treasureLevel, 12);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 11', function () {
+            commonTestFunctions.sendInput(treasureLevel, 11);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 10', function () {
+            commonTestFunctions.sendInput(treasureLevel, 10);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 9', function () {
+            commonTestFunctions.sendInput(treasureLevel, 9);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 8', function () {
+            commonTestFunctions.sendInput(treasureLevel, 8);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 7', function () {
+            commonTestFunctions.sendInput(treasureLevel, 7);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 6', function () {
+            commonTestFunctions.sendInput(treasureLevel, 6);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 5', function () {
+            commonTestFunctions.sendInput(treasureLevel, 5);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 4', function () {
+            commonTestFunctions.sendInput(treasureLevel, 4);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 3', function () {
+            commonTestFunctions.sendInput(treasureLevel, 3);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 2', function () {
+            commonTestFunctions.sendInput(treasureLevel, 2);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('allows level 1', function () {
+            commonTestFunctions.sendInput(treasureLevel, 1);
+            expect(treasureButton.isEnabled()).toBeTruthy();
+        });
+
+        it('does not allow decimal levels', function () {
+            commonTestFunctions.sendInput(treasureLevel, 1.5);
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
+
+        it('does not allow level of 0', function () {
+            commonTestFunctions.sendInput(treasureLevel, 0);
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
+
+        it('does not allow level less than 0', function () {
+            commonTestFunctions.sendInput(treasureLevel, -1);
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
+
+        it('does not allow non-numeric level', function () {
+            commonTestFunctions.sendInput(treasureLevel, 'two');
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
 
-    it('does not allow decimal levels for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, 1.5);
-        expect(treasureButton.isEnabled()).toBeFalsy();
-    });
+        it('does not allow level greater than 20', function () {
+            commonTestFunctions.sendInput(treasureLevel, 21);
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
+
+        it('does not allow empty level', function () {
+            commonTestFunctions.sendInput(treasureLevel, '');
+            expect(treasureButton.isEnabled()).toBeFalsy();
+        });
+
+        it('increments by 1 when up is pressed', function () {
+            commonTestFunctions.sendInput(treasureLevel, 3);
+            treasureLevel.sendKeys(protractor.Key.UP);
+            expect(treasureLevel.getAttribute('value')).toBe('4');
+        });
 
-    it('does not allow level of 0 for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, 0);
-        expect(treasureButton.isEnabled()).toBeFalsy();
-    });
+        it('decrements by 1 when down is pressed', function () {
+            commonTestFunctions.sendInput(treasureLevel, 3);
+            treasureLevel.sendKeys(protractor.Key.DOWN);
+            expect(treasureLevel.getAttribute('value')).toBe('2');
+        });
+
+        it('cannot increment beyond 20', function () {
+            commonTestFunctions.sendInput(treasureLevel, 20);
+            treasureLevel.sendKeys(protractor.Key.UP);
+            expect(treasureLevel.getAttribute('value')).toBe('20');
+        });
 
-    it('does not allow level less than 0 for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, -1);
-        expect(treasureButton.isEnabled()).toBeFalsy();
+        it('cannot decrement below 1', function () {
+            commonTestFunctions.sendInput(treasureLevel, 1);
+            treasureLevel.sendKeys(protractor.Key.DOWN);
+            expect(treasureLevel.getAttribute('value')).toBe('1');
+        });
     });
 
-    it('does not allow non-numeric level for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, 'two');
-        expect(treasureButton.isEnabled()).toBeFalsy();
+    it('generates treasure', function () {
+        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Treasure');
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+        expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('does not allow level greater than 20 for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, 21);
-        expect(treasureButton.isEnabled()).toBeFalsy();
+    it('generates coin', function () {
+        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Coin');
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+        expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('does not allow empty level for treasure', function () {
-        commonTestFunctions.sendInput(treasureLevel, '');
-        expect(treasureButton.isEnabled()).toBeFalsy();
+    it('generates goods', function () {
+        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Goods');
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+        expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('increments treasure level by 1 when up is pressed', function () {
-        treasureLevel.sendKeys(protractor.Key.UP);
-        expect(treasureLevel.getAttribute('value')).toBe('2');
+    it('generates items', function () {
+        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Items');
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+        expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('decrements treasure level by 1 when down is pressed', function () {
-        commonTestFunctions.sendInput(treasureLevel, 3);
-        treasureLevel.sendKeys(protractor.Key.DOWN);
-        expect(treasureLevel.getAttribute('value')).toBe('2');
-    });
+    describe('when selecting alchemical items', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
+        });
 
-    it('cannot key up treasure level beyond 20', function () {
-        commonTestFunctions.sendInput(treasureLevel, 20);
-        treasureLevel.sendKeys(protractor.Key.UP);
-        expect(treasureLevel.getAttribute('value')).toBe('20');
-    });
+        it('generates alchemical items', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('cannot key down treasure level below 1', function () {
-        commonTestFunctions.sendInput(treasureLevel, 1);
-        treasureLevel.sendKeys(protractor.Key.DOWN);
-        expect(treasureLevel.getAttribute('value')).toBe('1');
-    });
+        it('generates only alchemical items', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
+
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-    it('generates alchemical items', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        it('generates 1 alchemical item', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
     });
 
-    it('generates only alchemical items', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
+    describe('when selecting armor', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates armor', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates 1 alchemical item', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates only armor', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates armor', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-    it('generates only armor', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates 1 armor', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates major armor', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates 1 armor', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates major armor', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates medium armor', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates medium armor', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates minor armor', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates minor armor', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates mundane armor', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates mundane armor', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Armor');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting potion', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates potion', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates potion', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only potion', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates only potion', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates 1 potion', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates 1 potion', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates major potion', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates major potion', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates medium potion', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates medium potion', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        it('generates minor potion', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates minor potion', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Potion');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting ring', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates ring', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates ring', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only ring', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates only ring', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates 1 ring', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates 1 ring', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates major ring', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates major ring', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates medium ring', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates medium ring', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        it('generates minor ring', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates minor ring', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Ring');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting rod', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates rod', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates rod', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only rod', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates only rod', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates 1 rod', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates 1 rod', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates major rod', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates major rod', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates medium rod', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates medium rod', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Rod');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting scroll', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates scroll', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates scroll', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only scroll', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates only scroll', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates 1 scroll', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates 1 scroll', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates major scroll', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates major scroll', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates medium scroll', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates medium scroll', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates minor scroll', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates minor scroll', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Scroll');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting staff', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates staff', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates staff', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only staff', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates only staff', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates 1 staff', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates 1 staff', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates major staff', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates major staff', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        it('generates medium staff', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates medium staff', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Staff');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting tool', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates tool', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates tool', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates only tools', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
 
-    it('generates only tools', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        it('generates 1 tool', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
     });
 
-    it('generates 1 tool', function () {
-        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
-        commonTestFunctions.clickButtonAndWaitForResolution(mundaneItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+    describe('when selecting wand', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
+        });
 
-    it('generates wand', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates wand', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates only wand', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates only wand', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-    it('generates 1 wand', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates 1 wand', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates major wand', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates major wand', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates medium wand', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates medium wand', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates minor wand', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Wand');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates minor wand', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates weapon', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+    describe('when selecting weapon', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
+        });
 
-    it('generates only weapon', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates weapon', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates only weapon', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates 1 weapon', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-    it('generates major weapon', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates 1 weapon', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates major weapon', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates medium weapon', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates medium weapon', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates minor weapon', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates minor weapon', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates mundane weapon', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'Weapon');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates mundane weapon', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
-    it('generates only wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+    describe('when selecting wondrous item', function () {
+        beforeEach(function () {
+            commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
+        });
 
-        expect(treasure.coin.isDisplayed()).toBeFalsy();
-        expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-    });
+        it('generates wondrous item', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates 1 wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
-        expect(treasure.items.count()).toBe(1);
-    });
+        it('generates only wondrous item', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-    it('generates major wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+        });
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+        it('generates 1 wondrous item', function () {
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+            expect(treasure.items.count()).toBe(1);
+        });
 
-    it('generates medium wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates major wondrous item', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-    });
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
+
+        it('generates medium wondrous item', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
+
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
 
-    it('generates minor wondrous item', function () {
-        commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-        commonTestFunctions.selectItemInDropdown(poweredItemTypes, 'WondrousItem');
-        commonTestFunctions.clickButtonAndWaitForResolution(poweredItemButton);
+        it('generates minor wondrous item', function () {
+            commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
+            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
 
-        expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+        });
     });
 
     it('shows nothing if there is nothing', function () {
@@ -1594,6 +1722,28 @@ describe('the Treasure Page', function () {
             var dedicatedPower = element(by.binding('item.Magic.Intelligence.DedicatedPower'));
             expect(dedicatedPower.isDisplayed()).toBeTruthy();
             expect(dedicatedPower.getText()).toBe('Dedicated Power: dedicated power');
+        });
+    });
+
+    it('notifies user while generating', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Treasure as vm"]');
+            var vm = controllerElement.controller();
+            vm.generating = true;
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(poweredItemButton.isEnabled()).toBeFalsy();
+            expect(mundaneItemButton.isEnabled()).toBeFalsy();
+            expect(treasureButton.isEnabled()).toBeFalsy();
+
+            expect(treasure.noTreasure.isDisplayed()).toBeFalsy();
+            expect(treasure.coin.isDisplayed()).toBeFalsy();
+            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
+            expect(treasure.itemsWrapper.isDisplayed()).toBeFalsy();
+
+            expect(generatingSection.isDisplayed()).toBeTruthy();
+            expect(generatingSection.getText()).toBe('Generating...');
         });
     });
 });

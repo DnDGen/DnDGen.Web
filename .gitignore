@@ -30,3 +30,4 @@ unit-specs.xml
 e2e-results.xml
 npm-debug.log
 _Chutzpah.*.html
+node_modules

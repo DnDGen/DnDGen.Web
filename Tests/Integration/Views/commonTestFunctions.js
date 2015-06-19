@@ -4,9 +4,26 @@
     var CommonTestFunctions = function () {
         var app = this;
 
-        app.clickButtonAndWaitForResolution = function (button) {
-            button.click();
+        function longWait() {
+            browser.sleep(500);
+        }
+
+        function shortWait() {
+            browser.sleep(10);
+        }
+
+        app.clickWhenReadyAndWaitForResolution = function (elementToClick, loadingElement) {
+            while (browser.isElementPresent(elementToClick) == false)
+                shortWait();
+
             browser.waitForAngular();
+            elementToClick.click();
+
+            while (loadingElement && loadingElement.isDisplayed() == true)
+                shortWait();
+
+            browser.waitForAngular();
+            longWait();
         };
 
         app.sendInput = function (input, keys) {

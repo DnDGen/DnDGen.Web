@@ -2,7 +2,7 @@
 
 var CommonTestFunctions = require('./../commonTestFunctions.js');
 
-describe('the Dice Page', function () {
+describe('Dice Page', function () {
     var commonTestFunctions = new CommonTestFunctions();
 
     var roll = element(by.binding('vm.roll'));
@@ -13,6 +13,7 @@ describe('the Dice Page', function () {
     var customDie = element(by.model('vm.customDie'));
     var standardRollButton = element(by.id('standardRollButton'));
     var customRollButton = element(by.id('customRollButton'));
+    var rollingSection = element(by.id('rollingSection'));
 
     beforeEach(function () {
         browser.get(browser.baseUrl + '/Dice');
@@ -43,19 +44,11 @@ describe('the Dice Page', function () {
         expect(standardDie.getText()).toBe('20');
     });
 
-    it('rolls 3d2', function () {
-        commonTestFunctions.sendInput(standardQuantity, 3);
-        commonTestFunctions.selectItemInDropdown(standardDice, '2');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
-
-        expect(roll.getText()).toBeGreaterThan(2);
-    });
-
     it('allows standard quantity of 1', function () {
         expect(standardRollButton.isEnabled()).toBeTruthy();
     });
 
-    it('allows standard quantities greater than 12', function () {
+    it('allows standard quantities greater than 1', function () {
         commonTestFunctions.sendInput(standardQuantity, 2);
         expect(standardRollButton.isEnabled()).toBeTruthy();
     });
@@ -86,8 +79,9 @@ describe('the Dice Page', function () {
     });
 
     it('increments standard quantity by 1 when up is pressed', function () {
+        commonTestFunctions.sendInput(standardQuantity, 3);
         standardQuantity.sendKeys(protractor.Key.UP);
-        expect(standardQuantity.getAttribute('value')).toBe('2');
+        expect(standardQuantity.getAttribute('value')).toBe('4');
     });
 
     it('decrements standard quantity by 1 when down is pressed', function () {
@@ -96,16 +90,24 @@ describe('the Dice Page', function () {
         expect(standardQuantity.getAttribute('value')).toBe('2');
     });
 
-    it('cannot key down standard quantity below 1', function () {
+    it('cannot decrement standard quantity below 1', function () {
         commonTestFunctions.sendInput(standardQuantity, 1);
         standardQuantity.sendKeys(protractor.Key.DOWN);
         expect(standardQuantity.getAttribute('value')).toBe('1');
     });
-    
+
+    it('rolls 3d2', function () {
+        commonTestFunctions.sendInput(standardQuantity, 3);
+        commonTestFunctions.selectItemInDropdown(standardDice, '2');
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
+
+        expect(roll.getText()).toBeGreaterThan(2);
+    });
+
     it('rolls 4d3', function () {
         commonTestFunctions.sendInput(standardQuantity, 4);
         commonTestFunctions.selectItemInDropdown(standardDice, '3');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(3);
     });
@@ -113,7 +115,7 @@ describe('the Dice Page', function () {
     it('rolls 5d4', function () {
         commonTestFunctions.sendInput(standardQuantity, 5);
         commonTestFunctions.selectItemInDropdown(standardDice, '4');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(4);
     });
@@ -121,7 +123,7 @@ describe('the Dice Page', function () {
     it('rolls 7d6', function () {
         commonTestFunctions.sendInput(standardQuantity, 7);
         commonTestFunctions.selectItemInDropdown(standardDice, '6');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(6);
     });
@@ -129,7 +131,7 @@ describe('the Dice Page', function () {
     it('rolls 9d8', function () {
         commonTestFunctions.sendInput(standardQuantity, 9);
         commonTestFunctions.selectItemInDropdown(standardDice, '8');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(8);
     });
@@ -137,7 +139,7 @@ describe('the Dice Page', function () {
     it('rolls 11d10', function () {
         commonTestFunctions.sendInput(standardQuantity, 11);
         commonTestFunctions.selectItemInDropdown(standardDice, '10');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(10);
     });
@@ -145,7 +147,7 @@ describe('the Dice Page', function () {
     it('rolls 13d12', function () {
         commonTestFunctions.sendInput(standardQuantity, 13);
         commonTestFunctions.selectItemInDropdown(standardDice, '12');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(12);
     });
@@ -153,7 +155,7 @@ describe('the Dice Page', function () {
     it('rolls 21d20', function () {
         commonTestFunctions.sendInput(standardQuantity, 21);
         commonTestFunctions.selectItemInDropdown(standardDice, '20');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(20);
     });
@@ -161,25 +163,26 @@ describe('the Dice Page', function () {
     it('rolls 10d100', function () {
         commonTestFunctions.sendInput(standardQuantity, 10);
         commonTestFunctions.selectItemInDropdown(standardDice, 'Percentile');
-        commonTestFunctions.clickButtonAndWaitForResolution(standardRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(100);
     });
 
     it('rolls a custom roll', function () {
-        commonTestFunctions.clickButtonAndWaitForResolution(customRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(customRollButton, rollingSection);
         expect(roll.getText()).toBeGreaterThan(0);
     });
 
     it('rolls 6d5', function () {
         commonTestFunctions.sendInput(customQuantity, 6);
         commonTestFunctions.sendInput(customDie, 5);
-        commonTestFunctions.clickButtonAndWaitForResolution(customRollButton);
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(customRollButton, rollingSection);
 
         expect(roll.getText()).toBeGreaterThan(5);
     });
 
     it('allows custom quantity of 1', function () {
+        commonTestFunctions.sendInput(customQuantity, 1);
         expect(customRollButton.isEnabled()).toBeTruthy();
     });
 
@@ -214,8 +217,9 @@ describe('the Dice Page', function () {
     });
 
     it('increments custom quantity by 1 when up is pressed', function () {
+        commonTestFunctions.sendInput(customQuantity, 3);
         customQuantity.sendKeys(protractor.Key.UP);
-        expect(customQuantity.getAttribute('value')).toBe('2');
+        expect(customQuantity.getAttribute('value')).toBe('4');
     });
 
     it('decrements custom quantity by 1 when down is pressed', function () {
@@ -231,6 +235,7 @@ describe('the Dice Page', function () {
     });
 
     it('allows die of 1 for custom', function () {
+        commonTestFunctions.sendInput(customDie, 1);
         expect(customRollButton.isEnabled()).toBeTruthy();
     });
 
@@ -265,8 +270,9 @@ describe('the Dice Page', function () {
     });
 
     it('increments custom die by 1 when up is pressed', function () {
+        commonTestFunctions.sendInput(customDie, 3);
         customDie.sendKeys(protractor.Key.UP);
-        expect(customDie.getAttribute('value')).toBe('2');
+        expect(customDie.getAttribute('value')).toBe('4');
     });
 
     it('decrements custom die by 1 when down is pressed', function () {
@@ -290,6 +296,23 @@ describe('the Dice Page', function () {
             controllerElement.scope().$apply();
         }).then(function () {
             expect(roll.getText()).toBe('9,266');
+        });
+    });
+
+    it('notifies user while rolling', function () {
+        browser.executeScript(function () {
+            var controllerElement = angular.element('[ng-controller="Dice as vm"]');
+            var vm = controllerElement.controller();
+            vm.rolling = true;
+
+            controllerElement.scope().$apply();
+        }).then(function () {
+            expect(customRollButton.isEnabled()).toBeFalsy();
+            expect(standardRollButton.isEnabled()).toBeFalsy();
+            expect(roll.isDisplayed()).toBeFalsy();
+
+            expect(rollingSection.isDisplayed()).toBeTruthy();
+            expect(rollingSection.getText()).toBe('Rolling...');
         });
     });
 });

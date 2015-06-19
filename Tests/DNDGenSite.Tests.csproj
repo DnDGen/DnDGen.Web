@@ -79,8 +79,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -172,6 +172,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Integration\Views\chutzpah.json" />
     <None Include="packages.config" />
     <None Include="Unit\Scripts\chutzpah.json" />
   </ItemGroup>
@@ -184,7 +185,7 @@
   <ItemGroup>
     <Content Include="content\jasmine.css" />
     <Content Include="Integration\Views\commonTestFunctions.js" />
-    <Content Include="Integration\Views\Shared\layoutSpec.js" />
+    <Content Include="Integration\Views\Shared\layoutPageSpec.js" />
     <Content Include="Integration\Views\View\characterPageSpec.js" />
     <Content Include="Integration\Views\View\dicePageSpec.js" />
     <Content Include="Integration\Views\View\dungeonPageSpec.js" />
@@ -199,6 +200,9 @@
     <Content Include="Unit\Scripts\app\treasure\treasureServiceSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureControllerSpec.js" />
     <Content Include="Unit\Scripts\_resources.js" />
+    <Content Include="Integration\Views\View\encounterPageSpec.js" />
+    <Content Include="Unit\Scripts\app\dice\diceSpec.js" />
+    <Content Include="Unit\Scripts\app\treasure\treasureSpec.js" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

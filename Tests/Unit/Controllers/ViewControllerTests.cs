@@ -23,6 +23,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [TestCase("Dice")]
         [TestCase("Treasure")]
         [TestCase("Character")]
+        [TestCase("Encounter")]
         [TestCase("Dungeon")]
         public void ActionHandlesGetVerb(String methodName)
         {
@@ -156,6 +157,13 @@ namespace DNDGenSite.Tests.Unit.Controllers
         public void CharacterReturnsView()
         {
             var result = controller.Character();
+            Assert.That(result, Is.InstanceOf<ViewResult>());
+        }
+
+        [Test]
+        public void EncounterReturnsView()
+        {
+            var result = controller.Encounter();
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
 

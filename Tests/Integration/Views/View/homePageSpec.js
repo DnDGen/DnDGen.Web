@@ -2,7 +2,7 @@
 
 var CommonTestFunctions = require('./../commonTestFunctions.js');
 
-describe('the Home Page', function () {
+describe('Home Page', function () {
     beforeEach(function () {
         browser.get(browser.baseUrl);
     });
