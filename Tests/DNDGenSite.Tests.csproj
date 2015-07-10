@@ -148,6 +148,7 @@
   <ItemGroup>
     <Compile Include="Integration\App_Start\WebModuleTests.cs" />
     <Compile Include="Integration\IntegrationTests.cs" />
+    <Compile Include="Unit\App_Start\RouteTests.cs" />
     <Compile Include="Unit\Controllers\AttributeProvider.cs" />
     <Compile Include="Unit\Controllers\DiceControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\TreasureControllerTests.cs" />
