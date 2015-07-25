@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
-using EquipmentGen.Common;
-using EquipmentGen.Common.Items;
-using EquipmentGen.Generators.Interfaces.Items.Magical;
+using TreasureGen.Common;
+using TreasureGen.Common.Items;
+using TreasureGen.Generators.Items.Magical;
 
 namespace DNDGenSite.Controllers.Treasures
 {

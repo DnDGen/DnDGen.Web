@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using EquipmentGen.Generators.Interfaces;
+using TreasureGen.Generators;
 
 namespace DNDGenSite.Controllers.Treasures
 {

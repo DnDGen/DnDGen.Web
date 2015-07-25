@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using EquipmentGen.Common;
-using EquipmentGen.Generators.Interfaces.Coins;
+using TreasureGen.Common;
+using TreasureGen.Generators.Coins;
 
 namespace DNDGenSite.Controllers.Treasures
 {

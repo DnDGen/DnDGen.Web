@@ -1,11 +1,25 @@
 exports.config = {
     framework: 'jasmine2',
+    seleniumArgs: ['-Dwebdriver.ie.driver=node_modules/protractor/selenium/IEDriverServer.exe'],
     specs: [
       'Tests/Integration/**/dicePageSpec.js'
     ],
     multiCapabilities: [
-        { browserName: 'chrome' },
-        { browserName: 'firefox' }
+        {
+            browserName: 'chrome',
+            "loggingPrefs": {
+                "driver": "SEVERE",
+                "server": "SEVERE",
+                "browser": "SEVERE"
+            }
+        }, {
+            browserName: 'firefox',
+            "loggingPrefs": {
+                "driver": "SEVERE",
+                "server": "SEVERE",
+                "browser": "SEVERE"
+            }
+        }
     ],
     onPrepare: function () {
         browser.ignoreSynchronization = true;
@@ -35,6 +49,6 @@ exports.config = {
         isVerbose: false,
         showColors: true,
         includeStackTrace: true,
-        defaultTimeoutInterval: 20000
+        defaultTimeoutInterval: 60000
     }
 };

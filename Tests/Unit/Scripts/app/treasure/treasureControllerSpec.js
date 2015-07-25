@@ -2,7 +2,7 @@
 
 /// <reference path="../../_resources.js" />
 
-describe('the Treasure Controller', function () {
+describe('Treasure Controller', function () {
     var vm;
     var treasureServiceMock;
     var q;

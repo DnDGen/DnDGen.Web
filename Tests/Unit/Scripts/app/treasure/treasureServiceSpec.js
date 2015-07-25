@@ -2,7 +2,7 @@
 
 /// <reference path="../../_resources.js" />
 
-describe('the Treasure Service', function () {
+describe('Treasure Service', function () {
     var treasureService;
     var promiseServiceMock;
 

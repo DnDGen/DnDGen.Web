@@ -24,6 +24,9 @@ module.exports = function(grunt) {
             layout: { configFile: "protractor.layout.config.js" },
             dice: { configFile: "protractor.dice.config.js" },
             treasure: { configFile: "protractor.treasure.config.js" },
+            character: { configFile: "protractor.character.config.js" },
+            encounter: { configFile: "protractor.encounter.config.js" },
+            dungeon: { configFile: "protractor.dungeon.config.js" }
         }
     });
 
@@ -35,4 +38,7 @@ module.exports = function(grunt) {
     grunt.registerTask('e2e-layout', ['msbuild', 'iisexpress', 'protractor:layout']);
     grunt.registerTask('e2e-dice', ['msbuild', 'iisexpress', 'protractor:dice']);
     grunt.registerTask('e2e-treasure', ['msbuild', 'iisexpress', 'protractor:treasure']);
+    grunt.registerTask('e2e-character', ['msbuild', 'iisexpress', 'protractor:character']);
+    grunt.registerTask('e2e-encounter', ['msbuild', 'iisexpress', 'protractor:encounter']);
+    grunt.registerTask('e2e-dungeon', ['msbuild', 'iisexpress', 'protractor:dungeon']);
 };

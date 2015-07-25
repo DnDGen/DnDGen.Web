@@ -34,6 +34,10 @@ describe('Treasure Page', function () {
         browser.get(browser.baseUrl + '/Treasure');
     });
 
+    afterEach(function () {
+        browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
+    });
+
     it('has a title', function () {
         expect(browser.driver.getTitle()).toEqual('DNDGen');
     });
@@ -184,30 +188,6 @@ describe('Treasure Page', function () {
         it('does not allow empty level', function () {
             commonTestFunctions.sendInput(treasureLevel, '');
             expect(treasureButton.isEnabled()).toBeFalsy();
-        });
-
-        it('increments by 1 when up is pressed', function () {
-            commonTestFunctions.sendInput(treasureLevel, 3);
-            treasureLevel.sendKeys(protractor.Key.UP);
-            expect(treasureLevel.getAttribute('value')).toBe('4');
-        });
-
-        it('decrements by 1 when down is pressed', function () {
-            commonTestFunctions.sendInput(treasureLevel, 3);
-            treasureLevel.sendKeys(protractor.Key.DOWN);
-            expect(treasureLevel.getAttribute('value')).toBe('2');
-        });
-
-        it('cannot increment beyond 20', function () {
-            commonTestFunctions.sendInput(treasureLevel, 20);
-            treasureLevel.sendKeys(protractor.Key.UP);
-            expect(treasureLevel.getAttribute('value')).toBe('20');
-        });
-
-        it('cannot decrement below 1', function () {
-            commonTestFunctions.sendInput(treasureLevel, 1);
-            treasureLevel.sendKeys(protractor.Key.DOWN);
-            expect(treasureLevel.getAttribute('value')).toBe('1');
         });
     });
 

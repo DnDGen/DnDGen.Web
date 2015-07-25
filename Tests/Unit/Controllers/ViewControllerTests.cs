@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DNDGenSite.Controllers;
+using DNDGenSite.Models;
+using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Web.Mvc;
-using DNDGenSite.Controllers;
-using DNDGenSite.Models;
-using EquipmentGen.Common.Items;
-using NUnit.Framework;
+using TreasureGen.Common.Items;
 
 namespace DNDGenSite.Tests.Unit.Controllers
 {

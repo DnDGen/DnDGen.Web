@@ -2,7 +2,7 @@
 
 /// <reference path="../../_resources.js" />
 
-describe('the Dice Service', function () {
+describe('Dice Service', function () {
     var diceService;
     var promiseServiceMock;
 

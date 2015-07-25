@@ -1,9 +1,9 @@
-﻿using System;
-using System.Web.Mvc;
-using D20Dice;
-using DNDGenSite.Controllers;
+﻿using DNDGenSite.Controllers;
 using Moq;
 using NUnit.Framework;
+using RollGen;
+using System;
+using System.Web.Mvc;
 
 namespace DNDGenSite.Tests.Unit.Controllers
 {

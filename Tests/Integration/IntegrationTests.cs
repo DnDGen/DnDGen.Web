@@ -1,9 +1,9 @@
-﻿using System;
-using D20Dice.Bootstrap;
-using DNDGenSite.App_Start;
-using EquipmentGen.Bootstrap;
+﻿using DNDGenSite.App_Start;
+using TreasureGen.Bootstrap;
 using Ninject;
 using NUnit.Framework;
+using RollGen.Bootstrap;
+using System;
 
 namespace DNDGenSite.Tests.Integration
 {
@@ -16,11 +16,11 @@ namespace DNDGenSite.Tests.Integration
         {
             kernel = new StandardKernel();
 
-            var equipmentGenModuleLoader = new EquipmentGenModuleLoader();
-            equipmentGenModuleLoader.LoadModules(kernel);
+            var rollGenModuleLoader = new RollGenModuleLoader();
+            rollGenModuleLoader.LoadModules(kernel);
 
-            var d20DiceModuleLoader = new D20DiceModuleLoader();
-            d20DiceModuleLoader.LoadModules(kernel);
+            var treasureGenModuleLoader = new TreasureGenModuleLoader();
+            treasureGenModuleLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
 

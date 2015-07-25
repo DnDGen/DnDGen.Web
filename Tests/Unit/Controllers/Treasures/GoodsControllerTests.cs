@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using DNDGenSite.Controllers.Treasures;
-using EquipmentGen.Common;
-using EquipmentGen.Common.Goods;
-using EquipmentGen.Generators.Interfaces.Goods;
+﻿using DNDGenSite.Controllers.Treasures;
 using Moq;
 using NUnit.Framework;
+using System.Linq;
+using System.Web.Mvc;
+using TreasureGen.Common;
+using TreasureGen.Common.Goods;
+using TreasureGen.Generators.Goods;
 
 namespace DNDGenSite.Tests.Unit.Controllers.Treasures
 {

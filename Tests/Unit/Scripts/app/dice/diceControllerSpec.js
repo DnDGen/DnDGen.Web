@@ -2,7 +2,7 @@
 
 /// <reference path="../../_resources.js" />
 
-describe('the Dice Controller', function () {
+describe('Dice Controller', function () {
     var vm;
     var diceServiceMock;
     var q;

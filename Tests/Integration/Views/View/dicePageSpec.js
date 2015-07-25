@@ -19,12 +19,16 @@ describe('Dice Page', function () {
         browser.get(browser.baseUrl + '/Dice');
     });
 
+    afterEach(function () {
+        browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
+    });
+
     it('should have a title', function () {
         expect(browser.driver.getTitle()).toBe('DNDGen');
     });
 
     it('should have a header', function () {
-        expect(element(by.css('h1')).getText()).toBe('D20 Dice');
+        expect(element(by.css('h1')).getText()).toBe('RollGen');
     });
 
     it('has roll starting at 0', function () {
@@ -76,24 +80,6 @@ describe('Dice Page', function () {
     it('does not allow empty standard quantites for d2', function () {
         commonTestFunctions.sendInput(standardQuantity, '');
         expect(standardRollButton.isEnabled()).toBeFalsy();
-    });
-
-    it('increments standard quantity by 1 when up is pressed', function () {
-        commonTestFunctions.sendInput(standardQuantity, 3);
-        standardQuantity.sendKeys(protractor.Key.UP);
-        expect(standardQuantity.getAttribute('value')).toBe('4');
-    });
-
-    it('decrements standard quantity by 1 when down is pressed', function () {
-        commonTestFunctions.sendInput(standardQuantity, 3);
-        standardQuantity.sendKeys(protractor.Key.DOWN);
-        expect(standardQuantity.getAttribute('value')).toBe('2');
-    });
-
-    it('cannot decrement standard quantity below 1', function () {
-        commonTestFunctions.sendInput(standardQuantity, 1);
-        standardQuantity.sendKeys(protractor.Key.DOWN);
-        expect(standardQuantity.getAttribute('value')).toBe('1');
     });
 
     it('rolls 3d2', function () {
@@ -216,24 +202,6 @@ describe('Dice Page', function () {
         expect(customRollButton.isEnabled()).toBeFalsy();
     });
 
-    it('increments custom quantity by 1 when up is pressed', function () {
-        commonTestFunctions.sendInput(customQuantity, 3);
-        customQuantity.sendKeys(protractor.Key.UP);
-        expect(customQuantity.getAttribute('value')).toBe('4');
-    });
-
-    it('decrements custom quantity by 1 when down is pressed', function () {
-        commonTestFunctions.sendInput(customQuantity, 3);
-        customQuantity.sendKeys(protractor.Key.DOWN);
-        expect(customQuantity.getAttribute('value')).toBe('2');
-    });
-
-    it('cannot key down custom quantity below 1', function () {
-        commonTestFunctions.sendInput(customQuantity, 1);
-        customQuantity.sendKeys(protractor.Key.DOWN);
-        expect(customQuantity.getAttribute('value')).toBe('1');
-    });
-
     it('allows die of 1 for custom', function () {
         commonTestFunctions.sendInput(customDie, 1);
         expect(customRollButton.isEnabled()).toBeTruthy();
@@ -267,24 +235,6 @@ describe('Dice Page', function () {
     it('does not allow empty die for custom', function () {
         commonTestFunctions.sendInput(customDie, '');
         expect(customRollButton.isEnabled()).toBeFalsy();
-    });
-
-    it('increments custom die by 1 when up is pressed', function () {
-        commonTestFunctions.sendInput(customDie, 3);
-        customDie.sendKeys(protractor.Key.UP);
-        expect(customDie.getAttribute('value')).toBe('4');
-    });
-
-    it('decrements custom die by 1 when down is pressed', function () {
-        commonTestFunctions.sendInput(customDie, 3);
-        customDie.sendKeys(protractor.Key.DOWN);
-        expect(customDie.getAttribute('value')).toBe('2');
-    });
-
-    it('cannot key down custom die below 1', function () {
-        commonTestFunctions.sendInput(customDie, 1);
-        customDie.sendKeys(protractor.Key.DOWN);
-        expect(customDie.getAttribute('value')).toBe('1');
     });
 
     it('formats the roll as a number', function () {

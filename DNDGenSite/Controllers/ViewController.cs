@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DNDGenSite.Models;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using DNDGenSite.Models;
-using EquipmentGen.Common.Items;
+using TreasureGen.Common.Items;
 
 namespace DNDGenSite.Controllers
 {
@@ -39,66 +39,66 @@ namespace DNDGenSite.Controllers
         private Dictionary<String, IEnumerable<String>> GetPowers()
         {
             var powers = new Dictionary<String, IEnumerable<String>>();
-            powers[ItemTypeConstants.Armor] = new[] 
-            { 
-                PowerConstants.Mundane, 
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Potion] = new[] 
+            powers[ItemTypeConstants.Armor] = new[]
             {
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
+                PowerConstants.Mundane,
+                PowerConstants.Minor,
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Ring] = new[] 
+            powers[ItemTypeConstants.Potion] = new[]
             {
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
+                PowerConstants.Minor,
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Rod] = new[] 
+            powers[ItemTypeConstants.Ring] = new[]
             {
-                PowerConstants.Medium, 
+                PowerConstants.Minor,
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Scroll] = new[] 
+            powers[ItemTypeConstants.Rod] = new[]
             {
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Staff] = new[] 
+            powers[ItemTypeConstants.Scroll] = new[]
             {
-                PowerConstants.Medium, 
+                PowerConstants.Minor,
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Wand] = new[] 
+            powers[ItemTypeConstants.Staff] = new[]
             {
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 
-            powers[ItemTypeConstants.Weapon] = new[] 
-            { 
-                PowerConstants.Mundane, 
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.WondrousItem] = new[] 
+            powers[ItemTypeConstants.Wand] = new[]
             {
-                PowerConstants.Minor, 
-                PowerConstants.Medium, 
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Weapon] = new[]
+            {
+                PowerConstants.Mundane,
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.WondrousItem] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
                 PowerConstants.Major
             };
 

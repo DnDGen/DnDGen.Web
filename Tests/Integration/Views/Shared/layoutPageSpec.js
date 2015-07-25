@@ -25,6 +25,7 @@ describe('Layout Page', function () {
     var githubDiceLink = element(by.id('githubDiceLink'));
     var githubEquipmentLink = element(by.id('githubEquipmentLink'));
     var githubCharacterLink = element(by.id('githubCharacterLink'));
+    var githubEncounterLink = element(by.id('githubEncounterLink'));
     var githubDungeonLink = element(by.id('githubDungeonLink'));
     var githubSiteLink = element(by.id('githubSiteLink'));
 
@@ -42,148 +43,162 @@ describe('Layout Page', function () {
             browser.get(browser.baseUrl);
         });
 
-        it('should navigate to the home page', function () {
-            browser.get(browser.baseUrl + '/Dice');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(brand);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/');
-        });
-
-        it('should navigate to the dice page', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(diceLink);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
-        });
-
-        it('should navigate to the treasure page', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureLink);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Treasure');
-        });
-
-        it('should navigate to the character page', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(characterLink);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Character');
-        });
-
-        it('should navigate to the encounter page', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(encounterLink);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Encounter');
-        });
-
-        it('should navigate to the dungeon page', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(dungeonLink);
-            expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dungeon');
-        });
-
-        it('should navigate to the github profile for cid the coatrack', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubUserLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack');
-        });
-
-        it('should navigate to the github repository for the D20-Dice project', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDiceLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/D20-Dice');
-        });
-
-        it('should navigate to the github repository for the EquipmentGen project', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEquipmentLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/EquipmentGen');
-        });
-
-        it('should navigate to the github repository for the NPCGen project', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubCharacterLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/NPCGen');
-        });
-
-        it('should navigate to the github repository for the DungeonGen project', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDungeonLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DungeonMaker');
-        });
-
-        it('should navigate to the github repository for the DNDGenSite project', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(githubSiteLink);
-            expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DNDGenSite');
-        });
-
-        it('should navigate to the official D&D website', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(officialDndLink);
-            expect(browser.getCurrentUrl()).toEqual('http://dnd.wizards.com/');
-        });
-
-        it('should navigate to home from the empty url', function () {
-            expect(header.getText()).toBe('Welcome!');
-        });
-
-        it('should have implicit view route for home', function () {
-            browser.get(browser.baseUrl + '/Home');
-            expect(header.getText()).toBe('Welcome!');
-        });
-
-        it('should have implicit view route for dice', function () {
-            browser.get(browser.baseUrl + '/Dice');
-            expect(header.getText()).toBe('D20 Dice');
-        });
-
-        it('should have implicit view route for treasure', function () {
-            browser.get(browser.baseUrl + '/Treasure');
-            expect(header.getText()).toBe('TreasureGen');
-        });
-
-        it('should have implicit view route for character', function () {
-            browser.get(browser.baseUrl + '/Character');
-            expect(header.getText()).toBe('CharacterGen');
-        });
-
-        it('should have implicit view route for encounter', function () {
-            browser.get(browser.baseUrl + '/Encounter');
-            expect(header.getText()).toBe('EncounterGen');
-        });
-
-        it('should have implicit view route for dungeon', function () {
-            browser.get(browser.baseUrl + '/Dungeon');
-            expect(header.getText()).toBe('DungeonGen');
-        });
-
-        describe('on a small device', function () {
-            beforeAll(function () {
-                browser.driver.manage().window().setSize(800, 800);
+        describe('to internal sites', function () {
+            afterEach(function () {
+                browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
             });
 
-            afterAll(function () {
-                browser.driver.manage().window().maximize();
-            });
-
-            beforeEach(function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGeneratorLinks);
+            it('should navigate to the home page', function () {
+                browser.get(browser.baseUrl + '/Dice');
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(brand);
+                expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/');
             });
 
             it('should navigate to the dice page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedDiceLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(diceLink);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
             });
 
             it('should navigate to the treasure page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedTreasureLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureLink);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Treasure');
             });
 
             it('should navigate to the character page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedCharacterLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(characterLink);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Character');
             });
 
             it('should navigate to the encounter page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedEncounterLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(encounterLink);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Encounter');
             });
 
             it('should navigate to the dungeon page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedDungeonLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(dungeonLink);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dungeon');
+            });
+
+            it('should navigate to home from the empty url', function () {
+                expect(header.getText()).toBe('Welcome!');
+            });
+
+            it('should have implicit view route for home', function () {
+                browser.get(browser.baseUrl + '/Home');
+                expect(header.getText()).toBe('Welcome!');
+            });
+
+            it('should have implicit view route for dice', function () {
+                browser.get(browser.baseUrl + '/Dice');
+                expect(header.getText()).toBe('RollGen');
+            });
+
+            it('should have implicit view route for treasure', function () {
+                browser.get(browser.baseUrl + '/Treasure');
+                expect(header.getText()).toBe('TreasureGen');
+            });
+
+            it('should have implicit view route for character', function () {
+                browser.get(browser.baseUrl + '/Character');
+                expect(header.getText()).toBe('CharacterGen');
+            });
+
+            it('should have implicit view route for encounter', function () {
+                browser.get(browser.baseUrl + '/Encounter');
+                expect(header.getText()).toBe('EncounterGen');
+            });
+
+            it('should have implicit view route for dungeon', function () {
+                browser.get(browser.baseUrl + '/Dungeon');
+                expect(header.getText()).toBe('DungeonGen');
+            });
+
+            describe('on a small device', function () {
+                beforeAll(function () {
+                    browser.driver.manage().window().setSize(800, 800);
+                });
+
+                afterAll(function () {
+                    browser.driver.manage().window().maximize();
+                });
+
+                beforeEach(function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGeneratorLinks);
+                });
+
+                it('should navigate to the dice page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedDiceLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
+                });
+
+                it('should navigate to the treasure page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedTreasureLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Treasure');
+                });
+
+                it('should navigate to the character page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedCharacterLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Character');
+                });
+
+                it('should navigate to the encounter page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedEncounterLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Encounter');
+                });
+
+                it('should navigate to the dungeon page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedDungeonLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dungeon');
+                });
+            });
+        });
+
+        describe('to external sites', function () {
+            it('should navigate to the github profile for cid the coatrack', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubUserLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack');
+            });
+
+            it('should navigate to the github repository for the RollGen project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDiceLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/RollGen');
+            });
+
+            it('should navigate to the github repository for the TreasureGen project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEquipmentLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/TreasureGen');
+            });
+
+            it('should navigate to the github repository for the CharacterGen project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubCharacterLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/CharacterGen');
+            });
+
+            it('should navigate to the github repository for the EncounterGen project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEncounterLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/EncounterGen');
+            });
+
+            it('should navigate to the github repository for the DungeonGen project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDungeonLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DungeonGen');
+            });
+
+            it('should navigate to the github repository for the DNDGenSite project', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubSiteLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DNDGenSite');
+            });
+
+            it('should navigate to the official D&D website', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(officialDndLink);
+                expect(browser.getCurrentUrl()).toEqual('http://dnd.wizards.com/');
             });
         });
     });
@@ -195,6 +210,10 @@ describe('Layout Page', function () {
 
         afterAll(function () {
             browser.driver.manage().window().maximize();
+        });
+
+        afterEach(function () {
+            browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
         });
 
         it('shows the brand', function () {
@@ -347,6 +366,10 @@ describe('Layout Page', function () {
     describe('on medium devices', function () {
         beforeAll(function () {
             browser.driver.manage().window().setSize(1100, 1100);
+        });
+
+        afterEach(function () {
+            browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
         });
 
         afterAll(function () {
@@ -503,6 +526,10 @@ describe('Layout Page', function () {
     describe('on small devices', function () {
         beforeAll(function () {
             browser.driver.manage().window().setSize(800, 800);
+        });
+
+        afterEach(function () {
+            browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
         });
 
         afterAll(function () {
@@ -713,6 +740,10 @@ describe('Layout Page', function () {
     describe('on extra-small devices', function () {
         beforeAll(function () {
             browser.driver.manage().window().setSize(750, 750);
+        });
+
+        afterEach(function () {
+            browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
         });
 
         afterAll(function () {

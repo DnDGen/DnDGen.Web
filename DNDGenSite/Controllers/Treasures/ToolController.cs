@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using EquipmentGen.Common;
-using EquipmentGen.Generators.Interfaces.Items.Mundane;
+using TreasureGen.Common;
+using TreasureGen.Generators.Items.Mundane;
 
 namespace DNDGenSite.Controllers.Treasures
 {

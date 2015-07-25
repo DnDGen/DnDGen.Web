@@ -12,6 +12,13 @@
             browser.sleep(10);
         }
 
+        app.assertNoErrors = function (browserLog) {
+            for (var i = 0; i < browserLog.length; i++)
+                expect(browserLog[i].message).toBe('');
+
+            expect(browserLog.length).toBe(0);
+        };
+
         app.clickWhenReadyAndWaitForResolution = function (elementToClick, loadingElement) {
             while (browser.isElementPresent(elementToClick) == false)
                 shortWait();

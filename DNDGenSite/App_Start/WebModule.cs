@@ -1,9 +1,9 @@
 ﻿using DNDGenSite.Controllers.Treasures;
-using EquipmentGen.Common.Items;
-using EquipmentGen.Generators.Interfaces.Items.Magical;
-using EquipmentGen.Generators.Interfaces.Items.Mundane;
 using Ninject;
 using Ninject.Modules;
+using TreasureGen.Common.Items;
+using TreasureGen.Generators.Items.Magical;
+using TreasureGen.Generators.Items.Mundane;
 
 namespace DNDGenSite.App_Start
 {

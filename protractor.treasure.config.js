@@ -4,8 +4,21 @@ exports.config = {
       'Tests/Integration/**/treasurePageSpec.js'
     ],
     multiCapabilities: [
-        { browserName: 'chrome' },
-        { browserName: 'firefox' }
+        {
+            browserName: 'chrome',
+            "loggingPrefs": {
+                "driver": "SEVERE",
+                "server": "SEVERE",
+                "browser": "SEVERE"
+            }
+        }, {
+            browserName: 'firefox',
+            "loggingPrefs": {
+                "driver": "SEVERE",
+                "server": "SEVERE",
+                "browser": "SEVERE"
+            }
+        }
     ],
     onPrepare: function () {
         browser.ignoreSynchronization = true;
@@ -35,6 +48,6 @@ exports.config = {
         isVerbose: false,
         showColors: true,
         includeStackTrace: true,
-        defaultTimeoutInterval: 20000
+        defaultTimeoutInterval: 60000
     }
 };
