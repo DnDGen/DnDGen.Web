@@ -21,7 +21,7 @@ describe('Layout Page', function () {
     var collapsedDungeonLink = element(by.id('collapsedDungeonLink'));
 
     var collapsedGithubLinks = element(by.id('collapsedGithubLinks'));
-    var githubUserLink = element(by.id('githubUserLink'));
+    var githubOrganizationLink = element(by.id('githubOrganizationLink'));
     var githubDiceLink = element(by.id('githubDiceLink'));
     var githubEquipmentLink = element(by.id('githubEquipmentLink'));
     var githubCharacterLink = element(by.id('githubCharacterLink'));
@@ -156,44 +156,44 @@ describe('Layout Page', function () {
         describe('to external sites', function () {
             it('should navigate to the github profile for cid the coatrack', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubUserLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack');
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubOrganizationLink);
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen');
             });
 
             it('should navigate to the github repository for the RollGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDiceLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/RollGen');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/RollGen');
             });
 
             it('should navigate to the github repository for the TreasureGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEquipmentLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/TreasureGen');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/TreasureGen');
             });
 
             it('should navigate to the github repository for the CharacterGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubCharacterLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/CharacterGen');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/CharacterGen');
             });
 
             it('should navigate to the github repository for the EncounterGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEncounterLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/EncounterGen');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/EncounterGen');
             });
 
             it('should navigate to the github repository for the DungeonGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDungeonLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DungeonGen');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/DungeonGen');
             });
 
             it('should navigate to the github repository for the DNDGenSite project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubSiteLink);
-                expect(browser.getCurrentUrl()).toEqual('https://github.com/cidthecoatrack/DNDGenSite');
+                expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/DNDGenSite');
             });
 
             it('should navigate to the official D&D website', function () {
@@ -269,7 +269,7 @@ describe('Layout Page', function () {
         });
 
         it('does not show the github user link', function () {
-            expect(githubUserLink.isDisplayed()).toBeFalsy();
+            expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github dice link', function () {
@@ -310,7 +310,7 @@ describe('Layout Page', function () {
             });
 
             it('shows the github user link', function () {
-                expect(githubUserLink.isDisplayed()).toBeTruthy();
+                expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github dice link', function () {
@@ -429,7 +429,7 @@ describe('Layout Page', function () {
         });
 
         it('does not show the github user link', function () {
-            expect(githubUserLink.isDisplayed()).toBeFalsy();
+            expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github dice link', function () {
@@ -470,7 +470,7 @@ describe('Layout Page', function () {
             });
 
             it('shows the github user link', function () {
-                expect(githubUserLink.isDisplayed()).toBeTruthy();
+                expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github dice link', function () {
@@ -589,7 +589,7 @@ describe('Layout Page', function () {
         });
 
         it('does not show the github user link', function () {
-            expect(githubUserLink.isDisplayed()).toBeFalsy();
+            expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github dice link', function () {
@@ -630,7 +630,7 @@ describe('Layout Page', function () {
             });
 
             it('does not show the github user link', function () {
-                expect(githubUserLink.isDisplayed()).toBeFalsy();
+                expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the github dice link', function () {
@@ -688,7 +688,7 @@ describe('Layout Page', function () {
             });
 
             it('shows the github user link', function () {
-                expect(githubUserLink.isDisplayed()).toBeTruthy();
+                expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github dice link', function () {
@@ -803,7 +803,7 @@ describe('Layout Page', function () {
         });
 
         it('does not show the github user link', function () {
-            expect(githubUserLink.isDisplayed()).toBeFalsy();
+            expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github dice link', function () {
@@ -892,7 +892,7 @@ describe('Layout Page', function () {
             });
 
             it('does not show the github user link', function () {
-                expect(githubUserLink.isDisplayed()).toBeFalsy();
+                expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the github dice link', function () {
@@ -929,7 +929,7 @@ describe('Layout Page', function () {
                 });
 
                 it('does not show the github user link', function () {
-                    expect(githubUserLink.isDisplayed()).toBeFalsy();
+                    expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
                 });
 
                 it('does not show the github dice link', function () {
@@ -983,7 +983,7 @@ describe('Layout Page', function () {
                 });
 
                 it('shows the github user link', function () {
-                    expect(githubUserLink.isDisplayed()).toBeTruthy();
+                    expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
                 });
 
                 it('shows the github dice link', function () {
