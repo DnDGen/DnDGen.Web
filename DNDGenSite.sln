@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		protractor.dungeon.config.js = protractor.dungeon.config.js
 		protractor.encounter.config.js = protractor.encounter.config.js
 		protractor.layout.config.js = protractor.layout.config.js
+		protractor.live.config.js = protractor.live.config.js
 		protractor.treasure.config.js = protractor.treasure.config.js
 	EndProjectSection
 EndProject

@@ -34,6 +34,14 @@ describe('Layout Page', function () {
 
     var header = element(by.css('h1'));
 
+    beforeAll(function () {
+        browser.get(browser.baseUrl);
+    });
+
+    it('should have a title', function () {
+        expect(browser.driver.getTitle()).toEqual('DnDGen');
+    });
+
     describe('when navigating', function () {
         beforeEach(function () {
             browser.get(browser.baseUrl);

@@ -8,13 +8,6 @@ namespace DNDGenSite.Tests.Integration.App_Start
     public class WebModuleTests : IntegrationTests
     {
         [Test]
-        public void DiceControllerIsInjected()
-        {
-            var controller = GetNewInstanceOf<DiceController>();
-            Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
         public void ViewControllerIsInjected()
         {
             var controller = GetNewInstanceOf<ViewController>();
@@ -22,16 +15,16 @@ namespace DNDGenSite.Tests.Integration.App_Start
         }
 
         [Test]
-        public void AlchemicalItemControllerIsInjected()
+        public void DiceControllerIsInjected()
         {
-            var controller = GetNewInstanceOf<AlchemicalItemController>();
+            var controller = GetNewInstanceOf<DiceController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
-        public void ArmorControllerIsInjected()
+        public void TreasureControllerIsInjected()
         {
-            var controller = GetNewInstanceOf<ArmorController>();
+            var controller = GetNewInstanceOf<TreasureController>();
             Assert.That(controller, Is.Not.Null);
         }
 
@@ -53,6 +46,27 @@ namespace DNDGenSite.Tests.Integration.App_Start
         public void ItemsControllerIsInjected()
         {
             var controller = GetNewInstanceOf<ItemsController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void AlchemicalItemControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<AlchemicalItemController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void ToolControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<ToolController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void ArmorControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<ArmorController>();
             Assert.That(controller, Is.Not.Null);
         }
 
@@ -88,20 +102,6 @@ namespace DNDGenSite.Tests.Integration.App_Start
         public void StaffControllerIsInjected()
         {
             var controller = GetNewInstanceOf<StaffController>();
-            Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void ToolControllerIsInjected()
-        {
-            var controller = GetNewInstanceOf<ToolController>();
-            Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void TreasureControllerIsInjected()
-        {
-            var controller = GetNewInstanceOf<TreasureController>();
             Assert.That(controller, Is.Not.Null);
         }
 

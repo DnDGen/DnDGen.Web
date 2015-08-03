@@ -36,27 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EquipmentGen.Generators">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Generators.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Mappers">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Mappers.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Mappers.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Mappers.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Selectors">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Selectors.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Selectors.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Selectors.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Tables">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Tables.dll</HintPath>
-    </Reference>
-    <Reference Include="EquipmentGen.Tables.Interfaces">
-      <HintPath>..\packages\EquipmentGen.Backend.2.1.1\lib\EquipmentGen.Tables.Interfaces.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>

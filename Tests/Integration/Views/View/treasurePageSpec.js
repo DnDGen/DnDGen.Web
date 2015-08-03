@@ -38,10 +38,6 @@ describe('Treasure Page', function () {
         browser.manage().logs().get('browser').then(commonTestFunctions.assertNoErrors);
     });
 
-    it('has a title', function () {
-        expect(browser.driver.getTitle()).toEqual('DNDGen');
-    });
-
     it('has a header', function () {
         expect(element(by.css('h1')).getText()).toBe('TreasureGen');
     });
