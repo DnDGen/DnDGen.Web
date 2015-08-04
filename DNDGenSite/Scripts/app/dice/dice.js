@@ -5,9 +5,9 @@
         .module('app.dice')
         .controller('Dice', Dice);
 
-    Dice.$inject = ['diceService'];
+    Dice.$inject = ['diceService', 'sweetAlertService'];
 
-    function Dice(diceService) {
+    function Dice(diceService, sweetAlertService) {
         var vm = this;
 
         vm.standardQuantity = 1;
@@ -34,19 +34,24 @@
         vm.rollStandard = function () {
             vm.rolling = true;
             diceService.getRoll(vm.standardQuantity, vm.standardDie.die)
-                .then(function (data) {
-                    vm.roll = data.roll;
-                    vm.rolling = false;
-                });
+                .then(setRoll, handleError);
         };
+
+        function setRoll(data) {
+            vm.roll = data.roll;
+            vm.rolling = false;
+        }
+
+        function handleError() {
+            sweetAlertService.showError();
+            vm.roll = 0;
+            vm.rolling = false;
+        }
 
         vm.rollCustom = function () {
             vm.rolling = true;
             diceService.getCustomRoll(vm.customQuantity, vm.customDie)
-                .then(function (data) {
-                    vm.roll = data.roll;
-                    vm.rolling = false;
-                });
+                .then(setRoll, handleError);
         };
     };
 })();

@@ -1,18 +1,18 @@
 ﻿using DNDGenSite.App_Start;
-using TreasureGen.Bootstrap;
 using Ninject;
 using NUnit.Framework;
 using RollGen.Bootstrap;
 using System;
+using TreasureGen.Bootstrap;
 
 namespace DNDGenSite.Tests.Integration
 {
     [TestFixture]
     public abstract class IntegrationTests
     {
-        private IKernel kernel;
+        private readonly IKernel kernel;
 
-        public IntegrationTests()
+        protected IntegrationTests()
         {
             kernel = new StandardKernel();
 

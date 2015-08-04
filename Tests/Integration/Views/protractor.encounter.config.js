@@ -1,7 +1,7 @@
 exports.config = {
     framework: 'jasmine2',
     specs: [
-      'Tests/Integration/**/dungeonPageSpec.js'
+      '**/encounterPageSpec.js'
     ],
     multiCapabilities: [
         {
@@ -32,8 +32,8 @@ exports.config = {
  
             var junitReporter = new jasmineReporters.JUnitXmlReporter({
                 consolidateAll: true,
-                savePath: 'testresults',
-                filePrefix: browserName + '.dungeon',
+                savePath: 'TestResults',
+                filePrefix: browserName + '.encounter',
                 modifySuiteName: function(generatedSuiteName, suite) {
                     return browserName + '.' + generatedSuiteName;
                 }

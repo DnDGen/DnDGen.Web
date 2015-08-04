@@ -1,8 +1,7 @@
 exports.config = {
     framework: 'jasmine2',
-    seleniumArgs: ['-Dwebdriver.ie.driver=node_modules/protractor/selenium/IEDriverServer.exe'],
     specs: [
-      'Tests/Integration/**/dicePageSpec.js'
+      '**/treasurePageSpec.js'
     ],
     multiCapabilities: [
         {
@@ -33,8 +32,8 @@ exports.config = {
  
             var junitReporter = new jasmineReporters.JUnitXmlReporter({
                 consolidateAll: true,
-                savePath: 'testresults',
-                filePrefix: browserName + '.dice',
+                savePath: 'TestResults',
+                filePrefix: browserName + '.treasure',
                 modifySuiteName: function(generatedSuiteName, suite) {
                     return browserName + '.' + generatedSuiteName;
                 }

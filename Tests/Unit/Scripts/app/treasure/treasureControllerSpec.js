@@ -8,6 +8,7 @@ describe('Treasure Controller', function () {
     var q;
     var bootstrapDataMock;
     var scope;
+    var sweetAlertServiceMock;
 
     beforeEach(module('app.treasure'));
 
@@ -38,11 +39,19 @@ describe('Treasure Controller', function () {
                 return getMockedPromise(treasure);
             }
         };
+
+        sweetAlertServiceMock = {};
+        sweetAlertServiceMock.showError = jasmine.createSpy();
     });
 
     function getMockedPromise(treasure) {
         var deferred = q.defer();
-        deferred.resolve({ "treasure": treasure });
+
+        if (treasure.description.indexOf('666') > -1)
+            deferred.reject();
+        else
+            deferred.resolve({ "treasure": treasure });
+
         return deferred.promise;
     }
 
@@ -52,7 +61,8 @@ describe('Treasure Controller', function () {
         vm = $controller('Treasure as vm', {
             $scope: scope,
             bootstrapData: bootstrapDataMock,
-            treasureService: treasureServiceMock
+            treasureService: treasureServiceMock,
+            sweetAlertService: sweetAlertServiceMock
         });
     }));
 
@@ -178,5 +188,108 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is done generating if an error is thrown while fetching treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 666;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('shows an alert if an error is thrown while fetching treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 666;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is done generating if an error is thrown while fetching mundane item', function () {
+        vm.mundaneItemType = '666';
+
+        vm.generateMundaneItem();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('shows an alert if an error is thrown while fetching mundane item', function () {
+        vm.mundaneItemType = '666';
+
+        vm.generateMundaneItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is done generating if an error is thrown while fetching powered item', function () {
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = '666';
+
+        vm.generatePoweredItem();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('shows an alert if an error is thrown while fetching powered item', function () {
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = '666';
+
+        vm.generatePoweredItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('clears the treasure if an error is thrown while fetching treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        vm.treasureLevel = 666;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure).toBeNull();
+    });
+
+    it('clears the treasure if an error is thrown while fetching mundane items', function () {
+        vm.mundaneItemType = 'mundane item type';
+
+        vm.generateMundaneItem();
+        scope.$apply();
+
+        vm.mundaneItemType = '666';
+
+        vm.generateMundaneItem();
+        scope.$apply();
+
+        expect(vm.treasure).toBeNull();
+    });
+
+    it('clears the treasure if an error is thrown while fetching powered items', function () {
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = 'power';
+
+        vm.generatePoweredItem();
+        scope.$apply();
+
+        vm.poweredItemType = vm.treasureModel.PoweredItemTypes[1];
+        vm.itemPower = '666';
+
+        vm.generatePoweredItem();
+        scope.$apply();
+
+        expect(vm.treasure).toBeNull();
     });
 })

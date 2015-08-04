@@ -5,9 +5,9 @@
         .module('app.treasure')
         .controller('Treasure', Treasure);
 
-    Treasure.$inject = ['$scope', 'bootstrapData', 'treasureService'];
+    Treasure.$inject = ['$scope', 'bootstrapData', 'treasureService', 'sweetAlertService'];
 
-    function Treasure($scope, bootstrapData, treasureService) {
+    function Treasure($scope, bootstrapData, treasureService, sweetAlertService) {
         var vm = this;
         vm.treasureModel = bootstrapData.treasureModel;
 
@@ -22,7 +22,8 @@
 
         vm.generateTreasure = function () {
             vm.generating = true;
-            treasureService.getTreasure(vm.treasureType, vm.treasureLevel).then(setTreasure);
+            treasureService.getTreasure(vm.treasureType, vm.treasureLevel)
+                .then(setTreasure, handleError);
         };
 
         function setTreasure(data) {
@@ -30,14 +31,22 @@
             vm.generating = false;
         }
 
+        function handleError() {
+            sweetAlertService.showError();
+            vm.treasure = null;
+            vm.generating = false;
+        }
+
         vm.generateMundaneItem = function () {
             vm.generating = true;
-            treasureService.getMundaneItem(vm.mundaneItemType).then(setTreasure);
+            treasureService.getMundaneItem(vm.mundaneItemType)
+                .then(setTreasure, handleError);
         };
 
         vm.generatePoweredItem = function () {
             vm.generating = true;
-            treasureService.getPoweredItem(vm.poweredItemType, vm.itemPower).then(setTreasure);
+            treasureService.getPoweredItem(vm.poweredItemType, vm.itemPower)
+                .then(setTreasure, handleError);
         };
 
         $scope.$watch('vm.poweredItemType', function (newValue, oldValue) {

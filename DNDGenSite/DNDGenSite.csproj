@@ -51,6 +51,10 @@
     <Reference Include="Ninject.Web.Mvc">
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Octokit, Version=0.14.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.14.0\lib\net45\Octokit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RollGen, Version=1.0.5683.31166, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\D20Dice.9.0\lib\RollGen.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +68,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -158,6 +163,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dice.css" />
+    <Content Include="Content\sweetalert.css" />
     <Content Include="Content\treasure.css" />
     <Content Include="Content\layout.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -190,6 +196,7 @@
     <Content Include="Scripts\app\dice\dice.module.js" />
     <Content Include="Scripts\app\dice\diceService.js" />
     <Content Include="Scripts\app\dice\dice.js" />
+    <Content Include="Scripts\app\shared\sweetAlertService.js" />
     <Content Include="Scripts\app\shared\promiseService.js" />
     <Content Include="Scripts\app\treasure\treasure.js" />
     <Content Include="Scripts\app\treasure\treasure.module.js" />
@@ -220,6 +227,7 @@
     <Content Include="Scripts\jQuery\jquery-2.1.4.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.4.min.map" />
+    <Content Include="Scripts\SweetAlert\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\View\Home.cshtml" />
@@ -229,6 +237,7 @@
     <Content Include="Views\View\Character.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Factories\GitHubClientFactory.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebModule.cs" />
@@ -255,12 +264,15 @@
     </Compile>
     <Compile Include="Models\TreasureModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ErrorRepository.cs" />
+    <Compile Include="Repositories\GitHubErrorRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\View\Encounter.cshtml" />
     <Content Include="Scripts\Angular\version.json" />
+    <Content Include="Views\View\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -121,6 +121,16 @@ describe('Layout Page', function () {
                 expect(header.getText()).toBe('DungeonGen');
             });
 
+            it('should go to error page when route is invalid', function () {
+                browser.get(browser.baseUrl + '/NotReal');
+                expect(header.getText()).toBe('Critical Miss');
+            });
+
+            it('should have implicit view route for error', function () {
+                browser.get(browser.baseUrl + '/Error');
+                expect(header.getText()).toBe('Critical Miss');
+            });
+
             describe('on a small device', function () {
                 beforeAll(function () {
                     browser.driver.manage().window().setSize(800, 800);
@@ -162,7 +172,7 @@ describe('Layout Page', function () {
         });
 
         describe('to external sites', function () {
-            it('should navigate to the github profile for cid the coatrack', function () {
+            it('should navigate to the github organization for DnDGen', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(githubOrganizationLink);
                 expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen');

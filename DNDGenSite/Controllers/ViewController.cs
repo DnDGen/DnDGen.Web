@@ -122,5 +122,11 @@ namespace DNDGenSite.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [TestCase("Character")]
         [TestCase("Encounter")]
         [TestCase("Dungeon")]
+        [TestCase("Error")]
         public void ActionHandlesGetVerb(String methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -171,6 +172,13 @@ namespace DNDGenSite.Tests.Unit.Controllers
         public void DungeonReturnsView()
         {
             var result = controller.Dungeon();
+            Assert.That(result, Is.InstanceOf<ViewResult>());
+        }
+
+        [Test]
+        public void ErrorReturnsView()
+        {
+            var result = controller.Error();
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
     }

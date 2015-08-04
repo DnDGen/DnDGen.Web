@@ -1,6 +1,9 @@
-﻿using DNDGenSite.Controllers.Treasures;
+﻿using DNDGenSite.App_Start.Factories;
+using DNDGenSite.Controllers.Treasures;
+using DNDGenSite.Repositories;
 using Ninject;
 using Ninject.Modules;
+using Octokit;
 using TreasureGen.Common.Items;
 using TreasureGen.Generators.Items.Magical;
 using TreasureGen.Generators.Items.Mundane;
@@ -24,6 +27,8 @@ namespace DNDGenSite.App_Start
             Bind<WeaponController>().ToMethod(c => new WeaponController(c.Kernel.Get<IMagicalItemGenerator>(ItemTypeConstants.Weapon),
                 c.Kernel.Get<IMundaneItemGenerator>(ItemTypeConstants.Weapon)));
             Bind<WondrousItemController>().ToMethod(c => new WondrousItemController(c.Kernel.Get<IMagicalItemGenerator>(ItemTypeConstants.WondrousItem)));
+            Bind<IGitHubClient>().ToMethod(c => GitHubClientFactory.Create());
+            Bind<ErrorRepository>().To<GitHubErrorRepository>();
         }
     }
 }

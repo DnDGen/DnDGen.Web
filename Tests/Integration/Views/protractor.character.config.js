@@ -1,7 +1,7 @@
 exports.config = {
     framework: 'jasmine2',
     specs: [
-      'Tests/Integration/**/layoutPageSpec.js'
+      '**/characterPageSpec.js'
     ],
     multiCapabilities: [
         {
@@ -32,8 +32,8 @@ exports.config = {
  
             var junitReporter = new jasmineReporters.JUnitXmlReporter({
                 consolidateAll: true,
-                savePath: 'testresults',
-                filePrefix: browserName + '.layout',
+                savePath: 'TestResults',
+                filePrefix: browserName + '.character',
                 modifySuiteName: function(generatedSuiteName, suite) {
                     return browserName + '.' + generatedSuiteName;
                 }

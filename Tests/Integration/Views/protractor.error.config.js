@@ -1,7 +1,7 @@
 exports.config = {
     framework: 'jasmine2',
     specs: [
-      'Tests/Integration/**/*PageSpec.js'
+      '**/errorPageSpec.js'
     ],
     multiCapabilities: [
         {
@@ -23,7 +23,7 @@ exports.config = {
     onPrepare: function () {
         browser.ignoreSynchronization = true;
         browser.driver.manage().window().maximize();
-        browser.driver.get('http://dndgen.com/');
+        browser.driver.get('http://localhost:9266/');
 
         var jasmineReporters = require('jasmine-reporters');
  
@@ -32,8 +32,8 @@ exports.config = {
  
             var junitReporter = new jasmineReporters.JUnitXmlReporter({
                 consolidateAll: true,
-                savePath: 'testresults',
-                filePrefix: browserName + '.live',
+                savePath: 'TestResults',
+                filePrefix: browserName + '.error',
                 modifySuiteName: function(generatedSuiteName, suite) {
                     return browserName + '.' + generatedSuiteName;
                 }
@@ -41,7 +41,7 @@ exports.config = {
             jasmine.getEnv().addReporter(junitReporter);
         });
     },
-    baseUrl: 'http://dndgen.com',
+    baseUrl: 'http://localhost:9266',
     rootElement: 'body',
     jasmineNodeOpts: {
         onComplete: null,

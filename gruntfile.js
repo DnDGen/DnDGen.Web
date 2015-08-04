@@ -20,14 +20,15 @@ module.exports = function(grunt) {
         },
         protractor: {
             options: { keepAlive: false },
-            layout: { configFile: "protractor.layout.config.js" },
-            dice: { configFile: "protractor.dice.config.js" },
-            treasure: { configFile: "protractor.treasure.config.js" },
-            character: { configFile: "protractor.character.config.js" },
-            encounter: { configFile: "protractor.encounter.config.js" },
-            dungeon: { configFile: "protractor.dungeon.config.js" },
-            all: { configFile: "protractor.all.config.js" },
-            live: { configFile: "protractor.live.config.js" }
+            layout: { configFile: "Tests/Integration/Views/protractor.layout.config.js" },
+            dice: { configFile: "Tests/Integration/Views/protractor.dice.config.js" },
+            treasure: { configFile: "Tests/Integration/Views/protractor.treasure.config.js" },
+            character: { configFile: "Tests/Integration/Views/protractor.character.config.js" },
+            encounter: { configFile: "Tests/Integration/Views/protractor.encounter.config.js" },
+            dungeon: { configFile: "Tests/Integration/Views/protractor.dungeon.config.js" },
+            all: { configFile: "Tests/Integration/Views/protractor.all.config.js" },
+            live: { configFile: "Tests/Integration/Views/protractor.live.config.js" },
+            error: { configFile: "Tests/Integration/Views/protractor.error.config.js" }
         }
     });
 
@@ -43,4 +44,5 @@ module.exports = function(grunt) {
     grunt.registerTask('e2e-dungeon', ['msbuild', 'iisexpress', 'protractor:dungeon']);
     grunt.registerTask('e2e-all', ['msbuild', 'iisexpress', 'protractor:all']);
     grunt.registerTask('e2e-live', ['protractor:live']);
+    grunt.registerTask('e2e-error', ['msbuild', 'iisexpress', 'protractor:error']);
 };

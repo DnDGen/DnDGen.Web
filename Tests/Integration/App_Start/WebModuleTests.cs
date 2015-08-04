@@ -1,6 +1,8 @@
 ﻿using DNDGenSite.Controllers;
 using DNDGenSite.Controllers.Treasures;
+using DNDGenSite.Repositories;
 using NUnit.Framework;
+using Octokit;
 
 namespace DNDGenSite.Tests.Integration.App_Start
 {
@@ -124,6 +126,20 @@ namespace DNDGenSite.Tests.Integration.App_Start
         {
             var controller = GetNewInstanceOf<WondrousItemController>();
             Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void ErrorRepositoryIsInjected()
+        {
+            var repository = GetNewInstanceOf<ErrorRepository>();
+            Assert.That(repository, Is.InstanceOf<GitHubErrorRepository>());
+        }
+
+        [Test]
+        public void GitHubClientIsInjected()
+        {
+            var client = GetNewInstanceOf<IGitHubClient>();
+            Assert.That(client, Is.InstanceOf<GitHubClient>());
         }
     }
 }

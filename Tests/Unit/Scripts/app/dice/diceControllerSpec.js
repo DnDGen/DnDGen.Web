@@ -7,6 +7,7 @@ describe('Dice Controller', function () {
     var diceServiceMock;
     var q;
     var scope;
+    var sweetAlertServiceMock;
 
     beforeEach(module('app.dice'));
 
@@ -19,11 +20,19 @@ describe('Dice Controller', function () {
                 return getMockedPromise(quantity, die);
             },
         };
+
+        sweetAlertServiceMock = {};
+        sweetAlertServiceMock.showError = jasmine.createSpy();
     });
 
     function getMockedPromise(quantity, die) {
         var deferred = q.defer();
-        deferred.resolve({ "roll": quantity * die });
+
+        if (quantity == 666)
+            deferred.reject();
+        else
+            deferred.resolve({ "roll": quantity * die });
+
         return deferred.promise;
     }
 
@@ -33,7 +42,8 @@ describe('Dice Controller', function () {
 
         vm = $controller('Dice as vm', {
             $scope: scope,
-            diceService: diceServiceMock
+            diceService: diceServiceMock,
+            sweetAlertService: sweetAlertServiceMock
         });
     }));
 
@@ -142,5 +152,75 @@ describe('Dice Controller', function () {
         scope.$apply();
 
         expect(vm.rolling).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown when fetching a standard roll', function () {
+        vm.standardQuantity = 666;
+        vm.standardDie = vm.standardDice[2];
+
+        vm.rollStandard();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('is done rolling if an error is thrown when fetching a standard roll', function () {
+        vm.standardQuantity = 666;
+        vm.standardDie = vm.standardDice[2];
+
+        vm.rollStandard();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
+    });
+
+    it('clears the roll if an error is thrown when fetching a standard roll', function () {
+        vm.standardQuantity = 9266;
+        vm.standardDie = vm.standardDice[2];
+
+        vm.rollStandard();
+        scope.$apply();
+
+        vm.standardQuantity = 666;
+
+        vm.rollStandard();
+        scope.$apply();
+
+        expect(vm.roll).toBe(0);
+    });
+
+    it('shows an alert if an error is thrown when fetching a custom roll', function () {
+        vm.customQuantity = 666;
+        vm.customDie = 42;
+
+        vm.rollCustom();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('is done rolling if an error is thrown when fetching a custom roll', function () {
+        vm.customQuantity = 666;
+        vm.customDie = 42;
+
+        vm.rollCustom();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
+    });
+
+    it('clears the roll if an error is thrown when fetching a custom roll', function () {
+        vm.customQuantity = 9266;
+        vm.customDie = 42;
+
+        vm.rollCustom();
+        scope.$apply();
+
+        vm.customQuantity = 666;
+
+        vm.rollCustom();
+        scope.$apply();
+
+        expect(vm.roll).toBe(0);
     });
 })
