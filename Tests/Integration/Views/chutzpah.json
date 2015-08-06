@@ -2,6 +2,6 @@
     "Framework": "jasmine",
     "RootReferencePathMode": "SettingsFileDirectory",
     "Tests": [
-        { "Excludes": [ "*PageSpec.js", "commonTestFunctions.js" ] }
+        { "Excludes": [ "*PageSpec.js", "commonTestFunctions.js", "*.config.js" ] }
     ]
 }

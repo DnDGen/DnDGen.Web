@@ -61,11 +61,11 @@ namespace DNDGenSite.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            var diceLoader = new RollGenModuleLoader();
-            diceLoader.LoadModules(kernel);
+            var rollGenLoader = new RollGenModuleLoader();
+            rollGenLoader.LoadModules(kernel);
 
-            var equipmentGenLoader = new TreasureGenModuleLoader();
-            equipmentGenLoader.LoadModules(kernel);
+            var treasureGenLoader = new TreasureGenModuleLoader();
+            treasureGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
         }
