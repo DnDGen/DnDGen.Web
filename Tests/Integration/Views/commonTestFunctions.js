@@ -5,7 +5,7 @@
         var app = this;
 
         function longWait() {
-            browser.sleep(500);
+            browser.sleep(1000);
         }
 
         function shortWait() {

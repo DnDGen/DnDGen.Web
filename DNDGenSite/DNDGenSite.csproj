@@ -108,7 +108,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TreasureGen.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -120,31 +120,31 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Tables.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.1\lib\TreasureGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
