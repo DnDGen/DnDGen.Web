@@ -2,17 +2,17 @@
 
 /// <reference path="../../_resources.js" />
 
-describe('Dice Controller', function () {
+describe('Roll Controller', function () {
     var vm;
-    var diceServiceMock;
+    var rollServiceMock;
     var q;
     var scope;
     var sweetAlertServiceMock;
 
-    beforeEach(module('app.dice'));
+    beforeEach(module('app.roll'));
 
     beforeEach(function () {
-        diceServiceMock = {
+        rollServiceMock = {
             getRoll: function (quantity, die) {
                 return getMockedPromise(quantity, 1);
             },
@@ -40,9 +40,9 @@ describe('Dice Controller', function () {
         q = $q;
         scope = $rootScope.$new();
 
-        vm = $controller('Dice as vm', {
+        vm = $controller('Roll as vm', {
             $scope: scope,
-            diceService: diceServiceMock,
+            rollService: rollServiceMock,
             sweetAlertService: sweetAlertServiceMock
         });
     }));
@@ -94,26 +94,26 @@ describe('Dice Controller', function () {
         vm.standardQuantity = 9266;
         vm.standardDie = vm.standardDice[2];
 
-        spyOn(diceServiceMock, 'getRoll').and.callThrough();
+        spyOn(rollServiceMock, 'getRoll').and.callThrough();
 
         vm.rollStandard();
         scope.$apply();
 
         expect(vm.roll).toBe(9266);
-        expect(diceServiceMock.getRoll).toHaveBeenCalledWith(9266, 'd4');
+        expect(rollServiceMock.getRoll).toHaveBeenCalledWith(9266, 'd4');
     });
 
     it('rolls a custom roll', function () {
         vm.customQuantity = 9266;
         vm.customDie = 42;
 
-        spyOn(diceServiceMock, 'getCustomRoll').and.callThrough();
+        spyOn(rollServiceMock, 'getCustomRoll').and.callThrough();
 
         vm.rollCustom();
         scope.$apply();
 
         expect(vm.roll).toBe(9266 * 42);
-        expect(diceServiceMock.getCustomRoll).toHaveBeenCalledWith(9266, 42);
+        expect(rollServiceMock.getCustomRoll).toHaveBeenCalledWith(9266, 42);
     });
 
     it('says it is rolling while fetching a standard roll', function () {

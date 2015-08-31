@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         protractor: {
             options: { keepAlive: false },
             layout: { configFile: "Tests/Integration/Views/protractor.layout.config.js" },
-            dice: { configFile: "Tests/Integration/Views/protractor.dice.config.js" },
+            roll: { configFile: "Tests/Integration/Views/protractor.roll.config.js" },
             treasure: { configFile: "Tests/Integration/Views/protractor.treasure.config.js" },
             character: { configFile: "Tests/Integration/Views/protractor.character.config.js" },
             encounter: { configFile: "Tests/Integration/Views/protractor.encounter.config.js" },
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-protractor-runner');
 
     grunt.registerTask('e2e-layout', ['msbuild', 'iisexpress', 'protractor:layout']);
-    grunt.registerTask('e2e-dice', ['msbuild', 'iisexpress', 'protractor:dice']);
+    grunt.registerTask('e2e-roll', ['msbuild', 'iisexpress', 'protractor:roll']);
     grunt.registerTask('e2e-treasure', ['msbuild', 'iisexpress', 'protractor:treasure']);
     grunt.registerTask('e2e-character', ['msbuild', 'iisexpress', 'protractor:character']);
     grunt.registerTask('e2e-encounter', ['msbuild', 'iisexpress', 'protractor:encounter']);

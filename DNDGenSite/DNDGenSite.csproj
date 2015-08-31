@@ -108,43 +108,43 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TreasureGen.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.2\lib\TreasureGen.Common.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.3.3\lib\TreasureGen.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.2\lib\TreasureGen.Generators.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.3.3\lib\TreasureGen.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
@@ -162,7 +162,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\dice.css" />
+    <Content Include="Content\roll.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\treasure.css" />
     <Content Include="Content\layout.css" />
@@ -193,14 +193,14 @@
     <Content Include="Scripts\Angular\angular-touch.min.js" />
     <Content Include="Scripts\Angular\angular.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
-    <Content Include="Scripts\app\dice\dice.module.js" />
-    <Content Include="Scripts\app\dice\diceService.js" />
-    <Content Include="Scripts\app\dice\dice.js" />
-    <Content Include="Scripts\app\shared\sweetAlertService.js" />
-    <Content Include="Scripts\app\shared\promiseService.js" />
-    <Content Include="Scripts\app\treasure\treasure.js" />
+    <Content Include="Scripts\app\roll\roll.module.js" />
+    <Content Include="Scripts\app\roll\roll.service.js" />
+    <Content Include="Scripts\app\roll\roll.controller.js" />
+    <Content Include="Scripts\app\shared\sweetAlert.service.js" />
+    <Content Include="Scripts\app\shared\promise.service.js" />
+    <Content Include="Scripts\app\treasure\treasure.controller.js" />
     <Content Include="Scripts\app\treasure\treasure.module.js" />
-    <Content Include="Scripts\app\treasure\treasureService.js" />
+    <Content Include="Scripts\app\treasure\treasure.service.js" />
     <Content Include="Scripts\app\shared\shared.module.js" />
     <Content Include="Scripts\app\shared\noDecimals.directive.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
@@ -232,7 +232,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\View\Home.cshtml" />
     <Content Include="Views\View\Dungeon.cshtml" />
-    <Content Include="Views\View\Dice.cshtml" />
+    <Content Include="Views\View\Roll.cshtml" />
     <Content Include="Views\View\Treasure.cshtml" />
     <Content Include="Views\View\Character.cshtml" />
   </ItemGroup>
@@ -241,7 +241,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebModule.cs" />
-    <Compile Include="Controllers\DiceController.cs" />
+    <Compile Include="Controllers\RollController.cs" />
     <Compile Include="Controllers\Treasures\AlchemicalItemController.cs" />
     <Compile Include="Controllers\Treasures\ArmorController.cs" />
     <Compile Include="Controllers\Treasures\PotionController.cs" />

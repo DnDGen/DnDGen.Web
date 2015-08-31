@@ -15,7 +15,7 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public ActionResult Dice()
+        public ActionResult Roll()
         {
             return View();
         }

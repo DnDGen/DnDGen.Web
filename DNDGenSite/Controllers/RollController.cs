@@ -4,11 +4,11 @@ using System.Web.Mvc;
 
 namespace DNDGenSite.Controllers
 {
-    public class DiceController : Controller
+    public class RollController : Controller
     {
         private IDice dice;
 
-        public DiceController(IDice dice)
+        public RollController(IDice dice)
         {
             this.dice = dice;
         }

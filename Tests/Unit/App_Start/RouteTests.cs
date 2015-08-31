@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Web.Routing;
-using NUnit.Framework;
 
 namespace DNDGenSite.Tests.Unit.App_Start
 {
@@ -17,8 +17,8 @@ namespace DNDGenSite.Tests.Unit.App_Start
         }
 
         [TestCase("Default", "{action}", "View", "Home")]
-        [TestCase("Dice", "Dice/{action}/{quantity}", "Dice", null)]
-        [TestCase("CustomDice", "Dice/Custom/{quantity}/{die}", "Dice", "Custom")]
+        [TestCase("Roll", "Roll/{action}/{quantity}", "Roll", null)]
+        [TestCase("CustomRoll", "Roll/Custom/{quantity}/{die}", "Roll", "Custom")]
         [TestCase("Treasure", "Treasures/Treasure/Generate/{level}", "Treasure", "Generate")]
         [TestCase("Coin", "Treasures/Coin/Generate/{level}", "Coin", "Generate")]
         [TestCase("Goods", "Treasures/Goods/Generate/{level}", "Goods", "Generate")]

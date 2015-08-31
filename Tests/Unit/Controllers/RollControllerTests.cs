@@ -8,9 +8,9 @@ using System.Web.Mvc;
 namespace DNDGenSite.Tests.Unit.Controllers
 {
     [TestFixture]
-    public class DiceControllerTests
+    public class RollControllerTests
     {
-        private DiceController controller;
+        private RollController controller;
         private Mock<IDice> mockDice;
         private Mock<IPartialRoll> mockRoll;
 
@@ -19,7 +19,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             mockDice = new Mock<IDice>();
             mockRoll = new Mock<IPartialRoll>();
-            controller = new DiceController(mockDice.Object);
+            controller = new RollController(mockDice.Object);
 
             mockDice.Setup(d => d.Roll(It.IsAny<Int32>())).Returns(mockRoll.Object);
         }

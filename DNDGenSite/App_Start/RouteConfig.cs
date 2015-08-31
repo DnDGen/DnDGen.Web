@@ -16,15 +16,15 @@ namespace DNDGenSite
             );
 
             routes.MapRoute(
-                name: "Dice",
-                url: "Dice/{action}/{quantity}",
-                defaults: new { Controller = "Dice" }
+                name: "Roll",
+                url: "Roll/{action}/{quantity}",
+                defaults: new { Controller = "Roll" }
             );
 
             routes.MapRoute(
-                name: "CustomDice",
-                url: "Dice/Custom/{quantity}/{die}",
-                defaults: new { Controller = "Dice", Action = "Custom" }
+                name: "CustomRoll",
+                url: "Roll/Custom/{quantity}/{die}",
+                defaults: new { Controller = "Roll", Action = "Custom" }
             );
 
             routes.MapRoute(

@@ -20,7 +20,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [TestCase("Home")]
-        [TestCase("Dice")]
+        [TestCase("Roll")]
         [TestCase("Treasure")]
         [TestCase("Character")]
         [TestCase("Encounter")]
@@ -40,9 +40,9 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [Test]
-        public void DiceReturnsView()
+        public void RollReturnsView()
         {
-            var result = controller.Dice();
+            var result = controller.Roll();
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
 

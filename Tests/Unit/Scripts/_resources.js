@@ -10,11 +10,11 @@
 /// <reference path="../../../dndgensite/scripts/angular/angular-mocks.js" />
 
 /// <reference path="../../../dndgensite/scripts/app/shared/shared.module.js" />
-/// <reference path="../../../dndgensite/scripts/app/shared/promiseService.js" />
-/// <reference path="../../../dndgensite/scripts/app/dice/dice.module.js" />
-/// <reference path="../../../dndgensite/scripts/app/dice/diceservice.js" />
-/// <reference path="../../../dndgensite/scripts/app/dice/dice.js" />
+/// <reference path="../../../dndgensite/scripts/app/shared/promise.service.js" />
+/// <reference path="../../../dndgensite/scripts/app/roll/roll.module.js" />
+/// <reference path="../../../dndgensite/scripts/app/roll/roll.service.js" />
+/// <reference path="../../../dndgensite/scripts/app/roll/roll.controller.js" />
 /// <reference path="../../../dndgensite/scripts/app/treasure/treasure.module.js" />
-/// <reference path="../../../dndgensite/scripts/app/treasure/treasureservice.js" />
-/// <reference path="../../../dndgensite/scripts/app/treasure/treasure.js" />
+/// <reference path="../../../dndgensite/scripts/app/treasure/treasure.service.js" />
+/// <reference path="../../../dndgensite/scripts/app/treasure/treasure.controller.js" />
 

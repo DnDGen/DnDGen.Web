@@ -17,9 +17,9 @@ namespace DNDGenSite.Tests.Integration.App_Start
         }
 
         [Test]
-        public void DiceControllerIsInjected()
+        public void RollControllerIsInjected()
         {
-            var controller = GetNewInstanceOf<DiceController>();
+            var controller = GetNewInstanceOf<RollController>();
             Assert.That(controller, Is.Not.Null);
         }
 

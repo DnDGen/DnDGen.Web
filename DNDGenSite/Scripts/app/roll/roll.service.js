@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('app.dice')
-        .factory('diceService', diceService);
+        .module('app.roll')
+        .factory('rollService', rollService);
 
-    diceService.$inject = ['promiseService'];
+    rollService.$inject = ['promiseService'];
 
-    function diceService(promiseService) {
+    function rollService(promiseService) {
 
         return {
             getRoll: getRoll,
@@ -16,12 +16,12 @@
 
         function getRoll(quantity, die)
         {
-            var url = "Dice/" + die + "/" + quantity;
+            var url = "Roll/" + die + "/" + quantity;
             return promiseService.getPromise(url);
         }
 
         function getCustomRoll(quantity, die) {
-            var url = "Dice/Custom/" + quantity + "/" + die;
+            var url = "Roll/Custom/" + quantity + "/" + die;
             return promiseService.getPromise(url);
         }
     };

@@ -10,9 +10,9 @@
         <script src="~/Scripts/Angular/angular-animate.min.js"></script>
         <script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
         <script src="~/Scripts/app/shared/shared.module.js"></script>
-        <script src="~/Scripts/app/shared/promiseService.js"></script>
+        <script src="~/Scripts/app/shared/promise.service.js"></script>
         <script src="~/Scripts/app/shared/noDecimals.directive.js"></script>
-        <script src="~/Scripts/app/shared/sweetAlertService.js"></script>
+        <script src="~/Scripts/app/shared/sweetAlert.service.js"></script>
         @RenderSection("Scripts", false)
 
         <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
@@ -50,7 +50,7 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="nav navbar-nav visible-md visible-lg">
-                    <li><a id="diceLink" href="~/Dice">RollGen</a></li>
+                    <li><a id="rollLink" href="~/Roll">RollGen</a></li>
                     <li><a id="treasureLink" href="~/Treasure">TreasureGen</a></li>
                     <li><a id="characterLink" href="~/Character">CharacterGen</a></li>
                     <li><a id="encounterLink" href="~/Encounter">EncounterGen</a></li>
@@ -60,7 +60,7 @@
                     <li class="dropdown">
                         <a id="collapsedGeneratorLinks" href="#" class="dropdown-toggle" data-toggle="dropdown">Generators <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a id="collapsedDiceLink" href="~/Dice">RollGen</a></li>
+                            <li><a id="collapsedRollLink" href="~/Roll">RollGen</a></li>
                             <li><a id="collapsedTreasureLink" href="~/Treasure">TreasureGen</a></li>
                             <li><a id="collapsedCharacterLink" href="~/Character">CharacterGen</a></li>
                             <li><a id="collapsedEncounterLink" href="~/Encounter">EncounterGen</a></li>
@@ -74,8 +74,8 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a id="githubOrganizationLink" href="https://github.com/DnDGen">The DnDGen Project</a></li>
                             <li class="divider"></li>
-                            <li><a id="githubDiceLink" href="https://github.com/DnDGen/RollGen">RollGen</a></li>
-                            <li><a id="githubEquipmentLink" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
+                            <li><a id="githubRollLink" href="https://github.com/DnDGen/RollGen">RollGen</a></li>
+                            <li><a id="githubTreasureLink" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
                             <li><a id="githubCharacterLink" href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
                             <li><a id="githubEncounterLink" href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
                             <li><a id="githubDungeonLink" href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>

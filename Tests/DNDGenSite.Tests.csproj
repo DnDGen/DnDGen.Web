@@ -116,43 +116,43 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.2\lib\TreasureGen.Common.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.3.3\lib\TreasureGen.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.2\lib\TreasureGen.Generators.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.3.3\lib\TreasureGen.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.2.2\lib\TreasureGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.3\lib\TreasureGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -171,7 +171,7 @@
     <Compile Include="Integration\Repositories\GitHubClientTests.cs" />
     <Compile Include="Unit\App_Start\RouteTests.cs" />
     <Compile Include="Unit\Controllers\AttributeProvider.cs" />
-    <Compile Include="Unit\Controllers\DiceControllerTests.cs" />
+    <Compile Include="Unit\Controllers\RollControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\TreasureControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\GoodsControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\ItemsControllerTests.cs" />
@@ -210,7 +210,7 @@
     <Content Include="Integration\Views\commonTestFunctions.js" />
     <Content Include="Integration\Views\protractor.all.config.js" />
     <Content Include="Integration\Views\protractor.character.config.js" />
-    <Content Include="Integration\Views\protractor.dice.config.js" />
+    <Content Include="Integration\Views\protractor.roll.config.js" />
     <Content Include="Integration\Views\protractor.dungeon.config.js" />
     <Content Include="Integration\Views\protractor.encounter.config.js" />
     <Content Include="Integration\Views\protractor.error.config.js" />
@@ -219,7 +219,7 @@
     <Content Include="Integration\Views\protractor.treasure.config.js" />
     <Content Include="Integration\Views\Shared\layoutPageSpec.js" />
     <Content Include="Integration\Views\View\characterPageSpec.js" />
-    <Content Include="Integration\Views\View\dicePageSpec.js" />
+    <Content Include="Integration\Views\View\rollPageSpec.js" />
     <Content Include="Integration\Views\View\dungeonPageSpec.js" />
     <Content Include="Integration\Views\View\errorPageSpec.js" />
     <Content Include="Integration\Views\View\homePageSpec.js" />
@@ -228,8 +228,8 @@
     <Content Include="Unit\Scripts\console.js" />
     <Content Include="Unit\Scripts\jasmine-html.js" />
     <Content Include="Unit\Scripts\jasmine.js" />
-    <Content Include="Unit\Scripts\app\dice\diceServiceSpec.js" />
-    <Content Include="Unit\Scripts\app\dice\diceControllerSpec.js" />
+    <Content Include="Unit\Scripts\app\roll\rollServiceSpec.js" />
+    <Content Include="Unit\Scripts\app\roll\rollControllerSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureServiceSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureControllerSpec.js" />
     <Content Include="Unit\Scripts\_resources.js" />

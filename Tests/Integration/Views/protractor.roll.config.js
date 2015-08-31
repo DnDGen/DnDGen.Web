@@ -1,7 +1,7 @@
 exports.config = {
     framework: 'jasmine2',
     specs: [
-      '**/dicePageSpec.js'
+      '**/rollPageSpec.js'
     ],
     multiCapabilities: [
         {
@@ -33,7 +33,7 @@ exports.config = {
             var junitReporter = new jasmineReporters.JUnitXmlReporter({
                 consolidateAll: true,
                 savePath: 'TestResults',
-                filePrefix: browserName + '.dice',
+                filePrefix: browserName + '.roll',
                 modifySuiteName: function(generatedSuiteName, suite) {
                     return browserName + '.' + generatedSuiteName;
                 }

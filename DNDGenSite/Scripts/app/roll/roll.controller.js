@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('app.dice')
-        .controller('Dice', Dice);
+        .module('app.roll')
+        .controller('Roll', Roll);
 
-    Dice.$inject = ['diceService', 'sweetAlertService'];
+    Roll.$inject = ['rollService', 'sweetAlertService'];
 
-    function Dice(diceService, sweetAlertService) {
+    function Roll(rollService, sweetAlertService) {
         var vm = this;
 
         vm.standardQuantity = 1;
@@ -33,7 +33,7 @@
 
         vm.rollStandard = function () {
             vm.rolling = true;
-            diceService.getRoll(vm.standardQuantity, vm.standardDie.die)
+            rollService.getRoll(vm.standardQuantity, vm.standardDie.die)
                 .then(setRoll, handleError);
         };
 
@@ -50,7 +50,7 @@
 
         vm.rollCustom = function () {
             vm.rolling = true;
-            diceService.getCustomRoll(vm.customQuantity, vm.customDie)
+            rollService.getCustomRoll(vm.customQuantity, vm.customDie)
                 .then(setRoll, handleError);
         };
     };

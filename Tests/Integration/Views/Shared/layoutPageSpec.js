@@ -7,14 +7,14 @@ describe('Layout Page', function () {
 
     var brand = element(by.css('.navbar-brand'));
 
-    var diceLink = element(by.id('diceLink'));
+    var rollLink = element(by.id('rollLink'));
     var treasureLink = element(by.id('treasureLink'));
     var characterLink = element(by.id('characterLink'));
     var encounterLink = element(by.id('encounterLink'));
     var dungeonLink = element(by.id('dungeonLink'));
 
     var collapsedGeneratorLinks = element(by.id('collapsedGeneratorLinks'));
-    var collapsedDiceLink = element(by.id('collapsedDiceLink'));
+    var collapsedRollLink = element(by.id('collapsedRollLink'));
     var collapsedTreasureLink = element(by.id('collapsedTreasureLink'));
     var collapsedCharacterLink = element(by.id('collapsedCharacterLink'));
     var collapsedEncounterLink = element(by.id('collapsedEncounterLink'));
@@ -22,8 +22,8 @@ describe('Layout Page', function () {
 
     var collapsedGithubLinks = element(by.id('collapsedGithubLinks'));
     var githubOrganizationLink = element(by.id('githubOrganizationLink'));
-    var githubDiceLink = element(by.id('githubDiceLink'));
-    var githubEquipmentLink = element(by.id('githubEquipmentLink'));
+    var githubRollLink = element(by.id('githubRollLink'));
+    var githubTreasureLink = element(by.id('githubTreasureLink'));
     var githubCharacterLink = element(by.id('githubCharacterLink'));
     var githubEncounterLink = element(by.id('githubEncounterLink'));
     var githubDungeonLink = element(by.id('githubDungeonLink'));
@@ -57,14 +57,14 @@ describe('Layout Page', function () {
             });
 
             it('should navigate to the home page', function () {
-                browser.get(browser.baseUrl + '/Dice');
+                browser.get(browser.baseUrl + '/Roll');
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(brand);
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/');
             });
 
-            it('should navigate to the dice page', function () {
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(diceLink);
-                expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
+            it('should navigate to the roll page', function () {
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(rollLink);
+                expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Roll');
             });
 
             it('should navigate to the treasure page', function () {
@@ -87,17 +87,20 @@ describe('Layout Page', function () {
                 expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dungeon');
             });
 
-            it('should navigate to home from the empty url', function () {
+            it('should go to the home page with no action', function () {
+                browser.get(browser.baseUrl + '/Roll');
+                browser.get(browser.baseUrl + '/');
                 expect(header.getText()).toBe('Welcome!');
             });
 
-            it('should have implicit view route for home', function () {
+            it('should have implicit view route for the home page', function () {
+                browser.get(browser.baseUrl + '/Roll');
                 browser.get(browser.baseUrl + '/Home');
                 expect(header.getText()).toBe('Welcome!');
             });
 
-            it('should have implicit view route for dice', function () {
-                browser.get(browser.baseUrl + '/Dice');
+            it('should have implicit view route for Roll', function () {
+                browser.get(browser.baseUrl + '/Roll');
                 expect(header.getText()).toBe('RollGen');
             });
 
@@ -144,9 +147,9 @@ describe('Layout Page', function () {
                     commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGeneratorLinks);
                 });
 
-                it('should navigate to the dice page', function () {
-                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedDiceLink);
-                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Dice');
+                it('should navigate to the Roll page', function () {
+                    commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedRollLink);
+                    expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + '/Roll');
                 });
 
                 it('should navigate to the treasure page', function () {
@@ -180,13 +183,13 @@ describe('Layout Page', function () {
 
             it('should navigate to the github repository for the RollGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubDiceLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubRollLink);
                 expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/RollGen');
             });
 
             it('should navigate to the github repository for the TreasureGen project', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapsedGithubLinks);
-                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubEquipmentLink);
+                commonTestFunctions.clickWhenReadyAndWaitForResolution(githubTreasureLink);
                 expect(browser.getCurrentUrl()).toEqual('https://github.com/DnDGen/TreasureGen');
             });
 
@@ -238,8 +241,8 @@ describe('Layout Page', function () {
             expect(brand.isDisplayed()).toBeTruthy();
         });
 
-        it('shows the dice link', function () {
-            expect(diceLink.isDisplayed()).toBeTruthy();
+        it('shows the roll link', function () {
+            expect(rollLink.isDisplayed()).toBeTruthy();
         });
 
         it('shows the treasure link', function () {
@@ -262,8 +265,8 @@ describe('Layout Page', function () {
             expect(collapsedGeneratorLinks.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the small dice link', function () {
-            expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the small Roll link', function () {
+            expect(collapsedRollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the small treasure link', function () {
@@ -290,12 +293,12 @@ describe('Layout Page', function () {
             expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github dice link', function () {
-            expect(githubDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Roll link', function () {
+            expect(githubRollLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github equipment link', function () {
-            expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Treasure link', function () {
+            expect(githubTreasureLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github character link', function () {
@@ -331,12 +334,12 @@ describe('Layout Page', function () {
                 expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github dice link', function () {
-                expect(githubDiceLink.isDisplayed()).toBeTruthy();
+            it('shows the github Roll link', function () {
+                expect(githubRollLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github equipment link', function () {
-                expect(githubEquipmentLink.isDisplayed()).toBeTruthy();
+            it('shows the github Treasure link', function () {
+                expect(githubTreasureLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github character link', function () {
@@ -355,8 +358,8 @@ describe('Layout Page', function () {
                 expect(collapsedGeneratorLinks.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the small dice link', function () {
-                expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the small Roll link', function () {
+                expect(collapsedRollLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the small treasure link', function () {
@@ -398,8 +401,8 @@ describe('Layout Page', function () {
             expect(brand.isDisplayed()).toBeTruthy();
         });
 
-        it('shows the dice link', function () {
-            expect(diceLink.isDisplayed()).toBeTruthy();
+        it('shows the roll link', function () {
+            expect(rollLink.isDisplayed()).toBeTruthy();
         });
 
         it('shows the treasure link', function () {
@@ -422,8 +425,8 @@ describe('Layout Page', function () {
             expect(collapsedGeneratorLinks.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the small dice link', function () {
-            expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the small Roll link', function () {
+            expect(collapsedRollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the small treasure link', function () {
@@ -450,12 +453,12 @@ describe('Layout Page', function () {
             expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github dice link', function () {
-            expect(githubDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Roll link', function () {
+            expect(githubRollLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github equipment link', function () {
-            expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Treasure link', function () {
+            expect(githubTreasureLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github character link', function () {
@@ -491,12 +494,12 @@ describe('Layout Page', function () {
                 expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github dice link', function () {
-                expect(githubDiceLink.isDisplayed()).toBeTruthy();
+            it('shows the github Roll link', function () {
+                expect(githubRollLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github equipment link', function () {
-                expect(githubEquipmentLink.isDisplayed()).toBeTruthy();
+            it('shows the github Treasure link', function () {
+                expect(githubTreasureLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github character link', function () {
@@ -515,8 +518,8 @@ describe('Layout Page', function () {
                 expect(collapsedGeneratorLinks.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the small dice link', function () {
-                expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the small Roll link', function () {
+                expect(collapsedRollLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the small treasure link', function () {
@@ -558,8 +561,8 @@ describe('Layout Page', function () {
             expect(brand.isDisplayed()).toBeTruthy();
         });
 
-        it('does not show the dice link', function () {
-            expect(diceLink.isDisplayed()).toBeFalsy();
+        it('does not show the roll link', function () {
+            expect(rollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the treasure link', function () {
@@ -582,8 +585,8 @@ describe('Layout Page', function () {
             expect(collapsedGeneratorLinks.isDisplayed()).toBeTruthy();
         });
 
-        it('does not show the small dice link', function () {
-            expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the small Roll link', function () {
+            expect(collapsedRollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the small treasure link', function () {
@@ -610,12 +613,12 @@ describe('Layout Page', function () {
             expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github dice link', function () {
-            expect(githubDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Roll link', function () {
+            expect(githubRollLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github equipment link', function () {
-            expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Treasure link', function () {
+            expect(githubTreasureLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github character link', function () {
@@ -651,12 +654,12 @@ describe('Layout Page', function () {
                 expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the github dice link', function () {
-                expect(githubDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the github Roll link', function () {
+                expect(githubRollLink.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the github equipment link', function () {
-                expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+            it('does not show the github Treasure link', function () {
+                expect(githubTreasureLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the github character link', function () {
@@ -671,8 +674,8 @@ describe('Layout Page', function () {
                 expect(githubSiteLink.isDisplayed()).toBeFalsy();
             });
 
-            it('shows the small dice link', function () {
-                expect(collapsedDiceLink.isDisplayed()).toBeTruthy();
+            it('shows the small Roll link', function () {
+                expect(collapsedRollLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the small treasure link', function () {
@@ -709,12 +712,12 @@ describe('Layout Page', function () {
                 expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github dice link', function () {
-                expect(githubDiceLink.isDisplayed()).toBeTruthy();
+            it('shows the github Roll link', function () {
+                expect(githubRollLink.isDisplayed()).toBeTruthy();
             });
 
-            it('shows the github equipment link', function () {
-                expect(githubEquipmentLink.isDisplayed()).toBeTruthy();
+            it('shows the github Treasure link', function () {
+                expect(githubTreasureLink.isDisplayed()).toBeTruthy();
             });
 
             it('shows the github character link', function () {
@@ -729,8 +732,8 @@ describe('Layout Page', function () {
                 expect(githubSiteLink.isDisplayed()).toBeTruthy();
             });
 
-            it('does not show the small dice link', function () {
-                expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the small Roll link', function () {
+                expect(collapsedRollLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the small treasure link', function () {
@@ -772,8 +775,8 @@ describe('Layout Page', function () {
             expect(brand.isDisplayed()).toBeTruthy();
         });
 
-        it('does not show the dice link', function () {
-            expect(diceLink.isDisplayed()).toBeFalsy();
+        it('does not show the Roll link', function () {
+            expect(rollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the treasure link', function () {
@@ -796,8 +799,8 @@ describe('Layout Page', function () {
             expect(collapsedGeneratorLinks.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the small dice link', function () {
-            expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the small Roll link', function () {
+            expect(collapsedRollLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the small treasure link', function () {
@@ -824,12 +827,12 @@ describe('Layout Page', function () {
             expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github dice link', function () {
-            expect(githubDiceLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Roll link', function () {
+            expect(githubRollLink.isDisplayed()).toBeFalsy();
         });
 
-        it('does not show the github equipment link', function () {
-            expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+        it('does not show the github Treasure link', function () {
+            expect(githubTreasureLink.isDisplayed()).toBeFalsy();
         });
 
         it('does not show the github character link', function () {
@@ -861,8 +864,8 @@ describe('Layout Page', function () {
                 commonTestFunctions.clickWhenReadyAndWaitForResolution(collapseButton);
             });
 
-            it('does not show the dice link', function () {
-                expect(diceLink.isDisplayed()).toBeFalsy();
+            it('does not show the roll link', function () {
+                expect(rollLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the treasure link', function () {
@@ -885,8 +888,8 @@ describe('Layout Page', function () {
                 expect(collapsedGeneratorLinks.isDisplayed()).toBeTruthy();
             });
 
-            it('does not show the small dice link', function () {
-                expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the small Roll link', function () {
+                expect(collapsedRollLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the small treasure link', function () {
@@ -913,12 +916,12 @@ describe('Layout Page', function () {
                 expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the github dice link', function () {
-                expect(githubDiceLink.isDisplayed()).toBeFalsy();
+            it('does not show the github Roll link', function () {
+                expect(githubRollLink.isDisplayed()).toBeFalsy();
             });
 
-            it('does not show the github equipment link', function () {
-                expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+            it('does not show the github Treasure link', function () {
+                expect(githubTreasureLink.isDisplayed()).toBeFalsy();
             });
 
             it('does not show the github character link', function () {
@@ -950,12 +953,12 @@ describe('Layout Page', function () {
                     expect(githubOrganizationLink.isDisplayed()).toBeFalsy();
                 });
 
-                it('does not show the github dice link', function () {
-                    expect(githubDiceLink.isDisplayed()).toBeFalsy();
+                it('does not show the github Roll link', function () {
+                    expect(githubRollLink.isDisplayed()).toBeFalsy();
                 });
 
-                it('does not show the github equipment link', function () {
-                    expect(githubEquipmentLink.isDisplayed()).toBeFalsy();
+                it('does not show the github Treasure link', function () {
+                    expect(githubTreasureLink.isDisplayed()).toBeFalsy();
                 });
 
                 it('does not show the github character link', function () {
@@ -970,8 +973,8 @@ describe('Layout Page', function () {
                     expect(githubSiteLink.isDisplayed()).toBeFalsy();
                 });
 
-                it('shows the small dice link', function () {
-                    expect(collapsedDiceLink.isDisplayed()).toBeTruthy();
+                it('shows the small Roll link', function () {
+                    expect(collapsedRollLink.isDisplayed()).toBeTruthy();
                 });
 
                 it('shows the small treasure link', function () {
@@ -1004,12 +1007,12 @@ describe('Layout Page', function () {
                     expect(githubOrganizationLink.isDisplayed()).toBeTruthy();
                 });
 
-                it('shows the github dice link', function () {
-                    expect(githubDiceLink.isDisplayed()).toBeTruthy();
+                it('shows the github Roll link', function () {
+                    expect(githubRollLink.isDisplayed()).toBeTruthy();
                 });
 
-                it('shows the github equipment link', function () {
-                    expect(githubEquipmentLink.isDisplayed()).toBeTruthy();
+                it('shows the github Treasure link', function () {
+                    expect(githubTreasureLink.isDisplayed()).toBeTruthy();
                 });
 
                 it('shows the github character link', function () {
@@ -1024,8 +1027,8 @@ describe('Layout Page', function () {
                     expect(githubSiteLink.isDisplayed()).toBeTruthy();
                 });
 
-                it('does not show the small dice link', function () {
-                    expect(collapsedDiceLink.isDisplayed()).toBeFalsy();
+                it('does not show the small Roll link', function () {
+                    expect(collapsedRollLink.isDisplayed()).toBeFalsy();
                 });
 
                 it('does not show the small treasure link', function () {

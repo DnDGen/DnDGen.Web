@@ -2,7 +2,7 @@
 
 var CommonTestFunctions = require('./../commonTestFunctions.js');
 
-describe('Dice Page', function () {
+describe('Roll Page', function () {
     var commonTestFunctions = new CommonTestFunctions();
 
     var roll = element(by.binding('vm.roll'));
@@ -16,7 +16,7 @@ describe('Dice Page', function () {
     var rollingSection = element(by.id('rollingSection'));
 
     beforeEach(function () {
-        browser.get(browser.baseUrl + '/Dice');
+        browser.get(browser.baseUrl + '/Roll');
     });
 
     afterEach(function () {
@@ -235,7 +235,7 @@ describe('Dice Page', function () {
 
     it('formats the roll as a number', function () {
         browser.executeScript(function () {
-            var controllerElement = angular.element('[ng-controller="Dice as vm"]');
+            var controllerElement = angular.element('[ng-controller="Roll as vm"]');
             var vm = controllerElement.controller();
             vm.roll = 9266;
 
@@ -247,7 +247,7 @@ describe('Dice Page', function () {
 
     it('notifies user while rolling', function () {
         browser.executeScript(function () {
-            var controllerElement = angular.element('[ng-controller="Dice as vm"]');
+            var controllerElement = angular.element('[ng-controller="Roll as vm"]');
             var vm = controllerElement.controller();
             vm.rolling = true;
 

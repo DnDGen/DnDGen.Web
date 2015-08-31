@@ -3,20 +3,20 @@
 }
 
 @section ngApp {
-    ng-app='app.dice'
+    ng-app='app.roll'
 }
 
 @section Scripts {
-    <script src="~/Scripts/app/dice/dice.module.js"></script>
-    <script src="~/Scripts/app/dice/diceService.js"></script>
-    <script src="~/Scripts/app/dice/dice.js"></script>
+    <script src="~/Scripts/app/roll/roll.module.js"></script>
+    <script src="~/Scripts/app/roll/roll.service.js"></script>
+    <script src="~/Scripts/app/roll/roll.controller.js"></script>
 }
 
 @section Styles {
-    <link rel="stylesheet" type="text/css" href="~/Content/dice.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/roll.css">
 }
 
-<div ng-controller="Dice as vm">
+<div ng-controller="Roll as vm">
     <h1>RollGen</h1>
     <div class="row top-buffer">
         <div class="col-sm-6">
