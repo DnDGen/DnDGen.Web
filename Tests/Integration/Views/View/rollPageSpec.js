@@ -44,6 +44,16 @@ describe('Roll Page', function () {
         expect(standardDie.getText()).toBe('20');
     });
 
+    it('rolls a standard die', function () {
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
+        expect(roll.getText()).toBeGreaterThan(0);
+    });
+
+    it('rolls a custom die', function () {
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(customRollButton, rollingSection);
+        expect(roll.getText()).toBe('1');
+    });
+
     it('allows standard quantity of 1', function () {
         expect(standardRollButton.isEnabled()).toBeTruthy();
     });
@@ -73,94 +83,9 @@ describe('Roll Page', function () {
         expect(standardRollButton.isEnabled()).toBeFalsy();
     });
 
-    it('does not allow empty standard quantites for d2', function () {
+    it('does not allow empty standard quantites', function () {
         commonTestFunctions.sendInput(standardQuantity, '');
         expect(standardRollButton.isEnabled()).toBeFalsy();
-    });
-
-    it('rolls 3d2', function () {
-        commonTestFunctions.sendInput(standardQuantity, 3);
-        commonTestFunctions.selectItemInDropdown(standardDice, '2');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(2);
-    });
-
-    it('rolls 4d3', function () {
-        commonTestFunctions.sendInput(standardQuantity, 4);
-        commonTestFunctions.selectItemInDropdown(standardDice, '3');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(3);
-    });
-
-    it('rolls 5d4', function () {
-        commonTestFunctions.sendInput(standardQuantity, 5);
-        commonTestFunctions.selectItemInDropdown(standardDice, '4');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(4);
-    });
-
-    it('rolls 7d6', function () {
-        commonTestFunctions.sendInput(standardQuantity, 7);
-        commonTestFunctions.selectItemInDropdown(standardDice, '6');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(6);
-    });
-
-    it('rolls 9d8', function () {
-        commonTestFunctions.sendInput(standardQuantity, 9);
-        commonTestFunctions.selectItemInDropdown(standardDice, '8');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(8);
-    });
-
-    it('rolls 11d10', function () {
-        commonTestFunctions.sendInput(standardQuantity, 11);
-        commonTestFunctions.selectItemInDropdown(standardDice, '10');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(10);
-    });
-
-    it('rolls 13d12', function () {
-        commonTestFunctions.sendInput(standardQuantity, 13);
-        commonTestFunctions.selectItemInDropdown(standardDice, '12');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(12);
-    });
-
-    it('rolls 21d20', function () {
-        commonTestFunctions.sendInput(standardQuantity, 21);
-        commonTestFunctions.selectItemInDropdown(standardDice, '20');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(20);
-    });
-
-    it('rolls 10d100', function () {
-        commonTestFunctions.sendInput(standardQuantity, 10);
-        commonTestFunctions.selectItemInDropdown(standardDice, 'Percentile');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(standardRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(100);
-    });
-
-    it('rolls a custom roll', function () {
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(customRollButton, rollingSection);
-        expect(roll.getText()).toBeGreaterThan(0);
-    });
-
-    it('rolls 6d5', function () {
-        commonTestFunctions.sendInput(customQuantity, 6);
-        commonTestFunctions.sendInput(customDie, 5);
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(customRollButton, rollingSection);
-
-        expect(roll.getText()).toBeGreaterThan(5);
     });
 
     it('allows custom quantity of 1', function () {

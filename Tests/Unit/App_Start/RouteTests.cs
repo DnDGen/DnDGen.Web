@@ -34,6 +34,8 @@ namespace DNDGenSite.Tests.Unit.App_Start
         [TestCase("Wand", "Treasures/Wand/Generate/{power}", "Wand", "Generate")]
         [TestCase("Weapon", "Treasures/Weapon/Generate/{power}", "Weapon", "Generate")]
         [TestCase("WondrousItem", "Treasures/WondrousItem/Generate/{power}", "WondrousItem", "Generate")]
+        [TestCase("Character", "Character/Generate", "Character", "Generate")]
+        [TestCase("Randomizers", "Randomizers/Verify", "Randomizers", "Verify")]
         public void RouteIsMapped(String name, String url, String controller, String action)
         {
             Assert.That(routes[name], Is.InstanceOf<Route>());

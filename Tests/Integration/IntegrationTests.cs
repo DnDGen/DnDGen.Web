@@ -1,4 +1,5 @@
-﻿using DNDGenSite.App_Start;
+﻿using CharacterGen.Bootstrap;
+using DNDGenSite.App_Start;
 using Ninject;
 using NUnit.Framework;
 using RollGen.Bootstrap;
@@ -21,6 +22,9 @@ namespace DNDGenSite.Tests.Integration
 
             var treasureGenModuleLoader = new TreasureGenModuleLoader();
             treasureGenModuleLoader.LoadModules(kernel);
+
+            var characterGenLoader = new CharacterGenModuleLoader();
+            characterGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
 

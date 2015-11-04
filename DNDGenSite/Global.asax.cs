@@ -26,23 +26,19 @@ namespace DNDGenSite
             if (httpContext == null)
                 return;
 
-            var mvcHandler = httpContext.CurrentHandler as MvcHandler;
-            var requestContext = mvcHandler.RequestContext;
-
-            if (requestContext.HttpContext.Request.IsAjaxRequest() == false)
+            var isMvcPage = httpContext.CurrentHandler is MvcHandler;
+            if (isMvcPage == false)
+            {
                 httpContext.Response.Redirect("~/Error");
+                return;
+            }
 
-            httpContext.Response.Clear();
-            var controllerName = requestContext.RouteData.GetRequiredString("controller");
-            var factory = ControllerBuilder.Current.GetControllerFactory();
-            var controller = factory.CreateController(requestContext, controllerName);
-            var controllerContext = new ControllerContext(requestContext, (ControllerBase)controller);
+            var mvcHandler = httpContext.CurrentHandler as MvcHandler;
 
-            var jsonResult = new JsonResult();
-            jsonResult.Data = new { success = false, serverError = "500" };
-            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            jsonResult.ExecuteResult(controllerContext);
-            httpContext.Response.End();
+            if (mvcHandler.RequestContext.HttpContext.Request.IsAjaxRequest())
+                throw exception;
+
+            httpContext.Response.Redirect("~/Error");
         }
     }
 }

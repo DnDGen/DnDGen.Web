@@ -3,6 +3,7 @@
 
 namespace DNDGenSite.App_Start
 {
+    using CharacterGen.Bootstrap;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
@@ -66,6 +67,9 @@ namespace DNDGenSite.App_Start
 
             var treasureGenLoader = new TreasureGenModuleLoader();
             treasureGenLoader.LoadModules(kernel);
+
+            var characterGenLoader = new CharacterGenModuleLoader();
+            characterGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
         }

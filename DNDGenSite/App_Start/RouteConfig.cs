@@ -116,6 +116,18 @@ namespace DNDGenSite
                 url: "Treasures/WondrousItem/Generate/{power}",
                 defaults: new { Controller = "WondrousItem", Action = "Generate" }
             );
+
+            routes.MapRoute(
+                name: "Character",
+                url: "Character/Generate",
+                defaults: new { Controller = "Character", Action = "Generate" }
+            );
+
+            routes.MapRoute(
+                name: "Randomizers",
+                url: "Randomizers/Verify",
+                defaults: new { Controller = "Randomizers", Action = "Verify" }
+            );
         }
     }
 }

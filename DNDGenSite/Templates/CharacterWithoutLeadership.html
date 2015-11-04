@@ -1,0 +1,124 @@
+﻿<div>
+    <ul>
+        <li>Alignment: {{character.Alignment.Full}}</li>
+        <li id="characterClassWrapper">
+            <span>Level {{character.Class.Level}} {{character.Class.ClassName}}</span>
+            <ul ng-show="character.Class.SpecialistFields.length > 0 || character.Class.ProhibitedFields.length > 0">
+                <li ng-show="character.Class.SpecialistFields.length > 0">
+                    <span>Specialist Fields:</span>
+                    <ul>
+                        <li ng-repeat="field in character.Class.SpecialistFields track by $index">{{field}}</li>
+                    </ul>
+                </li>
+                <li ng-show="character.Class.ProhibitedFields.length > 0">
+                    <span>Prohibited Fields:</span>
+                    <ul>
+                        <li ng-repeat="field in character.Class.ProhibitedFields track by $index">{{field}}</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="raceWrapper">
+            <span>{{character.Race.Metarace.length > 0 ? character.Race.Metarace : ''}} {{character.Race.BaseRace}}</span>
+            <ul>
+                <li>{{character.Race.Male ? 'Male' : 'Female'}}</li>
+                <li ng-show="character.Race.MetaraceSpecies.length > 0">Metarace Species: {{character.Race.MetaraceSpecies}}</li>
+                <li>Land Speed: {{character.Race.LandSpeed}}</li>
+                <li>Size: {{character.Race.Size}}</li>
+                <li ng-show="character.Race.HasWings">Has Wings</li>
+                <li ng-show="character.Race.HasWings">Aerial Speed: {{character.Race.AerialSpeed}}</li>
+            </ul>
+        </li>
+        <li id="statsWrapper">
+            <span>Stats:</span>
+            <ul>
+                <li ng-repeat="(key, value) in character.Ability.Stats track by $index">{{key}}: {{value.Value}} ({{value.Bonus}})</li>
+            </ul>
+        </li>
+        <li id="languagesWrapper">
+            <span>Languages:</span>
+            <ul>
+                <li ng-repeat="language in character.Ability.Languages track by $index">{{language}}</li>
+            </ul>
+        </li>
+        <li id="skillsWrapper">
+            <table class="table table-striped">
+                <tr>
+                    <th>Skill</th>
+                    <th>Ranks</th>
+                    <th>Stat Bonus</th>
+                    <th>Other Bonus</th>
+                    <th>Class Skill</th>
+                </tr>
+                <tr ng-repeat="(key, value) in character.Ability.Skills track by $index">
+                    <td>{{key}}</td>
+                    <td>{{value.EffectiveRanks}}</td>
+                    <td>{{value.BaseStat.Bonus}}</td>
+                    <td>{{value.Bonus}}</td>
+                    <td><span ng-show="value.ClassSkill" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                </tr>
+            </table>
+        </li>
+        <li id="featsWrapper">
+            <span>Feats:</span>
+            <ul>
+                <li ng-repeat="feat in character.Ability.Feats track by $index">{{feat.Name}} <span ng-show="feat.Focus.length > 0">({{feat.Focus}})</span> <span ng-show="feat.Strength > 0">({{feat.Strength}})</span></li>
+            </ul>
+        </li>
+        <li>Interesting Trait: {{character.InterestingTrait.length > 0 ? character.InterestingTrait : 'None'}}</li>
+        <li id="magicWrapper" ng-show="character.Magic.SpellsPerDay.length > 0">
+            <span>Spells Per Day:</span>
+            <ul>
+                <li ng-repeat="spellLevel in character.Magic.SpellsPerDay track by $index">Level {{spellLevel.Level}}: {{spellLevel.Quantity}} {{spellLevel.HasDomainSpell ? '+ 1' : ''}}</li>
+            </ul>
+        </li>
+        <li ng-show="character.Magic.Animal.length > 0">Animal: {{character.Magic.Animal}}</li>
+        <li id="equipmentWrapper">
+            <span>Equipment:</span>
+            <ul>
+                <li>
+                    <span>Primary Hand: {{character.Equipment.PrimaryHand ? '' : 'None'}}</span>
+                    <dndgen-item ng-show="character.Equipment.PrimaryHand" item="character.Equipment.PrimaryHand"></dndgen-item>
+                </li>
+                <li>
+                    <span ng-hide="character.Equipment.OffHand">Off Hand: None</span>
+                    <span ng-show="character.Equipment.PrimaryHand.Attributes.indexOf('Two-Handed') > -1">Off Hand: (Two-Handed)</span>
+                    <span ng-show="character.Equipment.OffHand && character.Equipment.PrimaryHand.Attributes.indexOf('Two-Handed') == -1">Off Hand:</span>
+                    <dndgen-item ng-show="character.Equipment.OffHand && character.Equipment.PrimaryHand.Attributes.indexOf('Two-Handed') == -1" item="character.Equipment.OffHand"></dndgen-item>
+                </li>
+                <li>
+                    <span>Armor: {{character.Equipment.Armor ? '' : 'None'}}</span>
+                    <dndgen-item ng-show="character.Equipment.Armor" item="character.Equipment.Armor"></dndgen-item>
+                </li>
+                <li>
+                    <span>Treasure: {{character.Equipment.Treasure.Coin.Quantity > 0 || character.Equipment.Treasure.Goods.length > 0 || character.Equipment.Treasure.Items.length > 0 ? '' : 'None'}}</span>
+                    <dndgen-treasure ng-show="character.Equipment.Treasure.Coin.Quantity > 0 || character.Equipment.Treasure.Goods.length > 0 || character.Equipment.Treasure.Items.length > 0" treasure="character.Equipment.Treasure"></dndgen-treasure>
+                </li>
+            </ul>
+        </li>
+        <li id="combatWrapper">
+            <span>Combat:</span>
+            <ul>
+                <li>Adjusted Dexterity Bonus: {{character.Combat.AdjustedDexterityBonus}}</li>
+                <li>
+                    <span>Armor Class: {{character.Combat.ArmorClass.Full}}</span>
+                    <ul>
+                        <li>Flat-Footed: {{character.Combat.ArmorClass.FlatFooted}}</li>
+                        <li>Touch: {{character.Combat.ArmorClass.Touch}}</li>
+                    </ul>
+                </li>
+                <li>Base Attack: {{character.Combat.BaseAttack.AllBonuses}}</li>
+                <li>Hit Points: {{character.Combat.HitPoints}}</li>
+                <li>Initiative Bonus: {{character.Combat.InitiativeBonus}}</li>
+                <li>
+                    <span>Saving Throws:</span>
+                    <ul>
+                        <li>Fortitude: {{character.Combat.SavingThrows.Fortitude}}</li>
+                        <li>Reflex: {{character.Combat.SavingThrows.Reflex}}</li>
+                        <li>Will: {{character.Combat.SavingThrows.Will}}</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

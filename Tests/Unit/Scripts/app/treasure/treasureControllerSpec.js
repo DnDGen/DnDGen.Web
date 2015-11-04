@@ -197,7 +197,7 @@ describe('Treasure Controller', function () {
         vm.generateTreasure();
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(vm.generating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching treasure', function () {
@@ -207,7 +207,7 @@ describe('Treasure Controller', function () {
         vm.generateTreasure();
         scope.$apply();
 
-        expect(vm.generating).toBeFalsy();
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching mundane item', function () {
@@ -216,7 +216,7 @@ describe('Treasure Controller', function () {
         vm.generateMundaneItem();
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(vm.generating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching mundane item', function () {
@@ -225,7 +225,7 @@ describe('Treasure Controller', function () {
         vm.generateMundaneItem();
         scope.$apply();
 
-        expect(vm.generating).toBeFalsy();
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching powered item', function () {
@@ -235,7 +235,7 @@ describe('Treasure Controller', function () {
         vm.generatePoweredItem();
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(vm.generating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching powered item', function () {
@@ -245,7 +245,7 @@ describe('Treasure Controller', function () {
         vm.generatePoweredItem();
         scope.$apply();
 
-        expect(vm.generating).toBeFalsy();
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
     it('clears the treasure if an error is thrown while fetching treasure', function () {

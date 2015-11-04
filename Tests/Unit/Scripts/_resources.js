@@ -17,4 +17,8 @@
 /// <reference path="../../../dndgensite/scripts/app/treasure/treasure.module.js" />
 /// <reference path="../../../dndgensite/scripts/app/treasure/treasure.service.js" />
 /// <reference path="../../../dndgensite/scripts/app/treasure/treasure.controller.js" />
+/// <reference path="../../../dndgensite/scripts/app/character/character.module.js" />
+/// <reference path="../../../dndgensite/scripts/app/character/randomizer.service.js" />
+/// <reference path="../../../dndgensite/scripts/app/character/character.service.js" />
+/// <reference path="../../../dndgensite/scripts/app/character/character.controller.js" />
 

@@ -1,4 +1,5 @@
-﻿using DNDGenSite.Controllers;
+﻿using DNDGenSite.App_Start.Factories;
+using DNDGenSite.Controllers;
 using DNDGenSite.Controllers.Treasures;
 using DNDGenSite.Repositories;
 using NUnit.Framework;
@@ -140,6 +141,27 @@ namespace DNDGenSite.Tests.Integration.App_Start
         {
             var client = GetNewInstanceOf<IGitHubClient>();
             Assert.That(client, Is.InstanceOf<GitHubClient>());
+        }
+
+        [Test]
+        public void CharacterControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<CharacterController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void RandomizerRepositoryIsInjected()
+        {
+            var repository = GetNewInstanceOf<IRandomizerRepository>();
+            Assert.That(repository, Is.InstanceOf<RandomizerRepository>());
+        }
+
+        [Test]
+        public void RuntimeFactoryIsInjected()
+        {
+            var factory = GetNewInstanceOf<RuntimeFactory>();
+            Assert.That(factory, Is.InstanceOf<NinjectRuntimeFactory>());
         }
     }
 }

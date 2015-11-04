@@ -20,9 +20,9 @@ describe('Treasure Page', function () {
     var poweredItemButton = element(by.id('poweredItemButton'));
 
     var treasure = {
-        coin: element(by.binding('vm.treasure.Coin.Currency')),
-        goods: element.all(by.repeater('good in vm.treasure.Goods')),
-        items: element.all(by.repeater('item in vm.treasure.Items')),
+        coin: element(by.binding('treasure.Coin.Currency')),
+        goods: element.all(by.repeater('good in treasure.Goods')),
+        items: element.all(by.repeater('item in treasure.Items')),
         goodsWrapper: element(by.id('goodsWrapper')),
         itemsWrapper: element(by.id('itemsWrapper')),
         noTreasure: element(by.id('noTreasure'))
@@ -188,50 +188,28 @@ describe('Treasure Page', function () {
     });
 
     it('generates treasure', function () {
-        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Treasure');
         commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
         expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('generates coin', function () {
-        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Coin');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+    it('generates mundane item', function () {
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
         expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('generates goods', function () {
-        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Goods');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
+    it('generates powered item', function () {
+        commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemTypes, generatingSection);
         expect(generatingSection.isDisplayed()).toBeFalsy();
     });
 
-    it('generates items', function () {
-        commonTestFunctions.selectItemInDropdown(treasureTypes, 'Items');
-        commonTestFunctions.clickWhenReadyAndWaitForResolution(treasureButton, generatingSection);
-        expect(generatingSection.isDisplayed()).toBeFalsy();
+    it('can generate alchemical items', function () {
+        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
+        expect(mundaneItemButton.isEnabled()).toBeTruthy();
     });
 
-    describe('when selecting alchemical items', function () {
-        beforeEach(function () {
-            commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'AlchemicalItem');
-        });
-
-        it('generates alchemical items', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only alchemical items', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 alchemical item', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
-        });
+    it('can generate a tool', function () {
+        commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
+        expect(mundaneItemButton.isEnabled()).toBeTruthy();
     });
 
     describe('when selecting armor', function () {
@@ -240,48 +218,27 @@ describe('Treasure Page', function () {
         });
 
         it('generates armor', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only armor', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 armor', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major armor', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium armor', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor armor', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates mundane armor', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -291,41 +248,22 @@ describe('Treasure Page', function () {
         });
 
         it('generates potion', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only potion', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 potion', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major potion', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium potion', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor potion', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -335,41 +273,22 @@ describe('Treasure Page', function () {
         });
 
         it('generates ring', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only ring', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 ring', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major ring', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium ring', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor ring', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -379,35 +298,17 @@ describe('Treasure Page', function () {
         });
 
         it('generates rod', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only rod', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 rod', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major rod', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium rod', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -417,41 +318,22 @@ describe('Treasure Page', function () {
         });
 
         it('generates scroll', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only scroll', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 scroll', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major scroll', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium scroll', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor scroll', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -461,57 +343,17 @@ describe('Treasure Page', function () {
         });
 
         it('generates staff', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only staff', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 staff', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major staff', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium staff', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-    });
-
-    describe('when selecting tool', function () {
-        beforeEach(function () {
-            commonTestFunctions.selectItemInDropdown(mundaneItemTypes, 'Tool');
-        });
-
-        it('generates tool', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only tools', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 tool', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(mundaneItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -521,41 +363,22 @@ describe('Treasure Page', function () {
         });
 
         it('generates wand', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only wand', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 wand', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major wand', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium wand', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor wand', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -565,48 +388,27 @@ describe('Treasure Page', function () {
         });
 
         it('generates weapon', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only weapon', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 weapon', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major weapon', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium weapon', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor weapon', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates mundane weapon', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Mundane');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -616,41 +418,22 @@ describe('Treasure Page', function () {
         });
 
         it('generates wondrous item', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
-        });
-
-        it('generates only wondrous item', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.coin.isDisplayed()).toBeFalsy();
-            expect(treasure.goodsWrapper.isDisplayed()).toBeFalsy();
-        });
-
-        it('generates 1 wondrous item', function () {
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-            expect(treasure.items.count()).toBe(1);
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates major wondrous item', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Major');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates medium wondrous item', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Medium');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
 
         it('generates minor wondrous item', function () {
             commonTestFunctions.selectItemInDropdown(itemPowers, 'Minor');
-            commonTestFunctions.clickWhenReadyAndWaitForResolution(poweredItemButton, generatingSection);
-
-            expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
+            expect(poweredItemButton.isEnabled()).toBeTruthy();
         });
     });
 
@@ -793,7 +576,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('good in vm.treasure.Goods'))
+            element.all(by.repeater('good in treasure.Goods'))
                 .then(function (goods) {
                     expect(treasure.goods.count()).toBe(1);
                     expect(goods.length).toBe(1);
@@ -817,7 +600,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('good in vm.treasure.Goods'))
+            element.all(by.repeater('good in treasure.Goods'))
                 .then(function (goods) {
                     expect(treasure.goods.count()).toBe(2);
                     expect(goods.length).toBe(2);
@@ -842,7 +625,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('good in vm.treasure.Goods'))
+            element.all(by.repeater('good in treasure.Goods'))
                 .then(function (goods) {
                     expect(treasure.goods.count()).toBe(2);
                     expect(goods.length).toBe(2);
@@ -864,7 +647,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.goodsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('good in vm.treasure.Goods'))
+            element.all(by.repeater('good in treasure.Goods'))
                 .then(function (goods) {
                     expect(treasure.goods.count()).toBe(1);
                     expect(goods.length).toBe(1);
@@ -899,7 +682,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('item in vm.treasure.Items'))
+            element.all(by.repeater('item in treasure.Items'))
                 .then(function (items) {
                     expect(treasure.items.count()).toBe(1);
                     expect(items.length).toBe(1);
@@ -919,7 +702,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('item in vm.treasure.Items'))
+            element.all(by.repeater('item in treasure.Items'))
                 .then(function (items) {
                     expect(treasure.items.count()).toBe(2);
                     expect(items.length).toBe(2);
@@ -939,7 +722,7 @@ describe('Treasure Page', function () {
         }).then(function () {
             expect(treasure.itemsWrapper.isDisplayed()).toBeTruthy();
 
-            element.all(by.repeater('item in vm.treasure.Items'))
+            element.all(by.repeater('item in treasure.Items'))
                 .then(function (items) {
                     expect(treasure.items.count()).toBe(2);
                     expect(items.length).toBe(2);

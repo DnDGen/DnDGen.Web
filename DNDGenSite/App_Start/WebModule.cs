@@ -29,6 +29,8 @@ namespace DNDGenSite.App_Start
             Bind<WondrousItemController>().ToMethod(c => new WondrousItemController(c.Kernel.Get<IMagicalItemGenerator>(ItemTypeConstants.WondrousItem)));
             Bind<IGitHubClient>().ToMethod(c => GitHubClientFactory.Create());
             Bind<ErrorRepository>().To<GitHubErrorRepository>();
+            Bind<RuntimeFactory>().ToMethod(c => new NinjectRuntimeFactory(c.Kernel));
+            Bind<IRandomizerRepository>().To<RandomizerRepository>();
         }
     }
 }
