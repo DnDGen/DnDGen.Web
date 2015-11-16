@@ -62,7 +62,14 @@
         <li id="featsWrapper">
             <span>Feats:</span>
             <ul>
-                <li ng-repeat="feat in character.Ability.Feats track by $index">{{feat.Name}} <span ng-show="feat.Focus.length > 0">({{feat.Focus}})</span> <span ng-show="feat.Strength > 0">({{feat.Strength}})</span></li>
+                <li ng-repeat="feat in character.Ability.Feats track by $index">
+                    <span>{{feat.Name}}</span>
+                    <ul ng-show="feat.Focus.length > 0 || feat.Strength > 0 || feat.Frequency.TimePeriod.length > 0">
+                        <li ng-show="feat.Focus.length > 0">Focus: {{feat.Focus}}</li>
+                        <li ng-show="feat.Strength > 0">Strength: {{feat.Strength}}</li>
+                        <li ng-show="feat.Frequency.TimePeriod.length > 0">Frequency: {{feat.Frequency.Quantity > 0 ? feat.Frequency.Quantity + '/' : ''}}{{feat.Frequency.TimePeriod}}</li>
+                    </ul> 
+                </li>
             </ul>
         </li>
         <li>Interesting Trait: {{character.InterestingTrait.length > 0 ? character.InterestingTrait : 'None'}}</li>
