@@ -26,13 +26,18 @@
                 <li>Land Speed: {{character.Race.LandSpeed}}</li>
                 <li>Size: {{character.Race.Size}}</li>
                 <li ng-show="character.Race.HasWings">Has Wings</li>
-                <li ng-show="character.Race.HasWings">Aerial Speed: {{character.Race.AerialSpeed}}</li>
+                <li ng-show="character.Race.AerialSpeed > 0">Aerial Speed: {{character.Race.AerialSpeed}}</li>
             </ul>
         </li>
         <li id="statsWrapper">
             <span>Stats:</span>
             <ul>
-                <li ng-repeat="(key, value) in character.Ability.Stats track by $index">{{key}}: {{value.Value}} ({{value.Bonus}})</li>
+                <li>Strength: {{character.Ability.Stats.Strength.Value}} ({{character.Ability.Stats.Strength.Bonus}})</li>
+                <li>Constitution: {{character.Ability.Stats.Constitution.Value}} ({{character.Ability.Stats.Constitution.Bonus}})</li>
+                <li>Dexterity: {{character.Ability.Stats.Dexterity.Value}} ({{character.Ability.Stats.Dexterity.Bonus}})</li>
+                <li>Intelligence: {{character.Ability.Stats.Intelligence.Value}} ({{character.Ability.Stats.Intelligence.Bonus}})</li>
+                <li>Wisdom: {{character.Ability.Stats.Wisdom.Value}} ({{character.Ability.Stats.Wisdom.Bonus}})</li>
+                <li>Charisma: {{character.Ability.Stats.Charisma.Value}} ({{character.Ability.Stats.Charisma.Bonus}})</li>
             </ul>
         </li>
         <li id="languagesWrapper">
@@ -49,6 +54,8 @@
                     <th>Stat Bonus</th>
                     <th>Other Bonus</th>
                     <th>Class Skill</th>
+                    <th>Armor Check Penalty</th>
+                    <th>Circumstantial Bonus</th>
                 </tr>
                 <tr ng-repeat="(key, value) in character.Ability.Skills track by $index">
                     <td>{{key}}</td>
@@ -56,6 +63,8 @@
                     <td>{{value.BaseStat.Bonus}}</td>
                     <td>{{value.Bonus}}</td>
                     <td><span ng-show="value.ClassSkill" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    <td><span ng-show="value.ArmorCheckPenalty" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    <td><span ng-show="value.CircumstantialBonus" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </li>
