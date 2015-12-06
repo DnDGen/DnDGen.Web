@@ -1,11 +1,9 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Randomizer Service', function () {
     var randomizerService;
     var promiseServiceMock;
-    var urlRegex
+    var urlRegex;
 
     beforeEach(module('app.character', function($provide) {
         promiseServiceMock = {};
@@ -19,11 +17,11 @@ describe('Randomizer Service', function () {
     }));
 
     beforeEach(function () {
-        urlRegex = /^\/Randomizers\/Verify\?\w+=(\w|%20)+(&\w+=(\w|%20)+)*\r?$/;
+        urlRegex = /^\/Characters\/Randomizers\/Verify\?\w+=(\w|%20)+(&\w+=(\w|%20)+)*\r?$/;
     });
 
     it('verifies randomizers are compatible', function () {
-        randomizerService.verify("any", "set", "any", "set", "any", 1, "any", "set", "any", true, "set");
+        randomizerService.verify("any", "set", "any", "set", "any", 1, false, "any", "set", "any", true, "set");
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=any/);
@@ -34,13 +32,14 @@ describe('Randomizer Service', function () {
         expect(calledUrl).toMatch(/setAlignment=set/);
         expect(calledUrl).toMatch(/setClassName=set/);
         expect(calledUrl).toMatch(/setLevel=1/);
+        expect(calledUrl).toMatch(/allowLevelAdjustments=false/);
         expect(calledUrl).toMatch(/setBaseRace=set/);
         expect(calledUrl).toMatch(/forceMetarace=true/);
         expect(calledUrl).toMatch(/setMetarace=set/);
     });
 
     it('encodes the uri', function () {
-        randomizerService.verify("alignment randomizer type", "set alignment", "class name randomizer type", "set class name", "level randomizer type", 9266, "base race randomizer type", "set base race", "metarace randomizer type", true, "set metarace");
+        randomizerService.verify("alignment randomizer type", "set alignment", "class name randomizer type", "set class name", "level randomizer type", 9266, false, "base race randomizer type", "set base race", "metarace randomizer type", true, "set metarace");
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=alignment%20randomizer%20type/);
@@ -51,13 +50,14 @@ describe('Randomizer Service', function () {
         expect(calledUrl).toMatch(/setAlignment=set%20alignment/);
         expect(calledUrl).toMatch(/setClassName=set%20class%20name/);
         expect(calledUrl).toMatch(/setLevel=9266/);
+        expect(calledUrl).toMatch(/allowLevelAdjustments=false/);
         expect(calledUrl).toMatch(/setBaseRace=set%20base%20race/);
         expect(calledUrl).toMatch(/forceMetarace=true/);
         expect(calledUrl).toMatch(/setMetarace=set%20metarace/);
     });
 
     it('does not send default values', function () {
-        randomizerService.verify("any", "", "any", "", "any", 0, "any", "", "any", false, "");
+        randomizerService.verify("any", "", "any", "", "any", 0, true, "any", "", "any", false, "");
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=any/);
@@ -68,6 +68,7 @@ describe('Randomizer Service', function () {
         expect(calledUrl).not.toMatch(/setAlignment=/);
         expect(calledUrl).not.toMatch(/setClassName=/);
         expect(calledUrl).not.toMatch(/setLevel=/);
+        expect(calledUrl).not.toMatch(/allowLevelAdjustments=/);
         expect(calledUrl).not.toMatch(/setBaseRace=/);
         expect(calledUrl).not.toMatch(/forceMetarace=/);
         expect(calledUrl).not.toMatch(/setMetarace=/);

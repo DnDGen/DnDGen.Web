@@ -16,12 +16,12 @@
 
         function getRoll(quantity, die)
         {
-            var url = "Roll/" + die + "/" + quantity;
+            var url = "/Roll/" + die + "/" + quantity;
             return promiseService.getPromise(url);
         }
 
         function getCustomRoll(quantity, die) {
-            var url = "Roll/Custom/" + quantity + "/" + die;
+            var url = "/Roll/Custom/" + quantity + "/" + die;
             return promiseService.getPromise(url);
         }
     };

@@ -22,8 +22,14 @@
 
         vm.generateTreasure = function () {
             vm.generating = true;
-            treasureService.getTreasure(vm.treasureType, vm.treasureLevel)
-                .then(setTreasure, handleError);
+            vm.treasure = null;
+
+            if (vm.treasureType == 'Treasure')
+                treasureService.getTreasure(vm.treasureLevel)
+                    .then(setTreasure, handleError);
+            else
+                treasureService.getTreasureType(vm.treasureType, vm.treasureLevel)
+                    .then(setTreasure, handleError);
         };
 
         function setTreasure(data) {
@@ -33,7 +39,6 @@
 
         function handleError() {
             sweetAlertService.showError();
-            vm.treasure = null;
             vm.generating = false;
         }
 

@@ -16,10 +16,10 @@ namespace DNDGenSite.Tests.Unit.App_Start
             RouteConfig.RegisterRoutes(routes);
         }
 
-        [TestCase("Default", "{action}", "View", "Home")]
+        [TestCase("Default", "{controller}/{action}", "Home", "Index")]
         [TestCase("Roll", "Roll/{action}/{quantity}", "Roll", null)]
         [TestCase("CustomRoll", "Roll/Custom/{quantity}/{die}", "Roll", "Custom")]
-        [TestCase("Treasure", "Treasures/Treasure/Generate/{level}", "Treasure", "Generate")]
+        [TestCase("Treasure", "Treasure/Generate/{level}", "Treasure", "Generate")]
         [TestCase("Coin", "Treasures/Coin/Generate/{level}", "Coin", "Generate")]
         [TestCase("Goods", "Treasures/Goods/Generate/{level}", "Goods", "Generate")]
         [TestCase("Items", "Treasures/Items/Generate/{level}", "Items", "Generate")]
@@ -34,8 +34,8 @@ namespace DNDGenSite.Tests.Unit.App_Start
         [TestCase("Wand", "Treasures/Wand/Generate/{power}", "Wand", "Generate")]
         [TestCase("Weapon", "Treasures/Weapon/Generate/{power}", "Weapon", "Generate")]
         [TestCase("WondrousItem", "Treasures/WondrousItem/Generate/{power}", "WondrousItem", "Generate")]
-        [TestCase("Character", "Character/Generate", "Character", "Generate")]
-        [TestCase("Randomizers", "Randomizers/Verify", "Randomizers", "Verify")]
+        [TestCase("Randomizers", "Characters/Randomizers/{action}", "Randomizers", "Verify")]
+        [TestCase("Leadership", "Characters/Leadership/{action}", "Leadership", "Generate")]
         public void RouteIsMapped(String name, String url, String controller, String action)
         {
             Assert.That(routes[name], Is.InstanceOf<Route>());

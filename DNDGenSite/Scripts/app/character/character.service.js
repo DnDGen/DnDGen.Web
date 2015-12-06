@@ -13,7 +13,7 @@
             generate: generate
         };
 
-        function generate(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma)
+        function generate(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments)
         {
             var url = "/Character/Generate?alignmentRandomizerType=" + encodeURI(alignmentRandomizerType);
             url += "&classNameRandomizerType=" + encodeURI(classNameRandomizerType);
@@ -31,6 +31,9 @@
             if (setLevel > 0)
                 url += "&setLevel=" + setLevel;
 
+            if (allowLevelAdjustments == false)
+                url += "&allowLevelAdjustments=" + allowLevelAdjustments;
+
             if (setBaseRace.length > 0)
                 url += "&setBaseRace=" + encodeURI(setBaseRace);
 
@@ -41,22 +44,25 @@
                 url += "&setMetarace=" + encodeURI(setMetarace);
 
             if (setStrength > 0)
-                url += "&setStrength=" + encodeURI(setStrength);
+                url += "&setStrength=" + setStrength;
 
             if (setConstitution > 0)
-                url += "&setConstitution=" + encodeURI(setConstitution);
+                url += "&setConstitution=" + setConstitution;
 
             if (setDexterity > 0)
-                url += "&setDexterity=" + encodeURI(setDexterity);
+                url += "&setDexterity=" + setDexterity;
 
             if (setIntelligence > 0)
-                url += "&setIntelligence=" + encodeURI(setIntelligence);
+                url += "&setIntelligence=" + setIntelligence;
 
             if (setWisdom > 0)
-                url += "&setWisdom=" + encodeURI(setWisdom);
+                url += "&setWisdom=" + setWisdom;
 
             if (setCharisma > 0)
-                url += "&setCharisma=" + encodeURI(setCharisma);
+                url += "&setCharisma=" + setCharisma;
+
+            if (allowStatsAdjustments == false)
+                url += "&allowStatsAdjustments=" + allowStatsAdjustments;
 
             return promiseService.getPromise(url);
         }

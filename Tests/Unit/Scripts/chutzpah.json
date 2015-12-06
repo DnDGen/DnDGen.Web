@@ -1,4 +1,34 @@
 {
-    "Framework": "jasmine",
-    "RootReferencePathMode": "SettingsFileDirectory"
+  "Framework": "jasmine",
+  "RootReferencePathMode": "SettingsFileDirectory",
+  "References": [
+    { "Path": "boot.js" },
+    { "Path": "console.js" },
+    { "Path": "jasmine-html.js" },
+    { "Path": "jasmine.js" },
+    { "Path": "../../../DNDGenSite/Scripts/jQuery/jquery-2.1.4.js" },
+    { "Path": "../../../DNDGenSite/Scripts/bootstrap/bootstrap.js" },
+    { "Path": "../../../DNDGenSite/Scripts/Angular/angular.js" },
+    { "Path": "../../../DNDGenSite/Scripts/Angular/angular-mocks.js" },
+    {
+      "Path": "../../../DNDGenSite/Scripts/app/shared",
+      "Includes": [ "*.module.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../../../DNDGenSite/Scripts/app/shared",
+      "Includes": [ "*.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../../../DNDGenSite/Scripts/app",
+      "Includes": [ "*.module.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../../../DNDGenSite/Scripts/app",
+      "Includes": [ "*.js" ],
+      "Excludes": [ "*Resource*" ]
+    }
+  ]
 }

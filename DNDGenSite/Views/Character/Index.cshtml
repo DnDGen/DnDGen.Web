@@ -1,0 +1,144 @@
+﻿@{
+    @model DNDGenSite.Models.CharacterModel
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ngApp {
+    ng-app='app.character'
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/character/character.module.js"></script>
+    <script src="~/Scripts/app/character/randomizer.service.js"></script>
+    <script src="~/Scripts/app/character/leadership.service.js"></script>
+    <script src="~/Scripts/app/character/character.service.js"></script>
+    <script src="~/Scripts/app/character/character.controller.js"></script>
+}
+
+<div ng-controller="Character as vm">
+    <h1>CharacterGen</h1>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <form name="characterForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="alignmentRandomizerTypes" class="col-sm-4 control-label">Alignment Randomizer:</label>
+                    <div class="col-sm-4">
+                        <select id="alignmentRandomizerTypes" class="form-control" ng-model="vm.alignmentRandomizerType" ng-options="alignmentRandomizerType for alignmentRandomizerType in vm.characterModel.AlignmentRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="setAlignments" class="form-control" ng-show="vm.alignmentRandomizerType == 'Set'" ng-model="vm.setAlignment" ng-options="alignment for alignment in vm.characterModel.Alignments" ng-required="vm.alignmentRandomizerType == 'Set'"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="classNameRandomizerTypes" class="col-sm-4 control-label">Class Randomizer:</label>
+                    <div class="col-sm-4">
+                        <select id="classNameRandomizerTypes" class="form-control" ng-model="vm.classNameRandomizerType" ng-options="classNameRandomizerType for classNameRandomizerType in vm.characterModel.ClassNameRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="setClassNames" class="form-control" ng-show="vm.classNameRandomizerType == 'Set'" ng-model="vm.setClassName" ng-options="className for className in vm.characterModel.ClassNames" ng-required="vm.classNameRandomizerType == 'Set'"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="levelRandomizerTypes" class="col-sm-4 control-label">Level Randomizer:</label>
+                    <div class="col-sm-3">
+                        <select id="levelRandomizerTypes" class="form-control" ng-model="vm.levelRandomizerType" ng-options="levelRandomizerType for levelRandomizerType in vm.characterModel.LevelRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals ng-show="vm.levelRandomizerType == 'Set'" id="setLevel" class="form-control" type="number" min="0" max="20" ng-model="vm.setLevel" ng-required="vm.levelRandomizerType == 'Set'" />
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="checkbox-inline" ng-show="vm.levelRandomizerType == 'Set'">
+                            <label>
+                                <input type="checkbox" ng-model="vm.allowLevelAdjustments"> Allow Adjustments
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="baseRaceRandomizerTypes" class="col-sm-4 control-label">Base Race Randomizer:</label>
+                    <div class="col-sm-4">
+                        <select id="baseRaceRandomizerTypes" class="form-control" ng-model="vm.baseRaceRandomizerType" ng-options="baseRaceRandomizerType for baseRaceRandomizerType in vm.characterModel.BaseRaceRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="setBaseRaces" class="form-control" ng-show="vm.baseRaceRandomizerType == 'Set'" ng-model="vm.setBaseRace" ng-options="baseRace for baseRace in vm.characterModel.BaseRaces" ng-required="vm.baseRaceRandomizerType == 'Set'"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="metaraceRandomizerTypes" class="col-sm-4 control-label">Metarace Randomizer:</label>
+                    <div class="col-sm-4">
+                        <select id="metaraceRandomizerTypes" class="form-control" ng-model="vm.metaraceRandomizerType" ng-options="metaraceRandomizerType for metaraceRandomizerType in vm.characterModel.MetaraceRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-4" ng-hide="vm.metaraceRandomizerType == 'Set' || vm.metaraceRandomizerType == 'No Meta'">
+                        <div class="checkbox-inline">
+                            <label>
+                                <input type="checkbox" ng-model="vm.forceMetarace"> Force
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" ng-show="vm.metaraceRandomizerType == 'Set'">
+                        <select id="setMetaraces" class="form-control" ng-model="vm.setMetarace" ng-options="metarace for metarace in vm.characterModel.Metaraces" ng-required="vm.metaraceRandomizerType == 'Set'"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="statsRandomizerTypes" class="col-sm-4 control-label">Stats Randomizer:</label>
+                    <div class="col-sm-4">
+                        <select id="statsRandomizerTypes" class="form-control" ng-model="vm.statsRandomizerType" ng-options="statsRandomizerType for statsRandomizerType in vm.characterModel.StatsRandomizerTypes" required></select>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="checkbox-inline" ng-show="vm.statsRandomizerType == 'Set'">
+                            <label>
+                                <input type="checkbox" ng-model="vm.allowStatsAdjustments"> Allow Adjustments
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="vm.statsRandomizerType == 'Set'">
+                    <label for="setStrength" class="col-sm-2 control-label">Strength:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setStrength" class="form-control" type="number" min="0" ng-model="vm.setStrength" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                    <label for="setConstitution" class="col-sm-2 control-label">Constitution:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setConstitution" class="form-control" type="number" min="0" ng-model="vm.setConstitution" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                    <label for="setDexterity" class="col-sm-2 control-label">Dexterity:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setDexterity" class="form-control" type="number" min="0" ng-model="vm.setDexterity" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                </div>
+                <div class="form-group" ng-show="vm.statsRandomizerType == 'Set'">
+                    <label for="setIntelligence" class="col-sm-2 control-label">Intelligence:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setIntelligence" class="form-control" type="number" min="0" ng-model="vm.setIntelligence" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                    <label for="setWisdom" class="col-sm-2 control-label">Wisdom:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setWisdom" class="form-control" type="number" min="0" ng-model="vm.setWisdom" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                    <label for="setCharisma" class="col-sm-2 control-label">Charisma:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="setCharisma" class="form-control" type="number" min="0" ng-model="vm.setCharisma" ng-required="vm.statsRandomizerType == 'Set'" />
+                    </div>
+                </div>
+                <button id="generateButton" type="button" class="btn btn-success" ng-click="vm.generate()" ng-disabled="characterForm.$invalid || vm.generating || vm.verifying || vm.compatible == false">Generate</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div id="generatingSection" ng-show="vm.generating">
+                <span>{{vm.generatingMessage}}</span>
+            </div>
+            <div ng-hide="vm.generating">
+                <span id="noCharacter" class="italicize" ng-hide="vm.character">No character has been generated</span>
+                <dndgen-character character="vm.character" leadership="vm.leadership" cohort="vm.cohort" followers="vm.followers" ng-show="vm.character"></dndgen-character>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PostBodyScripts {
+    <script type="text/javascript">
+        angular.module('app.character').factory('bootstrapData', function () {
+            return { characterModel: @Html.Raw(Json.Encode(Model)) };
+        });
+    </script>
+}

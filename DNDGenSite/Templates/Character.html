@@ -1,23 +1,23 @@
 ﻿<div>
     <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
-    <div ng-show="character.Leadership.Score > 0">
-        <span ng-show="character.Leadership.Score > 0">Leadership:</span>
+    <div ng-show="leadership.Score > 0">
+        <span ng-show="leadership.Score > 0">Leadership:</span>
         <ul>
-            <li>Score: {{character.Leadership.Score | number}}</li>
-            <li ng-show="character.Leadership.LeadershipModifiers.length > 0">
+            <li>Score: {{leadership.Score | number}}</li>
+            <li ng-show="leadership.LeadershipModifiers.length > 0">
                 <span>Leadership Modifiers:</span>
                 <ul>
-                    <li ng-repeat="modifier in character.Leadership.LeadershipModifiers track by $index">{{modifier}}</li>
+                    <li ng-repeat="modifier in leadership.LeadershipModifiers track by $index">{{modifier}}</li>
                 </ul>
             </li>
-            <li ng-show="character.Leadership.Cohort">
+            <li ng-show="cohort">
                 <span>Cohort:</span>
-                <dndgen-character-without-leadership character="character.Leadership.Cohort"></dndgen-character-without-leadership>
+                <dndgen-character-without-leadership character="cohort"></dndgen-character-without-leadership>
             </li>
-            <li ng-show="character.Leadership.Followers.length > 0">
+            <li ng-show="followers.length > 0">
                 <span>Followers:</span>
                 <ul>
-                    <li ng-show="character.Leadership.Cohort" ng-repeat="follower in character.Leadership.Followers track by $index">
+                    <li ng-repeat="follower in followers track by $index">
                         <dndgen-character-without-leadership character="follower"></dndgen-character-without-leadership>
                     </li>
                 </ul>

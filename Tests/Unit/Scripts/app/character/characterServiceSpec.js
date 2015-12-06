@@ -1,11 +1,9 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Character Service', function () {
     var characterService;
     var promiseServiceMock;
-    var urlRegex
+    var urlRegex;
 
     beforeEach(module('app.character', function($provide) {
         promiseServiceMock = {};
@@ -22,8 +20,8 @@ describe('Character Service', function () {
         urlRegex = /^\/Character\/Generate\?\w+=(\w|%20)+(&\w+=(\w|%20)+)*\r?$/;
     });
 
-    it('verifies randomizers are compatible', function () {
-        characterService.generate("any", "set", "any", "set", "any", 1, "any", "set", "any", true, "set", "raw", 2, 3, 4, 5, 6, 7);
+    it('generates character', function () {
+        characterService.generate("any", "set", "any", "set", "any", 1, false, "any", "set", "any", true, "set", "raw", 2, 3, 4, 5, 6, 7, false);
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=any/);
@@ -35,6 +33,7 @@ describe('Character Service', function () {
         expect(calledUrl).toMatch(/setAlignment=set/);
         expect(calledUrl).toMatch(/setClassName=set/);
         expect(calledUrl).toMatch(/setLevel=1/);
+        expect(calledUrl).toMatch(/allowLevelAdjustments=false/);
         expect(calledUrl).toMatch(/setBaseRace=set/);
         expect(calledUrl).toMatch(/forceMetarace=true/);
         expect(calledUrl).toMatch(/setMetarace=set/);
@@ -44,10 +43,11 @@ describe('Character Service', function () {
         expect(calledUrl).toMatch(/setIntelligence=5/);
         expect(calledUrl).toMatch(/setWisdom=6/);
         expect(calledUrl).toMatch(/setCharisma=7/);
+        expect(calledUrl).toMatch(/allowStatsAdjustments=false/);
     });
 
     it('encodes the uri', function () {
-        characterService.generate("alignment randomizer type", "set alignment", "class name randomizer type", "set class name", "level randomizer type", 9266, "base race randomizer type", "set base race", "metarace randomizer type", true, "set metarace", "stats randomizer type", 90210, 42, 600, 1337, 12345, 23456);
+        characterService.generate("alignment randomizer type", "set alignment", "class name randomizer type", "set class name", "level randomizer type", 9266, false, "base race randomizer type", "set base race", "metarace randomizer type", true, "set metarace", "stats randomizer type", 90210, 42, 600, 1337, 12345, 23456, false);
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=alignment%20randomizer%20type/);
@@ -59,6 +59,7 @@ describe('Character Service', function () {
         expect(calledUrl).toMatch(/setAlignment=set%20alignment/);
         expect(calledUrl).toMatch(/setClassName=set%20class%20name/);
         expect(calledUrl).toMatch(/setLevel=9266/);
+        expect(calledUrl).toMatch(/allowLevelAdjustments=false/);
         expect(calledUrl).toMatch(/setBaseRace=set%20base%20race/);
         expect(calledUrl).toMatch(/forceMetarace=true/);
         expect(calledUrl).toMatch(/setMetarace=set%20metarace/);
@@ -68,10 +69,13 @@ describe('Character Service', function () {
         expect(calledUrl).toMatch(/setIntelligence=1337/);
         expect(calledUrl).toMatch(/setWisdom=12345/);
         expect(calledUrl).toMatch(/setCharisma=23456/);
+        expect(calledUrl).toMatch(/allowStatsAdjustments=false/);
     });
 
     it('does not send default values', function () {
-        characterService.generate("any", "", "any", "", "any", 0, "any", "", "any", false, "", "raw", 0, 0, 0, 0, 0, 0);
+        var promise = characterService.generate("any", "", "any", "", "any", 0, true, "any", "", "any", false, "", "raw", 0, 0, 0, 0, 0, 0, true);
+        expect(promise).not.toBeNull();
+
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
         expect(calledUrl).toMatch(urlRegex);
         expect(calledUrl).toMatch(/alignmentRandomizerType=any/);
@@ -83,6 +87,7 @@ describe('Character Service', function () {
         expect(calledUrl).not.toMatch(/setAlignment=/);
         expect(calledUrl).not.toMatch(/setClassName=/);
         expect(calledUrl).not.toMatch(/setLevel=/);
+        expect(calledUrl).not.toMatch(/allowLevelAdjustments=/);
         expect(calledUrl).not.toMatch(/setBaseRace=/);
         expect(calledUrl).not.toMatch(/forceMetarace=/);
         expect(calledUrl).not.toMatch(/setMetarace=/);
@@ -92,5 +97,6 @@ describe('Character Service', function () {
         expect(calledUrl).not.toMatch(/setIntelligence=/);
         expect(calledUrl).not.toMatch(/setWisdom=/);
         expect(calledUrl).not.toMatch(/setCharisma=/);
+        expect(calledUrl).not.toMatch(/allowStatsAdjustments=/);
     });
 });

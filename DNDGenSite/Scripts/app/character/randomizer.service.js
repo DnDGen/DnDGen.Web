@@ -13,9 +13,9 @@
             verify: verify
         };
 
-        function verify(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace)
+        function verify(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace)
         {
-            var url = "/Randomizers/Verify?alignmentRandomizerType=" + encodeURI(alignmentRandomizerType);
+            var url = "/Characters/Randomizers/Verify?alignmentRandomizerType=" + encodeURI(alignmentRandomizerType);
             url += "&classNameRandomizerType=" + encodeURI(classNameRandomizerType);
             url += "&levelRandomizerType=" + encodeURI(levelRandomizerType);
             url += "&baseRaceRandomizerType=" + encodeURI(baseRaceRandomizerType);
@@ -29,6 +29,9 @@
 
             if (setLevel > 0)
                 url += "&setLevel=" + setLevel;
+
+            if (allowLevelAdjustments == false)
+                url += "&allowLevelAdjustments=" + allowLevelAdjustments;
 
             if (setBaseRace.length > 0)
                 url += "&setBaseRace=" + encodeURI(setBaseRace);

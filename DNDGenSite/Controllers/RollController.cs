@@ -14,6 +14,12 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public JsonResult D2(Int32 quantity)
         {
             var roll = dice.Roll(quantity).d2();

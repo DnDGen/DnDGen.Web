@@ -37,43 +37,43 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CharacterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.1.3\lib\CharacterGen.Common.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.2.0\lib\CharacterGen.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.1.3\lib\CharacterGen.Generators.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.2.0\lib\CharacterGen.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Tables.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.1.3.1\lib\CharacterGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.2.0.1\lib\CharacterGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -97,9 +97,9 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.util.dll</HintPath>
@@ -156,7 +156,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -168,31 +168,31 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Generators.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Mappers.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Selectors.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Tables.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Tables.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4\lib\TreasureGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\EquipmentGen.Bootstrap.3.4.2\lib\TreasureGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -213,10 +213,15 @@
     <Compile Include="Unit\App_Start\RandomizerTypeConstantsTests.cs" />
     <Compile Include="Unit\App_Start\RouteTests.cs" />
     <Compile Include="Unit\Controllers\AttributeProvider.cs" />
-    <Compile Include="Unit\Controllers\RandomizersControllerTests.cs" />
+    <Compile Include="Unit\Controllers\DungeonControllerTests.cs" />
+    <Compile Include="Unit\Controllers\EncounterControllerTests.cs" />
+    <Compile Include="Unit\Controllers\ErrorControllerTests.cs" />
+    <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Characters\LeadershipControllerTests.cs" />
+    <Compile Include="Unit\Controllers\Characters\RandomizersControllerTests.cs" />
     <Compile Include="Unit\Controllers\RollControllerTests.cs" />
     <Compile Include="Unit\Controllers\CharacterControllerTests.cs" />
-    <Compile Include="Unit\Controllers\Treasures\TreasureControllerTests.cs" />
+    <Compile Include="Unit\Controllers\TreasureControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\GoodsControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\ItemsControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\AlchemicalItemControllerTests.cs" />
@@ -231,7 +236,6 @@
     <Compile Include="Unit\Controllers\Treasures\WeaponControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\WondrousItemControllerTests.cs" />
     <Compile Include="Unit\Controllers\Treasures\CoinControllerTests.cs" />
-    <Compile Include="Unit\Controllers\ViewControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Models\TreasureModelTests.cs" />
     <Compile Include="Unit\Repositories\GitHubErrorRepositoryTests.cs" />
@@ -269,6 +273,7 @@
     <Content Include="Integration\Views\View\errorPageSpec.js" />
     <Content Include="Integration\Views\View\homePageSpec.js" />
     <Content Include="Integration\Views\View\treasurePageSpec.js" />
+    <Content Include="Unit\Scripts\app\character\leadershipServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\characterServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\characterControllerSpec.js" />
@@ -280,7 +285,6 @@
     <Content Include="Unit\Scripts\app\roll\rollControllerSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureServiceSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureControllerSpec.js" />
-    <Content Include="Unit\Scripts\_resources.js" />
     <Content Include="Integration\Views\View\encounterPageSpec.js" />
   </ItemGroup>
   <Choose>

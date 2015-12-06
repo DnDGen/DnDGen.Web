@@ -11,9 +11,30 @@ namespace DNDGenSite.Tests.Integration.App_Start
     public class WebModuleTests : IntegrationTests
     {
         [Test]
-        public void ViewControllerIsInjected()
+        public void HomeControllerIsInjected()
         {
-            var controller = GetNewInstanceOf<ViewController>();
+            var controller = GetNewInstanceOf<HomeController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void ErrorControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<ErrorController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void EncounterControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<EncounterController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void DungeonControllerIsInjected()
+        {
+            var controller = GetNewInstanceOf<DungeonController>();
             Assert.That(controller, Is.Not.Null);
         }
 

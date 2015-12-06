@@ -1,7 +1,5 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Treasure Controller', function () {
     var vm;
     var treasureServiceMock;
@@ -26,7 +24,11 @@ describe('Treasure Controller', function () {
         };
 
         treasureServiceMock = {
-            getTreasure: function (treasureType, level) {
+            getTreasure: function (level) {
+                var treasure = { description: "Treasure " + level };
+                return getMockedPromise(treasure);
+            },
+            getTreasureType: function (treasureType, level) {
                 var treasure = { description: treasureType + level };
                 return getMockedPromise(treasure);
             },
@@ -86,6 +88,16 @@ describe('Treasure Controller', function () {
     });
 
     it('generates treasure', function () {
+        vm.treasureType = 'Treasure';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('Treasure 9266');
+    });
+
+    it('generates treasure type', function () {
         vm.treasureType = 'treasure type';
         vm.treasureLevel = 9266;
 
@@ -136,7 +148,7 @@ describe('Treasure Controller', function () {
     });
 
     it('says it is generating while fetching treasure', function () {
-        vm.treasureType = 'treasure type';
+        vm.treasureType = 'Treasure';
         vm.treasureLevel = 9266;
 
         vm.generateTreasure();
@@ -145,6 +157,25 @@ describe('Treasure Controller', function () {
     });
 
     it('says it is done generating while fetching treasure', function () {
+        vm.treasureType = 'Treasure';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is generating while fetching treasure type', function () {
+        vm.treasureType = 'treasure type';
+        vm.treasureLevel = 9266;
+
+        vm.generateTreasure();
+
+        expect(vm.generating).toBeTruthy();
+    });
+
+    it('says it is done generating while fetching treasure type', function () {
         vm.treasureType = 'treasure type';
         vm.treasureLevel = 9266;
 

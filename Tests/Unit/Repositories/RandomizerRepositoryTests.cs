@@ -120,7 +120,7 @@ namespace DNDGenSite.Tests.Unit.Repositories
             mockSetLevelRandomizer.SetupAllProperties();
             mockRuntimeFactory.Setup(f => f.Create<ISetLevelRandomizer>()).Returns(mockSetLevelRandomizer.Object);
 
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer("level randomizer type", 9266);
+            var levelRandomizer = randomizerRepository.GetLevelRandomizer("level randomizer type", 9266, true);
             Assert.That(levelRandomizer, Is.EqualTo(mockLevelRandomizer.Object));
         }
 
@@ -134,11 +134,30 @@ namespace DNDGenSite.Tests.Unit.Repositories
             mockSetLevelRandomizer.SetupAllProperties();
             mockRuntimeFactory.Setup(f => f.Create<ISetLevelRandomizer>()).Returns(mockSetLevelRandomizer.Object);
 
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer(RandomizerTypeConstants.Set, 9266);
+            var levelRandomizer = randomizerRepository.GetLevelRandomizer(RandomizerTypeConstants.Set, 9266, true);
             Assert.That(levelRandomizer, Is.EqualTo(mockSetLevelRandomizer.Object));
 
             var setLevelRandomizer = levelRandomizer as ISetLevelRandomizer;
             Assert.That(setLevelRandomizer.SetLevel, Is.EqualTo(9266));
+            Assert.That(setLevelRandomizer.AllowAdjustments, Is.True);
+        }
+
+        [Test]
+        public void GetSetLevelRandomizerNotAllowingAdjustments()
+        {
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            mockRuntimeFactory.Setup(f => f.Create<ILevelRandomizer>("level randomizer type")).Returns(mockLevelRandomizer.Object);
+
+            var mockSetLevelRandomizer = new Mock<ISetLevelRandomizer>();
+            mockSetLevelRandomizer.SetupAllProperties();
+            mockRuntimeFactory.Setup(f => f.Create<ISetLevelRandomizer>()).Returns(mockSetLevelRandomizer.Object);
+
+            var levelRandomizer = randomizerRepository.GetLevelRandomizer(RandomizerTypeConstants.Set, 9266, false);
+            Assert.That(levelRandomizer, Is.EqualTo(mockSetLevelRandomizer.Object));
+
+            var setLevelRandomizer = levelRandomizer as ISetLevelRandomizer;
+            Assert.That(setLevelRandomizer.SetLevel, Is.EqualTo(9266));
+            Assert.That(setLevelRandomizer.AllowAdjustments, Is.False);
         }
 
         [Test]
@@ -249,7 +268,7 @@ namespace DNDGenSite.Tests.Unit.Repositories
             mockSetStatsRandomizer.SetupAllProperties();
             mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
 
-            var statsRandomizer = randomizerRepository.GetStatsRandomizer("stat randomizer type", 90210, 42, 600, 1337, 12345, 23456);
+            var statsRandomizer = randomizerRepository.GetStatsRandomizer("stat randomizer type", 90210, 42, 600, 1337, 12345, 23456, true);
             Assert.That(statsRandomizer, Is.EqualTo(mockStatsRandomizer.Object));
         }
 
@@ -263,7 +282,7 @@ namespace DNDGenSite.Tests.Unit.Repositories
             mockSetStatsRandomizer.SetupAllProperties();
             mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
 
-            var statsRandomizer = randomizerRepository.GetStatsRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456);
+            var statsRandomizer = randomizerRepository.GetStatsRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, true);
             Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
 
             var setStatsRandomizer = statsRandomizer as ISetStatsRandomizer;
@@ -273,6 +292,30 @@ namespace DNDGenSite.Tests.Unit.Repositories
             Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
             Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
             Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
+            Assert.That(setStatsRandomizer.AllowAdjustments, Is.True);
+        }
+
+        [Test]
+        public void GetSetStatsRandomizerNotAllowingAdjustments()
+        {
+            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+            mockRuntimeFactory.Setup(f => f.Create<IStatsRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
+
+            var mockSetStatsRandomizer = new Mock<ISetStatsRandomizer>();
+            mockSetStatsRandomizer.SetupAllProperties();
+            mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
+
+            var statsRandomizer = randomizerRepository.GetStatsRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, false);
+            Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
+
+            var setStatsRandomizer = statsRandomizer as ISetStatsRandomizer;
+            Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
+            Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
+            Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
+            Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
+            Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
+            Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
+            Assert.That(setStatsRandomizer.AllowAdjustments, Is.False);
         }
     }
 }

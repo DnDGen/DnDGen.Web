@@ -1,16 +1,17 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Character Controller', function () {
     var vm;
     var randomizerServiceMock;
     var characterServiceMock;
+    var leadershipServiceMock;
     var q;
     var bootstrapDataMock;
     var scope;
     var sweetAlertServiceMock;
     var compatible;
+    var isLeader;
+    var followerCount;
 
     beforeEach(module('app.character'));
 
@@ -37,21 +38,66 @@ describe('Character Controller', function () {
         };
 
         characterServiceMock = {
-            generate: function (alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma) {
+            generate: function (alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments) {
                 if (setClassName == 'wrong')
                     return getMockedPromise(setLevel, { character: null });
 
                 var character = {
-                    alignment: setAlignment,
-                    className: setClassName,
-                    baseRace: setBaseRace
+                    Alignment: { Full: setAlignment },
+                    Class: { ClassName: setClassName, Level: setLevel },
+                    baseRace: setBaseRace,
+                    IsLeader: isLeader,
+                    Ability: {
+                        Stats: {
+                            Charisma: { Value: setCharisma, Bonus: (setCharisma - 10) / 2 }
+                        }
+                    },
+                    Magic: { Animal: 'animal' }
                 };
 
                 return getMockedPromise(setLevel, { character: character });
             }
         };
 
+        leadershipServiceMock = {
+            generate: function (leaderLevel, leaderCharismaBonus, leaderAnimal) {
+                var leadership = {
+                    Score: leaderLevel + leaderCharismaBonus,
+                    CohortScore: leaderLevel - 2,
+                    FollowerQuantities: {
+                        Level1: 10,
+                        Level2: 8,
+                        Level3: 6,
+                        Level4: 5,
+                        Level5: 3,
+                        Level6: 2
+                    }
+                };
+
+                return getMockedPromise(leaderLevel, { leadership: leadership });
+            },
+            generateCohort: function (leaderLevel, cohortScore, leaderAlignment) {
+                var cohort = {
+                    level: cohortScore - 2
+                };
+
+                return getMockedPromise(cohortScore, { cohort: cohort });
+            },
+            generateFollower: function (followerLevel, leaderAlignment) {
+                followerCount++;
+
+                var follower = {
+                    level: followerLevel,
+                    name: followerCount
+                };
+
+                return getMockedPromise(followerLevel, { follower: follower });
+            }
+        };
+
         compatible = true;
+        isLeader = false;
+        followerCount = 0;
 
         sweetAlertServiceMock = {};
         sweetAlertServiceMock.showError = jasmine.createSpy();
@@ -77,7 +123,8 @@ describe('Character Controller', function () {
             bootstrapData: bootstrapDataMock,
             randomizerService: randomizerServiceMock,
             characterService: characterServiceMock,
-            sweetAlertService: sweetAlertServiceMock
+            sweetAlertService: sweetAlertServiceMock,
+            leadershipService: leadershipServiceMock
         });
     }));
 
@@ -92,6 +139,7 @@ describe('Character Controller', function () {
         expect(vm.setClassName).toBe('first class name');
         expect(vm.levelRandomizerType).toBe('any');
         expect(vm.setLevel).toBe(0);
+        expect(vm.allowLevelAdjustments).toBeTruthy();
         expect(vm.baseRaceRandomizerType).toBe('any');
         expect(vm.setBaseRace).toBe('first base race');
         expect(vm.metaraceRandomizerType).toBe('any');
@@ -104,6 +152,7 @@ describe('Character Controller', function () {
         expect(vm.setIntelligence).toBe(0);
         expect(vm.setWisdom).toBe(0);
         expect(vm.setCharisma).toBe(0);
+        expect(vm.allowStatsAdjustments).toBeTruthy();
         expect(vm.compatible).toBeFalsy();
     });
 
@@ -132,6 +181,7 @@ describe('Character Controller', function () {
         vm.setAlignment = vm.characterModel.Alignments[1];
         vm.setClassName = vm.characterModel.ClassNames[1];
         vm.setLevel = 9266;
+        vm.allowLevelAdjustments = false;
         vm.setBaseRace = vm.characterModel.BaseRaces[1];
         vm.forceMetarace = true;
         vm.setMetarace = vm.characterModel.Metaraces[1];
@@ -144,7 +194,7 @@ describe('Character Controller', function () {
         compatible = true;
         scope.$digest();
 
-        expect(randomizerServiceMock.verify).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace');
+        expect(randomizerServiceMock.verify).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace');
         expect(vm.compatible).toBeTruthy();
     });
 
@@ -156,6 +206,7 @@ describe('Character Controller', function () {
         vm.setAlignment = vm.characterModel.Alignments[1];
         vm.setClassName = vm.characterModel.ClassNames[1];
         vm.setLevel = 9266;
+        vm.allowLevelAdjustments = false;
         vm.setBaseRace = vm.characterModel.BaseRaces[1];
         vm.forceMetarace = true;
         vm.setMetarace = vm.characterModel.Metaraces[1];
@@ -168,7 +219,7 @@ describe('Character Controller', function () {
         compatible = false;
         scope.$digest();
 
-        expect(randomizerServiceMock.verify).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace');
+        expect(randomizerServiceMock.verify).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace');
         expect(vm.compatible).toBeFalsy();
     });
 
@@ -227,6 +278,16 @@ describe('Character Controller', function () {
 
         compatible = false;
         vm.setLevel = 9266;
+        scope.$digest();
+
+        expect(vm.compatible).toBeFalsy();
+    });
+
+    it('verifies randomizers when alow level adjustments changes', function () {
+        scope.$apply();
+
+        compatible = false;
+        vm.allowLevelAdjustments = false;
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -401,6 +462,7 @@ describe('Character Controller', function () {
         vm.setAlignment = vm.characterModel.Alignments[1];
         vm.setClassName = vm.characterModel.ClassNames[1];
         vm.setLevel = 9266;
+        vm.allowLevelAdjustments = false;
         vm.setBaseRace = vm.characterModel.BaseRaces[1];
         vm.forceMetarace = true;
         vm.setMetarace = vm.characterModel.Metaraces[1];
@@ -410,6 +472,7 @@ describe('Character Controller', function () {
         vm.setIntelligence = 1337;
         vm.setWisdom = 12345;
         vm.setCharisma = 23456;
+        vm.allowStatsAdjustments = false;
         vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
         vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
         vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
@@ -420,33 +483,49 @@ describe('Character Controller', function () {
         vm.generate();
         scope.$digest();
 
-        expect(characterServiceMock.generate).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first stats randomizer type', 90210, 42, 600, 1337, 12345, 23456);
+        expect(characterServiceMock.generate).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first stats randomizer type', 90210, 42, 600, 1337, 12345, 23456, false);
         expect(vm.character).not.toBeNull();
-        expect(vm.character.alignment).toBe('second alignment');
-        expect(vm.character.className).toBe('second class name');
+        expect(vm.character.Alignment.Full).toBe('second alignment');
+        expect(vm.character.Class.ClassName).toBe('second class name');
+        expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(23456);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(11723);
+        expect(vm.character.Magic.Animal).toBe('animal');
     });
 
     it('says it is generating while generating a character', function () {
         scope.$apply();
 
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
         vm.generate();
 
         expect(vm.character).toBeNull();
         expect(vm.generating).toBeTruthy();
+        expect(vm.generatingMessage).toBe('Generating character...');
     });
 
-    it('says it is done generating when generating a character', function () {
+    it('says it is done generating when done generating a character', function () {
         scope.$apply();
+
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
 
         vm.generate();
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.alignment).toBe('first alignment');
-        expect(vm.character.className).toBe('first class name');
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.Magic.Animal).toBe('animal');
         expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
     });
 
     it('says it is done generating if an error is thrown while generating a character', function () {
@@ -458,6 +537,7 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
     });
 
     it('shows an alert if an error is thrown while generating a character', function () {
@@ -605,5 +685,475 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.compatible).toBeTruthy();
+    });
+
+    it('generates leadership if generated character is a leader', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('says it is done generating when done generating leadership', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('does not generate leadership if generated character is not a leader', function () {
+        scope.$apply();
+
+        isLeader = false;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).toBeNull();
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('generates a cohort if generated character is a leader', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.cohort).not.toBeNull();
+        expect(vm.cohort.level).toBe(9262);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('says it is done generating when done generating a cohort', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.cohort).not.toBeNull();
+        expect(vm.cohort.level).toBe(9262);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('does not generate a cohort if generated character is not a leader', function () {
+        scope.$apply();
+
+        isLeader = false;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).toBeNull();
+        expect(vm.cohort).toBeNull();
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('generates followers if generated character is a leader', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.cohort).not.toBeNull();
+        expect(vm.cohort.level).toBe(9262);
+
+        expect(vm.followers.length).toBe(34);
+
+        for (var i = 0; i < 10; i++) {
+            expect(vm.followers[i].level).toBe(1);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 10; i < 18; i++) {
+            expect(vm.followers[i].level).toBe(2);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 18; i < 24; i++) {
+            expect(vm.followers[i].level).toBe(3);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 24; i < 29; i++) {
+            expect(vm.followers[i].level).toBe(4);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 29; i < 32; i++) {
+            expect(vm.followers[i].level).toBe(5);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 32; i < 34; i++) {
+            expect(vm.followers[i].level).toBe(6);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('says it is done generating when done generating followers', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).not.toBeNull();
+        expect(vm.leadership.Score).toBe(9266 + 45100);
+        expect(vm.leadership.CohortScore).toBe(9264);
+        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
+        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
+        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
+        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
+        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
+        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.cohort).not.toBeNull();
+        expect(vm.cohort.level).toBe(9262);
+
+        expect(vm.followers.length).toBe(34);
+
+        for (var i = 0; i < 10; i++) {
+            expect(vm.followers[i].level).toBe(1);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 10; i < 18; i++) {
+            expect(vm.followers[i].level).toBe(2);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 18; i < 24; i++) {
+            expect(vm.followers[i].level).toBe(3);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 24; i < 29; i++) {
+            expect(vm.followers[i].level).toBe(4);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 29; i < 32; i++) {
+            expect(vm.followers[i].level).toBe(5);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        for (var i = 32; i < 34; i++) {
+            expect(vm.followers[i].level).toBe(6);
+            expect(vm.followers[i].name).toBe(i + 1);
+        }
+
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('does not generate followers if generated character is not a leader', function () {
+        scope.$apply();
+
+        isLeader = false;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.character).not.toBeNull();
+        expect(vm.character.Alignment.Full).toBe('first alignment');
+        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
+        expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
+        expect(vm.character.baseRace).toBe('first base race');
+        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.leadership).toBeNull();
+        expect(vm.cohort).toBeNull();
+        expect(vm.followers.length).toBe(0);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('wipes out previous leadership when generating a new character', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        vm.generate();
+
+        expect(vm.leadership).toBeNull();
+        expect(vm.cohort).toBeNull();
+        expect(vm.followers.length).toBe(0);
+        expect(vm.generating).toBeTruthy();
+        expect(vm.generatingMessage).toBe('Generating character...');
+    });
+
+    it('uses no leadership after generating a new character', function () {
+        scope.$apply();
+
+        isLeader = true;
+        vm.setLevel = 9266;
+        vm.setCharisma = 90210;
+
+        vm.generate();
+        scope.$digest();
+
+        isLeader = false;
+        vm.generate();
+        scope.$digest();
+
+        expect(vm.leadership).toBeNull();
+        expect(vm.cohort).toBeNull();
+        expect(vm.followers.length).toBe(0);
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('updates the generating message if in the middle of generating followers', function () {
+        scope.$digest();
+
+        vm.leadership = {
+            FollowerQuantities: {
+                Level1: 7,
+                Level2: 6,
+                Level3: 5,
+                Level4: 4,
+                Level5: 3,
+                Level6: 2
+            }
+        };
+
+        vm.followers.push('new follower');
+        scope.$digest();
+
+        expect(vm.generatingMessage).toBe('Generating follower 2 of 27...');
+    });
+
+    it('says when followers are done generating', function () {
+        scope.$digest();
+
+        vm.leadership = {
+            FollowerQuantities: {
+                Level1: 7,
+                Level2: 6,
+                Level3: 5,
+                Level4: 4,
+                Level5: 3,
+                Level6: 2
+            }
+        };
+
+        vm.followers.push('new follower');
+        scope.$digest();
+
+        expect(vm.generatingMessage).toBe('Generating follower 2 of 27...');
+
+        for (var i = 0; i < 26; i++)
+            vm.followers.push('new follower ' + i);
+
+        scope.$digest();
+
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
+    });
+
+    it('does not affect the generating message when followers are emptied', function () {
+        scope.$digest();
+
+        vm.leadership = {
+            FollowerQuantities: {
+                Level1: 7,
+                Level2: 6,
+                Level3: 5,
+                Level4: 4,
+                Level5: 3,
+                Level6: 2
+            }
+        };
+
+        vm.followers.push('new follower');
+        scope.$digest();
+
+        vm.generatingMessage = 'generating message';
+        vm.generating = true;
+        vm.followers = [];
+        scope.$digest();
+
+        expect(vm.generating).toBeTruthy();
+        expect(vm.generatingMessage).toBe('generating message');
+    });
+
+    it('does not say followers are generating when no followers to generate', function () {
+        scope.$digest();
+
+        vm.leadership = {
+            FollowerQuantities: {
+                Level1: 0,
+                Level2: 0,
+                Level3: 0,
+                Level4: 0,
+                Level5: 0,
+                Level6: 0
+            }
+        };
+
+        vm.followers.push('new follower');
+        scope.$digest();
+
+        vm.followers = [];
+        scope.$digest();
+
+        expect(vm.generating).toBeFalsy();
+        expect(vm.generatingMessage).toBe('');
     });
 })

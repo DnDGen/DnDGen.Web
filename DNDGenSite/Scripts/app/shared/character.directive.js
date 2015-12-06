@@ -10,7 +10,10 @@
             restrict: "E",
             templateUrl: 'Templates/Character.html',
             scope: {
-                character: '='
+                character: '=',
+                leadership: '=',
+                cohort: '=',
+                followers: '='
             }
         }
     }

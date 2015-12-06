@@ -23,23 +23,9 @@ namespace DNDGenSite.Repositories
                 return runtimeFactory.Create<IAlignmentRandomizer>(alignmentRandomizerType);
 
             var setRandomizer = runtimeFactory.Create<ISetAlignmentRandomizer>();
-            setRandomizer.SetAlignment = GetSetAlignment(setAlignment);
+            setRandomizer.SetAlignment = new Alignment(setAlignment);
 
             return setRandomizer;
-        }
-
-        private Alignment GetSetAlignment(String setAlignment)
-        {
-            var sections = setAlignment.Split(' ');
-            var alignment = new Alignment();
-
-            alignment.Goodness = sections[1];
-            alignment.Lawfulness = sections[0];
-
-            if (alignment.Lawfulness == "True")
-                alignment.Lawfulness = AlignmentConstants.Neutral;
-
-            return alignment;
         }
 
         public RaceRandomizer GetBaseRaceRandomizer(String baseRaceRandomizerType, String setBaseRace)
@@ -64,13 +50,14 @@ namespace DNDGenSite.Repositories
             return setRandomizer;
         }
 
-        public ILevelRandomizer GetLevelRandomizer(String levelRandomizerType, Int32 setLevel)
+        public ILevelRandomizer GetLevelRandomizer(String levelRandomizerType, Int32 setLevel, Boolean allowAdjustments)
         {
             if (levelRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<ILevelRandomizer>(levelRandomizerType);
 
             var setRandomizer = runtimeFactory.Create<ISetLevelRandomizer>();
             setRandomizer.SetLevel = setLevel;
+            setRandomizer.AllowAdjustments = allowAdjustments;
 
             return setRandomizer;
         }
@@ -96,7 +83,7 @@ namespace DNDGenSite.Repositories
             return randomizer;
         }
 
-        public IStatsRandomizer GetStatsRandomizer(String statRandomizerType, Int32 setStrength, Int32 setConstitution, Int32 setDexterity, Int32 setIntelligence, Int32 setWisdom, Int32 setCharisma)
+        public IStatsRandomizer GetStatsRandomizer(String statRandomizerType, Int32 setStrength, Int32 setConstitution, Int32 setDexterity, Int32 setIntelligence, Int32 setWisdom, Int32 setCharisma, Boolean allowAdjustments)
         {
             if (statRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<IStatsRandomizer>(statRandomizerType);
@@ -108,6 +95,7 @@ namespace DNDGenSite.Repositories
             setRandomizer.SetIntelligence = setIntelligence;
             setRandomizer.SetWisdom = setWisdom;
             setRandomizer.SetCharisma = setCharisma;
+            setRandomizer.AllowAdjustments = allowAdjustments;
 
             return setRandomizer;
         }

@@ -24,6 +24,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
             mockDice.Setup(d => d.Roll(It.IsAny<Int32>())).Returns(mockRoll.Object);
         }
 
+        [TestCase("Index")]
         [TestCase("D2")]
         [TestCase("D3")]
         [TestCase("D4")]
@@ -38,6 +39,13 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
+        }
+
+        [Test]
+        public void RollReturnsView()
+        {
+            var result = controller.Index();
+            Assert.That(result, Is.InstanceOf<ViewResult>());
         }
 
         [Test]

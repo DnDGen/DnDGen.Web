@@ -11,8 +11,8 @@ namespace DNDGenSite
 
             routes.MapRoute(
                 name: "Default",
-                url: "{action}",
-                defaults: new { Controller = "View", Action = "Home" }
+                url: "{controller}/{action}",
+                defaults: new { Controller = "Home", Action = "Index" }
             );
 
             routes.MapRoute(
@@ -29,7 +29,7 @@ namespace DNDGenSite
 
             routes.MapRoute(
                 name: "Treasure",
-                url: "Treasures/Treasure/Generate/{level}",
+                url: "Treasure/Generate/{level}",
                 defaults: new { Controller = "Treasure", Action = "Generate" }
             );
 
@@ -118,15 +118,15 @@ namespace DNDGenSite
             );
 
             routes.MapRoute(
-                name: "Character",
-                url: "Character/Generate",
-                defaults: new { Controller = "Character", Action = "Generate" }
+                name: "Randomizers",
+                url: "Characters/Randomizers/{action}",
+                defaults: new { Controller = "Randomizers", Action = "Verify" }
             );
 
             routes.MapRoute(
-                name: "Randomizers",
-                url: "Randomizers/Verify",
-                defaults: new { Controller = "Randomizers", Action = "Verify" }
+                name: "Leadership",
+                url: "Characters/Leadership/{action}",
+                defaults: new { Controller = "Leadership", Action = "Generate" }
             );
         }
     }
