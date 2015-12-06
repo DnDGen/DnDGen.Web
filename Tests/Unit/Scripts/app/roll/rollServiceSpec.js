@@ -1,7 +1,5 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Roll Service', function () {
     var rollService;
     var promiseServiceMock;

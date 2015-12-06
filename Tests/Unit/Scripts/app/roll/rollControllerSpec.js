@@ -1,7 +1,5 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Roll Controller', function () {
     var vm;
     var rollServiceMock;

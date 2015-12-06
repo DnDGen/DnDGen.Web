@@ -1,7 +1,5 @@
 ﻿'use strict'
 
-/// <reference path="../../_resources.js" />
-
 describe('Treasure Service', function () {
     var treasureService;
     var promiseServiceMock;

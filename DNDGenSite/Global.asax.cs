@@ -20,7 +20,7 @@ namespace DNDGenSite
                 return;
 
             var errorRepository = DependencyResolver.Current.GetService<ErrorRepository>();
-            var task = errorRepository.Report(exception.Message, exception.StackTrace);
+            errorRepository.Report(exception.Message, exception.StackTrace);
 
             var httpContext = HttpContext.Current;
             if (httpContext == null)

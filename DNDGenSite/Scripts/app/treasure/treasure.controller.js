@@ -22,7 +22,6 @@
 
         vm.generateTreasure = function () {
             vm.generating = true;
-            vm.treasure = null;
 
             if (vm.treasureType == 'Treasure')
                 treasureService.getTreasure(vm.treasureLevel)
@@ -40,6 +39,7 @@
         function handleError() {
             sweetAlertService.showError();
             vm.generating = false;
+            vm.treasure = null;
         }
 
         vm.generateMundaneItem = function () {
