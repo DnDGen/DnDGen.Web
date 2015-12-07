@@ -1,4 +1,6 @@
 ﻿using CharacterGen.Common;
+using CharacterGen.Common.Abilities.Feats;
+using CharacterGen.Common.Abilities.Skills;
 using CharacterGen.Common.CharacterClasses;
 using CharacterGen.Common.Races;
 using CharacterGen.Generators;
@@ -273,6 +275,24 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void GenerateReturnsJsonResult()
         {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
+
+            var character = new Character();
+            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
+                .Returns(character);
+
             var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
@@ -280,6 +300,24 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void GenerateJsonResultAllowsGet()
         {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
+
+            var character = new Character();
+            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
+                .Returns(character);
+
             var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
@@ -334,6 +372,74 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.character, Is.EqualTo(character));
+        }
+
+        [Test]
+        public void GenerateSortsCharacterFeats()
+        {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
+
+            var character = new Character();
+            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
+                .Returns(character);
+
+            character.Ability.Feats = new[]
+            {
+                new Feat { Name = "zzzz" },
+                new Feat { Name = "aaa" },
+                new Feat { Name = "kkkk" }
+            };
+
+            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.character, Is.EqualTo(character));
+            Assert.That(data.character.Ability.Feats, Is.Ordered.By("Name"));
+        }
+
+        [Test]
+        public void GenerateSortsCharacterSkills()
+        {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
+
+            var character = new Character();
+            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
+                .Returns(character);
+
+            character.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
+            character.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
+            character.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
+
+            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.character, Is.EqualTo(character));
+            Assert.That(data.character.Ability.Skills, Is.Ordered.By("Key"));
+            Assert.That(data.character.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
+            Assert.That(data.character.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
+            Assert.That(data.character.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
         }
     }
 }

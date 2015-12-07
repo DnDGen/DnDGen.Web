@@ -9,6 +9,7 @@ using DNDGenSite.App_Start.Factories;
 using DNDGenSite.Models;
 using DNDGenSite.Repositories;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace DNDGenSite.Controllers
@@ -204,6 +205,9 @@ namespace DNDGenSite.Controllers
             var statsRandomizer = randomizerRepository.GetStatsRandomizer(statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments);
 
             var character = characterGenerator.GenerateWith(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer, statsRandomizer);
+
+            character.Ability.Feats = character.Ability.Feats.OrderBy(f => f.Name);
+            character.Ability.Skills = character.Ability.Skills.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
             return Json(new { character = character }, JsonRequestBehavior.AllowGet);
         }
