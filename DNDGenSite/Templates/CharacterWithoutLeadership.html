@@ -53,8 +53,8 @@
                     <th>Ranks</th>
                     <th>Stat Bonus</th>
                     <th>Other Bonus</th>
-                    <th>Class Skill</th>
                     <th>Armor Check Penalty</th>
+                    <th>Class Skill</th>
                     <th>Circumstantial Bonus</th>
                 </tr>
                 <tr ng-repeat="(key, value) in character.Ability.Skills track by $index">
@@ -62,8 +62,8 @@
                     <td>{{value.EffectiveRanks}}</td>
                     <td>{{value.BaseStat.Bonus}}</td>
                     <td>{{value.Bonus}}</td>
+                    <td>{{value.ArmorCheckPenalty}}</td>
                     <td><span ng-show="value.ClassSkill" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                    <td><span ng-show="value.ArmorCheckPenalty" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                     <td><span ng-show="value.CircumstantialBonus" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
                 </tr>
             </table>
