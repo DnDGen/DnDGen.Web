@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class RingControllerTests
     {
         private RingController controller;
-        private Mock<IMagicalItemGenerator> mockRingGenerator;
+        private Mock<MagicalItemGenerator> mockRingGenerator;
         private Item ring;
 
         [SetUp]
         public void Setup()
         {
-            mockRingGenerator = new Mock<IMagicalItemGenerator>();
+            mockRingGenerator = new Mock<MagicalItemGenerator>();
             controller = new RingController(mockRingGenerator.Object);
 
             ring = new Item { ItemType = ItemTypeConstants.Ring };

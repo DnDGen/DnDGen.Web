@@ -99,7 +99,8 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterModel;
-            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Any));
+            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyPlayer));
+            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyNPC));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Healer));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Mage));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.NonSpellcaster));
@@ -107,7 +108,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Stealth));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Warrior));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
-            Assert.That(model.ClassNameRandomizerTypes.Count(), Is.EqualTo(8));
+            Assert.That(model.ClassNameRandomizerTypes.Count(), Is.EqualTo(9));
         }
 
         [Test]
@@ -126,7 +127,12 @@ namespace DNDGenSite.Tests.Unit.Controllers
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Rogue));
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Sorcerer));
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Wizard));
-            Assert.That(model.ClassNames.Count(), Is.EqualTo(11));
+            Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Adept));
+            Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Aristocrat));
+            Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Commoner));
+            Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Expert));
+            Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Warrior));
+            Assert.That(model.ClassNames.Count(), Is.EqualTo(16));
         }
 
         [Test]
@@ -265,7 +271,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterModel;
             Assert.That(model.AlignmentRandomizerTypes.First(), Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
-            Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.Any));
+            Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(model.LevelRandomizerTypes.First(), Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(model.BaseRaceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(model.MetaraceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
@@ -282,11 +288,11 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
             var mockStatsRandomizer = new Mock<IStatsRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
 
             var character = new Character();
@@ -307,11 +313,11 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
             var mockStatsRandomizer = new Mock<IStatsRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
 
             var character = new Character();
@@ -358,11 +364,11 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
             var mockStatsRandomizer = new Mock<IStatsRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
 
             var character = new Character();
@@ -384,11 +390,11 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
             var mockStatsRandomizer = new Mock<IStatsRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
 
             var character = new Character();
@@ -418,11 +424,11 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
             var mockStatsRandomizer = new Mock<IStatsRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
 
             var character = new Character();

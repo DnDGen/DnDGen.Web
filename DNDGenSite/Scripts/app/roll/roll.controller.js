@@ -14,6 +14,7 @@
         vm.customQuantity = 1;
         vm.customDie = 1;
         vm.rolling = false;
+        vm.expression = '';
 
         vm.roll = 0;
 
@@ -51,6 +52,12 @@
         vm.rollCustom = function () {
             vm.rolling = true;
             rollService.getCustomRoll(vm.customQuantity, vm.customDie)
+                .then(setRoll, handleError);
+        };
+
+        vm.rollExpression = function () {
+            vm.rolling = true;
+            rollService.getExpressionRoll(vm.expression)
                 .then(setRoll, handleError);
         };
     };

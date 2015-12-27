@@ -8,9 +8,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class StaffController : TreasuresController
     {
-        private IMagicalItemGenerator staffGenerator;
+        private MagicalItemGenerator staffGenerator;
 
-        public StaffController(IMagicalItemGenerator staffGenerator)
+        public StaffController(MagicalItemGenerator staffGenerator)
         {
             this.staffGenerator = staffGenerator;
         }

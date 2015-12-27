@@ -8,9 +8,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class PotionController : TreasuresController
     {
-        private IMagicalItemGenerator potionGenerator;
+        private MagicalItemGenerator potionGenerator;
 
-        public PotionController(IMagicalItemGenerator potionGenerator)
+        public PotionController(MagicalItemGenerator potionGenerator)
         {
             this.potionGenerator = potionGenerator;
         }

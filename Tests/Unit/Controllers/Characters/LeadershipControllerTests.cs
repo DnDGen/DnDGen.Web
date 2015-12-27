@@ -61,9 +61,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void CohortReturnsJsonResult()
         {
             var cohort = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment")).Returns(cohort);
+            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
-            var result = controller.Cohort(9266, 90210, "leader alignment");
+            var result = controller.Cohort(9266, 90210, "leader alignment", "leader class");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -71,9 +71,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void CohortJsonResultAllowsGet()
         {
             var cohort = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment")).Returns(cohort);
+            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
-            var result = controller.Cohort(9266, 90210, "leader alignment") as JsonResult;
+            var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -81,9 +81,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void CohortReturnsCohortFromGenerator()
         {
             var cohort = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment")).Returns(cohort);
+            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
-            var result = controller.Cohort(9266, 90210, "leader alignment") as JsonResult;
+            var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.cohort, Is.EqualTo(cohort));
         }
@@ -92,7 +92,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void CohortSortsCharacterFeats()
         {
             var cohort = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment")).Returns(cohort);
+            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
             cohort.Ability.Feats = new[]
             {
@@ -101,7 +101,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
                 new Feat { Name = "kkkk" }
             };
 
-            var result = controller.Cohort(9266, 90210, "leader alignment") as JsonResult;
+            var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.cohort, Is.EqualTo(cohort));
             Assert.That(data.cohort.Ability.Feats, Is.Ordered.By("Name"));
@@ -111,13 +111,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void CohortSortsCharacterSkills()
         {
             var cohort = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment")).Returns(cohort);
+            mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
             cohort.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
             cohort.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
             cohort.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
 
-            var result = controller.Cohort(9266, 90210, "leader alignment") as JsonResult;
+            var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.cohort, Is.EqualTo(cohort));
             Assert.That(data.cohort.Ability.Skills, Is.Ordered.By("Key"));
@@ -130,9 +130,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void FollowerReturnsJsonResult()
         {
             var follower = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment")).Returns(follower);
+            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
-            var result = controller.Follower(9266, "leader alignment");
+            var result = controller.Follower(9266, "leader alignment", "leader class");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -140,9 +140,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void FollowerJsonResultAllowsGet()
         {
             var follower = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment")).Returns(follower);
+            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
-            var result = controller.Follower(9266, "leader alignment") as JsonResult;
+            var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -150,9 +150,9 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void FollowerReturnsFollowerFromGenerator()
         {
             var follower = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment")).Returns(follower);
+            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
-            var result = controller.Follower(9266, "leader alignment") as JsonResult;
+            var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.follower, Is.EqualTo(follower));
         }
@@ -161,7 +161,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void FollowerSortsCharacterFeats()
         {
             var follower = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment")).Returns(follower);
+            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
             follower.Ability.Feats = new[]
             {
@@ -170,7 +170,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
                 new Feat { Name = "kkkk" }
             };
 
-            var result = controller.Follower(9266, "leader alignment") as JsonResult;
+            var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.follower, Is.EqualTo(follower));
             Assert.That(data.follower.Ability.Feats, Is.Ordered.By("Name"));
@@ -180,13 +180,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
         public void FollowerSortsCharacterSkills()
         {
             var follower = new Character();
-            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment")).Returns(follower);
+            mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
             follower.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
             follower.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
             follower.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
 
-            var result = controller.Follower(9266, "leader alignment") as JsonResult;
+            var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.follower, Is.EqualTo(follower));
             Assert.That(data.follower.Ability.Skills, Is.Ordered.By("Key"));

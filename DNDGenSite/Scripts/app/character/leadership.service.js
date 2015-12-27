@@ -24,17 +24,19 @@
             return promiseService.getPromise(url);
         }
 
-        function generateCohort(leaderLevel, cohortScore, leaderAlignment) {
+        function generateCohort(leaderLevel, cohortScore, leaderAlignment, leaderClass) {
             var url = "/Characters/Leadership/Cohort?leaderLevel=" + leaderLevel;
             url += "&cohortScore=" + cohortScore;
             url += "&leaderAlignment=" + encodeURI(leaderAlignment);
+            url += "&leaderClass=" + encodeURI(leaderClass);
 
             return promiseService.getPromise(url);
         }
 
-        function generateFollower(followerLevel, leaderAlignment) {
+        function generateFollower(followerLevel, leaderAlignment, leaderClass) {
             var url = "/Characters/Leadership/Follower?followerLevel=" + followerLevel;
             url += "&leaderAlignment=" + encodeURI(leaderAlignment);
+            url += "&leaderClass=" + encodeURI(leaderClass);
 
             return promiseService.getPromise(url);
         }

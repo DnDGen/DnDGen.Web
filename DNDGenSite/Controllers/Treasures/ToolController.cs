@@ -6,9 +6,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class ToolController : TreasuresController
     {
-        private IMundaneItemGenerator toolGenerator;
+        private MundaneItemGenerator toolGenerator;
 
-        public ToolController(IMundaneItemGenerator toolGenerator)
+        public ToolController(MundaneItemGenerator toolGenerator)
         {
             this.toolGenerator = toolGenerator;
         }

@@ -8,9 +8,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class RingController : TreasuresController
     {
-        private IMagicalItemGenerator ringGenerator;
+        private MagicalItemGenerator ringGenerator;
 
-        public RingController(IMagicalItemGenerator ringGenerator)
+        public RingController(MagicalItemGenerator ringGenerator)
         {
             this.ringGenerator = ringGenerator;
         }

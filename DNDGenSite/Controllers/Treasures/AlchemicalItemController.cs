@@ -6,9 +6,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class AlchemicalItemController : TreasuresController
     {
-        private IMundaneItemGenerator alchemicalItemGenerator;
+        private MundaneItemGenerator alchemicalItemGenerator;
 
-        public AlchemicalItemController(IMundaneItemGenerator alchemicalItemGenerator)
+        public AlchemicalItemController(MundaneItemGenerator alchemicalItemGenerator)
         {
             this.alchemicalItemGenerator = alchemicalItemGenerator;
         }

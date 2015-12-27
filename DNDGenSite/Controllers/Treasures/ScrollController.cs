@@ -8,9 +8,9 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class ScrollController : TreasuresController
     {
-        private IMagicalItemGenerator scrollGenerator;
+        private MagicalItemGenerator scrollGenerator;
 
-        public ScrollController(IMagicalItemGenerator scrollGenerator)
+        public ScrollController(MagicalItemGenerator scrollGenerator)
         {
             this.scrollGenerator = scrollGenerator;
         }

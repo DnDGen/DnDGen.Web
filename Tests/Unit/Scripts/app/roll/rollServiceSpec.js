@@ -24,4 +24,14 @@ describe('Roll Service', function () {
         rollService.getCustomRoll(9266, 90210);
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Custom/9266/90210');
     });
+
+    it('gets an expression roll', function () {
+        rollService.getExpressionRoll("expression");
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Expression?expression=expression');
+    });
+
+    it('URL encodes the expression roll', function () {
+        rollService.getExpressionRoll("1+(2-3)*4/5d6");
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Expression?expression=1%2B(2-3)*4%2F5d6');
+    });
 });

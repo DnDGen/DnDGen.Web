@@ -16,9 +16,9 @@ namespace DNDGenSite
             );
 
             routes.MapRoute(
-                name: "Roll",
+                name: "StandardRoll",
                 url: "Roll/{action}/{quantity}",
-                defaults: new { Controller = "Roll" }
+                defaults: new { Controller = "Roll", Action = "D20" }
             );
 
             routes.MapRoute(

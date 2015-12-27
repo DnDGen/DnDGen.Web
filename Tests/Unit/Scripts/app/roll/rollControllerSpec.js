@@ -17,6 +17,12 @@ describe('Roll Controller', function () {
             getCustomRoll: function (quantity, die) {
                 return getMockedPromise(quantity, die);
             },
+            getExpressionRoll: function (expression) {
+                if (expression == 'FAIL')
+                    return getMockedPromise(666, 600);
+
+                return getMockedPromise(42, 600);
+            }
         };
 
         sweetAlertServiceMock = {};
@@ -52,6 +58,10 @@ describe('Roll Controller', function () {
 
     it('has custom die of 1 at beginning', function () {
         expect(vm.customDie).toBe(1);
+    });
+
+    it('has empty expression at beginning', function () {
+        expect(vm.expression).toBe('');
     });
 
     it('has roll of 0 at beginning', function () {
@@ -114,6 +124,18 @@ describe('Roll Controller', function () {
         expect(rollServiceMock.getCustomRoll).toHaveBeenCalledWith(9266, 42);
     });
 
+    it('rolls an expression', function () {
+        vm.expression = 'expression';
+
+        spyOn(rollServiceMock, 'getExpressionRoll').and.callThrough();
+
+        vm.rollExpression();
+        scope.$apply();
+
+        expect(vm.roll).toBe(42 * 600);
+        expect(rollServiceMock.getExpressionRoll).toHaveBeenCalledWith('expression');
+    });
+
     it('says it is rolling while fetching a standard roll', function () {
         vm.standardQuantity = 9266;
         vm.standardDie = vm.standardDice[2];
@@ -147,6 +169,21 @@ describe('Roll Controller', function () {
         vm.customDie = 42;
 
         vm.rollCustom();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
+    });
+
+    it('says it is rolling while fetching an expression roll', function () {
+        vm.expression = 'expression';
+        vm.rollExpression();
+        expect(vm.rolling).toBeTruthy();
+    });
+
+    it('says it is done rolling while fetching an expression roll', function () {
+        vm.expression = 'expression';
+
+        vm.rollExpression();
         scope.$apply();
 
         expect(vm.rolling).toBeFalsy();
@@ -217,6 +254,38 @@ describe('Roll Controller', function () {
         vm.customQuantity = 666;
 
         vm.rollCustom();
+        scope.$apply();
+
+        expect(vm.roll).toBe(0);
+    });
+
+    it('shows an alert if an error is thrown when fetching an expression roll', function () {
+        vm.expression = 'FAIL';
+
+        vm.rollExpression();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('is done rolling if an error is thrown when fetching an expression roll', function () {
+        vm.expression = 'FAIL';
+
+        vm.rollExpression();
+        scope.$apply();
+
+        expect(vm.rolling).toBeFalsy();
+    });
+
+    it('clears the roll if an error is thrown when fetching an expression roll', function () {
+        vm.expression = 'expression';
+
+        vm.rollExpression();
+        scope.$apply();
+
+        vm.expression = 'FAIL';
+
+        vm.rollExpression();
         scope.$apply();
 
         expect(vm.roll).toBe(0);

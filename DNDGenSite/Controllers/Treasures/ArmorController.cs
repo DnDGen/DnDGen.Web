@@ -9,10 +9,10 @@ namespace DNDGenSite.Controllers.Treasures
 {
     public class ArmorController : TreasuresController
     {
-        private IMagicalItemGenerator magicalArmorGenerator;
-        private IMundaneItemGenerator mundaneArmorGenerator;
+        private MagicalItemGenerator magicalArmorGenerator;
+        private MundaneItemGenerator mundaneArmorGenerator;
 
-        public ArmorController(IMagicalItemGenerator magicalArmorGenerator, IMundaneItemGenerator mundaneArmorGenerator)
+        public ArmorController(MagicalItemGenerator magicalArmorGenerator, MundaneItemGenerator mundaneArmorGenerator)
         {
             this.magicalArmorGenerator = magicalArmorGenerator;
             this.mundaneArmorGenerator = mundaneArmorGenerator;

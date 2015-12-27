@@ -12,14 +12,14 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class WeaponControllerTests
     {
         private WeaponController controller;
-        private Mock<IMagicalItemGenerator> mockMagicalWeaponGenerator;
-        private Mock<IMundaneItemGenerator> mockMundaneWeaponGenerator;
+        private Mock<MagicalItemGenerator> mockMagicalWeaponGenerator;
+        private Mock<MundaneItemGenerator> mockMundaneWeaponGenerator;
 
         [SetUp]
         public void Setup()
         {
-            mockMagicalWeaponGenerator = new Mock<IMagicalItemGenerator>();
-            mockMundaneWeaponGenerator = new Mock<IMundaneItemGenerator>();
+            mockMagicalWeaponGenerator = new Mock<MagicalItemGenerator>();
+            mockMundaneWeaponGenerator = new Mock<MundaneItemGenerator>();
             controller = new WeaponController(mockMagicalWeaponGenerator.Object, mockMundaneWeaponGenerator.Object);
         }
 

@@ -11,12 +11,12 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class ToolControllerTests
     {
         private ToolController controller;
-        private Mock<IMundaneItemGenerator> mockToolGenerator;
+        private Mock<MundaneItemGenerator> mockToolGenerator;
 
         [SetUp]
         public void Setup()
         {
-            mockToolGenerator = new Mock<IMundaneItemGenerator>();
+            mockToolGenerator = new Mock<MundaneItemGenerator>();
             controller = new ToolController(mockToolGenerator.Object);
         }
 

@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class WondrousItemControllerTests
     {
         private WondrousItemController controller;
-        private Mock<IMagicalItemGenerator> mockWondrousItemGenerator;
+        private Mock<MagicalItemGenerator> mockWondrousItemGenerator;
         private Item wondrousItem;
 
         [SetUp]
         public void Setup()
         {
-            mockWondrousItemGenerator = new Mock<IMagicalItemGenerator>();
+            mockWondrousItemGenerator = new Mock<MagicalItemGenerator>();
             controller = new WondrousItemController(mockWondrousItemGenerator.Object);
 
             wondrousItem = new Item { ItemType = ItemTypeConstants.WondrousItem };

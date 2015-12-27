@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class PotionControllerTests
     {
         private PotionController controller;
-        private Mock<IMagicalItemGenerator> mockPotionGenerator;
+        private Mock<MagicalItemGenerator> mockPotionGenerator;
         private Item potion;
 
         [SetUp]
         public void Setup()
         {
-            mockPotionGenerator = new Mock<IMagicalItemGenerator>();
+            mockPotionGenerator = new Mock<MagicalItemGenerator>();
             controller = new PotionController(mockPotionGenerator.Object);
 
             potion = new Item { ItemType = ItemTypeConstants.Potion };

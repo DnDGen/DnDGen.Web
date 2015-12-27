@@ -45,7 +45,7 @@ describe('Leadership Service', function () {
     });
 
     it('generates cohort', function () {
-        var promise = leadershipService.generateCohort(9266, 90210, 'alignment');
+        var promise = leadershipService.generateCohort(9266, 90210, 'alignment', 'class');
         expect(promise).not.toBeNull();
 
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
@@ -54,10 +54,11 @@ describe('Leadership Service', function () {
         expect(calledUrl).toMatch(/leaderLevel=9266/);
         expect(calledUrl).toMatch(/cohortScore=90210/);
         expect(calledUrl).toMatch(/leaderAlignment=alignment/);
+        expect(calledUrl).toMatch(/leaderClass=class/)
     });
 
     it('encodes the cohort uri', function () {
-        var promise = leadershipService.generateCohort(9266, 90210, 'leader alignment');
+        var promise = leadershipService.generateCohort(9266, 90210, 'leader alignment', 'leader class');
         expect(promise).not.toBeNull();
 
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
@@ -66,10 +67,11 @@ describe('Leadership Service', function () {
         expect(calledUrl).toMatch(/leaderLevel=9266/);
         expect(calledUrl).toMatch(/cohortScore=90210/);
         expect(calledUrl).toMatch(/leaderAlignment=leader%20alignment/);
+        expect(calledUrl).toMatch(/leaderClass=leader%20class/)
     });
 
     it('generates follower', function () {
-        var promise = leadershipService.generateFollower(9266, 'alignment');
+        var promise = leadershipService.generateFollower(9266, 'alignment', 'class');
         expect(promise).not.toBeNull();
 
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
@@ -77,10 +79,11 @@ describe('Leadership Service', function () {
         expect(calledUrl).toMatch(/^\/Characters\/Leadership\/Follower\?/);
         expect(calledUrl).toMatch(/followerLevel=9266/);
         expect(calledUrl).toMatch(/leaderAlignment=alignment/);
+        expect(calledUrl).toMatch(/leaderClass=class/)
     });
 
     it('encodes the follower uri', function () {
-        var promise = leadershipService.generateFollower(9266, 'leader alignment');
+        var promise = leadershipService.generateFollower(9266, 'leader alignment', 'leader class');
         expect(promise).not.toBeNull();
 
         var calledUrl = promiseServiceMock.getPromise.calls.mostRecent().args[0];
@@ -88,5 +91,6 @@ describe('Leadership Service', function () {
         expect(calledUrl).toMatch(/^\/Characters\/Leadership\/Follower\?/);
         expect(calledUrl).toMatch(/followerLevel=9266/);
         expect(calledUrl).toMatch(/leaderAlignment=leader%20alignment/);
+        expect(calledUrl).toMatch(/leaderClass=leader%20class/)
     });
 });

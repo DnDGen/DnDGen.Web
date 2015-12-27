@@ -11,7 +11,8 @@
 
         return {
             getRoll: getRoll,
-            getCustomRoll: getCustomRoll
+            getCustomRoll: getCustomRoll,
+            getExpressionRoll: getExpressionRoll
         };
 
         function getRoll(quantity, die)
@@ -22,6 +23,11 @@
 
         function getCustomRoll(quantity, die) {
             var url = "/Roll/Custom/" + quantity + "/" + die;
+            return promiseService.getPromise(url);
+        }
+
+        function getExpressionRoll(expression) {
+            var url = '/Roll/Expression?expression=' + encodeURIComponent(expression);
             return promiseService.getPromise(url);
         }
     };

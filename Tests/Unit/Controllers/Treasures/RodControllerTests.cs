@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class RodControllerTests
     {
         private RodController controller;
-        private Mock<IMagicalItemGenerator> mockRodGenerator;
+        private Mock<MagicalItemGenerator> mockRodGenerator;
         private Item rod;
 
         [SetUp]
         public void Setup()
         {
-            mockRodGenerator = new Mock<IMagicalItemGenerator>();
+            mockRodGenerator = new Mock<MagicalItemGenerator>();
             controller = new RodController(mockRodGenerator.Object);
 
             rod = new Item { ItemType = ItemTypeConstants.Rod };

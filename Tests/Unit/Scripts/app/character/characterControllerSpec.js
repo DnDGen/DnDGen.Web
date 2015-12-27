@@ -76,19 +76,22 @@ describe('Character Controller', function () {
 
                 return getMockedPromise(leaderLevel, { leadership: leadership });
             },
-            generateCohort: function (leaderLevel, cohortScore, leaderAlignment) {
+            generateCohort: function (leaderLevel, cohortScore, leaderAlignment, leaderClass) {
                 var cohort = {
-                    level: cohortScore - 2
+                    level: cohortScore - 2,
+                    name: leaderClass,
+                    alignment: leaderAlignment
                 };
 
                 return getMockedPromise(cohortScore, { cohort: cohort });
             },
-            generateFollower: function (followerLevel, leaderAlignment) {
+            generateFollower: function (followerLevel, leaderAlignment, leaderClass) {
                 followerCount++;
 
                 var follower = {
                     level: followerLevel,
-                    name: followerCount
+                    name: leaderClass,
+                    alignment: leaderAlignment
                 };
 
                 return getMockedPromise(followerLevel, { follower: follower });
@@ -283,7 +286,7 @@ describe('Character Controller', function () {
         expect(vm.compatible).toBeFalsy();
     });
 
-    it('verifies randomizers when alow level adjustments changes', function () {
+    it('verifies randomizers when allow level adjustments changes', function () {
         scope.$apply();
 
         compatible = false;
@@ -801,6 +804,8 @@ describe('Character Controller', function () {
         expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
+        expect(vm.cohort.name).toBe('first class name');
+        expect(vm.cohort.alignment).toBe('first alignment');
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
     });
@@ -834,6 +839,8 @@ describe('Character Controller', function () {
         expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
+        expect(vm.cohort.name).toBe('first class name');
+        expect(vm.cohort.alignment).toBe('first alignment');
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
     });
@@ -896,32 +903,38 @@ describe('Character Controller', function () {
 
         for (var i = 0; i < 10; i++) {
             expect(vm.followers[i].level).toBe(1);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 10; i < 18; i++) {
             expect(vm.followers[i].level).toBe(2);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 18; i < 24; i++) {
             expect(vm.followers[i].level).toBe(3);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 24; i < 29; i++) {
             expect(vm.followers[i].level).toBe(4);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 29; i < 32; i++) {
             expect(vm.followers[i].level).toBe(5);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 32; i < 34; i++) {
             expect(vm.followers[i].level).toBe(6);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         expect(vm.generating).toBeFalsy();
@@ -962,32 +975,38 @@ describe('Character Controller', function () {
 
         for (var i = 0; i < 10; i++) {
             expect(vm.followers[i].level).toBe(1);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 10; i < 18; i++) {
             expect(vm.followers[i].level).toBe(2);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 18; i < 24; i++) {
             expect(vm.followers[i].level).toBe(3);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 24; i < 29; i++) {
             expect(vm.followers[i].level).toBe(4);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 29; i < 32; i++) {
             expect(vm.followers[i].level).toBe(5);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         for (var i = 32; i < 34; i++) {
             expect(vm.followers[i].level).toBe(6);
-            expect(vm.followers[i].name).toBe(i + 1);
+            expect(vm.followers[i].name).toBe('first class name');
+            expect(vm.followers[i].alignment).toBe('first alignment');
         }
 
         expect(vm.generating).toBeFalsy();

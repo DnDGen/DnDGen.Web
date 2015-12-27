@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class WandControllerTests
     {
         private WandController controller;
-        private Mock<IMagicalItemGenerator> mockWandGenerator;
+        private Mock<MagicalItemGenerator> mockWandGenerator;
         private Item wand;
 
         [SetUp]
         public void Setup()
         {
-            mockWandGenerator = new Mock<IMagicalItemGenerator>();
+            mockWandGenerator = new Mock<MagicalItemGenerator>();
             controller = new WandController(mockWandGenerator.Object);
 
             wand = new Item { ItemType = ItemTypeConstants.Wand };

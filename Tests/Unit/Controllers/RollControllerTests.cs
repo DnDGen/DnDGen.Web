@@ -2,7 +2,6 @@
 using Moq;
 using NUnit.Framework;
 using RollGen;
-using System;
 using System.Web.Mvc;
 
 namespace DNDGenSite.Tests.Unit.Controllers
@@ -11,17 +10,17 @@ namespace DNDGenSite.Tests.Unit.Controllers
     public class RollControllerTests
     {
         private RollController controller;
-        private Mock<IDice> mockDice;
-        private Mock<IPartialRoll> mockRoll;
+        private Mock<Dice> mockDice;
+        private Mock<PartialRoll> mockRoll;
 
         [SetUp]
         public void Setup()
         {
-            mockDice = new Mock<IDice>();
-            mockRoll = new Mock<IPartialRoll>();
+            mockDice = new Mock<Dice>();
+            mockRoll = new Mock<PartialRoll>();
             controller = new RollController(mockDice.Object);
 
-            mockDice.Setup(d => d.Roll(It.IsAny<Int32>())).Returns(mockRoll.Object);
+            mockDice.Setup(d => d.Roll(It.IsAny<int>())).Returns(mockRoll.Object);
         }
 
         [TestCase("Index")]
@@ -35,14 +34,15 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [TestCase("D20")]
         [TestCase("D100")]
         [TestCase("Custom")]
-        public void ActionHandlesGetVerb(String methodName)
+        [TestCase("Expression")]
+        public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
         }
 
         [Test]
-        public void RollReturnsView()
+        public void IndexReturnsView()
         {
             var result = controller.Index();
             Assert.That(result, Is.InstanceOf<ViewResult>());
@@ -356,6 +356,30 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var result = controller.Custom(9266, 90210) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(42));
+        }
+
+        [Test]
+        public void ExpressionReturnsJsonResult()
+        {
+            var result = controller.Expression("expression");
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+        }
+
+        [Test]
+        public void ExpressionJsonResultAllowsGet()
+        {
+            var result = controller.Expression("expression") as JsonResult;
+            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+        }
+
+        [Test]
+        public void ExpressionResultContainsRoll()
+        {
+            mockDice.Setup(d => d.Roll("expression")).Returns(9266);
+
+            var result = controller.Expression("expression") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.roll, Is.EqualTo(9266));
         }
     }
 }

@@ -48,6 +48,17 @@
                     </div>
                 </div>
             </form>
+            <form name="expressionRollForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="rollExpression" class="col-sm-3 control-label no-side-padding">Expression</label>
+                    <div class="col-sm-3">
+                        <input id="rollExpression" class="form-control" type="text" ng-model="vm.expression" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling">Roll</button>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="col-sm-6">
             <span ng-hide="vm.rolling" class="font-green font-big">{{vm.roll | number}}</span>

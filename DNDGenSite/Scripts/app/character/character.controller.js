@@ -118,7 +118,7 @@
                                 vm.leadership = data.leadership;
                             }).then(function () {
                                 vm.generatingMessage = 'Generating cohort...';
-                                return leadershipService.generateCohort(vm.character.Class.Level, vm.leadership.CohortScore, vm.character.Alignment.Full)
+                                return leadershipService.generateCohort(vm.character.Class.Level, vm.leadership.CohortScore, vm.character.Alignment.Full, vm.character.Class.ClassName)
                             }).then(function (data) {
                                 vm.cohort = data.cohort;
                             }, function () {
@@ -149,7 +149,7 @@
 
         function generateFollowers(level, amount) {
             for (var i = amount; i > 0; i--) {
-                leadershipService.generateFollower(level, vm.character.Alignment.Full)
+                leadershipService.generateFollower(level, vm.character.Alignment.Full, vm.character.Class.ClassName)
                     .then(function (data) {
                         vm.followers.push(data.follower);
                     }, function () {

@@ -11,12 +11,12 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class AlchemicalItemControllerTests
     {
         private AlchemicalItemController controller;
-        private Mock<IMundaneItemGenerator> mockAlchemicalItemGenerator;
+        private Mock<MundaneItemGenerator> mockAlchemicalItemGenerator;
 
         [SetUp]
         public void Setup()
         {
-            mockAlchemicalItemGenerator = new Mock<IMundaneItemGenerator>();
+            mockAlchemicalItemGenerator = new Mock<MundaneItemGenerator>();
             controller = new AlchemicalItemController(mockAlchemicalItemGenerator.Object);
         }
 

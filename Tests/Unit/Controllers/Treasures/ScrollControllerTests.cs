@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class ScrollControllerTests
     {
         private ScrollController controller;
-        private Mock<IMagicalItemGenerator> mockScrollGenerator;
+        private Mock<MagicalItemGenerator> mockScrollGenerator;
         private Item scroll;
 
         [SetUp]
         public void Setup()
         {
-            mockScrollGenerator = new Mock<IMagicalItemGenerator>();
+            mockScrollGenerator = new Mock<MagicalItemGenerator>();
             controller = new ScrollController(mockScrollGenerator.Object);
 
             scroll = new Item { ItemType = ItemTypeConstants.Scroll };

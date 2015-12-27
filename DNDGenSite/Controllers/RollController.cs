@@ -1,14 +1,13 @@
 ﻿using RollGen;
-using System;
 using System.Web.Mvc;
 
 namespace DNDGenSite.Controllers
 {
     public class RollController : Controller
     {
-        private IDice dice;
+        private Dice dice;
 
-        public RollController(IDice dice)
+        public RollController(Dice dice)
         {
             this.dice = dice;
         }
@@ -20,76 +19,83 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public JsonResult D2(Int32 quantity)
+        public JsonResult D2(int quantity)
         {
             var roll = dice.Roll(quantity).d2();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D3(Int32 quantity)
+        public JsonResult D3(int quantity)
         {
             var roll = dice.Roll(quantity).d3();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D4(Int32 quantity)
+        public JsonResult D4(int quantity)
         {
             var roll = dice.Roll(quantity).d4();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D6(Int32 quantity)
+        public JsonResult D6(int quantity)
         {
             var roll = dice.Roll(quantity).d6();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D8(Int32 quantity)
+        public JsonResult D8(int quantity)
         {
             var roll = dice.Roll(quantity).d8();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D10(Int32 quantity)
+        public JsonResult D10(int quantity)
         {
             var roll = dice.Roll(quantity).d10();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D12(Int32 quantity)
+        public JsonResult D12(int quantity)
         {
             var roll = dice.Roll(quantity).d12();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D20(Int32 quantity)
+        public JsonResult D20(int quantity)
         {
             var roll = dice.Roll(quantity).d20();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult D100(Int32 quantity)
+        public JsonResult D100(int quantity)
         {
             var roll = dice.Roll(quantity).Percentile();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
-        public JsonResult Custom(Int32 quantity, Int32 die)
+        public JsonResult Custom(int quantity, int die)
         {
             var roll = dice.Roll(quantity).d(die);
             return BuildJsonResult(roll);
         }
 
-        private JsonResult BuildJsonResult(Int32 roll)
+        [HttpGet]
+        public JsonResult Expression(string expression)
+        {
+            var roll = dice.Roll(expression);
+            return BuildJsonResult(roll);
+        }
+
+        private JsonResult BuildJsonResult(int roll)
         {
             return Json(new { roll = roll }, JsonRequestBehavior.AllowGet);
         }

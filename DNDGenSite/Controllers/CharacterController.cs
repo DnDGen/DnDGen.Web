@@ -112,13 +112,14 @@ namespace DNDGenSite.Controllers
 
             model.ClassNameRandomizerTypes = new[]
             {
-                ClassNameRandomizerTypeConstants.Any,
+                ClassNameRandomizerTypeConstants.AnyPlayer,
                 ClassNameRandomizerTypeConstants.Healer,
                 ClassNameRandomizerTypeConstants.Mage,
                 ClassNameRandomizerTypeConstants.NonSpellcaster,
                 ClassNameRandomizerTypeConstants.Spellcaster,
                 ClassNameRandomizerTypeConstants.Stealth,
                 ClassNameRandomizerTypeConstants.Warrior,
+                ClassNameRandomizerTypeConstants.AnyNPC,
                 RandomizerTypeConstants.Set
             };
 
@@ -134,7 +135,12 @@ namespace DNDGenSite.Controllers
                 CharacterClassConstants.Ranger,
                 CharacterClassConstants.Rogue,
                 CharacterClassConstants.Sorcerer,
-                CharacterClassConstants.Wizard
+                CharacterClassConstants.Wizard,
+                CharacterClassConstants.Adept,
+                CharacterClassConstants.Aristocrat,
+                CharacterClassConstants.Commoner,
+                CharacterClassConstants.Expert,
+                CharacterClassConstants.Warrior
             };
 
             model.LevelRandomizerTypes = new[]

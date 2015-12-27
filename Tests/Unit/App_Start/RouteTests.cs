@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Web.Routing;
 
 namespace DNDGenSite.Tests.Unit.App_Start
@@ -17,7 +16,7 @@ namespace DNDGenSite.Tests.Unit.App_Start
         }
 
         [TestCase("Default", "{controller}/{action}", "Home", "Index")]
-        [TestCase("Roll", "Roll/{action}/{quantity}", "Roll", null)]
+        [TestCase("StandardRoll", "Roll/{action}/{quantity}", "Roll", "D20")]
         [TestCase("CustomRoll", "Roll/Custom/{quantity}/{die}", "Roll", "Custom")]
         [TestCase("Treasure", "Treasure/Generate/{level}", "Treasure", "Generate")]
         [TestCase("Coin", "Treasures/Coin/Generate/{level}", "Coin", "Generate")]
@@ -36,7 +35,7 @@ namespace DNDGenSite.Tests.Unit.App_Start
         [TestCase("WondrousItem", "Treasures/WondrousItem/Generate/{power}", "WondrousItem", "Generate")]
         [TestCase("Randomizers", "Characters/Randomizers/{action}", "Randomizers", "Verify")]
         [TestCase("Leadership", "Characters/Leadership/{action}", "Leadership", "Generate")]
-        public void RouteIsMapped(String name, String url, String controller, String action)
+        public void RouteIsMapped(string name, string url, string controller, string action)
         {
             Assert.That(routes[name], Is.InstanceOf<Route>());
 
@@ -44,6 +43,13 @@ namespace DNDGenSite.Tests.Unit.App_Start
             Assert.That(route.Url, Is.EqualTo(url));
             Assert.That(route.Defaults["Controller"], Is.EqualTo(controller));
             Assert.That(route.Defaults["Action"], Is.EqualTo(action));
+        }
+
+        [Test]
+        public void RoutesMapped()
+        {
+            //INFO: +1 route for the ignored route
+            Assert.That(routes.Count, Is.EqualTo(21));
         }
     }
 }

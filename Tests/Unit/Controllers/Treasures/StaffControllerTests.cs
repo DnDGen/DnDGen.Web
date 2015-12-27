@@ -11,13 +11,13 @@ namespace DNDGenSite.Tests.Unit.Controllers.Treasures
     public class StaffControllerTests
     {
         private StaffController controller;
-        private Mock<IMagicalItemGenerator> mockStaffGenerator;
+        private Mock<MagicalItemGenerator> mockStaffGenerator;
         private Item staff;
 
         [SetUp]
         public void Setup()
         {
-            mockStaffGenerator = new Mock<IMagicalItemGenerator>();
+            mockStaffGenerator = new Mock<MagicalItemGenerator>();
             controller = new StaffController(mockStaffGenerator.Object);
 
             staff = new Item { ItemType = ItemTypeConstants.Staff };
