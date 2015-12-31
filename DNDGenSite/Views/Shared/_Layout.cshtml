@@ -7,7 +7,6 @@
         <script src="~/Scripts/jQuery/jquery-2.1.4.min.js"></script>
         <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script> 
         <script src="~/Scripts/Angular/angular.min.js"></script>
-        <script src="~/Scripts/Angular/angular-animate.min.js"></script>
         <script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
         <script src="~/Scripts/app/shared/shared.module.js"></script>
         <script src="~/Scripts/app/shared/promise.service.js"></script>
@@ -45,7 +44,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" id="collapseButton" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavigation">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -54,39 +53,39 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="nav navbar-nav visible-md visible-lg">
-                    <li><a id="rollLink" href="~/Roll">RollGen</a></li>
-                    <li><a id="treasureLink" href="~/Treasure">TreasureGen</a></li>
-                    <li><a id="characterLink" href="~/Character">CharacterGen</a></li>
-                    <li><a id="encounterLink" href="~/Encounter">EncounterGen</a></li>
-                    <li><a id="dungeonLink" href="~/Dungeon">DungeonGen</a></li>
+                    <li><a href="~/Roll">RollGen</a></li>
+                    <li><a href="~/Treasure">TreasureGen</a></li>
+                    <li><a href="~/Character">CharacterGen</a></li>
+                    <li><a href="~/Encounter">EncounterGen</a></li>
+                    <li><a href="~/Dungeon">DungeonGen</a></li>
                 </ul>
                 <ul class="nav navbar-nav visible-xs visible-sm">
                     <li class="dropdown">
-                        <a id="collapsedGeneratorLinks" href="#" class="dropdown-toggle" data-toggle="dropdown">Generators <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Generators <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a id="collapsedRollLink" href="~/Roll">RollGen</a></li>
-                            <li><a id="collapsedTreasureLink" href="~/Treasure">TreasureGen</a></li>
-                            <li><a id="collapsedCharacterLink" href="~/Character">CharacterGen</a></li>
-                            <li><a id="collapsedEncounterLink" href="~/Encounter">EncounterGen</a></li>
-                            <li><a id="collapsedDungeonLink" href="~/Dungeon">DungeonGen</a></li>
+                            <li><a href="~/Roll">RollGen</a></li>
+                            <li><a href="~/Treasure">TreasureGen</a></li>
+                            <li><a href="~/Character">CharacterGen</a></li>
+                            <li><a href="~/Encounter">EncounterGen</a></li>
+                            <li><a href="~/Dungeon">DungeonGen</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a id="collapsedGithubLinks" href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a id="githubOrganizationLink" href="https://github.com/DnDGen">The DnDGen Project</a></li>
+                            <li><a href="https://github.com/DnDGen">The DnDGen Project</a></li>
                             <li class="divider"></li>
-                            <li><a id="githubRollLink" href="https://github.com/DnDGen/RollGen">RollGen</a></li>
-                            <li><a id="githubTreasureLink" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
-                            <li><a id="githubCharacterLink" href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
-                            <li><a id="githubEncounterLink" href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
-                            <li><a id="githubDungeonLink" href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
-                            <li><a id="githubSiteLink" href="https://github.com/DnDGen/DNDGenSite">This Site</a></li>
+                            <li><a href="https://github.com/DnDGen/RollGen">RollGen</a></li>
+                            <li><a href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
+                            <li><a href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DNDGenSite">This Site</a></li>
                         </ul>
                     </li>
-                    <li class="padding-right"><a id="officialDndLink" href="http://dnd.wizards.com/">Official D&D Site</a></li>
+                    <li class="padding-right"><a href="http://dnd.wizards.com/">Official D&D Site</a></li>
                 </ul>
             </div>
         </div>

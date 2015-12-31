@@ -212,29 +212,7 @@
     <Content Include="Content\layout.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\Angular\angular-animate.js" />
-    <Content Include="Scripts\Angular\angular-animate.min.js" />
-    <Content Include="Scripts\Angular\angular-aria.js" />
-    <Content Include="Scripts\Angular\angular-aria.min.js" />
-    <Content Include="Scripts\Angular\angular-cookies.js" />
-    <Content Include="Scripts\Angular\angular-cookies.min.js" />
-    <Content Include="Scripts\Angular\angular-csp.css" />
-    <Content Include="Scripts\Angular\angular-loader.js" />
-    <Content Include="Scripts\Angular\angular-loader.min.js" />
-    <Content Include="Scripts\Angular\angular-message-format.js" />
-    <Content Include="Scripts\Angular\angular-message-format.min.js" />
-    <Content Include="Scripts\Angular\angular-messages.js" />
-    <Content Include="Scripts\Angular\angular-messages.min.js" />
     <Content Include="Scripts\Angular\angular-mocks.js" />
-    <Content Include="Scripts\Angular\angular-resource.js" />
-    <Content Include="Scripts\Angular\angular-resource.min.js" />
-    <Content Include="Scripts\Angular\angular-route.js" />
-    <Content Include="Scripts\Angular\angular-route.min.js" />
-    <Content Include="Scripts\Angular\angular-sanitize.js" />
-    <Content Include="Scripts\Angular\angular-sanitize.min.js" />
-    <Content Include="Scripts\Angular\angular-scenario.js" />
-    <Content Include="Scripts\Angular\angular-touch.js" />
-    <Content Include="Scripts\Angular\angular-touch.min.js" />
     <Content Include="Scripts\Angular\angular.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
     <Content Include="Scripts\app\character\character.module.js" />
@@ -258,18 +236,6 @@
     <Content Include="Scripts\app\shared\noDecimals.directive.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
-    <Content Include="Scripts\Angular\errors.json" />
-    <Content Include="Scripts\Angular\angular.min.js.map" />
-    <Content Include="Scripts\Angular\angular-touch.min.js.map" />
-    <Content Include="Scripts\Angular\angular-sanitize.min.js.map" />
-    <Content Include="Scripts\Angular\angular-route.min.js.map" />
-    <Content Include="Scripts\Angular\angular-resource.min.js.map" />
-    <Content Include="Scripts\Angular\angular-messages.min.js.map" />
-    <Content Include="Scripts\Angular\angular-message-format.min.js.map" />
-    <Content Include="Scripts\Angular\angular-loader.min.js.map" />
-    <Content Include="Scripts\Angular\angular-cookies.min.js.map" />
-    <Content Include="Scripts\Angular\angular-aria.min.js.map" />
-    <Content Include="Scripts\Angular\angular-animate.min.js.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -278,6 +244,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\Angular\angular.min.js.map" />
     <None Include="Scripts\jQuery\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.4.js" />
     <Content Include="Scripts\jQuery\jquery-2.1.4.min.js" />
@@ -343,7 +310,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\Encounter\Index.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Scripts\Angular\version.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
