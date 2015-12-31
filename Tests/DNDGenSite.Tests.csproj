@@ -248,7 +248,6 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Integration\Views\chutzpah.json" />
     <None Include="packages.config" />
     <None Include="Unit\Scripts\chutzpah.json" />
   </ItemGroup>
@@ -260,23 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\jasmine.css" />
-    <Content Include="Integration\Views\commonTestFunctions.js" />
-    <Content Include="Integration\Views\protractor.all.config.js" />
-    <Content Include="Integration\Views\protractor.character.config.js" />
-    <Content Include="Integration\Views\protractor.roll.config.js" />
-    <Content Include="Integration\Views\protractor.dungeon.config.js" />
-    <Content Include="Integration\Views\protractor.encounter.config.js" />
-    <Content Include="Integration\Views\protractor.error.config.js" />
-    <Content Include="Integration\Views\protractor.layout.config.js" />
-    <Content Include="Integration\Views\protractor.live.config.js" />
-    <Content Include="Integration\Views\protractor.treasure.config.js" />
-    <Content Include="Integration\Views\Shared\layoutPageSpec.js" />
-    <Content Include="Integration\Views\View\characterPageSpec.js" />
-    <Content Include="Integration\Views\View\rollPageSpec.js" />
-    <Content Include="Integration\Views\View\dungeonPageSpec.js" />
-    <Content Include="Integration\Views\View\errorPageSpec.js" />
-    <Content Include="Integration\Views\View\homePageSpec.js" />
-    <Content Include="Integration\Views\View\treasurePageSpec.js" />
     <Content Include="Unit\Scripts\app\character\leadershipServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\characterServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
@@ -289,7 +271,6 @@
     <Content Include="Unit\Scripts\app\roll\rollControllerSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureServiceSpec.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureControllerSpec.js" />
-    <Content Include="Integration\Views\View\encounterPageSpec.js" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
