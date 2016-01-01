@@ -129,7 +129,7 @@
                         <li>Touch: {{character.Combat.ArmorClass.Touch}}</li>
                     </ul>
                 </li>
-                <li>Base Attack: +{{character.Combat.BaseAttack.AllBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllBonuses" ng-if="!$first">/+{{bonus}}</span></li>
+                <li>Base Attack: +{{character.Combat.BaseAttack.AllBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
                 <li>Hit Points: {{character.Combat.HitPoints}}</li>
                 <li>Initiative Bonus: {{character.Combat.InitiativeBonus}}</li>
                 <li>
