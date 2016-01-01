@@ -8,7 +8,6 @@ using CharacterGen.Generators.Randomizers.Stats;
 using DNDGenSite.App_Start.Factories;
 using DNDGenSite.Models;
 using DNDGenSite.Repositories;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -201,7 +200,7 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public JsonResult Generate(String alignmentRandomizerType, String classNameRandomizerType, String levelRandomizerType, String baseRaceRandomizerType, String metaraceRandomizerType, String statsRandomizerType, String setAlignment = "", String setClassName = "", Int32 setLevel = 0, Boolean allowLevelAdjustments = true, String setBaseRace = "", Boolean forceMetarace = false, String setMetarace = "", Int32 setStrength = 0, Int32 setConstitution = 0, Int32 setDexterity = 0, Int32 setIntelligence = 0, Int32 setWisdom = 0, Int32 setCharisma = 0, Boolean allowStatsAdjustments = true)
+        public JsonResult Generate(string alignmentRandomizerType, string classNameRandomizerType, string levelRandomizerType, string baseRaceRandomizerType, string metaraceRandomizerType, string statsRandomizerType, string setAlignment = "", string setClassName = "", int setLevel = 0, bool allowLevelAdjustments = true, string setBaseRace = "", bool forceMetarace = false, string setMetarace = "", int setStrength = 0, int setConstitution = 0, int setDexterity = 0, int setIntelligence = 0, int setWisdom = 0, int setCharisma = 0, bool allowStatsAdjustments = true)
         {
             var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
             var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(classNameRandomizerType, setClassName);
