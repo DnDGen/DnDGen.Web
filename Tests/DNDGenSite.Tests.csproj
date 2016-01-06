@@ -260,17 +260,19 @@
   <ItemGroup>
     <Content Include="content\jasmine.css" />
     <Content Include="Unit\Scripts\app\character\leadershipServiceSpec.js" />
-    <Content Include="Unit\Scripts\app\character\characterServiceSpec.js" />
+    <Content Include="Unit\Scripts\app\character\character.service.tests.js" />
     <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
-    <Content Include="Unit\Scripts\app\character\characterControllerSpec.js" />
+    <Content Include="Unit\Scripts\app\character\character.controller.tests.js" />
+    <Content Include="Unit\Scripts\app\shared\characterFormatter.service.tests.js" />
+    <Content Include="Unit\Scripts\app\shared\treasureFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\boot.js" />
     <Content Include="Unit\Scripts\console.js" />
     <Content Include="Unit\Scripts\jasmine-html.js" />
     <Content Include="Unit\Scripts\jasmine.js" />
     <Content Include="Unit\Scripts\app\roll\rollServiceSpec.js" />
     <Content Include="Unit\Scripts\app\roll\rollControllerSpec.js" />
-    <Content Include="Unit\Scripts\app\treasure\treasureServiceSpec.js" />
-    <Content Include="Unit\Scripts\app\treasure\treasureControllerSpec.js" />
+    <Content Include="Unit\Scripts\app\treasure\treasure.service.tests.js" />
+    <Content Include="Unit\Scripts\app\treasure\treasure.controller.tests.js" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

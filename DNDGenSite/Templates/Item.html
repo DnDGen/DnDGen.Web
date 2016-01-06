@@ -1,5 +1,5 @@
 ﻿<div>
-    <div id="itemName">
+    <div>
         <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span>
     </div>
     <ul>
@@ -23,7 +23,7 @@
             </ul>
         <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li>
         <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
-        <li id="intelligenceListItem" ng-show="item.Magic.Intelligence.Ego > 0">
+        <li ng-show="item.Magic.Intelligence.Ego > 0">
             <span>Intelligent:</span>
             <ul>
                 <li>Ego: {{item.Magic.Intelligence.Ego}}</li>

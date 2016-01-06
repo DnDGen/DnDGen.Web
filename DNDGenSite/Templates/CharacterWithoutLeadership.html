@@ -1,7 +1,7 @@
 ﻿<div>
     <ul>
         <li>Alignment: {{character.Alignment.Full}}</li>
-        <li id="characterClassWrapper">
+        <li>
             <span>Level {{character.Class.Level}} {{character.Class.ClassName}}</span>
             <ul ng-show="character.Class.SpecialistFields.length > 0 || character.Class.ProhibitedFields.length > 0">
                 <li ng-show="character.Class.SpecialistFields.length > 0">
@@ -18,7 +18,7 @@
                 </li>
             </ul>
         </li>
-        <li id="raceWrapper">
+        <li>
             <span>{{character.Race.Metarace.length > 0 ? character.Race.Metarace : ''}} {{character.Race.BaseRace}}</span>
             <ul>
                 <li>{{character.Race.Male ? 'Male' : 'Female'}}</li>
@@ -29,7 +29,7 @@
                 <li ng-show="character.Race.AerialSpeed > 0">Aerial Speed: {{character.Race.AerialSpeed}}</li>
             </ul>
         </li>
-        <li id="statsWrapper">
+        <li>
             <span>Stats:</span>
             <ul>
                 <li>Strength: {{character.Ability.Stats.Strength.Value}} ({{character.Ability.Stats.Strength.Bonus}})</li>
@@ -40,13 +40,13 @@
                 <li>Charisma: {{character.Ability.Stats.Charisma.Value}} ({{character.Ability.Stats.Charisma.Bonus}})</li>
             </ul>
         </li>
-        <li id="languagesWrapper">
+        <li>
             <span>Languages:</span>
             <ul>
                 <li ng-repeat="language in character.Ability.Languages track by $index">{{language}}</li>
             </ul>
         </li>
-        <li id="skillsWrapper">
+        <li>
             <table class="table table-striped">
                 <tr>
                     <th>Skill</th>
@@ -68,7 +68,7 @@
                 </tr>
             </table>
         </li>
-        <li id="featsWrapper">
+        <li>
             <span>Feats:</span>
             <ul>
                 <li ng-repeat="feat in character.Ability.Feats track by $index">
@@ -87,7 +87,7 @@
             </ul>
         </li>
         <li>Interesting Trait: {{character.InterestingTrait.length > 0 ? character.InterestingTrait : 'None'}}</li>
-        <li id="magicWrapper" ng-show="character.Magic.SpellsPerDay.length > 0">
+        <li ng-show="character.Magic.SpellsPerDay.length > 0">
             <span>Spells Per Day:</span>
             <ul>
                 <li ng-repeat="spellLevel in character.Magic.SpellsPerDay track by $index">Level {{spellLevel.Level}}: {{spellLevel.Quantity}} {{spellLevel.HasDomainSpell ? '+ 1' : ''}}</li>
@@ -95,7 +95,7 @@
         </li>
         <li ng-show="character.Magic.ArcaneSpellFailure > 0">Arcane Spell Failure: {{character.Magic.ArcaneSpellFailure}}%</li>
         <li ng-show="character.Magic.Animal.length > 0">Animal: {{character.Magic.Animal}}</li>
-        <li id="equipmentWrapper">
+        <li>
             <span>Equipment:</span>
             <ul>
                 <li>
@@ -118,7 +118,7 @@
                 </li>
             </ul>
         </li>
-        <li id="combatWrapper">
+        <li>
             <span>Combat:</span>
             <ul>
                 <li>Adjusted Dexterity Bonus: {{character.Combat.AdjustedDexterityBonus}}</li>
@@ -138,7 +138,7 @@
                         <li>Fortitude: {{character.Combat.SavingThrows.Fortitude}}</li>
                         <li>Reflex: {{character.Combat.SavingThrows.Reflex}}</li>
                         <li>Will: {{character.Combat.SavingThrows.Will}}</li>
-                        <li>Circumstantial Bonus: {{character.Combat.SavingThrows.CircumstantialBonus ? 'Yes' : 'No' }}</li>
+                        <li ng-show="character.Combat.SavingThrows.CircumstantialBonus">Circumstantial Bonus</li>
                     </ul>
                 </li>
             </ul>

@@ -5,6 +5,7 @@ using CharacterGen.Generators.Randomizers.Races;
 using CharacterGen.Generators.Randomizers.Stats;
 using DNDGenSite.App_Start.Factories;
 using DNDGenSite.Repositories;
+using DNDGenSite.Repositories.Domain;
 using Moq;
 using NUnit.Framework;
 

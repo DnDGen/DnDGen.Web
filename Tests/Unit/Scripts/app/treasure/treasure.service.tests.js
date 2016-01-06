@@ -16,22 +16,26 @@ describe('Treasure Service', function () {
     }));
 
     it('gets treasure', function () {
-        treasureService.getTreasure(9266);
+        var promise = treasureService.getTreasure(9266);
+        expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/Generate/9266');
     });
 
     it('gets kind of treasure', function () {
-        treasureService.getTreasureType('treasure type', 9266);
+        var promise = treasureService.getTreasureType('treasure type', 9266);
+        expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasures/treasure type/Generate/9266');
     });
 
     it('gets a mundane item', function () {
-        treasureService.getMundaneItem('item type');
+        var promise = treasureService.getMundaneItem('item type');
+        expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasures/item type/Generate');
     });
 
     it('gets a powered item', function () {
-        treasureService.getPoweredItem('item type', 'item power');
+        var promise = treasureService.getPoweredItem('item type', 'item power');
+        expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasures/item type/Generate/item power');
     });
 });

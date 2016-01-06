@@ -5,9 +5,9 @@
         .module('app.treasure')
         .controller('Treasure', Treasure);
 
-    Treasure.$inject = ['$scope', 'bootstrapData', 'treasureService', 'sweetAlertService'];
+    Treasure.$inject = ['$scope', 'bootstrapData', 'treasureService', 'sweetAlertService', 'fileSaverService', 'treasureFormatterService'];
 
-    function Treasure($scope, bootstrapData, treasureService, sweetAlertService) {
+    function Treasure($scope, bootstrapData, treasureService, sweetAlertService, fileSaverService, treasureFormatterService) {
         var vm = this;
         vm.treasureModel = bootstrapData.treasureModel;
 
@@ -59,5 +59,12 @@
             vm.itemPowers = vm.treasureModel.ItemPowers[index];
             vm.itemPower = vm.itemPowers[0];
         });
+
+        vm.download = function () {
+            var formattedTreasure = treasureFormatterService.formatTreasure(vm.treasure);
+            var fileName = 'Treasure ' + new Date().toString();
+
+            fileSaverService.save(formattedTreasure, fileName);
+        };
     };
 })();

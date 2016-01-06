@@ -5,9 +5,9 @@
         .module('app.character')
         .controller('Character', Character);
 
-    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService'];
+    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService', 'fileSaverService', 'characterFormatterService'];
 
-    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService) {
+    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService, fileSaverService, characterFormatterService) {
         var vm = this;
         vm.characterModel = bootstrapData.characterModel;
         vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[0];
@@ -253,5 +253,12 @@
                 vm.generatingMessage = 'Generating follower ' + (vm.followers.length + 1) + ' of ' + expectedTotal + '...';
             }
         }, true);
+
+        vm.download = function () {
+            var formattedCharacter = characterFormatterService.formatCharacter(vm.character, vm.leadership, vm.cohort, vm.followers);
+            var fileName = characterFormatterService.formatSummary(vm.character);
+
+            fileSaverService.save(formattedCharacter, fileName);
+        };
     };
 })();

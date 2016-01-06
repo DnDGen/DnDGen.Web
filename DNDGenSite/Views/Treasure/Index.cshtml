@@ -60,7 +60,8 @@
                 </div>
             </form>
         </div>
-        <div class="col-sm-5 col-sm-offset-1" >
+        <div class="col-sm-5 col-sm-offset-1 clearfix" >
+            <button class="btn btn-lg pull-right" ng-show="vm.generating == false && (vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0)" ng-click="vm.download()">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <span>Generating...</span>
             </div>

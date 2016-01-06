@@ -123,7 +123,8 @@
                 <button id="generateButton" type="button" class="btn btn-success" ng-click="vm.generate()" ng-disabled="characterForm.$invalid || vm.generating || vm.verifying || vm.compatible == false">Generate</button>
             </form>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 clearfix">
+            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="vm.generating == false && vm.character">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <span>{{vm.generatingMessage}}</span>
             </div>

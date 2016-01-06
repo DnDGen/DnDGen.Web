@@ -14,7 +14,6 @@ using DNDGenSite.Models;
 using DNDGenSite.Repositories;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -37,7 +36,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
 
         [TestCase("Index")]
         [TestCase("Generate")]
-        public void ActionHandlesGetVerb(String action)
+        public void ActionHandlesGetVerb(string action)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, action);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));

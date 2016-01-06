@@ -1,6 +1,7 @@
 ﻿using DNDGenSite.App_Start.Factories;
 using DNDGenSite.Controllers.Treasures;
 using DNDGenSite.Repositories;
+using DNDGenSite.Repositories.Domain;
 using Ninject;
 using Ninject.Modules;
 using Octokit;

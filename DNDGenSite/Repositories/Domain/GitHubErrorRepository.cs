@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DNDGenSite.Repositories
+namespace DNDGenSite.Repositories.Domain
 {
     public class GitHubErrorRepository : ErrorRepository
     {

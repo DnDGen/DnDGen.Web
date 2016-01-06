@@ -12,6 +12,8 @@ describe('Character Controller', function () {
     var compatible;
     var isLeader;
     var followerCount;
+    var fileSaverServiceMock;
+    var characterFormatterServiceMock;
 
     beforeEach(module('app.character'));
 
@@ -104,6 +106,30 @@ describe('Character Controller', function () {
 
         sweetAlertServiceMock = {};
         sweetAlertServiceMock.showError = jasmine.createSpy();
+
+        fileSaverServiceMock = {};
+        fileSaverServiceMock.save = jasmine.createSpy();
+
+        characterFormatterServiceMock = {
+            formatCharacter: function (character, leadership, cohort, followers) {
+                var formattedCharacter = character.name + '\n';
+
+                if (leadership)
+                    formattedCharacter += leadership.score + '\n'
+
+                if (cohort)
+                    formattedCharacter += cohort.name + '\n';
+
+                for (var i = 0; i < followers.length; i++) {
+                    formattedCharacter += followers[i].name + '\n';
+                }
+
+                return formattedCharacter;
+            },
+            formatSummary: function (character) {
+                return character.name + ' file';
+            }
+        };
     });
 
     function getMockedPromise(level, successObject) {
@@ -127,7 +153,9 @@ describe('Character Controller', function () {
             randomizerService: randomizerServiceMock,
             characterService: characterServiceMock,
             sweetAlertService: sweetAlertServiceMock,
-            leadershipService: leadershipServiceMock
+            leadershipService: leadershipServiceMock,
+            fileSaverService: fileSaverServiceMock,
+            characterFormatterService: characterFormatterServiceMock
         });
     }));
 
@@ -1174,5 +1202,26 @@ describe('Character Controller', function () {
 
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
+    });
+
+    it('downloads character', function () {
+        vm.character = { name: 'Joe Shmoe' };
+
+        vm.download();
+        scope.$apply();
+
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n', 'Joe Shmoe file');
+    });
+
+    it('downloads character with leadership', function () {
+        vm.character = { name: 'Joe Shmoe' };
+        vm.leadership = { score: 9266 };
+        vm.cohort = { name: 'Cohort' };
+        vm.followers = [{ name: 'Thing 1' }, { name: 'Thing 2' }];
+
+        vm.download();
+        scope.$apply();
+
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n9266\nCohort\nThing 1\nThing 2\n', 'Joe Shmoe file');
     });
 })

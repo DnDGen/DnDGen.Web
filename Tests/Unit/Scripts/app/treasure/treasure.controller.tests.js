@@ -7,6 +7,8 @@ describe('Treasure Controller', function () {
     var bootstrapDataMock;
     var scope;
     var sweetAlertServiceMock;
+    var fileSaverServiceMock;
+    var treasureFormatterServiceMock;
 
     beforeEach(module('app.treasure'));
 
@@ -44,6 +46,18 @@ describe('Treasure Controller', function () {
 
         sweetAlertServiceMock = {};
         sweetAlertServiceMock.showError = jasmine.createSpy();
+
+        fileSaverServiceMock = {};
+        fileSaverServiceMock.save = jasmine.createSpy();
+
+        treasureFormatterServiceMock = {
+            formatTreasure: function (treasure) {
+                return treasure.description;
+            },
+            formatItem: function (item) {
+                return item.toString();
+            }
+        };
     });
 
     function getMockedPromise(treasure) {
@@ -64,7 +78,9 @@ describe('Treasure Controller', function () {
             $scope: scope,
             bootstrapData: bootstrapDataMock,
             treasureService: treasureServiceMock,
-            sweetAlertService: sweetAlertServiceMock
+            sweetAlertService: sweetAlertServiceMock,
+            fileSaverService: fileSaverServiceMock,
+            treasureFormatterService: treasureFormatterServiceMock
         });
     }));
 
@@ -322,5 +338,17 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.treasure).toBeNull();
+    });
+
+    it('downloads treasure', function () {
+        vm.treasure = {
+            description: 'Treasure 9266'
+        };
+
+        vm.download();
+        scope.$apply();
+
+        var fileName = 'Treasure ' + new Date().toString();
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Treasure 9266', fileName);
     });
 })

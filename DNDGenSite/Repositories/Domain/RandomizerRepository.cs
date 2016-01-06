@@ -6,7 +6,7 @@ using CharacterGen.Generators.Randomizers.Stats;
 using DNDGenSite.App_Start.Factories;
 using System;
 
-namespace DNDGenSite.Repositories
+namespace DNDGenSite.Repositories.Domain
 {
     public class RandomizerRepository : IRandomizerRepository
     {

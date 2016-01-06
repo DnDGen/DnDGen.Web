@@ -2,6 +2,7 @@
 using DNDGenSite.Controllers;
 using DNDGenSite.Controllers.Treasures;
 using DNDGenSite.Repositories;
+using DNDGenSite.Repositories.Domain;
 using NUnit.Framework;
 using Octokit;
 
