@@ -105,8 +105,8 @@ describe('Character Formatter Service', function () {
                     },
                 },
                 Feats: [
-                    { Name: 'feat ' + (1 + characterCount), Foci: [], Strength: 0, Frequency: { TimePeriod: '', Quantity: 0 } },
-                    { Name: 'feat ' + (2 + characterCount), Foci: [], Strength: 0, Frequency: { TimePeriod: '', Quantity: 0 } }
+                    { Name: 'feat ' + (1 + characterCount), Foci: [], Power: 0, Frequency: { TimePeriod: '', Quantity: 0 } },
+                    { Name: 'feat ' + (2 + characterCount), Foci: [], Power: 0, Frequency: { TimePeriod: '', Quantity: 0 } }
                 ]
             },
             InterestingTrait: '',
@@ -700,7 +700,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats feat power', function () {
-        character.Ability.Feats[0].Strength = 9876;
+        character.Ability.Feats[0].Power = 9876;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\n');
@@ -1764,7 +1764,7 @@ describe('Character Formatter Service', function () {
         character.Ability.Feats[0].Foci = [ "focus 1", "focus 2" ];
         character.Ability.Feats[0].Frequency.Quantity = 34567;
         character.Ability.Feats[0].Frequency.TimePeriod = "time period";
-        character.Ability.Feats[0].Strength = 23456;
+        character.Ability.Feats[0].Power = 23456;
 
         character.InterestingTrait = "interesting trait";
 
@@ -1839,11 +1839,11 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe('\t\tPower: 23456');
         expect(lines[45]).toBe('\tfeat 3');
         expect(lines[46]).toBe('Interesting Trait: interesting trait');
-        expect(lines[47]).toBe('Animal: animal');
-        expect(lines[48]).toBe('Arcane Spell Failure: 12%');
-        expect(lines[49]).toBe('Spells Per Day:');
-        expect(lines[50]).toBe('\tLevel 0: 45678');
-        expect(lines[51]).toBe('\tLevel 1: 56789 + 1');
+        expect(lines[47]).toBe('Spells Per Day:');
+        expect(lines[48]).toBe('\tLevel 0: 45678');
+        expect(lines[49]).toBe('\tLevel 1: 56789 + 1');
+        expect(lines[50]).toBe('Arcane Spell Failure: 12%');
+        expect(lines[51]).toBe('Animal: animal');
         expect(lines[52]).toBe("Equipment:");
         expect(lines[53]).toBe("\tPrimary Hand:");
         expect(lines[54]).toBe('\t\tprimary weapon');

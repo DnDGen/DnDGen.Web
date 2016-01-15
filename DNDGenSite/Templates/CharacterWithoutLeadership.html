@@ -73,14 +73,14 @@
             <ul>
                 <li ng-repeat="feat in character.Ability.Feats track by $index">
                     <span>{{feat.Name}}</span>
-                    <ul ng-show="feat.Foci.length > 0 || feat.Strength > 0 || feat.Frequency.TimePeriod.length > 0">
+                    <ul ng-show="feat.Foci.length > 0 || feat.Power > 0 || feat.Frequency.TimePeriod.length > 0">
                         <li ng-show="feat.Foci.length > 0">
                             <span>Foci: </span>
                             <ul>
                                 <li ng-repeat="focus in feat.Foci track by $index">{{focus}}</li>
                             </ul>
                         </li>
-                        <li ng-show="feat.Strength > 0">Strength: {{feat.Strength}}</li>
+                        <li ng-show="feat.Power > 0">Power: {{feat.Power}}</li>
                         <li ng-show="feat.Frequency.TimePeriod.length > 0">Frequency: {{feat.Frequency.Quantity > 0 ? feat.Frequency.Quantity + '/' : ''}}{{feat.Frequency.TimePeriod}}</li>
                     </ul> 
                 </li>

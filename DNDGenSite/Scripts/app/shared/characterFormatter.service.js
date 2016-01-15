@@ -75,13 +75,13 @@
             else
                 formattedCharacter += prefix + 'Interesting Trait: None\n';
 
-            if (character.Magic.Animal.length > 0)
-                formattedCharacter += prefix + "Animal: " + character.Magic.Animal + "\n";
+            formattedCharacter += formatSpellsPerDay(character.Magic.SpellsPerDay, prefix);
 
             if (character.Magic.ArcaneSpellFailure > 0)
                 formattedCharacter += prefix + "Arcane Spell Failure: " + character.Magic.ArcaneSpellFailure + "%\n";
 
-            formattedCharacter += formatSpellsPerDay(character.Magic.SpellsPerDay, prefix);
+            if (character.Magic.Animal.length > 0)
+                formattedCharacter += prefix + "Animal: " + character.Magic.Animal + "\n";
 
             formattedCharacter += prefix + "Equipment:\n";
             formattedCharacter += formatItem("Primary Hand", character.Equipment.PrimaryHand, prefix + '\t');
@@ -185,8 +185,8 @@
                     formattedFeats += feat.Frequency.TimePeriod + '\n';
                 }
 
-                if (feat.Strength > 0) {
-                    formattedFeats += prefix + '\t\tPower: ' + feat.Strength + '\n';
+                if (feat.Power > 0) {
+                    formattedFeats += prefix + '\t\tPower: ' + feat.Power + '\n';
                 }
             }
 
