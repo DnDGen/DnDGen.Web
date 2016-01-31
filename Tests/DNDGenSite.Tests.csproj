@@ -41,7 +41,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,31 +53,31 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Tables.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.1\lib\CharacterGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.3.3.2\lib\CharacterGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
