@@ -7,4 +7,4 @@ install:
 script:
   - xbuild DNDGenSite.sln /p:TargetFrameworkVersion="v4.5.1" /p:Configuration=Release
   - mono ./testrunner/NUnit.Console.*/tools/nunit3-console.exe ./Tests/bin/Release/DNDGenSite.Tests.dll
-  - mono ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./Tests/Unit/Scripts /failOnError
+  - mono ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./Tests/Unit/Scripts
