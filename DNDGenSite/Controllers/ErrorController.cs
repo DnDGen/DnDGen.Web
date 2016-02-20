@@ -1,5 +1,4 @@
 ﻿using DNDGenSite.Repositories;
-using System;
 using System.Web.Mvc;
 
 namespace DNDGenSite.Controllers
@@ -14,13 +13,13 @@ namespace DNDGenSite.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ViewResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public void Report(String error, String cause)
+        public void Report(string error, string cause)
         {
             errorRepository.Report(error, cause);
         }

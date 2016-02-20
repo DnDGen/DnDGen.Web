@@ -2,7 +2,6 @@
 using DNDGenSite.Repositories;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Web.Mvc;
 
 namespace DNDGenSite.Tests.Unit.Controllers
@@ -21,14 +20,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         }
 
         [TestCase("Index")]
-        public void ActionHandlesGetVerb(String methodName)
+        public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
         }
 
         [TestCase("Report")]
-        public void ActionHandlesPostVerb(String methodName)
+        public void ActionHandlesPostVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpPostAttribute)));
@@ -46,7 +45,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         {
             controller.Report("something went wrong", "cause");
             mockErrorRepository.Verify(e => e.Report("something went wrong", "cause"), Times.Once);
-            mockErrorRepository.Verify(e => e.Report(It.IsAny<String>(), It.IsAny<String>()), Times.Once);
+            mockErrorRepository.Verify(e => e.Report(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
     }
 }

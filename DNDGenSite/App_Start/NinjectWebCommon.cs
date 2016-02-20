@@ -4,6 +4,7 @@
 namespace DNDGenSite.App_Start
 {
     using CharacterGen.Bootstrap;
+    using EncounterGen.Bootstrap;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
@@ -70,6 +71,9 @@ namespace DNDGenSite.App_Start
 
             var characterGenLoader = new CharacterGenModuleLoader();
             characterGenLoader.LoadModules(kernel);
+
+            var encounterGenLoader = new EncounterGenModuleLoader();
+            encounterGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
         }

@@ -80,6 +80,46 @@
       <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EncounterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Bootstrap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.0.1\lib\EncounterGen.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.0.1\lib\EncounterGen.Generators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Generators.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Mappers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Mappers.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Selectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Selectors.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Tables.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EncounterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Tables.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -263,6 +303,9 @@
     <Content Include="Unit\Scripts\app\character\character.service.tests.js" />
     <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\character.controller.tests.js" />
+    <Content Include="Unit\Scripts\app\encounter\encounter.controller.tests.js" />
+    <Content Include="Unit\Scripts\app\encounter\encounter.service.tests.js" />
+    <Content Include="Unit\Scripts\app\shared\encounterFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\app\shared\characterFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\app\shared\treasureFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\boot.js" />

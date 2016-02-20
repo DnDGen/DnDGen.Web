@@ -13,20 +13,31 @@
             formatSummary: formatSummary
         };
 
-        function formatCharacter(character, leadership, cohort, followers) {
-            var formattedCharacter = formatCharacterWithoutLeadership(character);
+        function formatCharacter(character, leadership, cohort, followers, prefix) {
+            if (!prefix)
+                prefix = '';
 
-            if (leadership)
-                formattedCharacter += '\n' + formatLeadership(leadership);
+            var formattedCharacter = formatCharacterWithoutLeadership(character, prefix);
 
-            if (cohort)
-                formattedCharacter += '\nCohort:\n' + formatCharacterWithoutLeadership(cohort, '\t');
+            if (leadership) {
+                formattedCharacter += '\n';
+                formattedCharacter += formatLeadership(leadership, prefix);
+            }
 
-            if (followers.length > 0)
-                formattedCharacter += '\nFollowers:\n';
+            if (cohort) {
+                formattedCharacter += '\n';
+                formattedCharacter += prefix + 'Cohort:\n';
+                formattedCharacter += formatCharacterWithoutLeadership(cohort, prefix + '\t');
+            }
 
-            for (var i = 0; i < followers.length; i++) {
-                formattedCharacter += '\n' + formatCharacterWithoutLeadership(followers[i], '\t');
+            if (followers && followers.length > 0) {
+                formattedCharacter += '\n';
+                formattedCharacter += prefix + 'Followers:\n';
+
+                for (var i = 0; i < followers.length; i++) {
+                    formattedCharacter += '\n';
+                    formattedCharacter += formatCharacterWithoutLeadership(followers[i], prefix + '\t');
+                }
             }
 
             return formattedCharacter;
@@ -101,7 +112,7 @@
             formattedCharacter += prefix + "\t\tWill: " + character.Combat.SavingThrows.Will + "\n";
 
             if (character.Combat.SavingThrows.CircumstantialBonus)
-                formattedCharacter += "\t\tCircumstantial Bonus\n";
+                formattedCharacter += prefix + "\t\tCircumstantial Bonus\n";
 
             return formattedCharacter;
         }
@@ -287,14 +298,17 @@
             return formattedBaseAttack + "\n";
         }
 
-        function formatLeadership(leadership)
+        function formatLeadership(leadership, prefix)
         {
             if (!leadership)
                 return '';
 
-            var formattedLeadership = "Leadership:\n";
-            formattedLeadership += "\tScore: " + leadership.Score + "\n";
-            formattedLeadership += formatList(leadership.LeadershipModifiers, 'Leadership Modifiers', "\t");
+            if (!prefix)
+                prefix = '';
+
+            var formattedLeadership = prefix + "Leadership:\n";
+            formattedLeadership += prefix + "\tScore: " + leadership.Score + "\n";
+            formattedLeadership += formatList(leadership.LeadershipModifiers, 'Leadership Modifiers', prefix + "\t");
 
             return formattedLeadership;
         }

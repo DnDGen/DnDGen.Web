@@ -1,0 +1,16 @@
+﻿<div>
+    <span>Creatures:</span>
+    <ul>
+        <li ng-repeat="creature in encounter.Creatures">{{creature.Type}}<span ng-if="creature.Subtype.length > 0"> ({{creature.Subtype}})</span> x{{creature.Quantity}}</li>
+    </ul>
+    <span>Treasure: {{encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0 ? '' : 'None'}}</span>
+    <dndgen-treasure ng-show="encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0" treasure="encounter.Treasure"></dndgen-treasure>
+    <div ng-show="encounter.Characters.length > 0">
+        <span>Characters:</span>
+        <ul>
+            <li ng-repeat="character in encounter.Characters">
+                <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
+            </li>
+        </ul>
+    </div>
+</div>
