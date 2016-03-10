@@ -12,7 +12,8 @@
         return {
             getRoll: getRoll,
             getCustomRoll: getCustomRoll,
-            getExpressionRoll: getExpressionRoll
+            getExpressionRoll: getExpressionRoll,
+            validateExpressionRoll: validateExpressionRoll
         };
 
         function getRoll(quantity, die)
@@ -28,6 +29,11 @@
 
         function getExpressionRoll(expression) {
             var url = '/Roll/Expression?expression=' + encodeURIComponent(expression);
+            return promiseService.getPromise(url);
+        }
+
+        function validateExpressionRoll(expression) {
+            var url = '/Roll/Validate?expression=' + encodeURIComponent(expression);
             return promiseService.getPromise(url);
         }
     };

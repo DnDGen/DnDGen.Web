@@ -45,43 +45,43 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.3.5\lib\CharacterGen.Common.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.4.0\lib\CharacterGen.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.3.5\lib\CharacterGen.Generators.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.4.0\lib\CharacterGen.Generators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Generators.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Generators.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Mappers.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Mappers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Mappers.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Mappers.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Selectors.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Selectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Selectors.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Selectors.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Tables.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Tables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.3.5\lib\CharacterGen.Tables.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -139,16 +139,16 @@
       <HintPath>..\packages\Octokit.0.18.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RollGen, Version=1.0.5830.19223, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.10.0\lib\RollGen.dll</HintPath>
+    <Reference Include="RollGen, Version=1.0.5900.36696, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\D20Dice.11.0\lib\RollGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RollGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.Bootstrap.10.0\lib\RollGen.Bootstrap.dll</HintPath>
+      <HintPath>..\packages\D20Dice.Bootstrap.11.0.1\lib\RollGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RollGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.Bootstrap.10.0\lib\RollGen.Domain.dll</HintPath>
+      <HintPath>..\packages\D20Dice.Bootstrap.11.0.1\lib\RollGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
@@ -264,6 +264,7 @@
     <Content Include="Scripts\app\shared\encounter.directive.js" />
     <Content Include="Scripts\app\shared\encounterFormatter.service.js" />
     <Content Include="Scripts\app\shared\characterWithoutLeadership.directive.js" />
+    <Content Include="Scripts\app\shared\inchesToFeet.filter.js" />
     <Content Include="Scripts\app\shared\item.directive.js" />
     <Content Include="Scripts\app\shared\fileSaver.service.js" />
     <Content Include="Scripts\app\shared\characterFormatter.service.js" />
@@ -293,10 +294,9 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Scripts\Angular\angular.min.js.map" />
-    <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.0.min.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.0.min.map" />
+    <Content Include="Scripts\jQuery\jquery-2.2.1.js" />
+    <Content Include="Scripts\jQuery\jquery-2.2.1.min.js" />
+    <Content Include="Scripts\jQuery\jquery-2.2.1.min.map" />
     <Content Include="Scripts\fileSaver\FileSaver.js" />
     <Content Include="Scripts\fileSaver\FileSaver.min.js" />
     <Content Include="Scripts\SweetAlert\sweetalert.min.js" />

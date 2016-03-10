@@ -35,6 +35,7 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [TestCase("D100")]
         [TestCase("Custom")]
         [TestCase("Expression")]
+        [TestCase("Validate")]
         public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -65,14 +66,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D2RollsQuantityTimes()
         {
-            var result = controller.D2(9266);
+            controller.D2(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D2ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d2()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(2)).Returns(new[] { 42 });
 
             var result = controller.D2(9266) as JsonResult;
             dynamic data = result.Data;
@@ -96,14 +97,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D3RollsQuantityTimes()
         {
-            var result = controller.D3(9266);
+            controller.D3(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D3ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d3()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(3)).Returns(new[] { 42 });
 
             var result = controller.D3(9266) as JsonResult;
             dynamic data = result.Data;
@@ -127,14 +128,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D4RollsQuantityTimes()
         {
-            var result = controller.D4(9266);
+            controller.D4(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D4ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d4()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(4)).Returns(new[] { 42 });
 
             var result = controller.D4(9266) as JsonResult;
             dynamic data = result.Data;
@@ -158,14 +159,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D6RollsQuantityTimes()
         {
-            var result = controller.D6(9266);
+            controller.D6(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D6ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d6()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(6)).Returns(new[] { 42 });
 
             var result = controller.D6(9266) as JsonResult;
             dynamic data = result.Data;
@@ -189,14 +190,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D8RollsQuantityTimes()
         {
-            var result = controller.D8(9266);
+            controller.D8(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D8ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d8()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(8)).Returns(new[] { 42 });
 
             var result = controller.D8(9266) as JsonResult;
             dynamic data = result.Data;
@@ -220,14 +221,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D10RollsQuantityTimes()
         {
-            var result = controller.D10(9266);
+            controller.D10(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D10ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d10()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(10)).Returns(new[] { 42 });
 
             var result = controller.D10(9266) as JsonResult;
             dynamic data = result.Data;
@@ -251,14 +252,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D12RollsQuantityTimes()
         {
-            var result = controller.D12(9266);
+            controller.D12(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D12ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d12()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(12)).Returns(new[] { 42 });
 
             var result = controller.D12(9266) as JsonResult;
             dynamic data = result.Data;
@@ -282,14 +283,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void D20RollsQuantityTimes()
         {
-            var result = controller.D20(9266);
+            controller.D20(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void D20ResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d20()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(20)).Returns(new[] { 42 });
 
             var result = controller.D20(9266) as JsonResult;
             dynamic data = result.Data;
@@ -313,14 +314,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void PercentileRollsQuantityTimes()
         {
-            var result = controller.D100(9266);
+            controller.D100(9266);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void PercentileResultContainsRoll()
         {
-            mockRoll.Setup(r => r.Percentile()).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(100)).Returns(new[] { 42 });
 
             var result = controller.D100(9266) as JsonResult;
             dynamic data = result.Data;
@@ -344,14 +345,14 @@ namespace DNDGenSite.Tests.Unit.Controllers
         [Test]
         public void CustomRollsQuantityTimes()
         {
-            var result = controller.Custom(9266, 90210);
+            controller.Custom(9266, 90210);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void CustomResultContainsRoll()
         {
-            mockRoll.Setup(r => r.d(90210)).Returns(42);
+            mockRoll.Setup(r => r.IndividualRolls(90210)).Returns(new[] { 42 });
 
             var result = controller.Custom(9266, 90210) as JsonResult;
             dynamic data = result.Data;
@@ -380,6 +381,53 @@ namespace DNDGenSite.Tests.Unit.Controllers
             var result = controller.Expression("expression") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(9266));
+        }
+
+        [Test]
+        public void ValidateReturnsJsonResult()
+        {
+            var result = controller.Validate("expression");
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+        }
+
+        [Test]
+        public void ValidateJsonResultAllowsGet()
+        {
+            var result = controller.Validate("expression") as JsonResult;
+            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+        }
+
+        [Test]
+        public void VerifyExpressionIsAValidRoll()
+        {
+            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(true);
+            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("90210");
+
+            var result = controller.Validate("expression") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.True);
+        }
+
+        [Test]
+        public void VerifyExpressionIsNotValidRoll()
+        {
+            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(false);
+            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("90210");
+
+            var result = controller.Validate("expression") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void VerifyExpressionIsMoreThanARoll()
+        {
+            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(true);
+            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("phrase with 90210 roll");
+
+            var result = controller.Validate("expression") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
         }
     }
 }

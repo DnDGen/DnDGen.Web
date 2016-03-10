@@ -26,7 +26,7 @@
                         <input dndgen-no-decimals class="form-control " type="number" min="1" ng-model="vm.standardQuantity" required />
                     </div>
                     <label for="standardRolls" class="col-sm-1 control-label no-side-padding">d</label>
-                    <div class="col-sm-3 no-side-padding">
+                    <div class="col-sm-2 no-side-padding">
                         <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
                     </div>
                     <div class="col-sm-2">
@@ -50,12 +50,12 @@
             </form>
             <form name="expressionRollForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group">
-                    <label for="rollExpression" class="col-sm-3 control-label no-side-padding">Expression</label>
-                    <div class="col-sm-3">
+                    <label for="rollExpression" class="col-sm-2 control-label">Expression</label>
+                    <div class="col-sm-3 col-sm-offset-1">
                         <input id="rollExpression" class="form-control" type="text" ng-model="vm.expression" required />
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling">Roll</button>
+                        <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || vm.expressionIsValid == false">Roll</button>
                     </div>
                 </div>
             </form>

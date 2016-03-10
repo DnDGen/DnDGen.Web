@@ -5,9 +5,9 @@
         .module('app.shared')
         .factory('characterFormatterService', characterFormatterService);
 
-    characterFormatterService.$inject = ['treasureFormatterService'];
+    characterFormatterService.$inject = ['treasureFormatterService', 'inchesToFeetFilter'];
 
-    function characterFormatterService(treasureFormatterService) {
+    function characterFormatterService(treasureFormatterService, inchesToFeetFilter) {
         return {
             formatCharacter: formatCharacter,
             formatSummary: formatSummary
@@ -61,14 +61,16 @@
 
             formattedCharacter += character.Race.BaseRace + "\n";
 
-            var gender = character.Race.Male ? "Male" : "Female";
-            formattedCharacter += prefix + "\t" + gender + "\n";
+            formattedCharacter += prefix + "\t" + character.Race.Gender + "\n";
 
             if (character.Race.MetaraceSpecies.length > 0)
                 formattedCharacter += prefix + '\tMetarace Species: ' + character.Race.MetaraceSpecies + '\n';
 
             formattedCharacter += prefix + "\tLand Speed: " + character.Race.LandSpeed + "\n";
             formattedCharacter += prefix + "\tSize: " + character.Race.Size + "\n";
+            formattedCharacter += prefix + "\tAge: " + character.Race.Age.Years + " (" + character.Race.Age.Stage + ")\n";
+            formattedCharacter += prefix + "\tHeight: " + inchesToFeetFilter(character.Race.HeightInInches) + "\n";
+            formattedCharacter += prefix + "\tWeight: " + character.Race.WeightInPounds + " lbs.\n";
 
             if (character.Race.HasWings)
                 formattedCharacter += prefix + "\tHas Wings\n";

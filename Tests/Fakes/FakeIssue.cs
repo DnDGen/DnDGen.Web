@@ -1,11 +1,10 @@
 ﻿using Octokit;
-using System;
 
 namespace DNDGenSite.Tests.Fakes
 {
     public class FakeIssue : Issue
     {
-        public String Title
+        public string Title
         {
             get { return base.Title; }
             set { base.Title = value; }
@@ -17,7 +16,7 @@ namespace DNDGenSite.Tests.Fakes
             set { base.State = value; }
         }
 
-        public Int32 Number
+        public int Number
         {
             get { return base.Number; }
             set { base.Number = value; }

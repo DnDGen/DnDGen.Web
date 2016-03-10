@@ -99,5 +99,20 @@ namespace DNDGenSite.Controllers
         {
             return Json(new { roll = roll }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult Validate(string expression)
+        {
+            var isValid = dice.ContainsRoll(expression);
+
+            if (isValid == false)
+                return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+
+            var replacedExpression = dice.ReplaceExpressionWithTotal(expression);
+            var result = 0;
+            isValid &= int.TryParse(replacedExpression, out result);
+
+            return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

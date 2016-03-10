@@ -5,9 +5,9 @@
         .module('app.roll')
         .controller('Roll', Roll);
 
-    Roll.$inject = ['rollService', 'sweetAlertService'];
+    Roll.$inject = ['$scope', 'rollService', 'sweetAlertService'];
 
-    function Roll(rollService, sweetAlertService) {
+    function Roll($scope, rollService, sweetAlertService) {
         var vm = this;
 
         vm.standardQuantity = 1;
@@ -15,6 +15,8 @@
         vm.customDie = 1;
         vm.rolling = false;
         vm.expression = '';
+        vm.validating = false;
+        vm.expressionIsValid = false;
 
         vm.roll = 0;
 
@@ -47,6 +49,7 @@
             sweetAlertService.showError();
             vm.roll = 0;
             vm.rolling = false;
+            vm.validating = false;
         }
 
         vm.rollCustom = function () {
@@ -60,5 +63,16 @@
             rollService.getExpressionRoll(vm.expression)
                 .then(setRoll, handleError);
         };
+
+        $scope.$watch('vm.expression', function (newValue, oldValue) {
+            vm.validating = true;
+            rollService.validateExpressionRoll(vm.expression).then(function (data) {
+                vm.expressionIsValid = data.isValid;
+                vm.validating = false;
+            }, function () {
+                handleError();
+                vm.expressionIsValid = false;
+            });
+        });
     };
 })();

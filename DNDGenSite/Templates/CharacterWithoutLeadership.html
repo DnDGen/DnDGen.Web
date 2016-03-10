@@ -21,10 +21,13 @@
         <li>
             <span>{{character.Race.Metarace.length > 0 ? character.Race.Metarace : ''}} {{character.Race.BaseRace}}</span>
             <ul>
-                <li>{{character.Race.Male ? 'Male' : 'Female'}}</li>
+                <li>{{character.Race.Gender}}</li>
                 <li ng-show="character.Race.MetaraceSpecies.length > 0">Metarace Species: {{character.Race.MetaraceSpecies}}</li>
                 <li>Land Speed: {{character.Race.LandSpeed}}</li>
                 <li>Size: {{character.Race.Size}}</li>
+                <li>Age: {{character.Race.Age.Years}} ({{character.Race.Age.Stage}})</li>
+                <li>Height: {{character.Race.HeightInInches | inchesToFeet}}</li>
+                <li>Weight: {{character.Race.WeightInPounds}} lbs.</li>
                 <li ng-show="character.Race.HasWings">Has Wings</li>
                 <li ng-show="character.Race.AerialSpeed > 0">Aerial Speed: {{character.Race.AerialSpeed}}</li>
             </ul>

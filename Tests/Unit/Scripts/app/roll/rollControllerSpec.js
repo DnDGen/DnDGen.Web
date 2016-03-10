@@ -12,16 +12,31 @@ describe('Roll Controller', function () {
     beforeEach(function () {
         rollServiceMock = {
             getRoll: function (quantity, die) {
-                return getMockedPromise(quantity, 1);
+                if (quantity == 666)
+                    return getMockedPromise({ "roll": quantity * die }, true);
+
+                return getMockedPromise({ "roll": quantity });
             },
             getCustomRoll: function (quantity, die) {
-                return getMockedPromise(quantity, die);
+                if (quantity == 666)
+                    return getMockedPromise({ "roll": quantity * die }, true);
+
+                return getMockedPromise({ "roll": quantity * die });
             },
             getExpressionRoll: function (expression) {
                 if (expression == 'FAIL')
-                    return getMockedPromise(666, 600);
+                    return getMockedPromise({ "roll": 42 * 600 }, true);
 
-                return getMockedPromise(42, 600);
+                return getMockedPromise({ "roll": 42 * 600 });
+            },
+            validateExpressionRoll: function (expression) {
+                if (expression == 'FAIL')
+                    return getMockedPromise({ "isValid": true }, true);
+
+                if (expression == "invalid")
+                    return getMockedPromise({ "isValid": false });
+
+                return getMockedPromise({ "isValid": true });
             }
         };
 
@@ -29,13 +44,13 @@ describe('Roll Controller', function () {
         sweetAlertServiceMock.showError = jasmine.createSpy();
     });
 
-    function getMockedPromise(quantity, die) {
+    function getMockedPromise(body, shouldFail) {
         var deferred = q.defer();
 
-        if (quantity == 666)
+        if (shouldFail)
             deferred.reject();
         else
-            deferred.resolve({ "roll": quantity * die });
+            deferred.resolve(body);
 
         return deferred.promise;
     }
@@ -70,6 +85,10 @@ describe('Roll Controller', function () {
 
     it('is not rolling on load', function () {
         expect(vm.rolling).toBeFalsy();
+    });
+
+    it('is not validating on load', function () {
+        expect(vm.validating).toBeFalsy();
     });
 
     it('has standard dice', function () {
@@ -289,5 +308,36 @@ describe('Roll Controller', function () {
         scope.$apply();
 
         expect(vm.roll).toBe(0);
+    });
+
+    it('validates a valid expression', function () {
+        vm.expression = 'expression';
+        scope.$digest();
+
+        expect(vm.expressionIsValid).toBeTruthy();
+    });
+
+    it('validates an invalid expression', function () {
+        vm.expression = 'invalid';
+        scope.$digest();
+
+        expect(vm.expressionIsValid).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown when validating an expression roll', function () {
+        vm.expression = 'FAIL';
+        scope.$digest();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('says the expression is not valid if error is thrown', function () {
+        vm.expression = 'expression';
+        scope.$digest();
+
+        vm.expression = 'FAIL';
+        scope.$digest();
+
+        expect(vm.expressionIsValid).toBeFalsy();
     });
 })

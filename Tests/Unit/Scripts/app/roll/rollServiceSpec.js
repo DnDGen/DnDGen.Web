@@ -34,4 +34,14 @@ describe('Roll Service', function () {
         rollService.getExpressionRoll("1+(2-3)*4/5d6");
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Expression?expression=1%2B(2-3)*4%2F5d6');
     });
+
+    it('validates an expression roll', function () {
+        rollService.validateExpressionRoll("expression");
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Validate?expression=expression');
+    });
+
+    it('URL encodes the expression roll to validate', function () {
+        rollService.validateExpressionRoll("1+(2-3)*4/5d6");
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Roll/Validate?expression=1%2B(2-3)*4%2F5d6');
+    });
 });
