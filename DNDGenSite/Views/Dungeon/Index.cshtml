@@ -2,7 +2,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
+@section ngApp {
+    ng-app='app.dungeon'
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/treasure/treasure.module.js"></script>
+    <script src="~/Scripts/app/treasure/item.directive.js"></script>
+    <script src="~/Scripts/app/treasure/treasure.directive.js"></script>
+    <script src="~/Scripts/app/treasure/treasureFormatter.service.js"></script>
+    <script src="~/Scripts/app/character/character.module.js"></script>
+    <script src="~/Scripts/app/character/characterWithoutLeadership.directive.js"></script>
+    <script src="~/Scripts/app/character/character.directive.js"></script>
+    <script src="~/Scripts/app/character/characterFormatter.service.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.module.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.directive.js"></script>
+    <script src="~/Scripts/app/encounter/encounterFormatter.service.js"></script>
+    <script src="~/Scripts/app/dungeon/dungeon.module.js"></script>
+    <script src="~/Scripts/app/dungeon/dungeon.service.js"></script>
+    <script src="~/Scripts/app/dungeon/dungeonFormatter.service.js"></script>
+    <script src="~/Scripts/app/dungeon/dungeon.controller.js"></script>
+    <script src="~/Scripts/app/dungeon/dungeonArea.directive.js"></script>
+}
+
+<div ng-controller="Dungeon as vm">
     <h1>DungeonGen</h1>
-    <p>This is where you can generate entire dungeons!  This is currently in development.</p>
+    <div class="row top-buffer">
+        <div class="col-sm-4">
+            <form name="dungeonForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <label for="dungeonLevel" class="col-sm-6 control-label">Dungeon Level:</label>
+                    <div class="col-sm-6">
+                        <input dndgen-no-decimals id="dungeonLevel" class="form-control" type="number" min="1" ng-model="vm.dungeonLevel" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="partyLevel" class="col-sm-6 control-label">Party Level:</label>
+                    <div class="col-sm-6">
+                        <input dndgen-no-decimals id="partyLevel" class="form-control" type="number" min="1" max="20" ng-model="vm.partyLevel" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromHall()" ng-disabled="dungeonForm.$invalid || vm.generating">Generate From Hall</button>
+                    <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromDoor()" ng-disabled="dungeonForm.$invalid || vm.generating">Generate From Door</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-8 clearfix">
+            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="vm.generating == false && vm.areas.length > 0">Download</button>
+            <div ng-show="vm.generating">
+                <span>Generating...</span>
+            </div>
+            <div ng-hide="vm.generating">
+                <span class="italicize" ng-hide="vm.areas.length > 0">No dungeon areas have been generated</span>
+                <ul ng-show="vm.areas.length > 0">
+                    <li ng-repeat="area in vm.areas track by $index">
+                        <dndgen-dungeon-area area="area"></dndgen-dungeon-area>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

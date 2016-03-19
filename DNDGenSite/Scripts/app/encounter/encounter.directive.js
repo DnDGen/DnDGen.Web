@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app.shared')
+    .module('app.encounter')
     .directive('dndgenEncounter', enounter);
 
     function enounter() {

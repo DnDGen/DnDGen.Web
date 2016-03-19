@@ -7,7 +7,7 @@ describe('Encounter Formatter Service', function () {
     var treasureFormatterServiceMock;
     var characterCount;
 
-    beforeEach(module('app.shared', function ($provide) {
+    beforeEach(module('app.encounter', function ($provide) {
         treasureFormatterServiceMock = {
             formatTreasure: function (treasure, prefix) {
                 if (!prefix)
@@ -25,8 +25,7 @@ describe('Encounter Formatter Service', function () {
                     formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + ' formatted\n';
 
                 return formattedTreasure;
-            },
-            formatItem: formatItem
+            }
         }
 
         characterFormatterServiceMock = {
@@ -40,16 +39,6 @@ describe('Encounter Formatter Service', function () {
 
                 return formattedCharacter;
             }
-        }
-
-        function formatItem(item, prefix) {
-            if (!prefix)
-                prefix = '';
-
-            var formattedItem = prefix + item.Name + '\n';
-            formattedItem += prefix + '\tformatted\n';
-
-            return formattedItem;
         }
 
         $provide.value('treasureFormatterService', treasureFormatterServiceMock);
@@ -216,6 +205,39 @@ describe('Encounter Formatter Service', function () {
         expect(lines[13]).toBe('\tformatted character');
         expect(lines[14]).toBe('\t\tname: character 2');
         expect(lines[15]).toBe('\t\tlevel: 2');
+        expect(lines[16]).toBe('');
+        expect(lines[17]).toBe('');
+        expect(lines.length).toBe(18);
+    });
+
+    it('formats full encounter with prefix', function () {
+        encounter.Creatures[0].Subtype = 'subtype'
+        encounter.Characters.push(createCharacter());
+        encounter.Characters.push(createCharacter());
+        encounter.Treasure.Coin.Quantity = 9266;
+        encounter.Treasure.Coin.Currency = "munny";
+        encounter.Treasure.Goods.push({ Description: 'description', ValueInGold: 9266 });
+        encounter.Treasure.Items.push(createItem('item'));
+
+        var formattedEncounter = encounterFormatterService.formatEncounter(encounter, '\t');
+        var lines = formattedEncounter.split('\n');
+
+        expect(lines[0]).toBe('\tCreatures:');
+        expect(lines[1]).toBe('\t\tcreature 1 (subtype) x9266');
+        expect(lines[2]).toBe('\t\tcreature 2 x90210');
+        expect(lines[3]).toBe("\tTreasure:");
+        expect(lines[4]).toBe("\t\tformatted treasure");
+        expect(lines[5]).toBe("\t\t\tmunny");
+        expect(lines[6]).toBe("\t\t\tGood: description");
+        expect(lines[7]).toBe('\t\t\tItem: item formatted');
+        expect(lines[8]).toBe('\tCharacters:');
+        expect(lines[9]).toBe('\t\tformatted character');
+        expect(lines[10]).toBe('\t\t\tname: character 1');
+        expect(lines[11]).toBe('\t\t\tlevel: 1');
+        expect(lines[12]).toBe('');
+        expect(lines[13]).toBe('\t\tformatted character');
+        expect(lines[14]).toBe('\t\t\tname: character 2');
+        expect(lines[15]).toBe('\t\t\tlevel: 2');
         expect(lines[16]).toBe('');
         expect(lines[17]).toBe('');
         expect(lines.length).toBe(18);

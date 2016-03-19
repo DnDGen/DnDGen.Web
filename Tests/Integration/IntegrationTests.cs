@@ -1,5 +1,6 @@
 ﻿using CharacterGen.Bootstrap;
 using DNDGenSite.App_Start;
+using DungeonGen.Bootstrap;
 using EncounterGen.Bootstrap;
 using Ninject;
 using NUnit.Framework;
@@ -28,6 +29,9 @@ namespace DNDGenSite.Tests.Integration
 
             var encounterGenLoader = new EncounterGenModuleLoader();
             encounterGenLoader.LoadModules(kernel);
+
+            var dungeonGenLoader = new DungeonGenModuleLoader();
+            dungeonGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
         }

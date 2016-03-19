@@ -10,7 +10,7 @@ describe('Character Formatter Service', function () {
     var treasureFormatterServiceMock;
     var inchesToFeetFilterMock;
 
-    beforeEach(module('app.shared', function ($provide) {
+    beforeEach(module('app.character', function ($provide) {
         treasureFormatterServiceMock = {
             formatTreasure: function (treasure, prefix) {
                 if (!prefix)

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app.shared')
+    .module('app.character')
     .directive('dndgenCharacter', character);
 
     function character() {

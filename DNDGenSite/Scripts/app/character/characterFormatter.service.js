@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.shared')
+        .module('app.character')
         .factory('characterFormatterService', characterFormatterService);
 
     characterFormatterService.$inject = ['treasureFormatterService', 'inchesToFeetFilter'];

@@ -1,0 +1,75 @@
+﻿<div>
+    <span>{{area.Type}}:</span>
+    <ul>
+        <li ng-show="area.Descriptions.length > 0">
+            <span>Descriptions:</span>
+            <ul>
+                <li ng-repeat="description in area.Descriptions track by $index">{{description}}</li>
+            </ul>
+        </li>
+        <li ng-show="area.Length > 0">
+            <span ng-show="area.Width == 0">continues {{area.Length | number}}'</span>
+            <span ng-show="area.Width == 1">about {{area.Length | number}} square feet</span>
+            <span ng-show="area.Width > 1">{{area.Length | number}}' x {{area.Width | number}}'</span>
+        </li>
+        <li ng-show="area.Contents.IsEmpty == false">
+            <span>Contents:</span>
+            <ul>
+                <li ng-repeat="misc in area.Contents.Miscellaneous">{{misc}}</li>
+                <li ng-show="area.Contents.Pool">
+                    <span>Pool</span>
+                    <ul ng-show="area.Contents.Pool.Encounter || area.Contents.Pool.Treasure || area.Contents.Pool.MagicPower">
+                        <li ng-show="area.Contents.Pool.Encounter">
+                            <dndgen-encounter encounter="area.Contents.Pool.Encounter"></dndgen-encounter>
+                        </li>
+                        <li ng-show="area.Contents.Pool.Treasure">
+                            <ul>
+                                <li ng-show="area.Contents.Pool.Treasure.Container.length > 0">Container: {{area.Contents.Pool.Treasure.Container}}</li>
+                                <li ng-show="area.Contents.Pool.Treasure.Concealment.length > 0">Concealment: {{area.Contents.Pool.Treasure.Concealment}}</li>
+                                <li ng-show="area.Contents.Pool.Treasure.Treasure">
+                                    <dndgen-treasure treasure="area.Contents.Pool.Treasure.Treasure"></dndgen-treasure>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-show="area.Contents.Pool.MagicPower.length > 0">{{area.Contents.Pool.MagicPower}}</li>
+                    </ul>
+                </li>
+                <li ng-show="area.Contents.Traps.length > 0">
+                    <span>Traps:</span>
+                    <ul>
+                        <li ng-repeat="trap in area.Contents.Traps">
+                            <ul>
+                                <li>{{trap.Description}}</li>
+                                <li>Challenge Rating: {{trap.ChallengeRating}}</li>
+                                <li>Search DC: {{trap.SearchDC}}</li>
+                                <li>Disable Device DC: {{trap.DisableDeviceDC}}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-show="area.Contents.Encounters.length > 0">
+                    <span>Encounters:</span>
+                    <ul>
+                        <li ng-repeat="encounter in area.Contents.Encounters">
+                            <dndgen-encounter encounter="encounter"></dndgen-encounter>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-show="area.Contents.Treasures.length > 0">
+                    <span>Treasures:</span>
+                    <ul>
+                        <li ng-repeat="treasure in area.Contents.Treasures">
+                            <ul>
+                                <li ng-show="treasure.Container.length > 0">Container: {{treasure.Container}}</li>
+                                <li ng-show="treasure.Concealment.length > 0">Concealment: {{treasure.Concealment}}</li>
+                                <li ng-show="treasure.Treasure">
+                                    <dndgen-treasure treasure="treasure.Treasure"></dndgen-treasure>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

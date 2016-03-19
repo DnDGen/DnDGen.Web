@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('app.shared')
+    .module('app.treasure')
     .directive('dndgenItem', item);
 
     function item() {

@@ -80,6 +80,46 @@
       <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Tables.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DungeonGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Bootstrap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.1.0\lib\DungeonGen.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.1.0\lib\DungeonGen.Generators.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Generators.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Mappers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Mappers.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Selectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Selectors.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Tables.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DungeonGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Tables.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EncounterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Bootstrap.dll</HintPath>
       <Private>True</Private>
@@ -303,12 +343,15 @@
     <Content Include="Unit\Scripts\app\character\character.service.tests.js" />
     <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
     <Content Include="Unit\Scripts\app\character\character.controller.tests.js" />
+    <Content Include="Unit\Scripts\app\dungeon\dungeon.controller.tests.js" />
+    <Content Include="Unit\Scripts\app\dungeon\dungeon.service.tests.js" />
+    <Content Include="Unit\Scripts\app\dungeon\dungeonFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\app\encounter\encounter.controller.tests.js" />
     <Content Include="Unit\Scripts\app\encounter\encounter.service.tests.js" />
-    <Content Include="Unit\Scripts\app\shared\encounterFormatter.service.tests.js" />
+    <Content Include="Unit\Scripts\app\encounter\encounterFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\app\shared\inchesToFeet.filter.tests.js" />
-    <Content Include="Unit\Scripts\app\shared\characterFormatter.service.tests.js" />
-    <Content Include="Unit\Scripts\app\shared\treasureFormatter.service.tests.js" />
+    <Content Include="Unit\Scripts\app\character\characterFormatter.service.tests.js" />
+    <Content Include="Unit\Scripts\app\treasure\treasureFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\boot.js" />
     <Content Include="Unit\Scripts\console.js" />
     <Content Include="Unit\Scripts\jasmine-html.js" />

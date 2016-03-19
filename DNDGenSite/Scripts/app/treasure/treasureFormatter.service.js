@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.shared')
+        .module('app.treasure')
         .factory('treasureFormatterService', treasureFormatterService);
 
     function treasureFormatterService() {

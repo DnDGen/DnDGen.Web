@@ -5,7 +5,7 @@ describe('Treasure Formatter Service', function () {
     var treasure;
     var item;
 
-    beforeEach(module('app.shared'));
+    beforeEach(module('app.treasure'));
 
     beforeEach(function () {
         treasure = {
