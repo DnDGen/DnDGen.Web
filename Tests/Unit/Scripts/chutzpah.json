@@ -6,7 +6,7 @@
     { "Path": "console.js" },
     { "Path": "jasmine-html.js" },
     { "Path": "jasmine.js" },
-    { "Path": "../../../DNDGenSite/Scripts/jQuery/jquery-2.2.1.js" },
+    { "Path": "../../../DNDGenSite/Scripts/jQuery/jquery-2.2.2.js" },
     { "Path": "../../../DNDGenSite/Scripts/bootstrap/bootstrap.js" },
     { "Path": "../../../DNDGenSite/Scripts/Angular/angular.js" },
     { "Path": "../../../DNDGenSite/Scripts/Angular/angular-mocks.js" },

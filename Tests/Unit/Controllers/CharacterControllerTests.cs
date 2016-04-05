@@ -407,10 +407,12 @@ namespace DNDGenSite.Tests.Unit.Controllers
                 new Feat { Name = "kkkk" }
             };
 
+            Assert.That(character.Ability.Feats, Is.Not.Ordered.By("Name"));
+
             var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.character, Is.EqualTo(character));
-            Assert.That(data.character.Ability.Feats, Is.Ordered.By("Name"));
+            Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
         }
 
         [Test]
@@ -438,13 +440,15 @@ namespace DNDGenSite.Tests.Unit.Controllers
             character.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
             character.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
 
+            Assert.That(character.Ability.Skills, Is.Not.Ordered.By("Key"));
+
             var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.character, Is.EqualTo(character));
-            Assert.That(data.character.Ability.Skills, Is.Ordered.By("Key"));
-            Assert.That(data.character.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
-            Assert.That(data.character.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
-            Assert.That(data.character.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
+            Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
+            Assert.That(character.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
+            Assert.That(character.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
+            Assert.That(character.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
         }
     }
 }

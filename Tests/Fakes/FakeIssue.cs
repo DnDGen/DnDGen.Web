@@ -4,19 +4,19 @@ namespace DNDGenSite.Tests.Fakes
 {
     public class FakeIssue : Issue
     {
-        public string Title
+        public new string Title
         {
             get { return base.Title; }
             set { base.Title = value; }
         }
 
-        public ItemState State
+        public new ItemState State
         {
             get { return base.State; }
             set { base.State = value; }
         }
 
-        public int Number
+        public new int Number
         {
             get { return base.Number; }
             set { base.Number = value; }

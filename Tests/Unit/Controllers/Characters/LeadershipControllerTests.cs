@@ -104,7 +104,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
             var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.cohort, Is.EqualTo(cohort));
-            Assert.That(data.cohort.Ability.Feats, Is.Ordered.By("Name"));
+            Assert.That(cohort.Ability.Feats, Is.Ordered.By("Name"));
         }
 
         [Test]
@@ -120,10 +120,10 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
             var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.cohort, Is.EqualTo(cohort));
-            Assert.That(data.cohort.Ability.Skills, Is.Ordered.By("Key"));
-            Assert.That(data.cohort.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
-            Assert.That(data.cohort.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
-            Assert.That(data.cohort.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
+            Assert.That(cohort.Ability.Skills, Is.Ordered.By("Key"));
+            Assert.That(cohort.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
+            Assert.That(cohort.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
+            Assert.That(cohort.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
             var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.follower, Is.EqualTo(follower));
-            Assert.That(data.follower.Ability.Feats, Is.Ordered.By("Name"));
+            Assert.That(follower.Ability.Feats, Is.Ordered.By("Name"));
         }
 
         [Test]
@@ -189,10 +189,10 @@ namespace DNDGenSite.Tests.Unit.Controllers.Characters
             var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.follower, Is.EqualTo(follower));
-            Assert.That(data.follower.Ability.Skills, Is.Ordered.By("Key"));
-            Assert.That(data.follower.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
-            Assert.That(data.follower.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
-            Assert.That(data.follower.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
+            Assert.That(follower.Ability.Skills, Is.Ordered.By("Key"));
+            Assert.That(follower.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
+            Assert.That(follower.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
+            Assert.That(follower.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
         }
     }
 }

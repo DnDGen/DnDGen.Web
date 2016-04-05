@@ -1,10 +1,14 @@
 language: csharp
 solution: DNDGenSite.sln
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-wine/ppa -y
+  - sudo apt-get update -q
+  - sudo apt-get install wine1.7 -y
 install:
   - nuget restore DNDGenSite.sln
   - nuget install NUnit.Runners -OutputDirectory testrunner
   - nuget install Chutzpah -OutputDirectory testrunner
 script:
   - xbuild DNDGenSite.sln /p:TargetFrameworkVersion="v4.5.1" /p:Configuration=Release
-  - mono ./testrunner/NUnit.Console.*/tools/nunit3-console.exe ./Tests/bin/Release/DNDGenSite.Tests.dll
-  - mono ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./Tests/Unit/Scripts
+  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Tests/bin/Release/DNDGenSite.Tests.dll
+  - wine ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./Tests/Unit/Scripts
