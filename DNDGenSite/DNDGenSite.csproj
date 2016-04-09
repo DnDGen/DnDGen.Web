@@ -341,10 +341,6 @@
     <None Include="Scripts\jQuery\jquery-2.2.2.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.2.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.2.min.js" />
-    <Content Include="Scripts\Angular\angular.min.js.map" />
-    <Content Include="Scripts\jQuery\jquery-2.2.1.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.1.min.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.1.min.map" />
     <Content Include="Scripts\fileSaver\FileSaver.js" />
     <Content Include="Scripts\fileSaver\FileSaver.min.js" />
     <Content Include="Scripts\SweetAlert\sweetalert.min.js" />
