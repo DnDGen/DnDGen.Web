@@ -1,0 +1,85 @@
+﻿@{
+    @model DnDGen.Web.Models.TreasureModel
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ngApp {
+    ng-app='app.treasure'
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/treasure/treasure.module.js"></script>
+    <script src="~/Scripts/app/treasure/treasure.service.js"></script>
+    <script src="~/Scripts/app/treasure/treasureFormatter.service.js"></script>
+    <script src="~/Scripts/app/treasure/treasure.controller.js"></script>
+    <script src="~/Scripts/app/treasure/item.directive.js"></script>
+    <script src="~/Scripts/app/treasure/treasure.directive.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/Content/treasure.css">
+}
+
+<div ng-controller="Treasure as vm">
+    <h1>TreasureGen</h1>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <form name="treasureForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <select id="treasureTypes" class="form-control" ng-model="vm.treasureType" ng-options="treasureType for treasureType in vm.treasureModel.TreasureTypes" required></select>
+                    </div>
+                    <label for="treasureLevel" class="col-sm-2 control-label">Level:</label>
+                    <div class="col-sm-4">
+                        <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="{{vm.treasureModel.MaxTreasureLevel}}" ng-model="vm.treasureLevel" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="treasureButton" type="button" class="btn btn-success" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
+                    </div>
+                </div>
+            </form>
+            <form name="mundaneItemForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-5">
+                        <select id="mundaneItemTypes" class="form-control" ng-model="vm.mundaneItemType" ng-options="mundaneItemType for mundaneItemType in vm.treasureModel.MundaneItemTypes" required></select>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-5">
+                        <button id="mundaneItemButton" type="button" class="btn btn-success" ng-click="vm.generateMundaneItem()" ng-disabled="mundaneItemForm.$invalid || vm.generating">Generate</button>
+                    </div>
+                </div>
+            </form>
+            <form name="poweredItemForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <select id="poweredItemTypes" class="form-control" ng-model="vm.poweredItemType" ng-options="poweredItemType for poweredItemType in vm.treasureModel.PoweredItemTypes" required></select>
+                    </div>
+                    <label for="itemPowers" class="col-sm-2 control-label">Power:</label>
+                    <div class="col-sm-4">
+                        <select id="itemPowers" class="form-control" ng-model="vm.itemPower" ng-options="type for type in vm.itemPowers" required></select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="poweredItemButton" type="button" class="btn btn-success" ng-click="vm.generatePoweredItem()" ng-disabled="poweredItemForm.$invalid || vm.generating">Generate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-5 col-sm-offset-1 clearfix" >
+            <button class="btn btn-lg pull-right" ng-show="vm.generating == false && (vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0)" ng-click="vm.download()">Download</button>
+            <div id="generatingSection" ng-show="vm.generating">
+                <span>Generating...</span>
+            </div>
+            <div ng-hide="vm.generating">
+                <span id="noTreasure" class="italicize" ng-hide="vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0">No treasure was generated</span>
+                <dndgen-treasure treasure="vm.treasure" ng-show="vm.treasure.Coin.Quantity > 0 || vm.treasure.Goods.length > 0 || vm.treasure.Items.length > 0"></dndgen-treasure>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PostBodyScripts {
+    <script type="text/javascript">
+        angular.module('app.treasure').factory('bootstrapData', function () {
+            return { treasureModel: @Html.Raw(Json.Encode(Model)) };
+        });
+    </script>
+}

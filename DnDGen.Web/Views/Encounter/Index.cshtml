@@ -1,0 +1,64 @@
+﻿@{
+    @model DnDGen.Web.Models.EncounterModel
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ngApp {
+    ng-app='app.encounter'
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/treasure/treasure.module.js"></script>
+    <script src="~/Scripts/app/treasure/item.directive.js"></script>
+    <script src="~/Scripts/app/treasure/treasure.directive.js"></script>
+    <script src="~/Scripts/app/treasure/treasureFormatter.service.js"></script>
+    <script src="~/Scripts/app/character/character.module.js"></script>
+    <script src="~/Scripts/app/character/characterWithoutLeadership.directive.js"></script>
+    <script src="~/Scripts/app/character/character.directive.js"></script>
+    <script src="~/Scripts/app/character/characterFormatter.service.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.module.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.service.js"></script>
+    <script src="~/Scripts/app/encounter/encounterFormatter.service.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.controller.js"></script>
+    <script src="~/Scripts/app/encounter/encounter.directive.js"></script>
+}
+
+<div ng-controller="Encounter as vm">
+    <h1>EncounterGen</h1>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <form name="encounterForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <select id="environments" class="form-control" ng-model="vm.environment" ng-options="environment for environment in vm.encounterModel.Environments" required></select>
+                    </div>
+                    <label for="level" class="col-sm-2 control-label">Level:</label>
+                    <div class="col-sm-2">
+                        <input dndgen-no-decimals id="level" class="form-control" type="number" min="1" max="20" ng-model="vm.level" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating">Generate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6 clearfix">
+            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="vm.generating == false && vm.encounter">Download</button>
+            <div ng-show="vm.generating">
+                <span>Generating...</span>
+            </div>
+            <div ng-hide="vm.generating">
+                <span class="italicize" ng-hide="vm.encounter">No encounter has been generated</span>
+                <dndgen-encounter encounter="vm.encounter" ng-show="vm.encounter"></dndgen-encounter>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PostBodyScripts {
+    <script type="text/javascript">
+        angular.module('app.encounter').factory('bootstrapData', function () {
+            return @Html.Raw(Json.Encode(Model));
+        });
+    </script>
+}

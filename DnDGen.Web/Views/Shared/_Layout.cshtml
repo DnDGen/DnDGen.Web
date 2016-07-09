@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>DnDGen</title>
+
+        <script src="~/Scripts/jQuery/jquery-2.2.2.min.js"></script>
+        <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script> 
+        <script src="~/Scripts/Angular/angular.min.js"></script>
+        <script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+        <script src="~/Scripts/fileSaver/FileSaver.min.js"></script>
+        <script src="~/Scripts/app/shared/shared.module.js"></script>
+        <script src="~/Scripts/app/shared/promise.service.js"></script>
+        <script src="~/Scripts/app/shared/noDecimals.directive.js"></script>
+        <script src="~/Scripts/app/shared/sweetAlert.service.js"></script>
+        <script src="~/Scripts/app/shared/fileSaver.service.js"></script>
+        <script src="~/Scripts/app/shared/inchesToFeet.filter.js"></script>
+        @RenderSection("Scripts", false)
+
+        <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="~/Content/layout.css">
+        <link rel="stylesheet" type="text/css" href="~/Content/sweetalert.css">
+        @RenderSection("Styles", false)
+
+        <link rel="shortcut icon" href="http://theonlysheet.com/community/images/smilies/d20.png">
+    </head>
+<body @RenderSection("ngApp", false) class="full-body">
+    <!-- Google Tag Manager -->
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-NQWX6W" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NQWX6W');
+    </script>
+    <!-- End Google Tag Manager -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="~/">DnDGen</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mainNavigation">
+                <ul class="nav navbar-nav visible-md visible-lg">
+                    <li><a href="~/Roll">RollGen</a></li>
+                    <li><a href="~/Treasure">TreasureGen</a></li>
+                    <li><a href="~/Character">CharacterGen</a></li>
+                    <li><a href="~/Encounter">EncounterGen</a></li>
+                    <li><a href="~/Dungeon">DungeonGen</a></li>
+                </ul>
+                <ul class="nav navbar-nav visible-xs visible-sm">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Generators <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="~/Roll">RollGen</a></li>
+                            <li><a href="~/Treasure">TreasureGen</a></li>
+                            <li><a href="~/Character">CharacterGen</a></li>
+                            <li><a href="~/Encounter">EncounterGen</a></li>
+                            <li><a href="~/Dungeon">DungeonGen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="https://github.com/DnDGen">The DnDGen Project</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://github.com/DnDGen/RollGen">RollGen</a></li>
+                            <li><a href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
+                            <li><a href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DnDGen.Web">This Site</a></li>
+                        </ul>
+                    </li>
+                    <li class="padding-right"><a href="http://dnd.wizards.com/">Official D&D Site</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="body-content container">
+        @RenderBody()
+    </div>
+</body>
+@RenderSection("PostBodyScripts", false)
+</html>
