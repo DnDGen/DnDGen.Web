@@ -1,25 +1,14 @@
 ﻿using Octokit;
+using System;
 
 namespace DnDGen.Web.Tests.Fakes
 {
     public class FakeIssue : Issue
     {
-        public new string Title
+        public FakeIssue(string title, string body, ItemState state, int number, params Label[] labels)
+            : base(null, null, null, null, number, state, title, body, null, labels, null, null, 0, null, null, new DateTimeOffset(), null, 0, false)
         {
-            get { return base.Title; }
-            set { base.Title = value; }
-        }
 
-        public new ItemState State
-        {
-            get { return base.State; }
-            set { base.State = value; }
-        }
-
-        public new int Number
-        {
-            get { return base.Number; }
-            set { base.Number = value; }
         }
     }
 }

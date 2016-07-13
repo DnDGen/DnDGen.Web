@@ -49,12 +49,18 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void CreateNewIssueIfMatchingIssueNotAlreadyThere()
         {
-            issues.Add(new FakeIssue { Title = "other title" });
+            AddFakeIssue("other title");
 
             githubErrorRepository.Report("title", "description");
 
             mockGitHubClient.Verify(c => c.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()), Times.Once);
             mockGitHubClient.Verify(c => c.Issue.Create("DnDGen", "DnDGen.Web", It.Is<NewIssue>(i => i.Body == "description" && i.Title == "title")), Times.Once);
+        }
+
+        private void AddFakeIssue(string title = "title", string description = "", ItemState state = ItemState.Closed, int number = 9266, params Label[] labels)
+        {
+            var issue = new FakeIssue(title, description, state, number, labels);
+            issues.Add(issue);
         }
 
         [Test]
@@ -68,15 +74,36 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void IfIssueExists_DoNotCreateDuplicate()
         {
-            issues.Add(new FakeIssue { Title = "title" });
+            AddFakeIssue();
             githubErrorRepository.Report("title", "description");
             mockGitHubClient.Verify(c => c.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()), Times.Never);
         }
 
         [Test]
+        public void IfIssueExistsAndIsMarkedAsInvalid_DoNothing()
+        {
+            AddFakeIssue(labels: new[] { new Label(null, "invalid", string.Empty), new Label(null, "bug", string.Empty) });
+
+            githubErrorRepository.Report("title", "description");
+
+            mockGitHubClient.Verify(c => c.Issue.Update(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<IssueUpdate>()), Times.Never);
+        }
+
+        [Test]
         public void IfIssueExistsAndIsClosed_Reopen()
         {
-            issues.Add(new FakeIssue { Title = "title", State = ItemState.Closed, Number = 9266 });
+            AddFakeIssue(labels: new[] { new Label(null, "bug", string.Empty) });
+
+            githubErrorRepository.Report("title", "description");
+
+            mockGitHubClient.Verify(c => c.Issue.Update(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<IssueUpdate>()), Times.Once);
+            mockGitHubClient.Verify(c => c.Issue.Update("DnDGen", "DnDGen.Web", 9266, It.Is<IssueUpdate>(i => i.State == ItemState.Open)), Times.Once);
+        }
+
+        [Test]
+        public void IfIssueExistsAndIsClosedWithNoLabels_Reopen()
+        {
+            AddFakeIssue();
 
             githubErrorRepository.Report("title", "description");
 
@@ -87,7 +114,7 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void IfIssueExistsAndIsClosed_AddComment()
         {
-            issues.Add(new FakeIssue { Title = "title", State = ItemState.Closed, Number = 9266 });
+            AddFakeIssue(labels: new[] { new Label(null, "bug", string.Empty) });
 
             githubErrorRepository.Report("title", "description");
 
@@ -98,7 +125,7 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void IfIssueExistsAndIsOpened_AddComment()
         {
-            issues.Add(new FakeIssue { Title = "title", State = ItemState.Open, Number = 9266 });
+            AddFakeIssue(state: ItemState.Open, labels: new[] { new Label(null, "bug", string.Empty) });
 
             githubErrorRepository.Report("title", "description");
 
@@ -107,9 +134,10 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         }
 
         [Test]
-        public void IfIssueExistsAndIsOpened_DoNotUpdate()
+        public void IfIssueExistsAndIsOpened_DoNotUpdateOpenClosedState()
         {
-            issues.Add(new FakeIssue { Title = "title", State = ItemState.Open, Number = 9266 });
+            AddFakeIssue(state: ItemState.Open, labels: new[] { new Label(null, "bug", string.Empty) });
+
             githubErrorRepository.Report("title", "description");
             mockGitHubClient.Verify(c => c.Issue.Update(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<IssueUpdate>()), Times.Never);
         }

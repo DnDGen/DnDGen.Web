@@ -34,6 +34,10 @@ namespace DnDGen.Web.Repositories.Domain
             }
 
             var issue = issues.First(i => i.Title == title);
+            var issueIsInvalid = issue.Labels.Any(l => l.Name == "invalid");
+
+            if (issueIsInvalid)
+                return;
 
             if (issue.State == ItemState.Closed)
             {
