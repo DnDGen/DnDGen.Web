@@ -16,16 +16,16 @@ describe('Character Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedTreasure = prefix + 'formatted treasure\n';
+                var formattedTreasure = prefix + 'formatted treasure\r\n';
 
                 if (treasure.Coin.Quantity > 0)
-                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\n';
+                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\r\n';
 
                 if (treasure.Goods.length > 0)
-                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\n';
+                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\r\n';
 
                 if (treasure.Items.length > 0)
-                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + '\n';
+                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + '\r\n';
 
                 return formattedTreasure;
             },
@@ -36,8 +36,8 @@ describe('Character Formatter Service', function () {
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.Name + '\n';
-            formattedItem += prefix + '\tformatted\n';
+            var formattedItem = prefix + item.Name + '\r\n';
+            formattedItem += prefix + '\tformatted\r\n';
 
             return formattedItem;
         }
@@ -157,7 +157,7 @@ describe('Character Formatter Service', function () {
 
     it('formats character basics', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -220,7 +220,7 @@ describe('Character Formatter Service', function () {
         character.Class.SpecialistFields = ["specialist field 1", "specialist field 2"];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -287,7 +287,7 @@ describe('Character Formatter Service', function () {
         character.Class.ProhibitedFields = ["prohibited field 1", "prohibited field 2"];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -356,7 +356,7 @@ describe('Character Formatter Service', function () {
         character.Race.Metarace = 'metarace';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -420,7 +420,7 @@ describe('Character Formatter Service', function () {
         character.Race.MetaraceSpecies = 'metarace species';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -485,7 +485,7 @@ describe('Character Formatter Service', function () {
         character.Race.HasWings = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -550,7 +550,7 @@ describe('Character Formatter Service', function () {
         character.Race.AerialSpeed = 9876;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -614,7 +614,7 @@ describe('Character Formatter Service', function () {
         character.Ability.Feats[0].Foci = ['focus 1', 'focus 2'];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -680,7 +680,7 @@ describe('Character Formatter Service', function () {
         character.Ability.Feats[0].Power = 9876;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -745,7 +745,7 @@ describe('Character Formatter Service', function () {
         character.Ability.Feats[0].Frequency.TimePeriod = 'fortnight';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -810,7 +810,7 @@ describe('Character Formatter Service', function () {
         character.Ability.Feats[0].Frequency.TimePeriod = 'all day erry day';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -874,7 +874,7 @@ describe('Character Formatter Service', function () {
         character.InterestingTrait = 'is interesting';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -940,7 +940,7 @@ describe('Character Formatter Service', function () {
         ];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1006,7 +1006,7 @@ describe('Character Formatter Service', function () {
         character.Magic.ArcaneSpellFailure = 98;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1070,7 +1070,7 @@ describe('Character Formatter Service', function () {
         character.Magic.Animal = 'familiar';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1134,7 +1134,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.PrimaryHand = createItem('primary weapon');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1200,7 +1200,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.PrimaryHand.Attributes.push('Two-Handed');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1266,7 +1266,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.OffHand = createItem('off-hand item');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1333,7 +1333,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.Armor = createItem('armor');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1399,7 +1399,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.Treasure.Coin.Currency = "munny";
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1464,7 +1464,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.Treasure.Goods.push({ Description: 'description', ValueInGold: 9266 });
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1529,7 +1529,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.Treasure.Items.push(createItem('item'));
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1594,7 +1594,7 @@ describe('Character Formatter Service', function () {
         character.Combat.ArmorClass.CircumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1657,7 +1657,7 @@ describe('Character Formatter Service', function () {
         character.Combat.BaseAttack.CircumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1720,7 +1720,7 @@ describe('Character Formatter Service', function () {
         character.Combat.SavingThrows.CircumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1817,7 +1817,7 @@ describe('Character Formatter Service', function () {
         character.Combat.SavingThrows.CircumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -1943,7 +1943,7 @@ describe('Character Formatter Service', function () {
         character.Combat.SavingThrows.CircumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, null, null, null, '\t');
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('\tAlignment: alignment 1');
         expect(lines[1]).toBe('\tLevel 9267 class name 1');
@@ -2053,7 +2053,7 @@ describe('Character Formatter Service', function () {
         followers = [createCharacter(), createCharacter()];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
@@ -2293,7 +2293,7 @@ describe('Character Formatter Service', function () {
         followers = [createCharacter(), createCharacter()];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers, '\t');
-        var lines = formattedCharacter.split('\n');
+        var lines = formattedCharacter.split('\r\n');
 
         expect(lines[0]).toBe('\tAlignment: alignment 1');
         expect(lines[1]).toBe('\tLevel 9267 class name 1');

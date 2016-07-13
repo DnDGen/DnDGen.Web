@@ -14,16 +14,16 @@ describe('Dungeon Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedTreasure = prefix + 'formatted treasure\n';
+                var formattedTreasure = prefix + 'formatted treasure\r\n';
 
                 if (treasure.Coin.Quantity > 0)
-                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\n';
+                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\r\n';
 
                 if (treasure.Goods.length > 0)
-                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\n';
+                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\r\n';
 
                 if (treasure.Items.length > 0)
-                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + ' formatted\n';
+                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + ' formatted\r\n';
 
                 return formattedTreasure;
             }
@@ -34,9 +34,9 @@ describe('Dungeon Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedEncounter = prefix + 'formatted encounter\n';
-                formattedEncounter += prefix + '\tcreature: ' + encounter.monster + '\n';
-                formattedEncounter += prefix + '\tquantity: ' + encounter.quantity + '\n';
+                var formattedEncounter = prefix + 'formatted encounter\r\n';
+                formattedEncounter += prefix + '\tcreature: ' + encounter.monster + '\r\n';
+                formattedEncounter += prefix + '\tquantity: ' + encounter.quantity + '\r\n';
 
                 return formattedEncounter;
             }
@@ -142,7 +142,7 @@ describe('Dungeon Formatter Service', function () {
 
     it('formats areas', function () {
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -215,7 +215,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Width = 0;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -288,7 +288,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Descriptions = [];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDimensions: 9266\' x 90210\'',
@@ -358,7 +358,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.IsEmpty = true;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -391,7 +391,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Width = 1;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -464,7 +464,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Encounter = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -533,7 +533,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -600,7 +600,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure.Treasure.Items = [];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -672,7 +672,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure.Treasure.Items = [];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -744,7 +744,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure.Treasure.Coin.Quantity = 0;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -818,7 +818,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure.Concealment = '';
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -886,7 +886,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.MagicPower = '';
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -960,7 +960,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Pool.Treasure = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -1021,7 +1021,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Treasures[0].Container = "";
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -1093,7 +1093,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Treasures[0].Concealment = "";
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -1167,7 +1167,7 @@ describe('Dungeon Formatter Service', function () {
         areas[0].Contents.Treasures[0].Treasure.Items = [];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'Room:',
             '\tDescriptions:',
@@ -1244,7 +1244,7 @@ describe('Dungeon Formatter Service', function () {
         }];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
-        var lines = formattedDungeonAreas.split('\n');
+        var lines = formattedDungeonAreas.split('\r\n');
         var expected = [
             'area type',
             ''

@@ -29,25 +29,25 @@
                 formattedArea += ':';
             }
 
-            formattedArea += '\n';
+            formattedArea += '\r\n';
 
             if (area.Descriptions.length > 0) {
-                formattedArea += '\tDescriptions:\n';
+                formattedArea += '\tDescriptions:\r\n';
 
                 for (var i = 0; i < area.Descriptions.length; i++) {
-                    formattedArea += '\t\t' + area.Descriptions[i] + '\n';
+                    formattedArea += '\t\t' + area.Descriptions[i] + '\r\n';
                 }
             }
 
             if (area.Length > 0) {
                 if (area.Width == 0) {
-                    formattedArea += '\tDimensions: continues ' + area.Length + '\'\n';
+                    formattedArea += '\tDimensions: continues ' + area.Length + '\'\r\n';
                 }
                 else if (area.Width == 1) {
-                    formattedArea += '\tDimensions: about ' + area.Length + ' square feet\n';
+                    formattedArea += '\tDimensions: about ' + area.Length + ' square feet\r\n';
                 }
                 else if (area.Width > 1) {
-                    formattedArea += '\tDimensions: ' + area.Length + '\' x ' + area.Width + '\'\n';
+                    formattedArea += '\tDimensions: ' + area.Length + '\' x ' + area.Width + '\'\r\n';
                 }
             }
 
@@ -59,34 +59,34 @@
         }
 
         function formatContents(contents) {
-            var formattedContents = '\tContents:\n';
+            var formattedContents = '\tContents:\r\n';
 
             for (var i = 0; i < contents.Miscellaneous.length; i++) {
-                formattedContents += '\t\t' + contents.Miscellaneous[i] + '\n';
+                formattedContents += '\t\t' + contents.Miscellaneous[i] + '\r\n';
             }
 
             if (contents.Traps.length > 0) {
-                formattedContents += '\t\tTraps:\n';
+                formattedContents += '\t\tTraps:\r\n';
 
                 for (var i = 0; i < contents.Traps.length; i++) {
-                    formattedContents += '\t\t\t' + contents.Traps[i].Description + ':\n';
-                    formattedContents += '\t\t\t\tChallenge Rating: ' + contents.Traps[i].ChallengeRating + '\n';
-                    formattedContents += '\t\t\t\tSearch DC: ' + contents.Traps[i].SearchDC + '\n';
-                    formattedContents += '\t\t\t\tDisable Device DC: ' + contents.Traps[i].DisableDeviceDC + '\n';
+                    formattedContents += '\t\t\t' + contents.Traps[i].Description + ':\r\n';
+                    formattedContents += '\t\t\t\tChallenge Rating: ' + contents.Traps[i].ChallengeRating + '\r\n';
+                    formattedContents += '\t\t\t\tSearch DC: ' + contents.Traps[i].SearchDC + '\r\n';
+                    formattedContents += '\t\t\t\tDisable Device DC: ' + contents.Traps[i].DisableDeviceDC + '\r\n';
                 }
             }
 
             if (contents.Encounters.length > 0) {
-                formattedContents += '\t\tEncounters:\n';
+                formattedContents += '\t\tEncounters:\r\n';
 
                 for (var i = 0; i < contents.Encounters.length; i++) {
-                    formattedContents += '\t\t\tEncounter ' + (i + 1) + ':\n';
+                    formattedContents += '\t\t\tEncounter ' + (i + 1) + ':\r\n';
                     formattedContents += encounterFormatterService.formatEncounter(contents.Encounters[i], '\t\t\t\t');
                 }
             }
 
             if (contents.Treasures.length > 0) {
-                formattedContents += '\t\tTreasures:\n';
+                formattedContents += '\t\tTreasures:\r\n';
 
                 for (var i = 0; i < contents.Treasures.length; i++) {
                     formattedContents += formatDungeonTreasure(contents.Treasures[i], 'Treasure ' + (i + 1));
@@ -99,10 +99,10 @@
                 if (contents.Pool.Encounter || contents.Pool.Treasure || contents.Pool.MagicPower.length > 0)
                     formattedContents += ':';
 
-                formattedContents += '\n';
+                formattedContents += '\r\n';
 
                 if (contents.Pool.Encounter) {
-                    formattedContents += '\t\t\tEncounter:\n';
+                    formattedContents += '\t\t\tEncounter:\r\n';
                     formattedContents += encounterFormatterService.formatEncounter(contents.Pool.Encounter, '\t\t\t\t');
                 }
 
@@ -111,7 +111,7 @@
                 }
 
                 if (contents.Pool.MagicPower.length > 0) {
-                    formattedContents += '\t\t\tMagic Power: ' + contents.Pool.MagicPower + '\n';
+                    formattedContents += '\t\t\tMagic Power: ' + contents.Pool.MagicPower + '\r\n';
                 }
             }
 
@@ -124,13 +124,13 @@
             if (treasureIsEmpty(dungeonTreasure.Treasure))
                 formattedDungeonTreasure += ' None';
 
-            formattedDungeonTreasure += '\n';
+            formattedDungeonTreasure += '\r\n';
 
             if (dungeonTreasure.Container.length > 0)
-                formattedDungeonTreasure += '\t\t\t\tContainer: ' + dungeonTreasure.Container + '\n';
+                formattedDungeonTreasure += '\t\t\t\tContainer: ' + dungeonTreasure.Container + '\r\n';
 
             if (dungeonTreasure.Concealment.length > 0)
-                formattedDungeonTreasure += '\t\t\t\tConcealment: ' + dungeonTreasure.Concealment + '\n';
+                formattedDungeonTreasure += '\t\t\t\tConcealment: ' + dungeonTreasure.Concealment + '\r\n';
 
             if (treasureIsEmpty(dungeonTreasure.Treasure) == false)
                 formattedDungeonTreasure += treasureFormatterService.formatTreasure(dungeonTreasure.Treasure, '\t\t\t\t');

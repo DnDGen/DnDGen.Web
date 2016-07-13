@@ -13,16 +13,16 @@ describe('Encounter Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedTreasure = prefix + 'formatted treasure\n';
+                var formattedTreasure = prefix + 'formatted treasure\r\n';
 
                 if (treasure.Coin.Quantity > 0)
-                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\n';
+                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\r\n';
 
                 if (treasure.Goods.length > 0)
-                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\n';
+                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\r\n';
 
                 if (treasure.Items.length > 0)
-                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + ' formatted\n';
+                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + ' formatted\r\n';
 
                 return formattedTreasure;
             }
@@ -33,9 +33,9 @@ describe('Encounter Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedCharacter = prefix + 'formatted character\n';
-                formattedCharacter += prefix + '\tname: ' + character.name + '\n';
-                formattedCharacter += prefix + '\tlevel: ' + character.level + '\n';
+                var formattedCharacter = prefix + 'formatted character\r\n';
+                formattedCharacter += prefix + '\tname: ' + character.name + '\r\n';
+                formattedCharacter += prefix + '\tlevel: ' + character.level + '\r\n';
 
                 return formattedCharacter;
             }
@@ -80,7 +80,7 @@ describe('Encounter Formatter Service', function () {
 
     it('formats encounter basics', function () {
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 x9266');
@@ -94,7 +94,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Creatures[0].Subtype = 'subtype'
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 (subtype) x9266');
@@ -109,7 +109,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Characters.push(createCharacter());
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 x9266');
@@ -133,7 +133,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Treasure.Coin.Currency = "munny";
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 x9266');
@@ -149,7 +149,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Treasure.Goods.push({ Description: 'description', ValueInGold: 9266 });
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 x9266');
@@ -165,7 +165,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Treasure.Items.push(createItem('item'));
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 x9266');
@@ -187,7 +187,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Treasure.Items.push(createItem('item'));
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
         expect(lines[1]).toBe('\tcreature 1 (subtype) x9266');
@@ -220,7 +220,7 @@ describe('Encounter Formatter Service', function () {
         encounter.Treasure.Items.push(createItem('item'));
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter, '\t');
-        var lines = formattedEncounter.split('\n');
+        var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('\tCreatures:');
         expect(lines[1]).toBe('\t\tcreature 1 (subtype) x9266');

@@ -18,17 +18,17 @@
             var formattedTreasure = '';
 
             if (treasure.Coin.Quantity > 0)
-                formattedTreasure += prefix + formatNumber(treasure.Coin.Quantity) + ' ' + treasure.Coin.Currency + '\n';
+                formattedTreasure += prefix + formatNumber(treasure.Coin.Quantity) + ' ' + treasure.Coin.Currency + '\r\n';
             
             if (treasure.Goods.length > 0)
-                formattedTreasure += prefix + 'Goods:\n';
+                formattedTreasure += prefix + 'Goods:\r\n';
 
             for (var i = 0; i < treasure.Goods.length; i++) {
-                formattedTreasure += prefix + '\t' + treasure.Goods[i].Description + ' (' + formatNumber(treasure.Goods[i].ValueInGold) + 'gp)\n';
+                formattedTreasure += prefix + '\t' + treasure.Goods[i].Description + ' (' + formatNumber(treasure.Goods[i].ValueInGold) + 'gp)\r\n';
             }
 
             if (treasure.Items.length > 0)
-                formattedTreasure += prefix + 'Items:\n';
+                formattedTreasure += prefix + 'Items:\r\n';
 
             for (var i = 0; i < treasure.Items.length; i++) {
                 formattedTreasure += formatItem(treasure.Items[i], prefix + '\t');
@@ -50,20 +50,20 @@
             if (item.Quantity > 1)
                 formattedItem += ' (x' + item.Quantity + ')';
 
-            formattedItem += '\n';
+            formattedItem += '\r\n';
             formattedItem += formatList(item.Contents, 'Contents', prefix + '\t');
             formattedItem += formatList(item.Traits, 'Traits', prefix + '\t');
 
             if (item.Magic.Bonus > 0)
-                formattedItem += prefix + '\tBonus: +' + item.Magic.Bonus + '\n';
+                formattedItem += prefix + '\tBonus: +' + item.Magic.Bonus + '\r\n';
 
             formattedItem += formatSpecialAbilities(item.Magic.SpecialAbilities, prefix + '\t');
 
             if (item.Attributes.indexOf('Charged') > -1)
-                formattedItem += prefix + '\tCharges: ' + item.Magic.Charges + '\n';
+                formattedItem += prefix + '\tCharges: ' + item.Magic.Charges + '\r\n';
 
             if (item.Magic.Curse.length > 0)
-                formattedItem += prefix + '\tCurse: ' + item.Magic.Curse + '\n';
+                formattedItem += prefix + '\tCurse: ' + item.Magic.Curse + '\r\n';
 
             formattedItem += formatIntelligence(item.Magic.Intelligence, prefix + '\t');
 
@@ -77,10 +77,10 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedList = prefix + title + ':\n';
+            var formattedList = prefix + title + ':\r\n';
 
             for (var i = 0; i < list.length; i++) {
-                formattedList += prefix + '\t' + list[i] + '\n';
+                formattedList += prefix + '\t' + list[i] + '\r\n';
             }
 
             return formattedList;
@@ -93,10 +93,10 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedAbilities = prefix + 'Special Abilities:\n';
+            var formattedAbilities = prefix + 'Special Abilities:\r\n';
 
             for (var i = 0; i < abilities.length; i++) {
-                formattedAbilities += prefix + '\t' + abilities[i].Name + '\n';
+                formattedAbilities += prefix + '\t' + abilities[i].Name + '\r\n';
             }
 
             return formattedAbilities;
@@ -109,26 +109,26 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedIntelligence = prefix + 'Intelligent:\n';
-            formattedIntelligence += prefix + '\tEgo: ' + intelligence.Ego + '\n';
-            formattedIntelligence += prefix + '\tIntelligence: ' + intelligence.IntelligenceStat + '\n';
-            formattedIntelligence += prefix + '\tWisdom: ' + intelligence.WisdomStat + '\n';
-            formattedIntelligence += prefix + '\tCharisma: ' + intelligence.CharismaStat + '\n';
-            formattedIntelligence += prefix + '\tAlignment: ' + intelligence.Alignment + '\n';
+            var formattedIntelligence = prefix + 'Intelligent:\r\n';
+            formattedIntelligence += prefix + '\tEgo: ' + intelligence.Ego + '\r\n';
+            formattedIntelligence += prefix + '\tIntelligence: ' + intelligence.IntelligenceStat + '\r\n';
+            formattedIntelligence += prefix + '\tWisdom: ' + intelligence.WisdomStat + '\r\n';
+            formattedIntelligence += prefix + '\tCharisma: ' + intelligence.CharismaStat + '\r\n';
+            formattedIntelligence += prefix + '\tAlignment: ' + intelligence.Alignment + '\r\n';
             formattedIntelligence += formatList(intelligence.Communication, 'Communication', prefix + '\t');
             formattedIntelligence += formatList(intelligence.Languages, 'Languages', prefix + '\t\t');
-            formattedIntelligence += prefix + '\tSenses: ' + intelligence.Senses + '\n';
+            formattedIntelligence += prefix + '\tSenses: ' + intelligence.Senses + '\r\n';
             formattedIntelligence += formatList(intelligence.Powers, 'Powers', prefix + '\t');
 
             if (intelligence.SpecialPurpose.length > 0) {
-                formattedIntelligence += prefix + '\tSpecial Purpose: ' + intelligence.SpecialPurpose + '\n';
-                formattedIntelligence += prefix + '\tDedicated Power: ' + intelligence.DedicatedPower + '\n';
+                formattedIntelligence += prefix + '\tSpecial Purpose: ' + intelligence.SpecialPurpose + '\r\n';
+                formattedIntelligence += prefix + '\tDedicated Power: ' + intelligence.DedicatedPower + '\r\n';
             }
 
             if (intelligence.Personality.length > -0)
-                formattedIntelligence += prefix + '\tPersonality: ' + intelligence.Personality + '\n';
+                formattedIntelligence += prefix + '\tPersonality: ' + intelligence.Personality + '\r\n';
             else
-                formattedIntelligence += prefix + '\tPersonality: None\n';
+                formattedIntelligence += prefix + '\tPersonality: None\r\n';
 
             return formattedIntelligence;
         }

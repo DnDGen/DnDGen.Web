@@ -53,7 +53,7 @@ describe('Treasure Formatter Service', function () {
 
     it('formats empty treaure', function () {
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('');
         expect(lines.length).toBe(1);
@@ -64,7 +64,7 @@ describe('Treasure Formatter Service', function () {
         treasure.Coin.Currency = 'munny';
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('9,266 munny');
         expect(lines[1]).toBe('');
@@ -76,7 +76,7 @@ describe('Treasure Formatter Service', function () {
         treasure.Goods.push({ Description: 'description 2', ValueInGold: 42 });
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('Goods:');
         expect(lines[1]).toBe('\tdescription 1 (90,210gp)');
@@ -119,7 +119,7 @@ describe('Treasure Formatter Service', function () {
         treasure.Items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('Items:');
         expect(lines[1]).toBe('\titem name (x2)');
@@ -197,7 +197,7 @@ describe('Treasure Formatter Service', function () {
         treasure.Items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('9,266 munny');
         expect(lines[1]).toBe('Goods:');
@@ -279,7 +279,7 @@ describe('Treasure Formatter Service', function () {
         treasure.Items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure, '\t');
-        var lines = formattedTreasure.split('\n');
+        var lines = formattedTreasure.split('\r\n');
 
         expect(lines[0]).toBe('\t9,266 munny');
         expect(lines[1]).toBe('\tGoods:');
@@ -325,7 +325,7 @@ describe('Treasure Formatter Service', function () {
 
     it('formats item', function () {
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('');
@@ -336,7 +336,7 @@ describe('Treasure Formatter Service', function () {
         item.Quantity = 2;
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name (x2)');
         expect(lines[1]).toBe('');
@@ -348,7 +348,7 @@ describe('Treasure Formatter Service', function () {
         item.Contents.push('second contents');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tContents:');
@@ -363,7 +363,7 @@ describe('Treasure Formatter Service', function () {
         item.Traits.push('second trait');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tTraits:');
@@ -377,7 +377,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Bonus = 3;
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tBonus: +3');
@@ -391,7 +391,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tBonus: +3');
@@ -407,7 +407,7 @@ describe('Treasure Formatter Service', function () {
         item.Attributes.push('Charged');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tCharges: 4');
@@ -419,7 +419,7 @@ describe('Treasure Formatter Service', function () {
         item.Attributes.push('Charged');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tCharges: 0');
@@ -431,7 +431,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Curse = 'curse';
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tCurse: curse');
@@ -452,7 +452,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.Powers.push('second power');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tIntelligent:');
@@ -488,7 +488,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.Powers.push('second power');
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tIntelligent:');
@@ -527,7 +527,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.DedicatedPower = 'dedicated power';
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tIntelligent:');
@@ -564,7 +564,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.Personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name');
         expect(lines[1]).toBe('\tIntelligent:');
@@ -616,7 +616,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.Personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item);
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('item name (x2)');
         expect(lines[1]).toBe('\tContents:');
@@ -685,7 +685,7 @@ describe('Treasure Formatter Service', function () {
         item.Magic.Intelligence.Personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item, '\t');
-        var lines = formattedItem.split('\n');
+        var lines = formattedItem.split('\r\n');
 
         expect(lines[0]).toBe('\titem name (x2)');
         expect(lines[1]).toBe('\t\tContents:');
