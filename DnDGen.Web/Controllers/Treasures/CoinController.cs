@@ -1,7 +1,6 @@
-﻿using System;
-using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Generators.Coins;
+﻿using System.Web.Mvc;
+using TreasureGen;
+using TreasureGen.Coins;
 
 namespace DnDGen.Web.Controllers.Treasures
 {
@@ -15,7 +14,7 @@ namespace DnDGen.Web.Controllers.Treasures
         }
 
         [HttpGet]
-        public JsonResult Generate(Int32 level)
+        public JsonResult Generate(int level)
         {
             var treasure = new Treasure();
             treasure.Coin = coinGenerator.GenerateAtLevel(level);

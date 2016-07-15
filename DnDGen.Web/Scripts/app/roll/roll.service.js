@@ -11,30 +11,46 @@
 
         return {
             getRoll: getRoll,
-            getCustomRoll: getCustomRoll,
             getExpressionRoll: getExpressionRoll,
-            validateExpressionRoll: validateExpressionRoll
+            validateExpression: validateExpression,
+            validateRoll: validateRoll
         };
 
-        function getRoll(quantity, die)
-        {
-            var url = "/Roll/" + die + "/" + quantity;
-            return promiseService.getPromise(url);
+        function getRoll(quantity, die) {
+            var url = "/Roll/Roll";
+            var parameters = getParameters(quantity, die);
+            return promiseService.getPromise(url, parameters);
         }
 
-        function getCustomRoll(quantity, die) {
-            var url = "/Roll/Custom/" + quantity + "/" + die;
-            return promiseService.getPromise(url);
+        function getParameters(quantity, die) {
+            return {
+                quantity: quantity,
+                die: die
+            };
         }
 
         function getExpressionRoll(expression) {
-            var url = '/Roll/Expression?expression=' + encodeURIComponent(expression);
-            return promiseService.getPromise(url);
+            var url = '/Roll/RollExpression';
+            var parameters = getExpressionParameters(expression);
+            return promiseService.getPromise(url, parameters);
         }
 
-        function validateExpressionRoll(expression) {
-            var url = '/Roll/Validate?expression=' + encodeURIComponent(expression);
-            return promiseService.getPromise(url);
+        function getExpressionParameters(expression) {
+            return {
+                expression: expression
+            };
+        }
+
+        function validateExpression(expression) {
+            var url = '/Roll/ValidateExpression';
+            var parameters = getExpressionParameters(expression);
+            return promiseService.getPromise(url, parameters);
+        }
+
+        function validateRoll(quantity, die) {
+            var url = '/Roll/Validate';
+            var parameters = getParameters(quantity, die);
+            return promiseService.getPromise(url, parameters);
         }
     };
 })();

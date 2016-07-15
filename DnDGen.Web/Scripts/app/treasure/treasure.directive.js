@@ -8,7 +8,7 @@
     function treasure() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Treasure.html',
+            templateUrl: 'Templates/Treasure/Treasure.html',
             scope: {
                 treasure: '='
             }

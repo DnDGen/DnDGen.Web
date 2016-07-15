@@ -5,9 +5,9 @@ using DnDGen.Web.Repositories.Domain;
 using Ninject;
 using Ninject.Modules;
 using Octokit;
-using TreasureGen.Common.Items;
-using TreasureGen.Generators.Items.Magical;
-using TreasureGen.Generators.Items.Mundane;
+using TreasureGen.Items;
+using TreasureGen.Items.Magical;
+using TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.App_Start
 {

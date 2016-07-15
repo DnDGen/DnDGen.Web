@@ -1,10 +1,10 @@
-﻿using CharacterGen.Common.CharacterClasses;
-using CharacterGen.Common.Races;
-using CharacterGen.Generators;
-using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Randomizers.Stats;
+﻿using CharacterGen;
+using CharacterGen.CharacterClasses;
+using CharacterGen.Races;
+using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
@@ -27,7 +27,7 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = new CharacterModel();
+            var model = new CharacterViewModel();
             model.AlignmentRandomizerTypes = new[]
             {
                 AlignmentRandomizerTypeConstants.Any,

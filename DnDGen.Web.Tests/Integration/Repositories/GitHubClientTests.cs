@@ -20,7 +20,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
         {
             issueRequest = new RepositoryIssueRequest();
             issueRequest.Filter = IssueFilter.All;
-            issueRequest.State = ItemState.All;
+            issueRequest.State = ItemStateFilter.All;
             issueRequest.Labels.Add("automated-testing");
         }
 

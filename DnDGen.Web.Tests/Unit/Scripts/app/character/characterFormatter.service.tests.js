@@ -125,6 +125,8 @@ describe('Character Formatter Service', function () {
             InterestingTrait: '',
             Magic: {
                 SpellsPerDay: [],
+                KnownSpells: [],
+                PreparedSpells: [],
                 ArcaneSpellFailure: 0,
                 Animal: ''
             },
@@ -942,64 +944,249 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe('Spells Per Day:');
-        expect(lines[37]).toBe('\tLevel 0: 9');
-        expect(lines[38]).toBe('\tLevel 1: 8 + 1');
-        expect(lines[39]).toBe("Equipment:");
-        expect(lines[40]).toBe("\tPrimary Hand: None");
-        expect(lines[41]).toBe("\tOff Hand: None");
-        expect(lines[42]).toBe("\tArmor: None");
-        expect(lines[43]).toBe("\tTreasure: None");
-        expect(lines[44]).toBe("Combat:");
-        expect(lines[45]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[46]).toBe("\tArmor Class: 8");
-        expect(lines[47]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[48]).toBe("\t\tTouch: 35");
-        expect(lines[49]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[50]).toBe("\tHit Points: 3457");
-        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[52]).toBe("\tSaving Throws:");
-        expect(lines[53]).toBe("\t\tFortitude: 57");
-        expect(lines[54]).toBe("\t\tReflex: 79");
-        expect(lines[55]).toBe("\t\tWill: 68");
-        expect(lines[56]).toBe('');
-        expect(lines.length).toBe(57);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            'Spells Per Day:',
+            '\tLevel 0: 9',
+            '\tLevel 1: 8 + 1',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            ''
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats known spells', function () {
+        character.Magic.SpellsPerDay = [
+            { Level: 0, Quantity: 9, HasDomainSpell: false },
+            { Level: 1, Quantity: 8, HasDomainSpell: true }
+        ];
+
+        character.Magic.KnownSpells = [
+            { Name: 'first spell', Level: 0 },
+            { Name: 'second spell', Level: 1 }
+        ];
+
+        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
+        var lines = formattedCharacter.split('\r\n');
+
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            'Spells Per Day:',
+            '\tLevel 0: 9',
+            '\tLevel 1: 8 + 1',
+            'Known Spells:',
+            '\tfirst spell (0)',
+            '\tsecond spell (1)',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            ''
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats prepared spells', function () {
+        character.Magic.SpellsPerDay = [
+            { Level: 0, Quantity: 9, HasDomainSpell: false },
+            { Level: 1, Quantity: 8, HasDomainSpell: true }
+        ];
+
+        character.Magic.KnownSpells = [
+            { Name: 'first spell', Level: 0 },
+            { Name: 'second spell', Level: 1 }
+        ];
+
+        character.Magic.PreparedSpells = [
+            { Name: 'first prepared spell', Level: 0 },
+            { Name: 'first prepared spell', Level: 0 },
+            { Name: 'second prepared spell', Level: 1 }
+        ];
+
+        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
+        var lines = formattedCharacter.split('\r\n');
+
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            'Spells Per Day:',
+            '\tLevel 0: 9',
+            '\tLevel 1: 8 + 1',
+            'Known Spells:',
+            '\tfirst spell (0)',
+            '\tsecond spell (1)',
+            'Prepared Spells:',
+            '\tfirst prepared spell (0)',
+            '\tfirst prepared spell (0)',
+            '\tsecond prepared spell (1)',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            ''
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats arcane spell failure', function () {

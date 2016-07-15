@@ -5,23 +5,47 @@
         .module('app.encounter')
         .controller('Encounter', Encounter);
 
-    Encounter.$inject = ['$scope', 'bootstrapData', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService'];
+    Encounter.$inject = ['$scope', 'model', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService'];
 
-    function Encounter($scope, bootstrapData, encounterService, sweetAlertService, fileSaverService, encounterFormatterService) {
+    function Encounter($scope, model, encounterService, sweetAlertService, fileSaverService, encounterFormatterService) {
         var vm = this;
-        vm.encounterModel = bootstrapData;
+        vm.encounterModel = model;
 
         vm.level = 1;
         vm.environment = vm.encounterModel.Environments[0];
         vm.encounter = null;
         vm.generating = false;
+        vm.validating = false;
+        vm.filtersAreValid = true;
+
+        vm.creatureTypeFilters = [];
+
+        for (var i = 0; i < vm.encounterModel.CreatureTypes.length; i++) {
+            vm.creatureTypeFilters.push({ 
+                name: vm.encounterModel.CreatureTypes[i],
+                checked: false
+            });
+        }
 
         vm.generateEncounter = function () {
             vm.generating = true;
+            var checkedFilters = getCheckedFilters();
 
-            encounterService.getEncounter(vm.environment, vm.level)
+            encounterService.getEncounter(vm.environment, vm.level, checkedFilters)
                 .then(setEncounter, handleError);
         };
+
+        function getCheckedFilters() {
+            var checkedFilters = [];
+
+            for (var i = 0; i < vm.creatureTypeFilters.length; i++) {
+                if (vm.creatureTypeFilters[i].checked) {
+                    checkedFilters.push(vm.creatureTypeFilters[i].name);
+                }
+            }
+
+            return checkedFilters;
+        }
 
         function setEncounter(data) {
             vm.encounter = data.encounter;
@@ -32,6 +56,7 @@
             sweetAlertService.showError();
             vm.generating = false;
             vm.encounter = null;
+            vm.validating = false;
         }
 
         vm.download = function () {
@@ -40,5 +65,22 @@
 
             fileSaverService.save(formattedEncounter, fileName);
         };
+
+        $scope.$watch('vm.creatureTypeFilters', validateFilters, true);
+
+        function validateFilters() {
+            vm.validating = true;
+            var checkedFilters = getCheckedFilters();
+
+            encounterService.validateFilters(vm.environment, vm.level, checkedFilters)
+                .then(function (data) {
+                    vm.filtersAreValid = data.isValid;
+                    vm.validating = false;
+                }, handleError);
+        }
+
+        $scope.$watch('vm.environment', validateFilters, true);
+
+        $scope.$watch('vm.level', validateFilters);
     };
 })();

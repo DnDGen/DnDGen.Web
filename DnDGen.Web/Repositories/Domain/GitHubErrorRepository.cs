@@ -17,7 +17,7 @@ namespace DnDGen.Web.Repositories.Domain
         {
             var issueRequest = new RepositoryIssueRequest();
             issueRequest.Filter = IssueFilter.All;
-            issueRequest.State = ItemState.All;
+            issueRequest.State = ItemStateFilter.All;
             issueRequest.Labels.Add("bug");
 
             var issues = await githubClient.Issue.GetAllForRepository("DnDGen", "DnDGen.Web", issueRequest);

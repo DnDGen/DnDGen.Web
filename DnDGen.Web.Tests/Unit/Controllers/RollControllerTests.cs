@@ -24,18 +24,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [TestCase("Index")]
-        [TestCase("D2")]
-        [TestCase("D3")]
-        [TestCase("D4")]
-        [TestCase("D6")]
-        [TestCase("D8")]
-        [TestCase("D10")]
-        [TestCase("D12")]
-        [TestCase("D20")]
-        [TestCase("D100")]
-        [TestCase("Custom")]
-        [TestCase("Expression")]
+        [TestCase("Roll")]
+        [TestCase("RollExpression")]
         [TestCase("Validate")]
+        [TestCase("ValidateExpression")]
         public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -50,382 +42,148 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void D2ReturnsJsonResult()
+        public void RollReturnsJsonResult()
         {
-            var result = controller.D2(9266);
+            var result = controller.Roll(9266, 90210);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
-        public void D2JsonResultAllowsGet()
+        public void RollJsonResultAllowsGet()
         {
-            var result = controller.D2(9266) as JsonResult;
+            var result = controller.Roll(9266, 90210) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
-        public void D2RollsQuantityTimes()
+        public void RollRollsQuantityTimes()
         {
-            controller.D2(9266);
+            controller.Roll(9266, 90210);
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
-        public void D2ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(2)).Returns(new[] { 42 });
-
-            var result = controller.D2(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D3ReturnsJsonResult()
-        {
-            var result = controller.D3(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D3JsonResultAllowsGet()
-        {
-            var result = controller.D3(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D3RollsQuantityTimes()
-        {
-            controller.D3(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D3ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(3)).Returns(new[] { 42 });
-
-            var result = controller.D3(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D4ReturnsJsonResult()
-        {
-            var result = controller.D4(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D4JsonResultAllowsGet()
-        {
-            var result = controller.D4(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D4RollsQuantityTimes()
-        {
-            controller.D4(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D4ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(4)).Returns(new[] { 42 });
-
-            var result = controller.D4(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D6ReturnsJsonResult()
-        {
-            var result = controller.D6(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D6JsonResultAllowsGet()
-        {
-            var result = controller.D6(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D6RollsQuantityTimes()
-        {
-            controller.D6(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D6ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(6)).Returns(new[] { 42 });
-
-            var result = controller.D6(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D8ReturnsJsonResult()
-        {
-            var result = controller.D8(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D8JsonResultAllowsGet()
-        {
-            var result = controller.D8(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D8RollsQuantityTimes()
-        {
-            controller.D8(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D8ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(8)).Returns(new[] { 42 });
-
-            var result = controller.D8(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D10ReturnsJsonResult()
-        {
-            var result = controller.D10(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D10JsonResultAllowsGet()
-        {
-            var result = controller.D10(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D10RollsQuantityTimes()
-        {
-            controller.D10(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D10ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(10)).Returns(new[] { 42 });
-
-            var result = controller.D10(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D12ReturnsJsonResult()
-        {
-            var result = controller.D12(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D12JsonResultAllowsGet()
-        {
-            var result = controller.D12(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D12RollsQuantityTimes()
-        {
-            controller.D12(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D12ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(12)).Returns(new[] { 42 });
-
-            var result = controller.D12(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void D20ReturnsJsonResult()
-        {
-            var result = controller.D20(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void D20JsonResultAllowsGet()
-        {
-            var result = controller.D20(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void D20RollsQuantityTimes()
-        {
-            controller.D20(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void D20ResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(20)).Returns(new[] { 42 });
-
-            var result = controller.D20(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void PercentileReturnsJsonResult()
-        {
-            var result = controller.D100(9266);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void PercentileJsonResultAllowsGet()
-        {
-            var result = controller.D100(9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void PercentileRollsQuantityTimes()
-        {
-            controller.D100(9266);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void PercentileResultContainsRoll()
-        {
-            mockRoll.Setup(r => r.IndividualRolls(100)).Returns(new[] { 42 });
-
-            var result = controller.D100(9266) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.roll, Is.EqualTo(42));
-        }
-
-        [Test]
-        public void CustomReturnsJsonResult()
-        {
-            var result = controller.Custom(9266, 90210);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void CustomJsonResultAllowsGet()
-        {
-            var result = controller.Custom(9266, 90210) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
-        public void CustomRollsQuantityTimes()
-        {
-            controller.Custom(9266, 90210);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
-        public void CustomResultContainsRoll()
+        public void RollResultContainsRoll()
         {
             mockRoll.Setup(r => r.IndividualRolls(90210)).Returns(new[] { 42 });
 
-            var result = controller.Custom(9266, 90210) as JsonResult;
+            var result = controller.Roll(9266, 90210) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(42));
         }
 
         [Test]
-        public void ExpressionReturnsJsonResult()
+        public void RollExpressionReturnsJsonResult()
         {
-            var result = controller.Expression("expression");
+            var result = controller.RollExpression("expression");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
-        public void ExpressionJsonResultAllowsGet()
+        public void RollExpressionJsonResultAllowsGet()
         {
-            var result = controller.Expression("expression") as JsonResult;
+            var result = controller.RollExpression("expression") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
-        public void ExpressionResultContainsRoll()
+        public void RollExpressionResultContainsRoll()
         {
             mockDice.Setup(d => d.Roll("expression")).Returns(9266);
 
-            var result = controller.Expression("expression") as JsonResult;
+            var result = controller.RollExpression("expression") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(9266));
         }
 
         [Test]
-        public void ValidateReturnsJsonResult()
+        public void ValidateExpressionReturnsJsonResult()
         {
-            var result = controller.Validate("expression");
+            var result = controller.ValidateExpression("expression");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
-        public void ValidateJsonResultAllowsGet()
+        public void ValidateExpressionJsonResultAllowsGet()
         {
-            var result = controller.Validate("expression") as JsonResult;
+            var result = controller.ValidateExpression("expression") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
-        public void VerifyExpressionIsAValidRoll()
+        public void ValidateExpressionIsValid()
         {
-            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(true);
-            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("90210");
+            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression", false)).Returns("90210");
 
-            var result = controller.Validate("expression") as JsonResult;
+            var result = controller.ValidateExpression("expression") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.True);
         }
 
         [Test]
-        public void VerifyExpressionIsNotValidRoll()
+        public void ValidateExpressionIsMoreThanJustARoll()
         {
-            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(false);
-            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("90210");
+            mockDice.Setup(d => d.ContainsRoll("expression", false)).Returns(true);
+            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression", false)).Returns("phrase with 90210 roll");
 
-            var result = controller.Validate("expression") as JsonResult;
+            var result = controller.ValidateExpression("expression") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.False);
         }
 
         [Test]
-        public void VerifyExpressionIsMoreThanARoll()
+        public void ValidateRollIsAValidRoll()
         {
-            mockDice.Setup(d => d.ContainsRoll("expression")).Returns(true);
-            mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression")).Returns("phrase with 90210 roll");
+            var result = controller.Validate(9266, 90210) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.True);
+        }
 
-            var result = controller.Validate("expression") as JsonResult;
+        [Test]
+        public void ValidateRollIsNotValidRollBecauseOfQuantityTooHigh()
+        {
+            var result = controller.Validate(Limits.Quantity + 1, 90210) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void ValidateRollIsNotValidRollBecauseOfQuantityTooLow()
+        {
+            var result = controller.Validate(0, 90210) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test, Ignore("Can't go over the die limit, as it is max int")]
+        public void ValidateRollIsNotValidRollBecauseOfDieTooHigh()
+        {
+            var result = controller.Validate(9266, 90210) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void ValidateRollIsNotValidRollBecauseOfDieTooLow()
+        {
+            var result = controller.Validate(9266, 0) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void ValidateRollIsNotValidRollBecauseOfProductTooHigh()
+        {
+            var result = controller.Validate(2, Limits.Die) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void ValidateRollIsNotValidRollBecauseOfProductTooLow()
+        {
+            //INFO: This works as too low because it overflows the in and comes back around as negative
+            var result = controller.Validate(Limits.Quantity, Limits.Die) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.False);
         }

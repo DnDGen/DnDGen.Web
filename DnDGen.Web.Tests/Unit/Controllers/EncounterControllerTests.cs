@@ -1,12 +1,13 @@
-﻿using CharacterGen.Common;
-using CharacterGen.Common.Abilities.Feats;
-using CharacterGen.Common.Abilities.Skills;
+﻿using CharacterGen;
+using CharacterGen.Abilities.Feats;
+using CharacterGen.Abilities.Skills;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EncounterGen.Common;
 using EncounterGen.Generators;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,16 +18,22 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     {
         private EncounterController controller;
         private Mock<IEncounterGenerator> mockEncounterGenerator;
+        private Mock<IFilterVerifier> mockFilterVerifier;
+        private List<string> filters;
 
         [SetUp]
         public void Setup()
         {
             mockEncounterGenerator = new Mock<IEncounterGenerator>();
-            controller = new EncounterController(mockEncounterGenerator.Object);
+            mockFilterVerifier = new Mock<IFilterVerifier>();
+            controller = new EncounterController(mockEncounterGenerator.Object, mockFilterVerifier.Object);
+
+            filters = new List<string>();
         }
 
         [TestCase("Index")]
         [TestCase("Generate")]
+        [TestCase("Validate")]
         public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -44,16 +51,41 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewContainsModel()
         {
             var result = controller.Index() as ViewResult;
-            Assert.That(result.Model, Is.InstanceOf<EncounterModel>());
+            Assert.That(result.Model, Is.InstanceOf<EncounterViewModel>());
         }
 
         [Test]
-        public void IndexModelOnlyContainsDungeonEnvironment()
+        public void IndexModelContainsEnvironments()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as EncounterModel;
+            var model = result.Model as EncounterViewModel;
             Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Dungeon));
-            Assert.That(model.Environments.Count(), Is.EqualTo(1));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.CivilizedDay));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.CivilizedNight));
+            Assert.That(model.Environments.Count(), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void IndexModelContainsCreatureTypes()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Aberration));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Animal));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Construct));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Dragon));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Elemental));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Fey));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Giant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Humanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MagicalBeast));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MonstrousHumanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Ooze));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Outsider));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Plant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Undead));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Vermin));
+            Assert.That(model.CreatureTypes.Count(), Is.EqualTo(15));
         }
 
         [Test]
@@ -63,7 +95,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             encounter.Characters = Enumerable.Empty<Character>();
             mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266);
+            var result = controller.Generate("environment", 9266, filters);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -74,7 +106,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             encounter.Characters = Enumerable.Empty<Character>();
             mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266) as JsonResult;
+            var result = controller.Generate("environment", 9266, filters) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -85,7 +117,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             encounter.Characters = Enumerable.Empty<Character>();
             mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266) as JsonResult;
+            var result = controller.Generate("environment", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
@@ -114,7 +146,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
                 new Feat { Name = "a" }
             };
 
-            var result = controller.Generate("environment", 9266) as JsonResult;
+            var result = controller.Generate("environment", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
 
@@ -147,7 +179,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             otherCharacter.Ability.Skills["b"] = new Skill { Ranks = 2345 };
             otherCharacter.Ability.Skills["aa"] = new Skill { Ranks = 3456 };
 
-            var result = controller.Generate("environment", 9266) as JsonResult;
+            var result = controller.Generate("environment", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
 
@@ -167,6 +199,79 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(lastCharacter.Ability.Skills["a"].Ranks, Is.EqualTo(1234));
             Assert.That(lastCharacter.Ability.Skills["aa"].Ranks, Is.EqualTo(3456));
             Assert.That(lastCharacter.Ability.Skills["b"].Ranks, Is.EqualTo(2345));
+        }
+
+        [Test]
+        public void GenerateJsonUsesFilters()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266,
+                It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(encounter);
+
+            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.encounter, Is.EqualTo(encounter));
+        }
+
+        [Test]
+        public void ValidateReturnsJsonResult()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+                It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
+
+            var result = controller.Validate("environment", 9266, filters);
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+        }
+
+        [Test]
+        public void ValidateJsonAllowsGet()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+                It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
+
+            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+        }
+
+        [Test]
+        public void ValidateJsonReturnsValid()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+                It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
+
+            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.True);
+        }
+
+        [Test]
+        public void ValidateJsonReturnsInvalid()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+                It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(false);
+
+            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
         }
     }
 }

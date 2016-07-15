@@ -16,8 +16,6 @@ namespace DnDGen.Web.Tests.Unit.App_Start
         }
 
         [TestCase("Default", "{controller}/{action}", "Home", "Index")]
-        [TestCase("StandardRoll", "Roll/{action}/{quantity}", "Roll", "D20")]
-        [TestCase("CustomRoll", "Roll/Custom/{quantity}/{die}", "Roll", "Custom")]
         [TestCase("Treasure", "Treasure/Generate/{level}", "Treasure", "Generate")]
         [TestCase("Coin", "Treasures/Coin/Generate/{level}", "Coin", "Generate")]
         [TestCase("Goods", "Treasures/Goods/Generate/{level}", "Goods", "Generate")]
@@ -46,10 +44,10 @@ namespace DnDGen.Web.Tests.Unit.App_Start
         }
 
         [Test]
-        public void RoutesMapped()
+        public void AllRoutesMapped()
         {
             //INFO: +1 route for the ignored route
-            Assert.That(routes.Count, Is.EqualTo(21));
+            Assert.That(routes.Count, Is.EqualTo(19));
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Verifiers;
-using DnDGen.Web.Controllers;
+﻿using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Verifiers;
 using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Repositories;
 using Moq;

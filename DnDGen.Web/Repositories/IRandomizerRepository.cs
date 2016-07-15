@@ -1,18 +1,17 @@
-﻿using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Randomizers.Stats;
-using System;
+﻿using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Randomizers.Stats;
 
 namespace DnDGen.Web.Repositories
 {
     public interface IRandomizerRepository
     {
-        IAlignmentRandomizer GetAlignmentRandomizer(String alignmentRandomizerType, String setAlignment);
-        IClassNameRandomizer GetClassNameRandomizer(String classNameRandomizerType, String setClassName);
-        ILevelRandomizer GetLevelRandomizer(String levelRandomizerType, Int32 setLevel, Boolean allowAdjustments);
-        RaceRandomizer GetBaseRaceRandomizer(String baseRaceRandomizerType, String setBaseRace);
-        RaceRandomizer GetMetaraceRandomizer(String metaraceRandomizerType, Boolean forceMetarace, String setMetarace);
-        IStatsRandomizer GetStatsRandomizer(String statRandomizerType, Int32 setStrength, Int32 setConstitution, Int32 setDexterity, Int32 setIntelligence, Int32 setWisdom, Int32 setCharisma, Boolean allowAdjustments);
+        IAlignmentRandomizer GetAlignmentRandomizer(string alignmentRandomizerType, string setAlignment);
+        IClassNameRandomizer GetClassNameRandomizer(string classNameRandomizerType, string setClassName);
+        ILevelRandomizer GetLevelRandomizer(string levelRandomizerType, int setLevel, bool allowAdjustments);
+        RaceRandomizer GetBaseRaceRandomizer(string baseRaceRandomizerType, string setBaseRace);
+        RaceRandomizer GetMetaraceRandomizer(string metaraceRandomizerType, bool forceMetarace, string setMetarace);
+        IStatsRandomizer GetStatsRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments);
     }
 }

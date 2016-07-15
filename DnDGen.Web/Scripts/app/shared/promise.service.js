@@ -14,9 +14,16 @@
             postPromise: postPromise
         };
 
-        function getPromise(url) {
+        function getPromise(url, parameters) {
             var deferred = $q.defer();
-            $http.get(url)
+
+            var config = {
+                method: 'GET',
+                url: url,
+                params: parameters
+            };
+
+            $http.get(url, config)
                 .success(deferred.resolve)
                 .error(deferred.reject);
 

@@ -9,14 +9,26 @@
 
     function encounterService(promiseService) {
         return {
-            getEncounter: getEncounter
+            getEncounter: getEncounter,
+            validateFilters: validateFilters
         };
 
-        function getEncounter(environment, level) {
-            var url = "/Encounter/Generate?environment=" + encodeURI(environment);
-            url += "&level=" + level;
+        function getEncounter(environment, level, filters) {
+            var parameters = getParameters(environment, level, filters);
+            return promiseService.getPromise('/Encounter/Generate', parameters);
+        }
 
-            return promiseService.getPromise(url);
+        function getParameters(environment, level, filters) {
+            return {
+                environment: environment,
+                level: level,
+                'filters': filters
+            };
+        }
+
+        function validateFilters(environment, level, filters) {
+            var parameters = getParameters(environment, level, filters);
+            return promiseService.getPromise('/Encounter/Validate', parameters);
         }
     };
 })();

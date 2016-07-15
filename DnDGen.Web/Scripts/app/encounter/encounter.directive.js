@@ -8,7 +8,7 @@
     function enounter() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Encounter.html',
+            templateUrl: 'Templates/Encounter/Encounter.html',
             scope: {
                 encounter: '='
             }

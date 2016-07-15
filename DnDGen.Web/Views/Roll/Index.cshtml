@@ -30,7 +30,7 @@
                         <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
                     </div>
                     <div class="col-sm-2">
-                        <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid || vm.rolling">Roll</button>
+                        <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
                     </div>
                 </div>
             </form>
@@ -44,7 +44,7 @@
                         <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" ng-model="vm.customDie" required />
                     </div>
                     <div class="col-sm-2">
-                        <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid || vm.rolling">Roll</button>
+                        <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
                     </div>
                 </div>
             </form>
@@ -55,7 +55,7 @@
                         <input id="rollExpression" class="form-control" type="text" ng-model="vm.expression" required />
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || vm.expressionIsValid == false">Roll</button>
+                        <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || !vm.rollIsValid">Roll</button>
                     </div>
                 </div>
             </form>

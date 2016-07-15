@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using TreasureGen.Common;
+using TreasureGen;
 
 namespace DnDGen.Web.Controllers.Treasures
 {

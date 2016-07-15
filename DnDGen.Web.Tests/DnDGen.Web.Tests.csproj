@@ -36,128 +36,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Albatross.Expression, Version=1.1.5700.39687, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Albatross.Expression.1.1.5700.39687\lib\net40\Albatross.Expression.dll</HintPath>
+    <Reference Include="Albatross.Expression, Version=1.2.1.100, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Albatross.Expression.1.2.1.100\lib\net40\Albatross.Expression.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Bootstrap.dll</HintPath>
+    <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CharacterGen.5.0\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.4.0\lib\CharacterGen.Common.dll</HintPath>
+    <Reference Include="CharacterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CharacterGen.Domain.5.0\lib\CharacterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.4.0\lib\CharacterGen.Generators.dll</HintPath>
+    <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.2.0.1\lib\DungeonGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Generators.Domain.dll</HintPath>
+    <Reference Include="DungeonGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DungeonGen.Domain.2.0.2\lib\DungeonGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Mappers.dll</HintPath>
+    <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.0.2.1\lib\EncounterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CharacterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Mappers.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CharacterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Selectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CharacterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Selectors.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CharacterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Tables.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="CharacterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Bootstrap.4.0\lib\CharacterGen.Tables.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Bootstrap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.1.0\lib\DungeonGen.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.1.0\lib\DungeonGen.Generators.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Generators.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Mappers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Mappers.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Selectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Selectors.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Tables.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DungeonGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Bootstrap.1.0.1\lib\DungeonGen.Tables.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Bootstrap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.0.1\lib\EncounterGen.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Generators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.0.1\lib\EncounterGen.Generators.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Generators.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Generators.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Mappers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Mappers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Mappers.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Mappers.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Selectors, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Selectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Selectors.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Selectors.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Tables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Tables.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EncounterGen.Tables.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Bootstrap.0.1\lib\EncounterGen.Tables.Domain.dll</HintPath>
+    <Reference Include="EncounterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EncounterGen.Domain.0.2\lib\EncounterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -181,8 +85,8 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.2.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -193,20 +97,16 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Octokit, Version=0.19.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.19.0\lib\net45\Octokit.dll</HintPath>
+    <Reference Include="Octokit, Version=0.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.20.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RollGen, Version=1.0.5900.36696, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.11.0\lib\RollGen.dll</HintPath>
+    <Reference Include="RollGen, Version=12.1.5991.24748, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.RollGen.12.2\lib\RollGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RollGen.Bootstrap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.Bootstrap.11.0.1\lib\RollGen.Bootstrap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RollGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\D20Dice.Bootstrap.11.0.1\lib\RollGen.Domain.dll</HintPath>
+    <Reference Include="RollGen.Domain, Version=12.1.5991.24748, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.RollGen.Domain.12.2\lib\RollGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -239,44 +139,12 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TreasureGen.Bootstrap, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Bootstrap.dll</HintPath>
+    <Reference Include="TreasureGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.TreasureGen.4.0\lib\TreasureGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="TreasureGen.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.5\lib\TreasureGen.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Generators, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.3.5\lib\TreasureGen.Generators.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Generators.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Generators.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Mappers, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Mappers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Mappers.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Mappers.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Selectors, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Selectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Selectors.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Selectors.Domain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Tables, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Tables.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TreasureGen.Tables.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EquipmentGen.Bootstrap.3.5\lib\TreasureGen.Tables.Domain.dll</HintPath>
+    <Reference Include="TreasureGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.TreasureGen.Domain.4.0\lib\TreasureGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -339,9 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\jasmine.css" />
-    <Content Include="Unit\Scripts\app\character\leadershipServiceSpec.js" />
+    <Content Include="Unit\Scripts\app\character\leadership.service.tests.js" />
     <Content Include="Unit\Scripts\app\character\character.service.tests.js" />
-    <Content Include="Unit\Scripts\app\character\randomizerServiceSpec.js" />
+    <Content Include="Unit\Scripts\app\character\randomizer.service.tests.js" />
     <Content Include="Unit\Scripts\app\character\character.controller.tests.js" />
     <Content Include="Unit\Scripts\app\dungeon\dungeon.controller.tests.js" />
     <Content Include="Unit\Scripts\app\dungeon\dungeon.service.tests.js" />
@@ -356,8 +224,8 @@
     <Content Include="Unit\Scripts\console.js" />
     <Content Include="Unit\Scripts\jasmine-html.js" />
     <Content Include="Unit\Scripts\jasmine.js" />
-    <Content Include="Unit\Scripts\app\roll\rollServiceSpec.js" />
-    <Content Include="Unit\Scripts\app\roll\rollControllerSpec.js" />
+    <Content Include="Unit\Scripts\app\roll\roll.service.tests.js" />
+    <Content Include="Unit\Scripts\app\roll\roll.controller.tests.js" />
     <Content Include="Unit\Scripts\app\treasure\treasure.service.tests.js" />
     <Content Include="Unit\Scripts\app\treasure\treasure.controller.tests.js" />
   </ItemGroup>

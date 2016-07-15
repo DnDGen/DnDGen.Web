@@ -12,31 +12,24 @@ describe('Roll Controller', function () {
     beforeEach(function () {
         rollServiceMock = {
             getRoll: function (quantity, die) {
-                if (quantity == 666)
-                    return getMockedPromise({ "roll": quantity * die }, true);
-
-                return getMockedPromise({ "roll": quantity });
-            },
-            getCustomRoll: function (quantity, die) {
-                if (quantity == 666)
-                    return getMockedPromise({ "roll": quantity * die }, true);
-
-                return getMockedPromise({ "roll": quantity * die });
+                var shouldFail = die === 666 || quantity === 666;
+                return getMockedPromise({ "roll": quantity * die }, shouldFail);
             },
             getExpressionRoll: function (expression) {
-                if (expression == 'FAIL')
-                    return getMockedPromise({ "roll": 42 * 600 }, true);
-
-                return getMockedPromise({ "roll": 42 * 600 });
+                var shouldFail = expression === 'FAIL';
+                return getMockedPromise({ "roll": 42 * 600 }, shouldFail);
             },
-            validateExpressionRoll: function (expression) {
-                if (expression == 'FAIL')
-                    return getMockedPromise({ "isValid": true }, true);
+            validateRoll: function (quantity, die) {
+                var shouldFail = die === 666;
+                var isValid = quantity !== 666;
 
-                if (expression == "invalid")
-                    return getMockedPromise({ "isValid": false });
+                return getMockedPromise({ "isValid": isValid }, shouldFail);
+            },
+            validateExpression: function (expression) {
+                var shouldFail = expression === 'FAIL';
+                var isValid = expression !== 'invalid';
 
-                return getMockedPromise({ "isValid": true });
+                return getMockedPromise({ "isValid": isValid }, shouldFail);
             }
         };
 
@@ -75,8 +68,8 @@ describe('Roll Controller', function () {
         expect(vm.customDie).toBe(1);
     });
 
-    it('has empty expression at beginning', function () {
-        expect(vm.expression).toBe('');
+    it('has sample expression at beginning', function () {
+        expect(vm.expression).toBe('3d6+2');
     });
 
     it('has roll of 0 at beginning', function () {
@@ -102,15 +95,15 @@ describe('Roll Controller', function () {
         expect(vm.standardDice[7].name).toBe('20');
         expect(vm.standardDice[8].name).toBe('Percentile');
 
-        expect(vm.standardDice[0].die).toBe('d2');
-        expect(vm.standardDice[1].die).toBe('d3');
-        expect(vm.standardDice[2].die).toBe('d4');
-        expect(vm.standardDice[3].die).toBe('d6');
-        expect(vm.standardDice[4].die).toBe('d8');
-        expect(vm.standardDice[5].die).toBe('d10');
-        expect(vm.standardDice[6].die).toBe('d12');
-        expect(vm.standardDice[7].die).toBe('d20');
-        expect(vm.standardDice[8].die).toBe('d100');
+        expect(vm.standardDice[0].die).toBe(2);
+        expect(vm.standardDice[1].die).toBe(3);
+        expect(vm.standardDice[2].die).toBe(4);
+        expect(vm.standardDice[3].die).toBe(6);
+        expect(vm.standardDice[4].die).toBe(8);
+        expect(vm.standardDice[5].die).toBe(10);
+        expect(vm.standardDice[6].die).toBe(12);
+        expect(vm.standardDice[7].die).toBe(20);
+        expect(vm.standardDice[8].die).toBe(100);
     });
 
     it('has selected d20 as a standard dice on load', function () {
@@ -126,21 +119,21 @@ describe('Roll Controller', function () {
         vm.rollStandard();
         scope.$apply();
 
-        expect(vm.roll).toBe(9266);
-        expect(rollServiceMock.getRoll).toHaveBeenCalledWith(9266, 'd4');
+        expect(vm.roll).toBe(9266 * 4);
+        expect(rollServiceMock.getRoll).toHaveBeenCalledWith(9266, 4);
     });
 
     it('rolls a custom roll', function () {
         vm.customQuantity = 9266;
         vm.customDie = 42;
 
-        spyOn(rollServiceMock, 'getCustomRoll').and.callThrough();
+        spyOn(rollServiceMock, 'getRoll').and.callThrough();
 
         vm.rollCustom();
         scope.$apply();
 
         expect(vm.roll).toBe(9266 * 42);
-        expect(rollServiceMock.getCustomRoll).toHaveBeenCalledWith(9266, 42);
+        expect(rollServiceMock.getRoll).toHaveBeenCalledWith(9266, 42);
     });
 
     it('rolls an expression', function () {
@@ -311,17 +304,25 @@ describe('Roll Controller', function () {
     });
 
     it('validates a valid expression', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
         vm.expression = 'expression';
         scope.$digest();
 
-        expect(vm.expressionIsValid).toBeTruthy();
+        expect(vm.rollIsValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('validates an invalid expression', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
         vm.expression = 'invalid';
         scope.$digest();
 
-        expect(vm.expressionIsValid).toBeFalsy();
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown when validating an expression roll', function () {
@@ -329,6 +330,7 @@ describe('Roll Controller', function () {
         scope.$digest();
 
         expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('says the expression is not valid if error is thrown', function () {
@@ -338,6 +340,51 @@ describe('Roll Controller', function () {
         vm.expression = 'FAIL';
         scope.$digest();
 
-        expect(vm.expressionIsValid).toBeFalsy();
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('validates standard rolls on quantity change', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
+        vm.standardQuantity = 666;
+        scope.$digest();
+
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('validates standard rolls on die change', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
+        vm.standardDie = { name: 'fail dice', die: 666 };
+        scope.$digest();
+
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('validates custom rolls on quantity change', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
+        vm.customQuantity = 666;
+        scope.$digest();
+
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('validates custom rolls on die change', function () {
+        scope.$digest();
+        expect(vm.rollIsValid).toBeTruthy();
+
+        vm.customDie = 666;
+        scope.$digest();
+
+        expect(vm.rollIsValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 })

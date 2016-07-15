@@ -7,7 +7,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 {
     public static class AttributeProvider
     {
-        public static IEnumerable<Type> GetAttributesFor(Controller controller, String methodName)
+        public static IEnumerable<Type> GetAttributesFor(Controller controller, string methodName)
         {
             var type = controller.GetType();
             var methodInfo = type.GetMethod(methodName);

@@ -3,9 +3,8 @@ using Moq;
 using NUnit.Framework;
 using System.Linq;
 using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Common.Items;
-using TreasureGen.Generators.Items;
+using TreasureGen;
+using TreasureGen.Items;
 
 namespace DnDGen.Web.Tests.Unit.Controllers.Treasures
 {

@@ -14,22 +14,22 @@
         vm.customQuantity = 1;
         vm.customDie = 1;
         vm.rolling = false;
-        vm.expression = '';
+        vm.expression = '3d6+2';
         vm.validating = false;
-        vm.expressionIsValid = false;
+        vm.rollIsValid = false;
 
         vm.roll = 0;
 
         vm.standardDice = [
-            { name: '2', die: "d2" },
-            { name: '3', die: "d3" },
-            { name: '4', die: "d4" },
-            { name: '6', die: "d6" },
-            { name: '8', die: "d8" },
-            { name: '10', die: "d10" },
-            { name: '12', die: "d12" },
-            { name: '20', die: "d20" },
-            { name: 'Percentile', die: "d100" }
+            { name: '2', die: 2 },
+            { name: '3', die: 3 },
+            { name: '4', die: 4 },
+            { name: '6', die: 6 },
+            { name: '8', die: 8 },
+            { name: '10', die: 10 },
+            { name: '12', die: 12 },
+            { name: '20', die: 20 },
+            { name: 'Percentile', die: 100 }
         ];
 
         vm.standardDie = vm.standardDice[7];
@@ -54,7 +54,7 @@
 
         vm.rollCustom = function () {
             vm.rolling = true;
-            rollService.getCustomRoll(vm.customQuantity, vm.customDie)
+            rollService.getRoll(vm.customQuantity, vm.customDie)
                 .then(setRoll, handleError);
         };
 
@@ -66,13 +66,54 @@
 
         $scope.$watch('vm.expression', function (newValue, oldValue) {
             vm.validating = true;
-            rollService.validateExpressionRoll(vm.expression).then(function (data) {
-                vm.expressionIsValid = data.isValid;
+
+            if (!vm.expression || vm.expression === '') {
+                vm.rollIsValid = false;
                 vm.validating = false;
-            }, function () {
-                handleError();
-                vm.expressionIsValid = false;
-            });
+            }
+            else {
+                rollService.validateExpression(vm.expression).then(function (data) {
+                    vm.rollIsValid = data.isValid;
+                    vm.validating = false;
+                }, function () {
+                    handleError();
+                    vm.rollIsValid = false;
+                });
+            }
         });
+
+        $scope.$watch('vm.standardQuantity', function (newValue, oldValue) {
+            validateRoll(vm.standardQuantity, vm.standardDie.die);
+        });
+
+        $scope.$watch('vm.standardDie', function (newValue, oldValue) {
+            validateRoll(vm.standardQuantity, vm.standardDie.die);
+        }, true);
+
+        $scope.$watch('vm.customQuantity', function (newValue, oldValue) {
+            validateRoll(vm.customQuantity, vm.customDie);
+        });
+
+        $scope.$watch('vm.customDie', function (newValue, oldValue) {
+            validateRoll(vm.customQuantity, vm.customDie);
+        });
+
+        function validateRoll(quantity, die) {
+            vm.validating = true;
+
+            if (!quantity || !die || quantity === '' || die === '') {
+                vm.rollIsValid = false;
+                vm.validating = false;
+            }
+            else {
+                rollService.validateRoll(quantity, die).then(function (data) {
+                    vm.rollIsValid = data.isValid;
+                    vm.validating = false;
+                }, function () {
+                    handleError();
+                    vm.rollIsValid = false;
+                });
+            }
+        }
     };
 })();

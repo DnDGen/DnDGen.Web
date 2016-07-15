@@ -1,4 +1,4 @@
-﻿using CharacterGen.Generators;
+﻿using CharacterGen;
 using System.Linq;
 using System.Web.Mvc;
 

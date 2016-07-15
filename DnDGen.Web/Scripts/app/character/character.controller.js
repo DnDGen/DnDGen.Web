@@ -42,37 +42,37 @@
         function verifyRandomizers() {
             vm.verifying = true;
 
-            if (vm.levelRandomizerType == 'Set' && vm.setLevel == 0) {
+            if (vm.levelRandomizerType === 'Set' && vm.setLevel === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setStrength == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setStrength === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setConstitution == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setConstitution === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setDexterity == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setDexterity === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setIntelligence == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setIntelligence === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setWisdom == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setWisdom === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType == 'Set' && vm.setCharisma == 0) {
+            if (vm.statsRandomizerType === 'Set' && vm.setCharisma === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
@@ -103,7 +103,7 @@
 
             characterService.generate(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace, vm.statsRandomizerType, vm.setStrength, vm.setConstitution, vm.setDexterity, vm.setIntelligence, vm.setWisdom, vm.setCharisma, vm.allowStatsAdjustments)
                 .then(function (data) {
-                    if (typeof data == 'string')
+                    if (typeof data === 'string')
                         console.log(data);
 
                     vm.character = data.character;
@@ -124,7 +124,7 @@
                             }, function () {
                                 sweetAlertService.showError();
                             }).then(function () {
-                                if (vm.leadership.FollowerQuantities.Level1 == 0) {
+                                if (vm.leadership.FollowerQuantities.Level1 === 0) {
                                     vm.generating = false;
                                     return;
                                 }
@@ -235,7 +235,7 @@
         });
 
         $scope.$watch('vm.followers', function (newValue, oldValue) {
-            if (vm.followers.length == 0)
+            if (vm.followers.length === 0)
                 return;
             
             var expectedTotal = vm.leadership.FollowerQuantities.Level1 +

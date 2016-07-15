@@ -6,12 +6,12 @@ namespace DnDGen.Web.Tests.Unit.Models
     [TestFixture]
     public class TreasureModelTests
     {
-        private TreasureModel model;
+        private TreasureViewModel model;
 
         [SetUp]
         public void Setup()
         {
-            model = new TreasureModel();
+            model = new TreasureViewModel();
         }
 
         [Test]

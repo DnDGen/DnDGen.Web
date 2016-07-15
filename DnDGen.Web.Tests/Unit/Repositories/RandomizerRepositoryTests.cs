@@ -1,8 +1,8 @@
-﻿using CharacterGen.Common.Alignments;
-using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Randomizers.Stats;
+﻿using CharacterGen.Alignments;
+using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;

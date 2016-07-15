@@ -8,7 +8,7 @@
     function character() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Character.html',
+            templateUrl: 'Templates/Character/Character.html',
             scope: {
                 character: '=',
                 leadership: '=',

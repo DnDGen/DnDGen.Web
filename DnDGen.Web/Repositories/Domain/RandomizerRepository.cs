@@ -1,10 +1,9 @@
-﻿using CharacterGen.Common.Alignments;
-using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Randomizers.Stats;
+﻿using CharacterGen.Alignments;
+using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
-using System;
 
 namespace DnDGen.Web.Repositories.Domain
 {
@@ -17,7 +16,7 @@ namespace DnDGen.Web.Repositories.Domain
             this.runtimeFactory = runtimeFactory;
         }
 
-        public IAlignmentRandomizer GetAlignmentRandomizer(String alignmentRandomizerType, String setAlignment)
+        public IAlignmentRandomizer GetAlignmentRandomizer(string alignmentRandomizerType, string setAlignment)
         {
             if (alignmentRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<IAlignmentRandomizer>(alignmentRandomizerType);
@@ -28,7 +27,7 @@ namespace DnDGen.Web.Repositories.Domain
             return setRandomizer;
         }
 
-        public RaceRandomizer GetBaseRaceRandomizer(String baseRaceRandomizerType, String setBaseRace)
+        public RaceRandomizer GetBaseRaceRandomizer(string baseRaceRandomizerType, string setBaseRace)
         {
             if (baseRaceRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<RaceRandomizer>(baseRaceRandomizerType);
@@ -39,7 +38,7 @@ namespace DnDGen.Web.Repositories.Domain
             return setRandomizer;
         }
 
-        public IClassNameRandomizer GetClassNameRandomizer(String classNameRandomizerType, String setClassName)
+        public IClassNameRandomizer GetClassNameRandomizer(string classNameRandomizerType, string setClassName)
         {
             if (classNameRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<IClassNameRandomizer>(classNameRandomizerType);
@@ -50,7 +49,7 @@ namespace DnDGen.Web.Repositories.Domain
             return setRandomizer;
         }
 
-        public ILevelRandomizer GetLevelRandomizer(String levelRandomizerType, Int32 setLevel, Boolean allowAdjustments)
+        public ILevelRandomizer GetLevelRandomizer(string levelRandomizerType, int setLevel, bool allowAdjustments)
         {
             if (levelRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<ILevelRandomizer>(levelRandomizerType);
@@ -62,7 +61,7 @@ namespace DnDGen.Web.Repositories.Domain
             return setRandomizer;
         }
 
-        public RaceRandomizer GetMetaraceRandomizer(String metaraceRandomizerType, Boolean forceMetarace, String setMetarace)
+        public RaceRandomizer GetMetaraceRandomizer(string metaraceRandomizerType, bool forceMetarace, string setMetarace)
         {
             if (metaraceRandomizerType == RandomizerTypeConstants.Set)
             {
@@ -83,7 +82,7 @@ namespace DnDGen.Web.Repositories.Domain
             return randomizer;
         }
 
-        public IStatsRandomizer GetStatsRandomizer(String statRandomizerType, Int32 setStrength, Int32 setConstitution, Int32 setDexterity, Int32 setIntelligence, Int32 setWisdom, Int32 setCharisma, Boolean allowAdjustments)
+        public IStatsRandomizer GetStatsRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments)
         {
             if (statRandomizerType != RandomizerTypeConstants.Set)
                 return runtimeFactory.Create<IStatsRandomizer>(statRandomizerType);

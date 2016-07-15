@@ -6,7 +6,7 @@
     { "Path": "console.js" },
     { "Path": "jasmine-html.js" },
     { "Path": "jasmine.js" },
-    { "Path": "../../../DnDGen.Web/Scripts/jQuery/jquery-2.2.2.js" },
+    { "Path": "../../../DnDGen.Web/Scripts/jQuery/jquery-2.2.4.js" },
     { "Path": "../../../DnDGen.Web/Scripts/bootstrap/bootstrap.js" },
     { "Path": "../../../DnDGen.Web/Scripts/Angular/angular.js" },
     { "Path": "../../../DnDGen.Web/Scripts/Angular/angular-mocks.js" },
@@ -29,6 +29,12 @@
       "Path": "../../../DnDGen.Web/Scripts/app",
       "Includes": [ "*.js" ],
       "Excludes": [ "*Resource*" ]
+    }
+  ],
+  "Tests": [
+    {
+      "Path": "app",
+      "Includes": [ "*.tests.js" ]
     }
   ]
 }

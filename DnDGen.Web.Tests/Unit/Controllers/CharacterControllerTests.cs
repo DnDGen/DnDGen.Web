@@ -1,13 +1,12 @@
-﻿using CharacterGen.Common;
-using CharacterGen.Common.Abilities.Feats;
-using CharacterGen.Common.Abilities.Skills;
-using CharacterGen.Common.CharacterClasses;
-using CharacterGen.Common.Races;
-using CharacterGen.Generators;
-using CharacterGen.Generators.Randomizers.Alignments;
-using CharacterGen.Generators.Randomizers.CharacterClasses;
-using CharacterGen.Generators.Randomizers.Races;
-using CharacterGen.Generators.Randomizers.Stats;
+﻿using CharacterGen;
+using CharacterGen.Abilities.Feats;
+using CharacterGen.Abilities.Skills;
+using CharacterGen.CharacterClasses;
+using CharacterGen.Races;
+using CharacterGen.Randomizers.Alignments;
+using CharacterGen.Randomizers.CharacterClasses;
+using CharacterGen.Randomizers.Races;
+using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
@@ -53,14 +52,14 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewContainsModel()
         {
             var result = controller.Index() as ViewResult;
-            Assert.That(result.Model, Is.InstanceOf<CharacterModel>());
+            Assert.That(result.Model, Is.InstanceOf<CharacterViewModel>());
         }
 
         [Test]
         public void IndexViewHasAlignmentRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.AlignmentRandomizerTypes, Contains.Item(AlignmentRandomizerTypeConstants.Any));
             Assert.That(model.AlignmentRandomizerTypes, Contains.Item(AlignmentRandomizerTypeConstants.Chaotic));
             Assert.That(model.AlignmentRandomizerTypes, Contains.Item(AlignmentRandomizerTypeConstants.Evil));
@@ -80,7 +79,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasAlignments()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.Alignments, Contains.Item("Lawful Good"));
             Assert.That(model.Alignments, Contains.Item("Neutral Good"));
             Assert.That(model.Alignments, Contains.Item("Chaotic Good"));
@@ -97,7 +96,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasClassNameRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyNPC));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Healer));
@@ -114,7 +113,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasClassNames()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Barbarian));
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Bard));
             Assert.That(model.ClassNames, Contains.Item(CharacterClassConstants.Cleric));
@@ -138,7 +137,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasLevelRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.LevelRandomizerTypes, Contains.Item(LevelRandomizerTypeConstants.Any));
             Assert.That(model.LevelRandomizerTypes, Contains.Item(LevelRandomizerTypeConstants.High));
             Assert.That(model.LevelRandomizerTypes, Contains.Item(LevelRandomizerTypeConstants.Low));
@@ -152,7 +151,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasBaseRaceRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.EvilBase));
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.GoodBase));
@@ -170,7 +169,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasBaseRaces()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Aasimar));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Bugbear));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.DeepDwarf));
@@ -212,7 +211,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasMetaraceRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.EvilMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.GeneticMeta));
@@ -232,7 +231,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasMetaraces()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfCelestial));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfDragon));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfFiend));
@@ -251,7 +250,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasStatsRandomizerTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Average));
             Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.BestOfFour));
             Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Good));
@@ -268,7 +267,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewHasDefaultRandomizerTypeFirst()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as CharacterModel;
+            var model = result.Model as CharacterViewModel;
             Assert.That(model.AlignmentRandomizerTypes.First(), Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(model.LevelRandomizerTypes.First(), Is.EqualTo(LevelRandomizerTypeConstants.Any));

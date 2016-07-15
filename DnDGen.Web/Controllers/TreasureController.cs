@@ -1,9 +1,8 @@
 ﻿using DnDGen.Web.Models;
-using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using TreasureGen.Common.Items;
 using TreasureGen.Generators;
+using TreasureGen.Items;
 
 namespace DnDGen.Web.Controllers
 {
@@ -19,7 +18,7 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = new TreasureModel();
+            var model = new TreasureViewModel();
 
             model.MaxTreasureLevel = 20;
             model.MundaneItemTypes = new[] { ItemTypeConstants.AlchemicalItem, ItemTypeConstants.Tool };
@@ -32,9 +31,9 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
-        private Dictionary<String, IEnumerable<String>> GetPowers()
+        private Dictionary<string, IEnumerable<string>> GetPowers()
         {
-            var powers = new Dictionary<String, IEnumerable<String>>();
+            var powers = new Dictionary<string, IEnumerable<string>>();
             powers[ItemTypeConstants.Armor] = new[]
             {
                 PowerConstants.Mundane,
@@ -102,7 +101,7 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult Generate(Int32 level)
+        public JsonResult Generate(int level)
         {
             var treasure = treasureGenerator.GenerateAtLevel(level);
             return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Common.Items;
-using TreasureGen.Generators.Items.Magical;
-using TreasureGen.Generators.Items.Mundane;
+﻿using System.Web.Mvc;
+using TreasureGen;
+using TreasureGen.Items;
+using TreasureGen.Items.Magical;
+using TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.Controllers.Treasures
 {
@@ -19,7 +18,7 @@ namespace DnDGen.Web.Controllers.Treasures
         }
 
         [HttpGet]
-        public JsonResult Generate(String power)
+        public JsonResult Generate(string power)
         {
             var item = GetArmor(power);
             var treasure = new Treasure();
@@ -28,7 +27,7 @@ namespace DnDGen.Web.Controllers.Treasures
             return BuildJsonResult(treasure);
         }
 
-        private Item GetArmor(String power)
+        private Item GetArmor(string power)
         {
             if (power == PowerConstants.Mundane)
                 return mundaneArmorGenerator.Generate();

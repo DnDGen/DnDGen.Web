@@ -1,5 +1,4 @@
-﻿using DungeonGen.Common;
-using DungeonGen.Generators;
+﻿using DungeonGen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;

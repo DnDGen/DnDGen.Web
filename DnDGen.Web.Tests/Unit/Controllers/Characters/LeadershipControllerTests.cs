@@ -1,7 +1,6 @@
-﻿using CharacterGen.Common;
-using CharacterGen.Common.Abilities.Feats;
-using CharacterGen.Common.Abilities.Skills;
-using CharacterGen.Generators;
+﻿using CharacterGen;
+using CharacterGen.Abilities.Feats;
+using CharacterGen.Abilities.Skills;
 using DnDGen.Web.Controllers.Characters;
 using Moq;
 using NUnit.Framework;

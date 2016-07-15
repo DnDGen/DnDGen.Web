@@ -1,8 +1,7 @@
-﻿using System;
-using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Common.Items;
-using TreasureGen.Generators.Items.Magical;
+﻿using System.Web.Mvc;
+using TreasureGen;
+using TreasureGen.Items;
+using TreasureGen.Items.Magical;
 
 namespace DnDGen.Web.Controllers.Treasures
 {
@@ -16,7 +15,7 @@ namespace DnDGen.Web.Controllers.Treasures
         }
 
         [HttpGet]
-        public JsonResult Generate(String power)
+        public JsonResult Generate(string power)
         {
             var treasure = new Treasure();
             var item = GetWondrousItem(power);
@@ -25,7 +24,7 @@ namespace DnDGen.Web.Controllers.Treasures
             return BuildJsonResult(treasure);
         }
 
-        private Item GetWondrousItem(String power)
+        private Item GetWondrousItem(string power)
         {
             var item = wondrousItemGenerator.GenerateAtPower(power);
 

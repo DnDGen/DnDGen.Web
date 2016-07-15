@@ -16,18 +16,6 @@ namespace DnDGen.Web
             );
 
             routes.MapRoute(
-                name: "StandardRoll",
-                url: "Roll/{action}/{quantity}",
-                defaults: new { Controller = "Roll", Action = "D20" }
-            );
-
-            routes.MapRoute(
-                name: "CustomRoll",
-                url: "Roll/Custom/{quantity}/{die}",
-                defaults: new { Controller = "Roll", Action = "Custom" }
-            );
-
-            routes.MapRoute(
                 name: "Treasure",
                 url: "Treasure/Generate/{level}",
                 defaults: new { Controller = "Treasure", Action = "Generate" }

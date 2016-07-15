@@ -27,7 +27,7 @@ namespace DnDGen.Web.Tests.Unit.Repositories
                 c =>
                     c.Issue.GetAllForRepository("DnDGen", "DnDGen.Web",
                         It.Is<RepositoryIssueRequest>(
-                            r => r.Filter == IssueFilter.All && r.State == ItemState.All && r.Labels.Contains("bug"))))
+                            r => r.Filter == IssueFilter.All && r.State == ItemStateFilter.All && r.Labels.Contains("bug"))))
                 .Returns(Task.FromResult<IReadOnlyList<Issue>>(issues));
 
             mockGitHubClient.Setup(c => c.Issue.Create(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<NewIssue>()))

@@ -89,6 +89,8 @@
                 formattedCharacter += prefix + 'Interesting Trait: None\r\n';
 
             formattedCharacter += formatSpellsPerDay(character.Magic.SpellsPerDay, prefix);
+            formattedCharacter += formatSpells(character.Magic.KnownSpells, 'Known Spells', prefix);
+            formattedCharacter += formatSpells(character.Magic.PreparedSpells, 'Prepared Spells', prefix);
 
             if (character.Magic.ArcaneSpellFailure > 0)
                 formattedCharacter += prefix + "Arcane Spell Failure: " + character.Magic.ArcaneSpellFailure + "%\r\n";
@@ -120,7 +122,7 @@
         }
 
         function formatList(list, title, prefix) {
-            if (list.length == 0)
+            if (list.length === 0)
                 return '';
 
             if (!prefix)
@@ -210,7 +212,7 @@
             if (!prefix)
                 prefix = '';
 
-            if (spellsPerDay.length == 0)
+            if (spellsPerDay.length === 0)
                 return '';
 
             var formattedSpellsPerDay = prefix + 'Spells Per Day:\r\n';
@@ -225,6 +227,22 @@
             }
 
             return formattedSpellsPerDay;
+        }
+
+        function formatSpells(spells, title, prefix) {
+            if (!prefix)
+                prefix = '';
+
+            if (spells.length === 0)
+                return '';
+
+            var formattedSpells = prefix + title + ':\r\n';
+
+            for (var i = 0; i < spells.length; i++) {
+                formattedSpells += prefix + '\t' + spells[i].Name + " (" + spells[i].Level + ")\r\n";
+            }
+
+            return formattedSpells;
         }
 
         function formatItem(title, item, prefix)
@@ -260,7 +278,7 @@
             if (!prefix)
                 prefix = '';
 
-            if (treasure.Coin.Quantity == 0 && treasure.Goods.length == 0 && treasure.Items.length == 0)
+            if (treasure.Coin.Quantity === 0 && treasure.Goods.length === 0 && treasure.Items.length === 0)
                 return prefix + "Treasure: None\r\n";
 
             var formattedTreasure = prefix + "Treasure:\r\n";

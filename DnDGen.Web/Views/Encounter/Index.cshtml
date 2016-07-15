@@ -1,5 +1,5 @@
 ﻿@{
-    @model DnDGen.Web.Models.EncounterModel
+    @model DnDGen.Web.Models.EncounterViewModel
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,7 +37,17 @@
                         <input dndgen-no-decimals id="level" class="form-control" type="number" min="1" max="20" ng-model="vm.level" required />
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating">Generate</button>
+                        <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating || !vm.filtersAreValid">Generate</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Creature Type Filters (selecting none is the same as selecting all):</label>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox col-sm-4" ng-repeat="filter in vm.creatureTypeFilters">
+                        <label>
+                            <input type="checkbox" class="checkbox" ng-model="filter.checked"> {{filter.name}}
+                        </label>
                     </div>
                 </div>
             </form>
@@ -57,7 +67,7 @@
 
 @section PostBodyScripts {
     <script type="text/javascript">
-        angular.module('app.encounter').factory('bootstrapData', function () {
+        angular.module('app.encounter').factory('model', function () {
             return @Html.Raw(Json.Encode(Model));
         });
     </script>

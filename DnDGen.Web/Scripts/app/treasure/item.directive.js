@@ -8,7 +8,7 @@
     function item() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Item.html',
+            templateUrl: 'Templates/Treasure/Item.html',
             scope: {
                 item: '='
             }

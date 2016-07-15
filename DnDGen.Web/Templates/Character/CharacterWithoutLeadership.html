@@ -2,7 +2,7 @@
     <ul>
         <li>Alignment: {{character.Alignment.Full}}</li>
         <li>
-            <span>Level {{character.Class.Level}} {{character.Class.ClassName}}</span>
+            <span>Level {{character.Class.Level}} {{character.Class.Name}}</span>
             <ul ng-show="character.Class.SpecialistFields.length > 0 || character.Class.ProhibitedFields.length > 0">
                 <li ng-show="character.Class.SpecialistFields.length > 0">
                     <span>Specialist Fields:</span>
@@ -94,6 +94,18 @@
             <span>Spells Per Day:</span>
             <ul>
                 <li ng-repeat="spellLevel in character.Magic.SpellsPerDay track by $index">Level {{spellLevel.Level}}: {{spellLevel.Quantity}} {{spellLevel.HasDomainSpell ? '+ 1' : ''}}</li>
+            </ul>
+        </li>
+        <li ng-show="character.Magic.KnownSpells.length > 0">
+            <span>Known Spells:</span>
+            <ul>
+                <li ng-repeat="spell in character.Magic.KnownSpells track by $index">{{spell.Name}} ({{spell.Level}})</li>
+            </ul>
+        </li>
+        <li ng-show="character.Magic.PreparedSpells.length > 0">
+            <span>Prepared Spells:</span>
+            <ul>
+                <li ng-repeat="spell in character.Magic.PreparedSpells track by $index">{{spell.Name}} ({{spell.Level}})</li>
             </ul>
         </li>
         <li ng-show="character.Magic.ArcaneSpellFailure > 0">Arcane Spell Failure: {{character.Magic.ArcaneSpellFailure}}%</li>

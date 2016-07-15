@@ -41,7 +41,7 @@ describe('Character Controller', function () {
 
         characterServiceMock = {
             generate: function (alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments) {
-                if (setClassName == 'wrong')
+                if (setClassName === 'wrong')
                     return getMockedPromise(setLevel, { character: null });
 
                 var character = {
@@ -135,7 +135,7 @@ describe('Character Controller', function () {
     function getMockedPromise(level, successObject) {
         var deferred = q.defer();
 
-        if (level == 666)
+        if (level === 666)
             deferred.reject();
         else
             deferred.resolve(successObject);

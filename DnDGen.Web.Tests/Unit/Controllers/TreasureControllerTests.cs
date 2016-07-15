@@ -2,12 +2,11 @@
 using DnDGen.Web.Models;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Linq;
 using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Common.Items;
+using TreasureGen;
 using TreasureGen.Generators;
+using TreasureGen.Items;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -26,7 +25,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
         [TestCase("Index")]
         [TestCase("Generate")]
-        public void ActionHandlesGetVerb(String action)
+        public void ActionHandlesGetVerb(string action)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, action);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
@@ -43,14 +42,14 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexContainsModel()
         {
             var result = controller.Index() as ViewResult;
-            Assert.That(result.Model, Is.InstanceOf<TreasureModel>());
+            Assert.That(result.Model, Is.InstanceOf<TreasureViewModel>());
         }
 
         [Test]
         public void IndexHasMaxLevel()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as TreasureModel;
+            var model = result.Model as TreasureViewModel;
 
             Assert.That(model.MaxTreasureLevel, Is.EqualTo(20));
         }
@@ -59,7 +58,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexHasMundaneItemTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as TreasureModel;
+            var model = result.Model as TreasureViewModel;
 
             Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.AlchemicalItem));
             Assert.That(model.MundaneItemTypes, Contains.Item(ItemTypeConstants.Tool));
@@ -102,10 +101,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             PowerConstants.Minor,
             PowerConstants.Medium,
             PowerConstants.Major)]
-        public void IndexHasPoweredItemTypes(String itemType, params String[] powers)
+        public void IndexHasPoweredItemTypes(string itemType, params string[] powers)
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as TreasureModel;
+            var model = result.Model as TreasureViewModel;
 
             Assert.That(model.PoweredItemTypes, Contains.Item(itemType));
 
@@ -123,7 +122,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexHas9PoweredItemTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as TreasureModel;
+            var model = result.Model as TreasureViewModel;
             Assert.That(model.PoweredItemTypes.Count(), Is.EqualTo(9));
         }
 
@@ -131,7 +130,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexHasTreasureTypes()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as TreasureModel;
+            var model = result.Model as TreasureViewModel;
 
             Assert.That(model.TreasureTypes, Contains.Item("Treasure"));
             Assert.That(model.TreasureTypes, Contains.Item("Coin"));

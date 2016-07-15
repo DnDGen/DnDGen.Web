@@ -3,16 +3,16 @@
 
 namespace DnDGen.Web.App_Start
 {
-    using CharacterGen.Bootstrap;
-    using DungeonGen.Bootstrap;
-    using EncounterGen.Bootstrap;
+    using CharacterGen.Domain.IoC;
+    using DungeonGen.Domain.IoC;
+    using EncounterGen.Domain.IoC;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
-    using RollGen.Bootstrap;
+    using RollGen.Domain.Ioc;
     using System;
     using System.Web;
-    using TreasureGen.Bootstrap;
+    using TreasureGen.Domain.IoC;
 
     public static class NinjectWebCommon
     {

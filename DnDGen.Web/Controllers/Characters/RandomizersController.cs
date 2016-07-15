@@ -1,6 +1,5 @@
-﻿using CharacterGen.Generators.Verifiers;
+﻿using CharacterGen.Verifiers;
 using DnDGen.Web.Repositories;
-using System;
 using System.Web.Mvc;
 
 namespace DnDGen.Web.Controllers.Characters
@@ -10,14 +9,14 @@ namespace DnDGen.Web.Controllers.Characters
         private IRandomizerRepository randomizerRepository;
         private IRandomizerVerifier randomizerVerifier;
 
-        public RandomizersController(IRandomizerRepository randomizerRepository, IRandomizerVerifier characterGenerator)
+        public RandomizersController(IRandomizerRepository randomizerRepository, IRandomizerVerifier randomizerVerifier)
         {
             this.randomizerRepository = randomizerRepository;
-            this.randomizerVerifier = characterGenerator;
+            this.randomizerVerifier = randomizerVerifier;
         }
 
         [HttpGet]
-        public JsonResult Verify(String alignmentRandomizerType, String classNameRandomizerType, String levelRandomizerType, String baseRaceRandomizerType, String metaraceRandomizerType, String setAlignment = "", String setClassName = "", Int32 setLevel = 0, Boolean allowLevelAdjustments = true, String setBaseRace = "", Boolean forceMetarace = false, String setMetarace = "")
+        public JsonResult Verify(string alignmentRandomizerType, string classNameRandomizerType, string levelRandomizerType, string baseRaceRandomizerType, string metaraceRandomizerType, string setAlignment = "", string setClassName = "", int setLevel = 0, bool allowLevelAdjustments = true, string setBaseRace = "", bool forceMetarace = false, string setMetarace = "")
         {
             var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
             var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(classNameRandomizerType, setClassName);

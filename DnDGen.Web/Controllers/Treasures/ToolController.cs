@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using TreasureGen.Common;
-using TreasureGen.Generators.Items.Mundane;
+using TreasureGen;
+using TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.Controllers.Treasures
 {
