@@ -219,8 +219,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void ValidateReturnsJsonResult()
         {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
             filters.Add("filter 1");
             filters.Add("filter 2");
             mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
@@ -233,8 +231,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void ValidateJsonAllowsGet()
         {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
             filters.Add("filter 1");
             filters.Add("filter 2");
             mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
@@ -247,8 +243,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void ValidateJsonReturnsValid()
         {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
             filters.Add("filter 1");
             filters.Add("filter 2");
             mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
@@ -262,8 +256,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void ValidateJsonReturnsInvalid()
         {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
             filters.Add("filter 1");
             filters.Add("filter 2");
             mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
@@ -272,6 +264,30 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var result = controller.Validate("environment", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
+        public void CanValidateNullFilters()
+        {
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+                It.Is<string[]>(ss => ss.Any() == false))).Returns(true);
+
+            var result = controller.Validate("environment", 9266, null) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.True);
+        }
+
+        [Test]
+        public void CanGenerateNullFilters()
+        {
+            var encounter = new Encounter();
+            encounter.Characters = Enumerable.Empty<Character>();
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266,
+                It.Is<string[]>(ss => ss.Any() == false))).Returns(encounter);
+
+            var result = controller.Generate("environment", 9266, null) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.encounter, Is.EqualTo(encounter));
         }
     }
 }

@@ -54,6 +54,8 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public JsonResult Generate(string environment, int level, IEnumerable<string> filters)
         {
+            filters = filters ?? Enumerable.Empty<string>();
+
             var encounter = encounterGenerator.Generate(environment, level, filters.ToArray());
 
             foreach (var character in encounter.Characters)
@@ -68,8 +70,7 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public JsonResult Validate(string environment, int level, IEnumerable<string> filters)
         {
-            if (filters == null)
-                filters = Enumerable.Empty<string>();
+            filters = filters ?? Enumerable.Empty<string>();
 
             var isValid = filterVerifier.FiltersAreValid(environment, level, filters.ToArray());
 
