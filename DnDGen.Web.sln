@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CF5942
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{8D18A9AC-4946-4043-98FB-554C93BEDBB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web.Tests", "DnDGen.Web.Tests\DnDGen.Web.Tests.csproj", "{9CAADCB5-ED42-40D8-A2BE-658C47447F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web.Tests.Integration", "DnDGen.Web.Tests.Integration\DnDGen.Web.Tests.Integration.csproj", "{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web.Tests.Unit", "DnDGen.Web.Tests.Unit\DnDGen.Web.Tests.Unit.csproj", "{9CAADCB5-ED42-40D8-A2BE-658C47447F32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +24,10 @@ Global
 		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Release|Any CPU.ActiveCfg = Release|Any CPU

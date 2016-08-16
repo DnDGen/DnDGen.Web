@@ -10,5 +10,6 @@ install:
   - nuget install Chutzpah -OutputDirectory testrunner
 script:
   - xbuild DnDGen.Web.sln /p:TargetFrameworkVersion="v4.5.1" /p:Configuration=Release
-  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DnDGen.Web.Tests/bin/Release/DnDGen.Web.Tests.dll
-  - wine ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./DnDGen.Web.Tests/Unit/Scripts
+  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DnDGen.Web.Tests.Unit/bin/Release/DnDGen.Web.Tests.Unit.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DnDGen.Web.Tests.Integration/bin/Release/DnDGen.Web.Tests.Integration.dll
+  - wine ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./DnDGen.Web.Tests.Unit/Scripts
