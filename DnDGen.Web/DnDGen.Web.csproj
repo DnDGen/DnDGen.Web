@@ -79,8 +79,8 @@
     <Reference Include="Ninject.Web.Mvc">
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Octokit, Version=0.20.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.20.0\lib\net45\Octokit.dll</HintPath>
+    <Reference Include="Octokit, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.21.1\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RollGen, Version=12.1.5991.24748, Culture=neutral, processorArchitecture=MSIL">
@@ -207,10 +207,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jQuery\jquery-2.2.4.intellisense.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.4.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.4.min.js" />
-    <Content Include="Scripts\jQuery\jquery-2.2.4.min.map" />
+    <None Include="Scripts\jQuery\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.slim.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.slim.min.js" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\jQuery\jquery-3.1.0.min.map" />
     <Content Include="Scripts\fileSaver\FileSaver.js" />
     <Content Include="Scripts\fileSaver\FileSaver.min.js" />
     <Content Include="Scripts\SweetAlert\sweetalert.min.js" />
