@@ -225,10 +225,6 @@
     <Content Include="Unit\Scripts\app\shared\inchesToFeet.filter.tests.js" />
     <Content Include="Unit\Scripts\app\character\characterFormatter.service.tests.js" />
     <Content Include="Unit\Scripts\app\treasure\treasureFormatter.service.tests.js" />
-    <Content Include="Unit\Scripts\boot.js" />
-    <Content Include="Unit\Scripts\console.js" />
-    <Content Include="Unit\Scripts\jasmine-html.js" />
-    <Content Include="Unit\Scripts\jasmine.js" />
     <Content Include="Unit\Scripts\app\roll\roll.service.tests.js" />
     <Content Include="Unit\Scripts\app\roll\roll.controller.tests.js" />
     <Content Include="Unit\Scripts\app\treasure\treasure.service.tests.js" />
