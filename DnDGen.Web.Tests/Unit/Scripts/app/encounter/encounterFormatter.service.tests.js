@@ -50,8 +50,8 @@ describe('Encounter Formatter Service', function () {
 
         encounter = {
             Creatures: [
-                { Type: 'creature 1', Subtype: '', Quantity: 9266 },
-                { Type: 'creature 2', Subtype: '', Quantity: 90210 },
+                { Name: 'creature 1', Description: '', Quantity: 9266 },
+                { Name: 'creature 2', Description: '', Quantity: 90210 },
             ],
             Characters: [],
             Treasure: { Coin: { Currency: '', Quantity: 0 }, Goods: [], Items: [] }
@@ -91,13 +91,13 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats creature subtypes', function () {
-        encounter.Creatures[0].Subtype = 'subtype'
+        encounter.Creatures[0].Description = 'description'
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
-        expect(lines[1]).toBe('\tcreature 1 (subtype) x9266');
+        expect(lines[1]).toBe('\tcreature 1 (description) x9266');
         expect(lines[2]).toBe('\tcreature 2 x90210');
         expect(lines[3]).toBe('Treasure: None');
         expect(lines[4]).toBe('');
@@ -178,7 +178,7 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats full encounter', function () {
-        encounter.Creatures[0].Subtype = 'subtype'
+        encounter.Creatures[0].Description = 'description'
         encounter.Characters.push(createCharacter());
         encounter.Characters.push(createCharacter());
         encounter.Treasure.Coin.Quantity = 9266;
@@ -190,7 +190,7 @@ describe('Encounter Formatter Service', function () {
         var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('Creatures:');
-        expect(lines[1]).toBe('\tcreature 1 (subtype) x9266');
+        expect(lines[1]).toBe('\tcreature 1 (description) x9266');
         expect(lines[2]).toBe('\tcreature 2 x90210');
         expect(lines[3]).toBe("Treasure:");
         expect(lines[4]).toBe("\tformatted treasure");
@@ -211,7 +211,7 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats full encounter with prefix', function () {
-        encounter.Creatures[0].Subtype = 'subtype'
+        encounter.Creatures[0].Description = 'description'
         encounter.Characters.push(createCharacter());
         encounter.Characters.push(createCharacter());
         encounter.Treasure.Coin.Quantity = 9266;
@@ -223,7 +223,7 @@ describe('Encounter Formatter Service', function () {
         var lines = formattedEncounter.split('\r\n');
 
         expect(lines[0]).toBe('\tCreatures:');
-        expect(lines[1]).toBe('\t\tcreature 1 (subtype) x9266');
+        expect(lines[1]).toBe('\t\tcreature 1 (description) x9266');
         expect(lines[2]).toBe('\t\tcreature 2 x90210');
         expect(lines[3]).toBe("\tTreasure:");
         expect(lines[4]).toBe("\t\tformatted treasure");

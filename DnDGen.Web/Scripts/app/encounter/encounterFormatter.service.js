@@ -19,17 +19,17 @@
             var formattedEncounter = prefix + 'Creatures:\r\n';
 
             for (var i = 0; i < encounter.Creatures.length; i++) {
-                formattedEncounter += prefix + '\t' + encounter.Creatures[i].Type;
+                formattedEncounter += prefix + '\t' + encounter.Creatures[i].Name;
 
-                if (encounter.Creatures[i].Subtype.length > 0)
-                    formattedEncounter += ' (' + encounter.Creatures[i].Subtype + ')';
+                if (encounter.Creatures[i].Description.length > 0)
+                    formattedEncounter += ' (' + encounter.Creatures[i].Description + ')';
 
                 formattedEncounter += ' x' + encounter.Creatures[i].Quantity + '\r\n';
             }
 
             formattedEncounter += formatTreasure(encounter.Treasure, prefix);
 
-            if (encounter.Characters.length == 0)
+            if (encounter.Characters.length === 0)
                 return formattedEncounter;
 
             formattedEncounter += prefix + 'Characters:\r\n';
@@ -44,7 +44,7 @@
 
         function formatTreasure(treasure, prefix)
         {
-            if (treasure.Coin.Quantity == 0 && treasure.Goods.length == 0 && treasure.Items.length == 0)
+            if (treasure.Coin.Quantity === 0 && treasure.Goods.length === 0 && treasure.Items.length === 0)
                 return prefix + "Treasure: None\r\n";
 
             var formattedTreasure = prefix + "Treasure:\r\n";
