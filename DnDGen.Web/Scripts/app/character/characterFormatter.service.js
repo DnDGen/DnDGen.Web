@@ -51,7 +51,7 @@
                 prefix = '';
 
             var formattedCharacter = prefix + 'Alignment: ' + character.Alignment.Full + '\r\n';
-            formattedCharacter += prefix + 'Level ' + character.Class.Level + ' ' + character.Class.ClassName + '\r\n';
+            formattedCharacter += prefix + 'Level ' + character.Class.Level + ' ' + character.Class.Name + '\r\n';
             formattedCharacter += formatList(character.Class.SpecialistFields, 'Specialist', prefix + '\t');
             formattedCharacter += formatList(character.Class.ProhibitedFields, 'Prohibited', prefix + '\t');
             formattedCharacter += prefix;
@@ -339,7 +339,7 @@
             if (character.Race.Metarace.length > 0)
                 summary += character.Race.Metarace + " ";
 
-            summary += character.Race.BaseRace + " " + character.Class.ClassName;
+            summary += character.Race.BaseRace + " " + character.Class.Name;
 
             return summary;
         }

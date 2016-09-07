@@ -1,23 +1,23 @@
 ﻿<div>
     <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
-    <div ng-show="leadership.Score > 0">
-        <span ng-show="leadership.Score > 0">Leadership:</span>
+    <div ng-show="leadership.Score > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+        <span ng-show="leadership.Score > 0">Leadership:</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
         <ul>
-            <li>Score: {{leadership.Score | number}}</li>
-            <li ng-show="leadership.LeadershipModifiers.length > 0">
+            <li>Score: {{leadership.Score | number}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+            <li ng-show="leadership.LeadershipModifiers.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <span>Leadership Modifiers:</span>
                 <ul>
-                    <li ng-repeat="modifier in leadership.LeadershipModifiers track by $index">{{modifier}}</li>
+                    <li ng-repeat="modifier in leadership.LeadershipModifiers track by $index">{{modifier}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 </ul>
             </li>
-            <li ng-show="cohort">
+            <li ng-show="cohort"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <span>Cohort:</span>
                 <dndgen-character-without-leadership character="cohort"></dndgen-character-without-leadership>
             </li>
-            <li ng-show="followers.length > 0">
+            <li ng-show="followers.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <span>Followers:</span>
                 <ul>
-                    <li ng-repeat="follower in followers track by $index">
+                    <li ng-repeat="follower in followers track by $index"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                         <dndgen-character-without-leadership character="follower"></dndgen-character-without-leadership>
                     </li>
                 </ul>

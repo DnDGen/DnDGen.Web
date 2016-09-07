@@ -1,17 +1,17 @@
 ﻿<div>
-    <span ng-show="treasure.Coin.Quantity > 0">{{treasure.Coin.Quantity | number}} {{treasure.Coin.Currency}}</span>
-    <div id="goodsWrapper" ng-show="treasure.Goods.length > 0">
+    <span ng-show="treasure.Coin.Quantity > 0">{{treasure.Coin.Quantity | number}} {{treasure.Coin.Currency}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+    <div id="goodsWrapper" ng-show="treasure.Goods.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
         <span>Goods:</span>
         <ul>
-            <li ng-repeat="good in treasure.Goods track by $index">
-                {{good.Description}} ({{good.ValueInGold | number}}gp)
+            <li ng-repeat="good in treasure.Goods track by $index"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+                {{good.Description}} ({{good.ValueInGold | number}}gp) <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
             </li>
         </ul>
     </div>
-    <div id="itemsWrapper" ng-show="treasure.Items.length > 0">
+    <div id="itemsWrapper" ng-show="treasure.Items.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
         <span>Items:</span>
         <ul>
-            <li ng-repeat="item in treasure.Items track by $index">
+            <li ng-repeat="item in treasure.Items track by $index"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <dndgen-item item="item"></dndgen-item>
             </li>
         </ul>

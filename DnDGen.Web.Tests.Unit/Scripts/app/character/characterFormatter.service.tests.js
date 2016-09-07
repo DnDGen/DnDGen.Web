@@ -68,7 +68,7 @@ describe('Character Formatter Service', function () {
         return {
             Alignment: { Full: 'alignment ' + characterCount },
             Class: {
-                ClassName: 'class name ' + characterCount,
+                Name: 'class name ' + characterCount,
                 Level: 9266 + characterCount,
                 SpecialistFields: [],
                 ProhibitedFields: []

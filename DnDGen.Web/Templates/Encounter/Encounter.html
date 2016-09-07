@@ -1,14 +1,14 @@
 ﻿<div>
     <span>Creatures:</span>
     <ul>
-        <li ng-repeat="creature in encounter.Creatures">{{creature.Name}}<span ng-if="creature.Description.length > 0"> ({{creature.Description}})</span> x{{creature.Quantity}}</li>
+        <li ng-repeat="creature in encounter.Creatures">{{creature.Name}}<span ng-if="creature.Description.length > 0"> ({{creature.Description}})</span> x{{creature.Quantity}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
     </ul>
-    <span>Treasure: {{encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0 ? '' : 'None'}}</span>
-    <dndgen-treasure ng-show="encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0" treasure="encounter.Treasure"></dndgen-treasure>
-    <div ng-show="encounter.Characters.length > 0">
+    <span>Treasure: {{encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0 ? '' : 'None'}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+    <dndgen-treasure ng-show="encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0" treasure="encounter.Treasure"></dndgen-treasure> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+    <div ng-show="encounter.Characters.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
         <span>Characters:</span>
         <ul>
-            <li ng-repeat="character in encounter.Characters">
+            <li ng-repeat="character in encounter.Characters"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
             </li>
         </ul>
