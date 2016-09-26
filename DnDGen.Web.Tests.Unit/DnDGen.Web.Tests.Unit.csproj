@@ -140,6 +140,7 @@
     <Compile Include="Controllers\Treasures\WeaponControllerTests.cs" />
     <Compile Include="Controllers\Treasures\WondrousItemControllerTests.cs" />
     <Compile Include="Controllers\Treasures\CoinControllerTests.cs" />
+    <Compile Include="Models\BindingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\TreasureModelTests.cs" />
     <Compile Include="Repositories\GitHubErrorRepositoryTests.cs" />
