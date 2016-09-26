@@ -25,7 +25,7 @@
         function formatArea(area) {
             var formattedArea = area.Type;
 
-            if (area.Descriptions.length > 0 || area.Length > 0 || area.Contents.IsEmpty == false) {
+            if (area.Descriptions.length > 0 || area.Length > 0 || area.Contents.IsEmpty === false) {
                 formattedArea += ':';
             }
 
@@ -40,10 +40,10 @@
             }
 
             if (area.Length > 0) {
-                if (area.Width == 0) {
+                if (area.Width === 0) {
                     formattedArea += '\tDimensions: continues ' + area.Length + '\'\r\n';
                 }
-                else if (area.Width == 1) {
+                else if (area.Width === 1) {
                     formattedArea += '\tDimensions: about ' + area.Length + ' square feet\r\n';
                 }
                 else if (area.Width > 1) {
@@ -51,7 +51,7 @@
                 }
             }
 
-            if (area.Contents.IsEmpty == false) {
+            if (area.Contents.IsEmpty === false) {
                 formattedArea += formatContents(area.Contents);
             }
 
@@ -69,7 +69,8 @@
                 formattedContents += '\t\tTraps:\r\n';
 
                 for (var i = 0; i < contents.Traps.length; i++) {
-                    formattedContents += '\t\t\t' + contents.Traps[i].Description + ':\r\n';
+                    formattedContents += '\t\t\t' + contents.Traps[i].Name + ':\r\n';
+                    formattedContents += formatList(contents.Traps[i].Descriptions, '\t\t\t\t');
                     formattedContents += '\t\t\t\tChallenge Rating: ' + contents.Traps[i].ChallengeRating + '\r\n';
                     formattedContents += '\t\t\t\tSearch DC: ' + contents.Traps[i].SearchDC + '\r\n';
                     formattedContents += '\t\t\t\tDisable Device DC: ' + contents.Traps[i].DisableDeviceDC + '\r\n';
@@ -118,10 +119,23 @@
             return formattedContents;
         }
 
+        function formatList(list, prefix) {
+            if (!prefix)
+                prefix = '';
+
+            var formattedList = '';
+
+            for (var i = 0; i < list.length; i++) {
+                formattedList += prefix + list[i] + '\r\n';
+            }
+
+            return formattedList;
+        }
+
         function formatDungeonTreasure(dungeonTreasure, title) {
             var formattedDungeonTreasure = '\t\t\t' + title + ':';
 
-            if (treasureIsEmpty(dungeonTreasure.Treasure))
+            if (dungeonTreasure.Treasure.IsAny === false)
                 formattedDungeonTreasure += ' None';
 
             formattedDungeonTreasure += '\r\n';
@@ -132,14 +146,10 @@
             if (dungeonTreasure.Concealment.length > 0)
                 formattedDungeonTreasure += '\t\t\t\tConcealment: ' + dungeonTreasure.Concealment + '\r\n';
 
-            if (treasureIsEmpty(dungeonTreasure.Treasure) == false)
+            if (dungeonTreasure.Treasure.IsAny)
                 formattedDungeonTreasure += treasureFormatterService.formatTreasure(dungeonTreasure.Treasure, '\t\t\t\t');
 
             return formattedDungeonTreasure;
-        }
-
-        function treasureIsEmpty(treasure) {
-            return treasure.Coin.Quantity == 0 && treasure.Goods.length == 0 && treasure.Items.length == 0;
         }
     };
 })();

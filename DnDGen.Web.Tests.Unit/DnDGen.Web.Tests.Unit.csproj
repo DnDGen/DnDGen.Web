@@ -37,15 +37,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.5.0\lib\CharacterGen.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.7.0.0\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.2.0.1\lib\DungeonGen.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.3.0.0\lib\DungeonGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.0.2.1\lib\EncounterGen.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.1.0.0\lib\EncounterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -100,7 +100,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.4.0\lib\TreasureGen.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.5.0.0\lib\TreasureGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -126,20 +126,6 @@
     <Compile Include="Controllers\RollControllerTests.cs" />
     <Compile Include="Controllers\CharacterControllerTests.cs" />
     <Compile Include="Controllers\TreasureControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\GoodsControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\ItemsControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\AlchemicalItemControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\ArmorControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\PotionControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\RingControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\RodControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\ScrollControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\StaffControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\ToolControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\WandControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\WeaponControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\WondrousItemControllerTests.cs" />
-    <Compile Include="Controllers\Treasures\CoinControllerTests.cs" />
     <Compile Include="Models\BindingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\TreasureModelTests.cs" />

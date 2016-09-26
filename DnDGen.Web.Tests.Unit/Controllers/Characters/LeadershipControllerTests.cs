@@ -1,6 +1,7 @@
 ﻿using CharacterGen;
 using CharacterGen.Abilities.Feats;
 using CharacterGen.Abilities.Skills;
+using CharacterGen.Abilities.Stats;
 using DnDGen.Web.Controllers.Characters;
 using Moq;
 using NUnit.Framework;
@@ -112,9 +113,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             var cohort = new Character();
             mockLeadershipGenerator.Setup(g => g.GenerateCohort(9266, 90210, "leader alignment", "leader class")).Returns(cohort);
 
-            cohort.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
-            cohort.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
-            cohort.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
+            cohort.Ability.Skills["zzzz"] = new Skill("zzzz", new Stat(string.Empty), 123456) { Ranks = 42 };
+            cohort.Ability.Skills["aaaa"] = new Skill("aaaa", new Stat(string.Empty), 123456) { Ranks = 600 };
+            cohort.Ability.Skills["kkkk"] = new Skill("kkkk", new Stat(string.Empty), 123456) { Ranks = 1337 };
 
             var result = controller.Cohort(9266, 90210, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;
@@ -181,9 +182,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             var follower = new Character();
             mockLeadershipGenerator.Setup(g => g.GenerateFollower(9266, "leader alignment", "leader class")).Returns(follower);
 
-            follower.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
-            follower.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
-            follower.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
+            follower.Ability.Skills["zzzz"] = new Skill("zzzz", new Stat(string.Empty), 123456) { Ranks = 42 };
+            follower.Ability.Skills["aaaa"] = new Skill("aaaa", new Stat(string.Empty), 123456) { Ranks = 600 };
+            follower.Ability.Skills["kkkk"] = new Skill("kkkk", new Stat(string.Empty), 123456) { Ranks = 1337 };
 
             var result = controller.Follower(9266, "leader alignment", "leader class") as JsonResult;
             dynamic data = result.Data;

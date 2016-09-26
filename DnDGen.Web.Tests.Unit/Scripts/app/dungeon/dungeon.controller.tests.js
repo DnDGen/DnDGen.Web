@@ -8,16 +8,17 @@ describe('Dungeon Controller', function () {
     var sweetAlertServiceMock;
     var fileSaverServiceMock;
     var dungeonFormatterServiceMock;
+    var model;
 
     beforeEach(module('app.dungeon'));
 
     beforeEach(function () {
         dungeonServiceMock = {
-            getDungeonAreasFromHall: function (dungeonLevel, partyLevel) {
+            getDungeonAreasFromHall: function (dungeonLevel, partyLevel, temperature) {
                 var body = {
                     areas: [
-                        { type: 'hall room ' + dungeonLevel, contents: 'monster ' + partyLevel },
-                        { type: 'hall exit ' + dungeonLevel, contents: 'trap '  + partyLevel}
+                        { type: temperature + ' hall room ' + dungeonLevel, contents: 'monster ' + partyLevel },
+                        { type: temperature + ' hall exit ' + dungeonLevel, contents: 'trap '  + partyLevel}
                     ]
                 };
 
@@ -26,19 +27,23 @@ describe('Dungeon Controller', function () {
 
                 return getMockedPromise(body);
             },
-            getDungeonAreasFromDoor: function (dungeonLevel, partyLevel) {
-            var body = {
-                areas: [
-                    { type: 'door room ' + dungeonLevel, contents: 'monster ' + partyLevel },
-                    { type: 'door exit ' + dungeonLevel, contents: 'trap '  + partyLevel}
-                ]
-            };
+            getDungeonAreasFromDoor: function (dungeonLevel, partyLevel, temperature) {
+                var body = {
+                    areas: [
+                        { type: temperature + ' door room ' + dungeonLevel, contents: 'monster ' + partyLevel },
+                        { type: temperature + ' door exit ' + dungeonLevel, contents: 'trap '  + partyLevel}
+                    ]
+                };
 
-            if (dungeonLevel == 666)
-                return getMockedPromise(body, true);
+                if (dungeonLevel == 666)
+                    return getMockedPromise(body, true);
 
-            return getMockedPromise(body);
-        }
+                return getMockedPromise(body);
+            }
+        };
+
+        model = {
+            Temperatures: ['cold', 'hot']
         };
 
         sweetAlertServiceMock = {};
@@ -81,13 +86,19 @@ describe('Dungeon Controller', function () {
             dungeonService: dungeonServiceMock,
             sweetAlertService: sweetAlertServiceMock,
             fileSaverService: fileSaverServiceMock,
-            dungeonFormatterService: dungeonFormatterServiceMock
+            dungeonFormatterService: dungeonFormatterServiceMock,
+            model: model
         });
     }));
 
     it('has initial values for inputs', function () {
         expect(vm.dungeonLevel).toBe(1);
         expect(vm.partyLevel).toBe(1);
+        expect(vm.temperature).toBe('cold');
+    });
+
+    it('has model', function () {
+        expect(vm.model).toBe(model);
     });
 
     it('has an empty areas for results', function () {
@@ -102,13 +113,14 @@ describe('Dungeon Controller', function () {
     it('generates dungeon areas from hall', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('hall room 9266');
+        expect(vm.areas[0].type).toBe('temp hall room 9266');
         expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('hall exit 9266');
+        expect(vm.areas[1].type).toBe('temp hall exit 9266');
         expect(vm.areas[1].contents).toBe('trap 90210');
         expect(vm.areas.length).toBe(2);
     });
@@ -116,6 +128,7 @@ describe('Dungeon Controller', function () {
     it('says it is generating while fetching dungeon areas from hall', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
 
@@ -125,6 +138,7 @@ describe('Dungeon Controller', function () {
     it('says it is done generating while fetching dungeon areas from hall', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
@@ -135,6 +149,7 @@ describe('Dungeon Controller', function () {
     it('says it is done generating if an error is thrown while fetching dungeon areas from hall', function () {
         vm.dungeonLevel = 666;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
@@ -145,6 +160,7 @@ describe('Dungeon Controller', function () {
     it('shows an alert if an error is thrown while fetching dungeon areas from hall', function () {
         vm.dungeonLevel = 666;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
@@ -155,6 +171,7 @@ describe('Dungeon Controller', function () {
     it('clears the areas if an error is thrown while fetching dungeon areas from hall', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
@@ -170,13 +187,14 @@ describe('Dungeon Controller', function () {
     it('generates dungeon areas from door', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('door room 9266');
+        expect(vm.areas[0].type).toBe('temp door room 9266');
         expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('door exit 9266');
+        expect(vm.areas[1].type).toBe('temp door exit 9266');
         expect(vm.areas[1].contents).toBe('trap 90210');
         expect(vm.areas.length).toBe(2);
     });
@@ -184,6 +202,7 @@ describe('Dungeon Controller', function () {
     it('says it is generating while fetching dungeon areas from door', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
 
@@ -193,6 +212,7 @@ describe('Dungeon Controller', function () {
     it('says it is done generating while fetching dungeon areas from door', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
@@ -203,6 +223,7 @@ describe('Dungeon Controller', function () {
     it('says it is done generating if an error is thrown while fetching dungeon areas from door', function () {
         vm.dungeonLevel = 666;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
@@ -213,6 +234,7 @@ describe('Dungeon Controller', function () {
     it('shows an alert if an error is thrown while fetching dungeon areas from door', function () {
         vm.dungeonLevel = 666;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
@@ -223,6 +245,7 @@ describe('Dungeon Controller', function () {
     it('clears the areas if an error is thrown while fetching dungeon areas from door', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
@@ -238,6 +261,7 @@ describe('Dungeon Controller', function () {
     it('downloads dungeon areas', function () {
         vm.dungeonLevel = 9266;
         vm.partyLevel = 90210;
+        vm.temperature = 'temp';
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
@@ -245,12 +269,12 @@ describe('Dungeon Controller', function () {
         vm.download();
         scope.$apply();
 
-        var fileName = 'Dungeon level 9266, party level 90210 ' + new Date().toString();
+        var fileName = 'temp Dungeon level 9266, party level 90210 ' + new Date().toString();
         var formattedAreas = 'Area 1:\n'
-            + '\thall room 9266\n'
+            + '\ttemp hall room 9266\n'
             + '\tmonster 90210\n'
             + 'Area 2:\n'
-            + '\thall exit 9266\n'
+            + '\ttemp hall exit 9266\n'
             + '\ttrap 90210\n';
 
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith(formattedAreas, fileName);

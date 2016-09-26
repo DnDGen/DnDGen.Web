@@ -11,7 +11,8 @@ describe('Treasure Formatter Service', function () {
         treasure = {
             Coin: { Quantity: 0, Currency: '' },
             Goods: [],
-            Items: []
+            Items: [],
+            IsAny: true
         };
 
         item = createItem('item name');
@@ -52,6 +53,10 @@ describe('Treasure Formatter Service', function () {
     }));
 
     it('formats empty treaure', function () {
+        treasure.IsAny = false;
+        treasure.Coin.Quantity = 9266;
+        treasure.Coin.Currency = 'munny';
+
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
 

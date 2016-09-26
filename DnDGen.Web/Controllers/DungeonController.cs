@@ -1,4 +1,6 @@
-﻿using DungeonGen;
+﻿using DnDGen.Web.Models;
+using DungeonGen;
+using EncounterGen.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,13 +19,21 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            var model = new DungeonViewModel();
+            model.Temperatures = new[]
+            {
+                EnvironmentConstants.Temperatures.Cold,
+                EnvironmentConstants.Temperatures.Temperate,
+                EnvironmentConstants.Temperatures.Warm
+            };
+
+            return View(model);
         }
 
         [HttpGet]
-        public JsonResult GenerateFromHall(int dungeonLevel, int partyLevel)
+        public JsonResult GenerateFromHall(int dungeonLevel, int partyLevel, string temperature)
         {
-            var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, partyLevel);
+            var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, partyLevel, temperature);
             areas = SortCharacterTraits(areas);
 
             return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
@@ -56,9 +66,9 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GenerateFromDoor(int dungeonLevel, int partyLevel)
+        public JsonResult GenerateFromDoor(int dungeonLevel, int partyLevel, string temperature)
         {
-            var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, partyLevel);
+            var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, partyLevel, temperature);
             areas = SortCharacterTraits(areas);
 
             return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);

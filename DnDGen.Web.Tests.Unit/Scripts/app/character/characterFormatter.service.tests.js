@@ -18,15 +18,6 @@ describe('Character Formatter Service', function () {
 
                 var formattedTreasure = prefix + 'formatted treasure\r\n';
 
-                if (treasure.Coin.Quantity > 0)
-                    formattedTreasure += prefix + '\t' + treasure.Coin.Currency + '\r\n';
-
-                if (treasure.Goods.length > 0)
-                    formattedTreasure += prefix + '\tGood: ' + treasure.Goods[0].Description + '\r\n';
-
-                if (treasure.Items.length > 0)
-                    formattedTreasure += prefix + '\tItem: ' + treasure.Items[0].Name + '\r\n';
-
                 return formattedTreasure;
             },
             formatItem: formatItem
@@ -134,13 +125,14 @@ describe('Character Formatter Service', function () {
                 PrimaryHand: null,
                 OffHand: null,
                 Armor: null,
-                Treasure: { Coin: { Currency: '', Quantity: 0 }, Goods: [], Items: [] }
+                Treasure: { Coin: { Currency: '', Quantity: 0 }, Goods: [], Items: [], IsAny: false }
             },
             Combat: {
                 AdjustedDexterityBonus: 3 + characterCount,
                 ArmorClass: { Full: 7 + characterCount, FlatFooted: 12 + characterCount, Touch: 34 + characterCount, CircumstantialBonus: false },
                 BaseAttack: {
-                    AllBonuses: [21 + characterCount, 16 + characterCount, 11 + characterCount, 6 + characterCount, 1 + characterCount],
+                    AllMeleeBonuses: [21 + characterCount, 16 + characterCount, 11 + characterCount, 6 + characterCount, 1 + characterCount],
+                    AllRangedBonuses: [22 + characterCount, 17 + characterCount, 12 + characterCount, 7 + characterCount, 2 + characterCount],
                     CircumstantialBonus: false
                 },
                 HitPoints: 3456 + characterCount,
@@ -207,15 +199,17 @@ describe('Character Formatter Service', function () {
         expect(lines[43]).toBe("\tArmor Class: 8");
         expect(lines[44]).toBe("\t\tFlat-Footed: 13");
         expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines.length).toBe(54);
+        expect(lines[46]).toBe("\tBase Attack:");
+        expect(lines[47]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[48]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[49]).toBe("\tHit Points: 3457");
+        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[51]).toBe("\tSaving Throws:");
+        expect(lines[52]).toBe("\t\tFortitude: 57");
+        expect(lines[53]).toBe("\t\tReflex: 79");
+        expect(lines[54]).toBe("\t\tWill: 68");
+        expect(lines[55]).toBe('');
+        expect(lines.length).toBe(56);
     });
 
     it('formats class specialization', function () {
@@ -273,15 +267,17 @@ describe('Character Formatter Service', function () {
         expect(lines[46]).toBe("\tArmor Class: 8");
         expect(lines[47]).toBe("\t\tFlat-Footed: 13");
         expect(lines[48]).toBe("\t\tTouch: 35");
-        expect(lines[49]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[50]).toBe("\tHit Points: 3457");
-        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[52]).toBe("\tSaving Throws:");
-        expect(lines[53]).toBe("\t\tFortitude: 57");
-        expect(lines[54]).toBe("\t\tReflex: 79");
-        expect(lines[55]).toBe("\t\tWill: 68");
-        expect(lines[56]).toBe('');
-        expect(lines.length).toBe(57);
+        expect(lines[49]).toBe("\tBase Attack:");
+        expect(lines[50]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[51]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[52]).toBe("\tHit Points: 3457");
+        expect(lines[53]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[54]).toBe("\tSaving Throws:");
+        expect(lines[55]).toBe("\t\tFortitude: 57");
+        expect(lines[56]).toBe("\t\tReflex: 79");
+        expect(lines[57]).toBe("\t\tWill: 68");
+        expect(lines[58]).toBe('');
+        expect(lines.length).toBe(59);
     });
 
     it('formats prohibited fields', function () {
@@ -343,15 +339,17 @@ describe('Character Formatter Service', function () {
         expect(lines[49]).toBe("\tArmor Class: 8");
         expect(lines[50]).toBe("\t\tFlat-Footed: 13");
         expect(lines[51]).toBe("\t\tTouch: 35");
-        expect(lines[52]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[53]).toBe("\tHit Points: 3457");
-        expect(lines[54]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[55]).toBe("\tSaving Throws:");
-        expect(lines[56]).toBe("\t\tFortitude: 57");
-        expect(lines[57]).toBe("\t\tReflex: 79");
-        expect(lines[58]).toBe("\t\tWill: 68");
-        expect(lines[59]).toBe('');
-        expect(lines.length).toBe(60);
+        expect(lines[52]).toBe("\tBase Attack:");
+        expect(lines[53]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[54]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[55]).toBe("\tHit Points: 3457");
+        expect(lines[56]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[57]).toBe("\tSaving Throws:");
+        expect(lines[58]).toBe("\t\tFortitude: 57");
+        expect(lines[59]).toBe("\t\tReflex: 79");
+        expect(lines[60]).toBe("\t\tWill: 68");
+        expect(lines[61]).toBe('');
+        expect(lines.length).toBe(62);
     });
 
     it('formats metarace', function () {
@@ -406,15 +404,17 @@ describe('Character Formatter Service', function () {
         expect(lines[43]).toBe("\tArmor Class: 8");
         expect(lines[44]).toBe("\t\tFlat-Footed: 13");
         expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines.length).toBe(54);
+        expect(lines[46]).toBe("\tBase Attack:");
+        expect(lines[47]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[48]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[49]).toBe("\tHit Points: 3457");
+        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[51]).toBe("\tSaving Throws:");
+        expect(lines[52]).toBe("\t\tFortitude: 57");
+        expect(lines[53]).toBe("\t\tReflex: 79");
+        expect(lines[54]).toBe("\t\tWill: 68");
+        expect(lines[55]).toBe('');
+        expect(lines.length).toBe(56);
     });
 
     it('formats metarace species', function () {
@@ -471,15 +471,17 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe("\tArmor Class: 8");
         expect(lines[45]).toBe("\t\tFlat-Footed: 13");
         expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        expect(lines[47]).toBe("\tBase Attack:");
+        expect(lines[48]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[49]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[50]).toBe("\tHit Points: 3457");
+        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[52]).toBe("\tSaving Throws:");
+        expect(lines[53]).toBe("\t\tFortitude: 57");
+        expect(lines[54]).toBe("\t\tReflex: 79");
+        expect(lines[55]).toBe("\t\tWill: 68");
+        expect(lines[56]).toBe('');
+        expect(lines.length).toBe(57);
     });
 
     it('formats wings', function () {
@@ -536,15 +538,17 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe("\tArmor Class: 8");
         expect(lines[45]).toBe("\t\tFlat-Footed: 13");
         expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        expect(lines[47]).toBe("\tBase Attack:");
+        expect(lines[48]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[49]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[50]).toBe("\tHit Points: 3457");
+        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[52]).toBe("\tSaving Throws:");
+        expect(lines[53]).toBe("\t\tFortitude: 57");
+        expect(lines[54]).toBe("\t\tReflex: 79");
+        expect(lines[55]).toBe("\t\tWill: 68");
+        expect(lines[56]).toBe('');
+        expect(lines.length).toBe(57);
     });
 
     it('formats aerial speed', function () {
@@ -554,62 +558,72 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('metarace base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('\tAerial Speed: 9876');
-        expect(lines[10]).toBe('Stats:');
-        expect(lines[11]).toBe('\tStrength: 3 (-3)');
-        expect(lines[12]).toBe('\tConstitution: 27 (14)');
-        expect(lines[13]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[14]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[15]).toBe('\tWisdom: 11 (1)');
-        expect(lines[16]).toBe('\tCharisma: 10 (0)');
-        expect(lines[17]).toBe('Languages:');
-        expect(lines[18]).toBe('\tEnglish 1');
-        expect(lines[19]).toBe('\tGerman 1');
-        expect(lines[20]).toBe('Skills:');
-        expect(lines[21]).toBe('\tskill 1');
-        expect(lines[22]).toBe('\t\tRanks: 5');
-        expect(lines[23]).toBe('\t\tStat Bonus: 14');
-        expect(lines[24]).toBe('\t\tOther Bonus: 0');
-        expect(lines[25]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[26]).toBe('\t\tClass Skill');
-        expect(lines[27]).toBe('\tskill 2');
-        expect(lines[28]).toBe('\t\tRanks: 2.5');
-        expect(lines[29]).toBe('\t\tStat Bonus: -1');
-        expect(lines[30]).toBe('\t\tOther Bonus: 4');
-        expect(lines[31]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[32]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[33]).toBe('Feats:');
-        expect(lines[34]).toBe('\tfeat 2');
-        expect(lines[35]).toBe('\tfeat 3');
-        expect(lines[36]).toBe('Interesting Trait: None');
-        expect(lines[37]).toBe("Equipment:");
-        expect(lines[38]).toBe("\tPrimary Hand: None");
-        expect(lines[39]).toBe("\tOff Hand: None");
-        expect(lines[40]).toBe("\tArmor: None");
-        expect(lines[41]).toBe("\tTreasure: None");
-        expect(lines[42]).toBe("Combat:");
-        expect(lines[43]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[44]).toBe("\tArmor Class: 8");
-        expect(lines[45]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'metarace base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            '\tAerial Speed: 9876',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(57);
+
     });
 
     it('formats feat foci', function () {
@@ -667,15 +681,17 @@ describe('Character Formatter Service', function () {
         expect(lines[46]).toBe("\tArmor Class: 8");
         expect(lines[47]).toBe("\t\tFlat-Footed: 13");
         expect(lines[48]).toBe("\t\tTouch: 35");
-        expect(lines[49]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[50]).toBe("\tHit Points: 3457");
-        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[52]).toBe("\tSaving Throws:");
-        expect(lines[53]).toBe("\t\tFortitude: 57");
-        expect(lines[54]).toBe("\t\tReflex: 79");
-        expect(lines[55]).toBe("\t\tWill: 68");
-        expect(lines[56]).toBe('');
-        expect(lines.length).toBe(57);
+        expect(lines[49]).toBe("\tBase Attack:");
+        expect(lines[50]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[51]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[52]).toBe("\tHit Points: 3457");
+        expect(lines[53]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[54]).toBe("\tSaving Throws:");
+        expect(lines[55]).toBe("\t\tFortitude: 57");
+        expect(lines[56]).toBe("\t\tReflex: 79");
+        expect(lines[57]).toBe("\t\tWill: 68");
+        expect(lines[58]).toBe('');
+        expect(lines.length).toBe(59);
     });
 
     it('formats feat power', function () {
@@ -731,15 +747,17 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe("\tArmor Class: 8");
         expect(lines[45]).toBe("\t\tFlat-Footed: 13");
         expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        expect(lines[47]).toBe("\tBase Attack:");
+        expect(lines[48]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[49]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[50]).toBe("\tHit Points: 3457");
+        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[52]).toBe("\tSaving Throws:");
+        expect(lines[53]).toBe("\t\tFortitude: 57");
+        expect(lines[54]).toBe("\t\tReflex: 79");
+        expect(lines[55]).toBe("\t\tWill: 68");
+        expect(lines[56]).toBe('');
+        expect(lines.length).toBe(57);
     });
 
     it('formats feat frequency', function () {
@@ -796,15 +814,17 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe("\tArmor Class: 8");
         expect(lines[45]).toBe("\t\tFlat-Footed: 13");
         expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        expect(lines[47]).toBe("\tBase Attack:");
+        expect(lines[48]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[49]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[50]).toBe("\tHit Points: 3457");
+        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[52]).toBe("\tSaving Throws:");
+        expect(lines[53]).toBe("\t\tFortitude: 57");
+        expect(lines[54]).toBe("\t\tReflex: 79");
+        expect(lines[55]).toBe("\t\tWill: 68");
+        expect(lines[56]).toBe('');
+        expect(lines.length).toBe(57);
     });
 
     it('formats feat frequency without quantity', function () {
@@ -861,15 +881,17 @@ describe('Character Formatter Service', function () {
         expect(lines[44]).toBe("\tArmor Class: 8");
         expect(lines[45]).toBe("\t\tFlat-Footed: 13");
         expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        expect(lines[47]).toBe("\tBase Attack:");
+        expect(lines[48]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[49]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[50]).toBe("\tHit Points: 3457");
+        expect(lines[51]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[52]).toBe("\tSaving Throws:");
+        expect(lines[53]).toBe("\t\tFortitude: 57");
+        expect(lines[54]).toBe("\t\tReflex: 79");
+        expect(lines[55]).toBe("\t\tWill: 68");
+        expect(lines[56]).toBe('');
+        expect(lines.length).toBe(57);
     });
 
     it('formats interesting trait', function () {
@@ -924,15 +946,17 @@ describe('Character Formatter Service', function () {
         expect(lines[43]).toBe("\tArmor Class: 8");
         expect(lines[44]).toBe("\t\tFlat-Footed: 13");
         expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines.length).toBe(54);
+        expect(lines[46]).toBe("\tBase Attack:");
+        expect(lines[47]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
+        expect(lines[48]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
+        expect(lines[49]).toBe("\tHit Points: 3457");
+        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
+        expect(lines[51]).toBe("\tSaving Throws:");
+        expect(lines[52]).toBe("\t\tFortitude: 57");
+        expect(lines[53]).toBe("\t\tReflex: 79");
+        expect(lines[54]).toBe("\t\tWill: 68");
+        expect(lines[55]).toBe('');
+        expect(lines.length).toBe(56);
     });
 
     it('formats spells per day', function () {
@@ -994,7 +1018,9 @@ describe('Character Formatter Service', function () {
             "\tArmor Class: 8",
             "\t\tFlat-Footed: 13",
             "\t\tTouch: 35",
-            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
             "\tHit Points: 3457",
             "\tInitiative Bonus: 4568",
             "\tSaving Throws:",
@@ -1078,7 +1104,9 @@ describe('Character Formatter Service', function () {
             "\tArmor Class: 8",
             "\t\tFlat-Footed: 13",
             "\t\tTouch: 35",
-            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
             "\tHit Points: 3457",
             "\tInitiative Bonus: 4568",
             "\tSaving Throws:",
@@ -1172,7 +1200,9 @@ describe('Character Formatter Service', function () {
             "\tArmor Class: 8",
             "\t\tFlat-Footed: 13",
             "\t\tTouch: 35",
-            "\tBase Attack: +22/+17/+12/+7/+2",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
             "\tHit Points: 3457",
             "\tInitiative Bonus: 4568",
             "\tSaving Throws:",
@@ -1195,62 +1225,71 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe('Arcane Spell Failure: 98%');
-        expect(lines[37]).toBe("Equipment:");
-        expect(lines[38]).toBe("\tPrimary Hand: None");
-        expect(lines[39]).toBe("\tOff Hand: None");
-        expect(lines[40]).toBe("\tArmor: None");
-        expect(lines[41]).toBe("\tTreasure: None");
-        expect(lines[42]).toBe("Combat:");
-        expect(lines[43]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[44]).toBe("\tArmor Class: 8");
-        expect(lines[45]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            'Arcane Spell Failure: 98%',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats animal', function () {
@@ -1259,62 +1298,71 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe('Animal: familiar');
-        expect(lines[37]).toBe("Equipment:");
-        expect(lines[38]).toBe("\tPrimary Hand: None");
-        expect(lines[39]).toBe("\tOff Hand: None");
-        expect(lines[40]).toBe("\tArmor: None");
-        expect(lines[41]).toBe("\tTreasure: None");
-        expect(lines[42]).toBe("Combat:");
-        expect(lines[43]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[44]).toBe("\tArmor Class: 8");
-        expect(lines[45]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[46]).toBe("\t\tTouch: 35");
-        expect(lines[47]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\tHit Points: 3457");
-        expect(lines[49]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[50]).toBe("\tSaving Throws:");
-        expect(lines[51]).toBe("\t\tFortitude: 57");
-        expect(lines[52]).toBe("\t\tReflex: 79");
-        expect(lines[53]).toBe("\t\tWill: 68");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            'Animal: familiar',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats primary hand', function () {
@@ -1323,63 +1371,72 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand:");
-        expect(lines[38]).toBe('\t\tprimary weapon');
-        expect(lines[39]).toBe('\t\t\tformatted');
-        expect(lines[40]).toBe("\tOff Hand: None");
-        expect(lines[41]).toBe("\tArmor: None");
-        expect(lines[42]).toBe("\tTreasure: None");
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand:",
+            '\t\tprimary weapon',
+            '\t\t\tformatted',
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats two-handed weapon', function () {
@@ -1389,63 +1446,72 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand:");
-        expect(lines[38]).toBe('\t\tprimary weapon');
-        expect(lines[39]).toBe('\t\t\tformatted');
-        expect(lines[40]).toBe("\tOff Hand: (Two-Handed)");
-        expect(lines[41]).toBe("\tArmor: None");
-        expect(lines[42]).toBe("\tTreasure: None");
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand:",
+            '\t\tprimary weapon',
+            '\t\t\tformatted',
+            "\tOff Hand: (Two-Handed)",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats off-hand item', function () {
@@ -1455,65 +1521,74 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand:");
-        expect(lines[38]).toBe('\t\tprimary weapon');
-        expect(lines[39]).toBe('\t\t\tformatted');
-        expect(lines[40]).toBe("\tOff Hand:");
-        expect(lines[41]).toBe('\t\toff-hand item');
-        expect(lines[42]).toBe('\t\t\tformatted');
-        expect(lines[43]).toBe("\tArmor: None");
-        expect(lines[44]).toBe("\tTreasure: None");
-        expect(lines[45]).toBe("Combat:");
-        expect(lines[46]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[47]).toBe("\tArmor Class: 8");
-        expect(lines[48]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[49]).toBe("\t\tTouch: 35");
-        expect(lines[50]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[51]).toBe("\tHit Points: 3457");
-        expect(lines[52]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[53]).toBe("\tSaving Throws:");
-        expect(lines[54]).toBe("\t\tFortitude: 57");
-        expect(lines[55]).toBe("\t\tReflex: 79");
-        expect(lines[56]).toBe("\t\tWill: 68");
-        expect(lines[57]).toBe('');
-        expect(lines.length).toBe(58);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand:",
+            '\t\tprimary weapon',
+            '\t\t\tformatted',
+            "\tOff Hand:",
+            '\t\toff-hand item',
+            '\t\t\tformatted',
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats armor', function () {
@@ -1522,259 +1597,145 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor:");
-        expect(lines[40]).toBe('\t\tarmor');
-        expect(lines[41]).toBe('\t\t\tformatted');
-        expect(lines[42]).toBe("\tTreasure: None");
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor:",
+            '\t\tarmor',
+            '\t\t\tformatted',
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
-    it('formats treasure if there is coin', function () {
-        character.Equipment.Treasure.Coin.Quantity = 9266;
-        character.Equipment.Treasure.Coin.Currency = "munny";
+    it('formats treasure if there is any', function () {
+        character.Equipment.Treasure.IsAny = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure:");
-        expect(lines[41]).toBe("\t\tformatted treasure");
-        expect(lines[42]).toBe("\t\t\tmunny");
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
-    });
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure:",
+            "\t\tformatted treasure",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
 
-    it('formats treasure if there are goods', function () {
-        character.Equipment.Treasure.Goods.push({ Description: 'description', ValueInGold: 9266 });
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
 
-        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\r\n');
-
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure:");
-        expect(lines[41]).toBe("\t\tformatted treasure");
-        expect(lines[42]).toBe("\t\t\tGood: description");
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
-    });
-
-    it('formats treasure if there are items', function () {
-        character.Equipment.Treasure.Items.push(createItem('item'));
-
-        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
-        var lines = formattedCharacter.split('\r\n');
-
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure:");
-        expect(lines[41]).toBe("\t\tformatted treasure");
-        expect(lines[42]).toBe('\t\t\tItem: item');
-        expect(lines[43]).toBe("Combat:");
-        expect(lines[44]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[45]).toBe("\tArmor Class: 8");
-        expect(lines[46]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[47]).toBe("\t\tTouch: 35");
-        expect(lines[48]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats circumstantial armor bonus', function () {
@@ -1783,61 +1744,70 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure: None");
-        expect(lines[41]).toBe("Combat:");
-        expect(lines[42]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\tArmor Class: 8 *");
-        expect(lines[44]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines.length).toBe(54);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8 *",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats circumstantial base attack bonus', function () {
@@ -1846,61 +1816,70 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure: None");
-        expect(lines[41]).toBe("Combat:");
-        expect(lines[42]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\tArmor Class: 8");
-        expect(lines[44]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2 *");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines.length).toBe(54);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2 *",
+            "\t\tRanged: +23/+18/+13/+8/+3 *",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats circumstantial save bonus', function () {
@@ -1909,62 +1888,71 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure: None");
-        expect(lines[41]).toBe("Combat:");
-        expect(lines[42]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\tArmor Class: 8");
-        expect(lines[44]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe("\t\tCircumstantial Bonus");
-        expect(lines[54]).toBe('');
-        expect(lines.length).toBe(55);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            "\t\tCircumstantial Bonus",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats full character', function () {
@@ -1992,10 +1980,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.PrimaryHand = createItem('primary weapon');
         character.Equipment.OffHand = createItem('off-hand item');
         character.Equipment.Armor = createItem('armor');
-        character.Equipment.Treasure.Coin.Quantity = 8765;
-        character.Equipment.Treasure.Coin.Currency = 'munny';
-        character.Equipment.Treasure.Goods.push({ Description: 'description', ValueInGold: 7654 });
-        character.Equipment.Treasure.Items.push(createItem('item'));
+        character.Equipment.Treasure.IsAny = true;
         character.Combat.ArmorClass.CircumstantialBonus = true;
         character.Combat.BaseAttack.CircumstantialBonus = true;
         character.Combat.SavingThrows.CircumstantialBonus = true;
@@ -2006,91 +1991,97 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe("\tSpecialist:");
-        expect(lines[3]).toBe("\t\tspecialist field 1");
-        expect(lines[4]).toBe("\t\tspecialist field 2");
-        expect(lines[5]).toBe("\tProhibited:");
-        expect(lines[6]).toBe("\t\tprohibited field 1");
-        expect(lines[7]).toBe("\t\tprohibited field 2");
-        expect(lines[8]).toBe('metarace base race 1');
-        expect(lines[9]).toBe('\tgender 1');
-        expect(lines[10]).toBe('\tMetarace Species: metarace species');
-        expect(lines[11]).toBe('\tLand Speed: 31');
-        expect(lines[12]).toBe('\tSize: size 1');
-        expect(lines[13]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[14]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[15]).toBe('\tWeight: 101 lbs.');
-        expect(lines[16]).toBe('\tHas Wings');
-        expect(lines[17]).toBe('\tAerial Speed: 12345');
-        expect(lines[18]).toBe('Stats:');
-        expect(lines[19]).toBe('\tStrength: 3 (-3)');
-        expect(lines[20]).toBe('\tConstitution: 27 (14)');
-        expect(lines[21]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[22]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[23]).toBe('\tWisdom: 11 (1)');
-        expect(lines[24]).toBe('\tCharisma: 10 (0)');
-        expect(lines[25]).toBe('Languages:');
-        expect(lines[26]).toBe('\tEnglish 1');
-        expect(lines[27]).toBe('\tGerman 1');
-        expect(lines[28]).toBe('Skills:');
-        expect(lines[29]).toBe('\tskill 1');
-        expect(lines[30]).toBe('\t\tRanks: 5');
-        expect(lines[31]).toBe('\t\tStat Bonus: 14');
-        expect(lines[32]).toBe('\t\tOther Bonus: 0');
-        expect(lines[33]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[34]).toBe('\t\tClass Skill');
-        expect(lines[35]).toBe('\tskill 2');
-        expect(lines[36]).toBe('\t\tRanks: 2.5');
-        expect(lines[37]).toBe('\t\tStat Bonus: -1');
-        expect(lines[38]).toBe('\t\tOther Bonus: 4');
-        expect(lines[39]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[40]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[41]).toBe('Feats:');
-        expect(lines[42]).toBe('\tfeat 2');
-        expect(lines[43]).toBe('\t\tFoci:');
-        expect(lines[44]).toBe('\t\t\tfocus 1');
-        expect(lines[45]).toBe('\t\t\tfocus 2');
-        expect(lines[46]).toBe('\t\tFrequency: 34567/time period');
-        expect(lines[47]).toBe('\t\tPower: 23456');
-        expect(lines[48]).toBe('\tfeat 3');
-        expect(lines[49]).toBe('Interesting Trait: interesting trait');
-        expect(lines[50]).toBe('Spells Per Day:');
-        expect(lines[51]).toBe('\tLevel 0: 45678');
-        expect(lines[52]).toBe('\tLevel 1: 56789 + 1');
-        expect(lines[53]).toBe('Arcane Spell Failure: 12%');
-        expect(lines[54]).toBe('Animal: animal');
-        expect(lines[55]).toBe("Equipment:");
-        expect(lines[56]).toBe("\tPrimary Hand:");
-        expect(lines[57]).toBe('\t\tprimary weapon');
-        expect(lines[58]).toBe('\t\t\tformatted');
-        expect(lines[59]).toBe("\tOff Hand:");
-        expect(lines[60]).toBe('\t\toff-hand item');
-        expect(lines[61]).toBe('\t\t\tformatted');
-        expect(lines[62]).toBe('\tArmor:');
-        expect(lines[63]).toBe('\t\tarmor');
-        expect(lines[64]).toBe('\t\t\tformatted');
-        expect(lines[65]).toBe('\tTreasure:');
-        expect(lines[66]).toBe('\t\tformatted treasure');
-        expect(lines[67]).toBe('\t\t\tmunny');
-        expect(lines[68]).toBe('\t\t\tGood: description');
-        expect(lines[69]).toBe("\t\t\tItem: item");
-        expect(lines[70]).toBe("Combat:");
-        expect(lines[71]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[72]).toBe("\tArmor Class: 8 *");
-        expect(lines[73]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[74]).toBe("\t\tTouch: 35");
-        expect(lines[75]).toBe("\tBase Attack: +22/+17/+12/+7/+2 *");
-        expect(lines[76]).toBe("\tHit Points: 3457");
-        expect(lines[77]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[78]).toBe("\tSaving Throws:");
-        expect(lines[79]).toBe("\t\tFortitude: 57");
-        expect(lines[80]).toBe("\t\tReflex: 79");
-        expect(lines[81]).toBe("\t\tWill: 68");
-        expect(lines[82]).toBe("\t\tCircumstantial Bonus");
-        expect(lines[83]).toBe('');
-        expect(lines.length).toBe(84);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            "\tSpecialist:",
+            "\t\tspecialist field 1",
+            "\t\tspecialist field 2",
+            "\tProhibited:",
+            "\t\tprohibited field 1",
+            "\t\tprohibited field 2",
+            'metarace base race 1',
+            '\tgender 1',
+            '\tMetarace Species: metarace species',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            '\tHas Wings',
+            '\tAerial Speed: 12345',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\t\tFoci:',
+            '\t\t\tfocus 1',
+            '\t\t\tfocus 2',
+            '\t\tFrequency: 34567/time period',
+            '\t\tPower: 23456',
+            '\tfeat 3',
+            'Interesting Trait: interesting trait',
+            'Spells Per Day:',
+            '\tLevel 0: 45678',
+            '\tLevel 1: 56789 + 1',
+            'Arcane Spell Failure: 12%',
+            'Animal: animal',
+            "Equipment:",
+            "\tPrimary Hand:",
+            '\t\tprimary weapon',
+            '\t\t\tformatted',
+            "\tOff Hand:",
+            '\t\toff-hand item',
+            '\t\t\tformatted',
+            '\tArmor:',
+            '\t\tarmor',
+            '\t\t\tformatted',
+            '\tTreasure:',
+            '\t\tformatted treasure',
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8 *",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2 *",
+            "\t\tRanged: +23/+18/+13/+8/+3 *",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            "\t\tCircumstantial Bonus",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats full character with prefix', function () {
@@ -2118,10 +2109,7 @@ describe('Character Formatter Service', function () {
         character.Equipment.PrimaryHand = createItem('primary weapon');
         character.Equipment.OffHand = createItem('off-hand item');
         character.Equipment.Armor = createItem('armor');
-        character.Equipment.Treasure.Coin.Quantity = 8765;
-        character.Equipment.Treasure.Coin.Currency = 'munny';
-        character.Equipment.Treasure.Goods.push({ Description: 'description', ValueInGold: 7654 });
-        character.Equipment.Treasure.Items.push(createItem('item'));
+        character.Equipment.Treasure.IsAny = true;
         character.Combat.ArmorClass.CircumstantialBonus = true;
         character.Combat.BaseAttack.CircumstantialBonus = true;
         character.Combat.SavingThrows.CircumstantialBonus = true;
@@ -2132,91 +2120,97 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, null, null, null, '\t');
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('\tAlignment: alignment 1');
-        expect(lines[1]).toBe('\tLevel 9267 class name 1');
-        expect(lines[2]).toBe("\t\tSpecialist:");
-        expect(lines[3]).toBe("\t\t\tspecialist field 1");
-        expect(lines[4]).toBe("\t\t\tspecialist field 2");
-        expect(lines[5]).toBe("\t\tProhibited:");
-        expect(lines[6]).toBe("\t\t\tprohibited field 1");
-        expect(lines[7]).toBe("\t\t\tprohibited field 2");
-        expect(lines[8]).toBe('\tmetarace base race 1');
-        expect(lines[9]).toBe('\t\tgender 1');
-        expect(lines[10]).toBe('\t\tMetarace Species: metarace species');
-        expect(lines[11]).toBe('\t\tLand Speed: 31');
-        expect(lines[12]).toBe('\t\tSize: size 1');
-        expect(lines[13]).toBe('\t\tAge: 19 (adult 1)');
-        expect(lines[14]).toBe('\t\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[15]).toBe('\t\tWeight: 101 lbs.');
-        expect(lines[16]).toBe('\t\tHas Wings');
-        expect(lines[17]).toBe('\t\tAerial Speed: 12345');
-        expect(lines[18]).toBe('\tStats:');
-        expect(lines[19]).toBe('\t\tStrength: 3 (-3)');
-        expect(lines[20]).toBe('\t\tConstitution: 27 (14)');
-        expect(lines[21]).toBe('\t\tDexterity: 7 (-1)');
-        expect(lines[22]).toBe('\t\tIntelligence: 91 (46)');
-        expect(lines[23]).toBe('\t\tWisdom: 11 (1)');
-        expect(lines[24]).toBe('\t\tCharisma: 10 (0)');
-        expect(lines[25]).toBe('\tLanguages:');
-        expect(lines[26]).toBe('\t\tEnglish 1');
-        expect(lines[27]).toBe('\t\tGerman 1');
-        expect(lines[28]).toBe('\tSkills:');
-        expect(lines[29]).toBe('\t\tskill 1');
-        expect(lines[30]).toBe('\t\t\tRanks: 5');
-        expect(lines[31]).toBe('\t\t\tStat Bonus: 14');
-        expect(lines[32]).toBe('\t\t\tOther Bonus: 0');
-        expect(lines[33]).toBe('\t\t\tArmor Check Penalty: -7');
-        expect(lines[34]).toBe('\t\t\tClass Skill');
-        expect(lines[35]).toBe('\t\tskill 2');
-        expect(lines[36]).toBe('\t\t\tRanks: 2.5');
-        expect(lines[37]).toBe('\t\t\tStat Bonus: -1');
-        expect(lines[38]).toBe('\t\t\tOther Bonus: 4');
-        expect(lines[39]).toBe('\t\t\tArmor Check Penalty: 0');
-        expect(lines[40]).toBe('\t\t\tCircumstantial Bonus');
-        expect(lines[41]).toBe('\tFeats:');
-        expect(lines[42]).toBe('\t\tfeat 2');
-        expect(lines[43]).toBe('\t\t\tFoci:');
-        expect(lines[44]).toBe('\t\t\t\tfocus 1');
-        expect(lines[45]).toBe('\t\t\t\tfocus 2');
-        expect(lines[46]).toBe('\t\t\tFrequency: 34567/time period');
-        expect(lines[47]).toBe('\t\t\tPower: 23456');
-        expect(lines[48]).toBe('\t\tfeat 3');
-        expect(lines[49]).toBe('\tInteresting Trait: interesting trait');
-        expect(lines[50]).toBe('\tSpells Per Day:');
-        expect(lines[51]).toBe('\t\tLevel 0: 45678');
-        expect(lines[52]).toBe('\t\tLevel 1: 56789 + 1');
-        expect(lines[53]).toBe('\tArcane Spell Failure: 12%');
-        expect(lines[54]).toBe('\tAnimal: animal');
-        expect(lines[55]).toBe("\tEquipment:");
-        expect(lines[56]).toBe("\t\tPrimary Hand:");
-        expect(lines[57]).toBe('\t\t\tprimary weapon');
-        expect(lines[58]).toBe('\t\t\t\tformatted');
-        expect(lines[59]).toBe("\t\tOff Hand:");
-        expect(lines[60]).toBe('\t\t\toff-hand item');
-        expect(lines[61]).toBe('\t\t\t\tformatted');
-        expect(lines[62]).toBe('\t\tArmor:');
-        expect(lines[63]).toBe('\t\t\tarmor');
-        expect(lines[64]).toBe('\t\t\t\tformatted');
-        expect(lines[65]).toBe('\t\tTreasure:');
-        expect(lines[66]).toBe('\t\t\tformatted treasure');
-        expect(lines[67]).toBe('\t\t\t\tmunny');
-        expect(lines[68]).toBe('\t\t\t\tGood: description');
-        expect(lines[69]).toBe("\t\t\t\tItem: item");
-        expect(lines[70]).toBe("\tCombat:");
-        expect(lines[71]).toBe("\t\tAdjusted Dexterity Bonus: 4");
-        expect(lines[72]).toBe("\t\tArmor Class: 8 *");
-        expect(lines[73]).toBe("\t\t\tFlat-Footed: 13");
-        expect(lines[74]).toBe("\t\t\tTouch: 35");
-        expect(lines[75]).toBe("\t\tBase Attack: +22/+17/+12/+7/+2 *");
-        expect(lines[76]).toBe("\t\tHit Points: 3457");
-        expect(lines[77]).toBe("\t\tInitiative Bonus: 4568");
-        expect(lines[78]).toBe("\t\tSaving Throws:");
-        expect(lines[79]).toBe("\t\t\tFortitude: 57");
-        expect(lines[80]).toBe("\t\t\tReflex: 79");
-        expect(lines[81]).toBe("\t\t\tWill: 68");
-        expect(lines[82]).toBe("\t\t\tCircumstantial Bonus");
-        expect(lines[83]).toBe('');
-        expect(lines.length).toBe(84);
+        var expected = [
+            '\tAlignment: alignment 1',
+            '\tLevel 9267 class name 1',
+            "\t\tSpecialist:",
+            "\t\t\tspecialist field 1",
+            "\t\t\tspecialist field 2",
+            "\t\tProhibited:",
+            "\t\t\tprohibited field 1",
+            "\t\t\tprohibited field 2",
+            '\tmetarace base race 1',
+            '\t\tgender 1',
+            '\t\tMetarace Species: metarace species',
+            '\t\tLand Speed: 31',
+            '\t\tSize: size 1',
+            '\t\tAge: 19 (adult 1)',
+            '\t\tHeight: 4.083333333333333 feet filtered',
+            '\t\tWeight: 101 lbs.',
+            '\t\tHas Wings',
+            '\t\tAerial Speed: 12345',
+            '\tStats:',
+            '\t\tStrength: 3 (-3)',
+            '\t\tConstitution: 27 (14)',
+            '\t\tDexterity: 7 (-1)',
+            '\t\tIntelligence: 91 (46)',
+            '\t\tWisdom: 11 (1)',
+            '\t\tCharisma: 10 (0)',
+            '\tLanguages:',
+            '\t\tEnglish 1',
+            '\t\tGerman 1',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 5',
+            '\t\t\tStat Bonus: 14',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -7',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 2.5',
+            '\t\t\tStat Bonus: -1',
+            '\t\t\tOther Bonus: 4',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 2',
+            '\t\t\tFoci:',
+            '\t\t\t\tfocus 1',
+            '\t\t\t\tfocus 2',
+            '\t\t\tFrequency: 34567/time period',
+            '\t\t\tPower: 23456',
+            '\t\tfeat 3',
+            '\tInteresting Trait: interesting trait',
+            '\tSpells Per Day:',
+            '\t\tLevel 0: 45678',
+            '\t\tLevel 1: 56789 + 1',
+            '\tArcane Spell Failure: 12%',
+            '\tAnimal: animal',
+            "\tEquipment:",
+            "\t\tPrimary Hand:",
+            '\t\t\tprimary weapon',
+            '\t\t\t\tformatted',
+            "\t\tOff Hand:",
+            '\t\t\toff-hand item',
+            '\t\t\t\tformatted',
+            '\t\tArmor:',
+            '\t\t\tarmor',
+            '\t\t\t\tformatted',
+            '\t\tTreasure:',
+            '\t\t\tformatted treasure',
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 4",
+            "\t\tArmor Class: 8 *",
+            "\t\t\tFlat-Footed: 13",
+            "\t\t\tTouch: 35",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +22/+17/+12/+7/+2 *",
+            "\t\t\tRanged: +23/+18/+13/+8/+3 *",
+            "\t\tHit Points: 3457",
+            "\t\tInitiative Bonus: 4568",
+            "\t\tSaving Throws:",
+            "\t\t\tFortitude: 57",
+            "\t\t\tReflex: 79",
+            "\t\t\tWill: 68",
+            "\t\t\tCircumstantial Bonus",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats character summary', function () {
@@ -2242,232 +2236,247 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure: None");
-        expect(lines[41]).toBe("Combat:");
-        expect(lines[42]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\tArmor Class: 8");
-        expect(lines[44]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\tHit Points: 3457");
-        expect(lines[48]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\tSaving Throws:");
-        expect(lines[50]).toBe("\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines[54]).toBe('Leadership:');
-        expect(lines[55]).toBe('\tScore: 9876');
-        expect(lines[56]).toBe('\tLeadership Modifiers:');
-        expect(lines[57]).toBe('\t\tkilled a man');
-        expect(lines[58]).toBe('\t\twith this thumb');
-        expect(lines[59]).toBe('');
-        expect(lines[60]).toBe('Cohort:');
-        expect(lines[61]).toBe('\tAlignment: alignment 2');
-        expect(lines[62]).toBe('\tLevel 9268 class name 2');
-        expect(lines[63]).toBe('\tbase race 2');
-        expect(lines[64]).toBe('\t\tgender 2');
-        expect(lines[65]).toBe('\t\tLand Speed: 32');
-        expect(lines[66]).toBe('\t\tSize: size 2');
-        expect(lines[67]).toBe('\t\tAge: 20 (adult 2)');
-        expect(lines[68]).toBe('\t\tHeight: 4.166666666666667 feet filtered');
-        expect(lines[69]).toBe('\t\tWeight: 102 lbs.');
-        expect(lines[70]).toBe('\tStats:');
-        expect(lines[71]).toBe('\t\tStrength: 4 (-2)');
-        expect(lines[72]).toBe('\t\tConstitution: 28 (15)');
-        expect(lines[73]).toBe('\t\tDexterity: 8 (0)');
-        expect(lines[74]).toBe('\t\tIntelligence: 92 (47)');
-        expect(lines[75]).toBe('\t\tWisdom: 12 (2)');
-        expect(lines[76]).toBe('\t\tCharisma: 11 (1)');
-        expect(lines[77]).toBe('\tLanguages:');
-        expect(lines[78]).toBe('\t\tEnglish 2');
-        expect(lines[79]).toBe('\t\tGerman 2');
-        expect(lines[80]).toBe('\tSkills:');
-        expect(lines[81]).toBe('\t\tskill 1');
-        expect(lines[82]).toBe('\t\t\tRanks: 6');
-        expect(lines[83]).toBe('\t\t\tStat Bonus: 15');
-        expect(lines[84]).toBe('\t\t\tOther Bonus: 0');
-        expect(lines[85]).toBe('\t\t\tArmor Check Penalty: -8');
-        expect(lines[86]).toBe('\t\t\tClass Skill');
-        expect(lines[87]).toBe('\t\tskill 2');
-        expect(lines[88]).toBe('\t\t\tRanks: 3.5');
-        expect(lines[89]).toBe('\t\t\tStat Bonus: 0');
-        expect(lines[90]).toBe('\t\t\tOther Bonus: 5');
-        expect(lines[91]).toBe('\t\t\tArmor Check Penalty: 0');
-        expect(lines[92]).toBe('\t\t\tCircumstantial Bonus');
-        expect(lines[93]).toBe('\tFeats:');
-        expect(lines[94]).toBe('\t\tfeat 3');
-        expect(lines[95]).toBe('\t\tfeat 4');
-        expect(lines[96]).toBe('\tInteresting Trait: None');
-        expect(lines[97]).toBe("\tEquipment:");
-        expect(lines[98]).toBe("\t\tPrimary Hand: None");
-        expect(lines[99]).toBe("\t\tOff Hand: None");
-        expect(lines[100]).toBe("\t\tArmor: None");
-        expect(lines[101]).toBe("\t\tTreasure: None");
-        expect(lines[102]).toBe("\tCombat:");
-        expect(lines[103]).toBe("\t\tAdjusted Dexterity Bonus: 5");
-        expect(lines[104]).toBe("\t\tArmor Class: 9");
-        expect(lines[105]).toBe("\t\t\tFlat-Footed: 14");
-        expect(lines[106]).toBe("\t\t\tTouch: 36");
-        expect(lines[107]).toBe("\t\tBase Attack: +23/+18/+13/+8/+3");
-        expect(lines[108]).toBe("\t\tHit Points: 3458");
-        expect(lines[109]).toBe("\t\tInitiative Bonus: 4569");
-        expect(lines[110]).toBe("\t\tSaving Throws:");
-        expect(lines[111]).toBe("\t\t\tFortitude: 58");
-        expect(lines[112]).toBe("\t\t\tReflex: 80");
-        expect(lines[113]).toBe("\t\t\tWill: 69");
-        expect(lines[114]).toBe('');
-        expect(lines[115]).toBe('Followers:');
-        expect(lines[116]).toBe('');
-        expect(lines[117]).toBe('\tAlignment: alignment 3');
-        expect(lines[118]).toBe('\tLevel 9269 class name 3');
-        expect(lines[119]).toBe('\tbase race 3');
-        expect(lines[120]).toBe('\t\tgender 3');
-        expect(lines[121]).toBe('\t\tLand Speed: 33');
-        expect(lines[122]).toBe('\t\tSize: size 3');
-        expect(lines[123]).toBe('\t\tAge: 21 (adult 3)');
-        expect(lines[124]).toBe('\t\tHeight: 4.25 feet filtered');
-        expect(lines[125]).toBe('\t\tWeight: 103 lbs.');
-        expect(lines[126]).toBe('\tStats:');
-        expect(lines[127]).toBe('\t\tStrength: 5 (-1)');
-        expect(lines[128]).toBe('\t\tConstitution: 29 (16)');
-        expect(lines[129]).toBe('\t\tDexterity: 9 (1)');
-        expect(lines[130]).toBe('\t\tIntelligence: 93 (48)');
-        expect(lines[131]).toBe('\t\tWisdom: 13 (3)');
-        expect(lines[132]).toBe('\t\tCharisma: 12 (2)');
-        expect(lines[133]).toBe('\tLanguages:');
-        expect(lines[134]).toBe('\t\tEnglish 3');
-        expect(lines[135]).toBe('\t\tGerman 3');
-        expect(lines[136]).toBe('\tSkills:');
-        expect(lines[137]).toBe('\t\tskill 1');
-        expect(lines[138]).toBe('\t\t\tRanks: 7');
-        expect(lines[139]).toBe('\t\t\tStat Bonus: 16');
-        expect(lines[140]).toBe('\t\t\tOther Bonus: 0');
-        expect(lines[141]).toBe('\t\t\tArmor Check Penalty: -9');
-        expect(lines[142]).toBe('\t\t\tClass Skill');
-        expect(lines[143]).toBe('\t\tskill 2');
-        expect(lines[144]).toBe('\t\t\tRanks: 4.5');
-        expect(lines[145]).toBe('\t\t\tStat Bonus: 1');
-        expect(lines[146]).toBe('\t\t\tOther Bonus: 6');
-        expect(lines[147]).toBe('\t\t\tArmor Check Penalty: 0');
-        expect(lines[148]).toBe('\t\t\tCircumstantial Bonus');
-        expect(lines[149]).toBe('\tFeats:');
-        expect(lines[150]).toBe('\t\tfeat 4');
-        expect(lines[151]).toBe('\t\tfeat 5');
-        expect(lines[152]).toBe('\tInteresting Trait: None');
-        expect(lines[153]).toBe("\tEquipment:");
-        expect(lines[154]).toBe("\t\tPrimary Hand: None");
-        expect(lines[155]).toBe("\t\tOff Hand: None");
-        expect(lines[156]).toBe("\t\tArmor: None");
-        expect(lines[157]).toBe("\t\tTreasure: None");
-        expect(lines[158]).toBe("\tCombat:");
-        expect(lines[159]).toBe("\t\tAdjusted Dexterity Bonus: 6");
-        expect(lines[160]).toBe("\t\tArmor Class: 10");
-        expect(lines[161]).toBe("\t\t\tFlat-Footed: 15");
-        expect(lines[162]).toBe("\t\t\tTouch: 37");
-        expect(lines[163]).toBe("\t\tBase Attack: +24/+19/+14/+9/+4");
-        expect(lines[164]).toBe("\t\tHit Points: 3459");
-        expect(lines[165]).toBe("\t\tInitiative Bonus: 4570");
-        expect(lines[166]).toBe("\t\tSaving Throws:");
-        expect(lines[167]).toBe("\t\t\tFortitude: 59");
-        expect(lines[168]).toBe("\t\t\tReflex: 81");
-        expect(lines[169]).toBe("\t\t\tWill: 70");
-        expect(lines[170]).toBe('');
-        expect(lines[171]).toBe('\tAlignment: alignment 4');
-        expect(lines[172]).toBe('\tLevel 9270 class name 4');
-        expect(lines[173]).toBe('\tbase race 4');
-        expect(lines[174]).toBe('\t\tgender 4');
-        expect(lines[175]).toBe('\t\tLand Speed: 34');
-        expect(lines[176]).toBe('\t\tSize: size 4');
-        expect(lines[177]).toBe('\t\tAge: 22 (adult 4)');
-        expect(lines[178]).toBe('\t\tHeight: 4.333333333333333 feet filtered');
-        expect(lines[179]).toBe('\t\tWeight: 104 lbs.');
-        expect(lines[180]).toBe('\tStats:');
-        expect(lines[181]).toBe('\t\tStrength: 6 (0)');
-        expect(lines[182]).toBe('\t\tConstitution: 30 (17)');
-        expect(lines[183]).toBe('\t\tDexterity: 10 (2)');
-        expect(lines[184]).toBe('\t\tIntelligence: 94 (49)');
-        expect(lines[185]).toBe('\t\tWisdom: 14 (4)');
-        expect(lines[186]).toBe('\t\tCharisma: 13 (3)');
-        expect(lines[187]).toBe('\tLanguages:');
-        expect(lines[188]).toBe('\t\tEnglish 4');
-        expect(lines[189]).toBe('\t\tGerman 4');
-        expect(lines[190]).toBe('\tSkills:');
-        expect(lines[191]).toBe('\t\tskill 1');
-        expect(lines[192]).toBe('\t\t\tRanks: 8');
-        expect(lines[193]).toBe('\t\t\tStat Bonus: 17');
-        expect(lines[194]).toBe('\t\t\tOther Bonus: 0');
-        expect(lines[195]).toBe('\t\t\tArmor Check Penalty: -10');
-        expect(lines[196]).toBe('\t\t\tClass Skill');
-        expect(lines[197]).toBe('\t\tskill 2');
-        expect(lines[198]).toBe('\t\t\tRanks: 5.5');
-        expect(lines[199]).toBe('\t\t\tStat Bonus: 2');
-        expect(lines[200]).toBe('\t\t\tOther Bonus: 7');
-        expect(lines[201]).toBe('\t\t\tArmor Check Penalty: 0');
-        expect(lines[202]).toBe('\t\t\tCircumstantial Bonus');
-        expect(lines[203]).toBe('\tFeats:');
-        expect(lines[204]).toBe('\t\tfeat 5');
-        expect(lines[205]).toBe('\t\tfeat 6');
-        expect(lines[206]).toBe('\tInteresting Trait: None');
-        expect(lines[207]).toBe("\tEquipment:");
-        expect(lines[208]).toBe("\t\tPrimary Hand: None");
-        expect(lines[209]).toBe("\t\tOff Hand: None");
-        expect(lines[210]).toBe("\t\tArmor: None");
-        expect(lines[211]).toBe("\t\tTreasure: None");
-        expect(lines[212]).toBe("\tCombat:");
-        expect(lines[213]).toBe("\t\tAdjusted Dexterity Bonus: 7");
-        expect(lines[214]).toBe("\t\tArmor Class: 11");
-        expect(lines[215]).toBe("\t\t\tFlat-Footed: 16");
-        expect(lines[216]).toBe("\t\t\tTouch: 38");
-        expect(lines[217]).toBe("\t\tBase Attack: +25/+20/+15/+10/+5");
-        expect(lines[218]).toBe("\t\tHit Points: 3460");
-        expect(lines[219]).toBe("\t\tInitiative Bonus: 4571");
-        expect(lines[220]).toBe("\t\tSaving Throws:");
-        expect(lines[221]).toBe("\t\t\tFortitude: 60");
-        expect(lines[222]).toBe("\t\t\tReflex: 82");
-        expect(lines[223]).toBe("\t\t\tWill: 71");
-        expect(lines[224]).toBe('');
-        expect(lines.length).toBe(225);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+            'Leadership:',
+            '\tScore: 9876',
+            '\tLeadership Modifiers:',
+            '\t\tkilled a man',
+            '\t\twith this thumb',
+            '',
+            'Cohort:',
+            '\tAlignment: alignment 2',
+            '\tLevel 9268 class name 2',
+            '\tbase race 2',
+            '\t\tgender 2',
+            '\t\tLand Speed: 32',
+            '\t\tSize: size 2',
+            '\t\tAge: 20 (adult 2)',
+            '\t\tHeight: 4.166666666666667 feet filtered',
+            '\t\tWeight: 102 lbs.',
+            '\tStats:',
+            '\t\tStrength: 4 (-2)',
+            '\t\tConstitution: 28 (15)',
+            '\t\tDexterity: 8 (0)',
+            '\t\tIntelligence: 92 (47)',
+            '\t\tWisdom: 12 (2)',
+            '\t\tCharisma: 11 (1)',
+            '\tLanguages:',
+            '\t\tEnglish 2',
+            '\t\tGerman 2',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 6',
+            '\t\t\tStat Bonus: 15',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -8',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 3.5',
+            '\t\t\tStat Bonus: 0',
+            '\t\t\tOther Bonus: 5',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 3',
+            '\t\tfeat 4',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 5",
+            "\t\tArmor Class: 9",
+            "\t\t\tFlat-Footed: 14",
+            "\t\t\tTouch: 36",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +23/+18/+13/+8/+3",
+            "\t\t\tRanged: +24/+19/+14/+9/+4",
+            "\t\tHit Points: 3458",
+            "\t\tInitiative Bonus: 4569",
+            "\t\tSaving Throws:",
+            "\t\t\tFortitude: 58",
+            "\t\t\tReflex: 80",
+            "\t\t\tWill: 69",
+            '',
+            'Followers:',
+            '',
+            '\tAlignment: alignment 3',
+            '\tLevel 9269 class name 3',
+            '\tbase race 3',
+            '\t\tgender 3',
+            '\t\tLand Speed: 33',
+            '\t\tSize: size 3',
+            '\t\tAge: 21 (adult 3)',
+            '\t\tHeight: 4.25 feet filtered',
+            '\t\tWeight: 103 lbs.',
+            '\tStats:',
+            '\t\tStrength: 5 (-1)',
+            '\t\tConstitution: 29 (16)',
+            '\t\tDexterity: 9 (1)',
+            '\t\tIntelligence: 93 (48)',
+            '\t\tWisdom: 13 (3)',
+            '\t\tCharisma: 12 (2)',
+            '\tLanguages:',
+            '\t\tEnglish 3',
+            '\t\tGerman 3',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 7',
+            '\t\t\tStat Bonus: 16',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -9',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 4.5',
+            '\t\t\tStat Bonus: 1',
+            '\t\t\tOther Bonus: 6',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 4',
+            '\t\tfeat 5',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 6",
+            "\t\tArmor Class: 10",
+            "\t\t\tFlat-Footed: 15",
+            "\t\t\tTouch: 37",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +24/+19/+14/+9/+4",
+            "\t\t\tRanged: +25/+20/+15/+10/+5",
+            "\t\tHit Points: 3459",
+            "\t\tInitiative Bonus: 4570",
+            "\t\tSaving Throws:",
+            "\t\t\tFortitude: 59",
+            "\t\t\tReflex: 81",
+            "\t\t\tWill: 70",
+            '',
+            '\tAlignment: alignment 4',
+            '\tLevel 9270 class name 4',
+            '\tbase race 4',
+            '\t\tgender 4',
+            '\t\tLand Speed: 34',
+            '\t\tSize: size 4',
+            '\t\tAge: 22 (adult 4)',
+            '\t\tHeight: 4.333333333333333 feet filtered',
+            '\t\tWeight: 104 lbs.',
+            '\tStats:',
+            '\t\tStrength: 6 (0)',
+            '\t\tConstitution: 30 (17)',
+            '\t\tDexterity: 10 (2)',
+            '\t\tIntelligence: 94 (49)',
+            '\t\tWisdom: 14 (4)',
+            '\t\tCharisma: 13 (3)',
+            '\tLanguages:',
+            '\t\tEnglish 4',
+            '\t\tGerman 4',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 8',
+            '\t\t\tStat Bonus: 17',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -10',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 5.5',
+            '\t\t\tStat Bonus: 2',
+            '\t\t\tOther Bonus: 7',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 5',
+            '\t\tfeat 6',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 7",
+            "\t\tArmor Class: 11",
+            "\t\t\tFlat-Footed: 16",
+            "\t\t\tTouch: 38",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +25/+20/+15/+10/+5",
+            "\t\t\tRanged: +26/+21/+16/+11/+6",
+            "\t\tHit Points: 3460",
+            "\t\tInitiative Bonus: 4571",
+            "\t\tSaving Throws:",
+            "\t\t\tFortitude: 60",
+            "\t\t\tReflex: 82",
+            "\t\t\tWill: 71",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats character with full leadership and prefix', function () {
@@ -2482,231 +2491,246 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers, '\t');
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('\tAlignment: alignment 1');
-        expect(lines[1]).toBe('\tLevel 9267 class name 1');
-        expect(lines[2]).toBe('\tbase race 1');
-        expect(lines[3]).toBe('\t\tgender 1');
-        expect(lines[4]).toBe('\t\tLand Speed: 31');
-        expect(lines[5]).toBe('\t\tSize: size 1');
-        expect(lines[6]).toBe('\t\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\t\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\t\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('\tStats:');
-        expect(lines[10]).toBe('\t\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\t\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\t\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\t\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\t\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\t\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('\tLanguages:');
-        expect(lines[17]).toBe('\t\tEnglish 1');
-        expect(lines[18]).toBe('\t\tGerman 1');
-        expect(lines[19]).toBe('\tSkills:');
-        expect(lines[20]).toBe('\t\tskill 1');
-        expect(lines[21]).toBe('\t\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\t\tClass Skill');
-        expect(lines[26]).toBe('\t\tskill 2');
-        expect(lines[27]).toBe('\t\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('\tFeats:');
-        expect(lines[33]).toBe('\t\tfeat 2');
-        expect(lines[34]).toBe('\t\tfeat 3');
-        expect(lines[35]).toBe('\tInteresting Trait: None');
-        expect(lines[36]).toBe("\tEquipment:");
-        expect(lines[37]).toBe("\t\tPrimary Hand: None");
-        expect(lines[38]).toBe("\t\tOff Hand: None");
-        expect(lines[39]).toBe("\t\tArmor: None");
-        expect(lines[40]).toBe("\t\tTreasure: None");
-        expect(lines[41]).toBe("\tCombat:");
-        expect(lines[42]).toBe("\t\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\t\tArmor Class: 8");
-        expect(lines[44]).toBe("\t\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\t\tTouch: 35");
-        expect(lines[46]).toBe("\t\tBase Attack: +22/+17/+12/+7/+2");
-        expect(lines[47]).toBe("\t\tHit Points: 3457");
-        expect(lines[48]).toBe("\t\tInitiative Bonus: 4568");
-        expect(lines[49]).toBe("\t\tSaving Throws:");
-        expect(lines[50]).toBe("\t\t\tFortitude: 57");
-        expect(lines[51]).toBe("\t\t\tReflex: 79");
-        expect(lines[52]).toBe("\t\t\tWill: 68");
-        expect(lines[53]).toBe('');
-        expect(lines[54]).toBe('\tLeadership:');
-        expect(lines[55]).toBe('\t\tScore: 9876');
-        expect(lines[56]).toBe('\t\tLeadership Modifiers:');
-        expect(lines[57]).toBe('\t\t\tkilled a man');
-        expect(lines[58]).toBe('\t\t\twith this thumb');
-        expect(lines[59]).toBe('');
-        expect(lines[60]).toBe('\tCohort:');
-        expect(lines[61]).toBe('\t\tAlignment: alignment 2');
-        expect(lines[62]).toBe('\t\tLevel 9268 class name 2');
-        expect(lines[63]).toBe('\t\tbase race 2');
-        expect(lines[64]).toBe('\t\t\tgender 2');
-        expect(lines[65]).toBe('\t\t\tLand Speed: 32');
-        expect(lines[66]).toBe('\t\t\tSize: size 2');
-        expect(lines[67]).toBe('\t\t\tAge: 20 (adult 2)');
-        expect(lines[68]).toBe('\t\t\tHeight: 4.166666666666667 feet filtered');
-        expect(lines[69]).toBe('\t\t\tWeight: 102 lbs.');
-        expect(lines[70]).toBe('\t\tStats:');
-        expect(lines[71]).toBe('\t\t\tStrength: 4 (-2)');
-        expect(lines[72]).toBe('\t\t\tConstitution: 28 (15)');
-        expect(lines[73]).toBe('\t\t\tDexterity: 8 (0)');
-        expect(lines[74]).toBe('\t\t\tIntelligence: 92 (47)');
-        expect(lines[75]).toBe('\t\t\tWisdom: 12 (2)');
-        expect(lines[76]).toBe('\t\t\tCharisma: 11 (1)');
-        expect(lines[77]).toBe('\t\tLanguages:');
-        expect(lines[78]).toBe('\t\t\tEnglish 2');
-        expect(lines[79]).toBe('\t\t\tGerman 2');
-        expect(lines[80]).toBe('\t\tSkills:');
-        expect(lines[81]).toBe('\t\t\tskill 1');
-        expect(lines[82]).toBe('\t\t\t\tRanks: 6');
-        expect(lines[83]).toBe('\t\t\t\tStat Bonus: 15');
-        expect(lines[84]).toBe('\t\t\t\tOther Bonus: 0');
-        expect(lines[85]).toBe('\t\t\t\tArmor Check Penalty: -8');
-        expect(lines[86]).toBe('\t\t\t\tClass Skill');
-        expect(lines[87]).toBe('\t\t\tskill 2');
-        expect(lines[88]).toBe('\t\t\t\tRanks: 3.5');
-        expect(lines[89]).toBe('\t\t\t\tStat Bonus: 0');
-        expect(lines[90]).toBe('\t\t\t\tOther Bonus: 5');
-        expect(lines[91]).toBe('\t\t\t\tArmor Check Penalty: 0');
-        expect(lines[92]).toBe('\t\t\t\tCircumstantial Bonus');
-        expect(lines[93]).toBe('\t\tFeats:');
-        expect(lines[94]).toBe('\t\t\tfeat 3');
-        expect(lines[95]).toBe('\t\t\tfeat 4');
-        expect(lines[96]).toBe('\t\tInteresting Trait: None');
-        expect(lines[97]).toBe("\t\tEquipment:");
-        expect(lines[98]).toBe("\t\t\tPrimary Hand: None");
-        expect(lines[99]).toBe("\t\t\tOff Hand: None");
-        expect(lines[100]).toBe("\t\t\tArmor: None");
-        expect(lines[101]).toBe("\t\t\tTreasure: None");
-        expect(lines[102]).toBe("\t\tCombat:");
-        expect(lines[103]).toBe("\t\t\tAdjusted Dexterity Bonus: 5");
-        expect(lines[104]).toBe("\t\t\tArmor Class: 9");
-        expect(lines[105]).toBe("\t\t\t\tFlat-Footed: 14");
-        expect(lines[106]).toBe("\t\t\t\tTouch: 36");
-        expect(lines[107]).toBe("\t\t\tBase Attack: +23/+18/+13/+8/+3");
-        expect(lines[108]).toBe("\t\t\tHit Points: 3458");
-        expect(lines[109]).toBe("\t\t\tInitiative Bonus: 4569");
-        expect(lines[110]).toBe("\t\t\tSaving Throws:");
-        expect(lines[111]).toBe("\t\t\t\tFortitude: 58");
-        expect(lines[112]).toBe("\t\t\t\tReflex: 80");
-        expect(lines[113]).toBe("\t\t\t\tWill: 69");
-        expect(lines[114]).toBe('');
-        expect(lines[115]).toBe('\tFollowers:');
-        expect(lines[116]).toBe('');
-        expect(lines[117]).toBe('\t\tAlignment: alignment 3');
-        expect(lines[118]).toBe('\t\tLevel 9269 class name 3');
-        expect(lines[119]).toBe('\t\tbase race 3');
-        expect(lines[120]).toBe('\t\t\tgender 3');
-        expect(lines[121]).toBe('\t\t\tLand Speed: 33');
-        expect(lines[122]).toBe('\t\t\tSize: size 3');
-        expect(lines[123]).toBe('\t\t\tAge: 21 (adult 3)');
-        expect(lines[124]).toBe('\t\t\tHeight: 4.25 feet filtered');
-        expect(lines[125]).toBe('\t\t\tWeight: 103 lbs.');
-        expect(lines[126]).toBe('\t\tStats:');
-        expect(lines[127]).toBe('\t\t\tStrength: 5 (-1)');
-        expect(lines[128]).toBe('\t\t\tConstitution: 29 (16)');
-        expect(lines[129]).toBe('\t\t\tDexterity: 9 (1)');
-        expect(lines[130]).toBe('\t\t\tIntelligence: 93 (48)');
-        expect(lines[131]).toBe('\t\t\tWisdom: 13 (3)');
-        expect(lines[132]).toBe('\t\t\tCharisma: 12 (2)');
-        expect(lines[133]).toBe('\t\tLanguages:');
-        expect(lines[134]).toBe('\t\t\tEnglish 3');
-        expect(lines[135]).toBe('\t\t\tGerman 3');
-        expect(lines[136]).toBe('\t\tSkills:');
-        expect(lines[137]).toBe('\t\t\tskill 1');
-        expect(lines[138]).toBe('\t\t\t\tRanks: 7');
-        expect(lines[139]).toBe('\t\t\t\tStat Bonus: 16');
-        expect(lines[140]).toBe('\t\t\t\tOther Bonus: 0');
-        expect(lines[141]).toBe('\t\t\t\tArmor Check Penalty: -9');
-        expect(lines[142]).toBe('\t\t\t\tClass Skill');
-        expect(lines[143]).toBe('\t\t\tskill 2');
-        expect(lines[144]).toBe('\t\t\t\tRanks: 4.5');
-        expect(lines[145]).toBe('\t\t\t\tStat Bonus: 1');
-        expect(lines[146]).toBe('\t\t\t\tOther Bonus: 6');
-        expect(lines[147]).toBe('\t\t\t\tArmor Check Penalty: 0');
-        expect(lines[148]).toBe('\t\t\t\tCircumstantial Bonus');
-        expect(lines[149]).toBe('\t\tFeats:');
-        expect(lines[150]).toBe('\t\t\tfeat 4');
-        expect(lines[151]).toBe('\t\t\tfeat 5');
-        expect(lines[152]).toBe('\t\tInteresting Trait: None');
-        expect(lines[153]).toBe("\t\tEquipment:");
-        expect(lines[154]).toBe("\t\t\tPrimary Hand: None");
-        expect(lines[155]).toBe("\t\t\tOff Hand: None");
-        expect(lines[156]).toBe("\t\t\tArmor: None");
-        expect(lines[157]).toBe("\t\t\tTreasure: None");
-        expect(lines[158]).toBe("\t\tCombat:");
-        expect(lines[159]).toBe("\t\t\tAdjusted Dexterity Bonus: 6");
-        expect(lines[160]).toBe("\t\t\tArmor Class: 10");
-        expect(lines[161]).toBe("\t\t\t\tFlat-Footed: 15");
-        expect(lines[162]).toBe("\t\t\t\tTouch: 37");
-        expect(lines[163]).toBe("\t\t\tBase Attack: +24/+19/+14/+9/+4");
-        expect(lines[164]).toBe("\t\t\tHit Points: 3459");
-        expect(lines[165]).toBe("\t\t\tInitiative Bonus: 4570");
-        expect(lines[166]).toBe("\t\t\tSaving Throws:");
-        expect(lines[167]).toBe("\t\t\t\tFortitude: 59");
-        expect(lines[168]).toBe("\t\t\t\tReflex: 81");
-        expect(lines[169]).toBe("\t\t\t\tWill: 70");
-        expect(lines[170]).toBe('');
-        expect(lines[171]).toBe('\t\tAlignment: alignment 4');
-        expect(lines[172]).toBe('\t\tLevel 9270 class name 4');
-        expect(lines[173]).toBe('\t\tbase race 4');
-        expect(lines[174]).toBe('\t\t\tgender 4');
-        expect(lines[175]).toBe('\t\t\tLand Speed: 34');
-        expect(lines[176]).toBe('\t\t\tSize: size 4');
-        expect(lines[177]).toBe('\t\t\tAge: 22 (adult 4)');
-        expect(lines[178]).toBe('\t\t\tHeight: 4.333333333333333 feet filtered');
-        expect(lines[179]).toBe('\t\t\tWeight: 104 lbs.');
-        expect(lines[180]).toBe('\t\tStats:');
-        expect(lines[181]).toBe('\t\t\tStrength: 6 (0)');
-        expect(lines[182]).toBe('\t\t\tConstitution: 30 (17)');
-        expect(lines[183]).toBe('\t\t\tDexterity: 10 (2)');
-        expect(lines[184]).toBe('\t\t\tIntelligence: 94 (49)');
-        expect(lines[185]).toBe('\t\t\tWisdom: 14 (4)');
-        expect(lines[186]).toBe('\t\t\tCharisma: 13 (3)');
-        expect(lines[187]).toBe('\t\tLanguages:');
-        expect(lines[188]).toBe('\t\t\tEnglish 4');
-        expect(lines[189]).toBe('\t\t\tGerman 4');
-        expect(lines[190]).toBe('\t\tSkills:');
-        expect(lines[191]).toBe('\t\t\tskill 1');
-        expect(lines[192]).toBe('\t\t\t\tRanks: 8');
-        expect(lines[193]).toBe('\t\t\t\tStat Bonus: 17');
-        expect(lines[194]).toBe('\t\t\t\tOther Bonus: 0');
-        expect(lines[195]).toBe('\t\t\t\tArmor Check Penalty: -10');
-        expect(lines[196]).toBe('\t\t\t\tClass Skill');
-        expect(lines[197]).toBe('\t\t\tskill 2');
-        expect(lines[198]).toBe('\t\t\t\tRanks: 5.5');
-        expect(lines[199]).toBe('\t\t\t\tStat Bonus: 2');
-        expect(lines[200]).toBe('\t\t\t\tOther Bonus: 7');
-        expect(lines[201]).toBe('\t\t\t\tArmor Check Penalty: 0');
-        expect(lines[202]).toBe('\t\t\t\tCircumstantial Bonus');
-        expect(lines[203]).toBe('\t\tFeats:');
-        expect(lines[204]).toBe('\t\t\tfeat 5');
-        expect(lines[205]).toBe('\t\t\tfeat 6');
-        expect(lines[206]).toBe('\t\tInteresting Trait: None');
-        expect(lines[207]).toBe("\t\tEquipment:");
-        expect(lines[208]).toBe("\t\t\tPrimary Hand: None");
-        expect(lines[209]).toBe("\t\t\tOff Hand: None");
-        expect(lines[210]).toBe("\t\t\tArmor: None");
-        expect(lines[211]).toBe("\t\t\tTreasure: None");
-        expect(lines[212]).toBe("\t\tCombat:");
-        expect(lines[213]).toBe("\t\t\tAdjusted Dexterity Bonus: 7");
-        expect(lines[214]).toBe("\t\t\tArmor Class: 11");
-        expect(lines[215]).toBe("\t\t\t\tFlat-Footed: 16");
-        expect(lines[216]).toBe("\t\t\t\tTouch: 38");
-        expect(lines[217]).toBe("\t\t\tBase Attack: +25/+20/+15/+10/+5");
-        expect(lines[218]).toBe("\t\t\tHit Points: 3460");
-        expect(lines[219]).toBe("\t\t\tInitiative Bonus: 4571");
-        expect(lines[220]).toBe("\t\t\tSaving Throws:");
-        expect(lines[221]).toBe("\t\t\t\tFortitude: 60");
-        expect(lines[222]).toBe("\t\t\t\tReflex: 82");
-        expect(lines[223]).toBe("\t\t\t\tWill: 71");
-        expect(lines[224]).toBe('');
-        expect(lines.length).toBe(225);
+        var expected = [
+            '\tAlignment: alignment 1',
+            '\tLevel 9267 class name 1',
+            '\tbase race 1',
+            '\t\tgender 1',
+            '\t\tLand Speed: 31',
+            '\t\tSize: size 1',
+            '\t\tAge: 19 (adult 1)',
+            '\t\tHeight: 4.083333333333333 feet filtered',
+            '\t\tWeight: 101 lbs.',
+            '\tStats:',
+            '\t\tStrength: 3 (-3)',
+            '\t\tConstitution: 27 (14)',
+            '\t\tDexterity: 7 (-1)',
+            '\t\tIntelligence: 91 (46)',
+            '\t\tWisdom: 11 (1)',
+            '\t\tCharisma: 10 (0)',
+            '\tLanguages:',
+            '\t\tEnglish 1',
+            '\t\tGerman 1',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 5',
+            '\t\t\tStat Bonus: 14',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -7',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 2.5',
+            '\t\t\tStat Bonus: -1',
+            '\t\t\tOther Bonus: 4',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 2',
+            '\t\tfeat 3',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 4",
+            "\t\tArmor Class: 8",
+            "\t\t\tFlat-Footed: 13",
+            "\t\t\tTouch: 35",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\t\tRanged: +23/+18/+13/+8/+3",
+            "\t\tHit Points: 3457",
+            "\t\tInitiative Bonus: 4568",
+            "\t\tSaving Throws:",
+            "\t\t\tFortitude: 57",
+            "\t\t\tReflex: 79",
+            "\t\t\tWill: 68",
+            '',
+            '\tLeadership:',
+            '\t\tScore: 9876',
+            '\t\tLeadership Modifiers:',
+            '\t\t\tkilled a man',
+            '\t\t\twith this thumb',
+            '',
+            '\tCohort:',
+            '\t\tAlignment: alignment 2',
+            '\t\tLevel 9268 class name 2',
+            '\t\tbase race 2',
+            '\t\t\tgender 2',
+            '\t\t\tLand Speed: 32',
+            '\t\t\tSize: size 2',
+            '\t\t\tAge: 20 (adult 2)',
+            '\t\t\tHeight: 4.166666666666667 feet filtered',
+            '\t\t\tWeight: 102 lbs.',
+            '\t\tStats:',
+            '\t\t\tStrength: 4 (-2)',
+            '\t\t\tConstitution: 28 (15)',
+            '\t\t\tDexterity: 8 (0)',
+            '\t\t\tIntelligence: 92 (47)',
+            '\t\t\tWisdom: 12 (2)',
+            '\t\t\tCharisma: 11 (1)',
+            '\t\tLanguages:',
+            '\t\t\tEnglish 2',
+            '\t\t\tGerman 2',
+            '\t\tSkills:',
+            '\t\t\tskill 1',
+            '\t\t\t\tRanks: 6',
+            '\t\t\t\tStat Bonus: 15',
+            '\t\t\t\tOther Bonus: 0',
+            '\t\t\t\tArmor Check Penalty: -8',
+            '\t\t\t\tClass Skill',
+            '\t\t\tskill 2',
+            '\t\t\t\tRanks: 3.5',
+            '\t\t\t\tStat Bonus: 0',
+            '\t\t\t\tOther Bonus: 5',
+            '\t\t\t\tArmor Check Penalty: 0',
+            '\t\t\t\tCircumstantial Bonus',
+            '\t\tFeats:',
+            '\t\t\tfeat 3',
+            '\t\t\tfeat 4',
+            '\t\tInteresting Trait: None',
+            "\t\tEquipment:",
+            "\t\t\tPrimary Hand: None",
+            "\t\t\tOff Hand: None",
+            "\t\t\tArmor: None",
+            "\t\t\tTreasure: None",
+            "\t\tCombat:",
+            "\t\t\tAdjusted Dexterity Bonus: 5",
+            "\t\t\tArmor Class: 9",
+            "\t\t\t\tFlat-Footed: 14",
+            "\t\t\t\tTouch: 36",
+            "\t\t\tBase Attack:",
+            "\t\t\t\tMelee: +23/+18/+13/+8/+3",
+            "\t\t\t\tRanged: +24/+19/+14/+9/+4",
+            "\t\t\tHit Points: 3458",
+            "\t\t\tInitiative Bonus: 4569",
+            "\t\t\tSaving Throws:",
+            "\t\t\t\tFortitude: 58",
+            "\t\t\t\tReflex: 80",
+            "\t\t\t\tWill: 69",
+            '',
+            '\tFollowers:',
+            '',
+            '\t\tAlignment: alignment 3',
+            '\t\tLevel 9269 class name 3',
+            '\t\tbase race 3',
+            '\t\t\tgender 3',
+            '\t\t\tLand Speed: 33',
+            '\t\t\tSize: size 3',
+            '\t\t\tAge: 21 (adult 3)',
+            '\t\t\tHeight: 4.25 feet filtered',
+            '\t\t\tWeight: 103 lbs.',
+            '\t\tStats:',
+            '\t\t\tStrength: 5 (-1)',
+            '\t\t\tConstitution: 29 (16)',
+            '\t\t\tDexterity: 9 (1)',
+            '\t\t\tIntelligence: 93 (48)',
+            '\t\t\tWisdom: 13 (3)',
+            '\t\t\tCharisma: 12 (2)',
+            '\t\tLanguages:',
+            '\t\t\tEnglish 3',
+            '\t\t\tGerman 3',
+            '\t\tSkills:',
+            '\t\t\tskill 1',
+            '\t\t\t\tRanks: 7',
+            '\t\t\t\tStat Bonus: 16',
+            '\t\t\t\tOther Bonus: 0',
+            '\t\t\t\tArmor Check Penalty: -9',
+            '\t\t\t\tClass Skill',
+            '\t\t\tskill 2',
+            '\t\t\t\tRanks: 4.5',
+            '\t\t\t\tStat Bonus: 1',
+            '\t\t\t\tOther Bonus: 6',
+            '\t\t\t\tArmor Check Penalty: 0',
+            '\t\t\t\tCircumstantial Bonus',
+            '\t\tFeats:',
+            '\t\t\tfeat 4',
+            '\t\t\tfeat 5',
+            '\t\tInteresting Trait: None',
+            "\t\tEquipment:",
+            "\t\t\tPrimary Hand: None",
+            "\t\t\tOff Hand: None",
+            "\t\t\tArmor: None",
+            "\t\t\tTreasure: None",
+            "\t\tCombat:",
+            "\t\t\tAdjusted Dexterity Bonus: 6",
+            "\t\t\tArmor Class: 10",
+            "\t\t\t\tFlat-Footed: 15",
+            "\t\t\t\tTouch: 37",
+            "\t\t\tBase Attack:",
+            "\t\t\t\tMelee: +24/+19/+14/+9/+4",
+            "\t\t\t\tRanged: +25/+20/+15/+10/+5",
+            "\t\t\tHit Points: 3459",
+            "\t\t\tInitiative Bonus: 4570",
+            "\t\t\tSaving Throws:",
+            "\t\t\t\tFortitude: 59",
+            "\t\t\t\tReflex: 81",
+            "\t\t\t\tWill: 70",
+            '',
+            '\t\tAlignment: alignment 4',
+            '\t\tLevel 9270 class name 4',
+            '\t\tbase race 4',
+            '\t\t\tgender 4',
+            '\t\t\tLand Speed: 34',
+            '\t\t\tSize: size 4',
+            '\t\t\tAge: 22 (adult 4)',
+            '\t\t\tHeight: 4.333333333333333 feet filtered',
+            '\t\t\tWeight: 104 lbs.',
+            '\t\tStats:',
+            '\t\t\tStrength: 6 (0)',
+            '\t\t\tConstitution: 30 (17)',
+            '\t\t\tDexterity: 10 (2)',
+            '\t\t\tIntelligence: 94 (49)',
+            '\t\t\tWisdom: 14 (4)',
+            '\t\t\tCharisma: 13 (3)',
+            '\t\tLanguages:',
+            '\t\t\tEnglish 4',
+            '\t\t\tGerman 4',
+            '\t\tSkills:',
+            '\t\t\tskill 1',
+            '\t\t\t\tRanks: 8',
+            '\t\t\t\tStat Bonus: 17',
+            '\t\t\t\tOther Bonus: 0',
+            '\t\t\t\tArmor Check Penalty: -10',
+            '\t\t\t\tClass Skill',
+            '\t\t\tskill 2',
+            '\t\t\t\tRanks: 5.5',
+            '\t\t\t\tStat Bonus: 2',
+            '\t\t\t\tOther Bonus: 7',
+            '\t\t\t\tArmor Check Penalty: 0',
+            '\t\t\t\tCircumstantial Bonus',
+            '\t\tFeats:',
+            '\t\t\tfeat 5',
+            '\t\t\tfeat 6',
+            '\t\tInteresting Trait: None',
+            "\t\tEquipment:",
+            "\t\t\tPrimary Hand: None",
+            "\t\t\tOff Hand: None",
+            "\t\t\tArmor: None",
+            "\t\t\tTreasure: None",
+            "\t\tCombat:",
+            "\t\t\tAdjusted Dexterity Bonus: 7",
+            "\t\t\tArmor Class: 11",
+            "\t\t\t\tFlat-Footed: 16",
+            "\t\t\t\tTouch: 38",
+            "\t\t\tBase Attack:",
+            "\t\t\t\tMelee: +25/+20/+15/+10/+5",
+            "\t\t\t\tRanged: +26/+21/+16/+11/+6",
+            "\t\t\tHit Points: 3460",
+            "\t\t\tInitiative Bonus: 4571",
+            "\t\t\tSaving Throws:",
+            "\t\t\t\tFortitude: 60",
+            "\t\t\t\tReflex: 82",
+            "\t\t\t\tWill: 71",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 });

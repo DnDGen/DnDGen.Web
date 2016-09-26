@@ -5,27 +5,29 @@
         .module('app.dungeon')
         .controller('Dungeon', Dungeon);
 
-    Dungeon.$inject = ['$scope', 'dungeonService', 'sweetAlertService', 'fileSaverService', 'dungeonFormatterService'];
+    Dungeon.$inject = ['$scope', 'dungeonService', 'sweetAlertService', 'fileSaverService', 'dungeonFormatterService', 'model'];
 
-    function Dungeon($scope, dungeonService, sweetAlertService, fileSaverService, dungeonFormatterService) {
+    function Dungeon($scope, dungeonService, sweetAlertService, fileSaverService, dungeonFormatterService, model) {
         var vm = this;
+        vm.model = model;
 
         vm.dungeonLevel = 1;
         vm.partyLevel = 1;
+        vm.temperature = vm.model.Temperatures[0];
         vm.areas = [];
         vm.generating = false;
 
         vm.generateDungeonAreasFromHall = function () {
             vm.generating = true;
 
-            dungeonService.getDungeonAreasFromHall(vm.dungeonLevel, vm.partyLevel)
+            dungeonService.getDungeonAreasFromHall(vm.dungeonLevel, vm.partyLevel, vm.temperature)
                 .then(setAreas, handleError);
         };
 
         vm.generateDungeonAreasFromDoor = function () {
             vm.generating = true;
 
-            dungeonService.getDungeonAreasFromDoor(vm.dungeonLevel, vm.partyLevel)
+            dungeonService.getDungeonAreasFromDoor(vm.dungeonLevel, vm.partyLevel, vm.temperature)
                 .then(setAreas, handleError);
         };
 
@@ -42,7 +44,7 @@
 
         vm.download = function () {
             var formattedAreas = dungeonFormatterService.formatDungeonAreas(vm.areas);
-            var fileName = 'Dungeon level ' + vm.dungeonLevel + ', party level ' + vm.partyLevel + ' ' + new Date().toString();
+            var fileName = vm.temperature + ' Dungeon level ' + vm.dungeonLevel + ', party level ' + vm.partyLevel + ' ' + new Date().toString();
 
             fileSaverService.save(formattedAreas, fileName);
         };

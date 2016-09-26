@@ -13,21 +13,23 @@
             validateFilters: validateFilters
         };
 
-        function getEncounter(environment, level, filters) {
-            var parameters = getParameters(environment, level, filters);
+        function getEncounter(environment, temperature, timeOfDay, level, filters) {
+            var parameters = getParameters(environment, temperature, timeOfDay, level, filters);
             return promiseService.getPromise('/Encounter/Generate', parameters);
         }
 
-        function getParameters(environment, level, filters) {
+        function getParameters(environment, temperature, timeOfDay, level, filters) {
             return {
                 environment: environment,
+                temperature: temperature,
+                timeOfDay: timeOfDay,
                 level: level,
                 'filters': filters
             };
         }
 
-        function validateFilters(environment, level, filters) {
-            var parameters = getParameters(environment, level, filters);
+        function validateFilters(environment, temperature, timeOfDay, level, filters) {
+            var parameters = getParameters(environment, temperature, timeOfDay, level, filters);
             return promiseService.getPromise('/Encounter/Validate', parameters);
         }
     };

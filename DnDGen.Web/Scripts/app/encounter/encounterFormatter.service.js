@@ -27,7 +27,7 @@
                 formattedEncounter += ' x' + encounter.Creatures[i].Quantity + '\r\n';
             }
 
-            formattedEncounter += formatTreasure(encounter.Treasure, prefix);
+            formattedEncounter += formatTreasures(encounter.Treasures, prefix);
 
             if (encounter.Characters.length === 0)
                 return formattedEncounter;
@@ -42,15 +42,22 @@
             return formattedEncounter;
         }
 
-        function formatTreasure(treasure, prefix)
+        function formatTreasures(treasures, prefix)
         {
-            if (treasure.Coin.Quantity === 0 && treasure.Goods.length === 0 && treasure.Items.length === 0)
-                return prefix + "Treasure: None\r\n";
+            var header = prefix + "Treasure:";
+            var formattedTreasure = '';
 
-            var formattedTreasure = prefix + "Treasure:\r\n";
-            formattedTreasure += treasureFormatterService.formatTreasure(treasure, prefix + "\t");
+            for (var i = 0; i < treasures.length; i++) {
+                if (treasures[i].IsAny)
+                    formattedTreasure += treasureFormatterService.formatTreasure(treasures[i], prefix + "\t");
+            }
 
-            return formattedTreasure;
+            if (formattedTreasure.length == 0)
+                header += ' None\r\n';
+            else
+                header += '\r\n';
+
+            return header + formattedTreasure;
         }
     };
 })();

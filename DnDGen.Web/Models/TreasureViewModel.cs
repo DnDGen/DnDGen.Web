@@ -7,16 +7,12 @@ namespace DnDGen.Web.Models
     {
         public IEnumerable<string> TreasureTypes { get; set; }
         public int MaxTreasureLevel { get; set; }
-        public IEnumerable<string> MundaneItemTypes { get; set; }
-        public IEnumerable<string> PoweredItemTypes { get; set; }
-        public IEnumerable<IEnumerable<string>> ItemPowers { get; set; }
+        public Dictionary<string, IEnumerable<string>> ItemPowers { get; set; }
 
         public TreasureViewModel()
         {
             TreasureTypes = Enumerable.Empty<string>();
-            MundaneItemTypes = Enumerable.Empty<string>();
-            PoweredItemTypes = Enumerable.Empty<string>();
-            ItemPowers = Enumerable.Empty<IEnumerable<string>>();
+            ItemPowers = new Dictionary<string, IEnumerable<string>>();
         }
     }
 }

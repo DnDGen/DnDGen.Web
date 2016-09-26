@@ -1,7 +1,9 @@
 ﻿using CharacterGen;
 using CharacterGen.Abilities.Feats;
 using CharacterGen.Abilities.Skills;
+using CharacterGen.Abilities.Stats;
 using DnDGen.Web.Controllers;
+using DnDGen.Web.Models;
 using DungeonGen;
 using EncounterGen.Common;
 using Moq;
@@ -44,12 +46,30 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
+        public void IndexViewContainsModel()
+        {
+            var result = controller.Index() as ViewResult;
+            Assert.That(result.Model, Is.InstanceOf<DungeonViewModel>());
+        }
+
+        [Test]
+        public void IndexModelContainsTempreatures()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as DungeonViewModel;
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Cold));
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Temperate));
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Warm));
+            Assert.That(model.Temperatures.Count(), Is.EqualTo(3));
+        }
+
+        [Test]
         public void GenerateFromHallReturnsJsonResult()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210);
+            var result = controller.GenerateFromHall(9266, 90210, "temperature");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -57,9 +77,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallJsonAllowsGet()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -67,9 +87,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
         }
@@ -78,9 +98,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallSortsCharacterFeats()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
@@ -139,9 +159,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
                 new Feat { Name = Guid.NewGuid().ToString() }
             };
 
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill { Ranks = random.Next() };
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill { Ranks = random.Next() };
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill { Ranks = random.Next() };
+            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
+            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
+            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
 
             return character;
         }
@@ -150,9 +170,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallSortsCharacterSkills()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
@@ -186,9 +206,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorReturnsJsonResult()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210);
+            var result = controller.GenerateFromDoor(9266, 90210, "temperature");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -196,9 +216,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorJsonAllowsGet()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -206,9 +226,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
         }
@@ -217,9 +237,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorSortsCharacterFeats()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
@@ -253,9 +273,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorSortsCharacterSkills()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210)).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210) as JsonResult;
+            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);

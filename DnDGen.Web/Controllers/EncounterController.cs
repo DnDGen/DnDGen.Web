@@ -24,9 +24,27 @@ namespace DnDGen.Web.Controllers
             var model = new EncounterViewModel();
             model.Environments = new[]
             {
+                EnvironmentConstants.Civilized,
+                EnvironmentConstants.Desert,
                 EnvironmentConstants.Dungeon,
-                EnvironmentConstants.CivilizedDay,
-                EnvironmentConstants.CivilizedNight
+                EnvironmentConstants.Forest,
+                EnvironmentConstants.Hills,
+                EnvironmentConstants.Marsh,
+                EnvironmentConstants.Mountain,
+                EnvironmentConstants.Plains
+            };
+
+            model.Temperatures = new[]
+            {
+                EnvironmentConstants.Temperatures.Cold,
+                EnvironmentConstants.Temperatures.Temperate,
+                EnvironmentConstants.Temperatures.Warm
+            };
+
+            model.TimesOfDay = new[]
+            {
+                EnvironmentConstants.TimesOfDay.Day,
+                EnvironmentConstants.TimesOfDay.Night
             };
 
             model.CreatureTypes = new[]
@@ -52,11 +70,11 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult Generate(string environment, int level, IEnumerable<string> filters)
+        public JsonResult Generate(string environment, string temperature, string timeOfDay, int level, IEnumerable<string> filters)
         {
             filters = filters ?? Enumerable.Empty<string>();
 
-            var encounter = encounterGenerator.Generate(environment, level, filters.ToArray());
+            var encounter = encounterGenerator.Generate(environment, level, temperature, timeOfDay, filters.ToArray());
 
             foreach (var character in encounter.Characters)
             {
@@ -68,11 +86,11 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult Validate(string environment, int level, IEnumerable<string> filters)
+        public JsonResult Validate(string environment, string temperature, string timeOfDay, int level, IEnumerable<string> filters)
         {
             filters = filters ?? Enumerable.Empty<string>();
 
-            var isValid = filterVerifier.FiltersAreValid(environment, level, filters.ToArray());
+            var isValid = filterVerifier.FiltersAreValid(environment, level, temperature, timeOfDay, filters.ToArray());
 
             return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
         }

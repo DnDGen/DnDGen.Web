@@ -1,6 +1,7 @@
 ﻿using CharacterGen;
 using CharacterGen.Abilities.Feats;
 using CharacterGen.Abilities.Skills;
+using CharacterGen.Abilities.Stats;
 using CharacterGen.CharacterClasses;
 using CharacterGen.Races;
 using CharacterGen.Randomizers.Alignments;
@@ -435,9 +436,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
                 .Returns(character);
 
-            character.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
-            character.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
-            character.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
+            character.Ability.Skills["zzzz"] = new Skill("zzzz", new Stat(string.Empty), 123456) { Ranks = 42 };
+            character.Ability.Skills["aaaa"] = new Skill("aaaa", new Stat(string.Empty), 123456) { Ranks = 600 };
+            character.Ability.Skills["kkkk"] = new Skill("kkkk", new Stat(string.Empty), 123456) { Ranks = 1337 };
 
             Assert.That(character.Ability.Skills, Is.Not.Ordered.By("Key"));
 

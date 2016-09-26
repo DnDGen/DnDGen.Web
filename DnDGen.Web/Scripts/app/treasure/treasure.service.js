@@ -10,29 +10,17 @@
     function treasureService(promiseService) {
         return {
             getTreasure: getTreasure,
-            getTreasureType: getTreasureType,
-            getMundaneItem: getMundaneItem,
-            getPoweredItem: getPoweredItem
+            getItem: getItem
         };
 
-        function getTreasure(level) {
-            var url = "/Treasure/Generate/" + level;
-            return promiseService.getPromise(url);
+        function getTreasure(treasureType, level) {
+            var parameters = { treasureType: treasureType, level: level };
+            return promiseService.getPromise("/Treasure/Generate", parameters);
         }
 
-        function getTreasureType(treasureType, level) {
-            var url = "/Treasures/" + treasureType + "/Generate/" + level;
-            return promiseService.getPromise(url);
-        }
-
-        function getMundaneItem(itemType) {
-            var url = "/Treasures/" + itemType + "/Generate";
-            return promiseService.getPromise(url);
-        }
-
-        function getPoweredItem(itemType, power) {
-            var url = "/Treasures/" + itemType + "/Generate/" + power;
-            return promiseService.getPromise(url);
+        function getItem(itemType, power) {
+            var parameters = { itemType: itemType, power: power };
+            return promiseService.getPromise("/Treasure/GenerateItem", parameters);
         }
     };
 })();

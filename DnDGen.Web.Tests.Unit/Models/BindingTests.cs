@@ -87,7 +87,8 @@ namespace DnDGen.Web.Tests.Unit.Models
             Assert.That(character.Combat.ArmorClass.FlatFooted, Is.InstanceOf<int>());
             Assert.That(character.Combat.ArmorClass.Full, Is.InstanceOf<int>());
             Assert.That(character.Combat.ArmorClass.Touch, Is.InstanceOf<int>());
-            Assert.That(character.Combat.BaseAttack.AllBonuses, Is.InstanceOf<IEnumerable<int>>());
+            Assert.That(character.Combat.BaseAttack.AllMeleeBonuses, Is.InstanceOf<IEnumerable<int>>());
+            Assert.That(character.Combat.BaseAttack.AllRangedBonuses, Is.InstanceOf<IEnumerable<int>>());
             Assert.That(character.Combat.BaseAttack.CircumstantialBonus, Is.InstanceOf<bool>());
             Assert.That(character.Combat.HitPoints, Is.InstanceOf<int>());
             Assert.That(character.Combat.InitiativeBonus, Is.InstanceOf<int>());
@@ -137,7 +138,8 @@ namespace DnDGen.Web.Tests.Unit.Models
         [Test]
         public void SkillBinding()
         {
-            var skill = new Skill();
+            var stat = new Stat(string.Empty);
+            var skill = new Skill(string.Empty, stat, 0);
             Assert.That(skill.ArmorCheckPenalty, Is.InstanceOf<int>());
 
             //HACK: Ignoring, as can't assert type of null value
@@ -153,7 +155,7 @@ namespace DnDGen.Web.Tests.Unit.Models
         [Test]
         public void StatBinding()
         {
-            var stat = new Stat();
+            var stat = new Stat(string.Empty);
             Assert.That(stat.Bonus, Is.InstanceOf<int>());
             Assert.That(stat.Value, Is.InstanceOf<int>());
         }
@@ -197,7 +199,7 @@ namespace DnDGen.Web.Tests.Unit.Models
             var encounter = new Encounter();
             Assert.That(encounter.Characters, Is.InstanceOf<IEnumerable<Character>>());
             Assert.That(encounter.Creatures, Is.InstanceOf<IEnumerable<Creature>>());
-            Assert.That(encounter.Treasure, Is.InstanceOf<Treasure>());
+            Assert.That(encounter.Treasures, Is.InstanceOf<IEnumerable<Treasure>>());
         }
 
         [Test]
@@ -247,9 +249,10 @@ namespace DnDGen.Web.Tests.Unit.Models
         {
             var trap = new Trap();
             Assert.That(trap.ChallengeRating, Is.InstanceOf<int>());
-            Assert.That(trap.Description, Is.InstanceOf<string>());
+            Assert.That(trap.Name, Is.InstanceOf<string>());
             Assert.That(trap.DisableDeviceDC, Is.InstanceOf<int>());
             Assert.That(trap.SearchDC, Is.InstanceOf<int>());
+            Assert.That(trap.Descriptions, Is.InstanceOf<IEnumerable<string>>());
         }
 
         [Test]

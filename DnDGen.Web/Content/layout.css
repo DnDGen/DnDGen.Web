@@ -14,3 +14,28 @@
     padding-right: .5em;
     margin-right: .5em;
 }
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus
+{
+  color: black;
+  background-color: #c8b592 !important;
+  border-color: black;
+}
+
+.nav-tabs
+{
+  border-color: black;
+}
+
+.nav-tabs > li > a
+{
+  color: black;
+}
+
+.nav-tabs > li > a:hover
+{
+  background-color: #dec9a2 !important;
+  border-color: black;
+}

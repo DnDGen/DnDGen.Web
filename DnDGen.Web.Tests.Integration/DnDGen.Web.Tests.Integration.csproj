@@ -41,27 +41,27 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.5.0\lib\CharacterGen.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.7.0.0\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Domain.5.0\lib\CharacterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Domain.7.0.0\lib\CharacterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.2.0.1\lib\DungeonGen.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.3.0.0\lib\DungeonGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Domain.2.0.2\lib\DungeonGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.Domain.3.0.0\lib\DungeonGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.0.2.1\lib\EncounterGen.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.1.0.0\lib\EncounterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Domain.0.2\lib\EncounterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.Domain.1.0.0\lib\EncounterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -115,11 +115,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.4.0\lib\TreasureGen.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.5.0.0\lib\TreasureGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.Domain.4.0\lib\TreasureGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.Domain.5.0.0\lib\TreasureGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

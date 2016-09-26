@@ -45,27 +45,27 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.5.0\lib\CharacterGen.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.7.0.0\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Domain.5.0\lib\CharacterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Domain.7.0.0\lib\CharacterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.2.0.1\lib\DungeonGen.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.3.0.0\lib\DungeonGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Domain.2.0.2\lib\DungeonGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.Domain.3.0.0\lib\DungeonGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.0.2.1\lib\EncounterGen.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.1.0.0\lib\EncounterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Domain.0.2\lib\EncounterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.Domain.1.0.0\lib\EncounterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -132,11 +132,11 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TreasureGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.4.0\lib\TreasureGen.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.5.0.0\lib\TreasureGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.Domain.4.0\lib\TreasureGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.Domain.5.0.0\lib\TreasureGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
@@ -247,26 +247,12 @@
     <Compile Include="Controllers\Characters\RandomizersController.cs" />
     <Compile Include="Controllers\RollController.cs" />
     <Compile Include="Controllers\CharacterController.cs" />
-    <Compile Include="Controllers\Treasures\AlchemicalItemController.cs" />
-    <Compile Include="Controllers\Treasures\ArmorController.cs" />
-    <Compile Include="Controllers\Treasures\PotionController.cs" />
-    <Compile Include="Controllers\Treasures\RingController.cs" />
-    <Compile Include="Controllers\Treasures\ScrollController.cs" />
-    <Compile Include="Controllers\Treasures\StaffController.cs" />
-    <Compile Include="Controllers\Treasures\ToolController.cs" />
-    <Compile Include="Controllers\Treasures\WandController.cs" />
-    <Compile Include="Controllers\Treasures\WeaponController.cs" />
-    <Compile Include="Controllers\Treasures\WondrousItemController.cs" />
-    <Compile Include="Controllers\Treasures\RodController.cs" />
     <Compile Include="Controllers\TreasureController.cs" />
-    <Compile Include="Controllers\Treasures\CoinController.cs" />
-    <Compile Include="Controllers\Treasures\GoodsController.cs" />
-    <Compile Include="Controllers\Treasures\ItemsController.cs" />
-    <Compile Include="Controllers\Treasures\TreasuresController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CharacterViewModel.cs" />
+    <Compile Include="Models\DungeonViewModel.cs" />
     <Compile Include="Models\EncounterViewModel.cs" />
     <Compile Include="Models\TreasureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

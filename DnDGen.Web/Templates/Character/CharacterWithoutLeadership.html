@@ -128,8 +128,8 @@
                     <dndgen-item ng-show="character.Equipment.Armor" item="character.Equipment.Armor"></dndgen-item> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 </li>
                 <li>
-                    <span>Treasure: {{character.Equipment.Treasure.Coin.Quantity > 0 || character.Equipment.Treasure.Goods.length > 0 || character.Equipment.Treasure.Items.length > 0 ? '' : 'None'}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                    <dndgen-treasure ng-show="character.Equipment.Treasure.Coin.Quantity > 0 || character.Equipment.Treasure.Goods.length > 0 || character.Equipment.Treasure.Items.length > 0" treasure="character.Equipment.Treasure"></dndgen-treasure> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+                    <span>Treasure: {{character.Equipment.Treasure.IsAny ? '' : 'None'}}</span>
+                    <dndgen-treasure ng-show="character.Equipment.Treasure.IsAny" treasure="character.Equipment.Treasure"></dndgen-treasure> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 </li>
             </ul>
         </li>
@@ -144,7 +144,13 @@
                         <li>Touch: {{character.Combat.ArmorClass.Touch}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                     </ul>
                 </li>
-                <li>Base Attack: +{{character.Combat.BaseAttack.AllBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+                <li>
+                    <span>Base Attack:</span>
+                    <ul>
+                        <li>Melee: +{{character.Combat.BaseAttack.AllMeleeBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllMeleeBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
+                        <li>Ranged: +{{character.Combat.BaseAttack.AllRangedBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllRangedBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
+                    </ul>
+                </li>
                 <li>Hit Points: {{character.Combat.HitPoints}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <li>Initiative Bonus: {{character.Combat.InitiativeBonus}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
                 <li>

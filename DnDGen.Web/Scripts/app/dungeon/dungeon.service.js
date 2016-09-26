@@ -13,14 +13,22 @@
             getDungeonAreasFromDoor: getDungeonAreasFromDoor
         };
 
-        function getDungeonAreasFromHall(dungeonLevel, partyLevel) {
-            var url = "/Dungeon/GenerateFromHall?dungeonLevel=" + dungeonLevel + "&partyLevel=" + partyLevel;
-            return promiseService.getPromise(url);
+        function getDungeonAreasFromHall(dungeonLevel, partyLevel, temperature) {
+            var parameters = getParameters(dungeonLevel, partyLevel, temperature);
+            return promiseService.getPromise('/Dungeon/GenerateFromHall', parameters);
         }
 
-        function getDungeonAreasFromDoor(dungeonLevel, partyLevel) {
-            var url = "/Dungeon/GenerateFromDoor?dungeonLevel=" + dungeonLevel + "&partyLevel=" + partyLevel;
-            return promiseService.getPromise(url);
+        function getParameters(dungeonLevel, partyLevel, temperature) {
+            return {
+                dungeonLevel: dungeonLevel,
+                partyLevel: partyLevel,
+                temperature: temperature
+            };
+        }
+
+        function getDungeonAreasFromDoor(dungeonLevel, partyLevel, temperature) {
+            var parameters = getParameters(dungeonLevel, partyLevel, temperature);
+            return promiseService.getPromise('/Dungeon/GenerateFromDoor', parameters);
         }
     };
 })();

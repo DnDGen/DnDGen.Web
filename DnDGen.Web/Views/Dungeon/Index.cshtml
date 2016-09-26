@@ -1,4 +1,5 @@
 ﻿@{
+    @model DnDGen.Web.Models.DungeonViewModel
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -43,6 +44,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="temperature" class="col-sm-6 control-label">Temperature:</label>
+                    <div class="col-sm-6">
+                        <select id="temperature" class="form-control" ng-model="vm.temperature" ng-options="temperature for temperature in vm.model.Temperatures" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromHall()" ng-disabled="dungeonForm.$invalid || vm.generating">Generate From Hall</button>
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromDoor()" ng-disabled="dungeonForm.$invalid || vm.generating">Generate From Door</button>
                 </div>
@@ -64,3 +71,11 @@
         </div>
     </div>
 </div>
+
+@section PostBodyScripts {
+    <script type="text/javascript">
+        angular.module('app.dungeon').factory('model', function () {
+            return @Html.Raw(Json.Encode(Model));
+        });
+    </script>
+}

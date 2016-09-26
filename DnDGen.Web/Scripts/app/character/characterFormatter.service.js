@@ -278,7 +278,7 @@
             if (!prefix)
                 prefix = '';
 
-            if (treasure.Coin.Quantity === 0 && treasure.Goods.length === 0 && treasure.Items.length === 0)
+            if (treasure.IsAny == false)
                 return prefix + "Treasure: None\r\n";
 
             var formattedTreasure = prefix + "Treasure:\r\n";
@@ -309,13 +309,23 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedBonuses = baseAttack.AllBonuses.join("/+");
-            var formattedBaseAttack = prefix + "\tBase Attack: +" + formattedBonuses;
+            var formattedMeleeBonuses = baseAttack.AllMeleeBonuses.join("/+");
+            var formattedRangedBonuses = baseAttack.AllRangedBonuses.join("/+");
+            var formattedBaseAttack = prefix + "\tBase Attack:\r\n";
 
+            formattedBaseAttack += prefix + "\t\tMelee: +" + formattedMeleeBonuses;
             if (baseAttack.CircumstantialBonus)
                 formattedBaseAttack += " *";
 
-            return formattedBaseAttack + "\r\n";
+            formattedBaseAttack += '\r\n';
+
+            formattedBaseAttack += prefix + "\t\tRanged: +" + formattedRangedBonuses;
+            if (baseAttack.CircumstantialBonus)
+                formattedBaseAttack += " *";
+
+            formattedBaseAttack += '\r\n';
+
+            return formattedBaseAttack;
         }
 
         function formatLeadership(leadership, prefix)

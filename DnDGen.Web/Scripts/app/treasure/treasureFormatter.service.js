@@ -17,6 +17,9 @@
 
             var formattedTreasure = '';
 
+            if (treasure.IsAny == false)
+                return formattedTreasure;
+
             if (treasure.Coin.Quantity > 0)
                 formattedTreasure += prefix + formatNumber(treasure.Coin.Quantity) + ' ' + treasure.Coin.Currency + '\r\n';
             

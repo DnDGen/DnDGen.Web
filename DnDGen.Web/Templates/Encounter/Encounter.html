@@ -3,8 +3,12 @@
     <ul>
         <li ng-repeat="creature in encounter.Creatures">{{creature.Name}}<span ng-if="creature.Description.length > 0"> ({{creature.Description}})</span> x{{creature.Quantity}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
     </ul>
-    <span>Treasure: {{encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0 ? '' : 'None'}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-    <dndgen-treasure ng-show="encounter.Treasure.Coin.Quantity > 0 || encounter.Treasure.Goods.length > 0 || encounter.Treasure.Items.length > 0" treasure="encounter.Treasure"></dndgen-treasure> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+    <span>Treasures: {{encounter.Treasures.length > 0 ? '' : 'None'}}</span>
+    <ul>
+        <li ng-repeat="treasure in encounter.Treasures">
+            <dndgen-treasure treasure="treasure"></dndgen-treasure>
+        </li>
+    </ul>
     <div ng-show="encounter.Characters.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
         <span>Characters:</span>
         <ul>

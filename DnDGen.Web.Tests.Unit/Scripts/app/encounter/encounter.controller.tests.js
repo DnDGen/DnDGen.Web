@@ -15,18 +15,20 @@ describe('Encounter Controller', function () {
     beforeEach(function () {
         model = {
             Environments: ["field", "mountain"],
+            Temperatures: ["cold", "hot"],
+            TimesOfDay: ["day", "night"],
             CreatureTypes: ["undead", "character", "yo mamma"]
         };
 
         encounterServiceMock = {
-            getEncounter: function (environment, level, filters) {
-                var encounter = { creature: "Monster " + level + " in " + environment };
+            getEncounter: function (environment, temperature, timeOfDay, level, filters) {
+                var encounter = { creature: "Monster " + level + " in " + environment + ' ' + temperature + ' ' + timeOfDay };
                 var data = { "encounter": encounter };
                 var shouldFail = level === 666;
                 return getMockedPromise(data, shouldFail);
             },
-            validateFilters: function(environment, level, filters) {
-                var data = { "isValid": (filters[0] !== 'undead' && environment !== "invalid" && level !== 666) };
+            validateFilters: function (environment, temperature, timeOfDay, level, filters) {
+                var data = { "isValid": (filters[0] !== 'undead' && environment !== "invalid" && temperature !== "invalid" && timeOfDay !== "invalid" && level !== 666) };
                 return getMockedPromise(data);
             }
         };
@@ -75,6 +77,8 @@ describe('Encounter Controller', function () {
     it('has initial values for inputs', function () {
         expect(vm.level).toBe(1);
         expect(vm.environment).toBe('field');
+        expect(vm.temperature).toBe('cold');
+        expect(vm.timeOfDay).toBe('day');
     });
 
     it('has an empty encounter for results', function () {
@@ -91,16 +95,20 @@ describe('Encounter Controller', function () {
 
     it('generates encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 9266;
 
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('Monster 9266 in mountain');
+        expect(vm.encounter.creature).toBe('Monster 9266 in mountain temp twilight');
     });
 
     it('says it is generating while fetching encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 9266;
 
         vm.generateEncounter();
@@ -110,6 +118,8 @@ describe('Encounter Controller', function () {
 
     it('says it is done generating while fetching encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 9266;
 
         vm.generateEncounter();
@@ -120,6 +130,8 @@ describe('Encounter Controller', function () {
 
     it('says it is done generating if an error is thrown while fetching encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 666;
 
         vm.generateEncounter();
@@ -130,6 +142,8 @@ describe('Encounter Controller', function () {
 
     it('shows an alert if an error is thrown while fetching encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 666;
 
         vm.generateEncounter();
@@ -140,6 +154,8 @@ describe('Encounter Controller', function () {
 
     it('clears the encounter if an error is thrown while fetching encounter', function () {
         vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 9266;
 
         vm.generateEncounter();
@@ -154,8 +170,11 @@ describe('Encounter Controller', function () {
     });
 
     it('downloads encounter', function () {
-        vm.environment = 'field';
+        vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
         vm.level = 9266;
+
         vm.encounter = {
             creature: 'Monster 9266 in field'
         };
@@ -163,7 +182,7 @@ describe('Encounter Controller', function () {
         vm.download();
         scope.$apply();
 
-        var fileName = 'field level 9266 encounter ' + new Date().toString();
+        var fileName = 'temp mountain twilight level 9266 encounter ' + new Date().toString();
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Monster 9266 in field formatted', fileName);
     });
 
@@ -187,8 +206,8 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('Monster 9266 in mountain');
-        expect(encounterServiceMock.getEncounter).toHaveBeenCalledWith('mountain', 9266, ['character', 'yo mamma']);
+        expect(vm.encounter.creature).toBe('Monster 9266 in mountain cold day');
+        expect(encounterServiceMock.getEncounter).toHaveBeenCalledWith('mountain', 'cold', 'day', 9266, ['character', 'yo mamma']);
     });
 
     it('verifies filters are not valid', function () {
@@ -207,6 +226,28 @@ describe('Encounter Controller', function () {
         expect(vm.filtersAreValid).toBeTruthy();
 
         vm.environment = "invalid";
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('verifies filters are not valid when temperature changes', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        vm.temperature = "invalid";
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('verifies filters are not valid when time of day changes', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        vm.timeOfDay = "invalid";
         scope.$digest();
 
         expect(vm.filtersAreValid).toBeFalsy();

@@ -1,6 +1,7 @@
 ﻿using CharacterGen;
 using CharacterGen.Abilities.Feats;
 using CharacterGen.Abilities.Skills;
+using CharacterGen.Abilities.Stats;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EncounterGen.Common;
@@ -59,10 +60,36 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var result = controller.Index() as ViewResult;
             var model = result.Model as EncounterViewModel;
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Civilized));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Desert));
             Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Dungeon));
-            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.CivilizedDay));
-            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.CivilizedNight));
-            Assert.That(model.Environments.Count(), Is.EqualTo(3));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Forest));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Hills));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Marsh));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Mountain));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Plains));
+            Assert.That(model.Environments.Count(), Is.EqualTo(8));
+        }
+
+        [Test]
+        public void IndexModelContainsTemperatures()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Cold));
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Temperate));
+            Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Warm));
+            Assert.That(model.Temperatures.Count(), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void IndexModelContainsTimesOfDay()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.TimesOfDay, Contains.Item(EnvironmentConstants.TimesOfDay.Day));
+            Assert.That(model.TimesOfDay, Contains.Item(EnvironmentConstants.TimesOfDay.Night));
+            Assert.That(model.TimesOfDay.Count(), Is.EqualTo(2));
         }
 
         [Test]
@@ -93,9 +120,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var encounter = new Encounter();
             encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day")).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266, filters);
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -104,9 +131,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var encounter = new Encounter();
             encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day")).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -115,9 +142,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var encounter = new Encounter();
             encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day")).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
@@ -130,7 +157,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var encounter = new Encounter();
 
             encounter.Characters = new[] { character, otherCharacter };
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day")).Returns(encounter);
 
             character.Ability.Feats = new[]
             {
@@ -146,7 +173,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
                 new Feat { Name = "a" }
             };
 
-            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
 
@@ -169,17 +196,17 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var encounter = new Encounter();
 
             encounter.Characters = new[] { character, otherCharacter };
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266)).Returns(encounter);
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day")).Returns(encounter);
 
-            character.Ability.Skills["zzzz"] = new Skill { Ranks = 42 };
-            character.Ability.Skills["aaaa"] = new Skill { Ranks = 600 };
-            character.Ability.Skills["kkkk"] = new Skill { Ranks = 1337 };
+            character.Ability.Skills["zzzz"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 42 };
+            character.Ability.Skills["aaaa"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 600 };
+            character.Ability.Skills["kkkk"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 1337 };
 
-            otherCharacter.Ability.Skills["a"] = new Skill { Ranks = 1234 };
-            otherCharacter.Ability.Skills["b"] = new Skill { Ranks = 2345 };
-            otherCharacter.Ability.Skills["aa"] = new Skill { Ranks = 3456 };
+            otherCharacter.Ability.Skills["a"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 1234 };
+            otherCharacter.Ability.Skills["b"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 2345 };
+            otherCharacter.Ability.Skills["aa"] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = 3456 };
 
-            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
 
@@ -208,10 +235,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             encounter.Characters = Enumerable.Empty<Character>();
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266,
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266, filters) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
@@ -221,10 +248,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
-            var result = controller.Validate("environment", 9266, filters);
+            var result = controller.Validate("environment", "temperature", "time of day", 9266, filters);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
@@ -233,10 +260,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
-            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -245,10 +272,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
-            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.True);
         }
@@ -258,10 +285,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(false);
 
-            var result = controller.Validate("environment", 9266, filters) as JsonResult;
+            var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.False);
         }
@@ -269,10 +296,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void CanValidateNullFilters()
         {
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266,
+            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Any() == false))).Returns(true);
 
-            var result = controller.Validate("environment", 9266, null) as JsonResult;
+            var result = controller.Validate("environment", "temperature", "time of day", 9266, null) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.isValid, Is.True);
         }
@@ -282,10 +309,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var encounter = new Encounter();
             encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266,
+            mockEncounterGenerator.Setup(g => g.Generate("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Any() == false))).Returns(encounter);
 
-            var result = controller.Generate("environment", 9266, null) as JsonResult;
+            var result = controller.Generate("environment", "temperature", "time of day", 9266, null) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }

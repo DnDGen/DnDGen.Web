@@ -13,6 +13,8 @@
 
         vm.level = 1;
         vm.environment = vm.encounterModel.Environments[0];
+        vm.temperature = vm.encounterModel.Temperatures[0];
+        vm.timeOfDay = vm.encounterModel.TimesOfDay[0];
         vm.encounter = null;
         vm.generating = false;
         vm.validating = false;
@@ -31,7 +33,7 @@
             vm.generating = true;
             var checkedFilters = getCheckedFilters();
 
-            encounterService.getEncounter(vm.environment, vm.level, checkedFilters)
+            encounterService.getEncounter(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
                 .then(setEncounter, handleError);
         };
 
@@ -61,7 +63,7 @@
 
         vm.download = function () {
             var formattedEncounter = encounterFormatterService.formatEncounter(vm.encounter);
-            var fileName = vm.environment + ' level ' + vm.level + ' encounter ' + new Date().toString();
+            var fileName = vm.temperature + ' ' + vm.environment + ' ' + vm.timeOfDay + ' level ' + vm.level + ' encounter ' + new Date().toString();
 
             fileSaverService.save(formattedEncounter, fileName);
         };
@@ -72,7 +74,7 @@
             vm.validating = true;
             var checkedFilters = getCheckedFilters();
 
-            encounterService.validateFilters(vm.environment, vm.level, checkedFilters)
+            encounterService.validateFilters(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
                 .then(function (data) {
                     vm.filtersAreValid = data.isValid;
                     vm.validating = false;
@@ -80,6 +82,8 @@
         }
 
         $scope.$watch('vm.environment', validateFilters, true);
+        $scope.$watch('vm.temperature', validateFilters, true);
+        $scope.$watch('vm.timeOfDay', validateFilters, true);
 
         $scope.$watch('vm.level', validateFilters);
     };
