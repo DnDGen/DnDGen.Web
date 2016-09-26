@@ -57,7 +57,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Domain.3.0.0\lib\DungeonGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.Domain.3.0.1\lib\DungeonGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
