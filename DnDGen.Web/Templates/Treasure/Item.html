@@ -1,63 +1,68 @@
 ﻿<div>
-    <div>
-        <span>{{item.Name}}</span> <span ng-show="item.Quantity > 1">(x{{item.Quantity}})</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-    </div>
-    <ul>
-        <li ng-show="item.Contents.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            <span>Contents:</span>
-            <ul>
-                <li ng-repeat="content in item.Contents track by $index">{{content}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            </ul>
-        </li>
-        <li ng-show="item.Traits.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            <span>Traits</span>
-            <ul>
-                <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            </ul>
-        </li>
-        <li ng-show="item.Magic.Bonus > 0">Bonus: +{{item.Magic.Bonus}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-        <li ng-show="item.Magic.SpecialAbilities.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            <span>Special Abilities:</span>
-            <ul>
-                <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">{{ability.Name}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            </ul>
-        <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-        <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-        <li ng-show="item.Magic.Intelligence.Ego > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            <span>Intelligent:</span>
-            <ul>
-                <li>Ego: {{item.Magic.Intelligence.Ego}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>Intelligence: {{item.Magic.Intelligence.IntelligenceStat}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>Wisdom: {{item.Magic.Intelligence.WisdomStat}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>Charisma: {{item.Magic.Intelligence.CharismaStat}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>Alignment: {{item.Magic.Intelligence.Alignment}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>
-                    <span>Communication:</span>
+    <dndgen-collapsable-list heading="{{item.Name}} (x{{item.Quantity}})" has-list="hasList()">
+        <ul>
+            <li ng-show="item.Contents.length > 0">
+                <dndgen-collapsable-list heading="Contents" has-list="true">
                     <ul>
-                        <li ng-repeat="method in item.Magic.Intelligence.Communication track by $index">{{method}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                        <li ng-show="item.Magic.Intelligence.Languages.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                            <span>Languages:</span>
+                        <li ng-repeat="content in item.Contents track by $index">{{content}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="item.Traits.length > 0">
+                <dndgen-collapsable-list heading="Traits" has-list="true">
+                    <ul>
+                        <li ng-repeat="trait in item.Traits track by $index">{{trait}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="item.Magic.Bonus > 0">Bonus: +{{item.Magic.Bonus}}</li>
+            <li ng-show="item.Magic.SpecialAbilities.length > 0">
+                <dndgen-collapsable-list heading="Special Abilities" has-list="true">
+                    <ul>
+                        <li ng-repeat="ability in item.Magic.SpecialAbilities track by $index">{{ability.Name}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="item.Attributes.indexOf('Charged') > -1">Charges: {{item.Magic.Charges}}</li>
+            <li ng-show="item.Magic.Curse.length > 0">Curse: {{item.Magic.Curse}}</li>
+            <li ng-show="item.Magic.Intelligence.Ego > 0">
+                <dndgen-collapsable-list heading="Intelligence" has-list="true">
+                    <ul>
+                        <li>Ego: {{item.Magic.Intelligence.Ego}}</li>
+                        <li>Intelligence: {{item.Magic.Intelligence.IntelligenceStat}}</li>
+                        <li>Wisdom: {{item.Magic.Intelligence.WisdomStat}}</li>
+                        <li>Charisma: {{item.Magic.Intelligence.CharismaStat}}</li>
+                        <li>Alignment: {{item.Magic.Intelligence.Alignment}}</li>
+                        <li>
+                            <span>Communication:</span>
                             <ul>
-                                <li ng-repeat="language in item.Magic.Intelligence.Languages">{{language}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+                                <li ng-repeat="method in item.Magic.Intelligence.Communication track by $index">{{method}}</li>
+                                <li ng-show="item.Magic.Intelligence.Languages.length > 0">
+                                    <dndgen-collapsable-list heading="Languages" has-list="item.Magic.Intelligence.Languages.length > 0">
+                                        <ul>
+                                            <li ng-repeat="language in item.Magic.Intelligence.Languages">{{language}}</li>
+                                        </ul>
+                                    </dndgen-collapsable-list>
+                                </li>
                             </ul>
                         </li>
+                        <li>Senses: {{item.Magic.Intelligence.Senses}}</li>
+                        <li>
+                            <span>Powers:</span>
+                            <ul>
+                                <li ng-repeat="power in item.Magic.Intelligence.Powers track by $index">{{power}}</li>
+                            </ul>
+                        </li>
+                        <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
+                            <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span>
+                        </li>
+                        <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0">
+                            <span>Dedicated Power: {{item.Magic.Intelligence.DedicatedPower}}</span>
+                        </li>
+                        <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li>
                     </ul>
-                </li>
-                <li>Senses: {{item.Magic.Intelligence.Senses}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                <li>
-                    <span>Powers:</span>
-                    <ul>
-                        <li ng-repeat="power in item.Magic.Intelligence.Powers track by $index">{{power}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                    </ul>
-                </li>
-                <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                    <span>Special Purpose: {{item.Magic.Intelligence.SpecialPurpose}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                </li>
-                <li ng-show="item.Magic.Intelligence.SpecialPurpose.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                    <span>Dedicated Power: {{item.Magic.Intelligence.DedicatedPower}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                </li>
-                <li>Personality: {{item.Magic.Intelligence.Personality.length > 0 ? item.Magic.Intelligence.Personality : 'None'}}</li> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-            </ul>
-        </li>
-    </ul>
+                </dndgen-collapsable-list>
+            </li>
+        </ul>
+    </dndgen-collapsable-list>
 </div>

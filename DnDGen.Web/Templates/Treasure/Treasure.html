@@ -1,19 +1,17 @@
 ﻿<div>
-    <span ng-show="treasure.Coin.Quantity > 0">{{treasure.Coin.Quantity | number}} {{treasure.Coin.Currency}}</span> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-    <div id="goodsWrapper" ng-show="treasure.Goods.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-        <span>Goods:</span>
+    <span ng-show="treasure.Coin.Quantity > 0">{{treasure.Coin.Quantity | number}} {{treasure.Coin.Currency}}</span>
+    <dndgen-collapsable-list ng-show="treasure.Goods.length > 0" heading="Goods" has-list="treasure.Goods.length > 0">
         <ul>
-            <li ng-repeat="good in treasure.Goods track by $index"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-                {{good.Description}} ({{good.ValueInGold | number}}gp) <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+            <li ng-repeat="good in treasure.Goods track by $index">
+                {{good.Description}} ({{good.ValueInGold | number}}gp)
             </li>
         </ul>
-    </div>
-    <div id="itemsWrapper" ng-show="treasure.Items.length > 0"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
-        <span>Items:</span>
+    </dndgen-collapsable-list>
+    <dndgen-collapsable-list ng-show="treasure.Items.length > 0" heading="Items" has-list="treasure.Items.length > 0">
         <ul>
-            <li ng-repeat="item in treasure.Items track by $index"> <!-- IF CHANGING THIS SIGNATURE, ALSO UPDATE THE FORMATTER -->
+            <li ng-repeat="item in treasure.Items track by $index">
                 <dndgen-item item="item"></dndgen-item>
             </li>
         </ul>
-    </div>
+    </dndgen-collapsable-list>
 </div>

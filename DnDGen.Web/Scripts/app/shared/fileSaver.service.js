@@ -10,9 +10,9 @@
             save: save
         };
 
-        function save(text, fileName) {
+        function save(text, fileNameWithoutExtension) {
             var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            saveAs(blob, fileName + ".txt");
+            saveAs(blob, fileNameWithoutExtension + ".txt");
         }
     };
 })();

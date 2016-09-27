@@ -167,6 +167,7 @@
     <Content Include="Scripts\app\character\character.service.js" />
     <Content Include="Scripts\app\character\leadership.service.js" />
     <Content Include="Scripts\app\dungeon\dungeon.controller.js" />
+    <Content Include="Scripts\app\dungeon\dungeonTreasure.directive.js" />
     <Content Include="Scripts\app\dungeon\dungeonArea.directive.js" />
     <Content Include="Scripts\app\dungeon\dungeon.module.js" />
     <Content Include="Scripts\app\dungeon\dungeon.service.js" />
@@ -178,6 +179,7 @@
     <Content Include="Scripts\app\encounter\encounterFormatter.service.js" />
     <Content Include="Scripts\app\character\characterWithoutLeadership.directive.js" />
     <Content Include="Scripts\app\shared\inchesToFeet.filter.js" />
+    <Content Include="Scripts\app\shared\collapsableList.directive.js" />
     <Content Include="Scripts\app\treasure\item.directive.js" />
     <Content Include="Scripts\app\shared\fileSaver.service.js" />
     <Content Include="Scripts\app\character\characterFormatter.service.js" />
@@ -217,9 +219,11 @@
     <Content Include="Scripts\fileSaver\FileSaver.js" />
     <Content Include="Scripts\fileSaver\FileSaver.min.js" />
     <Content Include="Scripts\SweetAlert\sweetalert.min.js" />
+    <Content Include="Templates\Dungeon\DungeonTreasure.html" />
     <Content Include="Templates\Dungeon\DungeonArea.html" />
     <Content Include="Templates\Encounter\Encounter.html" />
     <Content Include="Templates\Character\CharacterWithoutLeadership.html" />
+    <Content Include="Templates\Shared\CollapsableList.html" />
     <Content Include="Templates\Treasure\Item.html" />
     <Content Include="Templates\Treasure\Treasure.html" />
     <Content Include="Templates\Character\Character.html" />

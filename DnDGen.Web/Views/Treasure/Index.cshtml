@@ -25,8 +25,8 @@
     <div class="row top-buffer">
         <div class="col-sm-6">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#treasure" area-controls="standard" role="tab" data-toggle="tab">Treasure</a></li>
-                <li role="presentation"><a href="#item" area-controls="standard" role="tab" data-toggle="tab">Item</a></li>
+                <li role="presentation" class="active"><a href="#treasure" aria-controls="treasure" role="tab" data-toggle="tab">Treasure</a></li>
+                <li role="presentation"><a href="#item" aria-controls="item" role="tab" data-toggle="tab">Item</a></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="treasure">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-5 col-sm-offset-1 clearfix" >
+        <div class="col-sm-6 clearfix" >
             <button class="btn btn-lg pull-right" ng-show="vm.generating == false && vm.treasure.IsAny" ng-click="vm.download()">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <span>Generating...</span>

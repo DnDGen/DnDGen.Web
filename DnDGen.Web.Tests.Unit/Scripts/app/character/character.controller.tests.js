@@ -46,7 +46,7 @@ describe('Character Controller', function () {
 
                 var character = {
                     Alignment: { Full: setAlignment },
-                    Class: { ClassName: setClassName, Level: setLevel },
+                    Class: { Name: setClassName, Level: setLevel },
                     baseRace: setBaseRace,
                     IsLeader: isLeader,
                     Ability: {
@@ -127,7 +127,10 @@ describe('Character Controller', function () {
                 return formattedCharacter;
             },
             formatSummary: function (character) {
-                return character.name + ' file';
+                if (character.name && character.level)
+                    return character.name + ' level ' + character.level + ' file';
+
+                return 'Level ' + character.Class.Level + ' ' + character.Alignment.Full  + ' ' + character.baseRace + ' ' + character.Class.Name;
             }
         };
     });
@@ -159,7 +162,7 @@ describe('Character Controller', function () {
         });
     }));
 
-    it('has bootstrapped model', function () {
+    it('has the loaded view model', function () {
         expect(vm.characterModel).toBe(bootstrapDataMock.characterModel);
     });
 
@@ -517,7 +520,7 @@ describe('Character Controller', function () {
         expect(characterServiceMock.generate).toHaveBeenCalledWith('first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first stats randomizer type', 90210, 42, 600, 1337, 12345, 23456, false);
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('second alignment');
-        expect(vm.character.Class.ClassName).toBe('second class name');
+        expect(vm.character.Class.Name).toBe('second class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(23456);
@@ -549,7 +552,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
@@ -730,7 +733,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -761,7 +764,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -792,7 +795,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -815,7 +818,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -850,7 +853,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -885,7 +888,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -909,7 +912,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -981,7 +984,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
@@ -1053,7 +1056,7 @@ describe('Character Controller', function () {
 
         expect(vm.character).not.toBeNull();
         expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.ClassName).toBe('first class name');
+        expect(vm.character.Class.Name).toBe('first class name');
         expect(vm.character.Class.Level).toBe(9266);
         expect(vm.character.Ability.Stats.Charisma.Value).toBe(90210);
         expect(vm.character.Ability.Stats.Charisma.Bonus).toBe(45100);
