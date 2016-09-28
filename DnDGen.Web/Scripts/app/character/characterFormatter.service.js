@@ -9,8 +9,7 @@
 
     function characterFormatterService(treasureFormatterService, inchesToFeetFilter) {
         return {
-            formatCharacter: formatCharacter,
-            formatSummary: formatSummary
+            formatCharacter: formatCharacter
         };
 
         function formatCharacter(character, leadership, cohort, followers, prefix) {
@@ -341,17 +340,6 @@
             formattedLeadership += formatList(leadership.LeadershipModifiers, 'Leadership Modifiers', prefix + "\t");
 
             return formattedLeadership;
-        }
-
-        function formatSummary(character) {
-            var summary = character.Alignment.Full + " Level " + character.Class.Level + " ";
-
-            if (character.Race.Metarace.length > 0)
-                summary += character.Race.Metarace + " ";
-
-            summary += character.Race.BaseRace + " " + character.Class.Name;
-
-            return summary;
         }
     };
 })();

@@ -1205,16 +1205,16 @@ describe('Character Controller', function () {
     });
 
     it('downloads character', function () {
-        vm.character = { name: 'Joe Shmoe' };
+        vm.character = { name: 'Joe Shmoe', Summary: 'character summary' };
 
         vm.download();
         scope.$apply();
 
-        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n', 'Joe Shmoe file');
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n', 'character summary');
     });
 
     it('downloads character with leadership', function () {
-        vm.character = { name: 'Joe Shmoe' };
+        vm.character = { name: 'Joe Shmoe', Summary: 'character summary' };
         vm.leadership = { score: 9266 };
         vm.cohort = { name: 'Cohort' };
         vm.followers = [{ name: 'Thing 1' }, { name: 'Thing 2' }];
@@ -1222,6 +1222,6 @@ describe('Character Controller', function () {
         vm.download();
         scope.$apply();
 
-        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n9266\nCohort\nThing 1\nThing 2\n', 'Joe Shmoe file');
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Joe Shmoe\n9266\nCohort\nThing 1\nThing 2\n', 'character summary');
     });
 })

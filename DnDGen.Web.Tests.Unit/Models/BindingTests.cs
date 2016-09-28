@@ -122,6 +122,7 @@ namespace DnDGen.Web.Tests.Unit.Models
             Assert.That(character.Race.MetaraceSpecies, Is.InstanceOf<string>());
             Assert.That(character.Race.Size, Is.InstanceOf<string>());
             Assert.That(character.Race.WeightInPounds, Is.InstanceOf<int>());
+            Assert.That(character.Summary, Is.InstanceOf<string>());
         }
 
         [Test]

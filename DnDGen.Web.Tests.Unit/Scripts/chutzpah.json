@@ -6,7 +6,7 @@
     { "Path": "jasmine/console.js" },
     { "Path": "jasmine/jasmine-html.js" },
     { "Path": "jasmine/jasmine.js" },
-    { "Path": "../../DnDGen.Web/Scripts/jQuery/jquery-3.1.0.js" },
+    { "Path": "../../DnDGen.Web/Scripts/jQuery/jquery-3.1.1.js" },
     { "Path": "../../DnDGen.Web/Scripts/bootstrap/bootstrap.js" },
     { "Path": "../../DnDGen.Web/Scripts/Angular/angular.js" },
     { "Path": "../../DnDGen.Web/Scripts/Angular/angular-mocks.js" },

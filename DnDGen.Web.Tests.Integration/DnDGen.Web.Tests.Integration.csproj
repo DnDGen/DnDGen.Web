@@ -41,11 +41,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.7.0.0\lib\CharacterGen.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.7.1.0\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Domain.7.0.0\lib\CharacterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Domain.7.1.0\lib\CharacterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

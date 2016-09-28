@@ -2213,17 +2213,6 @@ describe('Character Formatter Service', function () {
         expect(lines.length).toBe(expected.length);
     });
 
-    it('formats character summary', function () {
-        var summary = characterFormatterService.formatSummary(character);
-        expect(summary).toBe('alignment 1 Level 9267 base race 1 class name 1');
-    });
-
-    it('formats character summary with metarace', function () {
-        character.Race.Metarace = "metarace";
-        var summary = characterFormatterService.formatSummary(character);
-        expect(summary).toBe('alignment 1 Level 9267 metarace base race 1 class name 1');
-    });
-
     it('formats character with full leadership', function () {
         leadership = {
             Score: 9876,
