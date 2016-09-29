@@ -167,8 +167,8 @@
                         <li>
                             <span>Base Attack:</span>
                             <ul>
-                                <li>Melee: +{{character.Combat.BaseAttack.AllMeleeBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllMeleeBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
-                                <li>Ranged: +{{character.Combat.BaseAttack.AllRangedBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllRangedBonuses" ng-if="!$first">/+{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
+                                <li>Melee: {{character.Combat.BaseAttack.AllMeleeBonuses[0] > -1 ? '+' : ''}}{{character.Combat.BaseAttack.AllMeleeBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllMeleeBonuses" ng-if="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
+                                <li>Ranged: {{character.Combat.BaseAttack.AllRangedBonuses[0] > -1 ? '+' : ''}}{{character.Combat.BaseAttack.AllRangedBonuses[0]}}<span ng-repeat="bonus in character.Combat.BaseAttack.AllRangedBonuses" ng-if="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span ng-show="character.Combat.BaseAttack.CircumstantialBonus">*</span></li>
                             </ul>
                         </li>
                         <li>Hit Points: {{character.Combat.HitPoints}}</li>

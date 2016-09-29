@@ -1882,6 +1882,79 @@ describe('Character Formatter Service', function () {
         expect(lines.length).toBe(expected.length);
     });
 
+    it('formats negative base attack bonus', function () {
+        character.Combat.BaseAttack.AllMeleeBonuses = [-2]
+        character.Combat.BaseAttack.AllRangedBonuses = [-1];
+
+        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
+        var lines = formattedCharacter.split('\r\n');
+
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tgender 1',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: -2",
+            "\t\tRanged: -1",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
     it('formats circumstantial save bonus', function () {
         character.Combat.SavingThrows.CircumstantialBonus = true;
 

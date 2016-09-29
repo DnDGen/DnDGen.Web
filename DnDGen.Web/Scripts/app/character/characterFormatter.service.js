@@ -308,23 +308,39 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedMeleeBonuses = baseAttack.AllMeleeBonuses.join("/+");
-            var formattedRangedBonuses = baseAttack.AllRangedBonuses.join("/+");
+            var formattedMeleeBonuses = formatBaseAttackBonuses(baseAttack.AllMeleeBonuses);
+            var formattedRangedBonuses = formatBaseAttackBonuses(baseAttack.AllRangedBonuses);
             var formattedBaseAttack = prefix + "\tBase Attack:\r\n";
 
-            formattedBaseAttack += prefix + "\t\tMelee: +" + formattedMeleeBonuses;
+            formattedBaseAttack += prefix + "\t\tMelee: " + formattedMeleeBonuses;
             if (baseAttack.CircumstantialBonus)
                 formattedBaseAttack += " *";
 
             formattedBaseAttack += '\r\n';
 
-            formattedBaseAttack += prefix + "\t\tRanged: +" + formattedRangedBonuses;
+            formattedBaseAttack += prefix + "\t\tRanged: " + formattedRangedBonuses;
             if (baseAttack.CircumstantialBonus)
                 formattedBaseAttack += " *";
 
             formattedBaseAttack += '\r\n';
 
             return formattedBaseAttack;
+        }
+
+        function formatBaseAttackBonuses(bonuses) {
+            var formattedBonuses = '';
+
+            for (var i = 0; i < bonuses.length; i++) {
+                if (bonuses[i] > -1)
+                    formattedBonuses += '+';
+
+                formattedBonuses += bonuses[i];
+
+                if (i < bonuses.length - 1)
+                    formattedBonuses += '/';
+            }
+
+            return formattedBonuses;
         }
 
         function formatLeadership(leadership, prefix)
