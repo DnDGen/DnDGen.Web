@@ -44,6 +44,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void RollReturnsJsonResult()
         {
+            mockRoll.Setup(r => r.d(90210).AsSum()).Returns(42);
+
             var result = controller.Roll(9266, 90210);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
@@ -51,30 +53,28 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void RollJsonResultAllowsGet()
         {
+            mockRoll.Setup(r => r.d(90210).AsSum()).Returns(42);
+
             var result = controller.Roll(9266, 90210) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
-        public void RollRollsQuantityTimes()
-        {
-            controller.Roll(9266, 90210);
-            mockDice.Verify(d => d.Roll(9266), Times.Once);
-        }
-
-        [Test]
         public void RollResultContainsRoll()
         {
-            mockRoll.Setup(r => r.IndividualRolls(90210)).Returns(new[] { 42 });
+            mockRoll.Setup(r => r.d(90210).AsSum()).Returns(42);
 
             var result = controller.Roll(9266, 90210) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.roll, Is.EqualTo(42));
+            mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
 
         [Test]
         public void RollExpressionReturnsJsonResult()
         {
+            mockDice.Setup(d => d.Roll("expression").AsSum()).Returns(9266);
+
             var result = controller.RollExpression("expression");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
@@ -82,6 +82,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void RollExpressionJsonResultAllowsGet()
         {
+            mockDice.Setup(d => d.Roll("expression").AsSum()).Returns(9266);
+
             var result = controller.RollExpression("expression") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
@@ -89,7 +91,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void RollExpressionResultContainsRoll()
         {
-            mockDice.Setup(d => d.Roll("expression")).Returns(9266);
+            mockDice.Setup(d => d.Roll("expression").AsSum()).Returns(9266);
 
             var result = controller.RollExpression("expression") as JsonResult;
             dynamic data = result.Data;

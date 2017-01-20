@@ -70,7 +70,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var result = controller.Index() as ViewResult;
             var model = result.Model as TreasureViewModel;
 
-            Assert.That(model.MaxTreasureLevel, Is.EqualTo(20));
+            Assert.That(model.MaxTreasureLevel, Is.EqualTo(30));
         }
 
         [TestCase(ItemTypeConstants.AlchemicalItem,

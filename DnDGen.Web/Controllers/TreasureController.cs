@@ -36,7 +36,7 @@ namespace DnDGen.Web.Controllers
         {
             var model = new TreasureViewModel();
 
-            model.MaxTreasureLevel = 20;
+            model.MaxTreasureLevel = 30;
             model.TreasureTypes = new[] { "Treasure", "Coin", "Goods", "Items" };
             model.ItemPowers = GetPowers();
 

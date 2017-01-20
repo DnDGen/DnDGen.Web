@@ -1,7 +1,9 @@
 ﻿<div>
+    <span>Average Encounter Level: {{encounter.AverageEncounterLevel}} ({{encounter.AverageDifficulty}})</span><br />
+    <span>Actual Encounter Level: {{encounter.ActualEncounterLevel}} ({{encounter.ActualDifficulty}})</span>
     <dndgen-collapsable-list heading="Creatures" has-list="true">
         <ul>
-            <li ng-repeat="creature in encounter.Creatures">{{creature.Name}}<span ng-if="creature.Description.length > 0"> ({{creature.Description}})</span> x{{creature.Quantity}}</li>
+            <li ng-repeat="creature in encounter.Creatures">{{creature.Name}}<span ng-if="creature.Description.length > 0"> ({{creature.Description}})</span> (CR {{creature.ChallengeRating}}) x{{creature.Quantity}}</li>
         </ul>
     </dndgen-collapsable-list>
     <dndgen-collapsable-list heading="Treasures{{encounter.Treasures.length > 0 ? '' : ': None'}}" has-list="encounter.Treasures.length > 0">

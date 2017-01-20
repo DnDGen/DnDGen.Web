@@ -19,7 +19,7 @@
                 try {
                     $.ajax({
                         type: "POST",
-                        url: "./Error/Report",
+                        url: "/Error/Report",
                         contentType: "application/json",
                         data: angular.toJson({
                             error: exception.message,

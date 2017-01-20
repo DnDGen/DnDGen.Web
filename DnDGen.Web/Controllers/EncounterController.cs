@@ -10,12 +10,12 @@ namespace DnDGen.Web.Controllers
     public class EncounterController : Controller
     {
         private IEncounterGenerator encounterGenerator;
-        private IFilterVerifier filterVerifier;
+        private IEncounterVerifier encounterVerifier;
 
-        public EncounterController(IEncounterGenerator encounterGenerator, IFilterVerifier filterVerifier)
+        public EncounterController(IEncounterGenerator encounterGenerator, IEncounterVerifier encounterVerifier)
         {
             this.encounterGenerator = encounterGenerator;
-            this.filterVerifier = filterVerifier;
+            this.encounterVerifier = encounterVerifier;
         }
 
         [HttpGet]
@@ -90,7 +90,7 @@ namespace DnDGen.Web.Controllers
         {
             filters = filters ?? Enumerable.Empty<string>();
 
-            var isValid = filterVerifier.FiltersAreValid(environment, level, temperature, timeOfDay, filters.ToArray());
+            var isValid = encounterVerifier.ValidEncounterExistsAtLevel(environment, level, temperature, timeOfDay, filters.ToArray());
 
             return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
         }

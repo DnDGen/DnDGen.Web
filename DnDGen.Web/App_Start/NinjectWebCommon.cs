@@ -9,7 +9,7 @@ namespace DnDGen.Web.App_Start
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
-    using RollGen.Domain.Ioc;
+    using RollGen.Domain.IoC;
     using System;
     using System.Web;
     using TreasureGen.Domain.IoC;

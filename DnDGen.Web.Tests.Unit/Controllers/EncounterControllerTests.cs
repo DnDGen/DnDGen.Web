@@ -19,15 +19,15 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     {
         private EncounterController controller;
         private Mock<IEncounterGenerator> mockEncounterGenerator;
-        private Mock<IFilterVerifier> mockFilterVerifier;
+        private Mock<IEncounterVerifier> mockEncounterVerifier;
         private List<string> filters;
 
         [SetUp]
         public void Setup()
         {
             mockEncounterGenerator = new Mock<IEncounterGenerator>();
-            mockFilterVerifier = new Mock<IFilterVerifier>();
-            controller = new EncounterController(mockEncounterGenerator.Object, mockFilterVerifier.Object);
+            mockEncounterVerifier = new Mock<IEncounterVerifier>();
+            controller = new EncounterController(mockEncounterGenerator.Object, mockEncounterVerifier.Object);
 
             filters = new List<string>();
         }
@@ -248,7 +248,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
             var result = controller.Validate("environment", "temperature", "time of day", 9266, filters);
@@ -260,7 +260,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
             var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
@@ -272,7 +272,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(true);
 
             var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
@@ -285,7 +285,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             filters.Add("filter 1");
             filters.Add("filter 2");
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Except(filters).Any() == false && ss.Count() == filters.Count))).Returns(false);
 
             var result = controller.Validate("environment", "temperature", "time of day", 9266, filters) as JsonResult;
@@ -296,7 +296,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void CanValidateNullFilters()
         {
-            mockFilterVerifier.Setup(g => g.FiltersAreValid("environment", 9266, "temperature", "time of day",
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel("environment", 9266, "temperature", "time of day",
                 It.Is<string[]>(ss => ss.Any() == false))).Returns(true);
 
             var result = controller.Validate("environment", "temperature", "time of day", 9266, null) as JsonResult;

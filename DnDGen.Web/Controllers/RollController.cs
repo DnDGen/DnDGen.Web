@@ -21,14 +21,14 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public JsonResult Roll(int quantity, int die)
         {
-            var roll = dice.Roll(quantity).d(die);
+            var roll = dice.Roll(quantity).d(die).AsSum();
             return BuildJsonResult(roll);
         }
 
         [HttpGet]
         public JsonResult RollExpression(string expression)
         {
-            var roll = dice.Roll(expression);
+            var roll = dice.Roll(expression).AsSum();
             return BuildJsonResult(roll);
         }
 
