@@ -7,6 +7,8 @@ describe('Dungeon Formatter Service', function () {
     var treasureFormatterServiceMock;
     var encounterCount;
     var treasureCount;
+    var dungeonTreasureCount;
+    var trapCount;
 
     beforeEach(module('app.dungeon', function ($provide) {
         treasureFormatterServiceMock = {
@@ -40,70 +42,47 @@ describe('Dungeon Formatter Service', function () {
     beforeEach(function () {
         encounterCount = 0;
         treasureCount = 0;
+        dungeonTreasureCount = 0;
+        trapCount = 0;
 
-        areas = [
-            {
-                Type: 'Room',
-                Descriptions: ['description 1', 'description 2'],
-                Length: 9266,
-                Width: 90210,
-                Contents: {
-                    Encounters: [createEncounter(), createEncounter()],
-                    Treasures: [{
-                        Container: 'container 1',
-                        Concealment: 'concealment 1',
-                        Treasure: createTreasure()
-                    }, {
-                        Container: 'container 2',
-                        Concealment: 'concealment 2',
-                        Treasure: createTreasure()
-                    }],
-                    Miscellaneous: ['contents 1', 'contents 2'],
-                    Traps: [],
-                    Pool: {
-                        Encounter: createEncounter(),
-                        Treasure: {
-                            Container: 'container 3',
-                            Concealment: 'concealment 3',
-                            Treasure: createTreasure()
-                        },
-                        MagicPower: 'super strength'
-                    },
-                    IsEmpty: false
-                }
-            },
-            {
-                Type: 'Exit',
-                Descriptions: ['description 3', 'description 4'],
-                Length: 0,
-                Width: 0,
-                Contents: {
-                    Encounters: [],
-                    Treasures: [],
-                    Miscellaneous: ['contents 3', 'contents 4'],
-                    Traps: [{
-                        Name: 'trap 3',
-                        ChallengeRating: 6789,
-                        SearchDC: 7890,
-                        DisableDeviceDC: 8901,
-                        Descriptions: ['trap description 1', 'trap description 2']
-                    }, {
-                        Name: 'trap 4',
-                        ChallengeRating: 9012,
-                        SearchDC: 123,
-                        DisableDeviceDC: 3210,
-                        Descriptions: ['trap description 3', 'trap description 4']
-                    }],
-                    Pool: null,
-                    IsEmpty: false
-                }
-            }
-        ];
+        areas = [createArea(), createArea()];
+
+        areas[0].Type = 'Room';
+        areas[0].Descriptions.push('description 1');
+        areas[0].Descriptions.push('description 2');
+        areas[0].Length = 9266;
+        areas[0].Width = 90210;
+        areas[0].Contents.Encounters.push(createEncounter());
+        areas[0].Contents.Encounters.push(createEncounter());
+        areas[0].Contents.Treasures.push(createDungeonTreasure());
+        areas[0].Contents.Treasures.push(createDungeonTreasure());
+        areas[0].Contents.Miscellaneous.push("contents 1");
+        areas[0].Contents.Miscellaneous.push("contents 2");
+        areas[0].Contents.Pool = createPool();
+        areas[0].Contents.Pool.MagicPower = 'super strength';
+        areas[0].Contents.IsEmpty = false;
+
+        areas[1].Type = 'Exit';
+        areas[1].Descriptions.push('description 3');
+        areas[1].Descriptions.push('description 4');
+        areas[1].Length = 0;
+        areas[1].Width = 0;
+        areas[1].Contents.Miscellaneous.push("contents 3");
+        areas[1].Contents.Miscellaneous.push("contents 4");
+        areas[1].Contents.Traps.push(createTrap());
+        areas[1].Contents.Traps.push(createTrap());
+        areas[1].Contents.IsEmpty = false;
     });
 
     beforeEach(inject(function (_dungeonFormatterService_) {
         dungeonFormatterService = _dungeonFormatterService_;
     }));
+
+    function createArea() {
+        var area = getMock('area');
+
+        return area;
+    }
 
     function createEncounter() {
         encounterCount++;
@@ -114,24 +93,62 @@ describe('Dungeon Formatter Service', function () {
         };
     }
 
+    function createDungeonTreasure() {
+        dungeonTreasureCount++;
+        var dungeonTreasure = getMock('dungeonTreasure');
+
+        dungeonTreasure.Container = "container " + dungeonTreasureCount;
+        dungeonTreasure.Concealment = "concealment " + dungeonTreasureCount;
+        dungeonTreasure.Treasure = createTreasure();
+
+        return dungeonTreasure;
+    }
+
+    function createPool() {
+        var pool = getMock('pool');
+
+        pool.Encounter = createEncounter();
+        pool.Treasure = createDungeonTreasure();
+
+        return pool;
+    }
+
+    function createTrap() {
+        var trap = getMock('trap');
+        trapCount++;
+        
+        trap.Name = 'trap ' + trapCount,
+        trap.ChallengeRating = 6789 + trapCount,
+        trap.SearchDC = 7890 + trapCount,
+        trap.DisableDeviceDC = 8901 + trapCount,
+        trap.Descriptions.push('trap description ' + trapCount);
+        trap.Descriptions.push('other trap description ' + trapCount);
+
+        return trap;
+    }
+
     function createTreasure() {
         treasureCount++;
 
-        return {
-            Coin: {
-                Currency: 'gold ' + treasureCount,
-                Quantity: treasureCount
-            },
-            Goods: [
-                { Description: 'goods description ' + treasureCount },
-                { Description: 'other goods description ' + treasureCount }
-            ],
-            Items: [
-                { Name: 'item ' + treasureCount },
-                { Name: 'other item ' + treasureCount }
-            ],
-            IsAny: true
-        };
+        var treasure = getMock('treasure');
+
+        treasure.Coin.Currency = 'gold ' + treasureCount;
+        treasure.Coin.Quantity = treasureCount;
+        treasure.Goods.push(getMock('good'));
+        treasure.Goods.push(getMock('good'));
+        treasure.Goods[0].Description = 'goods description ' + treasureCount;
+        treasure.Goods[0].ValueInGold = treasureCount * 2;
+        treasure.Goods[1].Description = 'other goods description ' + treasureCount;
+        treasure.Goods[1].ValueInGold = treasureCount * 3;
+        treasure.Items.push(getMock('item'));
+        treasure.Items.push(getMock('item'));
+        treasure.Items[0].Name = 'item ' + treasureCount;
+        treasure.Items[0].Quantity = treasureCount * 4;
+        treasure.Items[1].Name = "other item " + treasureCount;
+        treasure.Items[1].Quantity = treasureCount * 5;
+        treasure.IsAny = true;
+
+        return treasure;
     }
 
     it('formats areas', function () {
@@ -182,18 +199,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -250,18 +267,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -315,18 +332,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -352,18 +369,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -420,18 +437,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -484,18 +501,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -548,18 +565,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -615,18 +632,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -682,18 +699,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -743,18 +760,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -810,18 +827,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -877,18 +894,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 
@@ -944,18 +961,18 @@ describe('Dungeon Formatter Service', function () {
             '\t\tcontents 3',
             '\t\tcontents 4',
             '\t\tTraps:',
-            '\t\t\ttrap 3:',
+            '\t\t\ttrap 1:',
             '\t\t\t\ttrap description 1',
+            '\t\t\t\tother trap description 1',
+            '\t\t\t\tChallenge Rating: 6790',
+            '\t\t\t\tSearch DC: 7891',
+            '\t\t\t\tDisable Device DC: 8902',
+            '\t\t\ttrap 2:',
             '\t\t\t\ttrap description 2',
-            '\t\t\t\tChallenge Rating: 6789',
-            '\t\t\t\tSearch DC: 7890',
-            '\t\t\t\tDisable Device DC: 8901',
-            '\t\t\ttrap 4:',
-            '\t\t\t\ttrap description 3',
-            '\t\t\t\ttrap description 4',
-            '\t\t\t\tChallenge Rating: 9012',
-            '\t\t\t\tSearch DC: 123',
-            '\t\t\t\tDisable Device DC: 3210',
+            '\t\t\t\tother trap description 2',
+            '\t\t\t\tChallenge Rating: 6791',
+            '\t\t\t\tSearch DC: 7892',
+            '\t\t\t\tDisable Device DC: 8903',
             ''
         ];
 

@@ -8,44 +8,23 @@ describe('Treasure Formatter Service', function () {
     beforeEach(module('app.treasure'));
 
     beforeEach(function () {
-        treasure = {
-            Coin: { Quantity: 0, Currency: '' },
-            Goods: [],
-            Items: [],
-            IsAny: true
-        };
-
+        treasure = getMock('treasure');
         item = createItem('item name');
     });
 
+    function createGood(description, value) {
+        var good = getMock('good');
+        good.Description = description;
+        good.ValueInGold = value;
+
+        return good;
+    }
+
     function createItem(itemName) {
-        return {
-            Name: itemName,
-            Quantity: 1,
-            Contents: [],
-            Traits: [],
-            Attributes: [],
-            Magic: {
-                Bonus: 0,
-                SpecialAbilities: [],
-                Charges: 0,
-                Curse: '',
-                Intelligence: {
-                    Ego: 0,
-                    IntelligenceStat: 0,
-                    WisdomStat: 0,
-                    CharismaStat: 0,
-                    Alignment: '',
-                    Communication: [],
-                    Languages: [],
-                    Senses: '',
-                    Powers: [],
-                    SpecialPurpose: '',
-                    DedicatedPower: '',
-                    Personality: ''
-                }
-            }
-        };
+        var item = getMock('item');
+        item.Name = itemName;
+
+        return item;
     }
 
     beforeEach(inject(function (_treasureFormatterService_) {
@@ -65,6 +44,7 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats coin', function () {
+        treasure.IsAny = true;
         treasure.Coin.Quantity = 9266;
         treasure.Coin.Currency = 'munny';
 
@@ -77,8 +57,9 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats goods', function () {
-        treasure.Goods.push({ Description: 'description 1', ValueInGold: 90210 });
-        treasure.Goods.push({ Description: 'description 2', ValueInGold: 42 });
+        treasure.IsAny = true;
+        treasure.Goods.push(createGood('description 1', 90210));
+        treasure.Goods.push(createGood('description 2', 42));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -91,6 +72,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats items', function () {
+        treasure.IsAny = true;
+
         item.Quantity = 2;
         item.Contents.push('first contents');
         item.Contents.push('second contents');
@@ -165,6 +148,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats all treasure', function () {
+        treasure.IsAny = true;
+
         item.Quantity = 2;
         item.Contents.push('first contents');
         item.Contents.push('second contents');
@@ -196,8 +181,8 @@ describe('Treasure Formatter Service', function () {
 
         treasure.Coin.Quantity = 9266;
         treasure.Coin.Currency = 'munny';
-        treasure.Goods.push({ Description: 'description 1', ValueInGold: 90210 });
-        treasure.Goods.push({ Description: 'description 2', ValueInGold: 42 });
+        treasure.Goods.push(createGood('description 1', 90210));
+        treasure.Goods.push(createGood('description 2', 42));
         treasure.Items.push(item);
         treasure.Items.push(createItem('other item name'));
 
@@ -247,6 +232,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats all treasure with prefix', function () {
+        treasure.IsAny = true;
+
         item.Quantity = 2;
         item.Contents.push('first contents');
         item.Contents.push('second contents');

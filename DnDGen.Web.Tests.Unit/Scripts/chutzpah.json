@@ -7,6 +7,12 @@
     { "Path": "jasmine/jasmine-html.js" },
     { "Path": "jasmine/jasmine.js" },
     { "Path": "../../DnDGen.Web/Scripts/jQuery/jquery-3.1.1.js" },
+    { "Path": "jasmine/jasmine-jquery.js" },
+    {
+      "Path": "mocks/",
+      "Includes": [ "*.json" ]
+    },
+    { "Path": "mocks/mockProvider.js" },
     { "Path": "../../DnDGen.Web/Scripts/bootstrap/bootstrap.js" },
     { "Path": "../../DnDGen.Web/Scripts/Angular/angular.js" },
     { "Path": "../../DnDGen.Web/Scripts/Angular/angular-mocks.js" },

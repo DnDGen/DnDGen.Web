@@ -1,0 +1,102 @@
+﻿{
+  "Alignment": {
+    "Lawfulness": "",
+    "Goodness": "",
+    "Full": " "
+  },
+  "Class": {
+    "Level": 0,
+    "Name": "",
+    "SpecialistFields": [],
+    "ProhibitedFields": []
+  },
+  "Race": {
+    "BaseRace": "",
+    "Metarace": "",
+    "MetaraceSpecies": "",
+    "IsMale": false,
+    "HasWings": false,
+    "Size": "",
+    "LandSpeed": 0,
+    "AerialSpeed": 0,
+    "HeightInInches": 0,
+    "WeightInPounds": 0,
+    "Age": {
+      "Years": 0,
+      "Stage": "",
+      "Maximum": 0
+    },
+    "Gender": "Female"
+  },
+  "InterestingTrait": "",
+  "Combat": {
+    "ArmorClass": {
+      "CircumstantialBonus": false,
+      "ArmorBonus": 0,
+      "ShieldBonus": 0,
+      "SizeModifier": 0,
+      "DeflectionBonus": 0,
+      "NaturalArmorBonus": 0,
+      "AdjustedDexterityBonus": 0,
+      "DodgeBonus": 0,
+      "Full": 10,
+      "Touch": 10,
+      "FlatFooted": 10
+    },
+    "SavingThrows": {
+      "Reflex": 0,
+      "Fortitude": 0,
+      "Will": 0,
+      "CircumstantialBonus": false,
+      "HasFortitudeSave": true
+    },
+    "HitPoints": 0,
+    "BaseAttack": {
+      "BaseBonus": 0,
+      "StrengthBonus": 0,
+      "DexterityBonus": 0,
+      "SizeModifier": 0,
+      "RacialModifier": 0,
+      "CircumstantialBonus": false,
+      "RangedBonus": 0,
+      "MeleeBonus": 0,
+      "AllRangedBonuses": [ 0 ],
+      "AllMeleeBonuses": [ 0 ]
+    },
+    "AdjustedDexterityBonus": 0,
+    "InitiativeBonus": 0
+  },
+  "Ability": {
+    "Skills": {
+
+    },
+    "Languages": [],
+    "Feats": [],
+    "Stats": {
+
+    }
+  },
+  "Equipment": {
+    "PrimaryHand": null,
+    "OffHand": null,
+    "Armor": null,
+    "Treasure": {
+      "Coin": {
+        "Currency": "",
+        "Quantity": 0
+      },
+      "Goods": [],
+      "Items": [],
+      "IsAny": false
+    }
+  },
+  "Magic": {
+    "Animal": "",
+    "SpellsPerDay": [],
+    "KnownSpells": [],
+    "PreparedSpells": [],
+    "ArcaneSpellFailure": 0
+  },
+  "IsLeader": false,
+  "Summary": ""
+}

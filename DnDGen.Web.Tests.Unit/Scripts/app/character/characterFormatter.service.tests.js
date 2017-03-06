@@ -46,6 +46,8 @@ describe('Character Formatter Service', function () {
         characterCount = 0;
 
         character = createCharacter();
+        leadership = undefined;
+        cohort = undefined;
         followers = [];
     });
 
@@ -56,90 +58,87 @@ describe('Character Formatter Service', function () {
     function createCharacter() {
         characterCount++;
 
-        return {
-            Alignment: { Full: 'alignment ' + characterCount },
-            Class: {
-                Name: 'class name ' + characterCount,
-                Level: 9266 + characterCount,
-                SpecialistFields: [],
-                ProhibitedFields: []
-            },
-            Race: {
-                BaseRace: 'base race ' + characterCount,
-                Metarace: '',
-                Gender: "gender " + characterCount,
-                MetaraceSpecies: '',
-                LandSpeed: 30 + characterCount,
-                Size: 'size ' + characterCount,
-                HasWings: false,
-                AerialSpeed: 0,
-                Age: {
-                    Years: 18 + characterCount,
-                    Stage: "adult " + characterCount
-                },
-                HeightInInches: 48 + characterCount,
-                WeightInPounds: 100 + characterCount
-            },
-            Ability: {
-                Stats: {
-                    Charisma: { Value: 9 + characterCount, Bonus: -1 + characterCount },
-                    Constitution: { Value: 26 + characterCount, Bonus: 13 + characterCount },
-                    Dexterity: { Value: 6 + characterCount, Bonus: -2 + characterCount },
-                    Intelligence: { Value: 90 + characterCount, Bonus: 45 + characterCount },
-                    Strength: { Value: 2 + characterCount, Bonus: -4 + characterCount },
-                    Wisdom: { Value: 10 + characterCount, Bonus: 0 + characterCount }
-                },
-                Languages: ['English ' + characterCount, 'German ' + characterCount],
-                Skills: {
-                    'skill 1': {
-                        EffectiveRanks: 4 + characterCount,
-                        BaseStat: { Bonus: 13 + characterCount },
-                        Bonus: 0,
-                        ArmorCheckPenalty: -6 - characterCount,
-                        ClassSkill: true,
-                        CircumstantialBonus: false
-                    },
-                    'skill 2': {
-                        EffectiveRanks: 1.5 + characterCount,
-                        BaseStat: { Bonus: -2 + characterCount },
-                        Bonus: 3 + characterCount,
-                        ArmorCheckPenalty: 0,
-                        ClassSkill: false,
-                        CircumstantialBonus: true
-                    },
-                },
-                Feats: [
-                    { Name: 'feat ' + (1 + characterCount), Foci: [], Power: 0, Frequency: { TimePeriod: '', Quantity: 0 } },
-                    { Name: 'feat ' + (2 + characterCount), Foci: [], Power: 0, Frequency: { TimePeriod: '', Quantity: 0 } }
-                ]
-            },
-            InterestingTrait: '',
-            Magic: {
-                SpellsPerDay: [],
-                KnownSpells: [],
-                PreparedSpells: [],
-                ArcaneSpellFailure: 0,
-                Animal: ''
-            },
-            Equipment: {
-                PrimaryHand: null,
-                OffHand: null,
-                Armor: null,
-                Treasure: { Coin: { Currency: '', Quantity: 0 }, Goods: [], Items: [], IsAny: false }
-            },
-            Combat: {
-                AdjustedDexterityBonus: 3 + characterCount,
-                ArmorClass: { Full: 7 + characterCount, FlatFooted: 12 + characterCount, Touch: 34 + characterCount, CircumstantialBonus: false },
-                BaseAttack: {
-                    AllMeleeBonuses: [21 + characterCount, 16 + characterCount, 11 + characterCount, 6 + characterCount, 1 + characterCount],
-                    AllRangedBonuses: [22 + characterCount, 17 + characterCount, 12 + characterCount, 7 + characterCount, 2 + characterCount],
-                    CircumstantialBonus: false
-                },
-                HitPoints: 3456 + characterCount,
-                InitiativeBonus: 4567 + characterCount,
-                SavingThrows: { Fortitude: 56 + characterCount, Reflex: 78 + characterCount, Will: 67 + characterCount, CircumstantialBonus: false }
-            }
-        };
+        var newCharacter = getMock('character');
+        newCharacter.Alignment.Full = 'alignment ' + characterCount;
+        newCharacter.Class.Name = 'class name ' + characterCount;
+        newCharacter.Class.Level = 9266 + characterCount;
+        newCharacter.Race.BaseRace = 'base race ' + characterCount;
+        newCharacter.Race.LandSpeed = 30 + characterCount,
+        newCharacter.Race.Size = 'size ' + characterCount;
+        newCharacter.Race.Age.Years = 18 + characterCount;
+        newCharacter.Race.Age.Stage = 'adult ' + characterCount;
+        newCharacter.Race.HeightInInches = 48 + characterCount;
+        newCharacter.Race.WeightInPounds = 100 + characterCount;
+        newCharacter.Race.Gender = characterCount % 2 == 0 ? "Male" : "Female";
+        newCharacter.Ability.Stats.Charisma = createStat(9 + characterCount, -1 + characterCount);
+        newCharacter.Ability.Stats.Constitution = createStat(26 + characterCount, 13 + characterCount);
+        newCharacter.Ability.Stats.Dexterity = createStat(6 + characterCount, -2 + characterCount);
+        newCharacter.Ability.Stats.Intelligence = createStat(90 + characterCount, 45 + characterCount);
+        newCharacter.Ability.Stats.Strength = createStat(2 + characterCount, -4 + characterCount);
+        newCharacter.Ability.Stats.Wisdom = createStat(10 + characterCount, 0 + characterCount);
+        newCharacter.Ability.Languages.push('English ' + characterCount);
+        newCharacter.Ability.Languages.push('German ' + characterCount);
+        newCharacter.Ability.Skills["skill 1"] = createSkill(4 + characterCount, newCharacter.Ability.Stats["Constitution"], 0, -6 - characterCount, true, false);
+        newCharacter.Ability.Skills["skill 2"] = createSkill(1.5 + characterCount, newCharacter.Ability.Stats["Dexterity"], 3 + characterCount, 0, false, true);
+        newCharacter.Ability.Feats.push(createFeat('feat ' + (1 + characterCount)));
+        newCharacter.Ability.Feats.push(createFeat('feat ' + (2 + characterCount)));
+        newCharacter.Combat.AdjustedDexterityBonus = 3 +characterCount;
+        newCharacter.Combat.ArmorClass.Full = 7 + characterCount;
+        newCharacter.Combat.ArmorClass.Touch = 34 + characterCount;
+        newCharacter.Combat.ArmorClass.FlatFooted = 12 + characterCount;
+
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.length = 0;
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(21 + characterCount);
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(16 + characterCount);
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(11 + characterCount);
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(6 + characterCount);
+        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(1 + characterCount);
+
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.length = 0;
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(22 + characterCount);
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(17 + characterCount);
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(12 + characterCount);
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(7 + characterCount);
+        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(2 + characterCount);
+
+        newCharacter.Combat.HitPoints = 3456 + characterCount;
+        newCharacter.Combat.InitiativeBonus = 4567 + characterCount;
+        newCharacter.Combat.SavingThrows.Fortitude = 56 + characterCount;
+        newCharacter.Combat.SavingThrows.Reflex = 78 + characterCount;
+        newCharacter.Combat.SavingThrows.Will = 67 + characterCount;
+        newCharacter.Combat.SavingThrows.HasFortitudeSave = true;
+
+        return newCharacter;
+    }
+
+    function createStat(value, bonus) {
+        var stat = getMock('stat');
+
+        stat.Value = value;
+        stat.Bonus = bonus;
+
+        return stat;
+    }
+
+    function createSkill(effectiveRanks, baseStat, bonus, acPenalty, classSkill, circumstantialBonus) {
+        var skill = getMock('skill');
+
+        skill.EffectiveRanks = effectiveRanks;
+        skill.BaseStat = baseStat;
+        skill.Bonus = bonus;
+        skill.ArmorCheckPenalty = acPenalty;
+        skill.ClassSkill = classSkill;
+        skill.CircumstantialBonus = circumstantialBonus;
+
+        return skill;
+    }
+
+    function createFeat(name) {
+        var feat = getMock('feat');
+
+        feat.Name = name;
+
+        return feat;
     }
 
     function createItem(itemName) {
@@ -153,63 +152,70 @@ describe('Character Formatter Service', function () {
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
 
-        expect(lines[0]).toBe('Alignment: alignment 1');
-        expect(lines[1]).toBe('Level 9267 class name 1');
-        expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
-        expect(lines[4]).toBe('\tLand Speed: 31');
-        expect(lines[5]).toBe('\tSize: size 1');
-        expect(lines[6]).toBe('\tAge: 19 (adult 1)');
-        expect(lines[7]).toBe('\tHeight: 4.083333333333333 feet filtered');
-        expect(lines[8]).toBe('\tWeight: 101 lbs.');
-        expect(lines[9]).toBe('Stats:');
-        expect(lines[10]).toBe('\tStrength: 3 (-3)');
-        expect(lines[11]).toBe('\tConstitution: 27 (14)');
-        expect(lines[12]).toBe('\tDexterity: 7 (-1)');
-        expect(lines[13]).toBe('\tIntelligence: 91 (46)');
-        expect(lines[14]).toBe('\tWisdom: 11 (1)');
-        expect(lines[15]).toBe('\tCharisma: 10 (0)');
-        expect(lines[16]).toBe('Languages:');
-        expect(lines[17]).toBe('\tEnglish 1');
-        expect(lines[18]).toBe('\tGerman 1');
-        expect(lines[19]).toBe('Skills:');
-        expect(lines[20]).toBe('\tskill 1');
-        expect(lines[21]).toBe('\t\tRanks: 5');
-        expect(lines[22]).toBe('\t\tStat Bonus: 14');
-        expect(lines[23]).toBe('\t\tOther Bonus: 0');
-        expect(lines[24]).toBe('\t\tArmor Check Penalty: -7');
-        expect(lines[25]).toBe('\t\tClass Skill');
-        expect(lines[26]).toBe('\tskill 2');
-        expect(lines[27]).toBe('\t\tRanks: 2.5');
-        expect(lines[28]).toBe('\t\tStat Bonus: -1');
-        expect(lines[29]).toBe('\t\tOther Bonus: 4');
-        expect(lines[30]).toBe('\t\tArmor Check Penalty: 0');
-        expect(lines[31]).toBe('\t\tCircumstantial Bonus');
-        expect(lines[32]).toBe('Feats:');
-        expect(lines[33]).toBe('\tfeat 2');
-        expect(lines[34]).toBe('\tfeat 3');
-        expect(lines[35]).toBe('Interesting Trait: None');
-        expect(lines[36]).toBe("Equipment:");
-        expect(lines[37]).toBe("\tPrimary Hand: None");
-        expect(lines[38]).toBe("\tOff Hand: None");
-        expect(lines[39]).toBe("\tArmor: None");
-        expect(lines[40]).toBe("\tTreasure: None");
-        expect(lines[41]).toBe("Combat:");
-        expect(lines[42]).toBe("\tAdjusted Dexterity Bonus: 4");
-        expect(lines[43]).toBe("\tArmor Class: 8");
-        expect(lines[44]).toBe("\t\tFlat-Footed: 13");
-        expect(lines[45]).toBe("\t\tTouch: 35");
-        expect(lines[46]).toBe("\tBase Attack:");
-        expect(lines[47]).toBe("\t\tMelee: +22/+17/+12/+7/+2");
-        expect(lines[48]).toBe("\t\tRanged: +23/+18/+13/+8/+3");
-        expect(lines[49]).toBe("\tHit Points: 3457");
-        expect(lines[50]).toBe("\tInitiative Bonus: 4568");
-        expect(lines[51]).toBe("\tSaving Throws:");
-        expect(lines[52]).toBe("\t\tFortitude: 57");
-        expect(lines[53]).toBe("\t\tReflex: 79");
-        expect(lines[54]).toBe("\t\tWill: 68");
-        expect(lines[55]).toBe('');
-        expect(lines.length).toBe(56);
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'base race 1',
+            '\tFemale',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tConstitution: 27 (14)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tFortitude: 57",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
     });
 
     it('formats class specialization', function () {
@@ -224,7 +230,7 @@ describe('Character Formatter Service', function () {
         expect(lines[3]).toBe("\t\tspecialist field 1");
         expect(lines[4]).toBe("\t\tspecialist field 2");
         expect(lines[5]).toBe('base race 1');
-        expect(lines[6]).toBe('\tgender 1');
+        expect(lines[6]).toBe('\tFemale');
         expect(lines[7]).toBe('\tLand Speed: 31');
         expect(lines[8]).toBe('\tSize: size 1');
         expect(lines[9]).toBe('\tAge: 19 (adult 1)');
@@ -296,7 +302,7 @@ describe('Character Formatter Service', function () {
         expect(lines[6]).toBe("\t\tprohibited field 1");
         expect(lines[7]).toBe("\t\tprohibited field 2");
         expect(lines[8]).toBe('base race 1');
-        expect(lines[9]).toBe('\tgender 1');
+        expect(lines[9]).toBe('\tFemale');
         expect(lines[10]).toBe('\tLand Speed: 31');
         expect(lines[11]).toBe('\tSize: size 1');
         expect(lines[12]).toBe('\tAge: 19 (adult 1)');
@@ -361,7 +367,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('metarace base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -427,7 +433,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('metarace base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tMetarace Species: metarace species');
         expect(lines[5]).toBe('\tLand Speed: 31');
         expect(lines[6]).toBe('\tSize: size 1');
@@ -494,7 +500,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('metarace base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -562,7 +568,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'metarace base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -635,7 +641,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -703,7 +709,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -770,7 +776,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -837,7 +843,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -903,7 +909,7 @@ describe('Character Formatter Service', function () {
         expect(lines[0]).toBe('Alignment: alignment 1');
         expect(lines[1]).toBe('Level 9267 class name 1');
         expect(lines[2]).toBe('base race 1');
-        expect(lines[3]).toBe('\tgender 1');
+        expect(lines[3]).toBe('\tFemale');
         expect(lines[4]).toBe('\tLand Speed: 31');
         expect(lines[5]).toBe('\tSize: size 1');
         expect(lines[6]).toBe('\tAge: 19 (adult 1)');
@@ -972,7 +978,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1055,7 +1061,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1147,7 +1153,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1229,7 +1235,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1302,7 +1308,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1375,7 +1381,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1450,7 +1456,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1525,7 +1531,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1601,7 +1607,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1675,7 +1681,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1748,7 +1754,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1820,7 +1826,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1893,7 +1899,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -1965,7 +1971,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -2074,7 +2080,7 @@ describe('Character Formatter Service', function () {
             "\t\tprohibited field 1",
             "\t\tprohibited field 2",
             'metarace base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tMetarace Species: metarace species',
             '\tLand Speed: 31',
             '\tSize: size 1',
@@ -2203,7 +2209,7 @@ describe('Character Formatter Service', function () {
             "\t\t\tprohibited field 1",
             "\t\t\tprohibited field 2",
             '\tmetarace base race 1',
-            '\t\tgender 1',
+            '\t\tFemale',
             '\t\tMetarace Species: metarace species',
             '\t\tLand Speed: 31',
             '\t\tSize: size 1',
@@ -2302,7 +2308,7 @@ describe('Character Formatter Service', function () {
             'Alignment: alignment 1',
             'Level 9267 class name 1',
             'base race 1',
-            '\tgender 1',
+            '\tFemale',
             '\tLand Speed: 31',
             '\tSize: size 1',
             '\tAge: 19 (adult 1)',
@@ -2365,7 +2371,7 @@ describe('Character Formatter Service', function () {
             '\tAlignment: alignment 2',
             '\tLevel 9268 class name 2',
             '\tbase race 2',
-            '\t\tgender 2',
+            '\t\tMale',
             '\t\tLand Speed: 32',
             '\t\tSize: size 2',
             '\t\tAge: 20 (adult 2)',
@@ -2423,7 +2429,7 @@ describe('Character Formatter Service', function () {
             '\tAlignment: alignment 3',
             '\tLevel 9269 class name 3',
             '\tbase race 3',
-            '\t\tgender 3',
+            '\t\tFemale',
             '\t\tLand Speed: 33',
             '\t\tSize: size 3',
             '\t\tAge: 21 (adult 3)',
@@ -2479,7 +2485,7 @@ describe('Character Formatter Service', function () {
             '\tAlignment: alignment 4',
             '\tLevel 9270 class name 4',
             '\tbase race 4',
-            '\t\tgender 4',
+            '\t\tMale',
             '\t\tLand Speed: 34',
             '\t\tSize: size 4',
             '\t\tAge: 22 (adult 4)',
@@ -2557,7 +2563,7 @@ describe('Character Formatter Service', function () {
             '\tAlignment: alignment 1',
             '\tLevel 9267 class name 1',
             '\tbase race 1',
-            '\t\tgender 1',
+            '\t\tFemale',
             '\t\tLand Speed: 31',
             '\t\tSize: size 1',
             '\t\tAge: 19 (adult 1)',
@@ -2620,7 +2626,7 @@ describe('Character Formatter Service', function () {
             '\t\tAlignment: alignment 2',
             '\t\tLevel 9268 class name 2',
             '\t\tbase race 2',
-            '\t\t\tgender 2',
+            '\t\t\tMale',
             '\t\t\tLand Speed: 32',
             '\t\t\tSize: size 2',
             '\t\t\tAge: 20 (adult 2)',
@@ -2678,7 +2684,7 @@ describe('Character Formatter Service', function () {
             '\t\tAlignment: alignment 3',
             '\t\tLevel 9269 class name 3',
             '\t\tbase race 3',
-            '\t\t\tgender 3',
+            '\t\t\tFemale',
             '\t\t\tLand Speed: 33',
             '\t\t\tSize: size 3',
             '\t\t\tAge: 21 (adult 3)',
@@ -2734,7 +2740,7 @@ describe('Character Formatter Service', function () {
             '\t\tAlignment: alignment 4',
             '\t\tLevel 9270 class name 4',
             '\t\tbase race 4',
-            '\t\t\tgender 4',
+            '\t\t\tMale',
             '\t\t\tLand Speed: 34',
             '\t\t\tSize: size 4',
             '\t\t\tAge: 22 (adult 4)',
@@ -2786,6 +2792,338 @@ describe('Character Formatter Service', function () {
             "\t\t\t\tFortitude: 60",
             "\t\t\t\tReflex: 82",
             "\t\t\t\tWill: 71",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats undead', function () {
+        character.Race.Metarace = "undead";
+        character.Ability.Stats.Constitution = undefined;
+        character.Combat.SavingThrows.HasFortitudeSave = false;
+
+        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
+        var lines = formattedCharacter.split('\r\n');
+
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'undead base race 1',
+            '\tFemale',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats undead as part of full leadership', function () {
+        leadership = {
+            Score: 9876,
+            LeadershipModifiers: ['killed a man', 'with this thumb']
+        };
+
+        cohort = createCharacter();
+        followers = [createCharacter(), createCharacter()];
+
+        character.Race.Metarace = "undead";
+        character.Ability.Stats.Constitution = undefined;
+        character.Combat.SavingThrows.HasFortitudeSave = false;
+        cohort.Race.Metarace = "undead";
+        cohort.Ability.Stats.Constitution = undefined;
+        cohort.Combat.SavingThrows.HasFortitudeSave = false;
+        followers[0].Race.Metarace = "undead";
+        followers[0].Ability.Stats.Constitution = undefined;
+        followers[0].Combat.SavingThrows.HasFortitudeSave = false;
+        followers[1].Race.Metarace = "undead";
+        followers[1].Ability.Stats.Constitution = undefined;
+        followers[1].Combat.SavingThrows.HasFortitudeSave = false;
+
+        var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
+        var lines = formattedCharacter.split('\r\n');
+
+        var expected = [
+            'Alignment: alignment 1',
+            'Level 9267 class name 1',
+            'undead base race 1',
+            '\tFemale',
+            '\tLand Speed: 31',
+            '\tSize: size 1',
+            '\tAge: 19 (adult 1)',
+            '\tHeight: 4.083333333333333 feet filtered',
+            '\tWeight: 101 lbs.',
+            'Stats:',
+            '\tStrength: 3 (-3)',
+            '\tDexterity: 7 (-1)',
+            '\tIntelligence: 91 (46)',
+            '\tWisdom: 11 (1)',
+            '\tCharisma: 10 (0)',
+            'Languages:',
+            '\tEnglish 1',
+            '\tGerman 1',
+            'Skills:',
+            '\tskill 1',
+            '\t\tRanks: 5',
+            '\t\tStat Bonus: 14',
+            '\t\tOther Bonus: 0',
+            '\t\tArmor Check Penalty: -7',
+            '\t\tClass Skill',
+            '\tskill 2',
+            '\t\tRanks: 2.5',
+            '\t\tStat Bonus: -1',
+            '\t\tOther Bonus: 4',
+            '\t\tArmor Check Penalty: 0',
+            '\t\tCircumstantial Bonus',
+            'Feats:',
+            '\tfeat 2',
+            '\tfeat 3',
+            'Interesting Trait: None',
+            "Equipment:",
+            "\tPrimary Hand: None",
+            "\tOff Hand: None",
+            "\tArmor: None",
+            "\tTreasure: None",
+            "Combat:",
+            "\tAdjusted Dexterity Bonus: 4",
+            "\tArmor Class: 8",
+            "\t\tFlat-Footed: 13",
+            "\t\tTouch: 35",
+            "\tBase Attack:",
+            "\t\tMelee: +22/+17/+12/+7/+2",
+            "\t\tRanged: +23/+18/+13/+8/+3",
+            "\tHit Points: 3457",
+            "\tInitiative Bonus: 4568",
+            "\tSaving Throws:",
+            "\t\tReflex: 79",
+            "\t\tWill: 68",
+            '',
+            'Leadership:',
+            '\tScore: 9876',
+            '\tLeadership Modifiers:',
+            '\t\tkilled a man',
+            '\t\twith this thumb',
+            '',
+            'Cohort:',
+            '\tAlignment: alignment 2',
+            '\tLevel 9268 class name 2',
+            '\tundead base race 2',
+            '\t\tMale',
+            '\t\tLand Speed: 32',
+            '\t\tSize: size 2',
+            '\t\tAge: 20 (adult 2)',
+            '\t\tHeight: 4.166666666666667 feet filtered',
+            '\t\tWeight: 102 lbs.',
+            '\tStats:',
+            '\t\tStrength: 4 (-2)',
+            '\t\tDexterity: 8 (0)',
+            '\t\tIntelligence: 92 (47)',
+            '\t\tWisdom: 12 (2)',
+            '\t\tCharisma: 11 (1)',
+            '\tLanguages:',
+            '\t\tEnglish 2',
+            '\t\tGerman 2',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 6',
+            '\t\t\tStat Bonus: 15',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -8',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 3.5',
+            '\t\t\tStat Bonus: 0',
+            '\t\t\tOther Bonus: 5',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 3',
+            '\t\tfeat 4',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 5",
+            "\t\tArmor Class: 9",
+            "\t\t\tFlat-Footed: 14",
+            "\t\t\tTouch: 36",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +23/+18/+13/+8/+3",
+            "\t\t\tRanged: +24/+19/+14/+9/+4",
+            "\t\tHit Points: 3458",
+            "\t\tInitiative Bonus: 4569",
+            "\t\tSaving Throws:",
+            "\t\t\tReflex: 80",
+            "\t\t\tWill: 69",
+            '',
+            'Followers:',
+            '',
+            '\tAlignment: alignment 3',
+            '\tLevel 9269 class name 3',
+            '\tundead base race 3',
+            '\t\tFemale',
+            '\t\tLand Speed: 33',
+            '\t\tSize: size 3',
+            '\t\tAge: 21 (adult 3)',
+            '\t\tHeight: 4.25 feet filtered',
+            '\t\tWeight: 103 lbs.',
+            '\tStats:',
+            '\t\tStrength: 5 (-1)',
+            '\t\tDexterity: 9 (1)',
+            '\t\tIntelligence: 93 (48)',
+            '\t\tWisdom: 13 (3)',
+            '\t\tCharisma: 12 (2)',
+            '\tLanguages:',
+            '\t\tEnglish 3',
+            '\t\tGerman 3',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 7',
+            '\t\t\tStat Bonus: 16',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -9',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 4.5',
+            '\t\t\tStat Bonus: 1',
+            '\t\t\tOther Bonus: 6',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 4',
+            '\t\tfeat 5',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 6",
+            "\t\tArmor Class: 10",
+            "\t\t\tFlat-Footed: 15",
+            "\t\t\tTouch: 37",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +24/+19/+14/+9/+4",
+            "\t\t\tRanged: +25/+20/+15/+10/+5",
+            "\t\tHit Points: 3459",
+            "\t\tInitiative Bonus: 4570",
+            "\t\tSaving Throws:",
+            "\t\t\tReflex: 81",
+            "\t\t\tWill: 70",
+            '',
+            '\tAlignment: alignment 4',
+            '\tLevel 9270 class name 4',
+            '\tundead base race 4',
+            '\t\tMale',
+            '\t\tLand Speed: 34',
+            '\t\tSize: size 4',
+            '\t\tAge: 22 (adult 4)',
+            '\t\tHeight: 4.333333333333333 feet filtered',
+            '\t\tWeight: 104 lbs.',
+            '\tStats:',
+            '\t\tStrength: 6 (0)',
+            '\t\tDexterity: 10 (2)',
+            '\t\tIntelligence: 94 (49)',
+            '\t\tWisdom: 14 (4)',
+            '\t\tCharisma: 13 (3)',
+            '\tLanguages:',
+            '\t\tEnglish 4',
+            '\t\tGerman 4',
+            '\tSkills:',
+            '\t\tskill 1',
+            '\t\t\tRanks: 8',
+            '\t\t\tStat Bonus: 17',
+            '\t\t\tOther Bonus: 0',
+            '\t\t\tArmor Check Penalty: -10',
+            '\t\t\tClass Skill',
+            '\t\tskill 2',
+            '\t\t\tRanks: 5.5',
+            '\t\t\tStat Bonus: 2',
+            '\t\t\tOther Bonus: 7',
+            '\t\t\tArmor Check Penalty: 0',
+            '\t\t\tCircumstantial Bonus',
+            '\tFeats:',
+            '\t\tfeat 5',
+            '\t\tfeat 6',
+            '\tInteresting Trait: None',
+            "\tEquipment:",
+            "\t\tPrimary Hand: None",
+            "\t\tOff Hand: None",
+            "\t\tArmor: None",
+            "\t\tTreasure: None",
+            "\tCombat:",
+            "\t\tAdjusted Dexterity Bonus: 7",
+            "\t\tArmor Class: 11",
+            "\t\t\tFlat-Footed: 16",
+            "\t\t\tTouch: 38",
+            "\t\tBase Attack:",
+            "\t\t\tMelee: +25/+20/+15/+10/+5",
+            "\t\t\tRanged: +26/+21/+16/+11/+6",
+            "\t\tHit Points: 3460",
+            "\t\tInitiative Bonus: 4571",
+            "\t\tSaving Throws:",
+            "\t\t\tReflex: 82",
+            "\t\t\tWill: 71",
             '',
         ];
 

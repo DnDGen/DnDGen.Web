@@ -110,7 +110,10 @@
             formattedCharacter += prefix + "\tHit Points: " + character.Combat.HitPoints + "\r\n";
             formattedCharacter += prefix + "\tInitiative Bonus: " + character.Combat.InitiativeBonus + "\r\n";
             formattedCharacter += prefix + "\tSaving Throws:\r\n";
-            formattedCharacter += prefix + "\t\tFortitude: " + character.Combat.SavingThrows.Fortitude + "\r\n";
+
+            if (character.Combat.SavingThrows.HasFortitudeSave)
+                formattedCharacter += prefix + "\t\tFortitude: " + character.Combat.SavingThrows.Fortitude + "\r\n";
+
             formattedCharacter += prefix + "\t\tReflex: " + character.Combat.SavingThrows.Reflex + "\r\n";
             formattedCharacter += prefix + "\t\tWill: " + character.Combat.SavingThrows.Will + "\r\n";
 
@@ -121,7 +124,7 @@
         }
 
         function formatList(list, title, prefix) {
-            if (list.length === 0)
+            if (!list.length)
                 return '';
 
             if (!prefix)
@@ -143,7 +146,10 @@
 
             var formattedStats = prefix + 'Stats:\r\n';
             formattedStats += prefix + "\tStrength: " + stats.Strength.Value + " (" + stats.Strength.Bonus + ")\r\n";
-            formattedStats += prefix + "\tConstitution: " + stats.Constitution.Value + " (" + stats.Constitution.Bonus + ")\r\n";
+
+            if (stats.Constitution)
+                formattedStats += prefix + "\tConstitution: " + stats.Constitution.Value + " (" + stats.Constitution.Bonus + ")\r\n";
+
             formattedStats += prefix + "\tDexterity: " + stats.Dexterity.Value + " (" + stats.Dexterity.Bonus + ")\r\n";
             formattedStats += prefix + "\tIntelligence: " + stats.Intelligence.Value + " (" + stats.Intelligence.Bonus + ")\r\n";
             formattedStats += prefix + "\tWisdom: " + stats.Wisdom.Value + " (" + stats.Wisdom.Bonus + ")\r\n";

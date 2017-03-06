@@ -41,7 +41,7 @@
                 <dndgen-collapsable-list heading="Stats" has-list="true">
                     <ul>
                         <li>Strength: {{character.Ability.Stats.Strength.Value}} ({{character.Ability.Stats.Strength.Bonus}})</li>
-                        <li>Constitution: {{character.Ability.Stats.Constitution.Value}} ({{character.Ability.Stats.Constitution.Bonus}})</li>
+                        <li ng-show="character.Ability.Stats.Constitution">Constitution: {{character.Ability.Stats.Constitution.Value}} ({{character.Ability.Stats.Constitution.Bonus}})</li>
                         <li>Dexterity: {{character.Ability.Stats.Dexterity.Value}} ({{character.Ability.Stats.Dexterity.Bonus}})</li>
                         <li>Intelligence: {{character.Ability.Stats.Intelligence.Value}} ({{character.Ability.Stats.Intelligence.Bonus}})</li>
                         <li>Wisdom: {{character.Ability.Stats.Wisdom.Value}} ({{character.Ability.Stats.Wisdom.Bonus}})</li>
@@ -176,7 +176,7 @@
                         <li>
                             <span>Saving Throws:</span>
                             <ul>
-                                <li>Fortitude: {{character.Combat.SavingThrows.Fortitude}}</li>
+                                <li ng-show="character.Combat.SavingThrows.HasFortitudeSave">Fortitude: {{character.Combat.SavingThrows.Fortitude}}</li>
                                 <li>Reflex: {{character.Combat.SavingThrows.Reflex}}</li>
                                 <li>Will: {{character.Combat.SavingThrows.Will}}</li>
                                 <li ng-show="character.Combat.SavingThrows.CircumstantialBonus">Circumstantial Bonus</li>
