@@ -1,6 +1,5 @@
 ﻿using DnDGen.Web.Controllers;
 using NUnit.Framework;
-using System;
 using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
@@ -17,7 +16,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [TestCase("Index")]
-        public void ActionHandlesGetVerb(String methodName)
+        public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));

@@ -68,6 +68,10 @@
       <HintPath>..\packages\EncounterGen.Domain.2.0.0\lib\EncounterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EventGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventGen.1.0.0\lib\EventGen.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -178,6 +182,7 @@
     <Content Include="Scripts\app\encounter\encounter.directive.js" />
     <Content Include="Scripts\app\encounter\encounterFormatter.service.js" />
     <Content Include="Scripts\app\character\characterWithoutLeadership.directive.js" />
+    <Content Include="Scripts\app\shared\test.controller.js" />
     <Content Include="Scripts\app\shared\inchesToFeet.filter.js" />
     <Content Include="Scripts\app\shared\collapsableList.directive.js" />
     <Content Include="Scripts\app\treasure\item.directive.js" />
@@ -264,12 +269,14 @@
     <Compile Include="Repositories\Domain\GitHubErrorRepository.cs" />
     <Compile Include="Repositories\IRandomizerRepository.cs" />
     <Compile Include="Repositories\Domain\RandomizerRepository.cs" />
+    <Compile Include="Repositories\TestRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\Encounter\Index.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

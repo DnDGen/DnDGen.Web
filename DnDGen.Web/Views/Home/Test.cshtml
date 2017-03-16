@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ngApp {
+    ng-app='app.shared'
+}
+
+@section Scripts {
+    <script src="~/Scripts/app/shared/test.controller.js"></script>
+}
+
+<div ng-controller="Test as vm">
+    <button class="btn btn-large btn-primary" ng-click="vm.start()">Start</button>
+    <button class="btn btn-large btn-warning" ng-click="vm.stop()">Stop</button>
+    <button class="btn btn-large" ng-click="vm.clear()">Clear</button>
+    <textarea ng-model="vm.output" readonly style="width: 100%;" rows="20"></textarea>
+</div>

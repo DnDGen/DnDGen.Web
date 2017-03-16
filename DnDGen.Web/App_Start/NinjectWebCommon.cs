@@ -6,6 +6,7 @@ namespace DnDGen.Web.App_Start
     using CharacterGen.Domain.IoC;
     using DungeonGen.Domain.IoC;
     using EncounterGen.Domain.IoC;
+    using EventGen.IoC;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
@@ -80,6 +81,16 @@ namespace DnDGen.Web.App_Start
             dungeonGenLoader.LoadModules(kernel);
 
             kernel.Load<WebModule>();
+
+
+
+
+
+
+
+
+            var eventGenLoader = new EventGenModuleLoader();
+            eventGenLoader.LoadModules(kernel);
         }
     }
 }
