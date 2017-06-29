@@ -2,13 +2,17 @@
   "Alignment": {
     "Lawfulness": "",
     "Goodness": "",
-    "Full": " "
+    "Full": ""
   },
   "Class": {
     "Level": 0,
+    "LevelAdjustment": 0,
+    "IsNPC": false,
     "Name": "",
     "SpecialistFields": [],
-    "ProhibitedFields": []
+    "ProhibitedFields": [],
+    "EffectiveLevel": 0.0,
+    "Summary": "Level0"
   },
   "Race": {
     "BaseRace": "",
@@ -17,16 +21,44 @@
     "IsMale": false,
     "HasWings": false,
     "Size": "",
-    "LandSpeed": 0,
-    "AerialSpeed": 0,
-    "HeightInInches": 0,
-    "WeightInPounds": 0,
+    "ChallengeRating": 0,
     "Age": {
-      "Years": 0,
-      "Stage": "",
-      "Maximum": 0
+      "Unit": "Years",
+      "Value": 0,
+      "Description": ""
     },
-    "Gender": "Female"
+    "MaximumAge": {
+      "Unit": "Years",
+      "Value": 0,
+      "Description": ""
+    },
+    "Height": {
+      "Unit": "Inches",
+      "Value": 0,
+      "Description": ""
+    },
+    "Weight": {
+      "Unit": "Pounds",
+      "Value": 0,
+      "Description": ""
+    },
+    "LandSpeed": {
+      "Unit": "feet per round",
+      "Value": 0,
+      "Description": ""
+    },
+    "AerialSpeed": {
+      "Unit": "feet per round",
+      "Value": 0,
+      "Description": ""
+    },
+    "SwimSpeed": {
+      "Unit": "feet per round",
+      "Value": 0,
+      "Description": ""
+    },
+    "Gender": "Female",
+    "Summary": "Female"
   },
   "InterestingTrait": "",
   "Combat": {
@@ -66,16 +98,15 @@
     "AdjustedDexterityBonus": 0,
     "InitiativeBonus": 0
   },
-  "Ability": {
-    "Skills": {
-
-    },
-    "Languages": [],
-    "Feats": [],
-    "Stats": {
-
-    }
+  "Skills": [],
+  "Languages": [],
+  "Feats": {
+    "Racial": [],
+    "Class": [],
+    "Additional": [],
+    "All": []
   },
+  "Abilities": { },
   "Equipment": {
     "PrimaryHand": null,
     "OffHand": null,
@@ -98,5 +129,6 @@
     "ArcaneSpellFailure": 0
   },
   "IsLeader": false,
-  "Summary": ""
+  "Summary": "",
+  "ChallengeRating": 0.0
 }

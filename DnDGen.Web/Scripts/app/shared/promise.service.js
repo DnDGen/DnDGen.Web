@@ -24,8 +24,7 @@
             };
 
             $http.get(url, config)
-                .success(deferred.resolve)
-                .error(deferred.reject);
+                .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;
         }
@@ -33,8 +32,7 @@
         function postPromise(url, body) {
             var deferred = $q.defer();
             $http.post(url, body)
-                .success(deferred.resolve)
-                .error(deferred.reject);
+                .then(deferred.resolve, deferred.reject);
 
             return deferred.promise;
         }

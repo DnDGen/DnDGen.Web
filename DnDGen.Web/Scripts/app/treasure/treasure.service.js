@@ -13,13 +13,13 @@
             getItem: getItem
         };
 
-        function getTreasure(treasureType, level) {
-            var parameters = { treasureType: treasureType, level: level };
+        function getTreasure(clientId, treasureType, level) {
+            var parameters = { clientId: clientId, treasureType: treasureType, level: level };
             return promiseService.getPromise("/Treasure/Generate", parameters);
         }
 
-        function getItem(itemType, power) {
-            var parameters = { itemType: itemType, power: power };
+        function getItem(clientId, itemType, power) {
+            var parameters = { clientId: clientId, itemType: itemType, power: power };
             return promiseService.getPromise("/Treasure/GenerateItem", parameters);
         }
     };

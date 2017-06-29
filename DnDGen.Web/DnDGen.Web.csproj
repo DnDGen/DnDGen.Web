@@ -45,27 +45,31 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.7.1.0\lib\CharacterGen.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.9.0.4\lib\CharacterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CharacterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CharacterGen.Domain.7.2.0\lib\CharacterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\CharacterGen.Domain.9.0.4\lib\CharacterGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.3.0.0\lib\DungeonGen.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.3.1.2\lib\DungeonGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DungeonGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DungeonGen.Domain.3.1.0\lib\DungeonGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DungeonGen.Domain.3.1.2\lib\DungeonGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.2.0.0\lib\EncounterGen.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.3.0.4\lib\EncounterGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EncounterGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EncounterGen.Domain.2.0.0\lib\EncounterGen.Domain.dll</HintPath>
+      <HintPath>..\packages\EncounterGen.Domain.3.0.4\lib\EncounterGen.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EventGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EventGen.1.0.0\lib\EventGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -83,12 +87,12 @@
       <HintPath>..\packages\Octokit.0.24.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RollGen, Version=12.1.6162.15224, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.RollGen.13.1.0\lib\RollGen.dll</HintPath>
+    <Reference Include="RollGen, Version=12.1.6247.28555, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.RollGen.13.3.0\lib\RollGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RollGen.Domain, Version=12.1.6162.15224, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.RollGen.Domain.13.1.0\lib\RollGen.Domain.dll</HintPath>
+    <Reference Include="RollGen.Domain, Version=12.1.6247.28874, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnDGen.RollGen.Domain.13.3.0\lib\RollGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
@@ -132,11 +136,11 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TreasureGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.5.0.0\lib\TreasureGen.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.7.1.2\lib\TreasureGen.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="TreasureGen.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnDGen.TreasureGen.Domain.5.2.0\lib\TreasureGen.Domain.dll</HintPath>
+      <HintPath>..\packages\DnDGen.TreasureGen.Domain.7.1.2\lib\TreasureGen.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
@@ -178,6 +182,8 @@
     <Content Include="Scripts\app\encounter\encounter.directive.js" />
     <Content Include="Scripts\app\encounter\encounterFormatter.service.js" />
     <Content Include="Scripts\app\character\characterWithoutLeadership.directive.js" />
+    <Content Include="Scripts\app\shared\eventLog.directive.js" />
+    <Content Include="Scripts\app\shared\event.service.js" />
     <Content Include="Scripts\app\shared\inchesToFeet.filter.js" />
     <Content Include="Scripts\app\shared\collapsableList.directive.js" />
     <Content Include="Scripts\app\treasure\item.directive.js" />
@@ -223,6 +229,7 @@
     <Content Include="Templates\Dungeon\DungeonArea.html" />
     <Content Include="Templates\Encounter\Encounter.html" />
     <Content Include="Templates\Character\CharacterWithoutLeadership.html" />
+    <Content Include="Templates\Shared\EventLog.html" />
     <Content Include="Templates\Shared\CollapsableList.html" />
     <Content Include="Templates\Treasure\Item.html" />
     <Content Include="Templates\Treasure\Treasure.html" />
@@ -236,16 +243,18 @@
     <Content Include="Views\Character\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\Factories\GitHubClientFactory.cs" />
-    <Compile Include="App_Start\Factories\NinjectRuntimeFactory.cs" />
-    <Compile Include="App_Start\Factories\RuntimeFactory.cs" />
+    <Compile Include="App_Start\Factories\NinjectJustInTimeFactory.cs" />
+    <Compile Include="App_Start\Factories\JustInTimeFactory.cs" />
     <Compile Include="App_Start\Factories\RandomizerTypeConstants.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\Providers\GitHubClientProvider.cs" />
+    <Compile Include="App_Start\Providers\JustInTimeFactoryProvider.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebModule.cs" />
+    <Compile Include="App_Start\Modules\WebModule.cs" />
     <Compile Include="Controllers\DungeonController.cs" />
     <Compile Include="Controllers\EncounterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Characters\LeadershipController.cs" />
     <Compile Include="Controllers\Characters\RandomizersController.cs" />
@@ -255,8 +264,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CharacterHelper.cs" />
+    <Compile Include="Models\CharacterSpecifications.cs" />
     <Compile Include="Models\CharacterViewModel.cs" />
-    <Compile Include="Models\DungeonViewModel.cs" />
     <Compile Include="Models\EncounterViewModel.cs" />
     <Compile Include="Models\TreasureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,11 +1,13 @@
-﻿using CharacterGen;
-using CharacterGen.Abilities.Feats;
-using CharacterGen.Abilities.Skills;
-using CharacterGen.Abilities.Stats;
+﻿using CharacterGen.Abilities;
+using CharacterGen.Characters;
+using CharacterGen.Feats;
+using CharacterGen.Skills;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using DungeonGen;
 using EncounterGen.Common;
+using EncounterGen.Generators;
+using EventGen;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -20,13 +22,19 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         private DungeonController controller;
         private Mock<IDungeonGenerator> mockDungeonGenerator;
         private Random random;
+        private EncounterSpecifications environment;
+        private Mock<ClientIDManager> mockClientIdManager;
+        private Guid clientId;
 
         [SetUp]
         public void Setup()
         {
             mockDungeonGenerator = new Mock<IDungeonGenerator>();
-            controller = new DungeonController(mockDungeonGenerator.Object);
+            mockClientIdManager = new Mock<ClientIDManager>();
+            controller = new DungeonController(mockDungeonGenerator.Object, mockClientIdManager.Object);
             random = new Random();
+            clientId = Guid.NewGuid();
+            environment = new EncounterSpecifications();
         }
 
         [TestCase("Index")]
@@ -49,14 +57,14 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexViewContainsModel()
         {
             var result = controller.Index() as ViewResult;
-            Assert.That(result.Model, Is.InstanceOf<DungeonViewModel>());
+            Assert.That(result.Model, Is.InstanceOf<EncounterViewModel>());
         }
 
         [Test]
         public void IndexModelContainsTempreatures()
         {
             var result = controller.Index() as ViewResult;
-            var model = result.Model as DungeonViewModel;
+            var model = result.Model as EncounterViewModel;
             Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Cold));
             Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Temperate));
             Assert.That(model.Temperatures, Contains.Item(EnvironmentConstants.Temperatures.Warm));
@@ -64,22 +72,85 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
+        public void IndexModelContainsEnvironments()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Aquatic));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Civilized));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Desert));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Underground));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Forest));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Hills));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Marsh));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Mountain));
+            Assert.That(model.Environments, Contains.Item(EnvironmentConstants.Plains));
+            Assert.That(model.Environments.Count(), Is.EqualTo(9));
+        }
+
+        [Test]
+        public void IndexModelContainsTimesOfDay()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.TimesOfDay, Contains.Item(EnvironmentConstants.TimesOfDay.Day));
+            Assert.That(model.TimesOfDay, Contains.Item(EnvironmentConstants.TimesOfDay.Night));
+            Assert.That(model.TimesOfDay.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void IndexModelContainsCreatureTypes()
+        {
+            var result = controller.Index() as ViewResult;
+            var model = result.Model as EncounterViewModel;
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Aberration));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Animal));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Construct));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Dragon));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Elemental));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Fey));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Giant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Humanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MagicalBeast));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MonstrousHumanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Ooze));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Outsider));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Plant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Undead));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Vermin));
+            Assert.That(model.CreatureTypes.Count(), Is.EqualTo(15));
+        }
+
+        [Test]
         public void GenerateFromHallReturnsJsonResult()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210, "temperature");
+            var result = controller.GenerateFromHall(clientId, 9266, environment);
             Assert.That(result, Is.InstanceOf<JsonResult>());
+        }
+
+        [Test]
+        public void GenerateFromHallSetsClientId()
+        {
+            var areas = Enumerable.Empty<Area>();
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
+
+            var result = controller.GenerateFromHall(clientId, 9266, environment);
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+
+            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
+            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
         }
 
         [Test]
         public void GenerateFromHallJsonAllowsGet()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -87,47 +158,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
-        }
-
-        [Test]
-        public void GenerateFromHallSortsCharacterFeats()
-        {
-            var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
-
-            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.areas, Is.EqualTo(areas));
-            Assert.That(areas, Is.Not.Empty);
-
-            foreach (var area in areas)
-            {
-                Assert.That(area.Contents.Encounters, Is.Not.Empty);
-
-                foreach (var encounter in area.Contents.Encounters)
-                {
-                    Assert.That(encounter.Characters, Is.Not.Empty);
-
-                    foreach (var character in encounter.Characters)
-                    {
-                        Assert.That(character.Ability.Feats, Is.Not.Empty);
-                        Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
-                    }
-                }
-
-                Assert.That(area.Contents.Pool.Encounter.Characters, Is.Not.Empty);
-
-                foreach (var character in area.Contents.Pool.Encounter.Characters)
-                {
-                    Assert.That(character.Ability.Feats, Is.Not.Empty);
-                    Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
-                }
-            }
         }
 
         private Area CreateAreaWithCharacterEncounters()
@@ -152,16 +187,20 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var character = new Character();
 
-            character.Ability.Feats = new[]
+            character.Feats.Additional = new[]
             {
                 new Feat { Name = Guid.NewGuid().ToString() },
                 new Feat { Name = Guid.NewGuid().ToString() },
                 new Feat { Name = Guid.NewGuid().ToString() }
             };
 
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
-            character.Ability.Skills[Guid.NewGuid().ToString()] = new Skill(string.Empty, new Stat(string.Empty), int.MaxValue) { Ranks = random.Next() };
+            character.Skills = new[]
+            {
+                new Skill("zzzz", new Ability(string.Empty), int.MaxValue) { Ranks = random.Next() },
+                new Skill("aaaa", new Ability(string.Empty), int.MaxValue, "ccccc") { Ranks = random.Next() },
+                new Skill("aaaa", new Ability(string.Empty), int.MaxValue, "bbbbb") { Ranks = random.Next() },
+                new Skill("kkkk", new Ability(string.Empty), int.MaxValue) { Ranks = random.Next() },
+            };
 
             return character;
         }
@@ -170,9 +209,9 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromHallSortsCharacterSkills()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromHall(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
@@ -187,8 +226,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
                     foreach (var character in encounter.Characters)
                     {
-                        Assert.That(character.Ability.Skills, Is.Not.Empty);
-                        Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
+                        Assert.That(character.Skills, Is.Not.Empty);
+                        Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
                     }
                 }
 
@@ -196,8 +235,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
                 foreach (var character in area.Contents.Pool.Encounter.Characters)
                 {
-                    Assert.That(character.Ability.Skills, Is.Not.Empty);
-                    Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
+                    Assert.That(character.Skills, Is.Not.Empty);
+                    Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
                 }
             }
         }
@@ -206,19 +245,32 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorReturnsJsonResult()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210, "temperature");
+            var result = controller.GenerateFromDoor(clientId, 9266, environment);
             Assert.That(result, Is.InstanceOf<JsonResult>());
+        }
+
+        [Test]
+        public void GenerateFromDoorSetsClientId()
+        {
+            var areas = Enumerable.Empty<Area>();
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
+
+            var result = controller.GenerateFromDoor(clientId, 9266, environment);
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+
+            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
+            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
         }
 
         [Test]
         public void GenerateFromDoorJsonAllowsGet()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
@@ -226,56 +278,20 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateFromDoorJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
-        }
-
-        [Test]
-        public void GenerateFromDoorSortsCharacterFeats()
-        {
-            var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
-
-            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.areas, Is.EqualTo(areas));
-            Assert.That(areas, Is.Not.Empty);
-
-            foreach (var area in areas)
-            {
-                Assert.That(area.Contents.Encounters, Is.Not.Empty);
-
-                foreach (var encounter in area.Contents.Encounters)
-                {
-                    Assert.That(encounter.Characters, Is.Not.Empty);
-
-                    foreach (var character in encounter.Characters)
-                    {
-                        Assert.That(character.Ability.Feats, Is.Not.Empty);
-                        Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
-                    }
-                }
-
-                Assert.That(area.Contents.Pool.Encounter.Characters, Is.Not.Empty);
-
-                foreach (var character in area.Contents.Pool.Encounter.Characters)
-                {
-                    Assert.That(character.Ability.Feats, Is.Not.Empty);
-                    Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
-                }
-            }
         }
 
         [Test]
         public void GenerateFromDoorSortsCharacterSkills()
         {
             var areas = new[] { CreateAreaWithCharacterEncounters(), CreateAreaWithCharacterEncounters() };
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, 90210, "temperature")).Returns(areas);
+            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
-            var result = controller.GenerateFromDoor(9266, 90210, "temperature") as JsonResult;
+            var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
@@ -290,8 +306,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
                     foreach (var character in encounter.Characters)
                     {
-                        Assert.That(character.Ability.Skills, Is.Not.Empty);
-                        Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
+                        Assert.That(character.Skills, Is.Not.Empty);
+                        Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
                     }
                 }
 
@@ -299,8 +315,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
                 foreach (var character in area.Contents.Pool.Encounter.Characters)
                 {
-                    Assert.That(character.Ability.Skills, Is.Not.Empty);
-                    Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
+                    Assert.That(character.Skills, Is.Not.Empty);
+                    Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
                 }
             }
         }

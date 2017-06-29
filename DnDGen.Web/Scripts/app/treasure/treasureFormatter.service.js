@@ -17,7 +17,7 @@
 
             var formattedTreasure = '';
 
-            if (treasure.IsAny == false)
+            if (!treasure.IsAny)
                 return formattedTreasure;
 
             if (treasure.Coin.Quantity > 0)
@@ -33,8 +33,8 @@
             if (treasure.Items.length > 0)
                 formattedTreasure += prefix + 'Items:\r\n';
 
-            for (var i = 0; i < treasure.Items.length; i++) {
-                formattedTreasure += formatItem(treasure.Items[i], prefix + '\t');
+            for (var j = 0; j < treasure.Items.length; j++) {
+                formattedTreasure += formatItem(treasure.Items[j], prefix + '\t');
             }
 
             return formattedTreasure;
@@ -70,11 +70,47 @@
 
             formattedItem += formatIntelligence(item.Magic.Intelligence, prefix + '\t');
 
+            if (item.TotalArmorBonus) {
+                formattedItem += formatArmor(item, prefix + '\t');
+            }
+            else if (item.Damage) {
+                formattedItem += formatWeapon(item, prefix + '\t');
+            }
+
             return formattedItem;
         }
 
+        function formatArmor(armor, prefix) {
+            var formattedArmor = prefix + 'Armor:' + '\r\n';
+
+            formattedArmor += prefix + '\t' + 'Size: ' + armor.Size + '\r\n';
+            formattedArmor += prefix + '\t' + 'Armor Bonus: ' + armor.TotalArmorBonus + '\r\n';
+            formattedArmor += prefix + '\t' + 'Armor Check Penalty: ' + armor.TotalArmorCheckPenalty + '\r\n';
+
+            if (armor.TotalMaxDexterityBonus < 100)
+                formattedArmor += prefix + '\t' + 'Max Dexterity Bonus: ' + armor.TotalMaxDexterityBonus + '\r\n';
+
+            return formattedArmor;
+        }
+
+        function formatWeapon(weapon, prefix) {
+            var formattedWeapon = prefix + 'Weapon:' + '\r\n';
+
+            formattedWeapon += prefix + '\t' + 'Size: ' + weapon.Size + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.Damage + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.DamageType + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.ThreatRange + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.CriticalMultiplier + '\r\n';
+
+            if (weapon.Ammunition) {
+                formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.Ammunition + '\r\n';
+            }
+
+            return formattedWeapon;
+        }
+
         function formatList(list, title, prefix) {
-            if (list.length == 0)
+            if (!list.length)
                 return '';
 
             if (!prefix)
@@ -90,7 +126,7 @@
         }
 
         function formatSpecialAbilities(abilities, prefix) {
-            if (abilities.length == 0)
+            if (!abilities.length)
                 return '';
 
             if (!prefix)
@@ -106,7 +142,7 @@
         }
 
         function formatIntelligence(intelligence, prefix) {
-            if (intelligence.Ego == 0)
+            if (!intelligence.Ego)
                 return '';
 
             if (!prefix)

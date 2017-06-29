@@ -1,7 +1,7 @@
-﻿using CharacterGen.Randomizers.Alignments;
+﻿using CharacterGen.Randomizers.Abilities;
+using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Randomizers.Stats;
 
 namespace DnDGen.Web.Repositories
 {
@@ -12,6 +12,6 @@ namespace DnDGen.Web.Repositories
         ILevelRandomizer GetLevelRandomizer(string levelRandomizerType, int setLevel, bool allowAdjustments);
         RaceRandomizer GetBaseRaceRandomizer(string baseRaceRandomizerType, string setBaseRace);
         RaceRandomizer GetMetaraceRandomizer(string metaraceRandomizerType, bool forceMetarace, string setMetarace);
-        IStatsRandomizer GetStatsRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments);
+        IAbilitiesRandomizer GetAbilitiesRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments);
     }
 }

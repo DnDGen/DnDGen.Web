@@ -1,13 +1,14 @@
-﻿using Octokit;
+﻿using Ninject.Activation;
+using Octokit;
 using System;
 
-namespace DnDGen.Web.App_Start.Factories
+namespace DnDGen.Web.App_Start.Providers
 {
-    public static class GitHubClientFactory
+    class GitHubClientProvider : Provider<IGitHubClient>
     {
-        private const String EncryptedToken = "ae9fbb32fbfb3543e482e0ec8e6847524b73d345";
+        private const string EncryptedToken = "ae9fbb32fbfb3543e482e0ec8e6847524b73d345";
 
-        public static IGitHubClient Create()
+        protected override IGitHubClient CreateInstance(IContext context)
         {
             var productHeaderValue = new ProductHeaderValue("DnDGen");
             var githubClient = new GitHubClient(productHeaderValue);
@@ -18,11 +19,11 @@ namespace DnDGen.Web.App_Start.Factories
             return githubClient;
         }
 
-        private static String DecryptToken(String encryptedToken)
+        private static string DecryptToken(string encryptedToken)
         {
             var charArray = encryptedToken.ToCharArray();
             Array.Reverse(charArray);
-            return new String(charArray);
+            return new string(charArray);
         }
     }
 }

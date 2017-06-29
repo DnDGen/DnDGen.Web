@@ -15,30 +15,45 @@
             generateFollower: generateFollower
         };
 
-        function generate(leaderLevel, leaderCharismaBonus, leaderAnimal)
+        function generate(clientId, leaderLevel, leaderCharismaBonus, leaderAnimal)
         {
-            var url = "/Characters/Leadership/Generate?leaderLevel=" + leaderLevel;
-            url += "&leaderCharismaBonus=" + leaderCharismaBonus;
-            url += "&leaderAnimal=" + encodeURI(leaderAnimal);
+            var url = "/Characters/Leadership/Generate";
 
-            return promiseService.getPromise(url);
+            var parameters = {
+                clientId: clientId,
+                leaderLevel: leaderLevel,
+                leaderCharismaBonus: leaderCharismaBonus,
+                leaderAnimal: leaderAnimal,
+            };
+
+            return promiseService.getPromise(url, parameters);
         }
 
-        function generateCohort(leaderLevel, cohortScore, leaderAlignment, leaderClass) {
-            var url = "/Characters/Leadership/Cohort?leaderLevel=" + leaderLevel;
-            url += "&cohortScore=" + cohortScore;
-            url += "&leaderAlignment=" + encodeURI(leaderAlignment);
-            url += "&leaderClass=" + encodeURI(leaderClass);
+        function generateCohort(clientId, leaderLevel, cohortScore, leaderAlignment, leaderClass) {
+            var url = "/Characters/Leadership/Cohort";
 
-            return promiseService.getPromise(url);
+            var parameters = {
+                clientId: clientId,
+                leaderLevel: leaderLevel,
+                cohortScore: cohortScore,
+                leaderAlignment: leaderAlignment,
+                leaderClass: leaderClass,
+            };
+
+            return promiseService.getPromise(url, parameters);
         }
 
-        function generateFollower(followerLevel, leaderAlignment, leaderClass) {
-            var url = "/Characters/Leadership/Follower?followerLevel=" + followerLevel;
-            url += "&leaderAlignment=" + encodeURI(leaderAlignment);
-            url += "&leaderClass=" + encodeURI(leaderClass);
+        function generateFollower(clientId, followerLevel, leaderAlignment, leaderClass) {
+            var url = "/Characters/Leadership/Follower";
 
-            return promiseService.getPromise(url);
+            var parameters = {
+                clientId: clientId,
+                followerLevel: followerLevel,
+                leaderAlignment: leaderAlignment,
+                leaderClass: leaderClass,
+            };
+
+            return promiseService.getPromise(url, parameters);
         }
     };
 })();

@@ -66,9 +66,9 @@
             </div>
         </div>
         <div class="col-sm-6 clearfix" >
-            <button class="btn btn-lg pull-right" ng-show="vm.generating == false && vm.treasure.IsAny" ng-click="vm.download()">Download</button>
+            <button class="btn btn-lg pull-right" ng-show="!vm.generating && vm.treasure.IsAny" ng-click="vm.download()">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
-                <span>Generating...</span>
+                <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>
             <div ng-hide="vm.generating">
                 <span id="noTreasure" class="italicize" ng-hide="vm.treasure.IsAny">No treasure was generated</span>

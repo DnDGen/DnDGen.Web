@@ -4,6 +4,7 @@ using CharacterGen.Randomizers.Races;
 using CharacterGen.Verifiers;
 using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Repositories;
+using EventGen;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -17,13 +18,18 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
         private RandomizersController controller;
         private Mock<IRandomizerVerifier> mockRandomizerVerifier;
         private Mock<IRandomizerRepository> mockRandomizerRepository;
+        private Mock<ClientIDManager> mockClientIdManager;
+        private Guid clientId;
 
         [SetUp]
         public void Setup()
         {
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockRandomizerVerifier = new Mock<IRandomizerVerifier>();
-            controller = new RandomizersController(mockRandomizerRepository.Object, mockRandomizerVerifier.Object);
+            mockClientIdManager = new Mock<ClientIDManager>();
+            controller = new RandomizersController(mockRandomizerRepository.Object, mockRandomizerVerifier.Object, mockClientIdManager.Object);
+
+            clientId = Guid.NewGuid();
         }
 
         [Test]
@@ -36,15 +42,25 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
         [Test]
         public void VerifyReturnsJsonResult()
         {
-            var result = controller.Verify("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type");
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type");
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
         public void VerifyJsonResultAllowsGet()
         {
-            var result = controller.Verify("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type") as JsonResult;
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type") as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+        }
+
+        [Test]
+        public void VerifySetsClientId()
+        {
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type") as JsonResult;
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+
+            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
+            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
         }
 
         [Test]
@@ -65,7 +81,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
                 .Returns(true);
 
-            var result = controller.Verify("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace") as JsonResult;
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.compatible, Is.True);
         }
@@ -88,7 +104,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
                 .Returns(false);
 
-            var result = controller.Verify("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace") as JsonResult;
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.compatible, Is.False);
         }
@@ -102,16 +118,16 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
             var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", String.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", String.Empty)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", String.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, String.Empty)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
 
             mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
                 .Returns(true);
 
-            var result = controller.Verify("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type") as JsonResult;
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type") as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.compatible, Is.True);
         }

@@ -1,39 +1,38 @@
-﻿using DnDGen.Web.Models;
+﻿using DnDGen.Web.Helpers;
+using DnDGen.Web.Models;
 using DungeonGen;
-using EncounterGen.Common;
+using EncounterGen.Generators;
+using EventGen;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
     public class DungeonController : Controller
     {
-        private IDungeonGenerator dungeonGenerator;
+        private readonly IDungeonGenerator dungeonGenerator;
+        private readonly ClientIDManager clientIdManager;
 
-        public DungeonController(IDungeonGenerator dungeonGenerator)
+        public DungeonController(IDungeonGenerator dungeonGenerator, ClientIDManager clientIdManager)
         {
             this.dungeonGenerator = dungeonGenerator;
+            this.clientIdManager = clientIdManager;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var model = new DungeonViewModel();
-            model.Temperatures = new[]
-            {
-                EnvironmentConstants.Temperatures.Cold,
-                EnvironmentConstants.Temperatures.Temperate,
-                EnvironmentConstants.Temperatures.Warm
-            };
-
+            var model = new EncounterViewModel();
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult GenerateFromHall(int dungeonLevel, int partyLevel, string temperature)
+        public JsonResult GenerateFromHall(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
         {
-            var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, partyLevel, temperature);
+            clientIdManager.SetClientID(clientId);
+
+            var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
             return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
@@ -47,8 +46,7 @@ namespace DnDGen.Web.Controllers
                 {
                     foreach (var character in encounter.Characters)
                     {
-                        character.Ability.Feats = character.Ability.Feats.OrderBy(f => f.Name);
-                        character.Ability.Skills = character.Ability.Skills.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                        character.Skills = CharacterHelper.SortSkills(character.Skills);
                     }
                 }
 
@@ -56,8 +54,7 @@ namespace DnDGen.Web.Controllers
                 {
                     foreach (var character in area.Contents.Pool.Encounter.Characters)
                     {
-                        character.Ability.Feats = character.Ability.Feats.OrderBy(f => f.Name);
-                        character.Ability.Skills = character.Ability.Skills.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                        character.Skills = CharacterHelper.SortSkills(character.Skills);
                     }
                 }
             }
@@ -66,9 +63,11 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GenerateFromDoor(int dungeonLevel, int partyLevel, string temperature)
+        public JsonResult GenerateFromDoor(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
         {
-            var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, partyLevel, temperature);
+            clientIdManager.SetClientID(clientId);
+
+            var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
             return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);

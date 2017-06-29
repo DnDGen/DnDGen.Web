@@ -87,53 +87,54 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="statsRandomizerTypes" class="col-sm-4 control-label">Stats Randomizer:</label>
+                    <label for="abilitiesRandomizerType" class="col-sm-4 control-label">Abilities Randomizer:</label>
                     <div class="col-sm-4">
-                        <select id="statsRandomizerTypes" class="form-control" ng-model="vm.statsRandomizerType" ng-options="statsRandomizerType for statsRandomizerType in vm.characterModel.StatsRandomizerTypes" required></select>
+                        <select id="abilitiesRandomizerType" class="form-control" ng-model="vm.abilitiesRandomizerType" ng-options="abilitiesRandomizerType for abilitiesRandomizerType in vm.characterModel.AbilitiesRandomizerTypes" required></select>
                     </div>
                     <div class="col-sm-4">
-                        <div class="checkbox-inline" ng-show="vm.statsRandomizerType == 'Set'">
+                        <div class="checkbox-inline" ng-show="vm.abilitiesRandomizerType == 'Set'">
                             <label>
-                                <input type="checkbox" ng-model="vm.allowStatsAdjustments"> Allow Adjustments
+                                <input type="checkbox" ng-model="vm.allowAbilitiesAdjustments"> Allow Adjustments
                             </label>
                         </div>
                     </div>
                 </div>
-                <div class="form-group" ng-show="vm.statsRandomizerType == 'Set'">
+                <div class="form-group" ng-show="vm.abilitiesRandomizerType == 'Set'">
                     <label for="setStrength" class="col-sm-2 control-label">Strength:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setStrength" class="form-control" type="number" min="0" ng-model="vm.setStrength" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setStrength" class="form-control" type="number" min="0" ng-model="vm.setStrength" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                     <label for="setConstitution" class="col-sm-2 control-label">Constitution:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setConstitution" class="form-control" type="number" min="0" ng-model="vm.setConstitution" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setConstitution" class="form-control" type="number" min="0" ng-model="vm.setConstitution" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                     <label for="setDexterity" class="col-sm-2 control-label">Dexterity:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setDexterity" class="form-control" type="number" min="0" ng-model="vm.setDexterity" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setDexterity" class="form-control" type="number" min="0" ng-model="vm.setDexterity" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                 </div>
-                <div class="form-group" ng-show="vm.statsRandomizerType == 'Set'">
+                <div class="form-group" ng-show="vm.abilitiesRandomizerType == 'Set'">
                     <label for="setIntelligence" class="col-sm-2 control-label">Intelligence:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setIntelligence" class="form-control" type="number" min="0" ng-model="vm.setIntelligence" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setIntelligence" class="form-control" type="number" min="0" ng-model="vm.setIntelligence" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                     <label for="setWisdom" class="col-sm-2 control-label">Wisdom:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setWisdom" class="form-control" type="number" min="0" ng-model="vm.setWisdom" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setWisdom" class="form-control" type="number" min="0" ng-model="vm.setWisdom" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                     <label for="setCharisma" class="col-sm-2 control-label">Charisma:</label>
                     <div class="col-sm-2">
-                        <input dndgen-no-decimals id="setCharisma" class="form-control" type="number" min="0" ng-model="vm.setCharisma" ng-required="vm.statsRandomizerType == 'Set'" />
+                        <input dndgen-no-decimals id="setCharisma" class="form-control" type="number" min="0" ng-model="vm.setCharisma" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                 </div>
                 <button id="generateButton" type="button" class="btn btn-success center-block" ng-click="vm.generate()" ng-disabled="characterForm.$invalid || vm.generating || vm.verifying || vm.compatible == false">Generate</button>
             </form>
         </div>
         <div class="col-sm-6 clearfix">
-            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="vm.generating == false && vm.character">Download</button>
+            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="!vm.generating && vm.character">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <span>{{vm.generatingMessage}}</span>
+                <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>
             <div ng-hide="vm.generating">
                 <span id="noCharacter" class="italicize" ng-hide="vm.character">No character has been generated</span>

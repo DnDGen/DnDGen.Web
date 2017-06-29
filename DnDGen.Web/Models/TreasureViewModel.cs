@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using TreasureGen.Items;
 
 namespace DnDGen.Web.Models
 {
@@ -11,8 +11,88 @@ namespace DnDGen.Web.Models
 
         public TreasureViewModel()
         {
-            TreasureTypes = Enumerable.Empty<string>();
-            ItemPowers = new Dictionary<string, IEnumerable<string>>();
+            MaxTreasureLevel = 30;
+            TreasureTypes = new[] { "Treasure", "Coin", "Goods", "Items" };
+            ItemPowers = GetPowers();
+        }
+
+        private Dictionary<string, IEnumerable<string>> GetPowers()
+        {
+            var powers = new Dictionary<string, IEnumerable<string>>();
+            powers[ItemTypeConstants.AlchemicalItem] = new[]
+            {
+                PowerConstants.Mundane
+            };
+
+            powers[ItemTypeConstants.Armor] = new[]
+            {
+                PowerConstants.Mundane,
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Potion] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Ring] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Rod] = new[]
+            {
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Scroll] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Staff] = new[]
+            {
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Tool] = new[]
+            {
+                PowerConstants.Mundane
+            };
+
+            powers[ItemTypeConstants.Wand] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.Weapon] = new[]
+            {
+                PowerConstants.Mundane,
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            powers[ItemTypeConstants.WondrousItem] = new[]
+            {
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+
+            return powers;
         }
     }
 }

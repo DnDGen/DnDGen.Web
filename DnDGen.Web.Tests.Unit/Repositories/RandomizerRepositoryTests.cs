@@ -1,8 +1,8 @@
 ﻿using CharacterGen.Alignments;
+using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
@@ -15,12 +15,12 @@ namespace DnDGen.Web.Tests.Unit.Repositories
     public class RandomizerRepositoryTests
     {
         private IRandomizerRepository randomizerRepository;
-        private Mock<RuntimeFactory> mockRuntimeFactory;
+        private Mock<JustInTimeFactory> mockRuntimeFactory;
 
         [SetUp]
         public void Setup()
         {
-            mockRuntimeFactory = new Mock<RuntimeFactory>();
+            mockRuntimeFactory = new Mock<JustInTimeFactory>();
             randomizerRepository = new RandomizerRepository(mockRuntimeFactory.Object);
         }
 
@@ -262,31 +262,31 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void GetStatsRandomizer()
         {
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-            mockRuntimeFactory.Setup(f => f.Create<IStatsRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
+            var mockStatsRandomizer = new Mock<IAbilitiesRandomizer>();
+            mockRuntimeFactory.Setup(f => f.Create<IAbilitiesRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
 
-            var mockSetStatsRandomizer = new Mock<ISetStatsRandomizer>();
+            var mockSetStatsRandomizer = new Mock<ISetAbilitiesRandomizer>();
             mockSetStatsRandomizer.SetupAllProperties();
-            mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
+            mockRuntimeFactory.Setup(f => f.Create<ISetAbilitiesRandomizer>()).Returns(mockSetStatsRandomizer.Object);
 
-            var statsRandomizer = randomizerRepository.GetStatsRandomizer("stat randomizer type", 90210, 42, 600, 1337, 12345, 23456, true);
+            var statsRandomizer = randomizerRepository.GetAbilitiesRandomizer("stat randomizer type", 90210, 42, 600, 1337, 12345, 23456, true);
             Assert.That(statsRandomizer, Is.EqualTo(mockStatsRandomizer.Object));
         }
 
         [Test]
         public void GetSetStatsRandomizer()
         {
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-            mockRuntimeFactory.Setup(f => f.Create<IStatsRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
+            var mockStatsRandomizer = new Mock<IAbilitiesRandomizer>();
+            mockRuntimeFactory.Setup(f => f.Create<IAbilitiesRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
 
-            var mockSetStatsRandomizer = new Mock<ISetStatsRandomizer>();
+            var mockSetStatsRandomizer = new Mock<ISetAbilitiesRandomizer>();
             mockSetStatsRandomizer.SetupAllProperties();
-            mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
+            mockRuntimeFactory.Setup(f => f.Create<ISetAbilitiesRandomizer>()).Returns(mockSetStatsRandomizer.Object);
 
-            var statsRandomizer = randomizerRepository.GetStatsRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, true);
+            var statsRandomizer = randomizerRepository.GetAbilitiesRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, true);
             Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
 
-            var setStatsRandomizer = statsRandomizer as ISetStatsRandomizer;
+            var setStatsRandomizer = statsRandomizer as ISetAbilitiesRandomizer;
             Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
             Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
             Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
@@ -299,17 +299,17 @@ namespace DnDGen.Web.Tests.Unit.Repositories
         [Test]
         public void GetSetStatsRandomizerNotAllowingAdjustments()
         {
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-            mockRuntimeFactory.Setup(f => f.Create<IStatsRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
+            var mockStatsRandomizer = new Mock<IAbilitiesRandomizer>();
+            mockRuntimeFactory.Setup(f => f.Create<IAbilitiesRandomizer>("stat randomizer type")).Returns(mockStatsRandomizer.Object);
 
-            var mockSetStatsRandomizer = new Mock<ISetStatsRandomizer>();
+            var mockSetStatsRandomizer = new Mock<ISetAbilitiesRandomizer>();
             mockSetStatsRandomizer.SetupAllProperties();
-            mockRuntimeFactory.Setup(f => f.Create<ISetStatsRandomizer>()).Returns(mockSetStatsRandomizer.Object);
+            mockRuntimeFactory.Setup(f => f.Create<ISetAbilitiesRandomizer>()).Returns(mockSetStatsRandomizer.Object);
 
-            var statsRandomizer = randomizerRepository.GetStatsRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, false);
+            var statsRandomizer = randomizerRepository.GetAbilitiesRandomizer(RandomizerTypeConstants.Set, 90210, 42, 600, 1337, 12345, 23456, false);
             Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
 
-            var setStatsRandomizer = statsRandomizer as ISetStatsRandomizer;
+            var setStatsRandomizer = statsRandomizer as ISetAbilitiesRandomizer;
             Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
             Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
             Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));

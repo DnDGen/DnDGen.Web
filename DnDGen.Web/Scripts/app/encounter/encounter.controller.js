@@ -5,9 +5,9 @@
         .module('app.encounter')
         .controller('Encounter', Encounter);
 
-    Encounter.$inject = ['$scope', 'model', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService'];
+    Encounter.$inject = ['$scope', 'model', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService', 'eventService'];
 
-    function Encounter($scope, model, encounterService, sweetAlertService, fileSaverService, encounterFormatterService) {
+    function Encounter($scope, model, encounterService, sweetAlertService, fileSaverService, encounterFormatterService, eventService) {
         var vm = this;
         vm.encounterModel = model;
 
@@ -15,11 +15,13 @@
         vm.environment = vm.encounterModel.Environments[0];
         vm.temperature = vm.encounterModel.Temperatures[0];
         vm.timeOfDay = vm.encounterModel.TimesOfDay[0];
+        vm.allowAquatic = false;
+        vm.allowUnderground = false;
         vm.encounter = null;
         vm.generating = false;
         vm.validating = false;
         vm.filtersAreValid = true;
-
+        vm.clientId = '';
         vm.creatureTypeFilters = [];
 
         for (var i = 0; i < vm.encounterModel.CreatureTypes.length; i++) {
@@ -33,8 +35,12 @@
             vm.generating = true;
             var checkedFilters = getCheckedFilters();
 
-            encounterService.getEncounter(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
-                .then(setEncounter, handleError);
+            eventService.getClientId().then(function (response) {
+                vm.clientId = response.data.clientId;
+
+                encounterService.getEncounter(vm.clientId, vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters, vm.allowAquatic, vm.allowUnderground)
+                    .then(setEncounter, handleError);
+            });
         };
 
         function getCheckedFilters() {
@@ -49,8 +55,8 @@
             return checkedFilters;
         }
 
-        function setEncounter(data) {
-            vm.encounter = data.encounter;
+        function setEncounter(response) {
+            vm.encounter = response.data.encounter;
             vm.generating = false;
         }
 
@@ -74,16 +80,25 @@
             vm.validating = true;
             var checkedFilters = getCheckedFilters();
 
-            encounterService.validateFilters(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
-                .then(function (data) {
-                    vm.filtersAreValid = data.isValid;
-                    vm.validating = false;
-                }, handleError);
+            eventService.getClientId().then(function (response) {
+                vm.clientId = response.data.clientId;
+
+                encounterService.validateFilters(vm.clientId, vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
+                    .then(function (response) {
+                        vm.filtersAreValid = response.data.isValid;
+                        vm.validating = false;
+                    }, handleError)
+                    .then(function () {
+                        eventService.clearEvents(vm.clientId);
+                    });
+            });
         }
 
         $scope.$watch('vm.environment', validateFilters, true);
         $scope.$watch('vm.temperature', validateFilters, true);
         $scope.$watch('vm.timeOfDay', validateFilters, true);
+        $scope.$watch('vm.allowAquatic', validateFilters, true);
+        $scope.$watch('vm.allowUnderground', validateFilters, true);
 
         $scope.$watch('vm.level', validateFilters);
     };

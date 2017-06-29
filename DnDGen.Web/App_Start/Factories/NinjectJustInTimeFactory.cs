@@ -1,13 +1,12 @@
 ﻿using Ninject;
-using System;
 
 namespace DnDGen.Web.App_Start.Factories
 {
-    public class NinjectRuntimeFactory : RuntimeFactory
+    public class NinjectJustInTimeFactory : JustInTimeFactory
     {
         private IKernel kernel;
 
-        public NinjectRuntimeFactory(IKernel kernel)
+        public NinjectJustInTimeFactory(IKernel kernel)
         {
             this.kernel = kernel;
         }
@@ -17,7 +16,7 @@ namespace DnDGen.Web.App_Start.Factories
             return kernel.Get<T>();
         }
 
-        public T Create<T>(String name)
+        public T Create<T>(string name)
         {
             return kernel.Get<T>(name);
         }

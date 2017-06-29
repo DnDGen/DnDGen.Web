@@ -5,9 +5,9 @@
         .module('app.treasure')
         .controller('Treasure', Treasure);
 
-    Treasure.$inject = ['$scope', 'model', 'treasureService', 'sweetAlertService', 'fileSaverService', 'treasureFormatterService'];
+    Treasure.$inject = ['$scope', 'model', 'treasureService', 'sweetAlertService', 'fileSaverService', 'treasureFormatterService', 'eventService'];
 
-    function Treasure($scope, model, treasureService, sweetAlertService, fileSaverService, treasureFormatterService) {
+    function Treasure($scope, model, treasureService, sweetAlertService, fileSaverService, treasureFormatterService, eventService) {
         var vm = this;
         vm.treasureModel = model;
 
@@ -19,16 +19,21 @@
         vm.itemType = vm.itemTypes[0];
         vm.powers = vm.treasureModel.ItemPowers[vm.itemType];
         vm.power = vm.powers[0];
+        vm.clientId = '';
 
         vm.generateTreasure = function () {
             vm.generating = true;
 
-            treasureService.getTreasure(vm.treasureType, vm.level)
-                .then(setTreasure, handleError);
+            eventService.getClientId().then(function (response) {
+                vm.clientId = response.data.clientId;
+
+                treasureService.getTreasure(vm.clientId, vm.treasureType, vm.level)
+                    .then(setTreasure, handleError);
+            }, handleError);
         };
 
-        function setTreasure(data) {
-            vm.treasure = data.treasure;
+        function setTreasure(response) {
+            vm.treasure = response.data.treasure;
             vm.generating = false;
         }
 
@@ -40,8 +45,13 @@
 
         vm.generateItem = function () {
             vm.generating = true;
-            treasureService.getItem(vm.itemType, vm.power)
-                .then(setTreasure, handleError);
+
+            eventService.getClientId().then(function (response) {
+                vm.clientId = response.data.clientId;
+
+                treasureService.getItem(vm.clientId, vm.itemType, vm.power)
+                    .then(setTreasure, handleError);
+            }, handleError);
         };
 
         $scope.$watch('vm.itemType', function (newValue, oldValue) {

@@ -63,6 +63,28 @@
                     </ul>
                 </dndgen-collapsable-list>
             </li>
+            <li ng-show="item.TotalArmorBonus">
+                <dndgen-collapsable-list heading="Armor" has-list="true">
+                    <ul>
+                        <li>Size: {{item.Size}}</li>
+                        <li>Armor Bonus: {{item.TotalArmorBonus}}</li>
+                        <li>Armor Check Penalty: {{item.TotalArmorCheckPenalty}}</li>
+                        <li ng-show="item.TotalMaxDexterityBonus < 100">Max Dexterity Bonus: {{item.TotalMaxDexterityBonus}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="item.Damage">
+                <dndgen-collapsable-list heading="Weapon" has-list="true">
+                    <ul>
+                        <li>Size: {{item.Size}}</li>
+                        <li>Damage: {{item.Damage}}</li>
+                        <li>Damage Type: {{item.DamageType}}</li>
+                        <li>Threat Range: {{item.ThreatRange}}</li>
+                        <li>Critical Multiplier: {{item.CriticalMultiplier}}</li>
+                        <li ng-show="item.Ammunition">Ammunition Used: {{item.Ammunition}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
         </ul>
     </dndgen-collapsable-list>
 </div>

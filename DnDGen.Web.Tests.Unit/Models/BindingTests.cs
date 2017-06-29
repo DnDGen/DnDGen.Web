@@ -1,10 +1,12 @@
-﻿using CharacterGen;
-using CharacterGen.Abilities.Feats;
-using CharacterGen.Abilities.Skills;
-using CharacterGen.Abilities.Stats;
+﻿using CharacterGen.Abilities;
+using CharacterGen.Characters;
+using CharacterGen.Feats;
+using CharacterGen.Leaders;
 using CharacterGen.Magics;
+using CharacterGen.Skills;
 using DungeonGen;
 using EncounterGen.Common;
+using EncounterGen.Generators;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -34,8 +36,8 @@ namespace DnDGen.Web.Tests.Unit.Models
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
             var target = File.ReadAllText(path);
             //INFO: Removes whitespace from the file.  Whitespace is there for readability in file, but breaks the equality assertion
-            target = Regex.Replace(target, @"\s+", "");
-            target = target.Replace(@"""Full"":""""", @"""Full"":"" """);
+            target = Regex.Replace(target, @"\s+", string.Empty);
+            serialized = Regex.Replace(serialized, @"\s+", string.Empty);
 
             Assert.That(target, Is.EqualTo(serialized));
         }
@@ -52,6 +54,20 @@ namespace DnDGen.Web.Tests.Unit.Models
         {
             var item = new Item();
             AssertJsonCorrect(item, "item");
+        }
+
+        [Test]
+        public void ArmorBinding()
+        {
+            var armor = new Armor();
+            AssertJsonCorrect(armor, "armor");
+        }
+
+        [Test]
+        public void WeaponBinding()
+        {
+            var weapon = new Weapon();
+            AssertJsonCorrect(weapon, "weapon");
         }
 
         [Test]
@@ -78,16 +94,16 @@ namespace DnDGen.Web.Tests.Unit.Models
         [Test]
         public void SkillBinding()
         {
-            var stat = new Stat(string.Empty);
-            var skill = new Skill(string.Empty, stat, 0);
+            var ability = new Ability(string.Empty);
+            var skill = new Skill(string.Empty, ability, 0);
             AssertJsonCorrect(skill, "skill");
         }
 
         [Test]
-        public void StatBinding()
+        public void AbilityBinding()
         {
-            var stat = new Stat(string.Empty);
-            AssertJsonCorrect(stat, "stat");
+            var ability = new Ability(string.Empty);
+            AssertJsonCorrect(ability, "ability");
         }
 
         [Test]
@@ -116,6 +132,13 @@ namespace DnDGen.Web.Tests.Unit.Models
         {
             var encounter = new Encounter();
             AssertJsonCorrect(encounter, "encounter");
+        }
+
+        [Test]
+        public void EncounterSpecificationBinding()
+        {
+            var encounterSpecifications = new EncounterSpecifications();
+            AssertJsonCorrect(encounterSpecifications, "encounterSpecifications");
         }
 
         [Test]

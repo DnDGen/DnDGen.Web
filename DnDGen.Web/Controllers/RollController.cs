@@ -5,7 +5,7 @@ namespace DnDGen.Web.Controllers
 {
     public class RollController : Controller
     {
-        private Dice dice;
+        private readonly Dice dice;
 
         public RollController(Dice dice)
         {

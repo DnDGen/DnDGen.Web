@@ -1,12 +1,14 @@
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DnDGen.Web.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(DnDGen.Web.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(DnDGen.Web.App_Start.NinjectWebCommon), "Stop")]
 
 namespace DnDGen.Web.App_Start
 {
     using CharacterGen.Domain.IoC;
     using DungeonGen.Domain.IoC;
     using EncounterGen.Domain.IoC;
+    using EventGen.IoC;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    using Modules;
     using Ninject;
     using Ninject.Web.Common;
     using RollGen.Domain.IoC;
@@ -66,6 +68,9 @@ namespace DnDGen.Web.App_Start
         {
             var rollGenLoader = new RollGenModuleLoader();
             rollGenLoader.LoadModules(kernel);
+
+            var eventGenLoader = new EventGenModuleLoader();
+            eventGenLoader.LoadModules(kernel);
 
             var treasureGenLoader = new TreasureGenModuleLoader();
             treasureGenLoader.LoadModules(kernel);

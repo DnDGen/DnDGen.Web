@@ -13,21 +13,27 @@
             getDungeonAreasFromDoor: getDungeonAreasFromDoor
         };
 
-        function getDungeonAreasFromHall(dungeonLevel, partyLevel, temperature) {
-            var parameters = getParameters(dungeonLevel, partyLevel, temperature);
+        function getDungeonAreasFromHall(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var parameters = getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
             return promiseService.getPromise('/Dungeon/GenerateFromHall', parameters);
         }
 
-        function getParameters(dungeonLevel, partyLevel, temperature) {
+        function getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
             return {
+                clientId: clientId,
                 dungeonLevel: dungeonLevel,
-                partyLevel: partyLevel,
-                temperature: temperature
+                environment: environment,
+                temperature: temperature,
+                timeOfDay: timeOfDay,
+                level: level,
+                creatureTypeFilters: filters,
+                allowAquatic: allowAquatic,
+                allowUnderground: allowUnderground,
             };
         }
 
-        function getDungeonAreasFromDoor(dungeonLevel, partyLevel, temperature) {
-            var parameters = getParameters(dungeonLevel, partyLevel, temperature);
+        function getDungeonAreasFromDoor(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var parameters = getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
             return promiseService.getPromise('/Dungeon/GenerateFromDoor', parameters);
         }
     };

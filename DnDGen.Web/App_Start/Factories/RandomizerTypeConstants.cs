@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace DnDGen.Web.App_Start.Factories
+﻿namespace DnDGen.Web.App_Start.Factories
 {
     public static class RandomizerTypeConstants
     {
-        public const String Set = "Set";
+        public const string Set = "Set";
     }
 }

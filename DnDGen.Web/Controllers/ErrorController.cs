@@ -5,7 +5,7 @@ namespace DnDGen.Web.Controllers
 {
     public class ErrorController : Controller
     {
-        private ErrorRepository errorRepository;
+        private readonly ErrorRepository errorRepository;
 
         public ErrorController(ErrorRepository errorRepository)
         {

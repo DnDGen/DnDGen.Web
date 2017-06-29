@@ -431,6 +431,123 @@ describe('Treasure Formatter Service', function () {
         expect(lines.length).toBe(3);
     });
 
+    it('formats armor', function () {
+        var armor = getMock('armor');
+        armor.Name = "armor name";
+        armor.TotalArmorBonus = 9266;
+        armor.TotalArmorCheckPenalty = -90210;
+        armor.TotalMaxDexterityBonus = 42;
+        armor.Size = "armor size";
+
+        var formattedItem = treasureFormatterService.formatItem(armor);
+        var lines = formattedItem.split('\r\n');
+
+        var expected = [
+            'armor name',
+            '\t' + 'Armor:',
+            '\t\t' + 'Size: armor size',
+            '\t\t' + 'Armor Bonus: 9266',
+            '\t\t' + 'Armor Check Penalty: -90210',
+            '\t\t' + 'Max Dexterity Bonus: 42',
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats armor with no max dexterity limitation', function () {
+        var armor = getMock('armor');
+        armor.Name = "armor name";
+        armor.TotalArmorBonus = 9266;
+        armor.TotalArmorCheckPenalty = -90210;
+        armor.TotalMaxDexterityBonus = 9000;
+        armor.Size = "armor size";
+
+        var formattedItem = treasureFormatterService.formatItem(armor);
+        var lines = formattedItem.split('\r\n');
+
+        var expected = [
+            'armor name',
+            '\t' + 'Armor:',
+            '\t\t' + 'Size: armor size',
+            '\t\t' + 'Armor Bonus: 9266',
+            '\t\t' + 'Armor Check Penalty: -90210',
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats weapon', function () {
+        var weapon = getMock('weapon');
+        weapon.Name = "weapon name";
+        weapon.Size = "weapon size";
+        weapon.Damage = "weapon damage";
+        weapon.DamageType = "damage type";
+        weapon.ThreatRange = "threat range";
+        weapon.CriticalMultiplier = "over 9000";
+
+        var formattedItem = treasureFormatterService.formatItem(weapon);
+        var lines = formattedItem.split('\r\n');
+
+        var expected = [
+            'weapon name',
+            '\t' + 'Weapon:',
+            '\t\t' + 'Size: weapon size',
+            '\t\t' + 'Damage: weapon damage',
+            '\t\t' + 'Damage Type: damage type',
+            '\t\t' + 'Threat Range: threat range',
+            '\t\t' + 'Critical Multiplier: over 9000',
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
+    it('formats weapon requiring ammunition', function () {
+        var weapon = getMock('weapon');
+        weapon.Name = "weapon name";
+        weapon.Size = "weapon size";
+        weapon.Damage = "weapon damage";
+        weapon.DamageType = "damage type";
+        weapon.ThreatRange = "threat range";
+        weapon.CriticalMultiplier = "over 9000";
+        weapon.Ammunition = "needed ammo";
+
+        var formattedItem = treasureFormatterService.formatItem(weapon);
+        var lines = formattedItem.split('\r\n');
+
+        var expected = [
+            'weapon name',
+            '\t' + 'Weapon:',
+            '\t\t' + 'Size: weapon size',
+            '\t\t' + 'Damage: weapon damage',
+            '\t\t' + 'Damage Type: damage type',
+            '\t\t' + 'Threat Range: threat range',
+            '\t\t' + 'Critical Multiplier: over 9000',
+            '\t\t' + 'Ammunition Used: needed ammo',
+            '',
+        ];
+
+        for (var i = 0; i < lines.length; i++) {
+            expect(lines[i]).toBe(expected[i]);
+        }
+
+        expect(lines.length).toBe(expected.length);
+    });
+
     it('formats item intelligence', function () {
         item.Magic.Intelligence.Ego = 5;
         item.Magic.Intelligence.IntelligenceStat = 6;

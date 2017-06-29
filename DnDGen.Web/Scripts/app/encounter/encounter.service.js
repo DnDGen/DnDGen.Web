@@ -13,23 +13,26 @@
             validateFilters: validateFilters
         };
 
-        function getEncounter(environment, temperature, timeOfDay, level, filters) {
-            var parameters = getParameters(environment, temperature, timeOfDay, level, filters);
+        function getEncounter(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var parameters = getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
             return promiseService.getPromise('/Encounter/Generate', parameters);
         }
 
-        function getParameters(environment, temperature, timeOfDay, level, filters) {
+        function getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
             return {
+                clientId: clientId,
                 environment: environment,
                 temperature: temperature,
                 timeOfDay: timeOfDay,
                 level: level,
-                'filters': filters
+                creatureTypeFilters: filters,
+                allowAquatic: allowAquatic,
+                allowUnderground: allowUnderground,
             };
         }
 
-        function validateFilters(environment, temperature, timeOfDay, level, filters) {
-            var parameters = getParameters(environment, temperature, timeOfDay, level, filters);
+        function validateFilters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var parameters = getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
             return promiseService.getPromise('/Encounter/Validate', parameters);
         }
     };

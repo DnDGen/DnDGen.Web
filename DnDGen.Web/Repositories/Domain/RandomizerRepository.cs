@@ -1,17 +1,17 @@
 ﻿using CharacterGen.Alignments;
+using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 
 namespace DnDGen.Web.Repositories.Domain
 {
     public class RandomizerRepository : IRandomizerRepository
     {
-        private RuntimeFactory runtimeFactory;
+        private JustInTimeFactory runtimeFactory;
 
-        public RandomizerRepository(RuntimeFactory runtimeFactory)
+        public RandomizerRepository(JustInTimeFactory runtimeFactory)
         {
             this.runtimeFactory = runtimeFactory;
         }
@@ -82,12 +82,12 @@ namespace DnDGen.Web.Repositories.Domain
             return randomizer;
         }
 
-        public IStatsRandomizer GetStatsRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments)
+        public IAbilitiesRandomizer GetAbilitiesRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments)
         {
             if (statRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<IStatsRandomizer>(statRandomizerType);
+                return runtimeFactory.Create<IAbilitiesRandomizer>(statRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetStatsRandomizer>();
+            var setRandomizer = runtimeFactory.Create<ISetAbilitiesRandomizer>();
             setRandomizer.SetStrength = setStrength;
             setRandomizer.SetConstitution = setConstitution;
             setRandomizer.SetDexterity = setDexterity;

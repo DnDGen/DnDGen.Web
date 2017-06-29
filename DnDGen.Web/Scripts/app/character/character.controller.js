@@ -5,9 +5,9 @@
         .module('app.character')
         .controller('Character', Character);
 
-    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService', 'fileSaverService', 'characterFormatterService'];
+    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService', 'fileSaverService', 'characterFormatterService', 'eventService'];
 
-    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService, fileSaverService, characterFormatterService) {
+    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService, fileSaverService, characterFormatterService, eventService) {
         var vm = this;
         vm.characterModel = bootstrapData.characterModel;
         vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[0];
@@ -22,14 +22,14 @@
         vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[0];
         vm.forceMetarace = false;
         vm.setMetarace = vm.characterModel.Metaraces[0];
-        vm.statsRandomizerType = vm.characterModel.StatsRandomizerTypes[0];
+        vm.abilitiesRandomizerType = vm.characterModel.AbilitiesRandomizerTypes[0];
         vm.setStrength = 0;
         vm.setConstitution = 0;
         vm.setDexterity = 0;
         vm.setIntelligence = 0;
         vm.setWisdom = 0;
         vm.setCharisma = 0;
-        vm.allowStatsAdjustments = true;
+        vm.allowAbilitiesAdjustments = true;
         vm.character = null;
         vm.compatible = false;
         vm.verifying = false;
@@ -38,6 +38,7 @@
         vm.cohort = null;
         vm.followers = [];
         vm.generatingMessage = '';
+        vm.clientId = '';
 
         function verifyRandomizers() {
             vm.verifying = true;
@@ -47,46 +48,51 @@
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setStrength === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setStrength === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setConstitution === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setConstitution === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setDexterity === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setDexterity === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setIntelligence === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setIntelligence === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setWisdom === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setWisdom === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
-            if (vm.statsRandomizerType === 'Set' && vm.setCharisma === 0) {
+            if (vm.abilitiesRandomizerType === 'Set' && vm.setCharisma === 0) {
                 vm.compatible = false;
                 vm.verifying = false;
             }
 
             if (vm.verifying) {
-                randomizerService.verify(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace)
-                    .then(function (data) {
-                        vm.compatible = data.compatible;
-                    }, function () {
-                        sweetAlertService.showError();
-                        vm.compatible = false;
-                    }).then(function () {
-                        vm.verifying = false;
-                    });
+                eventService.getClientId().then(function (response) {
+                    vm.clientId = response.data.clientId;
+
+                    randomizerService.verify(vm.clientId, vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace)
+                        .then(function (response) {
+                            vm.compatible = response.data.compatible;
+                        }, function () {
+                            sweetAlertService.showError();
+                            vm.compatible = false;
+                        }).then(function () {
+                            vm.verifying = false;
+                            eventService.clearEvents(vm.clientId);
+                        });
+                });
             }
         }
 
@@ -101,26 +107,27 @@
 
             vm.generatingMessage = 'Generating character...';
 
-            characterService.generate(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace, vm.statsRandomizerType, vm.setStrength, vm.setConstitution, vm.setDexterity, vm.setIntelligence, vm.setWisdom, vm.setCharisma, vm.allowStatsAdjustments)
-                .then(function (data) {
-                    if (typeof data === 'string')
+            eventService.getClientId().then(function (response) {
+                vm.clientId = response.data.clientId;
+
+                characterService.generate(vm.clientId, vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace, vm.abilitiesRandomizerType, vm.setStrength, vm.setConstitution, vm.setDexterity, vm.setIntelligence, vm.setWisdom, vm.setCharisma, vm.allowAbilitiesAdjustments)
+                .then(function (response) {
+                    if (typeof response.data === 'string')
                         console.log(data);
 
-                    vm.character = data.character;
-                }, function () {
-                    sweetAlertService.showError();
-                }).then(function () {
+                    vm.character = response.data.character;
+                }, sweetAlertService.showError).then(function () {
                     if (vm.character && vm.character.IsLeader) {
                         vm.generatingMessage = 'Generating leadership...';
 
-                        leadershipService.generate(vm.character.Class.Level, vm.character.Ability.Stats.Charisma.Bonus, vm.character.Magic.Animal)
-                            .then(function (data) {
-                                vm.leadership = data.leadership;
+                        leadershipService.generate(vm.clientId, vm.character.Class.Level, vm.character.Abilities.Charisma.Bonus, vm.character.Magic.Animal)
+                            .then(function (response) {
+                                vm.leadership = response.data.leadership;
                             }).then(function () {
                                 vm.generatingMessage = 'Generating cohort...';
-                                return leadershipService.generateCohort(vm.character.Class.Level, vm.leadership.CohortScore, vm.character.Alignment.Full, vm.character.Class.Name)
-                            }).then(function (data) {
-                                vm.cohort = data.cohort;
+                                return leadershipService.generateCohort(vm.clientId, vm.character.Class.Level, vm.leadership.CohortScore, vm.character.Alignment.Full, vm.character.Class.Name)
+                            }).then(function (response) {
+                                vm.cohort = response.data.cohort;
                             }, function () {
                                 sweetAlertService.showError();
                             }).then(function () {
@@ -140,6 +147,7 @@
                         noLongerGenerating();
                     }
                 });
+            });
         };
 
         function noLongerGenerating() {
@@ -149,9 +157,9 @@
 
         function generateFollowers(level, amount) {
             for (var i = amount; i > 0; i--) {
-                leadershipService.generateFollower(level, vm.character.Alignment.Full, vm.character.Class.Name)
-                    .then(function (data) {
-                        vm.followers.push(data.follower);
+                leadershipService.generateFollower(vm.clientId, level, vm.character.Alignment.Full, vm.character.Class.Name)
+                    .then(function (response) {
+                        vm.followers.push(response.data.follower);
                     }, function () {
                         sweetAlertService.showError();
                     });
@@ -206,7 +214,7 @@
             verifyRandomizers();
         });
 
-        $scope.$watch('vm.statsRandomizerType', function (newValue, oldValue) {
+        $scope.$watch('vm.abilitiesRandomizerType', function (newValue, oldValue) {
             verifyRandomizers();
         });
 

@@ -1,19 +1,20 @@
-﻿using CharacterGen;
-using CharacterGen.Abilities.Feats;
-using CharacterGen.Abilities.Skills;
-using CharacterGen.Abilities.Stats;
+﻿using CharacterGen.Abilities;
 using CharacterGen.CharacterClasses;
+using CharacterGen.Characters;
 using CharacterGen.Races;
+using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Randomizers.Stats;
+using CharacterGen.Skills;
 using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
+using EventGen;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -25,13 +26,69 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         private CharacterController controller;
         private Mock<ICharacterGenerator> mockCharacterGenerator;
         private Mock<IRandomizerRepository> mockRandomizerRepository;
+        private Mock<ClientIDManager> mockClientIdManager;
+        private CharacterSpecifications characterSpecifications;
+        private Guid clientId;
+        private Character character;
 
         [SetUp]
         public void Setup()
         {
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockCharacterGenerator = new Mock<ICharacterGenerator>();
-            controller = new CharacterController(mockRandomizerRepository.Object, mockCharacterGenerator.Object);
+            mockClientIdManager = new Mock<ClientIDManager>();
+            controller = new CharacterController(mockRandomizerRepository.Object, mockCharacterGenerator.Object, mockClientIdManager.Object);
+            characterSpecifications = new CharacterSpecifications();
+
+            characterSpecifications.AbilitiesRandomizerType = "abilities randomizer type";
+            characterSpecifications.AlignmentRandomizerType = "alignment randomizer type";
+            characterSpecifications.BaseRaceRandomizerType = "base race randomizer type";
+            characterSpecifications.ClassNameRandomizerType = "class name randomizer type";
+            characterSpecifications.LevelRandomizerType = "level randomizer type";
+            characterSpecifications.MetaraceRandomizerType = "metarace randomizer type";
+            characterSpecifications.SetAlignment = "set alignment";
+            characterSpecifications.SetBaseRace = "set base race";
+            characterSpecifications.SetCharisma = 9266;
+            characterSpecifications.SetClassName = "set class name";
+            characterSpecifications.SetConstitution = 90210;
+            characterSpecifications.SetDexterity = 42;
+            characterSpecifications.SetIntelligence = 600;
+            characterSpecifications.SetLevel = 1337;
+            characterSpecifications.SetMetarace = "set metarace";
+            characterSpecifications.SetStrength = 1234;
+            characterSpecifications.SetWisdom = 2345;
+
+            clientId = Guid.NewGuid();
+
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+            var mockAbilitiesRandomizer = new Mock<IAbilitiesRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment)).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName)).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel, characterSpecifications.AllowLevelAdjustments)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace)).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer(characterSpecifications.MetaraceRandomizerType, characterSpecifications.ForceMetarace, characterSpecifications.SetMetarace)).Returns(mockMetaraceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetAbilitiesRandomizer(
+                characterSpecifications.AbilitiesRandomizerType,
+                characterSpecifications.SetStrength,
+                characterSpecifications.SetConstitution,
+                characterSpecifications.SetDexterity,
+                characterSpecifications.SetIntelligence,
+                characterSpecifications.SetWisdom,
+                characterSpecifications.SetCharisma,
+                characterSpecifications.AllowAbilityAdjustments)).Returns(mockAbilitiesRandomizer.Object);
+
+            character = new Character();
+            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object,
+                mockClassNameRandomizer.Object,
+                mockLevelRandomizer.Object,
+                mockBaseRaceRandomizer.Object,
+                mockMetaraceRandomizer.Object,
+                mockAbilitiesRandomizer.Object)).Returns(character);
         }
 
         [TestCase("Index")]
@@ -100,12 +157,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var model = result.Model as CharacterViewModel;
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.AnyNPC));
-            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Healer));
-            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Mage));
+            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.DivineSpellcaster));
+            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.ArcaneSpellcaster));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.NonSpellcaster));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Spellcaster));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Stealth));
-            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.Warrior));
+            Assert.That(model.ClassNameRandomizerTypes, Contains.Item(ClassNameRandomizerTypeConstants.PhysicalCombat));
             Assert.That(model.ClassNameRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
             Assert.That(model.ClassNameRandomizerTypes.Count(), Is.EqualTo(9));
         }
@@ -154,16 +211,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterViewModel;
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.AnyBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.EvilBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.GoodBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NeutralBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NonEvilBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NonGoodBase));
-            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NonNeutralBase));
+            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.AquaticBase));
+            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.MonsterBase));
+            Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase));
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.NonStandardBase));
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.BaseRace.StandardBase));
             Assert.That(model.BaseRaceRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
-            Assert.That(model.BaseRaceRandomizerTypes.Count(), Is.EqualTo(10));
+            Assert.That(model.BaseRaceRandomizerTypes.Count(), Is.EqualTo(7));
         }
 
         [Test]
@@ -172,40 +226,75 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterViewModel;
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Aasimar));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.AquaticElf));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Azer));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.BlueSlaad));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Bugbear));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Centaur));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.CloudGiant));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.DeathSlaad));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.DeepDwarf));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.DeepHalfling));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Derro));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Doppelganger));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Drow));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.DuergarDwarf));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.FireGiant));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.ForestGnome));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.FrostGiant));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Gargoyle));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Githyanki));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Githzerai));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Gnoll));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Goblin));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.GrayElf));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.GraySlaad));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.GreenSlaad));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Grimlock));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HalfElf));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HalfOrc));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Harpy));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HighElf));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HillDwarf));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HillGiant));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Hobgoblin));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.HoundArchon));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Human));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Janni));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Kapoacinth));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Kobold));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.KuoToa));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.LightfootHalfling));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Lizardfolk));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Locathah));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Merfolk));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Merrow));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.MindFlayer));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Minotaur));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.MountainDwarf));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Ogre));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.OgreMage));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Orc));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Pixie));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Rakshasa));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.RedSlaad));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.RockGnome));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Sahuagin));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Satyr));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Scorpionfolk));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Scrag));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.StoneGiant));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.StormGiant));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Svirfneblin));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.TallfellowHalfling));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Tiefling));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.Troglodyte));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.WildElf));
             Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.WoodElf));
-            Assert.That(model.BaseRaces.Count(), Is.EqualTo(34));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.YuanTiAbomination));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.YuanTiHalfblood));
+            Assert.That(model.BaseRaces, Contains.Item(RaceConstants.BaseRaces.YuanTiPureblood));
+            Assert.That(model.BaseRaces.Count(), Is.EqualTo(70));
         }
 
         [Test]
@@ -214,18 +303,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterViewModel;
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.AnyMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.EvilMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.GeneticMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.GoodMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.NeutralMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.NoMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.NonEvilMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.NonGoodMeta));
-            Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.NonNeutralMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RaceRandomizerTypeConstants.Metarace.UndeadMeta));
             Assert.That(model.MetaraceRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
-            Assert.That(model.MetaraceRandomizerTypes.Count(), Is.EqualTo(12));
+            Assert.That(model.MetaraceRandomizerTypes.Count(), Is.EqualTo(6));
         }
 
         [Test]
@@ -233,18 +316,19 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterViewModel;
+            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Ghost));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfCelestial));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfDragon));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.HalfFiend));
+            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Lich));
+            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Mummy));
+            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Vampire));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Werebear));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Wereboar));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Wererat));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Weretiger));
             Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Werewolf));
-            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Ghost));
-            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Lich));
-            Assert.That(model.Metaraces, Contains.Item(RaceConstants.Metaraces.Vampire));
-            Assert.That(model.Metaraces.Count(), Is.EqualTo(11));
+            Assert.That(model.Metaraces.Count(), Is.EqualTo(12));
         }
 
         [Test]
@@ -252,16 +336,16 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var result = controller.Index() as ViewResult;
             var model = result.Model as CharacterViewModel;
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Average));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.BestOfFour));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Good));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Heroic));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.OnesAsSixes));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Poor));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.Raw));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(StatsRandomizerTypeConstants.TwoTenSidedDice));
-            Assert.That(model.StatsRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
-            Assert.That(model.StatsRandomizerTypes.Count(), Is.EqualTo(9));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.Average));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.BestOfFour));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.Good));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.Heroic));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.OnesAsSixes));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.Poor));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.Raw));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(AbilitiesRandomizerTypeConstants.TwoTenSidedDice));
+            Assert.That(model.AbilitiesRandomizerTypes, Contains.Item(RandomizerTypeConstants.Set));
+            Assert.That(model.AbilitiesRandomizerTypes.Count(), Is.EqualTo(9));
         }
 
         [Test]
@@ -274,181 +358,58 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(model.LevelRandomizerTypes.First(), Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(model.BaseRaceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(model.MetaraceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
-            Assert.That(model.StatsRandomizerTypes.First(), Is.EqualTo(StatsRandomizerTypeConstants.Raw));
+            Assert.That(model.AbilitiesRandomizerTypes.First(), Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
+        }
+
+        [Test]
+        public void GenerateSetsClientId()
+        {
+            var result = controller.Generate(clientId, characterSpecifications);
+            Assert.That(result, Is.InstanceOf<JsonResult>());
+
+            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
+            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
         }
 
         [Test]
         public void GenerateReturnsJsonResult()
         {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
-
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type");
+            var result = controller.Generate(clientId, characterSpecifications);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
         public void GenerateJsonResultAllowsGet()
         {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
-
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
+            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
         public void GenerateReturnsCharacterFromGenerator()
         {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", "set alignment")).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", "set class name")).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 9266, false)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", "set base race")).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", true, "set metarace")).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 90210, 42, 600, 1337, 12345, 23456, false)).Returns(mockStatsRandomizer.Object);
-
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace", 90210, 42, 600, 1337, 12345, 23456, false) as JsonResult;
+            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.character, Is.EqualTo(character));
-        }
-
-        [Test]
-        public void DoNotHaveToPassInOptionalParameters()
-        {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
-
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.character, Is.EqualTo(character));
-        }
-
-        [Test]
-        public void GenerateSortsCharacterFeats()
-        {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
-
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            character.Ability.Feats = new[]
-            {
-                new Feat { Name = "zzzz" },
-                new Feat { Name = "aaa" },
-                new Feat { Name = "kkkk" }
-            };
-
-            Assert.That(character.Ability.Feats, Is.Not.Ordered.By("Name"));
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.character, Is.EqualTo(character));
-            Assert.That(character.Ability.Feats, Is.Ordered.By("Name"));
         }
 
         [Test]
         public void GenerateSortsCharacterSkills()
         {
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockStatsRandomizer = new Mock<IStatsRandomizer>();
+            character.Skills = new[]
+            {
+                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
+                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
+            };
 
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", string.Empty)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", string.Empty)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 0, true)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", string.Empty)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", false, string.Empty)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetStatsRandomizer("stat randomizer type", 0, 0, 0, 0, 0, 0, true)).Returns(mockStatsRandomizer.Object);
+            Assert.That(character.Skills, Is.Not.Ordered.By("Name"));
 
-            var character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object, mockStatsRandomizer.Object))
-                .Returns(character);
-
-            character.Ability.Skills["zzzz"] = new Skill("zzzz", new Stat(string.Empty), 123456) { Ranks = 42 };
-            character.Ability.Skills["aaaa"] = new Skill("aaaa", new Stat(string.Empty), 123456) { Ranks = 600 };
-            character.Ability.Skills["kkkk"] = new Skill("kkkk", new Stat(string.Empty), 123456) { Ranks = 1337 };
-
-            Assert.That(character.Ability.Skills, Is.Not.Ordered.By("Key"));
-
-            var result = controller.Generate("alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "stat randomizer type") as JsonResult;
+            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.character, Is.EqualTo(character));
-            Assert.That(character.Ability.Skills, Is.Ordered.By("Key"));
-            Assert.That(character.Ability.Skills["aaaa"].Ranks, Is.EqualTo(600));
-            Assert.That(character.Ability.Skills["kkkk"].Ranks, Is.EqualTo(1337));
-            Assert.That(character.Ability.Skills["zzzz"].Ranks, Is.EqualTo(42));
+            Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
         }
     }
 }

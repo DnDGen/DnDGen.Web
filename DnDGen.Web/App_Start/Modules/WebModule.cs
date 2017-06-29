@@ -1,18 +1,19 @@
 ﻿using DnDGen.Web.App_Start.Factories;
+using DnDGen.Web.App_Start.Providers;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
 using Ninject.Modules;
 using Octokit;
 
-namespace DnDGen.Web.App_Start
+namespace DnDGen.Web.App_Start.Modules
 {
     public class WebModule : NinjectModule
     {
         public override void Load()
         {
-            Bind<IGitHubClient>().ToMethod(c => GitHubClientFactory.Create());
+            Bind<IGitHubClient>().ToProvider<GitHubClientProvider>();
             Bind<ErrorRepository>().To<GitHubErrorRepository>();
-            Bind<RuntimeFactory>().ToMethod(c => new NinjectRuntimeFactory(c.Kernel));
+            Bind<JustInTimeFactory>().ToProvider<JustInTimeFactoryProvider>();
             Bind<IRandomizerRepository>().To<RandomizerRepository>();
         }
     }

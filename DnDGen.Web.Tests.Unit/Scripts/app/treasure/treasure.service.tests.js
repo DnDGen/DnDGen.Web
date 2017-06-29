@@ -16,26 +16,26 @@ describe('Treasure Service', function () {
     }));
 
     it('gets treasure', function () {
-        var promise = treasureService.getTreasure("Treasure", 9266);
+        var promise = treasureService.getTreasure('client id', "Treasure", 9266);
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/Generate', { treasureType: 'Treasure', level: 9266 });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/Generate', { clientId: 'client id', treasureType: 'Treasure', level: 9266 });
     });
 
     it('gets kind of treasure', function () {
-        var promise = treasureService.getTreasure('treasure type', 9266);
+        var promise = treasureService.getTreasure('client id', 'treasure type', 9266);
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/Generate', { treasureType: 'treasure type', level: 9266 });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/Generate', { clientId: 'client id', treasureType: 'treasure type', level: 9266 });
     });
 
     it('gets a mundane item', function () {
-        var promise = treasureService.getItem('item type', 'Mundane');
+        var promise = treasureService.getItem('client id', 'item type', 'Mundane');
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/GenerateItem', { itemType: 'item type', power: 'Mundane' });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/GenerateItem', { clientId: 'client id', itemType: 'item type', power: 'Mundane' });
     });
 
     it('gets a powered item', function () {
-        var promise = treasureService.getItem('item type', 'item power');
+        var promise = treasureService.getItem('client id', 'item type', 'item power');
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/GenerateItem', { itemType: 'item type', power: 'item power' });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Treasure/GenerateItem', { clientId: 'client id', itemType: 'item type', power: 'item power' });
     });
 });

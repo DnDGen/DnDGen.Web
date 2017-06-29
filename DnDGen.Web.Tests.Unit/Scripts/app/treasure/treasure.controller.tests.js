@@ -9,6 +9,7 @@ describe('Treasure Controller', function () {
     var sweetAlertServiceMock;
     var fileSaverServiceMock;
     var treasureFormatterServiceMock;
+    var eventServiceMock;
 
     beforeEach(module('app.treasure'));
 
@@ -22,13 +23,15 @@ describe('Treasure Controller', function () {
         };
 
         treasureServiceMock = {
-            getTreasure: function (treasureType, level) {
-                var treasure = { description: treasureType + ' ' + level };
-                return getMockedPromise(treasure);
+            getTreasure: function (clientId, treasureType, level) {
+                var treasure = { description: clientId + ' ' + treasureType + ' ' + level };
+                var data = { treasure: treasure };
+                return getMockedPromise(data);
             },
-            getItem: function (itemType, power) {
-                var treasure = { description: power + ' ' + itemType };
-                return getMockedPromise(treasure);
+            getItem: function (clientId, itemType, power) {
+                var treasure = { description: clientId + ' ' + power + ' ' + itemType };
+                var data = { treasure: treasure };
+                return getMockedPromise(data);
             }
         };
 
@@ -46,15 +49,23 @@ describe('Treasure Controller', function () {
                 return item.toString();
             }
         };
+
+        var idCount = 1;
+        eventServiceMock = {
+            getClientId: function () {
+                var data = { clientId: 'client id ' + idCount++ };
+                return getMockedPromise(data);
+            }
+        };
     });
 
-    function getMockedPromise(treasure) {
+    function getMockedPromise(data) {
         var deferred = q.defer();
 
-        if (treasure.description.indexOf('666') > -1)
+        if (data.treasure && data.treasure.description.indexOf('666') > -1)
             deferred.reject();
         else
-            deferred.resolve({ "treasure": treasure });
+            deferred.resolve({ data: data });
 
         return deferred.promise;
     }
@@ -68,7 +79,8 @@ describe('Treasure Controller', function () {
             treasureService: treasureServiceMock,
             sweetAlertService: sweetAlertServiceMock,
             fileSaverService: fileSaverServiceMock,
-            treasureFormatterService: treasureFormatterServiceMock
+            treasureFormatterService: treasureFormatterServiceMock,
+            eventService: eventServiceMock,
         });
     }));
 
@@ -98,7 +110,22 @@ describe('Treasure Controller', function () {
         vm.generateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('Treasure 9266');
+        expect(vm.treasure.description).toBe('client id 1 Treasure 9266');
+    });
+
+    it('generates treasure uniquely', function () {
+        vm.treasureType = 'Treasure';
+        vm.level = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 1 Treasure 9266');
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 2 Treasure 9266');
     });
 
     it('generates treasure type', function () {
@@ -108,7 +135,21 @@ describe('Treasure Controller', function () {
         vm.generateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('treasure type 9266');
+        expect(vm.treasure.description).toBe('client id 1 treasure type 9266');
+    });
+
+    it('generates treasure type uniquely', function () {
+        vm.treasureType = 'treasure type';
+        vm.level = 9266;
+
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 1 treasure type 9266');
+        vm.generateTreasure();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 2 treasure type 9266');
     });
 
     it('generates mundane item', function () {
@@ -118,7 +159,22 @@ describe('Treasure Controller', function () {
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('mundane item type');
+        expect(vm.treasure.description).toBe('client id 1 mundane item type');
+    });
+
+    it('generates mundane item uniquely', function () {
+        vm.power = 'mundane';
+        vm.itemType = 'item type';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 1 mundane item type');
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 2 mundane item type');
     });
 
     it('generates powered item', function () {
@@ -128,7 +184,22 @@ describe('Treasure Controller', function () {
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('power item type');
+        expect(vm.treasure.description).toBe('client id 1 power item type');
+    });
+
+    it('generates powered item uniquely', function () {
+        vm.power = 'power';
+        vm.itemType = 'item type';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 1 power item type');
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.treasure.description).toBe('client id 2 power item type');
     });
 
     it('updates the powers when the item type is changed', function () {

@@ -1,7 +1,7 @@
-﻿using CharacterGen.Randomizers.Alignments;
+﻿using CharacterGen.Randomizers.Abilities;
+using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Randomizers.Stats;
 using DnDGen.Web.App_Start.Factories;
 using Ninject;
 using NUnit.Framework;
@@ -12,7 +12,7 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Factories
     public class NinjectRuntimeFactoryTests : IntegrationTests
     {
         [Inject]
-        public RuntimeFactory NinjectRuntimeFactory { get; set; }
+        public JustInTimeFactory NinjectRuntimeFactory { get; set; }
 
         [Test]
         public void CreateSetAlignmentRandomizer()
@@ -52,12 +52,12 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Factories
 
         [TestCase(ClassNameRandomizerTypeConstants.AnyNPC)]
         [TestCase(ClassNameRandomizerTypeConstants.AnyPlayer)]
-        [TestCase(ClassNameRandomizerTypeConstants.Healer)]
-        [TestCase(ClassNameRandomizerTypeConstants.Mage)]
+        [TestCase(ClassNameRandomizerTypeConstants.DivineSpellcaster)]
+        [TestCase(ClassNameRandomizerTypeConstants.ArcaneSpellcaster)]
         [TestCase(ClassNameRandomizerTypeConstants.NonSpellcaster)]
         [TestCase(ClassNameRandomizerTypeConstants.Spellcaster)]
         [TestCase(ClassNameRandomizerTypeConstants.Stealth)]
-        [TestCase(ClassNameRandomizerTypeConstants.Warrior)]
+        [TestCase(ClassNameRandomizerTypeConstants.PhysicalCombat)]
         public void CreateNamedClassNameRandomizer(string name)
         {
             var randomizer = NinjectRuntimeFactory.Create<IClassNameRandomizer>(name);
@@ -105,24 +105,15 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Factories
         }
 
         [TestCase(RaceRandomizerTypeConstants.BaseRace.AnyBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.EvilBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.GoodBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.NeutralBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.NonEvilBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.NonGoodBase)]
-        [TestCase(RaceRandomizerTypeConstants.BaseRace.NonNeutralBase)]
+        [TestCase(RaceRandomizerTypeConstants.BaseRace.AquaticBase)]
+        [TestCase(RaceRandomizerTypeConstants.BaseRace.MonsterBase)]
+        [TestCase(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)]
         [TestCase(RaceRandomizerTypeConstants.BaseRace.NonStandardBase)]
         [TestCase(RaceRandomizerTypeConstants.BaseRace.StandardBase)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.EvilMeta)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.GeneticMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.GoodMeta)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NeutralMeta)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.NoMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NonEvilMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NonGoodMeta)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NonNeutralMeta)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.UndeadMeta)]
         public void CreateNamedRaceRandomizer(string name)
         {
@@ -134,24 +125,24 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Factories
         [Test]
         public void CreateSetStatsRandomizer()
         {
-            var randomizer = NinjectRuntimeFactory.Create<ISetStatsRandomizer>();
-            Assert.That(randomizer, Is.InstanceOf<IStatsRandomizer>());
-            Assert.That(randomizer, Is.InstanceOf<ISetStatsRandomizer>());
+            var randomizer = NinjectRuntimeFactory.Create<ISetAbilitiesRandomizer>();
+            Assert.That(randomizer, Is.InstanceOf<IAbilitiesRandomizer>());
+            Assert.That(randomizer, Is.InstanceOf<ISetAbilitiesRandomizer>());
             Assert.That(randomizer, Is.Not.Null);
         }
 
-        [TestCase(StatsRandomizerTypeConstants.Average)]
-        [TestCase(StatsRandomizerTypeConstants.BestOfFour)]
-        [TestCase(StatsRandomizerTypeConstants.Good)]
-        [TestCase(StatsRandomizerTypeConstants.Heroic)]
-        [TestCase(StatsRandomizerTypeConstants.OnesAsSixes)]
-        [TestCase(StatsRandomizerTypeConstants.Poor)]
-        [TestCase(StatsRandomizerTypeConstants.Raw)]
-        [TestCase(StatsRandomizerTypeConstants.TwoTenSidedDice)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Average)]
+        [TestCase(AbilitiesRandomizerTypeConstants.BestOfFour)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Good)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Heroic)]
+        [TestCase(AbilitiesRandomizerTypeConstants.OnesAsSixes)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Poor)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Raw)]
+        [TestCase(AbilitiesRandomizerTypeConstants.TwoTenSidedDice)]
         public void CreateNamedStatsRandomizer(string name)
         {
-            var randomizer = NinjectRuntimeFactory.Create<IStatsRandomizer>(name);
-            Assert.That(randomizer, Is.InstanceOf<IStatsRandomizer>());
+            var randomizer = NinjectRuntimeFactory.Create<IAbilitiesRandomizer>(name);
+            Assert.That(randomizer, Is.InstanceOf<IAbilitiesRandomizer>());
             Assert.That(randomizer, Is.Not.Null);
         }
     }

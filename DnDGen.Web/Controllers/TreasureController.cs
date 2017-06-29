@@ -1,5 +1,6 @@
 ﻿using DnDGen.Web.Models;
-using System.Collections.Generic;
+using EventGen;
+using System;
 using System.Web.Mvc;
 using TreasureGen;
 using TreasureGen.Coins;
@@ -13,15 +14,21 @@ namespace DnDGen.Web.Controllers
 {
     public class TreasureController : Controller
     {
-        private ITreasureGenerator treasureGenerator;
-        private IMundaneItemGeneratorRuntimeFactory mundaneItemGeneratorFactory;
-        private IMagicalItemGeneratorRuntimeFactory magicalItemGeneratorFactory;
-        private ICoinGenerator coinGenerator;
-        private IGoodsGenerator goodsGenerator;
-        private IItemsGenerator itemsGenerator;
+        private readonly ITreasureGenerator treasureGenerator;
+        private readonly IMundaneItemGeneratorFactory mundaneItemGeneratorFactory;
+        private readonly IMagicalItemGeneratorFactory magicalItemGeneratorFactory;
+        private readonly ICoinGenerator coinGenerator;
+        private readonly IGoodsGenerator goodsGenerator;
+        private readonly IItemsGenerator itemsGenerator;
+        private readonly ClientIDManager clientIdManager;
 
-        public TreasureController(ITreasureGenerator treasureGenerator, IMundaneItemGeneratorRuntimeFactory mundaneItemGeneratorFactory, IMagicalItemGeneratorRuntimeFactory magicalItemGeneratorFactory,
-            ICoinGenerator coinGenerator, IGoodsGenerator goodsGenerator, IItemsGenerator itemsGenerator)
+        public TreasureController(ITreasureGenerator treasureGenerator,
+            IMundaneItemGeneratorFactory mundaneItemGeneratorFactory,
+            IMagicalItemGeneratorFactory magicalItemGeneratorFactory,
+            ICoinGenerator coinGenerator,
+            IGoodsGenerator goodsGenerator,
+            IItemsGenerator itemsGenerator,
+            ClientIDManager clientIdManager)
         {
             this.treasureGenerator = treasureGenerator;
             this.mundaneItemGeneratorFactory = mundaneItemGeneratorFactory;
@@ -29,102 +36,21 @@ namespace DnDGen.Web.Controllers
             this.coinGenerator = coinGenerator;
             this.goodsGenerator = goodsGenerator;
             this.itemsGenerator = itemsGenerator;
+            this.clientIdManager = clientIdManager;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
             var model = new TreasureViewModel();
-
-            model.MaxTreasureLevel = 30;
-            model.TreasureTypes = new[] { "Treasure", "Coin", "Goods", "Items" };
-            model.ItemPowers = GetPowers();
-
             return View(model);
         }
 
-        private Dictionary<string, IEnumerable<string>> GetPowers()
-        {
-            var powers = new Dictionary<string, IEnumerable<string>>();
-            powers[ItemTypeConstants.AlchemicalItem] = new[]
-            {
-                PowerConstants.Mundane
-            };
-
-            powers[ItemTypeConstants.Armor] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Potion] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Ring] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Rod] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Scroll] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Staff] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Tool] = new[]
-            {
-                PowerConstants.Mundane
-            };
-
-            powers[ItemTypeConstants.Wand] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Weapon] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.WondrousItem] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            return powers;
-        }
-
         [HttpGet]
-        public JsonResult Generate(string treasureType, int level)
+        public JsonResult Generate(Guid clientId, string treasureType, int level)
         {
+            clientIdManager.SetClientID(clientId);
+
             var treasure = GetTreasure(treasureType, level);
             return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);
         }
@@ -147,8 +73,10 @@ namespace DnDGen.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GenerateItem(string itemType, string power)
+        public JsonResult GenerateItem(Guid clientId, string itemType, string power)
         {
+            clientIdManager.SetClientID(clientId);
+
             var item = GetItem(itemType, power);
             var treasure = new Treasure();
             treasure.Items = new[] { item };
