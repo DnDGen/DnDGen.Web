@@ -22,10 +22,10 @@ describe('Event Service', function () {
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Event/ClientId');
     });
 
-    it('gets events', function () {
+    it('gets all events', function () {
         var promise = eventService.getEvents('client id');
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Event/Events', { clientId: 'client id' });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Event/All', { clientId: 'client id' });
     });
 
     it('clears events', function () {

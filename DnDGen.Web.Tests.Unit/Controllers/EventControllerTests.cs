@@ -21,7 +21,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [TestCase("ClientId")]
-        [TestCase("Events")]
+        [TestCase("All")]
         public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -77,23 +77,23 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void EventsReturnsJsonResult()
+        public void AllReturnsJsonResult()
         {
             var clientId = Guid.NewGuid();
-            var result = controller.Events(clientId);
+            var result = controller.All(clientId);
             Assert.That(result, Is.InstanceOf<JsonResult>());
         }
 
         [Test]
-        public void EventsJsonAllowsGet()
+        public void AllJsonAllowsGet()
         {
             var clientId = Guid.NewGuid();
-            var result = controller.Events(clientId) as JsonResult;
+            var result = controller.All(clientId) as JsonResult;
             Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
-        public void EventsJsonReturnsEvents()
+        public void AllJsonReturnsEvents()
         {
             var clientId = Guid.NewGuid();
             var events = new[]
@@ -102,100 +102,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
                 new GenEvent(),
             };
 
-            mockEventQueue.SetupSequence(q => q.ContainsEvents(clientId))
-                .Returns(true)
-                .Returns(true)
-                .Returns(false);
+            mockEventQueue.Setup(q => q.DequeueAll(clientId)).Returns(events);
 
-            mockEventQueue.SetupSequence(q => q.Dequeue(clientId))
-                .Returns(events[0])
-                .Returns(events[1]);
-
-            var result = controller.Events(clientId) as JsonResult;
+            var result = controller.All(clientId) as JsonResult;
             dynamic data = result.Data;
             Assert.That(data.events, Is.EquivalentTo(events));
-        }
-
-        [Test]
-        public void EventsJsonReturnsCappedEvents()
-        {
-            var clientId = Guid.NewGuid();
-
-            mockEventQueue.Setup(q => q.ContainsEvents(clientId)).Returns(true);
-            mockEventQueue.Setup(q => q.Dequeue(clientId)).Returns(() => new GenEvent());
-
-            var result = controller.Events(clientId) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.events.Count, Is.EqualTo(10));
-            mockEventQueue.Verify(q => q.DequeueAll(It.IsAny<Guid>()), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(clientId), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(), Times.Never);
-            mockEventQueue.Verify(q => q.Dequeue(), Times.Never);
-            mockEventQueue.Verify(q => q.Dequeue(It.IsAny<Guid>()), Times.Exactly(10));
-            mockEventQueue.Verify(q => q.Enqueue(It.IsAny<GenEvent>()), Times.Never);
-            mockEventQueue.Verify(q => q.Enqueue(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-        }
-
-        [Test]
-        public void EventsJsonReturnsSomeEventsWhenExceptionThrownWhileDequeueing()
-        {
-            var clientId = Guid.NewGuid();
-
-            mockEventQueue.SetupSequence(q => q.ContainsEvents(clientId))
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(false);
-
-            mockEventQueue.SetupSequence(q => q.Dequeue(clientId))
-                .Returns(new GenEvent())
-                .Throws<InvalidOperationException>()
-                .Returns(new GenEvent());
-
-            var result = controller.Events(clientId) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.events, Is.Not.Null);
-            Assert.That(data.events, Is.Not.Empty);
-            Assert.That(data.events.Count, Is.EqualTo(2));
-        }
-
-        [Test]
-        public void EventsJsonReturnsNoEventsWhenExceptionThrown()
-        {
-            var clientId = Guid.NewGuid();
-
-            mockEventQueue.SetupSequence(q => q.ContainsEvents(clientId))
-                .Returns(true)
-                .Returns(true)
-                .Returns(true)
-                .Returns(false);
-
-            mockEventQueue.Setup(q => q.Dequeue(clientId)).Throws<InvalidOperationException>();
-
-            var result = controller.Events(clientId) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.events, Is.Not.Null);
-            Assert.That(data.events, Is.Empty);
-        }
-
-        [Test]
-        public void EventsJsonReturnsNoEventsWhenExceptionThrownWhileCheckingIfEvents()
-        {
-            var clientId = Guid.NewGuid();
-
-            mockEventQueue.SetupSequence(q => q.ContainsEvents(clientId))
-                .Returns(true)
-                .Throws<InvalidOperationException>()
-                .Returns(true)
-                .Returns(false);
-
-            mockEventQueue.Setup(q => q.Dequeue(clientId)).Returns(() => new GenEvent());
-
-            var result = controller.Events(clientId) as JsonResult;
-            dynamic data = result.Data;
-            Assert.That(data.events, Is.Not.Null);
-            Assert.That(data.events, Is.Not.Empty);
-            Assert.That(data.events.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -211,26 +122,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEventQueue.Setup(q => q.DequeueAll(clientId)).Returns(events);
 
             controller.Clear(clientId);
-            mockEventQueue.Verify(q => q.DequeueAll(It.IsAny<Guid>()), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(clientId), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(), Times.Never);
-            mockEventQueue.Verify(q => q.Dequeue(), Times.Never);
-            mockEventQueue.Verify(q => q.Dequeue(It.IsAny<Guid>()), Times.Never);
-            mockEventQueue.Verify(q => q.Enqueue(It.IsAny<GenEvent>()), Times.Never);
-            mockEventQueue.Verify(q => q.Enqueue(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-        }
-
-        [Test]
-        public void ClearDoesNotThrowExceptions()
-        {
-            var clientId = Guid.NewGuid();
-            mockEventQueue.Setup(q => q.DequeueAll(clientId)).Throws<InvalidOperationException>();
-
-            controller.Clear(clientId);
-            mockEventQueue.Verify(q => q.DequeueAll(It.IsAny<Guid>()), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(clientId), Times.Once);
-            mockEventQueue.Verify(q => q.DequeueAll(), Times.Never);
-            mockEventQueue.Verify(q => q.Dequeue(), Times.Never);
+            mockEventQueue.Verify(q => q.Clear(It.IsAny<Guid>()), Times.Once);
+            mockEventQueue.Verify(q => q.ClearCurrentThread(), Times.Never);
+            mockEventQueue.Verify(q => q.DequeueAll(It.IsAny<Guid>()), Times.Never);
+            mockEventQueue.Verify(q => q.DequeueAll(clientId), Times.Never);
+            mockEventQueue.Verify(q => q.DequeueAllForCurrentThread(), Times.Never);
+            mockEventQueue.Verify(q => q.DequeueForCurrentThread(), Times.Never);
             mockEventQueue.Verify(q => q.Dequeue(It.IsAny<Guid>()), Times.Never);
             mockEventQueue.Verify(q => q.Enqueue(It.IsAny<GenEvent>()), Times.Never);
             mockEventQueue.Verify(q => q.Enqueue(It.IsAny<string>(), It.IsAny<string>()), Times.Never);

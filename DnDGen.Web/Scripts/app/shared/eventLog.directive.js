@@ -19,7 +19,7 @@
         function link (scope) {
             var timer = '';
             var pollInterval = 1000;
-            var queueSize = 10;
+            var quantityOfEventsToShow = 10;
 
             scope.events = [];
 
@@ -47,10 +47,10 @@
 
                     var newestEvents = response.data.events.reverse();
 
-                    for (var i = 0; i < queueSize && i < newestEvents.length; i++) {
+                    for (var i = 0; i < quantityOfEventsToShow && i < newestEvents.length; i++) {
                         scope.events.splice(i, 0, newestEvents[i]);
 
-                        while (scope.events.length > queueSize)
+                        while (scope.events.length > quantityOfEventsToShow)
                             scope.events.pop();
                     }
                 });

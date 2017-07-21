@@ -20,7 +20,8 @@
 
         function getEvents(clientId) {
             var parameters = { clientId: clientId };
-            return promiseService.getPromise('/Event/Events', parameters);
+
+            return promiseService.getPromise('/Event/All', parameters);
         }
 
         function clearEvents(clientId) {
