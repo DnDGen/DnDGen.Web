@@ -15,4 +15,4 @@ script:
   - set -e
   - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./DnDGen.Web.Tests.Integration/bin/Release/DnDGen.Web.Tests.Integration.dll
   - set -e
-  - wine ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./DnDGen.Web.Tests.Unit/Scripts
+  - mono ./testrunner/Chutzpah.*/tools/chutzpah.console.exe ./DnDGen.Web.Tests.Unit/Scripts
