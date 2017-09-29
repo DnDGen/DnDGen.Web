@@ -33,7 +33,7 @@
                         <li ng-show="character.Race.SwimSpeed.Value">Swim Speed: {{character.Race.SwimSpeed.Value}} {{character.Race.SwimSpeed.Unit}} <span ng-show="character.Race.SwimSpeed.Description">({{character.Race.SwimSpeed.Description}})</span></li>
                         <li>Size: {{character.Race.Size}}</li>
                         <li>Age: {{character.Race.Age.Value}} {{character.Race.Age.Unit}} <span ng-show="character.Race.Age.Description">({{character.Race.Age.Description}})</span></li>
-                        <li>Maximum Age: {{character.Race.MaximumAge.Value}} {{character.Race.MaximumAge.Unit}} <span ng-show="character.Race.MaximumAge.Description">({{character.Race.MaximumAge.Description}})</span></li>
+                        <li>Maximum Age: <span ng-show="character.Race.MaximumAge.Value > 0">{{character.Race.MaximumAge.Value}} {{character.Race.MaximumAge.Unit}}</span> <span ng-show="character.Race.MaximumAge.Description">({{character.Race.MaximumAge.Description}})</span></li>
                         <li>Height: {{character.Race.Height.Value | inchesToFeet}} <span ng-show="character.Race.Height.Description">({{character.Race.Height.Description}})</span></li>
                         <li>Weight: {{character.Race.Weight.Value}} {{character.Race.Weight.Unit}} <span ng-show="character.Race.Weight.Description">({{character.Race.Weight.Description}})</span></li>
                     </ul>
