@@ -72,7 +72,7 @@
                         </tr>
                         <tr ng-repeat="skill in character.Skills track by $index">
                             <td><span ng-show="skill.ClassSkill" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                            <td>{{skill.Name}}</td>
+                            <td>{{skill.Name}} <span ng-show="skill.Focus">({{skill.Focus}})</span></td>
                             <td>{{skill.TotalBonus}} <span ng-show="value.CircumstantialBonus">*</span></td>
                             <td>{{skill.EffectiveRanks}}</td>
                             <td>{{skill.BaseAbility.Bonus}}</td>

@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using NUnit.Framework;
+using System;
 using System.Diagnostics;
 
 namespace DnDGen.Web.Tests.Integration
@@ -10,11 +11,13 @@ namespace DnDGen.Web.Tests.Integration
         [Inject]
         public Stopwatch Stopwatch { get; set; }
 
-        private const int TimeLimitInMilliseconds = 200;
+        private TimeSpan TimeLimit;
 
         [SetUp]
         public void IoCSetup()
         {
+            TimeLimit = new TimeSpan(TimeSpan.TicksPerSecond);
+
             Stopwatch.Reset();
         }
 
@@ -29,7 +32,7 @@ namespace DnDGen.Web.Tests.Integration
             Stopwatch.Restart();
 
             var instance = GetNewInstanceOf<T>();
-            Assert.That(Stopwatch.ElapsedMilliseconds, Is.AtMost(TimeLimitInMilliseconds));
+            Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
 
             return instance;
         }
