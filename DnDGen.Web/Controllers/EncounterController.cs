@@ -46,8 +46,16 @@ namespace DnDGen.Web.Controllers
         public JsonResult Validate(Guid clientId, EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
+            var isValid = false;
 
-            var isValid = encounterVerifier.ValidEncounterExistsAtLevel(encounterSpecifications);
+            try
+            {
+                isValid = encounterVerifier.ValidEncounterExistsAtLevel(encounterSpecifications);
+            }
+            catch
+            {
+
+            }
 
             return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
         }

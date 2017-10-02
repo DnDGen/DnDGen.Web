@@ -110,6 +110,29 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
         }
 
         [Test]
+        public void VerifyReturnsNegativeVerificationIfErrorOccurs()
+        {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
+
+            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer("alignment randomizer type", "set alignment")).Returns(mockAlignmentRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer("class name randomizer type", "set class name")).Returns(mockClassNameRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer("level randomizer type", 9266, false)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", "set base race")).Returns(mockBaseRaceRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", true, "set metarace")).Returns(mockMetaraceRandomizer.Object);
+
+            mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
+                .Throws<NullReferenceException>();
+
+            var result = controller.Verify(clientId, "alignment randomizer type", "class name randomizer type", "level randomizer type", "base race randomizer type", "metarace randomizer type", "set alignment", "set class name", 9266, false, "set base race", true, "set metarace") as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.compatible, Is.False);
+        }
+
+        [Test]
         public void DoNotHaveToPassInOptionalParameters()
         {
             var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();

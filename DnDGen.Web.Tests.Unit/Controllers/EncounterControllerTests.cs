@@ -289,6 +289,18 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
+        public void ValidateJsonReturnsInvalidIfErrorOccurs()
+        {
+            filters.Add("filter 1");
+            filters.Add("filter 2");
+            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Throws<NullReferenceException>();
+
+            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
+            dynamic data = result.Data;
+            Assert.That(data.isValid, Is.False);
+        }
+
+        [Test]
         public void CanValidateNullFilters()
         {
             encounterSpecifications.CreatureTypeFilters = null;
