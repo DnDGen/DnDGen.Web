@@ -1,4 +1,6 @@
 language: csharp
+mono:
+  - 5.2.0
 solution: DnDGen.Web.sln
 install:
   - nuget restore DnDGen.Web.sln
