@@ -1,4 +1,4 @@
-﻿using DnDGen.Web.App_Start.Factories;
+﻿using DnDGen.Web.App_Start;
 using NUnit.Framework;
 using System;
 

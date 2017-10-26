@@ -1,4 +1,5 @@
 ﻿using CharacterGen.Domain.IoC;
+using DnDGen.Core.IoC;
 using DnDGen.Web.App_Start.Modules;
 using DungeonGen.Domain.IoC;
 using EncounterGen.Domain.IoC;
@@ -24,6 +25,9 @@ namespace DnDGen.Web.Tests.Integration
 
             var eventGenLoader = new EventGenModuleLoader();
             eventGenLoader.LoadModules(kernel);
+
+            var coreLoader = new CoreModuleLoader();
+            coreLoader.LoadModules(kernel);
 
             var treasureGenModuleLoader = new TreasureGenModuleLoader();
             treasureGenModuleLoader.LoadModules(kernel);

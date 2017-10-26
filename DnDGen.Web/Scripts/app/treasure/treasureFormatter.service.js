@@ -97,6 +97,7 @@
             var formattedWeapon = prefix + 'Weapon:' + '\r\n';
 
             formattedWeapon += prefix + '\t' + 'Size: ' + weapon.Size + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.CombatTypes.join(", ") + '\r\n';
             formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.Damage + '\r\n';
             formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.DamageType + '\r\n';
             formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.ThreatRange + '\r\n';

@@ -1,5 +1,4 @@
-﻿using DnDGen.Web.App_Start.Factories;
-using DnDGen.Web.App_Start.Providers;
+﻿using DnDGen.Web.App_Start.Providers;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
 using Ninject.Modules;
@@ -13,7 +12,6 @@ namespace DnDGen.Web.App_Start.Modules
         {
             Bind<IGitHubClient>().ToProvider<GitHubClientProvider>();
             Bind<ErrorRepository>().To<GitHubErrorRepository>();
-            Bind<JustInTimeFactory>().ToProvider<JustInTimeFactoryProvider>();
             Bind<IRandomizerRepository>().To<RandomizerRepository>();
         }
     }

@@ -3,25 +3,26 @@ using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using DnDGen.Web.App_Start.Factories;
+using DnDGen.Core.Generators;
+using DnDGen.Web.App_Start;
 
 namespace DnDGen.Web.Repositories.Domain
 {
     public class RandomizerRepository : IRandomizerRepository
     {
-        private JustInTimeFactory runtimeFactory;
+        private JustInTimeFactory justInTimeFactory;
 
-        public RandomizerRepository(JustInTimeFactory runtimeFactory)
+        public RandomizerRepository(JustInTimeFactory justInTimeFactory)
         {
-            this.runtimeFactory = runtimeFactory;
+            this.justInTimeFactory = justInTimeFactory;
         }
 
         public IAlignmentRandomizer GetAlignmentRandomizer(string alignmentRandomizerType, string setAlignment)
         {
             if (alignmentRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<IAlignmentRandomizer>(alignmentRandomizerType);
+                return justInTimeFactory.Build<IAlignmentRandomizer>(alignmentRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetAlignmentRandomizer>();
+            var setRandomizer = justInTimeFactory.Build<ISetAlignmentRandomizer>();
             setRandomizer.SetAlignment = new Alignment(setAlignment);
 
             return setRandomizer;
@@ -30,9 +31,9 @@ namespace DnDGen.Web.Repositories.Domain
         public RaceRandomizer GetBaseRaceRandomizer(string baseRaceRandomizerType, string setBaseRace)
         {
             if (baseRaceRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<RaceRandomizer>(baseRaceRandomizerType);
+                return justInTimeFactory.Build<RaceRandomizer>(baseRaceRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetBaseRaceRandomizer>();
+            var setRandomizer = justInTimeFactory.Build<ISetBaseRaceRandomizer>();
             setRandomizer.SetBaseRace = setBaseRace;
 
             return setRandomizer;
@@ -41,22 +42,21 @@ namespace DnDGen.Web.Repositories.Domain
         public IClassNameRandomizer GetClassNameRandomizer(string classNameRandomizerType, string setClassName)
         {
             if (classNameRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<IClassNameRandomizer>(classNameRandomizerType);
+                return justInTimeFactory.Build<IClassNameRandomizer>(classNameRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetClassNameRandomizer>();
+            var setRandomizer = justInTimeFactory.Build<ISetClassNameRandomizer>();
             setRandomizer.SetClassName = setClassName;
 
             return setRandomizer;
         }
 
-        public ILevelRandomizer GetLevelRandomizer(string levelRandomizerType, int setLevel, bool allowAdjustments)
+        public ILevelRandomizer GetLevelRandomizer(string levelRandomizerType, int setLevel)
         {
             if (levelRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<ILevelRandomizer>(levelRandomizerType);
+                return justInTimeFactory.Build<ILevelRandomizer>(levelRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetLevelRandomizer>();
+            var setRandomizer = justInTimeFactory.Build<ISetLevelRandomizer>();
             setRandomizer.SetLevel = setLevel;
-            setRandomizer.AllowAdjustments = allowAdjustments;
 
             return setRandomizer;
         }
@@ -65,13 +65,13 @@ namespace DnDGen.Web.Repositories.Domain
         {
             if (metaraceRandomizerType == RandomizerTypeConstants.Set)
             {
-                var setRandomizer = runtimeFactory.Create<ISetMetaraceRandomizer>();
+                var setRandomizer = justInTimeFactory.Build<ISetMetaraceRandomizer>();
                 setRandomizer.SetMetarace = setMetarace;
 
                 return setRandomizer;
             }
 
-            var randomizer = runtimeFactory.Create<RaceRandomizer>(metaraceRandomizerType);
+            var randomizer = justInTimeFactory.Build<RaceRandomizer>(metaraceRandomizerType);
 
             if (randomizer is IForcableMetaraceRandomizer)
             {
@@ -85,9 +85,9 @@ namespace DnDGen.Web.Repositories.Domain
         public IAbilitiesRandomizer GetAbilitiesRandomizer(string statRandomizerType, int setStrength, int setConstitution, int setDexterity, int setIntelligence, int setWisdom, int setCharisma, bool allowAdjustments)
         {
             if (statRandomizerType != RandomizerTypeConstants.Set)
-                return runtimeFactory.Create<IAbilitiesRandomizer>(statRandomizerType);
+                return justInTimeFactory.Build<IAbilitiesRandomizer>(statRandomizerType);
 
-            var setRandomizer = runtimeFactory.Create<ISetAbilitiesRandomizer>();
+            var setRandomizer = justInTimeFactory.Build<ISetAbilitiesRandomizer>();
             setRandomizer.SetStrength = setStrength;
             setRandomizer.SetConstitution = setConstitution;
             setRandomizer.SetDexterity = setDexterity;

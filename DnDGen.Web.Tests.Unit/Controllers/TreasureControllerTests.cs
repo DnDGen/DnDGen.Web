@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Controllers;
+﻿using DnDGen.Core.Generators;
+using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EventGen;
 using Moq;
@@ -21,8 +22,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     {
         private TreasureController controller;
         private Mock<ITreasureGenerator> mockTreasureGenerator;
-        private Mock<IMundaneItemGeneratorFactory> mockMundaneItemGeneratorFactory;
-        private Mock<IMagicalItemGeneratorFactory> mockMagicalItemGeneratorFactory;
+        private Mock<JustInTimeFactory> mockJustInTimeFactory;
         private Mock<ICoinGenerator> mockCoinGenerator;
         private Mock<IGoodsGenerator> mockGoodsGenerator;
         private Mock<IItemsGenerator> mockItemsGenerator;
@@ -34,15 +34,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void Setup()
         {
             mockTreasureGenerator = new Mock<ITreasureGenerator>();
-            mockMundaneItemGeneratorFactory = new Mock<IMundaneItemGeneratorFactory>();
-            mockMagicalItemGeneratorFactory = new Mock<IMagicalItemGeneratorFactory>();
+            mockJustInTimeFactory = new Mock<JustInTimeFactory>();
             mockCoinGenerator = new Mock<ICoinGenerator>();
             mockGoodsGenerator = new Mock<IGoodsGenerator>();
             mockItemsGenerator = new Mock<IItemsGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
             controller = new TreasureController(mockTreasureGenerator.Object,
-                mockMundaneItemGeneratorFactory.Object,
-                mockMagicalItemGeneratorFactory.Object,
+                mockJustInTimeFactory.Object,
                 mockCoinGenerator.Object,
                 mockGoodsGenerator.Object,
                 mockItemsGenerator.Object,
@@ -50,7 +48,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
             clientId = Guid.NewGuid();
             mockMagicalGenerator = new Mock<MagicalItemGenerator>();
-            mockMagicalItemGeneratorFactory.Setup(f => f.CreateGeneratorOf("item type")).Returns(mockMagicalGenerator.Object);
+            mockJustInTimeFactory.Setup(f => f.Build<MagicalItemGenerator>("item type")).Returns(mockMagicalGenerator.Object);
         }
 
         [TestCase("Index")]
@@ -251,7 +249,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateItemReturnsMundaneItemFromGenerator()
         {
             var mockMundaneGenerator = new Mock<MundaneItemGenerator>();
-            mockMundaneItemGeneratorFactory.Setup(f => f.CreateGeneratorOf("item type")).Returns(mockMundaneGenerator.Object);
+            mockJustInTimeFactory.Setup(f => f.Build<MundaneItemGenerator>("item type")).Returns(mockMundaneGenerator.Object);
 
             var item = new Item();
             mockMundaneGenerator.Setup(g => g.Generate()).Returns(item);
@@ -266,7 +264,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void GenerateItemReturnsMagicalItemFromGenerator()
         {
             var item = new Item();
-            mockMagicalGenerator.Setup(g => g.GenerateAtPower("power")).Returns(item);
+            mockMagicalGenerator.Setup(g => g.GenerateFrom("power")).Returns(item);
 
             var result = controller.GenerateItem(clientId, "item type", "power") as JsonResult;
             dynamic data = result.Data;

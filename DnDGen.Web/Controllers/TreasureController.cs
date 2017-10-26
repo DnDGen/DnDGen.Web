@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Models;
+﻿using DnDGen.Core.Generators;
+using DnDGen.Web.Models;
 using EventGen;
 using System;
 using System.Web.Mvc;
@@ -15,24 +16,21 @@ namespace DnDGen.Web.Controllers
     public class TreasureController : Controller
     {
         private readonly ITreasureGenerator treasureGenerator;
-        private readonly IMundaneItemGeneratorFactory mundaneItemGeneratorFactory;
-        private readonly IMagicalItemGeneratorFactory magicalItemGeneratorFactory;
+        private readonly JustInTimeFactory justInTimeFactory;
         private readonly ICoinGenerator coinGenerator;
         private readonly IGoodsGenerator goodsGenerator;
         private readonly IItemsGenerator itemsGenerator;
         private readonly ClientIDManager clientIdManager;
 
         public TreasureController(ITreasureGenerator treasureGenerator,
-            IMundaneItemGeneratorFactory mundaneItemGeneratorFactory,
-            IMagicalItemGeneratorFactory magicalItemGeneratorFactory,
+            JustInTimeFactory justInTimeFactory,
             ICoinGenerator coinGenerator,
             IGoodsGenerator goodsGenerator,
             IItemsGenerator itemsGenerator,
             ClientIDManager clientIdManager)
         {
             this.treasureGenerator = treasureGenerator;
-            this.mundaneItemGeneratorFactory = mundaneItemGeneratorFactory;
-            this.magicalItemGeneratorFactory = magicalItemGeneratorFactory;
+            this.justInTimeFactory = justInTimeFactory;
             this.coinGenerator = coinGenerator;
             this.goodsGenerator = goodsGenerator;
             this.itemsGenerator = itemsGenerator;
@@ -89,12 +87,12 @@ namespace DnDGen.Web.Controllers
         {
             if (power == PowerConstants.Mundane)
             {
-                var mundaneGenerator = mundaneItemGeneratorFactory.CreateGeneratorOf(itemType);
+                var mundaneGenerator = justInTimeFactory.Build<MundaneItemGenerator>(itemType);
                 return mundaneGenerator.Generate();
             }
 
-            var magicalGenerator = magicalItemGeneratorFactory.CreateGeneratorOf(itemType);
-            return magicalGenerator.GenerateAtPower(power);
+            var magicalGenerator = justInTimeFactory.Build<MagicalItemGenerator>(itemType);
+            return magicalGenerator.GenerateFrom(power);
         }
     }
 }

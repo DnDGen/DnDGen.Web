@@ -490,6 +490,7 @@ describe('Treasure Formatter Service', function () {
         var weapon = getMock('weapon');
         weapon.Name = "weapon name";
         weapon.Size = "weapon size";
+        weapon.CombatTypes = ["melee", "ranged"];
         weapon.Damage = "weapon damage";
         weapon.DamageType = "damage type";
         weapon.ThreatRange = "threat range";
@@ -502,6 +503,7 @@ describe('Treasure Formatter Service', function () {
             'weapon name',
             '\t' + 'Weapon:',
             '\t\t' + 'Size: weapon size',
+            '\t\t' + 'Combat Types: melee, ranged',
             '\t\t' + 'Damage: weapon damage',
             '\t\t' + 'Damage Type: damage type',
             '\t\t' + 'Threat Range: threat range',
@@ -520,6 +522,7 @@ describe('Treasure Formatter Service', function () {
         var weapon = getMock('weapon');
         weapon.Name = "weapon name";
         weapon.Size = "weapon size";
+        weapon.CombatTypes = ["ranged"];
         weapon.Damage = "weapon damage";
         weapon.DamageType = "damage type";
         weapon.ThreatRange = "threat range";
@@ -533,6 +536,7 @@ describe('Treasure Formatter Service', function () {
             'weapon name',
             '\t' + 'Weapon:',
             '\t\t' + 'Size: weapon size',
+            '\t\t' + 'Combat Types: ranged',
             '\t\t' + 'Damage: weapon damage',
             '\t\t' + 'Damage Type: damage type',
             '\t\t' + 'Threat Range: threat range',

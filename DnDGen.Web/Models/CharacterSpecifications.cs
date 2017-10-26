@@ -11,7 +11,6 @@
         public string SetAlignment { get; set; }
         public string SetClassName { get; set; }
         public int SetLevel { get; set; }
-        public bool AllowLevelAdjustments { get; set; }
         public string SetBaseRace { get; set; }
         public bool ForceMetarace { get; set; }
         public string SetMetarace { get; set; }

@@ -1,6 +1,5 @@
 ﻿using CharacterGen.Characters;
 using CharacterGen.Leaders;
-using DnDGen.Web.App_Start.Factories;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
@@ -84,13 +83,6 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         {
             var repository = InjectAndAssertDuration<IRandomizerRepository>();
             Assert.That(repository, Is.InstanceOf<RandomizerRepository>());
-        }
-
-        [Test]
-        public void RuntimeFactoryIsInjected()
-        {
-            var factory = InjectAndAssertDuration<JustInTimeFactory>();
-            Assert.That(factory, Is.InstanceOf<NinjectJustInTimeFactory>());
         }
 
         [Test]

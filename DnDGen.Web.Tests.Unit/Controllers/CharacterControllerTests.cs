@@ -7,7 +7,7 @@ using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
 using CharacterGen.Skills;
-using DnDGen.Web.App_Start.Factories;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
@@ -69,7 +69,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
             mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment)).Returns(mockAlignmentRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel, characterSpecifications.AllowLevelAdjustments)).Returns(mockLevelRandomizer.Object);
+            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel)).Returns(mockLevelRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace)).Returns(mockBaseRaceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer(characterSpecifications.MetaraceRandomizerType, characterSpecifications.ForceMetarace, characterSpecifications.SetMetarace)).Returns(mockMetaraceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetAbilitiesRandomizer(

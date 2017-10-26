@@ -47,18 +47,11 @@
                 </div>
                 <div class="form-group">
                     <label for="levelRandomizerTypes" class="col-sm-4 control-label">Level Randomizer:</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <select id="levelRandomizerTypes" class="form-control" ng-model="vm.levelRandomizerType" ng-options="levelRandomizerType for levelRandomizerType in vm.characterModel.LevelRandomizerTypes" required></select>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <input dndgen-no-decimals ng-show="vm.levelRandomizerType == 'Set'" id="setLevel" class="form-control" type="number" min="0" max="20" ng-model="vm.setLevel" ng-required="vm.levelRandomizerType == 'Set'" />
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="checkbox-inline" ng-show="vm.levelRandomizerType == 'Set'">
-                            <label>
-                                <input type="checkbox" ng-model="vm.allowLevelAdjustments"> Allow Adjustments
-                            </label>
-                        </div>
                     </div>
                 </div>
                 <div class="form-group">

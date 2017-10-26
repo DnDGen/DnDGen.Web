@@ -5,7 +5,7 @@ using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using DnDGen.Web.App_Start.Factories;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Models;
 using NUnit.Framework;
 using System.Linq;

@@ -1,4 +1,5 @@
 ﻿using CharacterGen.Verifiers;
+using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
 using System;
@@ -20,15 +21,15 @@ namespace DnDGen.Web.Controllers.Characters
         }
 
         [HttpGet]
-        public JsonResult Verify(Guid clientId, string alignmentRandomizerType, string classNameRandomizerType, string levelRandomizerType, string baseRaceRandomizerType, string metaraceRandomizerType, string setAlignment = "", string setClassName = "", int setLevel = 0, bool allowLevelAdjustments = true, string setBaseRace = "", bool forceMetarace = false, string setMetarace = "")
+        public JsonResult Verify(Guid clientId, CharacterSpecifications characterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
-            var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
-            var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(classNameRandomizerType, setClassName);
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer(levelRandomizerType, setLevel, allowLevelAdjustments);
-            var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(baseRaceRandomizerType, setBaseRace);
-            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(metaraceRandomizerType, forceMetarace, setMetarace);
+            var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
+            var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
+            var levelRandomizer = randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
+            var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
+            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(characterSpecifications.MetaraceRandomizerType, characterSpecifications.ForceMetarace, characterSpecifications.SetMetarace);
             var compatible = false;
 
             try

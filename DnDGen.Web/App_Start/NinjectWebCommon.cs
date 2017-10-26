@@ -4,6 +4,7 @@
 namespace DnDGen.Web.App_Start
 {
     using CharacterGen.Domain.IoC;
+    using Core.IoC;
     using DungeonGen.Domain.IoC;
     using EncounterGen.Domain.IoC;
     using EventGen.IoC;
@@ -11,6 +12,7 @@ namespace DnDGen.Web.App_Start
     using Modules;
     using Ninject;
     using Ninject.Web.Common;
+    using Ninject.Web.Common.WebHost;
     using RollGen.Domain.IoC;
     using System;
     using System.Web;
@@ -71,6 +73,9 @@ namespace DnDGen.Web.App_Start
 
             var eventGenLoader = new EventGenModuleLoader();
             eventGenLoader.LoadModules(kernel);
+
+            var coreLoader = new CoreModuleLoader();
+            coreLoader.LoadModules(kernel);
 
             var treasureGenLoader = new TreasureGenModuleLoader();
             treasureGenLoader.LoadModules(kernel);
