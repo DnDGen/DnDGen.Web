@@ -40,8 +40,8 @@
                 .then(setRoll, handleError);
         };
 
-        function setRoll(data) {
-            vm.roll = data.roll;
+        function setRoll(response) {
+            vm.roll = response.data.roll;
             vm.rolling = false;
         }
 
@@ -72,8 +72,8 @@
                 vm.validating = false;
             }
             else {
-                rollService.validateExpression(vm.expression).then(function (data) {
-                    vm.rollIsValid = data.isValid;
+                rollService.validateExpression(vm.expression).then(function (response) {
+                    vm.rollIsValid = response.data.isValid;
                     vm.validating = false;
                 }, function () {
                     handleError();
@@ -106,8 +106,8 @@
                 vm.validating = false;
             }
             else {
-                rollService.validateRoll(quantity, die).then(function (data) {
-                    vm.rollIsValid = data.isValid;
+                rollService.validateRoll(quantity, die).then(function (response) {
+                    vm.rollIsValid = response.data.isValid;
                     vm.validating = false;
                 }, function () {
                     handleError();

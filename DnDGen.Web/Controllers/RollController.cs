@@ -34,7 +34,12 @@ namespace DnDGen.Web.Controllers
 
         private JsonResult BuildJsonResult(int roll)
         {
-            return Json(new { roll = roll }, JsonRequestBehavior.AllowGet);
+            return BuildJsonResult(new { roll = roll });
+        }
+
+        private JsonResult BuildJsonResult(object data)
+        {
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -44,7 +49,12 @@ namespace DnDGen.Web.Controllers
             var result = 0;
             var isValid = int.TryParse(replacedExpression, out result);
 
-            return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+            return BuildJsonResult(isValid);
+        }
+
+        private JsonResult BuildJsonResult(bool isValid)
+        {
+            return BuildJsonResult(new { isValid = isValid });
         }
 
         [HttpGet]
@@ -57,7 +67,7 @@ namespace DnDGen.Web.Controllers
                 && die <= Limits.Die
                 && quantity * die <= Limits.ProductOfQuantityAndDie;
 
-            return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+            return BuildJsonResult(isValid);
         }
     }
 }
