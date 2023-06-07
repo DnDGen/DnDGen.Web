@@ -5,7 +5,7 @@ using EncounterGen.Generators;
 using EventGen;
 using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -35,7 +35,7 @@ namespace DnDGen.Web.Controllers
             var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
-            return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
+            return Json(new { areas = areas });
         }
 
         private IEnumerable<Area> SortCharacterTraits(IEnumerable<Area> areas)
@@ -70,7 +70,7 @@ namespace DnDGen.Web.Controllers
             var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
-            return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
+            return Json(new { areas = areas });
         }
     }
 }

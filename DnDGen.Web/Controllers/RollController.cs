@@ -1,5 +1,5 @@
 ﻿using RollGen;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -39,7 +39,7 @@ namespace DnDGen.Web.Controllers
 
         private JsonResult BuildJsonResult(object data)
         {
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(data);
         }
 
         [HttpGet]

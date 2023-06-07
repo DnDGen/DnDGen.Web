@@ -1,18 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CF594215-5B31-40B9-9711-F5E17C1682D6}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web.Tests.Integration", "DnDGen.Web.Tests.Integration\DnDGen.Web.Tests.Integration.csproj", "{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{8D18A9AC-4946-4043-98FB-554C93BEDBB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web.Tests.Unit", "DnDGen.Web.Tests.Unit\DnDGen.Web.Tests.Unit.csproj", "{9CAADCB5-ED42-40D8-A2BE-658C47447F32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web.Tests.Integration", "DnDGen.Web.Tests.Integration\DnDGen.Web.Tests.Integration.csproj", "{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web.Tests.Unit", "DnDGen.Web.Tests.Unit\DnDGen.Web.Tests.Unit.csproj", "{9CAADCB5-ED42-40D8-A2BE-658C47447F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{7B25892C-DB0F-496C-8FAC-35FCA2D01849}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D18A9AC-4946-4043-98FB-554C93BEDBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722DE08A-3185-48FD-B1C7-78EB3A1CDE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -32,8 +23,15 @@ Global
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CAADCB5-ED42-40D8-A2BE-658C47447F32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B25892C-DB0F-496C-8FAC-35FCA2D01849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B25892C-DB0F-496C-8FAC-35FCA2D01849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B25892C-DB0F-496C-8FAC-35FCA2D01849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B25892C-DB0F-496C-8FAC-35FCA2D01849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E70C8EC6-3C20-46DB-9F87-BF7B5CCB9807}
 	EndGlobalSection
 EndGlobal

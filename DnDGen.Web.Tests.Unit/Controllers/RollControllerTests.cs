@@ -1,8 +1,8 @@
 ﻿using DnDGen.Web.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using RollGen;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -51,21 +51,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void RollJsonResultAllowsGet()
-        {
-            mockRoll.Setup(r => r.d(90210).AsSum()).Returns(42);
-
-            var result = controller.Roll(9266, 90210) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void RollResultContainsRoll()
         {
             mockRoll.Setup(r => r.d(90210).AsSum()).Returns(42);
 
             var result = controller.Roll(9266, 90210) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.roll, Is.EqualTo(42));
             mockDice.Verify(d => d.Roll(9266), Times.Once);
         }
@@ -80,21 +71,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void RollExpressionJsonResultAllowsGet()
-        {
-            mockDice.Setup(d => d.Roll("expression").AsSum()).Returns(9266);
-
-            var result = controller.RollExpression("expression") as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void RollExpressionResultContainsRoll()
         {
             mockDice.Setup(d => d.Roll("expression").AsSum()).Returns(9266);
 
             var result = controller.RollExpression("expression") as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.roll, Is.EqualTo(9266));
         }
 
@@ -106,19 +88,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void ValidateExpressionJsonResultAllowsGet()
-        {
-            var result = controller.ValidateExpression("expression") as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void ValidateExpressionIsValid()
         {
             mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression", false)).Returns("90210");
 
             var result = controller.ValidateExpression("expression") as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.True);
         }
 
@@ -129,7 +104,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockDice.Setup(d => d.ReplaceExpressionWithTotal("expression", false)).Returns("phrase with 90210 roll");
 
             var result = controller.ValidateExpression("expression") as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -137,7 +112,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsAValidRoll()
         {
             var result = controller.Validate(9266, 90210) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.True);
         }
 
@@ -145,7 +120,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsNotValidRollBecauseOfQuantityTooHigh()
         {
             var result = controller.Validate(Limits.Quantity + 1, 90210) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -153,7 +128,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsNotValidRollBecauseOfQuantityTooLow()
         {
             var result = controller.Validate(0, 90210) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -161,7 +136,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsNotValidRollBecauseOfDieTooHigh()
         {
             var result = controller.Validate(9266, 90210) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -169,7 +144,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsNotValidRollBecauseOfDieTooLow()
         {
             var result = controller.Validate(9266, 0) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -177,7 +152,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void ValidateRollIsNotValidRollBecauseOfProductTooHigh()
         {
             var result = controller.Validate(2, Limits.Die) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -186,7 +161,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             //INFO: This works as too low because it overflows the in and comes back around as negative
             var result = controller.Validate(Limits.Quantity, Limits.Die) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
     }

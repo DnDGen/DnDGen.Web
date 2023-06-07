@@ -1,8 +1,7 @@
 ﻿using CharacterGen.Leaders;
 using DnDGen.Web.Helpers;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers.Characters
 {
@@ -23,7 +22,7 @@ namespace DnDGen.Web.Controllers.Characters
             clientIdManager.SetClientID(clientId);
 
             var leadership = leadershipGenerator.GenerateLeadership(leaderLevel, leaderCharismaBonus, leaderAnimal);
-            return Json(new { leadership = leadership }, JsonRequestBehavior.AllowGet);
+            return Json(new { leadership = leadership });
         }
 
         [HttpGet]
@@ -35,7 +34,7 @@ namespace DnDGen.Web.Controllers.Characters
 
             cohort.Skills = CharacterHelper.SortSkills(cohort.Skills);
 
-            return Json(new { cohort = cohort }, JsonRequestBehavior.AllowGet);
+            return Json(new { cohort = cohort });
         }
 
         [HttpGet]
@@ -47,7 +46,7 @@ namespace DnDGen.Web.Controllers.Characters
 
             follower.Skills = CharacterHelper.SortSkills(follower.Skills);
 
-            return Json(new { follower = follower }, JsonRequestBehavior.AllowGet);
+            return Json(new { follower = follower });
         }
     }
 }

@@ -6,10 +6,10 @@ using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers.Characters
 {
@@ -55,13 +55,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
         }
 
         [Test]
-        public void VerifyJsonResultAllowsGet()
-        {
-            var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void VerifySetsClientId()
         {
             var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
@@ -97,7 +90,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
                 .Returns(true);
 
             var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.compatible, Is.True);
         }
 
@@ -127,7 +120,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
                 .Returns(false);
 
             var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.compatible, Is.False);
         }
 
@@ -157,7 +150,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
                 .Throws<NullReferenceException>();
 
             var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.compatible, Is.False);
         }
 
@@ -180,7 +173,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
                 .Returns(true);
 
             var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.compatible, Is.True);
         }
     }

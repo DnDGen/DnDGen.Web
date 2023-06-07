@@ -1,9 +1,9 @@
 ﻿using DnDGen.Web.Controllers;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -43,17 +43,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void ClientIdJsonAllowsGet()
-        {
-            var result = controller.ClientId() as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void ClientIdJsonReturnsClientId()
         {
             var result = controller.ClientId() as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.clientId, Is.Not.Null);
             Assert.That(data.clientId, Is.Not.EqualTo(Guid.Empty));
         }
@@ -64,8 +57,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             var firstResult = controller.ClientId() as JsonResult;
             var secondResult = controller.ClientId() as JsonResult;
 
-            dynamic firstData = firstResult.Data;
-            dynamic secondData = secondResult.Data;
+            dynamic firstData = firstResult.Value;
+            dynamic secondData = secondResult.Value;
 
             Assert.That(firstData.clientId, Is.Not.Null);
             Assert.That(firstData.clientId, Is.Not.EqualTo(Guid.Empty));
@@ -85,14 +78,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void AllJsonAllowsGet()
-        {
-            var clientId = Guid.NewGuid();
-            var result = controller.All(clientId) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void AllJsonReturnsEvents()
         {
             var clientId = Guid.NewGuid();
@@ -105,7 +90,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEventQueue.Setup(q => q.DequeueAll(clientId)).Returns(events);
 
             var result = controller.All(clientId) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.events, Is.EquivalentTo(events));
         }
 

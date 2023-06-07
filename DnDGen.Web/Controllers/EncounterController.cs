@@ -3,7 +3,7 @@ using DnDGen.Web.Models;
 using EncounterGen.Generators;
 using EventGen;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -39,7 +39,7 @@ namespace DnDGen.Web.Controllers
                 character.Skills = CharacterHelper.SortSkills(character.Skills);
             }
 
-            return Json(new { encounter = encounter }, JsonRequestBehavior.AllowGet);
+            return Json(new { encounter = encounter });
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@ namespace DnDGen.Web.Controllers
 
             }
 
-            return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+            return Json(new { isValid = isValid });
         }
     }
 }

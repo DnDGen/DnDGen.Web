@@ -1,5 +1,4 @@
-﻿using Ninject;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -10,14 +9,14 @@ namespace DnDGen.Web.Tests.Integration.Repositories
     [TestFixture]
     public class GitHubClientTests : IntegrationTests
     {
-        [Inject]
-        public IGitHubClient GitHubClient { get; set; }
-
+        private IGitHubClient gitHubClient;
         private RepositoryIssueRequest issueRequest;
 
         [SetUp]
         public void Setup()
         {
+            gitHubClient = GetNewInstanceOf<IGitHubClient>();
+
             issueRequest = new RepositoryIssueRequest();
             issueRequest.Filter = IssueFilter.All;
             issueRequest.State = ItemStateFilter.All;
@@ -27,7 +26,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
         [Test]
         public void FilterByLabel()
         {
-            var issuesTask = GitHubClient.Issue.GetAllForRepository("DnDGen", "DnDGen.Web", issueRequest);
+            var issuesTask = gitHubClient.Issue.GetAllForRepository("DnDGen", "DnDGen.Web", issueRequest);
             issuesTask.Wait();
 
             var issues = issuesTask.Result;
@@ -43,7 +42,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
             newIssue.Labels.Add("automated-testing");
             newIssue.Body = "this is for automated testing";
 
-            var newIssueTask = GitHubClient.Issue.Create("DnDGen", "DnDGen.Web", newIssue);
+            var newIssueTask = gitHubClient.Issue.Create("DnDGen", "DnDGen.Web", newIssue);
             newIssueTask.Wait();
 
             var issues = GetIssues();
@@ -54,7 +53,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
             var issueUpdate = issue.ToUpdate();
             issueUpdate.State = ItemState.Closed;
 
-            var updateTask = GitHubClient.Issue.Update("DnDGen", "DnDGen.Web", issue.Number, issueUpdate);
+            var updateTask = gitHubClient.Issue.Update("DnDGen", "DnDGen.Web", issue.Number, issueUpdate);
             updateTask.Wait();
         }
 
@@ -68,7 +67,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
             var issueUpdate = issue.ToUpdate();
             issueUpdate.Body = newBody;
 
-            var updateTask = GitHubClient.Issue.Update("DnDGen", "DnDGen.Web", issue.Number, issueUpdate);
+            var updateTask = gitHubClient.Issue.Update("DnDGen", "DnDGen.Web", issue.Number, issueUpdate);
             updateTask.Wait();
 
             issues = GetIssues();
@@ -84,10 +83,10 @@ namespace DnDGen.Web.Tests.Integration.Repositories
             var issues = GetIssues();
             var issue = issues.First();
 
-            var newCommentTask = GitHubClient.Issue.Comment.Create("DnDGen", "DnDGen.Web", issue.Number, newComment);
+            var newCommentTask = gitHubClient.Issue.Comment.Create("DnDGen", "DnDGen.Web", issue.Number, newComment);
             newCommentTask.Wait();
 
-            var commentTask = GitHubClient.Issue.Comment.GetAllForIssue("DnDGen", "DnDGen.Web", issue.Number);
+            var commentTask = gitHubClient.Issue.Comment.GetAllForIssue("DnDGen", "DnDGen.Web", issue.Number);
             commentTask.Wait();
 
             var comments = commentTask.Result;
@@ -97,7 +96,7 @@ namespace DnDGen.Web.Tests.Integration.Repositories
 
         private IEnumerable<Issue> GetIssues()
         {
-            var issuesTask = GitHubClient.Issue.GetAllForRepository("DnDGen", "DnDGen.Web", issueRequest);
+            var issuesTask = gitHubClient.Issue.GetAllForRepository("DnDGen", "DnDGen.Web", issueRequest);
             issuesTask.Wait();
             return issuesTask.Result;
         }

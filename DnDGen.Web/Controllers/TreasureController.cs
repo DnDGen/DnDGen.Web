@@ -2,7 +2,7 @@
 using DnDGen.Web.Models;
 using EventGen;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TreasureGen;
 using TreasureGen.Coins;
 using TreasureGen.Generators;
@@ -50,7 +50,7 @@ namespace DnDGen.Web.Controllers
             clientIdManager.SetClientID(clientId);
 
             var treasure = GetTreasure(treasureType, level);
-            return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);
+            return Json(new { treasure = treasure });
         }
 
         private Treasure GetTreasure(string treasureType, int level)
@@ -79,7 +79,7 @@ namespace DnDGen.Web.Controllers
             var treasure = new Treasure();
             treasure.Items = new[] { item };
 
-            return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);
+            return Json(new { treasure = treasure });
 
         }
 

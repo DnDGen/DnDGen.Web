@@ -1,7 +1,7 @@
 ﻿using DnDGen.Web.Controllers;
 using NUnit.Framework;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {

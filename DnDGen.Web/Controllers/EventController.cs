@@ -1,6 +1,6 @@
 ﻿using EventGen;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -18,7 +18,7 @@ namespace DnDGen.Web.Controllers
         {
             var clientId = Guid.NewGuid().ToString();
 
-            return Json(new { clientId = clientId }, JsonRequestBehavior.AllowGet);
+            return Json(new { clientId = clientId });
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace DnDGen.Web.Controllers
         {
             var events = eventQueue.DequeueAll(clientId);
 
-            return Json(new { events = events }, JsonRequestBehavior.AllowGet);
+            return Json(new { events = events });
         }
 
         [HttpPost]

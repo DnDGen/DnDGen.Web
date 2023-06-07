@@ -8,11 +8,11 @@ using DungeonGen;
 using EncounterGen.Common;
 using EncounterGen.Generators;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -145,23 +145,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateFromHallJsonAllowsGet()
-        {
-            var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
-
-            var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateFromHallJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
             mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
             var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.areas, Is.EqualTo(areas));
         }
 
@@ -212,7 +202,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockDungeonGenerator.Setup(g => g.GenerateFromHall(9266, environment)).Returns(areas);
 
             var result = controller.GenerateFromHall(clientId, 9266, environment) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
 
@@ -265,23 +255,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateFromDoorJsonAllowsGet()
-        {
-            var areas = Enumerable.Empty<Area>();
-            mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
-
-            var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateFromDoorJsonReturnsGeneratedAreas()
         {
             var areas = Enumerable.Empty<Area>();
             mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
             var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.areas, Is.EqualTo(areas));
         }
 
@@ -292,7 +272,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockDungeonGenerator.Setup(g => g.GenerateFromDoor(9266, environment)).Returns(areas);
 
             var result = controller.GenerateFromDoor(clientId, 9266, environment) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.areas, Is.EqualTo(areas));
             Assert.That(areas, Is.Not.Empty);
 

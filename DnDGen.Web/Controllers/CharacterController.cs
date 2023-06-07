@@ -3,8 +3,7 @@ using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -51,7 +50,7 @@ namespace DnDGen.Web.Controllers
 
             character.Skills = CharacterHelper.SortSkills(character.Skills);
 
-            return Json(new { character = character }, JsonRequestBehavior.AllowGet);
+            return Json(new { character = character });
         }
     }
 }

@@ -18,7 +18,7 @@ namespace DnDGen.Web.Tests.Integration
 
         protected IntegrationTests()
         {
-            kernel = new StandardKernel();
+            kernel = new StandardKernel(new NinjectSettings() { InjectNonPublic = true });
 
             var rollGenModuleLoader = new RollGenModuleLoader();
             rollGenModuleLoader.LoadModules(kernel);

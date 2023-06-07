@@ -1,5 +1,5 @@
 ﻿using DnDGen.Web.Repositories;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {

@@ -2,7 +2,7 @@
 using DnDGen.Web.Repositories;
 using Moq;
 using NUnit.Framework;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {

@@ -33,7 +33,7 @@ namespace DnDGen.Web.Tests.Unit.Models
         {
             var serialized = JsonConvert.SerializeObject(source);
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
             var target = File.ReadAllText(path);
             //INFO: Removes whitespace from the file.  Whitespace is there for readability in file, but breaks the equality assertion
             target = Regex.Replace(target, @"\s+", string.Empty);

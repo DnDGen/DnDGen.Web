@@ -116,7 +116,7 @@
 @section PostBodyScripts {
     <script type="text/javascript">
         angular.module('app.dungeon').factory('model', function () {
-            return @Html.Raw(Json.Encode(Model));
+            return @Html.Raw(Json.Serialize(Model));
         });
     </script>
 }

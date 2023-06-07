@@ -1,6 +1,12 @@
+using System.Runtime.CompilerServices;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DnDGen.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(DnDGen.Web.App_Start.NinjectWebCommon), "Stop")]
 
+
+[assembly: InternalsVisibleTo("DnDGen.Web.Tests.Unit")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("DnDGen.Web.Tests.Integration")]
 namespace DnDGen.Web.App_Start
 {
     using CharacterGen.Domain.IoC;
@@ -15,7 +21,6 @@ namespace DnDGen.Web.App_Start
     using Ninject.Web.Common.WebHost;
     using RollGen.Domain.IoC;
     using System;
-    using System.Web;
     using TreasureGen.Domain.IoC;
 
     public static class NinjectWebCommon
@@ -50,7 +55,6 @@ namespace DnDGen.Web.App_Start
             try
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
                 return kernel;

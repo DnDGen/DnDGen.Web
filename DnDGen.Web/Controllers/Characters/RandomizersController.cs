@@ -2,8 +2,7 @@
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers.Characters
 {
@@ -41,7 +40,7 @@ namespace DnDGen.Web.Controllers.Characters
 
             }
 
-            return Json(new { compatible = compatible }, JsonRequestBehavior.AllowGet);
+            return Json(new { compatible = compatible });
         }
     }
 }
