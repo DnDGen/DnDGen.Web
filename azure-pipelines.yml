@@ -1,0 +1,42 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'DnDGen.Web.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- checkout: self
+  displayName: 'Checkout Code'
+  persistCredentials: true
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: './DnDGen.Web/DnDGen.Web.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: Unit Tests
+  inputs:
+    command: test
+    projects: './DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
+    arguments: '-v normal'
+- task: DotNetCoreCLI@2
+  displayName: Integration Tests
+  inputs:
+    command: test
+    projects: './DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
+    arguments: '-v normal'
+
+- task: PublishBuildArtifacts@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Publish Artifacts
+  inputs:
+    pathtoPublish: './DnDGen.Web' 
+    artifactName: 'dndgen-web'
