@@ -1,4 +1,5 @@
 ﻿{
+  "InterestingTrait": "",
   "Alignment": {
     "Lawfulness": "",
     "Goodness": "",
@@ -11,7 +12,7 @@
     "Name": "",
     "SpecialistFields": [],
     "ProhibitedFields": [],
-    "EffectiveLevel": 0.0,
+    "EffectiveLevel": 0,
     "Summary": "Level0"
   },
   "Race": {
@@ -23,44 +24,43 @@
     "Size": "",
     "ChallengeRating": 0,
     "Age": {
-      "Unit": "Years",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "Years"
     },
     "MaximumAge": {
-      "Unit": "Years",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "Years"
     },
     "Height": {
-      "Unit": "Inches",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "Inches"
     },
     "Weight": {
-      "Unit": "Pounds",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "Pounds"
     },
     "LandSpeed": {
-      "Unit": "feet per round",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "feet per round"
     },
     "AerialSpeed": {
-      "Unit": "feet per round",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "feet per round"
     },
     "SwimSpeed": {
-      "Unit": "feet per round",
       "Value": 0,
-      "Description": ""
+      "Description": "",
+      "Unit": "feet per round"
     },
     "Gender": "Female",
     "Summary": "Female"
   },
-  "InterestingTrait": "",
   "Combat": {
     "ArmorClass": {
       "CircumstantialBonus": false,
@@ -106,7 +106,7 @@
     "Additional": [],
     "All": []
   },
-  "Abilities": { },
+  "Abilities": {},
   "Equipment": {
     "PrimaryHand": null,
     "OffHand": null,
@@ -130,5 +130,5 @@
   },
   "IsLeader": false,
   "Summary": "",
-  "ChallengeRating": 0.0
+  "ChallengeRating": 0
 }

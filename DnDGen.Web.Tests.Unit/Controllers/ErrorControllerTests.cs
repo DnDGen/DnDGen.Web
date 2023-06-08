@@ -1,8 +1,6 @@
 ﻿using DnDGen.Web.Controllers;
-using DnDGen.Web.Repositories;
-using Moq;
-using NUnit.Framework;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -10,13 +8,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     public class ErrorControllerTests
     {
         private ErrorController controller;
-        private Mock<ErrorRepository> mockErrorRepository;
 
         [SetUp]
         public void Setup()
         {
-            mockErrorRepository = new Mock<ErrorRepository>();
-            controller = new ErrorController(mockErrorRepository.Object);
+            controller = new ErrorController();
         }
 
         [TestCase("Index")]
@@ -26,26 +22,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
         }
 
-        [TestCase("Report")]
-        public void ActionHandlesPostVerb(string methodName)
-        {
-            var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
-            Assert.That(attributes, Contains.Item(typeof(HttpPostAttribute)));
-        }
-
         [Test]
         public void IndexReturnsView()
         {
             var result = controller.Index();
             Assert.That(result, Is.InstanceOf<ViewResult>());
-        }
-
-        [Test]
-        public void ReportPostsErrorFromClient()
-        {
-            controller.Report("something went wrong", "cause");
-            mockErrorRepository.Verify(e => e.Report("something went wrong", "cause"), Times.Once);
-            mockErrorRepository.Verify(e => e.Report(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
     }
 }

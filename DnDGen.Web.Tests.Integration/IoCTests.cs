@@ -1,5 +1,4 @@
-﻿using Ninject;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Diagnostics;
 
@@ -8,8 +7,7 @@ namespace DnDGen.Web.Tests.Integration
     [TestFixture]
     public abstract class IoCTests : IntegrationTests
     {
-        [Inject]
-        public Stopwatch Stopwatch { get; set; }
+        protected Stopwatch Stopwatch;
 
         private TimeSpan TimeLimit;
 
@@ -17,6 +15,7 @@ namespace DnDGen.Web.Tests.Integration
         public void IoCSetup()
         {
             TimeLimit = new TimeSpan(TimeSpan.TicksPerSecond);
+            Stopwatch = new Stopwatch();
 
             Stopwatch.Reset();
         }

@@ -6,7 +6,6 @@ using DnDGen.Web.Repositories.Domain;
 using DungeonGen;
 using EncounterGen.Generators;
 using NUnit.Framework;
-using Octokit;
 using RollGen;
 using TreasureGen.Generators;
 
@@ -62,20 +61,6 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         {
             var controller = InjectAndAssertDuration<DungeonController>();
             Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void ErrorRepositoryIsInjected()
-        {
-            var repository = InjectAndAssertDuration<ErrorRepository>();
-            Assert.That(repository, Is.InstanceOf<GitHubErrorRepository>());
-        }
-
-        [Test]
-        public void GitHubClientIsInjected()
-        {
-            var client = InjectAndAssertDuration<IGitHubClient>();
-            Assert.That(client, Is.InstanceOf<GitHubClient>());
         }
 
         [Test]

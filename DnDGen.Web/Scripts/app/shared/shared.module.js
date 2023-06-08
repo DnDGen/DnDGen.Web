@@ -15,21 +15,6 @@
 
             function log( exception, cause ) {
                 $log.error.apply( $log, arguments );
-                
-                try {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Error/Report",
-                        contentType: "application/json",
-                        data: angular.toJson({
-                            error: exception.message,
-                            cause: (cause || "")
-                        })
-                    });
-                } catch ( loggingError ) {
-                    $log.warn( "Error logging failed" );
-                    $log.log( loggingError );
-                }
             }
         });
 })();

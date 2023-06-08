@@ -7,10 +7,10 @@ using CharacterGen.Skills;
 using DungeonGen;
 using EncounterGen.Common;
 using EncounterGen.Generators;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using TreasureGen;
 using TreasureGen.Goods;
@@ -29,9 +29,12 @@ namespace DnDGen.Web.Tests.Unit.Models
             AssertJsonCorrect(treasure, "treasure");
         }
 
-        private void AssertJsonCorrect(object source, string fileTarget)
+        private void AssertJsonCorrect<T>(T source, string fileTarget)
         {
-            var serialized = JsonConvert.SerializeObject(source);
+            var serialized = JsonSerializer.Serialize(source, options: new JsonSerializerOptions
+            {
+                IncludeFields = true,
+            });
 
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
             var target = File.ReadAllText(path);
