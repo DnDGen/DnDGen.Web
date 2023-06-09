@@ -1,0 +1,79 @@
+﻿@page
+
+@section ngApp {
+    ng-app='app.roll'
+}
+
+@section Scripts {
+    <script src="~/js/roll/roll.module.js"></script>
+    <script src="~/js/roll/roll.service.js"></script>
+    <script src="~/js/roll/roll.controller.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/css/roll.css">
+}
+
+<div ng-controller="Roll as vm">
+    <h1>RollGen</h1>
+    <div class="row top-buffer">
+        <div class="col-sm-6">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#standard" area-controls="standard" role="tab" data-toggle="tab">Standard</a></li>
+                <li role="presentation"><a href="#custom" area-controls="custom" role="tab" data-toggle="tab">Custom</a></li>
+                <li role="presentation"><a href="#expression" area-controls="expression" role="tab" data-toggle="tab">Expression</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="standard">
+                    <form name="standardRollForm" class="form-horizontal top-buffer" role="form">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <input dndgen-no-decimals class="form-control " type="number" min="1" ng-model="vm.standardQuantity" required />
+                            </div>
+                            <label for="standardRolls" class="col-sm-1 control-label no-side-padding">d</label>
+                            <div class="col-sm-2 no-side-padding">
+                                <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="custom">
+                    <form name="customRollForm" class="form-horizontal top-buffer" role="form">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <input dndgen-no-decimals class="form-control" type="number" min="1" ng-model="vm.customQuantity" required />
+                            </div>
+                            <label for="customDie" class="col-sm-1 control-label no-side-padding">d</label>
+                            <div class="col-sm-2 no-side-padding">
+                                <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" ng-model="vm.customDie" required />
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="expression">
+                    <form name="expressionRollForm" class="form-horizontal top-buffer" role="form">
+                        <div class="form-group">
+                            <label for="rollExpression" class="col-sm-2 control-label">Expression</label>
+                            <div class="col-sm-3 col-sm-offset-1">
+                                <input id="rollExpression" class="form-control" type="text" ng-model="vm.expression" required />
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || !vm.rollIsValid">Roll</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <span ng-hide="vm.rolling" class="font-green font-big">{{vm.roll | number}}</span>
+            <span id="rollingSection" ng-show="vm.rolling" class="font-green font-big">Rolling...</span>
+        </div>
+    </div>
+</div>

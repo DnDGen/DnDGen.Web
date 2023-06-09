@@ -6,33 +6,33 @@
     { "Path": "jasmine/console.js" },
     { "Path": "jasmine/jasmine-html.js" },
     { "Path": "jasmine/jasmine.js" },
-    { "Path": "../../DnDGen.Web/Scripts/jQuery/jquery-3.2.1.js" },
+    { "Path": "../../DnDGen.Web/wwwroot/lib/jquery/jquery.js" },
     { "Path": "jasmine/jasmine-jquery.js" },
     {
       "Path": "mocks/",
       "Includes": [ "*.json" ]
     },
     { "Path": "mocks/mockProvider.js" },
-    { "Path": "../../DnDGen.Web/Scripts/bootstrap/bootstrap.js" },
-    { "Path": "../../DnDGen.Web/Scripts/Angular/angular.js" },
-    { "Path": "../../DnDGen.Web/Scripts/Angular/angular-mocks.js" },
+    { "Path": "../../DnDGen.Web/wwwroot/lib/bootstrap/bootstrap.js" },
+    { "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular.js" },
+    { "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular-mocks.js" },
     {
-      "Path": "../../DnDGen.Web/Scripts/app/shared",
+      "Path": "../../DnDGen.Web/wwwroot/shared",
       "Includes": [ "*.module.js" ],
       "Excludes": [ "*Resource*" ]
     },
     {
-      "Path": "../../DnDGen.Web/Scripts/app/shared",
+      "Path": "../../DnDGen.Web/wwwroot/shared",
       "Includes": [ "*.js" ],
       "Excludes": [ "*Resource*" ]
     },
     {
-      "Path": "../../DnDGen.Web/Scripts/app",
+      "Path": "../../DnDGen.Web/wwwroot",
       "Includes": [ "*.module.js" ],
       "Excludes": [ "*Resource*" ]
     },
     {
-      "Path": "../../DnDGen.Web/Scripts/app",
+      "Path": "../../DnDGen.Web/wwwroot",
       "Includes": [ "*.js" ],
       "Excludes": [ "*Resource*" ]
     }

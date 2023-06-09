@@ -1,51 +1,142 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DnDGen.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DnDGen.Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">DnDGen.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+<html>
+    <head>
+        <title>DnDGen</title>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/Angular/angular.js"></script>
+    <script src="~/lib/SweetAlert/sweetalert.min.js"></script>
+    <script src="~/lib/fileSaver/FileSaver.js"></script>
+        <script src="~/js/shared/shared.module.js"></script>
+        <script src="~/js/shared/promise.service.js"></script>
+        <script src="~/js/shared/noDecimals.directive.js"></script>
+        <script src="~/js/shared/sweetAlert.service.js"></script>
+        <script src="~/js/shared/fileSaver.service.js"></script>
+        <script src="~/js/shared/inchesToFeet.filter.js"></script>
+        <script src="~/js/shared/collapsableList.directive.js"></script>
+        <script src="~/js/shared/event.service.js"></script>
+        <script src="~/js/shared/eventLog.directive.js"></script>
+        @RenderSection("Scripts", false)
+
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="~/css/sweetalert.css">
+        @RenderSection("Styles", false)
+
+        <link rel="shortcut icon" href="https://theonlysheet.com/community/images/smilies/d20.png">
+    </head>
+<body class="full-body">
+    @RenderSection("ngApp", false)
+    <!-- Google Tag Manager -->
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-NQWX6W" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NQWX6W');
+    </script>
+    <!-- End Google Tag Manager -->
+    @*<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+                <a class="navbar-brand" href="~/">DnDGen</a>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - DnDGen.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <div class="collapse navbar-collapse" id="mainNavigation">
+                <ul class="nav navbar-nav visible-md visible-lg">
+                    <li><a href="~/Roll">RollGen</a></li>
+                    <li><a href="~/Treasure">TreasureGen</a></li>
+                    <li><a href="~/Character">CharacterGen</a></li>
+                    <li><a href="~/Encounter">EncounterGen</a></li>
+                    <li><a href="~/Dungeon">DungeonGen</a></li>
+                </ul>
+                <ul class="nav navbar-nav visible-xs visible-sm">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Generators <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="~/Roll">RollGen</a></li>
+                            <li><a href="~/Treasure">TreasureGen</a></li>
+                            <li><a href="~/Character">CharacterGen</a></li>
+                            <li><a href="~/Encounter">EncounterGen</a></li>
+                            <li><a href="~/Dungeon">DungeonGen</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="https://github.com/DnDGen">The DnDGen Project</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://github.com/DnDGen/RollGen">RollGen</a></li>
+                            <li><a href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
+                            <li><a href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
+                            <li><a href="https://github.com/DnDGen/DnDGen.Web">This Site</a></li>
+                        </ul>
+                    </li>
+                    <li class="padding-right"><a href="http://dnd.wizards.com/">Official D&D Site</a></li>
+                </ul>
+            </div>
         </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    </nav>*@
+    <nav class="navbar navbar-expand-sm">
+        <a class="navbar-brand" asp-controller="home" asp-action="index">DnDGen</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="roll" asp-action="index">RollGen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="treasure" asp-action="index">TreasureGen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="character" asp-action="index">CharacterGen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="encounter" asp-action="index">EncounterGen</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="dungeon" asp-action="index">DungeonGen</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://github.com/DnDGen">The DnDGen Project</a></li>
+                        <li class="divider"></li>
+                        <li><a href="https://github.com/DnDGen/RollGen">RollGen</a></li>
+                        <li><a href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
+                        <li><a href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
+                        <li><a href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
+                        <li><a href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
+                        <li><a href="https://github.com/DnDGen/DnDGen.Web">This Site</a></li>
+                    </ul>
+                </li>
+                <li class="padding-right"><a href="http://dnd.wizards.com/">Official D&D Site</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="body-content container">
+        @RenderBody()
+    </div>
 </body>
+@RenderSection("PostBodyScripts", false)
 </html>

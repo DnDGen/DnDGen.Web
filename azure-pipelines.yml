@@ -22,7 +22,7 @@ steps:
     projects: './DnDGen.Web/DnDGen.Web.csproj'
     arguments: '--configuration $(buildConfiguration)'
 - task: DotNetCoreCLI@2
-  displayName: Unit Tests
+  displayName: Server-side Unit Tests
   inputs:
     command: test
     projects: './DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
@@ -33,6 +33,13 @@ steps:
     command: test
     projects: './DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
     arguments: '-v normal'
+- task: VSTest@2
+  displayName: Client-side Unit Tests
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/**/*.tests.js'
+    pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/packages/Chutzpah.*/tools/'
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
