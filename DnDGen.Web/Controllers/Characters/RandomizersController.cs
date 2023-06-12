@@ -19,6 +19,7 @@ namespace DnDGen.Web.Controllers.Characters
             this.clientIdManager = clientIdManager;
         }
 
+        [Route("Characters/Randomizers/Verify")]
         [HttpGet]
         public JsonResult Verify(Guid clientId, CharacterSpecifications characterSpecifications)
         {

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web.Tests.Integratio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web.Tests.Unit", "DnDGen.Web.Tests.Unit\DnDGen.Web.Tests.Unit.csproj", "{9CAADCB5-ED42-40D8-A2BE-658C47447F32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{7B25892C-DB0F-496C-8FAC-35FCA2D01849}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{7B25892C-DB0F-496C-8FAC-35FCA2D01849}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

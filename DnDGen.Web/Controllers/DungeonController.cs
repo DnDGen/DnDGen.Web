@@ -3,8 +3,6 @@ using DnDGen.Web.Models;
 using DungeonGen;
 using EncounterGen.Generators;
 using EventGen;
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
@@ -20,6 +18,7 @@ namespace DnDGen.Web.Controllers
             this.clientIdManager = clientIdManager;
         }
 
+        [Route("Dungeon")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,6 +26,7 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Dungeon/GenerateFromHall")]
         [HttpGet]
         public JsonResult GenerateFromHall(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
         {
@@ -62,6 +62,7 @@ namespace DnDGen.Web.Controllers
             return areas;
         }
 
+        [Route("Dungeon/GenerateFromDoor")]
         [HttpGet]
         public JsonResult GenerateFromDoor(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
         {

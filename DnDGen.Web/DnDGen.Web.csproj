@@ -7,53 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Web.Debug.config" />
-    <Content Remove="Web.Release.config" />
+    <Compile Remove="Scripts\**" />
+    <Content Remove="Scripts\**" />
+    <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="Scripts\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="fonts\glyphicons-halflings-regular.eot" />
-    <None Remove="fonts\glyphicons-halflings-regular.svg" />
-    <None Remove="fonts\glyphicons-halflings-regular.ttf" />
-    <None Remove="fonts\glyphicons-halflings-regular.woff" />
-    <None Remove="fonts\glyphicons-halflings-regular.woff2" />
-    <None Remove="Scripts\app\character\character.controller.js" />
-    <None Remove="Scripts\app\character\character.directive.js" />
-    <None Remove="Scripts\app\character\character.module.js" />
-    <None Remove="Scripts\app\character\character.service.js" />
-    <None Remove="Scripts\app\character\characterFormatter.service.js" />
-    <None Remove="Scripts\app\character\characterWithoutLeadership.directive.js" />
-    <None Remove="Scripts\app\character\leadership.service.js" />
-    <None Remove="Scripts\app\character\randomizer.service.js" />
-    <None Remove="Scripts\app\dungeon\dungeon.controller.js" />
-    <None Remove="Scripts\app\dungeon\dungeon.module.js" />
-    <None Remove="Scripts\app\dungeon\dungeon.service.js" />
-    <None Remove="Scripts\app\dungeon\dungeonArea.directive.js" />
-    <None Remove="Scripts\app\dungeon\dungeonFormatter.service.js" />
-    <None Remove="Scripts\app\dungeon\dungeonTreasure.directive.js" />
-    <None Remove="Scripts\app\encounter\encounter.controller.js" />
-    <None Remove="Scripts\app\encounter\encounter.directive.js" />
-    <None Remove="Scripts\app\encounter\encounter.module.js" />
-    <None Remove="Scripts\app\encounter\encounter.service.js" />
-    <None Remove="Scripts\app\encounter\encounterFormatter.service.js" />
-    <None Remove="Scripts\app\roll\roll.controller.js" />
-    <None Remove="Scripts\app\roll\roll.module.js" />
-    <None Remove="Scripts\app\roll\roll.service.js" />
-    <None Remove="Scripts\app\shared\collapsableList.directive.js" />
-    <None Remove="Scripts\app\shared\event.service.js" />
-    <None Remove="Scripts\app\shared\eventLog.directive.js" />
-    <None Remove="Scripts\app\shared\fileSaver.service.js" />
-    <None Remove="Scripts\app\shared\inchesToFeet.filter.js" />
-    <None Remove="Scripts\app\shared\noDecimals.directive.js" />
-    <None Remove="Scripts\app\shared\promise.service.js" />
-    <None Remove="Scripts\app\shared\shared.module.js" />
-    <None Remove="Scripts\app\shared\sweetAlert.service.js" />
-    <None Remove="Scripts\app\treasure\item.directive.js" />
-    <None Remove="Scripts\app\treasure\treasure.controller.js" />
-    <None Remove="Scripts\app\treasure\treasure.directive.js" />
-    <None Remove="Scripts\app\treasure\treasure.module.js" />
-    <None Remove="Scripts\app\treasure\treasure.service.js" />
-    <None Remove="Scripts\app\treasure\treasureFormatter.service.js" />
     <None Remove="Templates\Character\Character.html" />
     <None Remove="Templates\Character\CharacterWithoutLeadership.html" />
     <None Remove="Templates\Dungeon\DungeonArea.html" />
@@ -66,48 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Scripts\app\character\character.controller.js" />
-    <Content Include="Scripts\app\character\character.directive.js" />
-    <Content Include="Scripts\app\character\character.module.js" />
-    <Content Include="Scripts\app\character\character.service.js" />
-    <Content Include="Scripts\app\character\characterFormatter.service.js" />
-    <Content Include="Scripts\app\character\characterWithoutLeadership.directive.js" />
-    <Content Include="Scripts\app\character\leadership.service.js" />
-    <Content Include="Scripts\app\character\randomizer.service.js" />
-    <Content Include="Scripts\app\dungeon\dungeon.controller.js" />
-    <Content Include="Scripts\app\dungeon\dungeon.module.js" />
-    <Content Include="Scripts\app\dungeon\dungeon.service.js" />
-    <Content Include="Scripts\app\dungeon\dungeonArea.directive.js" />
-    <Content Include="Scripts\app\dungeon\dungeonFormatter.service.js" />
-    <Content Include="Scripts\app\dungeon\dungeonTreasure.directive.js" />
-    <Content Include="Scripts\app\encounter\encounter.controller.js" />
-    <Content Include="Scripts\app\encounter\encounter.directive.js" />
-    <Content Include="Scripts\app\encounter\encounter.module.js" />
-    <Content Include="Scripts\app\encounter\encounter.service.js" />
-    <Content Include="Scripts\app\encounter\encounterFormatter.service.js" />
-    <Content Include="Scripts\app\roll\roll.controller.js" />
-    <Content Include="Scripts\app\roll\roll.module.js" />
-    <Content Include="Scripts\app\roll\roll.service.js" />
-    <Content Include="Scripts\app\shared\collapsableList.directive.js" />
-    <Content Include="Scripts\app\shared\event.service.js" />
-    <Content Include="Scripts\app\shared\eventLog.directive.js" />
-    <Content Include="Scripts\app\shared\fileSaver.service.js" />
-    <Content Include="Scripts\app\shared\inchesToFeet.filter.js" />
-    <Content Include="Scripts\app\shared\noDecimals.directive.js" />
-    <Content Include="Scripts\app\shared\promise.service.js" />
-    <Content Include="Scripts\app\shared\shared.module.js" />
-    <Content Include="Scripts\app\shared\sweetAlert.service.js" />
-    <Content Include="Scripts\app\treasure\item.directive.js" />
-    <Content Include="Scripts\app\treasure\treasure.controller.js" />
-    <Content Include="Scripts\app\treasure\treasure.directive.js" />
-    <Content Include="Scripts\app\treasure\treasure.module.js" />
-    <Content Include="Scripts\app\treasure\treasure.service.js" />
-    <Content Include="Scripts\app\treasure\treasureFormatter.service.js" />
     <Content Include="Templates\Character\Character.html" />
     <Content Include="Templates\Character\CharacterWithoutLeadership.html" />
     <Content Include="Templates\Dungeon\DungeonArea.html" />
@@ -121,15 +39,6 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -153,12 +62,5 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.9" />
     <PackageReference Include="Ninject" Version="3.3.6" />
     <PackageReference Include="WebActivatorEx" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Pages\Shared\_Layout.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 </Project>

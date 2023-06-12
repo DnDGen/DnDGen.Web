@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Controllers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -18,7 +19,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             mockDice = new Mock<Dice>();
             mockRoll = new Mock<PartialRoll>();
-            controller = new RollController(mockDice.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<Dice>()).Returns(mockDice.Object);
+
+            controller = new RollController(mockDependencyFactory.Object);
 
             mockDice.Setup(d => d.Roll(It.IsAny<int>())).Returns(mockRoll.Object);
         }

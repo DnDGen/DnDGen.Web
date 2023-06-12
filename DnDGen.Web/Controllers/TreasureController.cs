@@ -1,7 +1,6 @@
 ﻿using DnDGen.Core.Generators;
 using DnDGen.Web.Models;
 using EventGen;
-using System;
 using Microsoft.AspNetCore.Mvc;
 using TreasureGen;
 using TreasureGen.Coins;
@@ -37,6 +36,7 @@ namespace DnDGen.Web.Controllers
             this.clientIdManager = clientIdManager;
         }
 
+        [Route("Treasure")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -44,6 +44,7 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Treasure/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, string treasureType, int level)
         {
@@ -70,6 +71,7 @@ namespace DnDGen.Web.Controllers
             return treasure;
         }
 
+        [Route("Treasure/GenerateItem")]
         [HttpGet]
         public JsonResult GenerateItem(Guid clientId, string itemType, string power)
         {

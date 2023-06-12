@@ -35,5 +35,15 @@ namespace DnDGen.Web.Tests.Integration
 
             return instance;
         }
+
+        protected T InjectControllerAndAssertDuration<T>()
+        {
+            Stopwatch.Restart();
+
+            var instance = GetController<T>();
+            Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
+
+            return instance;
+        }
     }
 }

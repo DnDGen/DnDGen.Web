@@ -1,9 +1,9 @@
 ﻿using EventGen;
-using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class EventController : Controller
     {
         private readonly GenEventQueue eventQueue;

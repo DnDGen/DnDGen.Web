@@ -1,5 +1,6 @@
-﻿using RollGen;
+﻿using DnDGen.Web.App_Start;
 using Microsoft.AspNetCore.Mvc;
+using RollGen;
 
 namespace DnDGen.Web.Controllers
 {
@@ -7,17 +8,19 @@ namespace DnDGen.Web.Controllers
     {
         private readonly Dice dice;
 
-        public RollController(Dice dice)
+        public RollController(IDependencyFactory dependencyFactory)
         {
-            this.dice = dice;
+            dice = dependencyFactory.Get<Dice>();
         }
 
+        [Route("Roll")]
         [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Route("Roll/Roll")]
         [HttpGet]
         public JsonResult Roll(int quantity, int die)
         {
@@ -25,6 +28,7 @@ namespace DnDGen.Web.Controllers
             return BuildJsonResult(roll);
         }
 
+        [Route("Roll/RollExpression")]
         [HttpGet]
         public JsonResult RollExpression(string expression)
         {
@@ -42,6 +46,7 @@ namespace DnDGen.Web.Controllers
             return Json(data);
         }
 
+        [Route("Roll/ValidateExpression")]
         [HttpGet]
         public JsonResult ValidateExpression(string expression)
         {
@@ -57,6 +62,7 @@ namespace DnDGen.Web.Controllers
             return BuildJsonResult(new { isValid = isValid });
         }
 
+        [Route("Roll/Validate")]
         [HttpGet]
         public JsonResult Validate(int quantity, int die)
         {

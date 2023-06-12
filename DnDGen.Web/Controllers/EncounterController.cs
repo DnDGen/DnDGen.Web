@@ -2,7 +2,6 @@
 using DnDGen.Web.Models;
 using EncounterGen.Generators;
 using EventGen;
-using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
@@ -20,6 +19,7 @@ namespace DnDGen.Web.Controllers
             this.clientIdManager = clientIdManager;
         }
 
+        [Route("Encounter")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,6 +27,7 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Encounter/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, EncounterSpecifications encounterSpecifications)
         {
@@ -42,6 +43,7 @@ namespace DnDGen.Web.Controllers
             return Json(new { encounter = encounter });
         }
 
+        [Route("Encounter/Validate")]
         [HttpGet]
         public JsonResult Validate(Guid clientId, EncounterSpecifications encounterSpecifications)
         {

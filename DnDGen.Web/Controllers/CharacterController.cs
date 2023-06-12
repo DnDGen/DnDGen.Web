@@ -20,6 +20,7 @@ namespace DnDGen.Web.Controllers
             this.clientIdManager = clientIdManager;
         }
 
+        [Route("Character")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,6 +28,7 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Character/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, CharacterSpecifications characterSpecifications)
         {

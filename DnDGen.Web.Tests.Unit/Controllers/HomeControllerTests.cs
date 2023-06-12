@@ -1,7 +1,6 @@
 ﻿using DnDGen.Web.Controllers;
-using NUnit.Framework;
-using System;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -17,7 +16,8 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [TestCase("Index")]
-        public void ActionHandlesGetVerb(String methodName)
+        [TestCase("Error")]
+        public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
             Assert.That(attributes, Contains.Item(typeof(HttpGetAttribute)));
@@ -27,6 +27,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void IndexReturnsView()
         {
             var result = controller.Index();
+            Assert.That(result, Is.InstanceOf<ViewResult>());
+        }
+
+        [Test]
+        public void ErrorReturnsView()
+        {
+            var result = controller.Error();
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
     }

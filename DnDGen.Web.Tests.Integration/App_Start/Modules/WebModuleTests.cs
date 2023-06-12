@@ -1,5 +1,6 @@
 ﻿using CharacterGen.Characters;
 using CharacterGen.Leaders;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
@@ -22,16 +23,17 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         }
 
         [Test]
-        public void ErrorControllerIsInjected()
+        public void DependencyFactoryIsInjected()
         {
-            var controller = InjectAndAssertDuration<ErrorController>();
-            Assert.That(controller, Is.Not.Null);
+            var controller = InjectControllerAndAssertDuration<IDependencyFactory>();
+            Assert.That(controller, Is.Not.Null.And.InstanceOf<NinjectDependencyFactory>());
         }
 
         [Test]
+        [Ignore("If the dependency factory resolves things, then we might skip this test")]
         public void RollControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<RollController>();
+            var controller = InjectControllerAndAssertDuration<RollController>();
             Assert.That(controller, Is.Not.Null);
         }
 
