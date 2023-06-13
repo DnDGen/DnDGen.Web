@@ -8,7 +8,7 @@
     function dungeonArea() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Dungeon/DungeonTreasure.html',
+            templateUrl: '/templates/dungeon/dungeonTreasure.html',
             scope: {
                 dungeonTreasure: '='
             }

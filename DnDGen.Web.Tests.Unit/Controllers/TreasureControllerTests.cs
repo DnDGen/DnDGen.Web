@@ -1,4 +1,5 @@
 ﻿using DnDGen.Core.Generators;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EventGen;
@@ -39,12 +40,16 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockGoodsGenerator = new Mock<IGoodsGenerator>();
             mockItemsGenerator = new Mock<IItemsGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new TreasureController(mockTreasureGenerator.Object,
-                mockJustInTimeFactory.Object,
-                mockCoinGenerator.Object,
-                mockGoodsGenerator.Object,
-                mockItemsGenerator.Object,
-                mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<ITreasureGenerator>()).Returns(mockTreasureGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<JustInTimeFactory>()).Returns(mockJustInTimeFactory.Object);
+            mockDependencyFactory.Setup(f => f.Get<ICoinGenerator>()).Returns(mockCoinGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IGoodsGenerator>()).Returns(mockGoodsGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IItemsGenerator>()).Returns(mockItemsGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new TreasureController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
             mockMagicalGenerator = new Mock<MagicalItemGenerator>();

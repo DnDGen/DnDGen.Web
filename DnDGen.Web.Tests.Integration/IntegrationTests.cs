@@ -26,7 +26,7 @@ namespace DnDGen.Web.Tests.Integration
             return dependencyFactory.Get<T>();
         }
 
-        protected T GetController<T>()
+        protected T GetService<T>()
         {
             return serviceProvider.GetService<T>();
         }

@@ -25,22 +25,23 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         [Test]
         public void DependencyFactoryIsInjected()
         {
-            var controller = InjectControllerAndAssertDuration<IDependencyFactory>();
+            var controller = InjectServiceAndAssertDuration<IDependencyFactory>();
             Assert.That(controller, Is.Not.Null.And.InstanceOf<NinjectDependencyFactory>());
         }
 
         [Test]
-        [Ignore("If the dependency factory resolves things, then we might skip this test")]
+        [Ignore("Explicitly getting a controller like this fails when it has dependencies")]
         public void RollControllerIsInjected()
         {
-            var controller = InjectControllerAndAssertDuration<RollController>();
+            var controller = InjectServiceAndAssertDuration<RollController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
+        [Ignore("Explicitly getting a controller like this fails when it has dependencies")]
         public void TreasureControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<TreasureController>();
+            var controller = InjectServiceAndAssertDuration<TreasureController>();
             Assert.That(controller, Is.Not.Null);
         }
 

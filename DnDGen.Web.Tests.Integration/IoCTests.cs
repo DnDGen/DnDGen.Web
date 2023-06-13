@@ -36,11 +36,11 @@ namespace DnDGen.Web.Tests.Integration
             return instance;
         }
 
-        protected T InjectControllerAndAssertDuration<T>()
+        protected T InjectServiceAndAssertDuration<T>()
         {
             Stopwatch.Restart();
 
-            var instance = GetController<T>();
+            var instance = GetService<T>();
             Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
 
             return instance;

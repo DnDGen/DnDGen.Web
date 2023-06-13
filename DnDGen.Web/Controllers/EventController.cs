@@ -1,4 +1,5 @@
-﻿using EventGen;
+﻿using DnDGen.Web.App_Start;
+using EventGen;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
@@ -8,9 +9,9 @@ namespace DnDGen.Web.Controllers
     {
         private readonly GenEventQueue eventQueue;
 
-        public EventController(GenEventQueue eventQueue)
+        public EventController(IDependencyFactory dependencyFactory)
         {
-            this.eventQueue = eventQueue;
+            eventQueue = dependencyFactory.Get<GenEventQueue>();
         }
 
         [HttpGet]

@@ -8,7 +8,7 @@
     function collapsableList() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Shared/CollapsableList.html',
+            templateUrl: '/templates/shared/collapsableList.html',
             scope: {
                 heading: '@',
                 hasList: '='
@@ -18,7 +18,7 @@
         }
 
         function link(scope) {
-            scope.id = getGuid();
+            scope.id = 'list-' + getGuid();
         }
 
         function getGuid() {

@@ -8,7 +8,7 @@
     function characterWithoutLeadership() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Character/CharacterWithoutLeadership.html',
+            templateUrl: '/templates/character/characterWithoutLeadership.html',
             scope: {
                 character: '='
             }

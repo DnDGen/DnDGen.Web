@@ -12,12 +12,12 @@
         vm.treasureModel = model;
 
         vm.level = 1;
-        vm.treasureType = vm.treasureModel.TreasureTypes[0];
+        vm.treasureType = vm.treasureModel.treasureTypes[0];
         vm.treasure = null;
         vm.generating = false;
-        vm.itemTypes = Object.keys(vm.treasureModel.ItemPowers);
+        vm.itemTypes = Object.keys(vm.treasureModel.itemPowers);
         vm.itemType = vm.itemTypes[0];
-        vm.powers = vm.treasureModel.ItemPowers[vm.itemType];
+        vm.powers = vm.treasureModel.itemPowers[vm.itemType];
         vm.power = vm.powers[0];
         vm.clientId = '';
 
@@ -55,7 +55,7 @@
         };
 
         $scope.$watch('vm.itemType', function (newValue, oldValue) {
-            vm.powers = vm.treasureModel.ItemPowers[vm.itemType];
+            vm.powers = vm.treasureModel.itemPowers[vm.itemType];
             vm.power = vm.powers[0];
         });
 

@@ -15,8 +15,8 @@ describe('Treasure Controller', function () {
 
     beforeEach(function () {
         model = {
-            TreasureTypes: ["first treasure", "second treasure"],
-            ItemPowers: {
+            treasureTypes: ["first treasure", "second treasure"],
+            itemPowers: {
                 'first item type': ["1-1", "1-2"],
                 'second item type': ["2-1", "2-2"]
             }
@@ -205,7 +205,7 @@ describe('Treasure Controller', function () {
     it('updates the powers when the item type is changed', function () {
         scope.$digest();
 
-        vm.itemType = Object.keys(vm.treasureModel.ItemPowers)[1];
+        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
         scope.$digest();
 
         expect(vm.powers[0]).toBe('2-1');
@@ -234,7 +234,7 @@ describe('Treasure Controller', function () {
     });
 
     it('says it is generating while fetching an item', function () {
-        vm.itemType = Object.keys(vm.treasureModel.ItemPowers)[1];
+        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
         vm.power = 'power';
 
         vm.generateItem();
@@ -243,7 +243,7 @@ describe('Treasure Controller', function () {
     });
 
     it('says it is done generating while fetching an item', function () {
-        vm.itemType = Object.keys(vm.treasureModel.ItemPowers)[1];
+        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
         vm.power = 'power';
 
         vm.generateItem();

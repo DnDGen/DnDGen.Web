@@ -8,7 +8,7 @@
     function eventLog(eventService) {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Shared/EventLog.html',
+            templateUrl: '/templates/shared/eventLog.html',
             scope: {
                 clientId: '=',
                 isLogging: '='
@@ -42,7 +42,7 @@
             function getEvents() {
                 eventService.getEvents(scope.clientId).then(function (response) {
                     response.data.events.forEach(function (genEvent) {
-                        genEvent.When = parseDate(genEvent.When);
+                        genEvent.When = parseDate(genEvent.when);
                     });
 
                     var newestEvents = response.data.events.reverse();

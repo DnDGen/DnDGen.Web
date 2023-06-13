@@ -21,16 +21,16 @@ describe('Character Controller', function () {
     beforeEach(function () {
         bootstrapDataMock = {
             characterModel: {
-                AlignmentRandomizerTypes: ["any", "first alignment randomizer type", "second alignment randomizer type", "Set"],
-                Alignments: ["first alignment", "second alignment"],
-                ClassNameRandomizerTypes: ["any", "first class name randomizer type", "second class name randomizer type", "Set"],
-                ClassNames: ["first class name", "second class name"],
-                LevelRandomizerTypes: ["any", "first level randomizer type", "second level randomizer type", "Set"],
-                BaseRaceRandomizerTypes: ["any", "first base race randomizer type", "second base race randomizer type", "Set"],
-                BaseRaces: ["first base race", "second base race"],
-                MetaraceRandomizerTypes: ["any", "first metarace randomizer type", "second metarace randomizer type", "Set"],
-                Metaraces: ["first metarace", "second metarace"],
-                AbilitiesRandomizerTypes: ["raw", "first abilities randomizer type", "second abilities randomizer type", "Set"]
+                alignmentRandomizerTypes: ["any", "first alignment randomizer type", "second alignment randomizer type", "Set"],
+                alignments: ["first alignment", "second alignment"],
+                classNameRandomizerTypes: ["any", "first class name randomizer type", "second class name randomizer type", "Set"],
+                classNames: ["first class name", "second class name"],
+                levelRandomizerTypes: ["any", "first level randomizer type", "second level randomizer type", "Set"],
+                baseRaceRandomizerTypes: ["any", "first base race randomizer type", "second base race randomizer type", "Set"],
+                baseRaces: ["first base race", "second base race"],
+                metaraceRandomizerTypes: ["any", "first metarace randomizer type", "second metarace randomizer type", "Set"],
+                metaraces: ["first metarace", "second metarace"],
+                abilitiesRandomizerTypes: ["raw", "first abilities randomizer type", "second abilities randomizer type", "Set"]
             }
         };
 
@@ -220,18 +220,18 @@ describe('Character Controller', function () {
 
         spyOn(randomizerServiceMock, 'verify').and.callThrough();
 
-        vm.setAlignment = vm.characterModel.Alignments[1];
-        vm.setClassName = vm.characterModel.ClassNames[1];
+        vm.setAlignment = vm.characterModel.alignments[1];
+        vm.setClassName = vm.characterModel.classNames[1];
         vm.setLevel = 9266;
         vm.allowLevelAdjustments = false;
-        vm.setBaseRace = vm.characterModel.BaseRaces[1];
+        vm.setBaseRace = vm.characterModel.baseRaces[1];
         vm.forceMetarace = true;
-        vm.setMetarace = vm.characterModel.Metaraces[1];
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
-        vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
-        vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
-        vm.baseRaceRandomizerType = vm.characterModel.BaseRaceRandomizerTypes[1];
-        vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[1];
+        vm.setMetarace = vm.characterModel.metaraces[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
+        vm.classNameRandomizerType = vm.characterModel.classNameRandomizerTypes[1];
+        vm.levelRandomizerType = vm.characterModel.levelRandomizerTypes[1];
+        vm.baseRaceRandomizerType = vm.characterModel.baseRaceRandomizerTypes[1];
+        vm.metaraceRandomizerType = vm.characterModel.metaraceRandomizerTypes[1];
 
         compatible = true;
         scope.$digest();
@@ -245,18 +245,18 @@ describe('Character Controller', function () {
 
         spyOn(randomizerServiceMock, 'verify').and.callThrough();
 
-        vm.setAlignment = vm.characterModel.Alignments[1];
-        vm.setClassName = vm.characterModel.ClassNames[1];
+        vm.setAlignment = vm.characterModel.alignments[1];
+        vm.setClassName = vm.characterModel.classNames[1];
         vm.setLevel = 9266;
         vm.allowLevelAdjustments = false;
-        vm.setBaseRace = vm.characterModel.BaseRaces[1];
+        vm.setBaseRace = vm.characterModel.baseRaces[1];
         vm.forceMetarace = true;
-        vm.setMetarace = vm.characterModel.Metaraces[1];
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
-        vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
-        vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
-        vm.baseRaceRandomizerType = vm.characterModel.BaseRaceRandomizerTypes[1];
-        vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[1];
+        vm.setMetarace = vm.characterModel.metaraces[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
+        vm.classNameRandomizerType = vm.characterModel.classNameRandomizerTypes[1];
+        vm.levelRandomizerType = vm.characterModel.levelRandomizerTypes[1];
+        vm.baseRaceRandomizerType = vm.characterModel.baseRaceRandomizerTypes[1];
+        vm.metaraceRandomizerType = vm.characterModel.metaraceRandomizerTypes[1];
 
         compatible = false;
         scope.$digest();
@@ -269,7 +269,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -279,7 +279,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.setAlignment = vm.characterModel.Alignments[1];
+        vm.setAlignment = vm.characterModel.alignments[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -289,7 +289,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
+        vm.classNameRandomizerType = vm.characterModel.classNameRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -299,7 +299,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.setClassName = vm.characterModel.ClassNames[1];
+        vm.setClassName = vm.characterModel.classNames[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -309,7 +309,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
+        vm.levelRandomizerType = vm.characterModel.levelRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -339,7 +339,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.baseRaceRandomizerType = vm.characterModel.BaseRaceRandomizerTypes[1];
+        vm.baseRaceRandomizerType = vm.characterModel.baseRaceRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -349,7 +349,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.setBaseRace = vm.characterModel.BaseRaces[1];
+        vm.setBaseRace = vm.characterModel.baseRaces[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -359,7 +359,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[1];
+        vm.metaraceRandomizerType = vm.characterModel.metaraceRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -379,7 +379,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.setMetarace = vm.characterModel.Metaraces[1];
+        vm.setMetarace = vm.characterModel.metaraces[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -389,7 +389,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.abilitiesRandomizerType = vm.characterModel.AbilitiesRandomizerTypes[1];
+        vm.abilitiesRandomizerType = vm.characterModel.abilitiesRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -459,7 +459,7 @@ describe('Character Controller', function () {
         scope.$apply();
 
         compatible = false;
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
         scope.$digest();
 
         expect(vm.compatible).toBeFalsy();
@@ -501,13 +501,13 @@ describe('Character Controller', function () {
 
         spyOn(characterServiceMock, 'generate').and.callThrough();
 
-        vm.setAlignment = vm.characterModel.Alignments[1];
-        vm.setClassName = vm.characterModel.ClassNames[1];
+        vm.setAlignment = vm.characterModel.alignments[1];
+        vm.setClassName = vm.characterModel.classNames[1];
         vm.setLevel = 9266;
         vm.allowLevelAdjustments = false;
-        vm.setBaseRace = vm.characterModel.BaseRaces[1];
+        vm.setBaseRace = vm.characterModel.baseRaces[1];
         vm.forceMetarace = true;
-        vm.setMetarace = vm.characterModel.Metaraces[1];
+        vm.setMetarace = vm.characterModel.metaraces[1];
         vm.setStrength = 90210;
         vm.setConstitution = 42;
         vm.setDexterity = 600;
@@ -515,12 +515,12 @@ describe('Character Controller', function () {
         vm.setWisdom = 12345;
         vm.setCharisma = 23456;
         vm.allowAbilitiesAdjustments = false;
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
-        vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
-        vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
-        vm.baseRaceRandomizerType = vm.characterModel.BaseRaceRandomizerTypes[1];
-        vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[1];
-        vm.abilitiesRandomizerType = vm.characterModel.AbilitiesRandomizerTypes[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
+        vm.classNameRandomizerType = vm.characterModel.classNameRandomizerTypes[1];
+        vm.levelRandomizerType = vm.characterModel.levelRandomizerTypes[1];
+        vm.baseRaceRandomizerType = vm.characterModel.baseRaceRandomizerTypes[1];
+        vm.metaraceRandomizerType = vm.characterModel.metaraceRandomizerTypes[1];
+        vm.abilitiesRandomizerType = vm.characterModel.abilitiesRandomizerTypes[1];
 
         vm.generate();
         scope.$digest();
@@ -541,13 +541,13 @@ describe('Character Controller', function () {
 
         spyOn(characterServiceMock, 'generate').and.callThrough();
 
-        vm.setAlignment = vm.characterModel.Alignments[1];
-        vm.setClassName = vm.characterModel.ClassNames[1];
+        vm.setAlignment = vm.characterModel.alignments[1];
+        vm.setClassName = vm.characterModel.classNames[1];
         vm.setLevel = 9266;
         vm.allowLevelAdjustments = false;
-        vm.setBaseRace = vm.characterModel.BaseRaces[1];
+        vm.setBaseRace = vm.characterModel.baseRaces[1];
         vm.forceMetarace = true;
-        vm.setMetarace = vm.characterModel.Metaraces[1];
+        vm.setMetarace = vm.characterModel.metaraces[1];
         vm.setStrength = 90210;
         vm.setConstitution = 42;
         vm.setDexterity = 600;
@@ -555,12 +555,12 @@ describe('Character Controller', function () {
         vm.setWisdom = 12345;
         vm.setCharisma = 23456;
         vm.allowAbilitiesAdjustments = false;
-        vm.alignmentRandomizerType = vm.characterModel.AlignmentRandomizerTypes[1];
-        vm.classNameRandomizerType = vm.characterModel.ClassNameRandomizerTypes[1];
-        vm.levelRandomizerType = vm.characterModel.LevelRandomizerTypes[1];
-        vm.baseRaceRandomizerType = vm.characterModel.BaseRaceRandomizerTypes[1];
-        vm.metaraceRandomizerType = vm.characterModel.MetaraceRandomizerTypes[1];
-        vm.abilitiesRandomizerType = vm.characterModel.AbilitiesRandomizerTypes[1];
+        vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[1];
+        vm.classNameRandomizerType = vm.characterModel.classNameRandomizerTypes[1];
+        vm.levelRandomizerType = vm.characterModel.levelRandomizerTypes[1];
+        vm.baseRaceRandomizerType = vm.characterModel.baseRaceRandomizerTypes[1];
+        vm.metaraceRandomizerType = vm.characterModel.metaraceRandomizerTypes[1];
+        vm.abilitiesRandomizerType = vm.characterModel.abilitiesRandomizerTypes[1];
 
         vm.generate();
         scope.$digest();

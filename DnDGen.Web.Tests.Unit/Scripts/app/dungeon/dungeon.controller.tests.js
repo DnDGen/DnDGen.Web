@@ -45,10 +45,10 @@ describe('Dungeon Controller', function () {
         };
 
         model = {
-            Environments: ["field", "mountain"],
-            Temperatures: ["cold", "hot"],
-            TimesOfDay: ["day", "night"],
-            CreatureTypes: ["undead", "character", "yo mamma"]
+            environments: ["field", "mountain"],
+            temperatures: ["cold", "hot"],
+            timesOfDay: ["day", "night"],
+            creatureTypes: ["undead", "character", "yo mamma"]
         };
 
         encounterServiceMock = {

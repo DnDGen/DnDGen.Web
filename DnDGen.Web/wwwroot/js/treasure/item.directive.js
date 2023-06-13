@@ -8,7 +8,7 @@
     function item() {
         return {
             restrict: "E",
-            templateUrl: 'Templates/Treasure/Item.html',
+            templateUrl: '/templates/treasure/item.html',
             scope: {
                 item: '='
             },
@@ -20,15 +20,15 @@
                 if (!scope.item)
                     return false;
 
-                return scope.item.Contents.length
-                    || scope.item.Traits.length
-                    || scope.item.Magic.Bonus
-                    || scope.item.Attributes.indexOf('Charged') > -1
-                    || scope.item.Magic.SpecialAbilities.length
-                    || scope.item.Magic.Curse.length
-                    || scope.item.TotalArmorBonus
-                    || scope.item.Damage
-                    || scope.item.Magic.Intelligence.Ego;
+                return scope.item.contents.length
+                    || scope.item.traits.length
+                    || scope.item.magic.bonus
+                    || scope.item.attributes.indexOf('Charged') > -1
+                    || scope.item.magic.specialAbilities.length
+                    || scope.item.magic.curse.length
+                    || scope.item.totalArmorBonus
+                    || scope.item.damage
+                    || scope.item.magic.intelligence.ego;
             }
         }
     }

@@ -12,9 +12,9 @@
         vm.model = model;
 
         vm.level = 1;
-        vm.environment = vm.model.Environments[0];
-        vm.temperature = vm.model.Temperatures[0];
-        vm.timeOfDay = vm.model.TimesOfDay[0];
+        vm.environment = vm.model.environments[0];
+        vm.temperature = vm.model.temperatures[0];
+        vm.timeOfDay = vm.model.timesOfDay[0];
         vm.allowAquatic = false;
         vm.allowUnderground = false;
         vm.validating = false;
@@ -25,9 +25,9 @@
         vm.clientId = '';
         vm.creatureTypeFilters = [];
 
-        for (var i = 0; i < vm.model.CreatureTypes.length; i++) {
+        for (var i = 0; i < vm.model.creatureTypes.length; i++) {
             vm.creatureTypeFilters.push({
-                name: vm.model.CreatureTypes[i],
+                name: vm.model.creatureTypes[i],
                 checked: false
             });
         }

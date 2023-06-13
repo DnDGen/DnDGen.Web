@@ -1,4 +1,5 @@
 ﻿using DnDGen.Core.Generators;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Models;
 using EventGen;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,14 @@ namespace DnDGen.Web.Controllers
         private readonly IItemsGenerator itemsGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public TreasureController(ITreasureGenerator treasureGenerator,
-            JustInTimeFactory justInTimeFactory,
-            ICoinGenerator coinGenerator,
-            IGoodsGenerator goodsGenerator,
-            IItemsGenerator itemsGenerator,
-            ClientIDManager clientIdManager)
+        public TreasureController(IDependencyFactory dependencyFactory)
         {
-            this.treasureGenerator = treasureGenerator;
-            this.justInTimeFactory = justInTimeFactory;
-            this.coinGenerator = coinGenerator;
-            this.goodsGenerator = goodsGenerator;
-            this.itemsGenerator = itemsGenerator;
-            this.clientIdManager = clientIdManager;
+            treasureGenerator = dependencyFactory.Get<ITreasureGenerator>();
+            justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
+            coinGenerator = dependencyFactory.Get<ICoinGenerator>();
+            goodsGenerator = dependencyFactory.Get<IGoodsGenerator>();
+            itemsGenerator = dependencyFactory.Get<IItemsGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
         [Route("Treasure")]

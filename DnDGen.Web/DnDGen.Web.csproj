@@ -14,27 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Templates\Character\Character.html" />
-    <None Remove="Templates\Character\CharacterWithoutLeadership.html" />
-    <None Remove="Templates\Dungeon\DungeonArea.html" />
-    <None Remove="Templates\Dungeon\DungeonTreasure.html" />
-    <None Remove="Templates\Encounter\Encounter.html" />
-    <None Remove="Templates\Shared\CollapsableList.html" />
-    <None Remove="Templates\Shared\EventLog.html" />
-    <None Remove="Templates\Treasure\Item.html" />
-    <None Remove="Templates\Treasure\Treasure.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Templates\Character\Character.html" />
-    <Content Include="Templates\Character\CharacterWithoutLeadership.html" />
-    <Content Include="Templates\Dungeon\DungeonArea.html" />
-    <Content Include="Templates\Dungeon\DungeonTreasure.html" />
-    <Content Include="Templates\Encounter\Encounter.html" />
-    <Content Include="Templates\Shared\CollapsableList.html" />
-    <Content Include="Templates\Shared\EventLog.html" />
-    <Content Include="Templates\Treasure\Item.html" />
-    <Content Include="Templates\Treasure\Treasure.html" />
+    <None Remove="wwwroot\templates\character\Character.html" />
+    <None Remove="wwwroot\templates\character\CharacterWithoutLeadership.html" />
+    <None Remove="wwwroot\templates\dungeon\DungeonArea.html" />
+    <None Remove="wwwroot\templates\dungeon\DungeonTreasure.html" />
+    <None Remove="wwwroot\templates\encounter\Encounter.html" />
+    <None Remove="wwwroot\templates\shared\CollapsableList.html" />
+    <None Remove="wwwroot\templates\shared\EventLog.html" />
+    <None Remove="wwwroot\templates\treasure\Item.html" />
+    <None Remove="wwwroot\templates\treasure\Treasure.html" />
   </ItemGroup>
 
   <ItemGroup>

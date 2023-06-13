@@ -1,0 +1,17 @@
+﻿<div>
+    <span ng-show="treasure.coin.quantity > 0">{{treasure.coin.quantity | number}} {{treasure.coin.currency}}</span>
+    <dndgen-collapsable-list ng-show="treasure.goods.length > 0" heading="Goods" has-list="treasure.goods.length > 0">
+        <ul>
+            <li ng-repeat="good in treasure.goods track by $index">
+                {{good.description}} ({{good.valueInGold | number}}gp)
+            </li>
+        </ul>
+    </dndgen-collapsable-list>
+    <dndgen-collapsable-list ng-show="treasure.items.length > 0" heading="Items" has-list="treasure.items.length > 0">
+        <ul>
+            <li ng-repeat="item in treasure.items track by $index">
+                <dndgen-item item="item"></dndgen-item>
+            </li>
+        </ul>
+    </dndgen-collapsable-list>
+</div>

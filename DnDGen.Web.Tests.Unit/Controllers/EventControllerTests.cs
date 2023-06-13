@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Controllers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Controllers;
 using EventGen;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -17,7 +18,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         public void Setup()
         {
             mockEventQueue = new Mock<GenEventQueue>();
-            controller = new EventController(mockEventQueue.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<GenEventQueue>()).Returns(mockEventQueue.Object);
+
+            controller = new EventController(mockDependencyFactory.Object);
         }
 
         [TestCase("ClientId")]
