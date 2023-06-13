@@ -37,13 +37,13 @@ describe('Roll Controller', function () {
         sweetAlertServiceMock.showError = jasmine.createSpy();
     });
 
-    function getMockedPromise(body, shouldFail) {
+    function getMockedPromise(data, shouldFail) {
         var deferred = q.defer();
 
         if (shouldFail)
             deferred.reject();
         else
-            deferred.resolve(body);
+            deferred.resolve({ data: data });
 
         return deferred.promise;
     }
@@ -113,6 +113,10 @@ describe('Roll Controller', function () {
     it('rolls a standard die', function () {
         vm.standardQuantity = 9266;
         vm.standardDie = vm.standardDice[2];
+
+        expect(vm.standardQuantity).toBe(9266);
+        expect(vm.standardDie.die).toBe(4);
+        expect(vm.standardDie.name).toBe('4');
 
         spyOn(rollServiceMock, 'getRoll').and.callThrough();
 
