@@ -1,14 +1,14 @@
 ﻿{
-  "Type": "",
-  "Length": 0,
-  "Width": 0,
-  "Descriptions": [],
-  "Contents": {
-    "Encounters": [],
-    "Treasures": [],
-    "Miscellaneous": [],
-    "Traps": [],
-    "Pool": null,
-    "IsEmpty": true
+  "type": "",
+  "length": 0,
+  "width": 0,
+  "descriptions": [],
+  "contents": {
+    "encounters": [],
+    "treasures": [],
+    "miscellaneous": [],
+    "traps": [],
+    "pool": null,
+    "isEmpty": true
   }
 }

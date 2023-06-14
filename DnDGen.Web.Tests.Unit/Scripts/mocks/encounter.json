@@ -1,10 +1,10 @@
 ﻿{
-  "Creatures": [],
-  "Characters": [],
-  "Treasures": [],
-  "TargetEncounterLevel": 0,
-  "AverageEncounterLevel": 0,
-  "ActualEncounterLevel": 0,
-  "AverageDifficulty": "Challenging",
-  "ActualDifficulty": "Challenging"
+  "creatures": [],
+  "characters": [],
+  "treasures": [],
+  "targetEncounterLevel": 0,
+  "averageEncounterLevel": 0,
+  "actualEncounterLevel": 0,
+  "averageDifficulty": "Challenging",
+  "actualDifficulty": "Challenging"
 }

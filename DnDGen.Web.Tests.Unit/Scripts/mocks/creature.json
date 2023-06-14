@@ -1,9 +1,9 @@
 ﻿{
-  "Type": {
-    "Name": "",
-    "Description": "",
-    "SubType": null
+  "type": {
+    "name": "",
+    "description": "",
+    "subType": null
   },
-  "Quantity": 0,
-  "ChallengeRating": ""
+  "quantity": 0,
+  "challengeRating": ""
 }

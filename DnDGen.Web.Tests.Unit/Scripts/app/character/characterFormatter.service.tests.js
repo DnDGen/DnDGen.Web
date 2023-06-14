@@ -61,76 +61,76 @@ describe('Character Formatter Service', function () {
         characterCount++;
 
         var newCharacter = getMock('character');
-        newCharacter.Alignment.Full = 'alignment ' + characterCount;
-        newCharacter.Class.Name = 'class name ' + characterCount;
-        newCharacter.Class.Level = 9266 + characterCount;
-        newCharacter.Class.Summary = "class summary " + characterCount;
-        newCharacter.Race.BaseRace = 'base race ' + characterCount;
-        newCharacter.Race.LandSpeed.Value = 30 + characterCount,
-        newCharacter.Race.LandSpeed.Description = 'fast ' + characterCount,
-        newCharacter.Race.Size = 'size ' + characterCount;
-        newCharacter.Race.Age.Value = 18 + characterCount;
-        newCharacter.Race.Age.Description = 'adult ' + characterCount;
-        newCharacter.Race.MaximumAge.Value = 1800 + characterCount;
-        newCharacter.Race.MaximumAge.Description = 'natural causes ' + characterCount;
-        newCharacter.Race.Height.Value = 48 + characterCount;
-        newCharacter.Race.Height.Description = 'tall ' + characterCount;
-        newCharacter.Race.Weight.Value = 100 + characterCount;
-        newCharacter.Race.Weight.Description = 'heavy ' + characterCount;
-        newCharacter.Race.Gender = characterCount % 2 === 0 ? "Male" : "Female";
-        newCharacter.Race.Summary = 'race summary ' + characterCount;
-        newCharacter.Abilities.Charisma = createAbility("Strength", 9 + characterCount, -1 + characterCount);
-        newCharacter.Abilities.Constitution = createAbility("Constitution", 26 + characterCount, 13 + characterCount);
-        newCharacter.Abilities.Dexterity = createAbility("Dexterity", 6 + characterCount, -2 + characterCount);
-        newCharacter.Abilities.Intelligence = createAbility("Intelligence", 90 + characterCount, 45 + characterCount);
-        newCharacter.Abilities.Strength = createAbility("Wisdom", 2 + characterCount, -4 + characterCount);
-        newCharacter.Abilities.Wisdom = createAbility("Charisma", 10 + characterCount, 0 + characterCount);
+        newCharacter.alignment.full = 'alignment ' + characterCount;
+        newCharacter.class.name = 'class name ' + characterCount;
+        newCharacter.class.level = 9266 + characterCount;
+        newCharacter.class.summary = "class summary " + characterCount;
+        newCharacter.race.baseRace = 'base race ' + characterCount;
+        newCharacter.race.landSpeed.value = 30 + characterCount,
+        newCharacter.race.landSpeed.description = 'fast ' + characterCount,
+        newCharacter.race.size = 'size ' + characterCount;
+        newCharacter.race.age.value = 18 + characterCount;
+        newCharacter.race.age.description = 'adult ' + characterCount;
+        newCharacter.race.maximumAge.value = 1800 + characterCount;
+        newCharacter.race.maximumAge.description = 'natural causes ' + characterCount;
+        newCharacter.race.height.value = 48 + characterCount;
+        newCharacter.race.height.description = 'tall ' + characterCount;
+        newCharacter.race.weight.value = 100 + characterCount;
+        newCharacter.race.weight.description = 'heavy ' + characterCount;
+        newCharacter.race.gender = characterCount % 2 === 0 ? "Male" : "Female";
+        newCharacter.race.summary = 'race summary ' + characterCount;
+        newCharacter.abilities.charisma = createAbility("Strength", 9 + characterCount, -1 + characterCount);
+        newCharacter.abilities.constitution = createAbility("Constitution", 26 + characterCount, 13 + characterCount);
+        newCharacter.abilities.dexterity = createAbility("Dexterity", 6 + characterCount, -2 + characterCount);
+        newCharacter.abilities.intelligence = createAbility("Intelligence", 90 + characterCount, 45 + characterCount);
+        newCharacter.abilities.strength = createAbility("Wisdom", 2 + characterCount, -4 + characterCount);
+        newCharacter.abilities.wisdom = createAbility("Charisma", 10 + characterCount, 0 + characterCount);
 
-        expect(newCharacter.Abilities.Charisma).not.toBeNull();
-        expect(newCharacter.Abilities.Constitution).not.toBeNull();
-        expect(newCharacter.Abilities.Dexterity).not.toBeNull();
-        expect(newCharacter.Abilities.Intelligence).not.toBeNull();
-        expect(newCharacter.Abilities.Strength).not.toBeNull();
-        expect(newCharacter.Abilities.Wisdom).not.toBeNull();
+        expect(newCharacter.abilities.charisma).not.toBeNull();
+        expect(newCharacter.abilities.constitution).not.toBeNull();
+        expect(newCharacter.abilities.dexterity).not.toBeNull();
+        expect(newCharacter.abilities.intelligence).not.toBeNull();
+        expect(newCharacter.abilities.strength).not.toBeNull();
+        expect(newCharacter.abilities.wisdom).not.toBeNull();
 
-        newCharacter.Languages.push('English ' + characterCount);
-        newCharacter.Languages.push('German ' + characterCount);
-        newCharacter.Skills.push(createSkill('skill ' + (1 + characterCount), "", 4 + characterCount, newCharacter.Abilities.Constitution, 0, -6 - characterCount, true, false, 135 + characterCount));
-        newCharacter.Skills.push(createSkill('skill ' + (2 + characterCount), "focus", 1.5 + characterCount, newCharacter.Abilities.Dexterity, 3 + characterCount, 0, false, true, 246 + characterCount));
-        newCharacter.Feats.Racial.push(createFeat('racial feat ' + (1 + characterCount)));
-        newCharacter.Feats.Racial.push(createFeat('racial feat ' + (2 + characterCount)));
-        newCharacter.Feats.Class.push(createFeat('class feat ' + (1 + characterCount)));
-        newCharacter.Feats.Class.push(createFeat('class feat ' + (2 + characterCount)));
-        newCharacter.Feats.Additional.push(createFeat('additional feat ' + (1 + characterCount)));
-        newCharacter.Feats.Additional.push(createFeat('additional feat ' + (2 + characterCount)));
-        newCharacter.Combat.AdjustedDexterityBonus = 3 + characterCount;
-        newCharacter.Combat.ArmorClass.Full = 7 + characterCount;
-        newCharacter.Combat.ArmorClass.Touch = 34 + characterCount;
-        newCharacter.Combat.ArmorClass.FlatFooted = 12 + characterCount;
+        newCharacter.languages.push('English ' + characterCount);
+        newCharacter.languages.push('German ' + characterCount);
+        newCharacter.skills.push(createSkill('skill ' + (1 + characterCount), "", 4 + characterCount, newCharacter.abilities.constitution, 0, -6 - characterCount, true, false, 135 + characterCount));
+        newCharacter.skills.push(createSkill('skill ' + (2 + characterCount), "focus", 1.5 + characterCount, newCharacter.abilities.dexterity, 3 + characterCount, 0, false, true, 246 + characterCount));
+        newCharacter.feats.racial.push(createFeat('racial feat ' + (1 + characterCount)));
+        newCharacter.feats.racial.push(createFeat('racial feat ' + (2 + characterCount)));
+        newCharacter.feats.class.push(createFeat('class feat ' + (1 + characterCount)));
+        newCharacter.feats.class.push(createFeat('class feat ' + (2 + characterCount)));
+        newCharacter.feats.additional.push(createFeat('additional feat ' + (1 + characterCount)));
+        newCharacter.feats.additional.push(createFeat('additional feat ' + (2 + characterCount)));
+        newCharacter.combat.adjustedDexterityBonus = 3 + characterCount;
+        newCharacter.combat.armorClass.full = 7 + characterCount;
+        newCharacter.combat.armorClass.touch = 34 + characterCount;
+        newCharacter.combat.armorClass.flatFooted = 12 + characterCount;
 
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.length = 0;
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(21 + characterCount);
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(16 + characterCount);
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(11 + characterCount);
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(6 + characterCount);
-        newCharacter.Combat.BaseAttack.AllMeleeBonuses.push(1 + characterCount);
+        newCharacter.combat.baseAttack.allMeleeBonuses.length = 0;
+        newCharacter.combat.baseAttack.allMeleeBonuses.push(21 + characterCount);
+        newCharacter.combat.baseAttack.allMeleeBonuses.push(16 + characterCount);
+        newCharacter.combat.baseAttack.allMeleeBonuses.push(11 + characterCount);
+        newCharacter.combat.baseAttack.allMeleeBonuses.push(6 + characterCount);
+        newCharacter.combat.baseAttack.allMeleeBonuses.push(1 + characterCount);
 
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.length = 0;
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(22 + characterCount);
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(17 + characterCount);
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(12 + characterCount);
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(7 + characterCount);
-        newCharacter.Combat.BaseAttack.AllRangedBonuses.push(2 + characterCount);
+        newCharacter.combat.baseAttack.allRangedBonuses.length = 0;
+        newCharacter.combat.baseAttack.allRangedBonuses.push(22 + characterCount);
+        newCharacter.combat.baseAttack.allRangedBonuses.push(17 + characterCount);
+        newCharacter.combat.baseAttack.allRangedBonuses.push(12 + characterCount);
+        newCharacter.combat.baseAttack.allRangedBonuses.push(7 + characterCount);
+        newCharacter.combat.baseAttack.allRangedBonuses.push(2 + characterCount);
 
-        newCharacter.Combat.HitPoints = 3456 + characterCount;
-        newCharacter.Combat.InitiativeBonus = 4567 + characterCount;
-        newCharacter.Combat.SavingThrows.Fortitude = 56 + characterCount;
-        newCharacter.Combat.SavingThrows.Reflex = 78 + characterCount;
-        newCharacter.Combat.SavingThrows.Will = 67 + characterCount;
-        newCharacter.Combat.SavingThrows.HasFortitudeSave = true;
+        newCharacter.combat.hitPoints = 3456 + characterCount;
+        newCharacter.combat.initiativeBonus = 4567 + characterCount;
+        newCharacter.combat.savingThrows.fortitude = 56 + characterCount;
+        newCharacter.combat.savingThrows.reflex = 78 + characterCount;
+        newCharacter.combat.savingThrows.will = 67 + characterCount;
+        newCharacter.combat.savingThrows.hasFortitudeSave = true;
 
-        newCharacter.Summary = "character summary " + characterCount;
-        newCharacter.ChallengeRating = 89 + characterCount;
+        newCharacter.summary = "character summary " + characterCount;
+        newCharacter.challengeRating = 89 + characterCount;
 
         return newCharacter;
     }
@@ -138,9 +138,9 @@ describe('Character Formatter Service', function () {
     function createAbility(name, value, bonus) {
         var ability = getMock('ability');
 
-        ability.Name = name;
-        ability.Value = value;
-        ability.Bonus = bonus;
+        ability.name = name;
+        ability.value = value;
+        ability.bonus = bonus;
 
         return ability;
     }
@@ -148,15 +148,15 @@ describe('Character Formatter Service', function () {
     function createSkill(name, focus, effectiveRanks, baseAbility, bonus, acPenalty, classSkill, circumstantialBonus, totalBonus) {
         var skill = getMock('skill');
 
-        skill.Name = name;
-        skill.Focus = focus;
-        skill.EffectiveRanks = effectiveRanks;
-        skill.BaseAbility = baseAbility;
-        skill.Bonus = bonus;
-        skill.ArmorCheckPenalty = acPenalty;
-        skill.ClassSkill = classSkill;
-        skill.CircumstantialBonus = circumstantialBonus;
-        skill.TotalBonus = totalBonus;
+        skill.name = name;
+        skill.focus = focus;
+        skill.effectiveRanks = effectiveRanks;
+        skill.baseAbility = baseAbility;
+        skill.bonus = bonus;
+        skill.armorCheckPenalty = acPenalty;
+        skill.classSkill = classSkill;
+        skill.circumstantialBonus = circumstantialBonus;
+        skill.totalBonus = totalBonus;
 
         return skill;
     }
@@ -257,11 +257,11 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats measurement with no description', function () {
-        character.Race.Age.Description = '';
-        character.Race.MaximumAge.Description = '';
-        character.Race.LandSpeed.Description = '';
-        character.Race.Height.Description = '';
-        character.Race.Weight.Description = '';
+        character.race.age.description = '';
+        character.race.maximumAge.description = '';
+        character.race.landSpeed.description = '';
+        character.race.height.description = '';
+        character.race.weight.description = '';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -343,7 +343,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats class specialization', function () {
-        character.Class.SpecialistFields = ["specialist field 1", "specialist field 2"];
+        character.class.specialistFields = ["specialist field 1", "specialist field 2"];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -428,8 +428,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats prohibited fields', function () {
-        character.Class.SpecialistFields = ["specialist field 1", "specialist field 2"];
-        character.Class.ProhibitedFields = ["prohibited field 1", "prohibited field 2"];
+        character.class.specialistFields = ["specialist field 1", "specialist field 2"];
+        character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -517,7 +517,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats metarace species', function () {
-        character.Race.MetaraceSpecies = 'metarace species';
+        character.race.metaraceSpecies = 'metarace species';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -600,7 +600,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats wings', function () {
-        character.Race.HasWings = true;
+        character.race.hasWings = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -683,8 +683,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats aerial speed', function () {
-        character.Race.AerialSpeed.Value = 9876;
-        character.Race.AerialSpeed.Description = "swift";
+        character.race.aerialSpeed.value = 9876;
+        character.race.aerialSpeed.description = "swift";
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -767,8 +767,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats swim speed', function () {
-        character.Race.SwimSpeed.Value = 9876;
-        character.Race.SwimSpeed.Description = "alacrid";
+        character.race.swimSpeed.value = 9876;
+        character.race.swimSpeed.description = "alacrid";
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -852,7 +852,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats no racial feats', function () {
-        character.Feats.Racial = [];
+        character.feats.racial = [];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -931,7 +931,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats no class feats', function () {
-        character.Feats.Class = [];
+        character.feats.class = [];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1010,9 +1010,9 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats feat foci', function () {
-        character.Feats.Racial[0].Foci = ['focus 1', 'focus 2'];
-        character.Feats.Class[0].Foci = ['focus 3', 'focus 4'];
-        character.Feats.Additional[0].Foci = ['focus 5', 'focus 6'];
+        character.feats.racial[0].foci = ['focus 1', 'focus 2'];
+        character.feats.class[0].foci = ['focus 3', 'focus 4'];
+        character.feats.additional[0].foci = ['focus 5', 'focus 6'];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1103,9 +1103,9 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats feat power', function () {
-        character.Feats.Racial[0].Power = 9876;
-        character.Feats.Class[0].Power = 8765;
-        character.Feats.Additional[0].Power = 7654;
+        character.feats.racial[0].power = 9876;
+        character.feats.class[0].power = 8765;
+        character.feats.additional[0].power = 7654;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1190,12 +1190,12 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats feat frequency', function () {
-        character.Feats.Racial[0].Frequency.Quantity = 9876;
-        character.Feats.Racial[0].Frequency.TimePeriod = 'fortnight';
-        character.Feats.Class[0].Frequency.Quantity = 8765;
-        character.Feats.Class[0].Frequency.TimePeriod = 'moon cycle';
-        character.Feats.Additional[0].Frequency.Quantity = 7654;
-        character.Feats.Additional[0].Frequency.TimePeriod = 'turn of the wheel';
+        character.feats.racial[0].frequency.quantity = 9876;
+        character.feats.racial[0].frequency.timePeriod = 'fortnight';
+        character.feats.class[0].frequency.quantity = 8765;
+        character.feats.class[0].frequency.timePeriod = 'moon cycle';
+        character.feats.additional[0].frequency.quantity = 7654;
+        character.feats.additional[0].frequency.timePeriod = 'turn of the wheel';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1280,12 +1280,12 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats feat frequency without quantity', function () {
-        character.Feats.Racial[0].Frequency.Quantity = 0;
-        character.Feats.Racial[0].Frequency.TimePeriod = 'all day erry day';
-        character.Feats.Class[0].Frequency.Quantity = 0;
-        character.Feats.Class[0].Frequency.TimePeriod = 'whenever I want';
-        character.Feats.Additional[0].Frequency.Quantity = 0;
-        character.Feats.Additional[0].Frequency.TimePeriod = 'when pigs fly';
+        character.feats.racial[0].frequency.quantity = 0;
+        character.feats.racial[0].frequency.timePeriod = 'all day erry day';
+        character.feats.class[0].frequency.quantity = 0;
+        character.feats.class[0].frequency.timePeriod = 'whenever I want';
+        character.feats.additional[0].frequency.quantity = 0;
+        character.feats.additional[0].frequency.timePeriod = 'when pigs fly';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1370,7 +1370,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats interesting trait', function () {
-        character.InterestingTrait = 'is interesting';
+        character.interestingTrait = 'is interesting';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1452,9 +1452,9 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats spells per day', function () {
-        character.Magic.SpellsPerDay = [
-            { Level: 0, Quantity: 9, HasDomainSpell: false },
-            { Level: 1, Quantity: 8, HasDomainSpell: true }
+        character.magic.spellsPerDay = [
+            { level: 0, quantity: 9, hasDomainSpell: false },
+            { level: 1, quantity: 8, hasDomainSpell: true }
         ];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
@@ -1540,14 +1540,14 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats known spells', function () {
-        character.Magic.SpellsPerDay = [
-            { Level: 0, Quantity: 9, HasDomainSpell: false },
-            { Level: 1, Quantity: 8, HasDomainSpell: true }
+        character.magic.spellsPerDay = [
+            { level: 0, quantity: 9, hasDomainSpell: false },
+            { level: 1, quantity: 8, hasDomainSpell: true }
         ];
 
-        character.Magic.KnownSpells = [
-            { Name: 'first spell', Level: 0 },
-            { Name: 'second spell', Level: 1 }
+        character.magic.knownSpells = [
+            { name: 'first spell', level: 0 },
+            { name: 'second spell', level: 1 }
         ];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
@@ -1636,20 +1636,20 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats prepared spells', function () {
-        character.Magic.SpellsPerDay = [
-            { Level: 0, Quantity: 9, HasDomainSpell: false },
-            { Level: 1, Quantity: 8, HasDomainSpell: true }
+        character.magic.spellsPerDay = [
+            { level: 0, quantity: 9, hasDomainSpell: false },
+            { level: 1, quantity: 8, hasDomainSpell: true }
         ];
 
-        character.Magic.KnownSpells = [
-            { Name: 'first spell', Level: 0 },
-            { Name: 'second spell', Level: 1 }
+        character.magic.KnownSpells = [
+            { name: 'first spell', level: 0 },
+            { name: 'second spell', level: 1 }
         ];
 
-        character.Magic.PreparedSpells = [
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'second prepared spell', Level: 1 }
+        character.magic.preparedSpells = [
+            { name: 'first prepared spell', level: 0 },
+            { name: 'first prepared spell', level: 0 },
+            { name: 'second prepared spell', level: 1 }
         ];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
@@ -1742,7 +1742,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats arcane spell failure', function () {
-        character.Magic.ArcaneSpellFailure = 98;
+        character.magic.arcaneSpellFailure = 98;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1825,7 +1825,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats animal', function () {
-        character.Magic.Animal = 'familiar';
+        character.magic.animal = 'familiar';
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1908,7 +1908,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats primary hand', function () {
-        character.Equipment.PrimaryHand = createItem('primary weapon');
+        character.equipment.primaryHand = createItem('primary weapon');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -1992,8 +1992,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats two-handed weapon', function () {
-        character.Equipment.PrimaryHand = createItem('primary weapon');
-        character.Equipment.PrimaryHand.Attributes.push('Two-Handed');
+        character.qquipment.primaryHand = createItem('primary weapon');
+        character.qquipment.primaryHand.attributes.push('Two-Handed');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2077,8 +2077,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats off-hand item', function () {
-        character.Equipment.PrimaryHand = createItem('primary weapon');
-        character.Equipment.OffHand = createItem('off-hand item');
+        character.equipment.primaryHand = createItem('primary weapon');
+        character.equipment.offHand = createItem('off-hand item');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2164,7 +2164,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats armor', function () {
-        character.Equipment.Armor = createItem('armor');
+        character.equipment.armor = createItem('armor');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2248,7 +2248,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats treasure if there is any', function () {
-        character.Equipment.Treasure.IsAny = true;
+        character.equipment.treasure.isAny = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2329,7 +2329,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats circumstantial armor bonus', function () {
-        character.Combat.ArmorClass.CircumstantialBonus = true;
+        character.combat.armorClass.circumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2411,7 +2411,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats circumstantial base attack bonus', function () {
-        character.Combat.BaseAttack.CircumstantialBonus = true;
+        character.combat.baseAttack.circumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2493,8 +2493,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats negative base attack bonus', function () {
-        character.Combat.BaseAttack.AllMeleeBonuses = [-2]
-        character.Combat.BaseAttack.AllRangedBonuses = [-1];
+        character.combat.baseAttack.allMeleeBonuses = [-2]
+        character.combat.baseAttack.allRangedBonuses = [-1];
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2576,7 +2576,7 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats circumstantial save bonus', function () {
-        character.Combat.SavingThrows.CircumstantialBonus = true;
+        character.combat.savingThrows.circumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2659,59 +2659,56 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats full character', function () {
-        character.Class.SpecialistFields = ["specialist field 1", "specialist field 2" ];
-        character.Class.ProhibitedFields = ["prohibited field 1", "prohibited field 2" ];
-        character.Race.Metarace = "metarace";
-        character.Race.MetaraceSpecies = "metarace species";
-        character.Race.HasWings = true;
-        character.Race.AerialSpeed.Value = 12345;
-        character.Race.AerialSpeed.Description = 'supafly';
-        character.Race.SwimSpeed.Value = 579;
-        character.Race.SwimSpeed.Description = 'watery';
+        character.class.specialistFields = ["specialist field 1", "specialist field 2" ];
+        character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2" ];
+        character.race.metarace = "metarace";
+        character.race.metaraceSpecies = "metarace species";
+        character.race.hasWings = true;
+        character.race.aerialSpeed.value = 12345;
+        character.race.aerialSpeed.description = 'supafly';
+        character.race.swimSpeed.value = 579;
+        character.race.swimSpeed.description = 'watery';
 
-        character.Feats.Racial[0].Foci = [ "focus 1", "focus 2" ];
-        character.Feats.Racial[0].Frequency.Quantity = 34567;
-        character.Feats.Racial[0].Frequency.TimePeriod = "sometimes";
-        character.Feats.Racial[0].Power = 23456;
-        character.Feats.Class[0].Foci = ["focus 3", "focus 4"];
-        character.Feats.Class[0].Frequency.Quantity = 135;
-        character.Feats.Class[0].Frequency.TimePeriod = "all the time";
-        character.Feats.Class[0].Power = 246;
-        character.Feats.Additional[0].Foci = ["focus 5", "focus 6"];
-        character.Feats.Additional[0].Frequency.Quantity = 357;
-        character.Feats.Additional[0].Frequency.TimePeriod = "when the sun rises";
-        character.Feats.Additional[0].Power = 468;
+        character.feats.racial[0].foci = [ "focus 1", "focus 2" ];
+        character.feats.racial[0].frequency.quantity = 34567;
+        character.feats.racial[0].frequency.timePeriod = "sometimes";
+        character.feats.racial[0].power = 23456;
+        character.feats.class[0].foci = ["focus 3", "focus 4"];
+        character.feats.class[0].frequency.quantity = 135;
+        character.feats.class[0].frequency.timePeriod = "all the time";
+        character.feats.class[0].power = 246;
+        character.feats.additional[0].foci = ["focus 5", "focus 6"];
+        character.feats.additional[0].frequency.quantity = 357;
+        character.feats.additional[0].frequency.timePeriod = "when the sun rises";
+        character.feats.additional[0].power = 468;
 
-        character.InterestingTrait = "interesting trait";
+        character.interestingTrait = "interesting trait";
 
-        character.Magic.SpellsPerDay = [
-            { Level: 0, Quantity: 45678 },
-            { Level: 1, Quantity: 56789  , HasDomainSpell: true }
+        character.magic.spellsPerDay = [
+            { level: 0, quantity: 45678 },
+            { level: 1, quantity: 56789  , hasDomainSpell: true }
         ];
 
-        character.Magic.KnownSpells = [
-            { Name: 'first spell', Level: 0 },
-            { Name: 'second spell', Level: 1 }
+        character.magic.knownSpells = [
+            { name: 'first spell', level: 0 },
+            { name: 'second spell', level: 1 }
         ];
 
-        character.Magic.PreparedSpells = [
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'second prepared spell', Level: 1 }
+        character.magic.preparedSpells = [
+            { name: 'first prepared spell', level: 0 },
+            { name: 'first prepared spell', level: 0 },
+            { name: 'second prepared spell', level: 1 }
         ];
 
-        character.Magic.ArcaneSpellFailure = 12;
-        character.Magic.Animal = "animal";
-        character.Equipment.PrimaryHand = createItem('primary weapon');
-        character.Equipment.OffHand = createItem('off-hand item');
-        character.Equipment.Armor = createItem('armor');
-        character.Equipment.Treasure.IsAny = true;
-        character.Combat.ArmorClass.CircumstantialBonus = true;
-        character.Combat.BaseAttack.CircumstantialBonus = true;
-        character.Combat.SavingThrows.CircumstantialBonus = true;
-        character.Combat.ArmorClass.CircumstantialBonus = true;
-        character.Combat.BaseAttack.CircumstantialBonus = true;
-        character.Combat.SavingThrows.CircumstantialBonus = true;
+        character.magic.arcaneSpellFailure = 12;
+        character.magic.animal = "animal";
+        character.equipment.primaryHand = createItem('primary weapon');
+        character.equipment.offHand = createItem('off-hand item');
+        character.equipment.armor = createItem('armor');
+        character.equipment.treasure.isAny = true;
+        character.combat.armorClass.circumstantialBonus = true;
+        character.combat.baseAttack.circumstantialBonus = true;
+        character.combat.savingThrows.circumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -2838,59 +2835,56 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats full character with prefix', function () {
-        character.Class.SpecialistFields = ["specialist field 1", "specialist field 2"];
-        character.Class.ProhibitedFields = ["prohibited field 1", "prohibited field 2"];
-        character.Race.Metarace = "metarace";
-        character.Race.MetaraceSpecies = "metarace species";
-        character.Race.HasWings = true;
-        character.Race.AerialSpeed.Value = 12345;
-        character.Race.AerialSpeed.Description = 'supafly';
-        character.Race.SwimSpeed.Value = 579;
-        character.Race.SwimSpeed.Description = 'watery';
+        character.class.specialistFields = ["specialist field 1", "specialist field 2"];
+        character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
+        character.race.metarace = "metarace";
+        character.race.metaraceSpecies = "metarace species";
+        character.race.hasWings = true;
+        character.race.aerialSpeed.value = 12345;
+        character.race.aerialSpeed.description = 'supafly';
+        character.race.swimSpeed.value = 579;
+        character.race.swimSpeed.description = 'watery';
 
-        character.Feats.Racial[0].Foci = ["focus 1", "focus 2"];
-        character.Feats.Racial[0].Frequency.Quantity = 34567;
-        character.Feats.Racial[0].Frequency.TimePeriod = "sometimes";
-        character.Feats.Racial[0].Power = 23456;
-        character.Feats.Class[0].Foci = ["focus 3", "focus 4"];
-        character.Feats.Class[0].Frequency.Quantity = 135;
-        character.Feats.Class[0].Frequency.TimePeriod = "all the time";
-        character.Feats.Class[0].Power = 246;
-        character.Feats.Additional[0].Foci = ["focus 5", "focus 6"];
-        character.Feats.Additional[0].Frequency.Quantity = 357;
-        character.Feats.Additional[0].Frequency.TimePeriod = "when the sun rises";
-        character.Feats.Additional[0].Power = 468;
+        character.feats.racial[0].foci = ["focus 1", "focus 2"];
+        character.feats.racial[0].frequency.quantity = 34567;
+        character.feats.racial[0].frequency.timePeriod = "sometimes";
+        character.feats.racial[0].power = 23456;
+        character.feats.class[0].foci = ["focus 3", "focus 4"];
+        character.feats.class[0].frequency.quantity = 135;
+        character.feats.class[0].frequency.timePeriod = "all the time";
+        character.feats.class[0].power = 246;
+        character.feats.additional[0].foci = ["focus 5", "focus 6"];
+        character.feats.additional[0].frequency.quantity = 357;
+        character.feats.additional[0].frequency.timePeriod = "when the sun rises";
+        character.feats.additional[0].power = 468;
 
-        character.InterestingTrait = "interesting trait";
+        character.interestingTrait = "interesting trait";
 
-        character.Magic.SpellsPerDay = [
-            { Level: 0, Quantity: 45678 },
-            { Level: 1, Quantity: 56789, HasDomainSpell: true }
+        character.magic.spellsPerDay = [
+            { level: 0, quantity: 45678 },
+            { level: 1, quantity: 56789, hasDomainSpell: true }
         ];
 
-        character.Magic.KnownSpells = [
-            { Name: 'first spell', Level: 0 },
-            { Name: 'second spell', Level: 1 }
+        character.magic.knownSpells = [
+            { name: 'first spell', level: 0 },
+            { name: 'second spell', level: 1 }
         ];
 
-        character.Magic.PreparedSpells = [
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'first prepared spell', Level: 0 },
-            { Name: 'second prepared spell', Level: 1 }
+        character.magic.preparedSpells = [
+            { name: 'first prepared spell', level: 0 },
+            { name: 'first prepared spell', level: 0 },
+            { name: 'second prepared spell', level: 1 }
         ];
 
-        character.Magic.ArcaneSpellFailure = 12;
-        character.Magic.Animal = "animal";
-        character.Equipment.PrimaryHand = createItem('primary weapon');
-        character.Equipment.OffHand = createItem('off-hand item');
-        character.Equipment.Armor = createItem('armor');
-        character.Equipment.Treasure.IsAny = true;
-        character.Combat.ArmorClass.CircumstantialBonus = true;
-        character.Combat.BaseAttack.CircumstantialBonus = true;
-        character.Combat.SavingThrows.CircumstantialBonus = true;
-        character.Combat.ArmorClass.CircumstantialBonus = true;
-        character.Combat.BaseAttack.CircumstantialBonus = true;
-        character.Combat.SavingThrows.CircumstantialBonus = true;
+        character.magic.arcaneSpellFailure = 12;
+        character.magic.animal = "animal";
+        character.equipment.primaryHand = createItem('primary weapon');
+        character.equipment.offHand = createItem('off-hand item');
+        character.equipment.armor = createItem('armor');
+        character.equipment.treasure.isAny = true;
+        character.combat.armorClass.circumstantialBonus = true;
+        character.combat.baseAttack.circumstantialBonus = true;
+        character.combat.savingThrows.circumstantialBonus = true;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, null, null, null, '\t');
         var lines = formattedCharacter.split('\r\n');
@@ -3018,8 +3012,8 @@ describe('Character Formatter Service', function () {
 
     it('formats character with full leadership', function () {
         leadership = {
-            Score: 9876,
-            LeadershipModifiers: ['killed a man', 'with this thumb']
+            score: 9876,
+            leadershipModifiers: ['killed a man', 'with this thumb']
         };
 
         cohort = createCharacter();
@@ -3313,8 +3307,8 @@ describe('Character Formatter Service', function () {
 
     it('formats character with full leadership and prefix', function () {
         leadership = {
-            Score: 9876,
-            LeadershipModifiers: ['killed a man', 'with this thumb']
+            score: 9876,
+            leadershipModifiers: ['killed a man', 'with this thumb']
         };
 
         cohort = createCharacter();
@@ -3607,9 +3601,9 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats undead', function () {
-        character.Race.Metarace = "undead";
-        character.Abilities.Constitution = undefined;
-        character.Combat.SavingThrows.HasFortitudeSave = false;
+        character.race.metarace = "undead";
+        character.abilities.constitution = undefined;
+        character.combat.savingThrows.hasFortitudeSave = false;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
@@ -3690,25 +3684,25 @@ describe('Character Formatter Service', function () {
 
     it('formats undead as part of full leadership', function () {
         leadership = {
-            Score: 9876,
-            LeadershipModifiers: ['killed a man', 'with this thumb']
+            score: 9876,
+            leadershipModifiers: ['killed a man', 'with this thumb']
         };
 
         cohort = createCharacter();
         followers = [createCharacter(), createCharacter()];
 
-        character.Race.Metarace = "undead";
-        character.Abilities.Constitution = undefined;
-        character.Combat.SavingThrows.HasFortitudeSave = false;
-        cohort.Race.Metarace = "undead";
-        cohort.Abilities.Constitution = undefined;
-        cohort.Combat.SavingThrows.HasFortitudeSave = false;
-        followers[0].Race.Metarace = "undead";
-        followers[0].Abilities.Constitution = undefined;
-        followers[0].Combat.SavingThrows.HasFortitudeSave = false;
-        followers[1].Race.Metarace = "undead";
-        followers[1].Abilities.Constitution = undefined;
-        followers[1].Combat.SavingThrows.HasFortitudeSave = false;
+        character.race.metarace = "undead";
+        character.abilities.constitution = undefined;
+        character.combat.savingThrows.hasFortitudeSave = false;
+        cohort.race.metarace = "undead";
+        cohort.abilities.constitution = undefined;
+        cohort.combat.savingThrows.hasFortitudeSave = false;
+        followers[0].race.metarace = "undead";
+        followers[0].abilities.constitution = undefined;
+        followers[0].combat.savingThrows.hasFortitudeSave = false;
+        followers[1].race.metarace = "undead";
+        followers[1].abilities.constitution = undefined;
+        followers[1].combat.savingThrows.hasFortitudeSave = false;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');

@@ -46,14 +46,14 @@ describe('Character Controller', function () {
                     return getMockedPromise(setLevel, { character: null });
 
                 var character = {
-                    Alignment: { Full: setAlignment },
-                    Class: { Name: setClassName, Level: setLevel },
+                    alignment: { full: setAlignment },
+                    class: { name: setClassName, level: setLevel },
                     baseRace: setBaseRace,
-                    IsLeader: isLeader,
-                    Abilities: {
-                        Charisma: { Value: setCharisma, Bonus: (setCharisma - 10) / 2 }
+                    isLeader: isLeader,
+                    abilities: {
+                        charisma: { value: setCharisma, bonus: (setCharisma - 10) / 2 }
                     },
-                    Magic: { Animal: 'animal' }
+                    magic: { animal: 'animal' }
                 };
 
                 return getMockedPromise(setLevel, { character: character });
@@ -63,15 +63,15 @@ describe('Character Controller', function () {
         leadershipServiceMock = {
             generate: function (clientId, leaderLevel, leaderCharismaBonus, leaderAnimal) {
                 var leadership = {
-                    Score: leaderLevel + leaderCharismaBonus,
-                    CohortScore: leaderLevel - 2,
-                    FollowerQuantities: {
-                        Level1: 10,
-                        Level2: 8,
-                        Level3: 6,
-                        Level4: 5,
-                        Level5: 3,
-                        Level6: 2
+                    score: leaderLevel + leaderCharismaBonus,
+                    cohortScore: leaderLevel - 2,
+                    followerQuantities: {
+                        level1: 10,
+                        level2: 8,
+                        level3: 6,
+                        level4: 5,
+                        level5: 3,
+                        level6: 2
                     }
                 };
 
@@ -129,7 +129,7 @@ describe('Character Controller', function () {
                 if (character.name && character.level)
                     return character.name + ' level ' + character.level + ' file';
 
-                return 'Level ' + character.Class.Level + ' ' + character.Alignment.Full  + ' ' + character.baseRace + ' ' + character.Class.Name;
+                return 'Level ' + character.class.level + ' ' + character.alignment.full  + ' ' + character.baseRace + ' ' + character.class.name;
             }
         };
 
@@ -527,13 +527,13 @@ describe('Character Controller', function () {
 
         expect(characterServiceMock.generate).toHaveBeenCalledWith('client id 21', 'first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first abilities randomizer type', 90210, 42, 600, 1337, 12345, 23456, false);
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('second alignment');
-        expect(vm.character.Class.Name).toBe('second class name');
-        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.alignment.full).toBe('second alignment');
+        expect(vm.character.class.name).toBe('second class name');
+        expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.Abilities.Charisma.Value).toBe(23456);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(11723);
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.abilities.charisma.value).toBe(23456);
+        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.magic.animal).toBe('animal');
     });
 
     it('generates a character uniquely', function () {
@@ -567,26 +567,26 @@ describe('Character Controller', function () {
 
         expect(characterServiceMock.generate).toHaveBeenCalledWith('client id 21', 'first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first abilities randomizer type', 90210, 42, 600, 1337, 12345, 23456, false);
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('second alignment');
-        expect(vm.character.Class.Name).toBe('second class name');
-        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.alignment.full).toBe('second alignment');
+        expect(vm.character.class.name).toBe('second class name');
+        expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.Abilities.Charisma.Value).toBe(23456);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(11723);
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.abilities.charisma.value).toBe(23456);
+        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.magic.animal).toBe('animal');
 
         vm.generate();
         scope.$digest();
 
         expect(characterServiceMock.generate).toHaveBeenCalledWith('client id 41', 'first alignment randomizer type', 'second alignment', 'first class name randomizer type', 'second class name', 'first level randomizer type', 9266, false, 'first base race randomizer type', 'second base race', 'first metarace randomizer type', true, 'second metarace', 'first abilities randomizer type', 90210, 42, 600, 1337, 12345, 23456, false);
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('second alignment');
-        expect(vm.character.Class.Name).toBe('second class name');
-        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.alignment.full).toBe('second alignment');
+        expect(vm.character.class.name).toBe('second class name');
+        expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.Abilities.Charisma.Value).toBe(23456);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(11723);
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.abilities.charisma.value).toBe(23456);
+        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.magic.animal).toBe('animal');
     });
 
     it('says it is generating while generating a character', function () {
@@ -612,13 +612,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
     });
@@ -793,22 +793,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
     });
@@ -824,22 +824,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
     });
@@ -855,13 +855,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
@@ -878,22 +878,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
         expect(vm.cohort.name).toBe('first class name');
@@ -913,22 +913,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
         expect(vm.cohort.name).toBe('first class name');
@@ -948,13 +948,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();
         expect(vm.cohort).toBeNull();
         expect(vm.generating).toBeFalsy();
@@ -972,22 +972,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
 
@@ -1044,22 +1044,22 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
-        expect(vm.leadership.Score).toBe(9266 + 45100);
-        expect(vm.leadership.CohortScore).toBe(9264);
-        expect(vm.leadership.FollowerQuantities.Level1).toBe(10);
-        expect(vm.leadership.FollowerQuantities.Level2).toBe(8);
-        expect(vm.leadership.FollowerQuantities.Level3).toBe(6);
-        expect(vm.leadership.FollowerQuantities.Level4).toBe(5);
-        expect(vm.leadership.FollowerQuantities.Level5).toBe(3);
-        expect(vm.leadership.FollowerQuantities.Level6).toBe(2);
+        expect(vm.leadership.score).toBe(9266 + 45100);
+        expect(vm.leadership.cohortScore).toBe(9264);
+        expect(vm.leadership.followerQuantities.level1).toBe(10);
+        expect(vm.leadership.followerQuantities.level2).toBe(8);
+        expect(vm.leadership.followerQuantities.level3).toBe(6);
+        expect(vm.leadership.followerQuantities.level4).toBe(5);
+        expect(vm.leadership.followerQuantities.level5).toBe(3);
+        expect(vm.leadership.followerQuantities.level6).toBe(2);
         expect(vm.cohort).not.toBeNull();
         expect(vm.cohort.level).toBe(9262);
 
@@ -1116,13 +1116,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         expect(vm.character).not.toBeNull();
-        expect(vm.character.Alignment.Full).toBe('first alignment');
-        expect(vm.character.Class.Name).toBe('first class name');
-        expect(vm.character.Class.Level).toBe(9266);
-        expect(vm.character.Abilities.Charisma.Value).toBe(90210);
-        expect(vm.character.Abilities.Charisma.Bonus).toBe(45100);
+        expect(vm.character.alignment.full).toBe('first alignment');
+        expect(vm.character.class.name).toBe('first class name');
+        expect(vm.character.class.level).toBe(9266);
+        expect(vm.character.abilities.charisma.value).toBe(90210);
+        expect(vm.character.abilities.charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.Magic.Animal).toBe('animal');
+        expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();
         expect(vm.cohort).toBeNull();
         expect(vm.followers.length).toBe(0);
@@ -1174,13 +1174,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         vm.leadership = {
-            FollowerQuantities: {
-                Level1: 7,
-                Level2: 6,
-                Level3: 5,
-                Level4: 4,
-                Level5: 3,
-                Level6: 2
+            followerQuantities: {
+                level1: 7,
+                level2: 6,
+                level3: 5,
+                level4: 4,
+                level5: 3,
+                level6: 2
             }
         };
 
@@ -1194,13 +1194,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         vm.leadership = {
-            FollowerQuantities: {
-                Level1: 7,
-                Level2: 6,
-                Level3: 5,
-                Level4: 4,
-                Level5: 3,
-                Level6: 2
+            followerQuantities: {
+                level1: 7,
+                level2: 6,
+                level3: 5,
+                level4: 4,
+                level5: 3,
+                level6: 2
             }
         };
 
@@ -1222,13 +1222,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         vm.leadership = {
-            FollowerQuantities: {
-                Level1: 7,
-                Level2: 6,
-                Level3: 5,
-                Level4: 4,
-                Level5: 3,
-                Level6: 2
+            followerQuantities: {
+                level1: 7,
+                level2: 6,
+                level3: 5,
+                level4: 4,
+                level5: 3,
+                level6: 2
             }
         };
 
@@ -1248,13 +1248,13 @@ describe('Character Controller', function () {
         scope.$digest();
 
         vm.leadership = {
-            FollowerQuantities: {
-                Level1: 0,
-                Level2: 0,
-                Level3: 0,
-                Level4: 0,
-                Level5: 0,
-                Level6: 0
+            followerQuantities: {
+                level1: 0,
+                level2: 0,
+                level3: 0,
+                level4: 0,
+                level5: 0,
+                level6: 0
             }
         };
 

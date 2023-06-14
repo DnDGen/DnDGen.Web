@@ -1,11 +1,11 @@
 ﻿{
-  "Environment": "",
-  "Level": 0,
-  "TimeOfDay": "",
-  "Temperature": "",
-  "AllowAquatic": false,
-  "AllowUnderground": false,
-  "CreatureTypeFilters": [],
-  "SpecificEnvironment": "",
-  "Description": "Level0"
+  "environment": "",
+  "level": 0,
+  "timeOfDay": "",
+  "temperature": "",
+  "allowAquatic": false,
+  "allowUnderground": false,
+  "creatureTypeFilters": [],
+  "specificEnvironment": "",
+  "description": "Level0"
 }

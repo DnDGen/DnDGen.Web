@@ -1,9 +1,9 @@
 ﻿{
-  "Coin": {
-    "Currency": "",
-    "Quantity": 0
+  "coin": {
+    "currency": "",
+    "quantity": 0
   },
-  "Goods": [],
-  "Items": [],
-  "IsAny": false
+  "goods": [],
+  "items": [],
+  "isAny": false
 }

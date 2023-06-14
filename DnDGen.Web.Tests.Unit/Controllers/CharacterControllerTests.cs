@@ -37,7 +37,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockCharacterGenerator = new Mock<ICharacterGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new CharacterController(mockRandomizerRepository.Object, mockCharacterGenerator.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
+            mockDependencyFactory.Setup(f => f.Get<ICharacterGenerator>()).Returns(mockCharacterGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new CharacterController(mockDependencyFactory.Object);
             characterSpecifications = new CharacterSpecifications();
 
             characterSpecifications.AbilitiesRandomizerType = "abilities randomizer type";

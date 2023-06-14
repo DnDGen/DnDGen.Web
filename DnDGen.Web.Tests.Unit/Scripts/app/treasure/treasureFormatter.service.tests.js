@@ -14,8 +14,8 @@ describe('Treasure Formatter Service', function () {
 
     function createGood(description, value) {
         var good = getMock('good');
-        good.Description = description;
-        good.ValueInGold = value;
+        good.description = description;
+        good.valueInGold = value;
 
         return good;
     }
@@ -32,9 +32,9 @@ describe('Treasure Formatter Service', function () {
     }));
 
     it('formats empty treaure', function () {
-        treasure.IsAny = false;
-        treasure.Coin.Quantity = 9266;
-        treasure.Coin.Currency = 'munny';
+        treasure.isAny = false;
+        treasure.coin.quantity = 9266;
+        treasure.coin.currency = 'munny';
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -44,9 +44,9 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats coin', function () {
-        treasure.IsAny = true;
-        treasure.Coin.Quantity = 9266;
-        treasure.Coin.Currency = 'munny';
+        treasure.isAny = true;
+        treasure.coin.quantity = 9266;
+        treasure.coin.currency = 'munny';
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -57,9 +57,9 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats goods', function () {
-        treasure.IsAny = true;
-        treasure.Goods.push(createGood('description 1', 90210));
-        treasure.Goods.push(createGood('description 2', 42));
+        treasure.isAny = true;
+        treasure.goods.push(createGood('description 1', 90210));
+        treasure.goods.push(createGood('description 2', 42));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -72,39 +72,39 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats items', function () {
-        treasure.IsAny = true;
+        treasure.isAny = true;
 
-        item.Quantity = 2;
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
-        item.Attributes.push('first attribute');
-        item.Attributes.push('Charged');
-        item.Attributes.push('second attribute');
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
-        item.Magic.Charges = 4;
-        item.Magic.Curse = 'curse';
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
-        item.Magic.Intelligence.Personality = 'personality';
+        item.quantity = 2;
+        item.contents.push('first contents');
+        item.contents.push('second contents');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
+        item.attributes.push('first attribute');
+        item.attributes.push('Charged');
+        item.attributes.push('second attribute');
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.charges = 4;
+        item.magic.curse = 'curse';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
+        item.magic.intelligence.personality = 'personality';
 
-        treasure.Items.push(item);
-        treasure.Items.push(createItem('other item name'));
+        treasure.items.push(item);
+        treasure.items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -148,43 +148,43 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats all treasure', function () {
-        treasure.IsAny = true;
+        treasure.isAny = true;
 
-        item.Quantity = 2;
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
-        item.Attributes.push('first attribute');
-        item.Attributes.push('Charged');
-        item.Attributes.push('second attribute');
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
-        item.Magic.Charges = 4;
-        item.Magic.Curse = 'curse';
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
-        item.Magic.Intelligence.Personality = 'personality';
+        item.quantity = 2;
+        item.contents.push('first contents');
+        item.contents.push('second contents');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
+        item.attributes.push('first attribute');
+        item.attributes.push('Charged');
+        item.attributes.push('second attribute');
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.charges = 4;
+        item.magic.curse = 'curse';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
+        item.magic.intelligence.personality = 'personality';
 
-        treasure.Coin.Quantity = 9266;
-        treasure.Coin.Currency = 'munny';
-        treasure.Goods.push(createGood('description 1', 90210));
-        treasure.Goods.push(createGood('description 2', 42));
-        treasure.Items.push(item);
-        treasure.Items.push(createItem('other item name'));
+        treasure.coin.quantity = 9266;
+        treasure.coin.currency = 'munny';
+        treasure.goods.push(createGood('description 1', 90210));
+        treasure.goods.push(createGood('description 2', 42));
+        treasure.items.push(item);
+        treasure.items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
         var lines = formattedTreasure.split('\r\n');
@@ -232,43 +232,43 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats all treasure with prefix', function () {
-        treasure.IsAny = true;
+        treasure.isAny = true;
 
-        item.Quantity = 2;
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
-        item.Attributes.push('first attribute');
-        item.Attributes.push('Charged');
-        item.Attributes.push('second attribute');
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
-        item.Magic.Charges = 4;
-        item.Magic.Curse = 'curse';
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
-        item.Magic.Intelligence.Personality = 'personality';
+        item.quantity = 2;
+        item.contents.push('first contents');
+        item.contents.push('second contents');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
+        item.attributes.push('first attribute');
+        item.attributes.push('Charged');
+        item.attributes.push('second attribute');
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.charges = 4;
+        item.magic.curse = 'curse';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
+        item.magic.intelligence.personality = 'personality';
 
-        treasure.Coin.Quantity = 9266;
-        treasure.Coin.Currency = 'munny';
-        treasure.Goods.push({ Description: 'description 1', ValueInGold: 90210 });
-        treasure.Goods.push({ Description: 'description 2', ValueInGold: 42 });
-        treasure.Items.push(item);
-        treasure.Items.push(createItem('other item name'));
+        treasure.coin.quantity = 9266;
+        treasure.coin.currency = 'munny';
+        treasure.goods.push(createGood('description 1', 90210));
+        treasure.goods.push(createGood('description 2', 42));
+        treasure.items.push(item);
+        treasure.items.push(createItem('other item name'));
 
         var formattedTreasure = treasureFormatterService.formatTreasure(treasure, '\t');
         var lines = formattedTreasure.split('\r\n');
@@ -325,7 +325,7 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item with quantity greater than 1', function () {
-        item.Quantity = 2;
+        item.quantity = 2;
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -336,8 +336,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item contents', function () {
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
+        item.contents.push('first contents');
+        item.contents.push('second contents');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -351,8 +351,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item traits', function () {
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -366,7 +366,7 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item magic bonus', function () {
-        item.Magic.Bonus = 3;
+        item.magic.bonus = 3;
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -378,9 +378,9 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item magic special abilities', function () {
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -395,8 +395,8 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item charges', function () {
-        item.Magic.Charges = 4;
-        item.Attributes.push('Charged');
+        item.magic.charges = 4;
+        item.attributes.push('Charged');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -408,7 +408,7 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item charges of 0', function () {
-        item.Attributes.push('Charged');
+        item.attributes.push('Charged');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -420,7 +420,7 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item curse', function () {
-        item.Magic.Curse = 'curse';
+        item.magic.curse = 'curse';
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -433,11 +433,11 @@ describe('Treasure Formatter Service', function () {
 
     it('formats armor', function () {
         var armor = getMock('armor');
-        armor.Name = "armor name";
-        armor.TotalArmorBonus = 9266;
-        armor.TotalArmorCheckPenalty = -90210;
-        armor.TotalMaxDexterityBonus = 42;
-        armor.Size = "armor size";
+        armor.name = "armor name";
+        armor.totalArmorBonus = 9266;
+        armor.totalArmorCheckPenalty = -90210;
+        armor.totalMaxDexterityBonus = 42;
+        armor.size = "armor size";
 
         var formattedItem = treasureFormatterService.formatItem(armor);
         var lines = formattedItem.split('\r\n');
@@ -461,11 +461,11 @@ describe('Treasure Formatter Service', function () {
 
     it('formats armor with no max dexterity limitation', function () {
         var armor = getMock('armor');
-        armor.Name = "armor name";
-        armor.TotalArmorBonus = 9266;
-        armor.TotalArmorCheckPenalty = -90210;
-        armor.TotalMaxDexterityBonus = 9000;
-        armor.Size = "armor size";
+        armor.name = "armor name";
+        armor.totalArmorBonus = 9266;
+        armor.totalArmorCheckPenalty = -90210;
+        armor.totalMaxDexterityBonus = 9000;
+        armor.size = "armor size";
 
         var formattedItem = treasureFormatterService.formatItem(armor);
         var lines = formattedItem.split('\r\n');
@@ -488,13 +488,13 @@ describe('Treasure Formatter Service', function () {
 
     it('formats weapon', function () {
         var weapon = getMock('weapon');
-        weapon.Name = "weapon name";
-        weapon.Size = "weapon size";
-        weapon.CombatTypes = ["melee", "ranged"];
-        weapon.Damage = "weapon damage";
-        weapon.DamageType = "damage type";
-        weapon.ThreatRange = "threat range";
-        weapon.CriticalMultiplier = "over 9000";
+        weapon.name = "weapon name";
+        weapon.size = "weapon size";
+        weapon.combatTypes = ["melee", "ranged"];
+        weapon.damage = "weapon damage";
+        weapon.damageType = "damage type";
+        weapon.threatRange = "threat range";
+        weapon.criticalMultiplier = "over 9000";
 
         var formattedItem = treasureFormatterService.formatItem(weapon);
         var lines = formattedItem.split('\r\n');
@@ -520,14 +520,14 @@ describe('Treasure Formatter Service', function () {
 
     it('formats weapon requiring ammunition', function () {
         var weapon = getMock('weapon');
-        weapon.Name = "weapon name";
-        weapon.Size = "weapon size";
-        weapon.CombatTypes = ["ranged"];
-        weapon.Damage = "weapon damage";
-        weapon.DamageType = "damage type";
-        weapon.ThreatRange = "threat range";
-        weapon.CriticalMultiplier = "over 9000";
-        weapon.Ammunition = "needed ammo";
+        weapon.name = "weapon name";
+        weapon.size = "weapon size";
+        weapon.combatTypes = ["ranged"];
+        weapon.damage = "weapon damage";
+        weapon.damageType = "damage type";
+        weapon.threatRange = "threat range";
+        weapon.criticalMultiplier = "over 9000";
+        weapon.ammunition = "needed ammo";
 
         var formattedItem = treasureFormatterService.formatItem(weapon);
         var lines = formattedItem.split('\r\n');
@@ -553,16 +553,16 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item intelligence', function () {
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -587,18 +587,18 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item intelligence languages', function () {
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -626,18 +626,18 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats item intelligence special purpose', function () {
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -664,17 +664,17 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats intelligence personality', function () {
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.Personality = 'personality';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -699,34 +699,34 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats full item', function () {
-        item.Quantity = 2;
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
-        item.Attributes.push('first attribute');
-        item.Attributes.push('Charged');
-        item.Attributes.push('second attribute');
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
-        item.Magic.Charges = 4;
-        item.Magic.Curse = 'curse';
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
-        item.Magic.Intelligence.Personality = 'personality';
+        item.quantity = 2;
+        item.contents.push('first contents');
+        item.contents.push('second contents');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
+        item.attributes.push('first attribute');
+        item.attributes.push('Charged');
+        item.attributes.push('second attribute');
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.charges = 4;
+        item.magic.curse = 'curse';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
+        item.magic.intelligence.personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -768,34 +768,34 @@ describe('Treasure Formatter Service', function () {
     });
 
     it('formats full item with prefix', function () {
-        item.Quantity = 2;
-        item.Contents.push('first contents');
-        item.Contents.push('second contents');
-        item.Traits.push('first trait');
-        item.Traits.push('second trait');
-        item.Attributes.push('first attribute');
-        item.Attributes.push('Charged');
-        item.Attributes.push('second attribute');
-        item.Magic.Bonus = 3;
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 1' });
-        item.Magic.SpecialAbilities.push({ Name: 'special ability 2' });
-        item.Magic.Charges = 4;
-        item.Magic.Curse = 'curse';
-        item.Magic.Intelligence.Ego = 5;
-        item.Magic.Intelligence.IntelligenceStat = 6;
-        item.Magic.Intelligence.WisdomStat = 7;
-        item.Magic.Intelligence.CharismaStat = 8;
-        item.Magic.Intelligence.Alignment = 'alignment';
-        item.Magic.Intelligence.Communication.push('empathy');
-        item.Magic.Intelligence.Communication.push('telepathy');
-        item.Magic.Intelligence.Languages.push('English');
-        item.Magic.Intelligence.Languages.push('German');
-        item.Magic.Intelligence.Senses = 'senses';
-        item.Magic.Intelligence.Powers.push('first power');
-        item.Magic.Intelligence.Powers.push('second power');
-        item.Magic.Intelligence.SpecialPurpose = 'special purpose';
-        item.Magic.Intelligence.DedicatedPower = 'dedicated power';
-        item.Magic.Intelligence.Personality = 'personality';
+        item.quantity = 2;
+        item.contents.push('first contents');
+        item.contents.push('second contents');
+        item.traits.push('first trait');
+        item.traits.push('second trait');
+        item.attributes.push('first attribute');
+        item.attributes.push('Charged');
+        item.attributes.push('second attribute');
+        item.magic.bonus = 3;
+        item.magic.specialAbilities.push({ Name: 'special ability 1' });
+        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.charges = 4;
+        item.magic.curse = 'curse';
+        item.magic.intelligence.ego = 5;
+        item.magic.intelligence.intelligenceStat = 6;
+        item.magic.intelligence.wisdomStat = 7;
+        item.magic.intelligence.charismaStat = 8;
+        item.magic.intelligence.alignment = 'alignment';
+        item.magic.intelligence.communication.push('empathy');
+        item.magic.intelligence.communication.push('telepathy');
+        item.magic.intelligence.languages.push('English');
+        item.magic.intelligence.languages.push('German');
+        item.magic.intelligence.senses = 'senses';
+        item.magic.intelligence.powers.push('first power');
+        item.magic.intelligence.powers.push('second power');
+        item.magic.intelligence.specialPurpose = 'special purpose';
+        item.magic.intelligence.dedicatedPower = 'dedicated power';
+        item.magic.intelligence.personality = 'personality';
 
         var formattedItem = treasureFormatterService.formatItem(item, '\t');
         var lines = formattedItem.split('\r\n');

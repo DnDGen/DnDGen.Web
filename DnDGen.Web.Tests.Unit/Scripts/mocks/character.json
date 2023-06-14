@@ -1,134 +1,134 @@
 ﻿{
-  "InterestingTrait": "",
-  "Alignment": {
-    "Lawfulness": "",
-    "Goodness": "",
-    "Full": ""
+  "interestingTrait": "",
+  "alignment": {
+    "lawfulness": "",
+    "goodness": "",
+    "full": ""
   },
-  "Class": {
-    "Level": 0,
-    "LevelAdjustment": 0,
-    "IsNPC": false,
-    "Name": "",
-    "SpecialistFields": [],
-    "ProhibitedFields": [],
-    "EffectiveLevel": 0,
-    "Summary": "Level0"
+  "class": {
+    "level": 0,
+    "levelAdjustment": 0,
+    "isNPC": false,
+    "name": "",
+    "specialistFields": [],
+    "prohibitedFields": [],
+    "effectiveLevel": 0,
+    "summary": "Level0"
   },
-  "Race": {
-    "BaseRace": "",
-    "Metarace": "",
-    "MetaraceSpecies": "",
-    "IsMale": false,
-    "HasWings": false,
-    "Size": "",
-    "ChallengeRating": 0,
-    "Age": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "Years"
+  "race": {
+    "baseRace": "",
+    "metarace": "",
+    "metaraceSpecies": "",
+    "isMale": false,
+    "hasWings": false,
+    "size": "",
+    "challengeRating": 0,
+    "age": {
+      "value": 0,
+      "description": "",
+      "unit": "Years"
     },
-    "MaximumAge": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "Years"
+    "maximumAge": {
+      "value": 0,
+      "description": "",
+      "unit": "Years"
     },
-    "Height": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "Inches"
+    "height": {
+      "value": 0,
+      "description": "",
+      "unit": "Inches"
     },
-    "Weight": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "Pounds"
+    "weight": {
+      "value": 0,
+      "description": "",
+      "unit": "Pounds"
     },
-    "LandSpeed": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "feet per round"
+    "landSpeed": {
+      "value": 0,
+      "description": "",
+      "unit": "feet per round"
     },
-    "AerialSpeed": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "feet per round"
+    "aerialSpeed": {
+      "value": 0,
+      "description": "",
+      "unit": "feet per round"
     },
-    "SwimSpeed": {
-      "Value": 0,
-      "Description": "",
-      "Unit": "feet per round"
+    "swimSpeed": {
+      "value": 0,
+      "description": "",
+      "unit": "feet per round"
     },
-    "Gender": "Female",
-    "Summary": "Female"
+    "gender": "Female",
+    "summary": "Female"
   },
-  "Combat": {
-    "ArmorClass": {
-      "CircumstantialBonus": false,
-      "ArmorBonus": 0,
-      "ShieldBonus": 0,
-      "SizeModifier": 0,
-      "DeflectionBonus": 0,
-      "NaturalArmorBonus": 0,
-      "AdjustedDexterityBonus": 0,
-      "DodgeBonus": 0,
-      "Full": 10,
-      "Touch": 10,
-      "FlatFooted": 10
+  "combat": {
+    "armorClass": {
+      "circumstantialBonus": false,
+      "armorBonus": 0,
+      "shieldBonus": 0,
+      "sizeModifier": 0,
+      "deflectionBonus": 0,
+      "naturalArmorBonus": 0,
+      "adjustedDexterityBonus": 0,
+      "dodgeBonus": 0,
+      "full": 10,
+      "touch": 10,
+      "flatFooted": 10
     },
-    "SavingThrows": {
-      "Reflex": 0,
-      "Fortitude": 0,
-      "Will": 0,
-      "CircumstantialBonus": false,
-      "HasFortitudeSave": true
+    "savingThrows": {
+      "reflex": 0,
+      "fortitude": 0,
+      "will": 0,
+      "circumstantialBonus": false,
+      "hasFortitudeSave": true
     },
-    "HitPoints": 0,
-    "BaseAttack": {
-      "BaseBonus": 0,
-      "StrengthBonus": 0,
-      "DexterityBonus": 0,
-      "SizeModifier": 0,
-      "RacialModifier": 0,
-      "CircumstantialBonus": false,
-      "RangedBonus": 0,
-      "MeleeBonus": 0,
-      "AllRangedBonuses": [ 0 ],
-      "AllMeleeBonuses": [ 0 ]
+    "hitPoints": 0,
+    "baseAttack": {
+      "baseBonus": 0,
+      "strengthBonus": 0,
+      "dexterityBonus": 0,
+      "sizeModifier": 0,
+      "racialModifier": 0,
+      "circumstantialBonus": false,
+      "rangedBonus": 0,
+      "meleeBonus": 0,
+      "allRangedBonuses": [ 0 ],
+      "allMeleeBonuses": [ 0 ]
     },
-    "AdjustedDexterityBonus": 0,
-    "InitiativeBonus": 0
+    "adjustedDexterityBonus": 0,
+    "initiativeBonus": 0
   },
-  "Skills": [],
-  "Languages": [],
-  "Feats": {
-    "Racial": [],
-    "Class": [],
-    "Additional": [],
-    "All": []
+  "skills": [],
+  "languages": [],
+  "feats": {
+    "racial": [],
+    "class": [],
+    "additional": [],
+    "all": []
   },
-  "Abilities": {},
-  "Equipment": {
-    "PrimaryHand": null,
-    "OffHand": null,
-    "Armor": null,
-    "Treasure": {
-      "Coin": {
-        "Currency": "",
-        "Quantity": 0
+  "abilities": {},
+  "equipment": {
+    "primaryHand": null,
+    "offHand": null,
+    "armor": null,
+    "treasure": {
+      "coin": {
+        "currency": "",
+        "quantity": 0
       },
-      "Goods": [],
-      "Items": [],
-      "IsAny": false
+      "goods": [],
+      "items": [],
+      "isAny": false
     }
   },
-  "Magic": {
-    "Animal": "",
-    "SpellsPerDay": [],
-    "KnownSpells": [],
-    "PreparedSpells": [],
-    "ArcaneSpellFailure": 0
+  "magic": {
+    "animal": "",
+    "spellsPerDay": [],
+    "knownSpells": [],
+    "preparedSpells": [],
+    "arcaneSpellFailure": 0
   },
-  "IsLeader": false,
-  "Summary": "",
-  "ChallengeRating": 0
+  "isLeader": false,
+  "summary": "",
+  "challengeRating": 0
 }

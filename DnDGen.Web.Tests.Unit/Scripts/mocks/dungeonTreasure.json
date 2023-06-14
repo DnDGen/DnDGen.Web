@@ -1,13 +1,13 @@
 ﻿{
-  "Container": "",
-  "Treasure": {
-    "Coin": {
-      "Currency": "",
-      "Quantity": 0
+  "container": "",
+  "treasure": {
+    "coin": {
+      "currency": "",
+      "quantity": 0
     },
-    "Goods": [],
-    "Items": [],
-    "IsAny": false
+    "goods": [],
+    "items": [],
+    "isAny": false
   },
-  "Concealment": ""
+  "concealment": ""
 }
