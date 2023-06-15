@@ -25,13 +25,13 @@ steps:
   displayName: Server-side Unit Tests
   inputs:
     command: test
-    projects: './DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
+    projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
     arguments: '-v normal'
 - task: DotNetCoreCLI@2
   displayName: Integration Tests
   inputs:
     command: test
-    projects: './DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
+    projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
     arguments: '-v normal'
 - task: VSTest@2
   displayName: Client-side Unit Tests
@@ -42,13 +42,18 @@ steps:
     # failOnMinTestsNotRun: true
 
     # https://stackoverflow.com/questions/53207656/chutzpah-jasmine-tests-in-azure-devops-build-pipeline-returning-failed-when-all
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: '**/chutzpah.json'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    vstestLocationMethod: 'version'
-    vsTestVersion: 'latest'
-    diagnosticsEnabled: true
-    distributionBatchType: 'basedOnTestCases'
+    # testSelector: 'testAssemblies'
+    # testAssemblyVer2: '**/chutzpah.json'
+    # searchFolder: '$(System.DefaultWorkingDirectory)'
+    # vstestLocationMethod: 'version'
+    # vsTestVersion: 'latest'
+    # diagnosticsEnabled: true
+    # distributionBatchType: 'basedOnTestCases'
+    # failOnMinTestsNotRun: true
+
+    # https://stackoverflow.com/questions/53532218/how-to-get-a-chutzpah-test-adapter-to-run-my-qunit-tests-on-an-azure-devops-pipe
+    testAssemblyVer2: '$(Build.SourcesDirectory)/DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
+    pathtoCustomTestAdapters: '$(Build.SourcesDirectory)/packages/Chutzpah.4.4.13/tools/'
     failOnMinTestsNotRun: true
 
     # testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
