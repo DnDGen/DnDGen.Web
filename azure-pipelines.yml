@@ -41,7 +41,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
-    pathtoCustomTestAdapters: '$(Build.SourcesDirectory)/DnDGen.Web/trunk/packages/Chutzpah.*/tools/'
+    pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/packages/Chutzpah.*/tools/'
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
