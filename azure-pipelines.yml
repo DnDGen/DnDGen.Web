@@ -21,18 +21,18 @@ steps:
     command: build
     projects: 'DnDGen.Web/DnDGen.Web.csproj'
     arguments: '--configuration $(buildConfiguration)'
-# - task: DotNetCoreCLI@2
-#   displayName: Server-side Unit Tests
-#   inputs:
-#     command: test
-#     projects: './DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
-#     arguments: '-v normal'
-# - task: DotNetCoreCLI@2
-#   displayName: Integration Tests
-#   inputs:
-#     command: test
-#     projects: './DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
-#     arguments: '-v normal'
+- task: DotNetCoreCLI@2
+  displayName: Server-side Unit Tests
+  inputs:
+    command: test
+    projects: './DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
+    arguments: '-v normal'
+- task: DotNetCoreCLI@2
+  displayName: Integration Tests
+  inputs:
+    command: test
+    projects: './DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
+    arguments: '-v normal'
 - task: VSTest@2
   displayName: Client-side Unit Tests
   inputs:
