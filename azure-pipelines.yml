@@ -36,7 +36,9 @@ steps:
 - task: VSTest@2
   displayName: Client-side Unit Tests
   inputs:
-    testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/chutzpah.json'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
+    searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
