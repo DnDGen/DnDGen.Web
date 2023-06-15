@@ -33,6 +33,16 @@ steps:
     command: test
     projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
     arguments: '-v normal'
+- task: NuGetCommand@2
+  displayName: Install Chutzpah
+  inputs:
+    command: custom
+    arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
+- task: DotNetCoreCLI@2
+  displayName: Client-side Unit Tests (CLI)
+  inputs:
+    command: test
+    arguments: '$(System.DefaultWorkingDirectory)/testrunner/Chutzpah.*/tools/chutzpah.console.exe DnDGen.Web.Tests.Unit/Scripts'
 - task: VSTest@2
   displayName: Client-side Unit Tests
   inputs:
