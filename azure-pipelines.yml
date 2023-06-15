@@ -37,9 +37,9 @@ steps:
   displayName: Client-side Unit Tests
   inputs:
     #This "passes", but doesn't find any tests
-    testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
-    searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
-    failOnMinTestsNotRun: true
+    # testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
+    # searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
+    # failOnMinTestsNotRun: true
 
     # https://stackoverflow.com/questions/53207656/chutzpah-jasmine-tests-in-azure-devops-build-pipeline-returning-failed-when-all
     testSelector: 'testAssemblies'
@@ -50,7 +50,6 @@ steps:
     diagnosticsEnabled: true
     distributionBatchType: 'basedOnTestCases'
     failOnMinTestsNotRun: true
-
 
     # testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
     # pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/**/Chutzpah.*/tools/'
