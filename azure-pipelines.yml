@@ -38,10 +38,13 @@ steps:
   inputs:
     # testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
     # searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
-    pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/packages/Chutzpah.*/tools/'
+
+    # testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
+    # pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/**/Chutzpah.*/tools/'
+
+    testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
+    searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
+    pathtoCustomTestAdapters: '$(Build.SourcesDirectory)/packages/Chutzpah.*/tools/'
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
