@@ -18,7 +18,7 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         [Test]
         public void HomeControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<HomeController>();
+            var controller = InjectControllerAndAssertDuration<HomeController>();
             Assert.That(controller, Is.Not.Null);
         }
 
@@ -30,25 +30,23 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         }
 
         [Test]
-        [Ignore("Explicitly getting a controller like this fails when it has dependencies")]
         public void RollControllerIsInjected()
         {
-            var controller = InjectServiceAndAssertDuration<RollController>();
+            var controller = InjectControllerAndAssertDuration<RollController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
-        [Ignore("Explicitly getting a controller like this fails when it has dependencies")]
         public void TreasureControllerIsInjected()
         {
-            var controller = InjectServiceAndAssertDuration<TreasureController>();
+            var controller = InjectControllerAndAssertDuration<TreasureController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void CharacterControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<CharacterController>();
+            var controller = InjectControllerAndAssertDuration<CharacterController>();
             Assert.That(controller, Is.Not.Null);
         }
 

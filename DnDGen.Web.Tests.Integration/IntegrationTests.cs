@@ -1,4 +1,5 @@
 ﻿using DnDGen.Web.App_Start;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
@@ -8,20 +9,22 @@ namespace DnDGen.Web.Tests.Integration
     [TestFixture]
     public abstract class IntegrationTests
     {
-        private readonly IDependencyFactory dependencyFactory;
-        private readonly IServiceProvider serviceProvider;
+        private IDependencyFactory dependencyFactory;
+        private IServiceProvider serviceProvider;
+        private IServiceCollection services;
 
-        protected IntegrationTests()
+        [OneTimeSetUp]
+        public void IntegrationSetup()
         {
             dependencyFactory = new NinjectDependencyFactory();
 
-            var services = new ServiceCollection();
+            services = new ServiceCollection();
             Startup.ConfigureServices(services);
 
             serviceProvider = services.BuildServiceProvider();
         }
 
-        protected T GetNewInstanceOf<T>()
+        protected T GetDependency<T>()
         {
             return dependencyFactory.Get<T>();
         }
@@ -29,6 +32,13 @@ namespace DnDGen.Web.Tests.Integration
         protected T GetService<T>()
         {
             return serviceProvider.GetService<T>();
+        }
+
+        protected void AddController<T>()
+            where T : Controller
+        {
+            services.AddTransient<T>();
+            serviceProvider = services.BuildServiceProvider();
         }
     }
 }
