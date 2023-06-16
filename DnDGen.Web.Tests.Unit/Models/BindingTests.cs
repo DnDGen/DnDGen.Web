@@ -34,7 +34,7 @@ namespace DnDGen.Web.Tests.Unit.Models
         {
             var expected = JsonConvert.SerializeObject(source);
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "wwwroot", "mocks", $"{fileTarget}.json");
             var actual = File.ReadAllText(path);
 
             Assert.That(new JValue(actual).ToArray(), Is.EquivalentTo(new JValue(expected).ToArray()));

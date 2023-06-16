@@ -10,7 +10,7 @@
       ]
     },
     {
-      "library": "jasmine@5.0.1",
+      "library": "jasmine@2.9.1",
       "destination": "wwwroot/lib/jasmine/"
     },
     {
