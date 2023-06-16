@@ -18,24 +18,24 @@
 
             var formattedEncounter = '';
 
-            formattedEncounter += prefix + 'Target Encounter Level: ' + encounter.TargetEncounterLevel + '\r\n';
-            formattedEncounter += prefix + 'Average Encounter Level: ' + encounter.AverageEncounterLevel + ' (' + encounter.AverageDifficulty + ')' + '\r\n';
-            formattedEncounter += prefix + 'Actual Encounter Level: ' + encounter.ActualEncounterLevel + ' (' + encounter.ActualDifficulty + ')' + '\r\n';
+            formattedEncounter += prefix + 'Target Encounter Level: ' + encounter.targetEncounterLevel + '\r\n';
+            formattedEncounter += prefix + 'Average Encounter Level: ' + encounter.averageEncounterLevel + ' (' + encounter.averageDifficulty + ')' + '\r\n';
+            formattedEncounter += prefix + 'Actual Encounter Level: ' + encounter.actualEncounterLevel + ' (' + encounter.actualDifficulty + ')' + '\r\n';
             formattedEncounter += prefix + 'Creatures:' + '\r\n';
 
-            for (var i = 0; i < encounter.Creatures.length; i++) {
-                formattedEncounter += formatCreature(encounter.Creatures[i], prefix + '\t');
+            for (var i = 0; i < encounter.creatures.length; i++) {
+                formattedEncounter += formatCreature(encounter.creatures[i], prefix + '\t');
             }
 
-            formattedEncounter += formatTreasures(encounter.Treasures, prefix);
+            formattedEncounter += formatTreasures(encounter.treasures, prefix);
 
-            if (encounter.Characters.length === 0)
+            if (encounter.characters.length === 0)
                 return formattedEncounter;
 
             formattedEncounter += prefix + 'Characters:\r\n';
 
-            for (var j = 0; j < encounter.Characters.length; j++) {
-                formattedEncounter += characterFormatterService.formatCharacter(encounter.Characters[j], null, null, null, prefix + '\t');
+            for (var j = 0; j < encounter.characters.length; j++) {
+                formattedEncounter += characterFormatterService.formatCharacter(encounter.characters[j], null, null, null, prefix + '\t');
                 formattedEncounter += '\r\n';
             }
 
@@ -43,25 +43,25 @@
         }
 
         function formatCreature(creature, prefix) {
-            var formattedCreature = prefix + formatCreatureName(creature.Type, prefix);
+            var formattedCreature = prefix + formatCreatureName(creature.type, prefix);
 
-            formattedCreature += prefix + '\t' + 'Challenge Rating: ' + creature.ChallengeRating + '\r\n';
-            formattedCreature += prefix + '\t' + 'Quantity: ' + creature.Quantity + '\r\n';
+            formattedCreature += prefix + '\t' + 'Challenge Rating: ' + creature.challengeRating + '\r\n';
+            formattedCreature += prefix + '\t' + 'Quantity: ' + creature.quantity + '\r\n';
 
             return formattedCreature;
         }
 
         function formatCreatureName(creatureType, prefix) {
-            var formattedType = creatureType.Name;
+            var formattedType = creatureType.name;
 
-            if (creatureType.Description) {
-                formattedType += ' (' + creatureType.Description + ')';
+            if (creatureType.description) {
+                formattedType += ' (' + creatureType.description + ')';
             }
 
             formattedType += '\r\n';
 
-            if (creatureType.SubType) {
-                formattedType += prefix + '\t' + 'Subtype: ' + formatCreatureName(creatureType.SubType, prefix + '\t');
+            if (creatureType.subType) {
+                formattedType += prefix + '\t' + 'Subtype: ' + formatCreatureName(creatureType.subType, prefix + '\t');
             }
 
             return formattedType;
@@ -73,7 +73,7 @@
             var formattedTreasure = '';
 
             for (var i = 0; i < treasures.length; i++) {
-                if (treasures[i].IsAny)
+                if (treasures[i].isAny)
                     formattedTreasure += treasureFormatterService.formatTreasure(treasures[i], prefix + "\t");
             }
 

@@ -14,7 +14,7 @@ describe('Encounter Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedTreasure = prefix + 'formatted treasure ' + treasure.Coin.Quantity + '\r\n';
+                var formattedTreasure = prefix + 'formatted treasure ' + treasure.coin.quantity + '\r\n';
 
                 return formattedTreasure;
             }
@@ -42,24 +42,24 @@ describe('Encounter Formatter Service', function () {
         creatureCount = 0;
 
         encounter = getMock('encounter');
-        encounter.Creatures.push(createCreature());
-        encounter.Creatures.push(createCreature());
-        encounter.Treasures.push(createTreasure('first currency', 1));
-        encounter.Treasures.push(createTreasure('second currency', 2));
-        encounter.TargetEncounterLevel = 1337;
-        encounter.AverageEncounterLevel = 42;
-        encounter.AverageDifficulty = 'super easy';
-        encounter.ActualEncounterLevel = 600;
-        encounter.ActualDifficulty = 'nigh impossible';
+        encounter.creatures.push(createCreature());
+        encounter.creatures.push(createCreature());
+        encounter.treasures.push(createTreasure('first currency', 1));
+        encounter.treasures.push(createTreasure('second currency', 2));
+        encounter.targetEncounterLevel = 1337;
+        encounter.averageEncounterLevel = 42;
+        encounter.averageDifficulty = 'super easy';
+        encounter.actualEncounterLevel = 600;
+        encounter.actualDifficulty = 'nigh impossible';
     });
 
     function createCreature() {
         creatureCount++;
         var creature = getMock('creature');
 
-        creature.Type.Name = 'creature ' + creatureCount;
-        creature.Quantity = 9266 + creatureCount;
-        creature.ChallengeRating = 90210 + creatureCount;
+        creature.type.name = 'creature ' + creatureCount;
+        creature.quantity = 9266 + creatureCount;
+        creature.challengeRating = 90210 + creatureCount;
 
         return creature;
     }
@@ -67,9 +67,9 @@ describe('Encounter Formatter Service', function () {
     function createTreasure(currency, quantity) {
         var treasure = getMock('treasure');
 
-        treasure.Coin.Currency = currency;
-        treasure.Coin.Quantity = quantity;
-        treasure.IsAny = true;
+        treasure.coin.currency = currency;
+        treasure.coin.quantity = quantity;
+        treasure.isAny = true;
 
         return treasure;
     }
@@ -89,8 +89,8 @@ describe('Encounter Formatter Service', function () {
 
     function createItem(itemName) {
         return {
-            Name: itemName,
-            Attributes: ['item attribute']
+            name: itemName,
+            attributes: ['item attribute']
         };
     }
 
@@ -122,7 +122,7 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats creature descriptions', function () {
-        encounter.Creatures[0].Type.Description = 'description'
+        encounter.creatures[0].type.description = 'description'
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
@@ -151,11 +151,11 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats creature subtypes', function () {
-        encounter.Creatures[0].Type.Description = 'description'
-        encounter.Creatures[0].Type.SubType = {
-            Name: 'subtype',
-            Description: 'subtype description',
-            SubType: null
+        encounter.creatures[0].type.description = 'description'
+        encounter.creatures[0].type.subType = {
+            name: 'subtype',
+            description: 'subtype description',
+            subType: null
         };
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
@@ -186,14 +186,14 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats further creature subtypes', function () {
-        encounter.Creatures[0].Type.Description = 'description'
-        encounter.Creatures[0].Type.SubType = {
-            Name: 'subtype',
-            Description: 'subtype description',
-            SubType: {
-                Name: 'further subtype',
-                Description: 'further subtype description',
-                SubType: null
+        encounter.creatures[0].type.description = 'description'
+        encounter.creatures[0].type.subType = {
+            name: 'subtype',
+            description: 'subtype description',
+            subType: {
+                name: 'further subtype',
+                description: 'further subtype description',
+                subType: null
             }
         };
 
@@ -226,11 +226,11 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats further creature subtypes without descriptions', function () {
-        encounter.Creatures[0].Type.SubType = {
-            Name: 'subtype',
-            SubType: {
-                Name: 'further subtype',
-                SubType: null
+        encounter.creatures[0].type.subType = {
+            name: 'subtype',
+            subType: {
+                name: 'further subtype',
+                subType: null
             }
         };
 
@@ -263,8 +263,8 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats characters', function () {
-        encounter.Characters.push(createCharacter());
-        encounter.Characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
@@ -302,8 +302,8 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats treasure if there is not any', function () {
-        encounter.Treasures[0].IsAny = false;
-        encounter.Treasures[1].IsAny = false;
+        encounter.treasures[0].isAny = false;
+        encounter.treasures[1].isAny = false;
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
@@ -330,7 +330,7 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats treasure if there is some', function () {
-        encounter.Treasures[0].IsAny = false;
+        encounter.treasures[0].isAny = false;
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
@@ -358,18 +358,18 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats full encounter', function () {
-        encounter.Creatures[0].Type.Description = 'description';
-        encounter.Creatures[0].Type.SubType = {
-            Name: 'subtype',
-            Description: 'subtype description',
-            SubType: {
-                Name: 'further subtype',
-                Description: 'further subtype description',
-                SubType: null
+        encounter.creatures[0].type.description = 'description';
+        encounter.creatures[0].type.subType = {
+            name: 'subtype',
+            description: 'subtype description',
+            subType: {
+                name: 'further subtype',
+                description: 'further subtype description',
+                subType: null
             }
         };
-        encounter.Characters.push(createCharacter());
-        encounter.Characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter);
         var lines = formattedEncounter.split('\r\n');
@@ -409,18 +409,18 @@ describe('Encounter Formatter Service', function () {
     });
 
     it('formats full encounter with prefix', function () {
-        encounter.Creatures[0].Type.Description = 'description';
-        encounter.Creatures[0].Type.SubType = {
-            Name: 'subtype',
-            Description: 'subtype description',
-            SubType: {
-                Name: 'further subtype',
-                Description: 'further subtype description',
-                SubType: null
+        encounter.creatures[0].type.description = 'description';
+        encounter.creatures[0].type.subType = {
+            name: 'subtype',
+            description: 'subtype description',
+            subType: {
+                name: 'further subtype',
+                description: 'further subtype description',
+                subType: null
             }
         };
-        encounter.Characters.push(createCharacter());
-        encounter.Characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
+        encounter.characters.push(createCharacter());
 
         var formattedEncounter = encounterFormatterService.formatEncounter(encounter, '\t');
         var lines = formattedEncounter.split('\r\n');

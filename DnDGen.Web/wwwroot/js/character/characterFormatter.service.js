@@ -49,109 +49,109 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedCharacter = prefix + character.Summary + ':\r\n';
+            var formattedCharacter = prefix + character.summary + ':\r\n';
 
             //Challenge Rating
-            formattedCharacter += prefix + '\t' + 'Challenge Rating: ' + character.ChallengeRating + '\r\n';
+            formattedCharacter += prefix + '\t' + 'Challenge Rating: ' + character.challengeRating + '\r\n';
 
             //Alignment
-            formattedCharacter += prefix + '\t' + 'Alignment: ' + character.Alignment.Full + '\r\n';
+            formattedCharacter += prefix + '\t' + 'Alignment: ' + character.alignment.full + '\r\n';
 
             //Class
-            formattedCharacter += prefix + '\t' + character.Class.Summary + '\r\n';
-            formattedCharacter += formatList(character.Class.SpecialistFields, 'Specialist', prefix + '\t\t');
-            formattedCharacter += formatList(character.Class.ProhibitedFields, 'Prohibited', prefix + '\t\t');
+            formattedCharacter += prefix + '\t' + character.class.summary + '\r\n';
+            formattedCharacter += formatList(character.class.specialistFields, 'Specialist', prefix + '\t\t');
+            formattedCharacter += formatList(character.class.prohibitedFields, 'Prohibited', prefix + '\t\t');
 
             //Race
-            formattedCharacter += prefix + '\t' + character.Race.Summary + '\r\n';
+            formattedCharacter += prefix + '\t' + character.race.summary + '\r\n';
 
-            if (character.Race.MetaraceSpecies.length > 0)
-                formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.Race.MetaraceSpecies + '\r\n';
+            if (character.race.metaraceSpecies.length > 0)
+                formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.race.metaraceSpecies + '\r\n';
 
-            formattedCharacter += prefix + "\t\t" + "Land Speed: " + formatMeasurement(character.Race.LandSpeed) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Land Speed: " + formatMeasurement(character.race.landSpeed) + "\r\n";
 
-            if (character.Race.AerialSpeed.Value > 0)
-                formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + formatMeasurement(character.Race.AerialSpeed) + "\r\n";
+            if (character.race.aerialSpeed.value > 0)
+                formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + formatMeasurement(character.race.aerialSpeed) + "\r\n";
 
-            if (character.Race.SwimSpeed.Value > 0)
-                formattedCharacter += prefix + "\t\t" + "Swim Speed: " + formatMeasurement(character.Race.SwimSpeed) + "\r\n";
+            if (character.race.swimSpeed.value > 0)
+                formattedCharacter += prefix + "\t\t" + "Swim Speed: " + formatMeasurement(character.race.swimSpeed) + "\r\n";
 
-            formattedCharacter += prefix + "\t\t" + "Size: " + character.Race.Size + "\r\n";
-            formattedCharacter += prefix + "\t\t" + "Age: " + formatMeasurement(character.Race.Age) + "\r\n";
-            formattedCharacter += prefix + "\t\t" + "Maximum Age: " + formatMeasurement(character.Race.MaximumAge) + "\r\n";
-            formattedCharacter += prefix + "\t\t" + "Height: " + inchesToFeetFilter(character.Race.Height.Value);
+            formattedCharacter += prefix + "\t\t" + "Size: " + character.race.size + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Age: " + formatMeasurement(character.race.age) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Maximum Age: " + formatMeasurement(character.race.maximumAge) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Height: " + inchesToFeetFilter(character.race.height.value);
             
-            if (character.Race.Height.Description)
-                formattedCharacter += " (" + character.Race.Height.Description + ")";
+            if (character.race.height.description)
+                formattedCharacter += " (" + character.race.height.description + ")";
             
             formattedCharacter += "\r\n";
-            formattedCharacter += prefix + "\t\t" + "Weight: " + formatMeasurement(character.Race.Weight) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Weight: " + formatMeasurement(character.race.weight) + "\r\n";
 
-            if (character.Race.HasWings)
+            if (character.race.hasWings)
                 formattedCharacter += prefix + "\t\t" + "Has Wings\r\n";
 
             //Abilities
-            formattedCharacter += formatAbilities(character.Abilities, prefix + "\t");
+            formattedCharacter += formatAbilities(character.abilities, prefix + "\t");
 
             //Languages
-            formattedCharacter += formatList(character.Languages, 'Languages', prefix + "\t");
+            formattedCharacter += formatList(character.languages, 'Languages', prefix + "\t");
 
             //Skills
-            formattedCharacter += formatSkills(character.Skills, prefix + "\t");
+            formattedCharacter += formatSkills(character.skills, prefix + "\t");
 
             //Feats
-            formattedCharacter += formatFeats(character.Feats, prefix + "\t");
+            formattedCharacter += formatFeats(character.feats, prefix + "\t");
 
             //Interesting Trait
-            if (character.InterestingTrait.length > 0)
-                formattedCharacter += prefix + "\t" + 'Interesting Trait: ' + character.InterestingTrait + '\r\n';
+            if (character.interestingTrait.length > 0)
+                formattedCharacter += prefix + "\t" + 'Interesting Trait: ' + character.interestingTrait + '\r\n';
             else
                 formattedCharacter += prefix + "\t" + 'Interesting Trait: None\r\n';
 
             //Magic
-            formattedCharacter += formatSpellsPerDay(character.Magic.SpellsPerDay, prefix + "\t");
-            formattedCharacter += formatSpells(character.Magic.KnownSpells, 'Known Spells', prefix + "\t");
-            formattedCharacter += formatSpells(character.Magic.PreparedSpells, 'Prepared Spells', prefix + "\t");
+            formattedCharacter += formatSpellsPerDay(character.magic.spellsPerDay, prefix + "\t");
+            formattedCharacter += formatSpells(character.magic.knownSpells, 'Known Spells', prefix + "\t");
+            formattedCharacter += formatSpells(character.magic.preparedSpells, 'Prepared Spells', prefix + "\t");
 
-            if (character.Magic.ArcaneSpellFailure > 0)
-                formattedCharacter += prefix + "\t" + "Arcane Spell Failure: " + character.Magic.ArcaneSpellFailure + "%\r\n";
+            if (character.magic.arcaneSpellFailure > 0)
+                formattedCharacter += prefix + "\t" + "Arcane Spell Failure: " + character.magic.arcaneSpellFailure + "%\r\n";
 
-            if (character.Magic.Animal.length > 0)
-                formattedCharacter += prefix + "\t" + "Animal: " + character.Magic.Animal + "\r\n";
+            if (character.magic.animal.length > 0)
+                formattedCharacter += prefix + "\t" + "Animal: " + character.magic.animal + "\r\n";
 
             //Equipment
             formattedCharacter += prefix + "\t" + "Equipment:\r\n";
-            formattedCharacter += formatItem("Primary Hand", character.Equipment.PrimaryHand, prefix + '\t\t');
-            formattedCharacter += formatOffHandItem(character.Equipment, prefix + '\t\t');
-            formattedCharacter += formatItem("Armor", character.Equipment.Armor, prefix + '\t\t');
-            formattedCharacter += formatTreasure(character.Equipment.Treasure, prefix + '\t\t');
+            formattedCharacter += formatItem("Primary Hand", character.equipment.primaryHand, prefix + '\t\t');
+            formattedCharacter += formatOffHandItem(character.equipment, prefix + '\t\t');
+            formattedCharacter += formatItem("Armor", character.equipment.armor, prefix + '\t\t');
+            formattedCharacter += formatTreasure(character.equipment.treasure, prefix + '\t\t');
 
             //Combat
             formattedCharacter += prefix + "\t" + "Combat:\r\n";
-            formattedCharacter += prefix + "\t\t" + "Adjusted Dexterity Bonus: " + character.Combat.AdjustedDexterityBonus + "\r\n";
-            formattedCharacter += formatArmorClass(character.Combat.ArmorClass, prefix + "\t");
-            formattedCharacter += formatBaseAttack(character.Combat.BaseAttack, prefix + "\t");
-            formattedCharacter += prefix + "\t\t" + "Hit Points: " + character.Combat.HitPoints + "\r\n";
-            formattedCharacter += prefix + "\t\t" + "Initiative Bonus: " + character.Combat.InitiativeBonus + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Adjusted Dexterity Bonus: " + character.combat.adjustedDexterityBonus + "\r\n";
+            formattedCharacter += formatArmorClass(character.combat.armorClass, prefix + "\t");
+            formattedCharacter += formatBaseAttack(character.combat.baseAttack, prefix + "\t");
+            formattedCharacter += prefix + "\t\t" + "Hit Points: " + character.combat.hitPoints + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Initiative Bonus: " + character.combat.initiativeBonus + "\r\n";
             formattedCharacter += prefix + "\t\t" + "Saving Throws:\r\n";
 
-            if (character.Combat.SavingThrows.HasFortitudeSave)
-                formattedCharacter += prefix + "\t\t\t" + "Fortitude: " + character.Combat.SavingThrows.Fortitude + "\r\n";
+            if (character.combat.savingThrows.hasFortitudeSave)
+                formattedCharacter += prefix + "\t\t\t" + "Fortitude: " + character.combat.savingThrows.fortitude + "\r\n";
 
-            formattedCharacter += prefix + "\t\t\t" + "Reflex: " + character.Combat.SavingThrows.Reflex + "\r\n";
-            formattedCharacter += prefix + "\t\t\t" + "Will: " + character.Combat.SavingThrows.Will + "\r\n";
+            formattedCharacter += prefix + "\t\t\t" + "Reflex: " + character.combat.savingThrows.reflex + "\r\n";
+            formattedCharacter += prefix + "\t\t\t" + "Will: " + character.combat.savingThrows.will + "\r\n";
 
-            if (character.Combat.SavingThrows.CircumstantialBonus)
+            if (character.combat.savingThrows.circumstantialBonus)
                 formattedCharacter += prefix + "\t\t\t" + "Circumstantial Bonus\r\n";
 
             return formattedCharacter;
         }
 
         function formatMeasurement(measurement) {
-            var formattedMeasurement = measurement.Value + " " + measurement.Unit;
+            var formattedMeasurement = measurement.value + " " + measurement.unit;
 
-            if (measurement.Description)
-                formattedMeasurement += " (" + measurement.Description + ")";
+            if (measurement.description)
+                formattedMeasurement += " (" + measurement.description + ")";
 
             return formattedMeasurement;
         }
@@ -178,15 +178,15 @@
                 prefix = '';
 
             var formattedAbilities = prefix + 'Abilities:\r\n';
-            formattedAbilities += prefix + "\t" + "Strength: " + abilities.Strength.Value + " (" + abilities.Strength.Bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Strength: " + abilities.strength.value + " (" + abilities.strength.bonus + ")\r\n";
 
-            if (abilities.Constitution)
-                formattedAbilities += prefix + "\t" + "Constitution: " + abilities.Constitution.Value + " (" + abilities.Constitution.Bonus + ")\r\n";
+            if (abilities.constitution)
+                formattedAbilities += prefix + "\t" + "Constitution: " + abilities.constitution.value + " (" + abilities.constitution.bonus + ")\r\n";
 
-            formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.Dexterity.Value + " (" + abilities.Dexterity.Bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.Intelligence.Value + " (" + abilities.Intelligence.Bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.Wisdom.Value + " (" + abilities.Wisdom.Bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Charisma: " + abilities.Charisma.Value + " (" + abilities.Charisma.Bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.dexterity.value + " (" + abilities.dexterity.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.intelligence.value + " (" + abilities.intelligence.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.wisdom.value + " (" + abilities.wisdom.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Charisma: " + abilities.charisma.value + " (" + abilities.charisma.bonus + ")\r\n";
 
             return formattedAbilities;
         }
@@ -200,26 +200,26 @@
             for (var i = 0; i < skills.length; i++) {
                 var skill = skills[i];
 
-                formattedSkills += prefix + '\t' + skill.Name;
+                formattedSkills += prefix + '\t' + skill.name;
 
-                if (skill.Focus) {
-                    formattedSkills += " (" + skill.Focus + ")";
+                if (skill.focus) {
+                    formattedSkills += " (" + skill.focus + ")";
                 }
 
                 formattedSkills += '\r\n';
-                formattedSkills += prefix + '\t\t' + 'Total Bonus: ' + skill.TotalBonus;
+                formattedSkills += prefix + '\t\t' + 'Total Bonus: ' + skill.totalBonus;
 
-                if (skill.CircumstantialBonus)
+                if (skill.circumstantialBonus)
                     formattedSkills += " *";
 
                 formattedSkills += '\r\n';
 
-                formattedSkills += prefix + '\t\t' + 'Ranks: ' + skill.EffectiveRanks + '\r\n';
-                formattedSkills += prefix + '\t\t' + 'Ability Bonus: ' + skill.BaseAbility.Bonus + '\r\n';
-                formattedSkills += prefix + '\t\t' + 'Other Bonus: ' + skill.Bonus + '\r\n';
-                formattedSkills += prefix + '\t\t' + 'Armor Check Penalty: ' + skill.ArmorCheckPenalty + '\r\n';
+                formattedSkills += prefix + '\t\t' + 'Ranks: ' + skill.effectiveRanks + '\r\n';
+                formattedSkills += prefix + '\t\t' + 'Ability Bonus: ' + skill.baseAbility.bonus + '\r\n';
+                formattedSkills += prefix + '\t\t' + 'Other Bonus: ' + skill.bonus + '\r\n';
+                formattedSkills += prefix + '\t\t' + 'Armor Check Penalty: ' + skill.armorCheckPenalty + '\r\n';
 
-                if (skill.ClassSkill)
+                if (skill.classSkill)
                     formattedSkills += prefix + '\t\t' + 'Class Skill\r\n';
             }
 
@@ -232,48 +232,48 @@
 
             var formattedFeats = prefix + 'Feats:\r\n';
 
-            if (feats.Racial.length) {
+            if (feats.racial.length) {
                 formattedFeats += prefix + '\t' + 'Racial:\r\n';
 
-                for (var i = 0; i < feats.Racial.length; i++) {
-                    formattedFeats += formatFeat(feats.Racial[i], prefix + "\t\t");
+                for (var i = 0; i < feats.racial.length; i++) {
+                    formattedFeats += formatFeat(feats.racial[i], prefix + "\t\t");
                 }
             }
 
-            if (feats.Class.length) {
+            if (feats.class.length) {
                 formattedFeats += prefix + '\t' + 'Class:\r\n';
 
-                for (var j = 0; j < feats.Class.length; j++) {
-                    formattedFeats += formatFeat(feats.Class[j], prefix + "\t\t");
+                for (var j = 0; j < feats.class.length; j++) {
+                    formattedFeats += formatFeat(feats.class[j], prefix + "\t\t");
                 }
             }
 
             formattedFeats += prefix + '\t' + 'Additional:\r\n';
 
-            for (var k = 0; k < feats.Additional.length; k++) {
-                formattedFeats += formatFeat(feats.Additional[k], prefix + "\t\t");
+            for (var k = 0; k < feats.additional.length; k++) {
+                formattedFeats += formatFeat(feats.additional[k], prefix + "\t\t");
             }
 
             return formattedFeats;
         }
 
         function formatFeat(feat, prefix) {
-            var formattedFeat = prefix + feat.Name + '\r\n';
+            var formattedFeat = prefix + feat.name + '\r\n';
 
-            formattedFeat += formatList(feat.Foci, 'Foci', prefix + '\t');
+            formattedFeat += formatList(feat.foci, 'Foci', prefix + '\t');
 
-            if (feat.Frequency.TimePeriod.length > 0) {
+            if (feat.frequency.timePeriod.length > 0) {
                 formattedFeat += prefix + '\t' + 'Frequency: ';
 
-                if (feat.Frequency.Quantity > 0) {
-                    formattedFeat += feat.Frequency.Quantity + '/';
+                if (feat.frequency.quantity > 0) {
+                    formattedFeat += feat.frequency.quantity + '/';
                 }
 
-                formattedFeat += feat.Frequency.TimePeriod + '\r\n';
+                formattedFeat += feat.frequency.timePeriod + '\r\n';
             }
 
-            if (feat.Power > 0) {
-                formattedFeat += prefix + '\t' + 'Power: ' + feat.Power + '\r\n';
+            if (feat.power > 0) {
+                formattedFeat += prefix + '\t' + 'Power: ' + feat.power + '\r\n';
             }
 
             return formattedFeat;
@@ -289,9 +289,9 @@
             var formattedSpellsPerDay = prefix + 'Spells Per Day:\r\n';
 
             for (var i = 0; i < spellsPerDay.length; i++) {
-                formattedSpellsPerDay += prefix + '\t' + 'Level ' + spellsPerDay[i].Level + ": " + spellsPerDay[i].Quantity;
+                formattedSpellsPerDay += prefix + '\t' + 'Level ' + spellsPerDay[i].level + ": " + spellsPerDay[i].quantity;
 
-                if (spellsPerDay[i].HasDomainSpell)
+                if (spellsPerDay[i].hasDomainSpell)
                     formattedSpellsPerDay += " + 1";
 
                 formattedSpellsPerDay += "\r\n";
@@ -310,7 +310,7 @@
             var formattedSpells = prefix + title + ':\r\n';
 
             for (var i = 0; i < spells.length; i++) {
-                formattedSpells += prefix + '\t' + spells[i].Name + " (" + spells[i].Level + ")\r\n";
+                formattedSpells += prefix + '\t' + spells[i].name + " (" + spells[i].level + ")\r\n";
             }
 
             return formattedSpells;
@@ -335,13 +335,13 @@
             if (!prefix)
                 prefix = '';
 
-            if (!equipment.PrimaryHand)
-                return formatItem("Off Hand", equipment.OffHand, prefix);
+            if (!equipment.primaryHand)
+                return formatItem("Off Hand", equipment.offHand, prefix);
 
-            if (equipment.PrimaryHand.Attributes.indexOf('Two-Handed') > -1)
+            if (equipment.primaryHand.attributes.indexOf('Two-Handed') > -1)
                 return prefix + "Off Hand: (Two-Handed)\r\n";
 
-            return formatItem("Off Hand", equipment.OffHand, prefix);
+            return formatItem("Off Hand", equipment.offHand, prefix);
         }
 
         function formatTreasure(treasure, prefix)
@@ -349,7 +349,7 @@
             if (!prefix)
                 prefix = '';
 
-            if (!treasure.IsAny)
+            if (!treasure.isAny)
                 return prefix + "Treasure: None\r\n";
 
             var formattedTreasure = prefix + "Treasure:\r\n";
@@ -363,14 +363,14 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedArmorClass = prefix + "\t" + "Armor Class: " + armorClass.Full;
+            var formattedArmorClass = prefix + "\t" + "Armor Class: " + armorClass.full;
 
-            if (armorClass.CircumstantialBonus)
+            if (armorClass.circumstantialBonus)
                 formattedArmorClass += " *";
 
             formattedArmorClass += "\r\n";
-            formattedArmorClass += prefix + "\t\t" + "Flat-Footed: " + armorClass.FlatFooted + "\r\n";
-            formattedArmorClass += prefix + "\t\t" + "Touch: " + armorClass.Touch + "\r\n";
+            formattedArmorClass += prefix + "\t\t" + "Flat-Footed: " + armorClass.flatFooted + "\r\n";
+            formattedArmorClass += prefix + "\t\t" + "Touch: " + armorClass.touch + "\r\n";
 
             return formattedArmorClass;
         }
@@ -380,18 +380,18 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedMeleeBonuses = formatBaseAttackBonuses(baseAttack.AllMeleeBonuses);
-            var formattedRangedBonuses = formatBaseAttackBonuses(baseAttack.AllRangedBonuses);
+            var formattedMeleeBonuses = formatBaseAttackBonuses(baseAttack.allMeleeBonuses);
+            var formattedRangedBonuses = formatBaseAttackBonuses(baseAttack.allRangedBonuses);
             var formattedBaseAttack = prefix + "\t" + "Base Attack:\r\n";
 
             formattedBaseAttack += prefix + "\t\t" + "Melee: " + formattedMeleeBonuses;
-            if (baseAttack.CircumstantialBonus)
+            if (baseAttack.circumstantialBonus)
                 formattedBaseAttack += " *";
 
             formattedBaseAttack += '\r\n';
 
             formattedBaseAttack += prefix + "\t\t" + "Ranged: " + formattedRangedBonuses;
-            if (baseAttack.CircumstantialBonus)
+            if (baseAttack.circumstantialBonus)
                 formattedBaseAttack += " *";
 
             formattedBaseAttack += '\r\n';
@@ -424,8 +424,8 @@
                 prefix = '';
 
             var formattedLeadership = prefix + "Leadership:\r\n";
-            formattedLeadership += prefix + "\t" + "Score: " + leadership.Score + "\r\n";
-            formattedLeadership += formatList(leadership.LeadershipModifiers, 'Leadership Modifiers', prefix + "\t");
+            formattedLeadership += prefix + "\t" + "Score: " + leadership.score + "\r\n";
+            formattedLeadership += formatList(leadership.leadershipModifiers, 'Leadership Modifiers', prefix + "\t");
 
             return formattedLeadership;
         }

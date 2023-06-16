@@ -117,31 +117,31 @@
 
                     vm.character = response.data.character;
                 }, sweetAlertService.showError).then(function () {
-                    if (vm.character && vm.character.IsLeader) {
+                    if (vm.character && vm.character.isLeader) {
                         vm.generatingMessage = 'Generating leadership...';
 
-                        leadershipService.generate(vm.clientId, vm.character.Class.Level, vm.character.Abilities.Charisma.Bonus, vm.character.Magic.Animal)
+                        leadershipService.generate(vm.clientId, vm.character.class.level, vm.character.abilities.charisma.bonus, vm.character.magic.animal)
                             .then(function (response) {
                                 vm.leadership = response.data.leadership;
                             }).then(function () {
                                 vm.generatingMessage = 'Generating cohort...';
-                                return leadershipService.generateCohort(vm.clientId, vm.character.Class.Level, vm.leadership.CohortScore, vm.character.Alignment.Full, vm.character.Class.Name)
+                                return leadershipService.generateCohort(vm.clientId, vm.character.class.level, vm.leadership.cohortScore, vm.character.alignment.full, vm.character.class.name)
                             }).then(function (response) {
                                 vm.cohort = response.data.cohort;
                             }, function () {
                                 sweetAlertService.showError();
                             }).then(function () {
-                                if (vm.leadership.FollowerQuantities.Level1 === 0) {
+                                if (vm.leadership.followerQuantities.level1 === 0) {
                                     vm.generating = false;
                                     return;
                                 }
 
-                                generateFollowers(1, vm.leadership.FollowerQuantities.Level1);
-                                generateFollowers(2, vm.leadership.FollowerQuantities.Level2);
-                                generateFollowers(3, vm.leadership.FollowerQuantities.Level3);
-                                generateFollowers(4, vm.leadership.FollowerQuantities.Level4);
-                                generateFollowers(5, vm.leadership.FollowerQuantities.Level5);
-                                generateFollowers(6, vm.leadership.FollowerQuantities.Level6);
+                                generateFollowers(1, vm.leadership.followerQuantities.level1);
+                                generateFollowers(2, vm.leadership.followerQuantities.level2);
+                                generateFollowers(3, vm.leadership.followerQuantities.level3);
+                                generateFollowers(4, vm.leadership.followerQuantities.level4);
+                                generateFollowers(5, vm.leadership.followerQuantities.level5);
+                                generateFollowers(6, vm.leadership.followerQuantities.level6);
                             });
                     } else {
                         noLongerGenerating();
@@ -157,7 +157,7 @@
 
         function generateFollowers(level, amount) {
             for (var i = amount; i > 0; i--) {
-                leadershipService.generateFollower(vm.clientId, level, vm.character.Alignment.Full, vm.character.Class.Name)
+                leadershipService.generateFollower(vm.clientId, level, vm.character.alignment.full, vm.character.class.name)
                     .then(function (response) {
                         vm.followers.push(response.data.follower);
                     }, function () {
@@ -246,12 +246,12 @@
             if (vm.followers.length === 0)
                 return;
             
-            var expectedTotal = vm.leadership.FollowerQuantities.Level1 +
-                                vm.leadership.FollowerQuantities.Level2 +
-                                vm.leadership.FollowerQuantities.Level3 +
-                                vm.leadership.FollowerQuantities.Level4 +
-                                vm.leadership.FollowerQuantities.Level5 +
-                                vm.leadership.FollowerQuantities.Level6;
+            var expectedTotal = vm.leadership.followerQuantities.level1 +
+                                vm.leadership.followerQuantities.level2 +
+                                vm.leadership.followerQuantities.level3 +
+                                vm.leadership.followerQuantities.level4 +
+                                vm.leadership.followerQuantities.level5 +
+                                vm.leadership.followerQuantities.level6;
 
             if (vm.followers.length >= expectedTotal) {
                 noLongerGenerating();

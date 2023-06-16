@@ -16,7 +16,7 @@ describe('Dungeon Formatter Service', function () {
                 if (!prefix)
                     prefix = '';
 
-                var formattedTreasure = prefix + 'formatted treasure ' + treasure.Coin.Quantity + '\r\n';
+                var formattedTreasure = prefix + 'formatted treasure ' + treasure.coin.quantity + '\r\n';
 
                 return formattedTreasure;
             }
@@ -47,31 +47,31 @@ describe('Dungeon Formatter Service', function () {
 
         areas = [createArea(), createArea()];
 
-        areas[0].Type = 'Room';
-        areas[0].Descriptions.push('description 1');
-        areas[0].Descriptions.push('description 2');
-        areas[0].Length = 9266;
-        areas[0].Width = 90210;
-        areas[0].Contents.Encounters.push(createEncounter());
-        areas[0].Contents.Encounters.push(createEncounter());
-        areas[0].Contents.Treasures.push(createDungeonTreasure());
-        areas[0].Contents.Treasures.push(createDungeonTreasure());
-        areas[0].Contents.Miscellaneous.push("contents 1");
-        areas[0].Contents.Miscellaneous.push("contents 2");
-        areas[0].Contents.Pool = createPool();
-        areas[0].Contents.Pool.MagicPower = 'super strength';
-        areas[0].Contents.IsEmpty = false;
+        areas[0].type = 'Room';
+        areas[0].descriptions.push('description 1');
+        areas[0].descriptions.push('description 2');
+        areas[0].length = 9266;
+        areas[0].width = 90210;
+        areas[0].contents.encounters.push(createEncounter());
+        areas[0].contents.encounters.push(createEncounter());
+        areas[0].contents.treasures.push(createDungeonTreasure());
+        areas[0].contents.treasures.push(createDungeonTreasure());
+        areas[0].contents.miscellaneous.push("contents 1");
+        areas[0].contents.miscellaneous.push("contents 2");
+        areas[0].contents.pool = createPool();
+        areas[0].contents.pool.magicPower = 'super strength';
+        areas[0].contents.isEmpty = false;
 
-        areas[1].Type = 'Exit';
-        areas[1].Descriptions.push('description 3');
-        areas[1].Descriptions.push('description 4');
-        areas[1].Length = 0;
-        areas[1].Width = 0;
-        areas[1].Contents.Miscellaneous.push("contents 3");
-        areas[1].Contents.Miscellaneous.push("contents 4");
-        areas[1].Contents.Traps.push(createTrap());
-        areas[1].Contents.Traps.push(createTrap());
-        areas[1].Contents.IsEmpty = false;
+        areas[1].type = 'Exit';
+        areas[1].descriptions.push('description 3');
+        areas[1].descriptions.push('description 4');
+        areas[1].length = 0;
+        areas[1].width = 0;
+        areas[1].contents.miscellaneous.push("contents 3");
+        areas[1].contents.miscellaneous.push("contents 4");
+        areas[1].contents.traps.push(createTrap());
+        areas[1].contents.traps.push(createTrap());
+        areas[1].contents.isEmpty = false;
     });
 
     beforeEach(inject(function (_dungeonFormatterService_) {
@@ -97,9 +97,9 @@ describe('Dungeon Formatter Service', function () {
         dungeonTreasureCount++;
         var dungeonTreasure = getMock('dungeonTreasure');
 
-        dungeonTreasure.Container = "container " + dungeonTreasureCount;
-        dungeonTreasure.Concealment = "concealment " + dungeonTreasureCount;
-        dungeonTreasure.Treasure = createTreasure();
+        dungeonTreasure.container = "container " + dungeonTreasureCount;
+        dungeonTreasure.concealment = "concealment " + dungeonTreasureCount;
+        dungeonTreasure.treasure = createTreasure();
 
         return dungeonTreasure;
     }
@@ -107,8 +107,8 @@ describe('Dungeon Formatter Service', function () {
     function createPool() {
         var pool = getMock('pool');
 
-        pool.Encounter = createEncounter();
-        pool.Treasure = createDungeonTreasure();
+        pool.encounter = createEncounter();
+        pool.treasure = createDungeonTreasure();
 
         return pool;
     }
@@ -117,12 +117,12 @@ describe('Dungeon Formatter Service', function () {
         var trap = getMock('trap');
         trapCount++;
         
-        trap.Name = 'trap ' + trapCount,
-        trap.ChallengeRating = 6789 + trapCount,
-        trap.SearchDC = 7890 + trapCount,
-        trap.DisableDeviceDC = 8901 + trapCount,
-        trap.Descriptions.push('trap description ' + trapCount);
-        trap.Descriptions.push('other trap description ' + trapCount);
+        trap.name = 'trap ' + trapCount,
+        trap.challengeRating = 6789 + trapCount,
+        trap.searchDC = 7890 + trapCount,
+        trap.disableDeviceDC = 8901 + trapCount,
+        trap.descriptions.push('trap description ' + trapCount);
+        trap.descriptions.push('other trap description ' + trapCount);
 
         return trap;
     }
@@ -132,21 +132,21 @@ describe('Dungeon Formatter Service', function () {
 
         var treasure = getMock('treasure');
 
-        treasure.Coin.Currency = 'gold ' + treasureCount;
-        treasure.Coin.Quantity = treasureCount;
-        treasure.Goods.push(getMock('good'));
-        treasure.Goods.push(getMock('good'));
-        treasure.Goods[0].Description = 'goods description ' + treasureCount;
-        treasure.Goods[0].ValueInGold = treasureCount * 2;
-        treasure.Goods[1].Description = 'other goods description ' + treasureCount;
-        treasure.Goods[1].ValueInGold = treasureCount * 3;
-        treasure.Items.push(getMock('item'));
-        treasure.Items.push(getMock('item'));
-        treasure.Items[0].Name = 'item ' + treasureCount;
-        treasure.Items[0].Quantity = treasureCount * 4;
-        treasure.Items[1].Name = "other item " + treasureCount;
-        treasure.Items[1].Quantity = treasureCount * 5;
-        treasure.IsAny = true;
+        treasure.coin.currency = 'gold ' + treasureCount;
+        treasure.coin.quantity = treasureCount;
+        treasure.goods.push(getMock('good'));
+        treasure.goods.push(getMock('good'));
+        treasure.goods[0].description = 'goods description ' + treasureCount;
+        treasure.goods[0].ValueInGold = treasureCount * 2;
+        treasure.goods[1].description = 'other goods description ' + treasureCount;
+        treasure.goods[1].ValueInGold = treasureCount * 3;
+        treasure.items.push(getMock('item'));
+        treasure.items.push(getMock('item'));
+        treasure.items[0].name = 'item ' + treasureCount;
+        treasure.items[0].quantity = treasureCount * 4;
+        treasure.items[1].name = "other item " + treasureCount;
+        treasure.items[1].quantity = treasureCount * 5;
+        treasure.isAny = true;
 
         return treasure;
     }
@@ -218,7 +218,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats continuing width', function () {
-        areas[0].Width = 0;
+        areas[0].width = 0;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -286,7 +286,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats no descriptions', function () {
-        areas[0].Descriptions = [];
+        areas[0].descriptions = [];
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -351,7 +351,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats no contents', function () {
-        areas[0].Contents.IsEmpty = true;
+        areas[0].contents.isEmpty = true;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -388,7 +388,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats special area dimensions', function () {
-        areas[0].Width = 1;
+        areas[0].width = 1;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -456,7 +456,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats pool without encounter', function () {
-        areas[0].Contents.Pool.Encounter = null;
+        areas[0].contents.pool.encounter = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -520,7 +520,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats pool without treasure', function () {
-        areas[0].Contents.Pool.Treasure = null;
+        areas[0].contents.pool.treasure = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -584,8 +584,8 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats pool with only a treasure container', function () {
-        areas[0].Contents.Pool.Treasure.Treasure.IsAny = false;
-        areas[0].Contents.Pool.Treasure.Concealment = '';
+        areas[0].contents.pool.treasure.treasure.isAny = false;
+        areas[0].contents.pool.treasure.concealment = '';
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -651,7 +651,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats pool without magic powers', function () {
-        areas[0].Contents.Pool.MagicPower = '';
+        areas[0].contents.pool.magicPower = '';
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -718,9 +718,9 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats ordinary pool', function () {
-        areas[0].Contents.Pool.MagicPower = '';
-        areas[0].Contents.Pool.Encounter = null;
-        areas[0].Contents.Pool.Treasure = null;
+        areas[0].contents.pool.magicPower = '';
+        areas[0].contents.pool.encounter = null;
+        areas[0].contents.pool.treasure = null;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -779,7 +779,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats uncontained treasure', function () {
-        areas[0].Contents.Treasures[0].Container = "";
+        areas[0].contents.treasures[0].container = "";
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -846,7 +846,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats unhidden treasure', function () {
-        areas[0].Contents.Treasures[0].Concealment = "";
+        areas[0].contents.treasures[0].concealment = "";
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -913,7 +913,7 @@ describe('Dungeon Formatter Service', function () {
     });
 
     it('formats empty treasure', function () {
-        areas[0].Contents.Treasures[0].Treasure.IsAny = false;
+        areas[0].contents.treasures[0].treasure.isAny = false;
 
         var formattedDungeonAreas = dungeonFormatterService.formatDungeonAreas(areas);
         var lines = formattedDungeonAreas.split('\r\n');
@@ -981,12 +981,12 @@ describe('Dungeon Formatter Service', function () {
 
     it('formats completely empty area', function () {
         areas = [{
-            Type: 'area type',
-            Descriptions: [],
-            Length: 0,
-            Width: 0,
-            Contents: {
-                IsEmpty: true
+            type: 'area type',
+            descriptions: [],
+            length: 0,
+            width: 0,
+            contents: {
+                isEmpty: true
             }
         }];
 

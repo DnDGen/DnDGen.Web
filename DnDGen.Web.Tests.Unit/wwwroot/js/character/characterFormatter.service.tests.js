@@ -27,7 +27,7 @@ describe('Character Formatter Service', function () {
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.Name + '\r\n';
+            var formattedItem = prefix + item.name + '\r\n';
             formattedItem += prefix + '\tformatted\r\n';
 
             return formattedItem;
@@ -164,15 +164,15 @@ describe('Character Formatter Service', function () {
     function createFeat(name) {
         var feat = getMock('feat');
 
-        feat.Name = name;
+        feat.name = name;
 
         return feat;
     }
 
     function createItem(itemName) {
         return {
-            Name: itemName,
-            Attributes: ['item attribute']
+            name: itemName,
+            attributes: ['item attribute']
         };
     }
 
@@ -1641,7 +1641,7 @@ describe('Character Formatter Service', function () {
             { level: 1, quantity: 8, hasDomainSpell: true }
         ];
 
-        character.magic.KnownSpells = [
+        character.magic.knownSpells = [
             { name: 'first spell', level: 0 },
             { name: 'second spell', level: 1 }
         ];
@@ -1992,8 +1992,8 @@ describe('Character Formatter Service', function () {
     });
 
     it('formats two-handed weapon', function () {
-        character.qquipment.primaryHand = createItem('primary weapon');
-        character.qquipment.primaryHand.attributes.push('Two-Handed');
+        character.equipment.primaryHand = createItem('primary weapon');
+        character.equipment.primaryHand.attributes.push('Two-Handed');
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
         var lines = formattedCharacter.split('\r\n');
