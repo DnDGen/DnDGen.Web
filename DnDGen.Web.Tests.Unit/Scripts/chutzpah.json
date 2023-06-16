@@ -3,6 +3,18 @@
   "RootReferencePathMode": "SettingsFileDirectory",
   "References": [
     {
+      "Path": "../../DnDGen.Web/wwwroot/lib/jquery/dist/jquery.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/jquery-validation-unobstrusive/dist/jquery.validate.unobtrusive.js",
+      "IsTestFrameworkFile": true
+    },
+    {
       "Path": "jasmine/boot.js",
       "IsTestFrameworkFile": true
     },
@@ -16,10 +28,6 @@
     },
     {
       "Path": "jasmine/jasmine.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "../../DnDGen.Web/wwwroot/lib/jquery/dist/jquery.js",
       "IsTestFrameworkFile": true
     },
     {
