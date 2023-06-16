@@ -17,24 +17,24 @@
 
             var formattedTreasure = '';
 
-            if (!treasure.IsAny)
+            if (!treasure.isAny)
                 return formattedTreasure;
 
-            if (treasure.Coin.Quantity > 0)
-                formattedTreasure += prefix + formatNumber(treasure.Coin.Quantity) + ' ' + treasure.Coin.Currency + '\r\n';
+            if (treasure.coin.quantity > 0)
+                formattedTreasure += prefix + formatNumber(treasure.coin.quantity) + ' ' + treasure.coin.currency + '\r\n';
             
-            if (treasure.Goods.length > 0)
+            if (treasure.goods.length > 0)
                 formattedTreasure += prefix + 'Goods:\r\n';
 
-            for (var i = 0; i < treasure.Goods.length; i++) {
-                formattedTreasure += prefix + '\t' + treasure.Goods[i].Description + ' (' + formatNumber(treasure.Goods[i].ValueInGold) + 'gp)\r\n';
+            for (var i = 0; i < treasure.goods.length; i++) {
+                formattedTreasure += prefix + '\t' + treasure.goods[i].description + ' (' + formatNumber(treasure.goods[i].valueInGold) + 'gp)\r\n';
             }
 
-            if (treasure.Items.length > 0)
+            if (treasure.items.length > 0)
                 formattedTreasure += prefix + 'Items:\r\n';
 
-            for (var j = 0; j < treasure.Items.length; j++) {
-                formattedTreasure += formatItem(treasure.Items[j], prefix + '\t');
+            for (var j = 0; j < treasure.items.length; j++) {
+                formattedTreasure += formatItem(treasure.items[j], prefix + '\t');
             }
 
             return formattedTreasure;
@@ -48,32 +48,32 @@
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.Name;
+            var formattedItem = prefix + item.name;
 
-            if (item.Quantity > 1)
-                formattedItem += ' (x' + item.Quantity + ')';
+            if (item.quantity > 1)
+                formattedItem += ' (x' + item.quantity + ')';
 
             formattedItem += '\r\n';
-            formattedItem += formatList(item.Contents, 'Contents', prefix + '\t');
-            formattedItem += formatList(item.Traits, 'Traits', prefix + '\t');
+            formattedItem += formatList(item.contents, 'Contents', prefix + '\t');
+            formattedItem += formatList(item.traits, 'Traits', prefix + '\t');
 
-            if (item.Magic.Bonus > 0)
-                formattedItem += prefix + '\tBonus: +' + item.Magic.Bonus + '\r\n';
+            if (item.magic.bonus > 0)
+                formattedItem += prefix + '\tBonus: +' + item.magic.bonus + '\r\n';
 
-            formattedItem += formatSpecialAbilities(item.Magic.SpecialAbilities, prefix + '\t');
+            formattedItem += formatSpecialAbilities(item.magic.specialAbilities, prefix + '\t');
 
-            if (item.Attributes.indexOf('Charged') > -1)
-                formattedItem += prefix + '\tCharges: ' + item.Magic.Charges + '\r\n';
+            if (item.attributes.indexOf('Charged') > -1)
+                formattedItem += prefix + '\tCharges: ' + item.magic.charges + '\r\n';
 
-            if (item.Magic.Curse.length > 0)
-                formattedItem += prefix + '\tCurse: ' + item.Magic.Curse + '\r\n';
+            if (item.magic.curse.length > 0)
+                formattedItem += prefix + '\tCurse: ' + item.magic.curse + '\r\n';
 
-            formattedItem += formatIntelligence(item.Magic.Intelligence, prefix + '\t');
+            formattedItem += formatIntelligence(item.magic.intelligence, prefix + '\t');
 
-            if (item.TotalArmorBonus) {
+            if (item.totalArmorBonus) {
                 formattedItem += formatArmor(item, prefix + '\t');
             }
-            else if (item.Damage) {
+            else if (item.damage) {
                 formattedItem += formatWeapon(item, prefix + '\t');
             }
 
@@ -83,12 +83,12 @@
         function formatArmor(armor, prefix) {
             var formattedArmor = prefix + 'Armor:' + '\r\n';
 
-            formattedArmor += prefix + '\t' + 'Size: ' + armor.Size + '\r\n';
-            formattedArmor += prefix + '\t' + 'Armor Bonus: ' + armor.TotalArmorBonus + '\r\n';
-            formattedArmor += prefix + '\t' + 'Armor Check Penalty: ' + armor.TotalArmorCheckPenalty + '\r\n';
+            formattedArmor += prefix + '\t' + 'Size: ' + armor.size + '\r\n';
+            formattedArmor += prefix + '\t' + 'Armor Bonus: ' + armor.totalArmorBonus + '\r\n';
+            formattedArmor += prefix + '\t' + 'Armor Check Penalty: ' + armor.totalArmorCheckPenalty + '\r\n';
 
-            if (armor.TotalMaxDexterityBonus < 100)
-                formattedArmor += prefix + '\t' + 'Max Dexterity Bonus: ' + armor.TotalMaxDexterityBonus + '\r\n';
+            if (armor.totalMaxDexterityBonus < 100)
+                formattedArmor += prefix + '\t' + 'Max Dexterity Bonus: ' + armor.totalMaxDexterityBonus + '\r\n';
 
             return formattedArmor;
         }
@@ -96,15 +96,15 @@
         function formatWeapon(weapon, prefix) {
             var formattedWeapon = prefix + 'Weapon:' + '\r\n';
 
-            formattedWeapon += prefix + '\t' + 'Size: ' + weapon.Size + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.CombatTypes.join(", ") + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.Damage + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.DamageType + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.ThreatRange + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.CriticalMultiplier + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.damageType + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRange + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.criticalMultiplier + '\r\n';
 
-            if (weapon.Ammunition) {
-                formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.Ammunition + '\r\n';
+            if (weapon.ammunition) {
+                formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';
             }
 
             return formattedWeapon;
@@ -143,30 +143,30 @@
         }
 
         function formatIntelligence(intelligence, prefix) {
-            if (!intelligence.Ego)
+            if (!intelligence.ego)
                 return '';
 
             if (!prefix)
                 prefix = '';
 
             var formattedIntelligence = prefix + 'Intelligent:\r\n';
-            formattedIntelligence += prefix + '\tEgo: ' + intelligence.Ego + '\r\n';
-            formattedIntelligence += prefix + '\tIntelligence: ' + intelligence.IntelligenceStat + '\r\n';
-            formattedIntelligence += prefix + '\tWisdom: ' + intelligence.WisdomStat + '\r\n';
-            formattedIntelligence += prefix + '\tCharisma: ' + intelligence.CharismaStat + '\r\n';
-            formattedIntelligence += prefix + '\tAlignment: ' + intelligence.Alignment + '\r\n';
-            formattedIntelligence += formatList(intelligence.Communication, 'Communication', prefix + '\t');
-            formattedIntelligence += formatList(intelligence.Languages, 'Languages', prefix + '\t\t');
-            formattedIntelligence += prefix + '\tSenses: ' + intelligence.Senses + '\r\n';
-            formattedIntelligence += formatList(intelligence.Powers, 'Powers', prefix + '\t');
+            formattedIntelligence += prefix + '\tEgo: ' + intelligence.ego + '\r\n';
+            formattedIntelligence += prefix + '\tIntelligence: ' + intelligence.intelligenceStat + '\r\n';
+            formattedIntelligence += prefix + '\tWisdom: ' + intelligence.wisdomStat + '\r\n';
+            formattedIntelligence += prefix + '\tCharisma: ' + intelligence.charismaStat + '\r\n';
+            formattedIntelligence += prefix + '\tAlignment: ' + intelligence.alignment + '\r\n';
+            formattedIntelligence += formatList(intelligence.communication, 'Communication', prefix + '\t');
+            formattedIntelligence += formatList(intelligence.languages, 'Languages', prefix + '\t\t');
+            formattedIntelligence += prefix + '\tSenses: ' + intelligence.senses + '\r\n';
+            formattedIntelligence += formatList(intelligence.powers, 'Powers', prefix + '\t');
 
-            if (intelligence.SpecialPurpose.length > 0) {
-                formattedIntelligence += prefix + '\tSpecial Purpose: ' + intelligence.SpecialPurpose + '\r\n';
-                formattedIntelligence += prefix + '\tDedicated Power: ' + intelligence.DedicatedPower + '\r\n';
+            if (intelligence.specialPurpose.length > 0) {
+                formattedIntelligence += prefix + '\tSpecial Purpose: ' + intelligence.specialPurpose + '\r\n';
+                formattedIntelligence += prefix + '\tDedicated Power: ' + intelligence.dedicatedPower + '\r\n';
             }
 
-            if (intelligence.Personality.length > -0)
-                formattedIntelligence += prefix + '\tPersonality: ' + intelligence.Personality + '\r\n';
+            if (intelligence.personality.length > -0)
+                formattedIntelligence += prefix + '\tPersonality: ' + intelligence.personality + '\r\n';
             else
                 formattedIntelligence += prefix + '\tPersonality: None\r\n';
 

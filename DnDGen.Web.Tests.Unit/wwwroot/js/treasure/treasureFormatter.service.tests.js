@@ -22,7 +22,7 @@ describe('Treasure Formatter Service', function () {
 
     function createItem(itemName) {
         var item = getMock('item');
-        item.Name = itemName;
+        item.name = itemName;
 
         return item;
     }
