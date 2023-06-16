@@ -3,35 +3,23 @@
   "RootReferencePathMode": "SettingsFileDirectory",
   "References": [
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/jquery/dist/jquery.js",
+      "Path": "lib/jasmine/boot0.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "Path": "lib/jasmine/boot1.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/jquery-validation-unobstrusive/dist/jquery.validate.unobtrusive.js",
+      "Path": "lib/jasmine/jasmine-html.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "jasmine/boot.js",
+      "Path": "lib/jasmine/jasmine.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "jasmine/console.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "jasmine/jasmine-html.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "jasmine/jasmine.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "jasmine/jasmine-jquery.js",
+      "Path": "lib/jquery/jquery.min.js",
       "IsTestFrameworkFile": true
     },
     {
@@ -40,15 +28,15 @@
     },
     { "Path": "mocks/mockProvider.js" },
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/bootstrap/bootstrap.js",
+      "Path": "lib/bootstrap/js/bootstrap.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular.js",
+      "Path": "lib/angular.js/angular.min.js",
       "IsTestFrameworkFile": true
     },
     {
-      "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular-mocks.js",
+      "Path": "lib/angular-mocks/angular-mocks.min.js",
       "IsTestFrameworkFile": true
     },
     {
@@ -74,7 +62,7 @@
   ],
   "Tests": [
     {
-      "Path": "app",
+      "Path": "js",
       "Includes": [ "*.tests.js" ]
     }
   ]
