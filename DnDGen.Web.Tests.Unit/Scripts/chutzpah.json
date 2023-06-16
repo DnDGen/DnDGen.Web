@@ -2,20 +2,47 @@
   "Framework": "jasmine",
   "RootReferencePathMode": "SettingsFileDirectory",
   "References": [
-    { "Path": "jasmine/boot.js" },
-    { "Path": "jasmine/console.js" },
-    { "Path": "jasmine/jasmine-html.js" },
-    { "Path": "jasmine/jasmine.js" },
-    { "Path": "../../DnDGen.Web/wwwroot/lib/jquery/dist/jquery.js" },
-    { "Path": "jasmine/jasmine-jquery.js" },
+    {
+      "Path": "jasmine/boot.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "jasmine/console.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "jasmine/jasmine-html.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "jasmine/jasmine.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/jquery/dist/jquery.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "jasmine/jasmine-jquery.js",
+      "IsTestFrameworkFile": true
+    },
     {
       "Path": "mocks/",
       "Includes": [ "*.json" ]
     },
     { "Path": "mocks/mockProvider.js" },
-    { "Path": "../../DnDGen.Web/wwwroot/lib/bootstrap/bootstrap.js" },
-    { "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular.js" },
-    { "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular-mocks.js" },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/bootstrap/bootstrap.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../../DnDGen.Web/wwwroot/lib/Angular/angular-mocks.js",
+      "IsTestFrameworkFile": true
+    },
     {
       "Path": "../../DnDGen.Web/wwwroot/shared",
       "Includes": [ "*.module.js" ],

@@ -41,32 +41,9 @@ steps:
 - task: VSTest@2
   displayName: Client-side Unit Tests
   inputs:
-    #This "passes", but doesn't find any tests
-    # testAssemblyVer2: './DnDGen.Web.Tests.Unit/**/chutzpah.json'
-    # searchFolder: './DnDGen.Web.Tests.Unit/Scripts'
-    # failOnMinTestsNotRun: true
-
-    # https://stackoverflow.com/questions/53207656/chutzpah-jasmine-tests-in-azure-devops-build-pipeline-returning-failed-when-all
-    # testSelector: 'testAssemblies'
-    # testAssemblyVer2: '**/chutzpah.json'
-    # searchFolder: '$(System.DefaultWorkingDirectory)'
-    # vstestLocationMethod: 'version'
-    # vsTestVersion: 'latest'
-    # diagnosticsEnabled: true
-    # distributionBatchType: 'basedOnTestCases'
-    # failOnMinTestsNotRun: true
-
-    # https://stackoverflow.com/questions/53532218/how-to-get-a-chutzpah-test-adapter-to-run-my-qunit-tests-on-an-azure-devops-pipe
-    # testAssemblyVer2: '$(Build.SourcesDirectory)/DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
     pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
-    failOnMinTestsNotRun: true
-
-    # testAssemblyVer2: './DnDGen.Web.Tests.Unit/Scripts/app/*.tests.js'
-    # pathtoCustomTestAdapters: './DnDGen.Web.Tests.Unit/**/Chutzpah.*/tools/'
-
     testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
-    # searchFolder: 'DnDGen.Web.Tests.Unit/Scripts'
-    # pathtoCustomTestAdapters: '$(Build.SourcesDirectory)/packages/'
+    failOnMinTestsNotRun: true
 
 - task: PublishBuildArtifacts@1
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
