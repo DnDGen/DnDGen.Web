@@ -1,4 +1,5 @@
 ﻿using CharacterGen.Leaders;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Helpers;
 using EventGen;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,10 @@ namespace DnDGen.Web.Controllers.Characters
         private readonly ILeadershipGenerator leadershipGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public LeadershipController(ILeadershipGenerator leadershipGenerator, ClientIDManager clientIdManager)
+        public LeadershipController(IDependencyFactory dependencyFactory)
         {
-            this.leadershipGenerator = leadershipGenerator;
-            this.clientIdManager = clientIdManager;
+            leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
         [Route("Characters/Leadership/Generate")]

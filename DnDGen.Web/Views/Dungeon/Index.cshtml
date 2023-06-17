@@ -95,7 +95,7 @@
             </form>
         </div>
         <div class="col-sm-6 clearfix">
-            <button class="btn btn-lg float-right" ng-click="vm.download()" ng-show="!vm.generating && vm.areas.length">Download</button>
+            <button class="btn btn-light btn-lg float-end" ng-click="vm.download()" ng-show="!vm.generating && vm.areas.length">Download</button>
             <div ng-show="vm.generating">
                 <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>

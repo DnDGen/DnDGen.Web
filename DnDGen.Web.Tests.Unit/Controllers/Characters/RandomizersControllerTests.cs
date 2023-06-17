@@ -2,6 +2,7 @@
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
 using CharacterGen.Verifiers;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
@@ -29,7 +30,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockRandomizerVerifier = new Mock<IRandomizerVerifier>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new RandomizersController(mockRandomizerRepository.Object, mockRandomizerVerifier.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
+            mockDependencyFactory.Setup(f => f.Get<IRandomizerVerifier>()).Returns(mockRandomizerVerifier.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new RandomizersController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
             characterSpecifications = new CharacterSpecifications();

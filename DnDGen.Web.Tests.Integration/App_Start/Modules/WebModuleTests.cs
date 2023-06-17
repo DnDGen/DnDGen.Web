@@ -2,6 +2,7 @@
 using CharacterGen.Leaders;
 using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
+using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
 using DungeonGen;
@@ -47,6 +48,20 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         public void CharacterControllerIsInjected()
         {
             var controller = InjectControllerAndAssertDuration<CharacterController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void LeadershipControllerIsInjected()
+        {
+            var controller = InjectControllerAndAssertDuration<LeadershipController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void RandomizerControllerIsInjected()
+        {
+            var controller = InjectControllerAndAssertDuration<RandomizersController>();
             Assert.That(controller, Is.Not.Null);
         }
 

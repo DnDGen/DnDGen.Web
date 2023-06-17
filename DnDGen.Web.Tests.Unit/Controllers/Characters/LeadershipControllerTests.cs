@@ -2,6 +2,7 @@
 using CharacterGen.Characters;
 using CharacterGen.Leaders;
 using CharacterGen.Skills;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers.Characters;
 using EventGen;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,12 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
         {
             mockLeadershipGenerator = new Mock<ILeadershipGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new LeadershipController(mockLeadershipGenerator.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<ILeadershipGenerator>()).Returns(mockLeadershipGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new LeadershipController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
         }

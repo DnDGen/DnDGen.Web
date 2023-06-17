@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="col-sm-6 clearfix" >
-            <button class="btn btn-lg float-right" ng-show="!vm.generating && vm.treasure.isAny" ng-click="vm.download()">Download</button>
+            <button class="btn btn-light btn-lg float-end" ng-show="!vm.generating && vm.treasure.isAny" ng-click="vm.download()">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>

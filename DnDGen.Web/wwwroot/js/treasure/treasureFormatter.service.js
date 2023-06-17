@@ -136,7 +136,7 @@
             var formattedAbilities = prefix + 'Special Abilities:\r\n';
 
             for (var i = 0; i < abilities.length; i++) {
-                formattedAbilities += prefix + '\t' + abilities[i].Name + '\r\n';
+                formattedAbilities += prefix + '\t' + abilities[i].name + '\r\n';
             }
 
             return formattedAbilities;

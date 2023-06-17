@@ -83,8 +83,8 @@ describe('Treasure Formatter Service', function () {
         item.attributes.push('Charged');
         item.attributes.push('second attribute');
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
         item.magic.charges = 4;
         item.magic.curse = 'curse';
         item.magic.intelligence.ego = 5;
@@ -159,8 +159,8 @@ describe('Treasure Formatter Service', function () {
         item.attributes.push('Charged');
         item.attributes.push('second attribute');
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
         item.magic.charges = 4;
         item.magic.curse = 'curse';
         item.magic.intelligence.ego = 5;
@@ -243,8 +243,8 @@ describe('Treasure Formatter Service', function () {
         item.attributes.push('Charged');
         item.attributes.push('second attribute');
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
         item.magic.charges = 4;
         item.magic.curse = 'curse';
         item.magic.intelligence.ego = 5;
@@ -379,8 +379,8 @@ describe('Treasure Formatter Service', function () {
 
     it('formats item magic special abilities', function () {
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
 
         var formattedItem = treasureFormatterService.formatItem(item);
         var lines = formattedItem.split('\r\n');
@@ -708,8 +708,8 @@ describe('Treasure Formatter Service', function () {
         item.attributes.push('Charged');
         item.attributes.push('second attribute');
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
         item.magic.charges = 4;
         item.magic.curse = 'curse';
         item.magic.intelligence.ego = 5;
@@ -777,8 +777,8 @@ describe('Treasure Formatter Service', function () {
         item.attributes.push('Charged');
         item.attributes.push('second attribute');
         item.magic.bonus = 3;
-        item.magic.specialAbilities.push({ Name: 'special ability 1' });
-        item.magic.specialAbilities.push({ Name: 'special ability 2' });
+        item.magic.specialAbilities.push({ name: 'special ability 1' });
+        item.magic.specialAbilities.push({ name: 'special ability 2' });
         item.magic.charges = 4;
         item.magic.curse = 'curse';
         item.magic.intelligence.ego = 5;

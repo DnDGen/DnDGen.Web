@@ -4,7 +4,7 @@
         <ul>
             <li>Score: {{leadership.Score | number}}</li>
             <li ng-show="leadership.LeadershipModifiers.length > 0">
-                <dndgen-collapsable-list heading="Leadership Modifiers" has-list="leadership.LeadershipModifiers.length > 0">
+                <dndgen-collapsable-list heading="Leadership Modifiers" has-list="leadership.leadershipModifiers.length > 0">
                     <ul>
                         <li ng-repeat="modifier in leadership.LeadershipModifiers track by $index">{{modifier}}</li>
                     </ul>
