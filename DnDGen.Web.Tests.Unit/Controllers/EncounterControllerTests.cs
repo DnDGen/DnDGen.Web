@@ -1,6 +1,7 @@
 ﻿using CharacterGen.Abilities;
 using CharacterGen.Characters;
 using CharacterGen.Skills;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EncounterGen.Common;
@@ -32,7 +33,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterGenerator = new Mock<IEncounterGenerator>();
             mockEncounterVerifier = new Mock<IEncounterVerifier>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new EncounterController(mockEncounterGenerator.Object, mockEncounterVerifier.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<IEncounterGenerator>()).Returns(mockEncounterGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IEncounterVerifier>()).Returns(mockEncounterVerifier.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new EncounterController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
             filters = new List<string>();

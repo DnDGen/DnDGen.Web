@@ -40,5 +40,18 @@ namespace DnDGen.Web.Tests.Integration
             services.AddTransient<T>();
             serviceProvider = services.BuildServiceProvider();
         }
+
+        protected T GetController<T>()
+            where T : Controller
+        {
+            var controller = serviceProvider.GetService<T>();
+            if (controller == null)
+            {
+                AddController<T>();
+                controller = serviceProvider.GetService<T>();
+            }
+
+            return controller;
+        }
     }
 }

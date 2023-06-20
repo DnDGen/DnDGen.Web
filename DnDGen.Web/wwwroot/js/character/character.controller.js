@@ -120,7 +120,7 @@
                     if (vm.character && vm.character.isLeader) {
                         vm.generatingMessage = 'Generating leadership...';
 
-                        leadershipService.generate(vm.clientId, vm.character.class.level, vm.character.abilities.charisma.bonus, vm.character.magic.animal)
+                        leadershipService.generate(vm.clientId, vm.character.class.level, vm.character.abilities.Charisma.bonus, vm.character.magic.animal)
                             .then(function (response) {
                                 vm.leadership = response.data.leadership;
                             }).then(function () {

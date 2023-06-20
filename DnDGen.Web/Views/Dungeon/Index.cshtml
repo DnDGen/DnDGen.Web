@@ -31,38 +31,38 @@
     <div class="row top-buffer">
         <div class="col-sm-6">
             <form name="dungeonForm" class="form-horizontal top-buffer" role="form">
-                <div class="form-group">
-                    <label for="dungeonLevel" class="col-sm-5 control-label">Dungeon Level (Physical):</label>
+                <div class="form-group row">
+                    <label for="dungeonLevel" class="col-sm-5 col-form-label">Dungeon Level (Physical):</label>
                     <div class="col-sm-7">
                         <input dndgen-no-decimals id="dungeonLevel" class="form-control" type="number" min="1" ng-model="vm.dungeonLevel" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="environments" class="col-sm-5 control-label">Environment:</label>
+                <div class="form-group row">
+                    <label for="environments" class="col-sm-5 col-form-label">Environment:</label>
                     <div class="col-sm-7">
-                        <select id="environments" class="form-control" ng-model="vm.environment" ng-options="environment for environment in vm.model.environments" required></select>
+                        <select id="environments" class="form-select" ng-model="vm.environment" ng-options="environment for environment in vm.model.environments" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="temperatures" class="col-sm-5 control-label">Temperature:</label>
+                <div class="form-group row">
+                    <label for="temperatures" class="col-sm-5 col-form-label">Temperature:</label>
                     <div class="col-sm-7">
-                        <select id="temperatures" class="form-control" ng-model="vm.temperature" ng-options="temperature for temperature in vm.model.temperatures" required></select>
+                        <select id="temperatures" class="form-select" ng-model="vm.temperature" ng-options="temperature for temperature in vm.model.temperatures" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="timesOfDay" class="col-sm-5 control-label">Time of Day:</label>
+                <div class="form-group row">
+                    <label for="timesOfDay" class="col-sm-5 col-form-label">Time of Day:</label>
                     <div class="col-sm-7">
-                        <select id="timesOfDay" class="form-control" ng-model="vm.timeOfDay" ng-options="timeOfDay for timeOfDay in vm.model.timesOfDay" required></select>
+                        <select id="timesOfDay" class="form-select" ng-model="vm.timeOfDay" ng-options="timeOfDay for timeOfDay in vm.model.timesOfDay" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="level" class="col-sm-5 control-label">Party Level:</label>
+                <div class="form-group row">
+                    <label for="level" class="col-sm-5 col-form-label">Party Level:</label>
                     <div class="col-sm-7">
                         <input dndgen-no-decimals id="level" class="form-control" type="number" min="1" ng-model="vm.level" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-5 control-label">Options:</label>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label">Options:</label>
                     <div class="col-sm-3">
                         <div class="checkbox-inline">
                             <label>
@@ -78,17 +78,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Creature Type Filters (selecting none is the same as selecting all):</label>
+                <div class="form-group row">
+                    <label class="col-form-label">Creature Type Filters (selecting none is the same as selecting all):</label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="checkbox col-sm-4" ng-repeat="filter in vm.creatureTypeFilters">
                         <label>
                             <input type="checkbox" class="checkbox" ng-model="filter.checked"> {{filter.name}}
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromHall()" ng-disabled="dungeonForm.$invalid || vm.generating || !vm.filtersAreValid">Generate From Hall</button>
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromDoor()" ng-disabled="dungeonForm.$invalid || vm.generating || !vm.filtersAreValid">Generate From Door</button>
                 </div>

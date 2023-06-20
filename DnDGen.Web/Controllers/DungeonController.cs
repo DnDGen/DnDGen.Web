@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Helpers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using DungeonGen;
 using EncounterGen.Generators;
@@ -12,10 +13,10 @@ namespace DnDGen.Web.Controllers
         private readonly IDungeonGenerator dungeonGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public DungeonController(IDungeonGenerator dungeonGenerator, ClientIDManager clientIdManager)
+        public DungeonController(IDependencyFactory dependencyFactory)
         {
-            this.dungeonGenerator = dungeonGenerator;
-            this.clientIdManager = clientIdManager;
+            dungeonGenerator = dependencyFactory.Get<IDungeonGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
         [Route("Dungeon")]

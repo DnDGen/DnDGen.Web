@@ -51,7 +51,7 @@ describe('Character Controller', function () {
                     baseRace: setBaseRace,
                     isLeader: isLeader,
                     abilities: {
-                        charisma: { value: setCharisma, bonus: (setCharisma - 10) / 2 }
+                        Charisma: { value: setCharisma, bonus: (setCharisma - 10) / 2 }
                     },
                     magic: { animal: 'animal' }
                 };
@@ -531,8 +531,8 @@ describe('Character Controller', function () {
         expect(vm.character.class.name).toBe('second class name');
         expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.abilities.charisma.value).toBe(23456);
-        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.abilities.Charisma.value).toBe(23456);
+        expect(vm.character.abilities.Charisma.bonus).toBe(11723);
         expect(vm.character.magic.animal).toBe('animal');
     });
 
@@ -571,8 +571,8 @@ describe('Character Controller', function () {
         expect(vm.character.class.name).toBe('second class name');
         expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.abilities.charisma.value).toBe(23456);
-        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.abilities.Charisma.value).toBe(23456);
+        expect(vm.character.abilities.Charisma.bonus).toBe(11723);
         expect(vm.character.magic.animal).toBe('animal');
 
         vm.generate();
@@ -584,8 +584,8 @@ describe('Character Controller', function () {
         expect(vm.character.class.name).toBe('second class name');
         expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('second base race');
-        expect(vm.character.abilities.charisma.value).toBe(23456);
-        expect(vm.character.abilities.charisma.bonus).toBe(11723);
+        expect(vm.character.abilities.Charisma.value).toBe(23456);
+        expect(vm.character.abilities.Charisma.bonus).toBe(11723);
         expect(vm.character.magic.animal).toBe('animal');
     });
 
@@ -616,8 +616,8 @@ describe('Character Controller', function () {
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
         expect(vm.character.baseRace).toBe('first base race');
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.generating).toBeFalsy();
         expect(vm.generatingMessage).toBe('');
@@ -796,8 +796,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -827,8 +827,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -858,8 +858,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();
@@ -881,8 +881,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -916,8 +916,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -951,8 +951,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();
@@ -975,8 +975,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -1047,8 +1047,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).not.toBeNull();
@@ -1119,8 +1119,8 @@ describe('Character Controller', function () {
         expect(vm.character.alignment.full).toBe('first alignment');
         expect(vm.character.class.name).toBe('first class name');
         expect(vm.character.class.level).toBe(9266);
-        expect(vm.character.abilities.charisma.value).toBe(90210);
-        expect(vm.character.abilities.charisma.bonus).toBe(45100);
+        expect(vm.character.abilities.Charisma.value).toBe(90210);
+        expect(vm.character.abilities.Charisma.bonus).toBe(45100);
         expect(vm.character.baseRace).toBe('first base race');
         expect(vm.character.magic.animal).toBe('animal');
         expect(vm.leadership).toBeNull();

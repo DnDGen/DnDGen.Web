@@ -79,24 +79,24 @@ describe('Character Formatter Service', function () {
         newCharacter.race.weight.description = 'heavy ' + characterCount;
         newCharacter.race.gender = characterCount % 2 === 0 ? "Male" : "Female";
         newCharacter.race.summary = 'race summary ' + characterCount;
-        newCharacter.abilities.charisma = createAbility("Strength", 9 + characterCount, -1 + characterCount);
-        newCharacter.abilities.constitution = createAbility("Constitution", 26 + characterCount, 13 + characterCount);
-        newCharacter.abilities.dexterity = createAbility("Dexterity", 6 + characterCount, -2 + characterCount);
-        newCharacter.abilities.intelligence = createAbility("Intelligence", 90 + characterCount, 45 + characterCount);
-        newCharacter.abilities.strength = createAbility("Wisdom", 2 + characterCount, -4 + characterCount);
-        newCharacter.abilities.wisdom = createAbility("Charisma", 10 + characterCount, 0 + characterCount);
+        newCharacter.abilities.Charisma = createAbility("Strength", 9 + characterCount, -1 + characterCount);
+        newCharacter.abilities.Constitution = createAbility("Constitution", 26 + characterCount, 13 + characterCount);
+        newCharacter.abilities.Dexterity = createAbility("Dexterity", 6 + characterCount, -2 + characterCount);
+        newCharacter.abilities.Intelligence = createAbility("Intelligence", 90 + characterCount, 45 + characterCount);
+        newCharacter.abilities.Strength = createAbility("Wisdom", 2 + characterCount, -4 + characterCount);
+        newCharacter.abilities.Wisdom = createAbility("Charisma", 10 + characterCount, 0 + characterCount);
 
-        expect(newCharacter.abilities.charisma).not.toBeNull();
-        expect(newCharacter.abilities.constitution).not.toBeNull();
-        expect(newCharacter.abilities.dexterity).not.toBeNull();
-        expect(newCharacter.abilities.intelligence).not.toBeNull();
-        expect(newCharacter.abilities.strength).not.toBeNull();
-        expect(newCharacter.abilities.wisdom).not.toBeNull();
+        expect(newCharacter.abilities.Charisma).not.toBeNull();
+        expect(newCharacter.abilities.Constitution).not.toBeNull();
+        expect(newCharacter.abilities.Dexterity).not.toBeNull();
+        expect(newCharacter.abilities.Intelligence).not.toBeNull();
+        expect(newCharacter.abilities.Strength).not.toBeNull();
+        expect(newCharacter.abilities.Wisdom).not.toBeNull();
 
         newCharacter.languages.push('English ' + characterCount);
         newCharacter.languages.push('German ' + characterCount);
-        newCharacter.skills.push(createSkill('skill ' + (1 + characterCount), "", 4 + characterCount, newCharacter.abilities.constitution, 0, -6 - characterCount, true, false, 135 + characterCount));
-        newCharacter.skills.push(createSkill('skill ' + (2 + characterCount), "focus", 1.5 + characterCount, newCharacter.abilities.dexterity, 3 + characterCount, 0, false, true, 246 + characterCount));
+        newCharacter.skills.push(createSkill('skill ' + (1 + characterCount), "", 4 + characterCount, newCharacter.abilities.Constitution, 0, -6 - characterCount, true, false, 135 + characterCount));
+        newCharacter.skills.push(createSkill('skill ' + (2 + characterCount), "focus", 1.5 + characterCount, newCharacter.abilities.Dexterity, 3 + characterCount, 0, false, true, 246 + characterCount));
         newCharacter.feats.racial.push(createFeat('racial feat ' + (1 + characterCount)));
         newCharacter.feats.racial.push(createFeat('racial feat ' + (2 + characterCount)));
         newCharacter.feats.class.push(createFeat('class feat ' + (1 + characterCount)));
@@ -3602,7 +3602,7 @@ describe('Character Formatter Service', function () {
 
     it('formats undead', function () {
         character.race.metarace = "undead";
-        character.abilities.constitution = undefined;
+        character.abilities.Constitution = undefined;
         character.combat.savingThrows.hasFortitudeSave = false;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);
@@ -3692,16 +3692,16 @@ describe('Character Formatter Service', function () {
         followers = [createCharacter(), createCharacter()];
 
         character.race.metarace = "undead";
-        character.abilities.constitution = undefined;
+        character.abilities.Constitution = undefined;
         character.combat.savingThrows.hasFortitudeSave = false;
         cohort.race.metarace = "undead";
-        cohort.abilities.constitution = undefined;
+        cohort.abilities.Constitution = undefined;
         cohort.combat.savingThrows.hasFortitudeSave = false;
         followers[0].race.metarace = "undead";
-        followers[0].abilities.constitution = undefined;
+        followers[0].abilities.Constitution = undefined;
         followers[0].combat.savingThrows.hasFortitudeSave = false;
         followers[1].race.metarace = "undead";
-        followers[1].abilities.constitution = undefined;
+        followers[1].abilities.Constitution = undefined;
         followers[1].combat.savingThrows.hasFortitudeSave = false;
 
         var formattedCharacter = characterFormatterService.formatCharacter(character, leadership, cohort, followers);

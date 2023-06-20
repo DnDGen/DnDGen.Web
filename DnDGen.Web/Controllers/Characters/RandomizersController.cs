@@ -39,7 +39,8 @@ namespace DnDGen.Web.Controllers.Characters
             }
             catch (Exception e)
             {
-                throw new Exception($"An error occurred while verifying the randomizers. Message: {e.Message}");
+                var message = $"An error occurred while verifying the randomizers. Message: {e.Message}";
+                return Json(new { compatible = false, error = message });
             }
 
             return Json(new { compatible = compatible });

@@ -1,12 +1,12 @@
 ﻿<div>
     <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
-    <dndgen-collapsable-list ng-show="leadership.Score > 0" heading="Leadership" has-list="leadership.Score > 0">
+    <dndgen-collapsable-list ng-show="leadership.score > 0" heading="Leadership" has-list="leadership.score > 0">
         <ul>
-            <li>Score: {{leadership.Score | number}}</li>
-            <li ng-show="leadership.LeadershipModifiers.length > 0">
+            <li>Score: {{leadership.score | number}}</li>
+            <li ng-show="leadership.leadershipModifiers.length > 0">
                 <dndgen-collapsable-list heading="Leadership Modifiers" has-list="leadership.leadershipModifiers.length > 0">
                     <ul>
-                        <li ng-repeat="modifier in leadership.LeadershipModifiers track by $index">{{modifier}}</li>
+                        <li ng-repeat="modifier in leadership.leadershipModifiers track by $index">{{modifier}}</li>
                     </ul>
                 </dndgen-collapsable-list>
             </li>

@@ -96,7 +96,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
                 .Returns(true);
 
-            var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
+            var result = controller.Verify(clientId, characterSpecifications);
             dynamic data = result.Value;
             Assert.That(data.compatible, Is.True);
         }
@@ -126,7 +126,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
                 .Returns(false);
 
-            var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
+            var result = controller.Verify(clientId, characterSpecifications);
             dynamic data = result.Value;
             Assert.That(data.compatible, Is.False);
         }
@@ -153,12 +153,20 @@ namespace DnDGen.Web.Tests.Unit.Controllers.Characters
             mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer("base race randomizer type", "set base race")).Returns(mockBaseRaceRandomizer.Object);
             mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer("metarace randomizer type", true, "set metarace")).Returns(mockMetaraceRandomizer.Object);
 
-            mockRandomizerVerifier.Setup(g => g.VerifyCompatibility(mockAlignmentRandomizer.Object, mockClassNameRandomizer.Object, mockLevelRandomizer.Object, mockBaseRaceRandomizer.Object, mockMetaraceRandomizer.Object))
-                .Throws<NullReferenceException>();
+            var exception = new Exception("I failed");
+            mockRandomizerVerifier
+                .Setup(g => g.VerifyCompatibility(
+                    mockAlignmentRandomizer.Object,
+                    mockClassNameRandomizer.Object,
+                    mockLevelRandomizer.Object,
+                    mockBaseRaceRandomizer.Object,
+                    mockMetaraceRandomizer.Object))
+                .Throws(exception);
 
-            var result = controller.Verify(clientId, characterSpecifications) as JsonResult;
+            var result = controller.Verify(clientId, characterSpecifications);
             dynamic data = result.Value;
             Assert.That(data.compatible, Is.False);
+            Assert.That(data.error, Is.EqualTo("An error occurred while verifying the randomizers. Message: I failed"));
         }
 
         [Test]

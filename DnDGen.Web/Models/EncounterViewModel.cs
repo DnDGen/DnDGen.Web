@@ -1,7 +1,5 @@
 ﻿using EncounterGen.Common;
 using EncounterGen.Generators;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DnDGen.Web.Models
 {

@@ -1,37 +1,37 @@
 ﻿<div>
-    <span>Target Encounter Level: {{encounter.TargetEncounterLevel}}</span><br />
-    <span>Average Encounter Level: {{encounter.AverageEncounterLevel}} ({{encounter.AverageDifficulty}})</span><br />
-    <span>Actual Encounter Level: {{encounter.ActualEncounterLevel}} ({{encounter.ActualDifficulty}})</span>
+    <span>Target Encounter Level: {{encounter.targetEncounterLevel}}</span><br />
+    <span>Average Encounter Level: {{encounter.averageEncounterLevel}} ({{encounter.averageDifficulty}})</span><br />
+    <span>Actual Encounter Level: {{encounter.actualEncounterLevel}} ({{encounter.actualDifficulty}})</span>
     <dndgen-collapsable-list heading="Creatures" has-list="true">
         <ul>
-            <li ng-repeat="creature in encounter.Creatures">
-                <dndgen-collapsable-list heading="{{creature.Type.Name}} {{creature.Type.Description ? '(' + creature.Type.Description + ')' : ''}} x{{creature.Quantity}}" has-list="true">
+            <li ng-repeat="creature in encounter.creatures">
+                <dndgen-collapsable-list heading="{{creature.type.name}} {{creature.type.description ? '(' + creature.type.description + ')' : ''}} x{{creature.quantity}}" has-list="true">
                     <ul>
-                        <li ng-show="creature.Type.SubType">
-                            <dndgen-collapsable-list heading="{{creature.Type.SubType.Name}} {{creature.Type.SubType.Description ? '(' + creature.Type.SubType.Description + ')' : ''}}" has-list="creature.Type.SubType.SubType">
+                        <li ng-show="creature.type.subType">
+                            <dndgen-collapsable-list heading="{{creature.type.subType.name}} {{creature.type.subType.description ? '(' + creature.type.subType.description + ')' : ''}}" has-list="creature.type.subType.subType">
                                 <ul>
-                                    <li ng-show="creature.Type.SubType.SubType">
-                                        <span>{{creature.Type.SubType.SubType.Name}} {{creature.Type.SubType.SubType.Description ? '(' + creature.Type.SubType.SubType.Description + ')' : ''}}</span>
+                                    <li ng-show="creature.type.subType.subType">
+                                        <span>{{creature.type.subType.subType.name}} {{creature.type.subType.subType.description ? '(' + creature.type.subType.subType.description + ')' : ''}}</span>
                                     </li>
                                 </ul>
                             </dndgen-collapsable-list>
                         </li>
-                        <li>Challenge Rating: {{creature.ChallengeRating}}</li>
+                        <li>Challenge Rating: {{creature.challengeRating}}</li>
                     </ul>
                 </dndgen-collapsable-list>
             </li>
         </ul>
     </dndgen-collapsable-list>
-    <dndgen-collapsable-list heading="Treasures{{encounter.Treasures.length ? '' : ': None'}}" has-list="encounter.Treasures.length > 0">
+    <dndgen-collapsable-list heading="Treasures{{encounter.treasures.length ? '' : ': None'}}" has-list="encounter.treasures.length > 0">
         <ul>
-            <li ng-repeat="treasure in encounter.Treasures">
+            <li ng-repeat="treasure in encounter.treasures">
                 <dndgen-treasure treasure="treasure"></dndgen-treasure>
             </li>
         </ul>
     </dndgen-collapsable-list>
-    <dndgen-collapsable-list ng-show="encounter.Characters.length" heading="Characters" has-list="true">
+    <dndgen-collapsable-list ng-show="encounter.characters.length" heading="Characters" has-list="true">
         <ul>
-            <li ng-repeat="character in encounter.Characters">
+            <li ng-repeat="character in encounter.characters">
                 <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
             </li>
         </ul>

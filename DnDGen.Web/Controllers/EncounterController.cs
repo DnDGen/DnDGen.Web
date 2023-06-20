@@ -1,4 +1,5 @@
-﻿using DnDGen.Web.Helpers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using EncounterGen.Generators;
 using EventGen;
@@ -12,11 +13,11 @@ namespace DnDGen.Web.Controllers
         private readonly IEncounterVerifier encounterVerifier;
         private readonly ClientIDManager clientIdManager;
 
-        public EncounterController(IEncounterGenerator encounterGenerator, IEncounterVerifier encounterVerifier, ClientIDManager clientIdManager)
+        public EncounterController(IDependencyFactory dependencyFactory)
         {
-            this.encounterGenerator = encounterGenerator;
-            this.encounterVerifier = encounterVerifier;
-            this.clientIdManager = clientIdManager;
+            encounterGenerator = dependencyFactory.Get<IEncounterGenerator>();
+            encounterVerifier = dependencyFactory.Get<IEncounterVerifier>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
         [Route("Encounter")]
@@ -54,9 +55,10 @@ namespace DnDGen.Web.Controllers
             {
                 isValid = encounterVerifier.ValidEncounterExistsAtLevel(encounterSpecifications);
             }
-            catch
+            catch (Exception e)
             {
-
+                var message = $"An error occurred while verifying the encounter specifications. Message: {e.Message}";
+                return Json(new { isValid = false, error = message });
             }
 
             return Json(new { isValid = isValid });

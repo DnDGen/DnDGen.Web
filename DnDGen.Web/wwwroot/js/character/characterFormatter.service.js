@@ -178,15 +178,15 @@
                 prefix = '';
 
             var formattedAbilities = prefix + 'Abilities:\r\n';
-            formattedAbilities += prefix + "\t" + "Strength: " + abilities.strength.value + " (" + abilities.strength.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Strength: " + abilities.Strength.value + " (" + abilities.Strength.bonus + ")\r\n";
 
-            if (abilities.constitution)
-                formattedAbilities += prefix + "\t" + "Constitution: " + abilities.constitution.value + " (" + abilities.constitution.bonus + ")\r\n";
+            if (abilities.Constitution)
+                formattedAbilities += prefix + "\t" + "Constitution: " + abilities.Constitution.value + " (" + abilities.Constitution.bonus + ")\r\n";
 
-            formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.dexterity.value + " (" + abilities.dexterity.bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.intelligence.value + " (" + abilities.intelligence.bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.wisdom.value + " (" + abilities.wisdom.bonus + ")\r\n";
-            formattedAbilities += prefix + "\t" + "Charisma: " + abilities.charisma.value + " (" + abilities.charisma.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.Dexterity.value + " (" + abilities.Dexterity.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.Intelligence.value + " (" + abilities.Intelligence.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.Wisdom.value + " (" + abilities.Wisdom.bonus + ")\r\n";
+            formattedAbilities += prefix + "\t" + "Charisma: " + abilities.Charisma.value + " (" + abilities.Charisma.bonus + ")\r\n";
 
             return formattedAbilities;
         }

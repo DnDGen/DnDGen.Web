@@ -68,14 +68,14 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         [Test]
         public void EncounterControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<EncounterController>();
+            var controller = InjectControllerAndAssertDuration<EncounterController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void DungeonControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<DungeonController>();
+            var controller = InjectControllerAndAssertDuration<DungeonController>();
             Assert.That(controller, Is.Not.Null);
         }
 

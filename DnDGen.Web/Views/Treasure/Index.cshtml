@@ -40,7 +40,7 @@
                                 <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="{{vm.treasureModel.maxTreasureLevel}}" ng-model="vm.level" required />
                             </div>
                         </div>
-                        <button id="treasureButton" type="button" class="btn btn-success center-block" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
+                        <button id="treasureButton" type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
                     </form>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="item">
@@ -57,7 +57,7 @@
                                 <select id="powers" class="form-select" ng-model="vm.power" ng-options="power for power in vm.powers" required></select>
                             </div>
                         </div>
-                        <button id="itemButton" type="button" class="btn btn-success center-block" ng-click="vm.generateItem()" ng-disabled="itemForm.$invalid || vm.generating">Generate</button>
+                        <button id="itemButton" type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generateItem()" ng-disabled="itemForm.$invalid || vm.generating">Generate</button>
                     </form>
                 </div>
             </div>
