@@ -117,7 +117,9 @@
                         <input dndgen-no-decimals id="setCharisma" class="form-control" type="number" min="0" ng-model="vm.setCharisma" ng-required="vm.abilitiesRandomizerType == 'Set'" />
                     </div>
                 </div>
-                <button id="generateButton" type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generate()" ng-disabled="characterForm.$invalid || vm.generating || vm.verifying || vm.compatible == false">Generate</button>
+                <div class="d-flex justify-content-center">
+                    <button id="generateButton" type="button" class="btn btn-success" ng-click="vm.generate()" ng-disabled="characterForm.$invalid || vm.generating || vm.verifying || vm.compatible == false">Generate</button>
+                </div>
             </form>
         </div>
         <div class="col-sm-6 clearfix">

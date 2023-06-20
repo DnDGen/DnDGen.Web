@@ -1,5 +1,4 @@
-﻿@page
-@model DnDGen.Web.Models.EncounterViewModel
+﻿@model DnDGen.Web.Models.EncounterViewModel
 
 @section ngApp {
     ng-app='app.dungeon'
@@ -88,7 +87,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="d-flex justify-content-evenly">
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromHall()" ng-disabled="dungeonForm.$invalid || vm.generating || !vm.filtersAreValid">Generate From Hall</button>
                     <button type="button" class="btn btn-success" ng-click="vm.generateDungeonAreasFromDoor()" ng-disabled="dungeonForm.$invalid || vm.generating || !vm.filtersAreValid">Generate From Door</button>
                 </div>

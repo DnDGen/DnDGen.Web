@@ -76,7 +76,9 @@
                         </label>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating || !vm.filtersAreValid">Generate</button>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating || !vm.filtersAreValid">Generate</button>
+                </div>
             </form>
         </div>
         <div class="col-sm-6 clearfix">
