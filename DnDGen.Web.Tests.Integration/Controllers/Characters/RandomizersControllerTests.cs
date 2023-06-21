@@ -8,7 +8,7 @@ using System;
 namespace DnDGen.Web.Tests.Integration.Controllers.Characters
 {
     [TestFixture]
-    internal class RandomizersControllerTests : IntegrationTests
+    internal class RollControllerTests : IntegrationTests
     {
         private RandomizersController controller;
         private IRandomizerRepository randomizerRepository;

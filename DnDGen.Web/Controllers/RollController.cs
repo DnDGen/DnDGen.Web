@@ -50,11 +50,17 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public JsonResult ValidateExpression(string expression)
         {
-            var replacedExpression = dice.ReplaceExpressionWithTotal(expression);
-            var result = 0;
-            var isValid = int.TryParse(replacedExpression, out result);
+            try
+            {
+                var replacedExpression = dice.ReplaceExpressionWithTotal(expression);
+                var isValid = int.TryParse(replacedExpression, out var result);
 
-            return BuildJsonResult(isValid);
+                return BuildJsonResult(isValid);
+            }
+            catch
+            {
+                return BuildJsonResult(false);
+            }
         }
 
         private JsonResult BuildJsonResult(bool isValid)
