@@ -30,7 +30,7 @@ namespace DnDGen.Web.Controllers
 
         [Route("Encounter/Generate")]
         [HttpGet]
-        public JsonResult Generate(Guid clientId, EncounterSpecifications encounterSpecifications)
+        public JsonResult Generate(Guid clientId, [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -46,7 +46,7 @@ namespace DnDGen.Web.Controllers
 
         [Route("Encounter/Validate")]
         [HttpGet]
-        public JsonResult Validate(Guid clientId, EncounterSpecifications encounterSpecifications)
+        public JsonResult Validate(Guid clientId, [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
             var isValid = false;

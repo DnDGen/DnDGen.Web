@@ -59,10 +59,10 @@ namespace DnDGen.Web.Models
             };
 
             EncounterSpecifications = new EncounterSpecifications();
-            EncounterSpecifications.Environment = Environments.First();
+            EncounterSpecifications.Environment = EnvironmentConstants.Forest;
             EncounterSpecifications.Level = 1;
-            EncounterSpecifications.Temperature = Temperatures.First();
-            EncounterSpecifications.TimeOfDay = TimesOfDay.First();
+            EncounterSpecifications.Temperature = EnvironmentConstants.Temperatures.Temperate;
+            EncounterSpecifications.TimeOfDay = EnvironmentConstants.TimesOfDay.Day;
         }
     }
 }
