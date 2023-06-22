@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DnDGen.Web.Models;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,13 +28,7 @@ namespace DnDGen.Web.Tests.Integration.Views
                 .And.Not.Contains("DnDGen rolled a Nat 1"));
         }
 
-        [TestCase("/treasure/generate", "Treasure", 1)]
-        [TestCase("/Treasure/Generate", "Treasure", 1)]
-        [TestCase("/treasure/generate", "Treasure", 10)]
-        [TestCase("/treasure/generate", "Treasure", 20)]
-        [TestCase("/treasure/generate", "Coin", 10)]
-        [TestCase("/treasure/generate", "Goods", 10)]
-        [TestCase("/treasure/generate", "Items", 10)]
+        [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task Generate_ReturnsTreasure(string url, string treasureType, int level)
         {
             var response = await httpClient.GetAsync($"{url}?treasureType={treasureType}&level={level}");
@@ -51,37 +47,26 @@ namespace DnDGen.Web.Tests.Integration.Views
             Assert.That(body["treasure"], Is.Not.Null.And.Not.Empty);
         }
 
-        [TestCase("/treasure/generateitem", "Alchemical Item", "Mundane")]
-        [TestCase("/treasure/generateItem", "Alchemical Item", "Mundane")]
-        [TestCase("/Treasure/GenerateItem", "Alchemical Item", "Mundane")]
-        [TestCase("/treasure/generateitem", "Armor", "Mundane")]
-        [TestCase("/treasure/generateitem", "Armor", "Minor")]
-        [TestCase("/treasure/generateitem", "Armor", "Medium")]
-        [TestCase("/treasure/generateitem", "Armor", "Major")]
-        [TestCase("/treasure/generateitem", "Weapon", "Mundane")]
-        [TestCase("/treasure/generateitem", "Weapon", "Minor")]
-        [TestCase("/treasure/generateitem", "Weapon", "Medium")]
-        [TestCase("/treasure/generateitem", "Weapon", "Major")]
-        [TestCase("/treasure/generateitem", "Potion", "Minor")]
-        [TestCase("/treasure/generateitem", "Potion", "Medium")]
-        [TestCase("/treasure/generateitem", "Potion", "Major")]
-        [TestCase("/treasure/generateitem", "Ring", "Minor")]
-        [TestCase("/treasure/generateitem", "Ring", "Medium")]
-        [TestCase("/treasure/generateitem", "Ring", "Major")]
-        [TestCase("/treasure/generateitem", "Scroll", "Minor")]
-        [TestCase("/treasure/generateitem", "Scroll", "Medium")]
-        [TestCase("/treasure/generateitem", "Scroll", "Major")]
-        [TestCase("/treasure/generateitem", "Rod", "Medium")]
-        [TestCase("/treasure/generateitem", "Rod", "Major")]
-        [TestCase("/treasure/generateitem", "Staff", "Medium")]
-        [TestCase("/treasure/generateitem", "Staff", "Major")]
-        [TestCase("/treasure/generateitem", "Tool", "Mundane")]
-        [TestCase("/treasure/generateitem", "Wand", "Minor")]
-        [TestCase("/treasure/generateitem", "Wand", "Medium")]
-        [TestCase("/treasure/generateitem", "Wand", "Major")]
-        [TestCase("/treasure/generateitem", "Wondrous Item", "Minor")]
-        [TestCase("/treasure/generateitem", "Wondrous Item", "Medium")]
-        [TestCase("/treasure/generateitem", "Wondrous Item", "Major")]
+        public static IEnumerable TreasureGenerationData
+        {
+            get
+            {
+                yield return new TestCaseData("/Treasure/Generate", "Treasure", 1);
+
+                var viewModel = new TreasureViewModel();
+
+                foreach (var treasureType in viewModel.TreasureTypes)
+                {
+                    yield return new TestCaseData("/treasure/generate", treasureType, 1);
+                    yield return new TestCaseData("/treasure/generate", treasureType, 2);
+                    yield return new TestCaseData("/treasure/generate", treasureType, 10);
+                    yield return new TestCaseData("/treasure/generate", treasureType, 20);
+                    yield return new TestCaseData("/treasure/generate", treasureType, viewModel.MaxTreasureLevel);
+                }
+            }
+        }
+
+        [TestCaseSource(nameof(ItemGenerationData))]
         public async Task GenerateItem_ReturnsItem(string url, string itemType, string power)
         {
             var clientId = Guid.NewGuid();
@@ -101,6 +86,25 @@ namespace DnDGen.Web.Tests.Integration.Views
             Assert.That(body, Contains.Key("treasure"));
             Assert.That(body["treasure"], Is.Not.Null.And.Not.Empty.And.ContainKey("items"));
             Assert.That(body["treasure"]["items"], Is.Not.Null.And.Not.Empty.And.Count.EqualTo(1));
+        }
+
+        public static IEnumerable ItemGenerationData
+        {
+            get
+            {
+                yield return new TestCaseData("/Treasure/GenerateItem", "Alchemical Item", "Mundane");
+                yield return new TestCaseData("/treasure/generateItem", "Alchemical Item", "Mundane");
+
+                var viewModel = new TreasureViewModel();
+
+                foreach (var kvp in viewModel.ItemPowers)
+                {
+                    foreach (var power in kvp.Value)
+                    {
+                        yield return new TestCaseData("/treasure/generateitem", kvp.Key, power);
+                    }
+                }
+            }
         }
     }
 }

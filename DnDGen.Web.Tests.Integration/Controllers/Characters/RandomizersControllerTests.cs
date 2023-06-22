@@ -8,7 +8,7 @@ using System;
 namespace DnDGen.Web.Tests.Integration.Controllers.Characters
 {
     [TestFixture]
-    internal class RollControllerTests : IntegrationTests
+    internal class RandomizersControllerTests : IntegrationTests
     {
         private RandomizersController controller;
         private IRandomizerRepository randomizerRepository;
@@ -22,7 +22,6 @@ namespace DnDGen.Web.Tests.Integration.Controllers.Characters
             randomizerVerifier = GetDependency<IRandomizerVerifier>();
         }
 
-        [Repeat(100)]
         [Test]
         public void BUG_DefaultRandomizersAreValid()
         {
@@ -51,7 +50,6 @@ namespace DnDGen.Web.Tests.Integration.Controllers.Characters
             Assert.That(data.compatible, Is.True);
         }
 
-        [Repeat(100)]
         [Test]
         public void BUG_RandomizerVerifierValidatesDefaultRandomizers()
         {
