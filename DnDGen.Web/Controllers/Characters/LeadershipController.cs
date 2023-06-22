@@ -35,7 +35,10 @@ namespace DnDGen.Web.Controllers.Characters
 
             var cohort = leadershipGenerator.GenerateCohort(cohortScore, leaderLevel, leaderAlignment, leaderClass);
 
-            cohort.Skills = CharacterHelper.SortSkills(cohort.Skills);
+            if (cohort != null)
+            {
+                cohort.Skills = CharacterHelper.SortSkills(cohort.Skills);
+            }
 
             return Json(new { cohort = cohort });
         }
