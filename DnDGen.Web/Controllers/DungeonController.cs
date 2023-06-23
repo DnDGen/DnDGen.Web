@@ -29,7 +29,10 @@ namespace DnDGen.Web.Controllers
 
         [Route("Dungeon/GenerateFromHall")]
         [HttpGet]
-        public JsonResult GenerateFromHall(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
+        public JsonResult GenerateFromHall(
+            Guid clientId,
+            int dungeonLevel,
+            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -65,7 +68,10 @@ namespace DnDGen.Web.Controllers
 
         [Route("Dungeon/GenerateFromDoor")]
         [HttpGet]
-        public JsonResult GenerateFromDoor(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
+        public JsonResult GenerateFromDoor(
+            Guid clientId,
+            int dungeonLevel,
+            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
