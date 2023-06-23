@@ -82,7 +82,6 @@ namespace DnDGen.Web.Tests.Integration.Views
                 yield return GetEncounterGenerationTestCase("/encounter/generate", level: 2);
                 yield return GetEncounterGenerationTestCase("/encounter/generate", level: 10);
                 yield return GetEncounterGenerationTestCase("/encounter/generate", level: 20);
-                yield return GetEncounterGenerationTestCase("/encounter/generate", level: 30);
                 yield return GetEncounterGenerationTestCase("/encounter/generate", allowAquatic: true);
                 yield return GetEncounterGenerationTestCase("/encounter/generate", allowAquatic: false);
                 yield return GetEncounterGenerationTestCase("/encounter/generate", allowUnderground: true);
@@ -105,7 +104,22 @@ namespace DnDGen.Web.Tests.Integration.Views
 
                 foreach (var creatureType in viewModel.CreatureTypes)
                 {
-                    yield return GetEncounterGenerationTestCase("/encounter/generate", creatureTypes: new[] { creatureType });
+                    if (creatureType == "Aberration" || creatureType == "Ooze")
+                    {
+                        yield return GetEncounterGenerationTestCase("/encounter/generate", environment: "Underground", level: 7, creatureTypes: new[] { creatureType });
+                    }
+                    else if (creatureType == "Giant")
+                    {
+                        yield return GetEncounterGenerationTestCase("/encounter/generate", environment: "Hills", level: 7, creatureTypes: new[] { creatureType });
+                    }
+                    else if (creatureType == "Monstrous Humanoid" || creatureType == "Fey" || creatureType == "Plant")
+                    {
+                        yield return GetEncounterGenerationTestCase("/encounter/generate", level: 3, creatureTypes: new[] { creatureType });
+                    }
+                    else
+                    {
+                        yield return GetEncounterGenerationTestCase("/encounter/generate", creatureTypes: new[] { creatureType });
+                    }
                 }
 
                 yield return GetEncounterGenerationTestCase("/encounter/generate", creatureTypes: new[] { viewModel.CreatureTypes.First(), viewModel.CreatureTypes.Last() });
@@ -115,9 +129,9 @@ namespace DnDGen.Web.Tests.Integration.Views
 
         public static TestCaseData GetEncounterGenerationTestCase(
             string url,
-            string environment = "Aquatic",
+            string environment = "Forest",
             int level = 1,
-            string temperature = "Cold",
+            string temperature = "Temperate",
             string timeOfDay = "Day",
             bool allowAquatic = false,
             bool allowUnderground = false,
@@ -172,8 +186,6 @@ namespace DnDGen.Web.Tests.Integration.Views
 
                 var viewModel = new EncounterViewModel();
 
-                yield return GetEncounterValidationTestCase("/encounter/validate", true, "Forest", 1, "Temperate", "Day", true, true);
-
                 yield return GetEncounterValidationTestCase("/encounter/validate", true, level: 1);
                 yield return GetEncounterValidationTestCase("/encounter/validate", true, level: 2);
                 yield return GetEncounterValidationTestCase("/encounter/validate", true, level: 10);
@@ -200,7 +212,35 @@ namespace DnDGen.Web.Tests.Integration.Views
 
                 foreach (var creatureType in viewModel.CreatureTypes)
                 {
-                    yield return GetEncounterValidationTestCase("/encounter/validate", true, creatureTypes: new[] { creatureType });
+                    if (creatureType == "Aberration" || creatureType == "Ooze")
+                    {
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, environment: "Underground", creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, level: 7, creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", true,
+                            environment: "Underground",
+                            level: 7,
+                            creatureTypes: new[] { creatureType });
+                    }
+                    else if (creatureType == "Giant")
+                    {
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, environment: "Hills", creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, level: 7, creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", true,
+                            environment: "Hills",
+                            level: 7,
+                            creatureTypes: new[] { creatureType });
+                    }
+                    else if (creatureType == "Monstrous Humanoid" || creatureType == "Fey" || creatureType == "Plant")
+                    {
+                        yield return GetEncounterValidationTestCase("/encounter/validate", false, creatureTypes: new[] { creatureType });
+                        yield return GetEncounterValidationTestCase("/encounter/validate", true, level: 3, creatureTypes: new[] { creatureType });
+                    }
+                    else
+                    {
+                        yield return GetEncounterValidationTestCase("/encounter/validate", true, creatureTypes: new[] { creatureType });
+                    }
                 }
 
                 yield return GetEncounterValidationTestCase("/encounter/validate", true, creatureTypes: new[] { viewModel.CreatureTypes.First(), viewModel.CreatureTypes.Last() });

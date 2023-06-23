@@ -11,10 +11,10 @@
         var vm = this;
         vm.encounterModel = model;
 
-        vm.level = 1;
-        vm.environment = vm.encounterModel.environments[0];
-        vm.temperature = vm.encounterModel.temperatures[0];
-        vm.timeOfDay = vm.encounterModel.timesOfDay[0];
+        vm.level = vm.encounterModel.defaults.level;
+        vm.environment = vm.encounterModel.defaults.environment;
+        vm.temperature = vm.encounterModel.defaults.temperature;
+        vm.timeOfDay = vm.encounterModel.defaults.timeOfDay;
         vm.allowAquatic = false;
         vm.allowUnderground = false;
         vm.encounter = null;

@@ -70,16 +70,16 @@ namespace DnDGen.Web.Tests.Unit.Models
         }
 
         [Test]
-        public void ModelHasDefaultEncounterSpecifications()
+        public void ModelHasDefaults()
         {
-            Assert.That(model.EncounterSpecifications, Is.Not.Null);
-            Assert.That(model.EncounterSpecifications.AllowAquatic, Is.False);
-            Assert.That(model.EncounterSpecifications.AllowUnderground, Is.False);
-            Assert.That(model.EncounterSpecifications.CreatureTypeFilters, Is.Empty);
-            Assert.That(model.EncounterSpecifications.Environment, Is.EqualTo(model.Environments.First()));
-            Assert.That(model.EncounterSpecifications.Level, Is.EqualTo(1));
-            Assert.That(model.EncounterSpecifications.Temperature, Is.EqualTo(model.Temperatures.First()));
-            Assert.That(model.EncounterSpecifications.TimeOfDay, Is.EqualTo(model.TimesOfDay.First()));
+            Assert.That(model.Defaults, Is.Not.Null);
+            Assert.That(model.Defaults.AllowAquatic, Is.False);
+            Assert.That(model.Defaults.AllowUnderground, Is.False);
+            Assert.That(model.Defaults.CreatureTypeFilters, Is.Empty);
+            Assert.That(model.Defaults.Environment, Is.EqualTo(EnvironmentConstants.Forest));
+            Assert.That(model.Defaults.Level, Is.EqualTo(1));
+            Assert.That(model.Defaults.Temperature, Is.EqualTo(EnvironmentConstants.Temperatures.Temperate));
+            Assert.That(model.Defaults.TimeOfDay, Is.EqualTo(EnvironmentConstants.TimesOfDay.Day));
         }
     }
 }

@@ -15,10 +15,16 @@ describe('Encounter Controller', function () {
 
     beforeEach(function () {
         model = {
-            environments: ["field", "mountain"],
-            temperatures: ["cold", "hot"],
-            timesOfDay: ["day", "night"],
-            creatureTypes: ["undead", "character", "yo mamma"]
+            environments: ["field", "mountain", "swamp"],
+            temperatures: ["cold", "hot", "tropical"],
+            timesOfDay: ["day", "night", "twilight"],
+            creatureTypes: ["undead", "character", "yo mamma"],
+            defaults: {
+                environment: "mountain",
+                level: 90210,
+                temperature: "hot",
+                timeOfDay: "night"
+            }
         };
 
         encounterServiceMock = {
@@ -89,10 +95,10 @@ describe('Encounter Controller', function () {
     });
 
     it('has initial values for inputs', function () {
-        expect(vm.level).toBe(1);
-        expect(vm.environment).toBe('field');
-        expect(vm.temperature).toBe('cold');
-        expect(vm.timeOfDay).toBe('day');
+        expect(vm.level).toBe(90210);
+        expect(vm.environment).toBe('mountain');
+        expect(vm.temperature).toBe('hot');
+        expect(vm.timeOfDay).toBe('night');
         expect(vm.allowAquatic).toBeFalsy();
         expect(vm.allowUnderground).toBeFalsy();
     });
@@ -263,7 +269,7 @@ describe('Encounter Controller', function () {
     it('uses filters when generating an encounter', function () {
         vm.creatureTypeFilters[1].checked = true;
         vm.creatureTypeFilters[2].checked = true;
-        vm.environment = 'mountain';
+        vm.environment = 'swamp';
         vm.level = 9266;
 
         spyOn(encounterServiceMock, 'getEncounter').and.callThrough();
@@ -271,11 +277,11 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in mountain cold day');
+        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in swamp hot night');
         expect(encounterServiceMock.getEncounter).toHaveBeenCalledWith('client id 1',
-            'mountain',
-            'cold',
-            'day',
+            'swamp',
+            'hot',
+            'night',
             9266,
             ['character', 'yo mamma'],
             false,
