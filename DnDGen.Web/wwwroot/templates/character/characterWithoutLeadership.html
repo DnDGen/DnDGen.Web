@@ -1,0 +1,240 @@
+﻿<div>
+    <dndgen-collapsable-list heading="{{character.summary}}" has-list="true">
+        <ul>
+            <li>Challenge Rating: {{character.challengeRating}}</li>
+            <li>Alignment: {{character.alignment.full}}</li>
+            <li>
+                <dndgen-collapsable-list heading="{{character.class.summary}}" has-list="character.class.specialistFields.length || character.class.prohibitedFields.length">
+                    <ul>
+                        <li ng-show="character.class.specialistFields.length">
+                            <dndgen-collapsable-list heading="Specialist Fields" has-list="character.class.specialistFields.length">
+                                <ul>
+                                    <li ng-repeat="field in character.class.specialistFields track by $index">{{field}}</li>
+                                </ul>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li ng-show="character.class.prohibitedFields.length">
+                            <dndgen-collapsable-list heading="Prohibited Fields" has-list="character.class.prohibitedFields.length">
+                                <ul>
+                                    <li ng-repeat="field in character.class.prohibitedFields track by $index">{{field}}</li>
+                                </ul>
+                            </dndgen-collapsable-list>
+                        </li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="{{character.race.summary}}" has-list="true">
+                    <ul>
+                        <li ng-show="character.race.metaraceSpecies.length">Metarace Species: {{character.race.metaraceSpecies}}</li>
+                        <li>Land Speed: {{character.race.landSpeed.value}} {{character.race.landSpeed.unit}} <span ng-show="character.race.landSpeed.description">({{character.race.landSpeed.description}})</span></li>
+                        <li ng-show="character.race.hasWings">Has Wings</li>
+                        <li ng-show="character.race.aerialSpeed.value">Aerial Speed: {{character.race.aerialSpeed.value}} {{character.race.aerialSpeed.unit}} <span ng-show="character.race.aerialSpeed.description">({{character.race.aerialSpeed.description}})</span></li>
+                        <li ng-show="character.race.swimSpeed.value">Swim Speed: {{character.race.swimSpeed.value}} {{character.race.swimSpeed.unit}} <span ng-show="character.race.swimSpeed.description">({{character.race.swimSpeed.description}})</span></li>
+                        <li>Size: {{character.race.size}}</li>
+                        <li>Age: {{character.race.age.value}} {{character.race.age.unit}} <span ng-show="character.race.age.description">({{character.race.age.description}})</span></li>
+                        <li>Maximum Age: <span ng-show="character.race.maximumAge.value > 0">{{character.race.maximumAge.value}} {{character.race.maximumAge.unit}}</span> <span ng-show="character.race.maximumAge.description">({{character.race.maximumAge.description}})</span></li>
+                        <li>Height: {{character.race.height.value | inchesToFeet}} <span ng-show="character.race.height.description">({{character.race.height.description}})</span></li>
+                        <li>Weight: {{character.race.weight.value}} {{character.race.weight.unit}} <span ng-show="character.race.weight.description">({{character.race.weight.description}})</span></li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="Abilities" has-list="true">
+                    <ul>
+                        <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus}})</li>
+                        <li ng-show="character.abilities.Constitution">Constitution: {{character.abilities.Constitution.value}} ({{character.abilities.Constitution.bonus}})</li>
+                        <li>Dexterity: {{character.abilities.Dexterity.value}} ({{character.abilities.Dexterity.bonus}})</li>
+                        <li>Intelligence: {{character.abilities.Intelligence.value}} ({{character.abilities.Intelligence.bonus}})</li>
+                        <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus}})</li>
+                        <li>Charisma: {{character.abilities.Charisma.value}} ({{character.abilities.Charisma.bonus}})</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="Languages" has-list="true">
+                    <ul>
+                        <li ng-repeat="language in character.languages track by $index">{{language}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="Skills" has-list="true">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Class Skill</th>
+                            <th>Skill</th>
+                            <th>Total Bonus</th>
+                            <th>Ranks</th>
+                            <th>Ability Bonus</th>
+                            <th>Other Bonus</th>
+                            <th>Armor Check Penalty</th>
+                        </tr>
+                        <tr ng-repeat="skill in character.skills track by $index">
+                            <td><span ng-show="skill.classSkill" class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                            <td>{{skill.name}} <span ng-show="skill.focus">({{skill.focus}})</span></td>
+                            <td>{{skill.totalBonus}} <span ng-show="value.circumstantialBonus">*</span></td>
+                            <td>{{skill.effectiveRanks}}</td>
+                            <td>{{skill.baseAbility.bonus}}</td>
+                            <td>{{skill.bonus}}</td>
+                            <td>{{skill.armorCheckPenalty}}</td>
+                        </tr>
+                    </table>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="Feats" has-list="true">
+                    <ul>
+                        <li ng-show="character.feats.racial.length">
+                            <dndgen-collapsable-list heading="Racial" has-list="character.feats.racial.length">
+                                <ul>
+                                    <li ng-repeat="feat in character.feats.racial track by $index">
+                                        <dndgen-collapsable-list heading="{{feat.name}}" has-list="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                                            <ul>
+                                                <li ng-show="feat.foci.length > 0">
+                                                    <dndgen-collapsable-list heading="Foci" has-list="feat.foci.length > 0">
+                                                        <ul>
+                                                            <li ng-repeat="focus in feat.foci track by $index">{{focus}}</li>
+                                                        </ul>
+                                                    </dndgen-collapsable-list>
+                                                </li>
+                                                <li ng-show="feat.power > 0">Power: {{feat.power}}</li>
+                                                <li ng-show="feat.frequency.timePeriod.length > 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
+                                            </ul>
+                                        </dndgen-collapsable-list>
+                                    </li>
+                                </ul>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li ng-show="character.feats.class.length">
+                            <dndgen-collapsable-list heading="Class" has-list="character.feats.class.length">
+                                <ul>
+                                    <li ng-repeat="feat in character.feats.class track by $index">
+                                        <dndgen-collapsable-list heading="{{feat.name}}" has-list="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                                            <ul>
+                                                <li ng-show="feat.foci.length > 0">
+                                                    <dndgen-collapsable-list heading="Foci" has-list="feat.foci.length > 0">
+                                                        <ul>
+                                                            <li ng-repeat="focus in feat.foci track by $index">{{focus}}</li>
+                                                        </ul>
+                                                    </dndgen-collapsable-list>
+                                                </li>
+                                                <li ng-show="feat.power > 0">Power: {{feat.power}}</li>
+                                                <li ng-show="feat.frequency.timePeriod.length > 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
+                                            </ul>
+                                        </dndgen-collapsable-list>
+                                    </li>
+                                </ul>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li ng-show="character.feats.additional.length">
+                            <dndgen-collapsable-list heading="Additional" has-list="character.feats.additional.length">
+                                <ul>
+                                    <li ng-repeat="feat in character.feats.additional track by $index">
+                                        <dndgen-collapsable-list heading="{{feat.name}}" has-list="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                                            <ul>
+                                                <li ng-show="feat.foci.length > 0">
+                                                    <dndgen-collapsable-list heading="Foci" has-list="feat.foci.length > 0">
+                                                        <ul>
+                                                            <li ng-repeat="focus in feat.foci track by $index">{{focus}}</li>
+                                                        </ul>
+                                                    </dndgen-collapsable-list>
+                                                </li>
+                                                <li ng-show="feat.power > 0">Power: {{feat.power}}</li>
+                                                <li ng-show="feat.frequency.timePeriod.length > 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
+                                            </ul>
+                                        </dndgen-collapsable-list>
+                                    </li>
+                                </ul>
+                            </dndgen-collapsable-list>
+                        </li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>Interesting Trait: {{character.interestingTrait.length > 0 ? character.interestingTrait : 'None'}}</li>
+            <li ng-show="character.magic.spellsPerDay.length > 0">
+                <dndgen-collapsable-list heading="Spells Per Day" has-list="character.magic.spellsPerDay.length > 0">
+                    <ul>
+                        <li ng-repeat="spellLevel in character.magic.spellsPerDay track by $index">Level {{spellLevel.level}} {{spellLevel.source}}: {{spellLevel.quantity}} {{spellLevel.hasDomainSpell ? '+ 1' : ''}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="character.magic.knownSpells.length > 0">
+                <dndgen-collapsable-list heading="Known Spells" has-list="character.magic.knownSpells.length > 0">
+                    <ul>
+                        <li ng-repeat="spell in character.magic.knownSpells track by $index">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="character.magic.preparedSpells.length > 0">
+                <dndgen-collapsable-list heading="Prepared Spells" has-list="character.magic.preparedSpells.length > 0">
+                    <ul>
+                        <li ng-repeat="spell in character.magic.preparedSpells track by $index">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="character.magic.arcaneSpellFailure > 0">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
+            <li ng-show="character.magic.animal.length > 0">Animal: {{character.magic.animal}}</li>
+            <li>
+                <dndgen-collapsable-list heading="Equipment" has-list="true">
+                    <ul>
+                        <li>
+                            <dndgen-collapsable-list heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" has-list="character.equipment.primaryHand">
+                                <dndgen-item item="character.equipment.primaryHand"></dndgen-item>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li>
+                            <span ng-hide="character.equipment.offHand">Off Hand: None</span>
+                            <span ng-show="character.equipment.primaryHand.attributes.indexOf('Two-Handed') > -1">Off Hand: (Two-Handed)</span>
+                            <dndgen-collapsable-list heading="Off Hand" has-list="character.equipment.offHand && character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1" ng-show="character.equipment.offHand && character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1">
+                                <dndgen-item item="character.equipment.offHand"></dndgen-item>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li>
+                            <dndgen-collapsable-list heading="Armor{{character.equipment.armor ? '' : ': None'}}" has-list="character.equipment.armor">
+                                <dndgen-item item="character.equipment.armor"></dndgen-item>
+                            </dndgen-collapsable-list>
+                        </li>
+                        <li>
+                            <dndgen-collapsable-list heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" has-list="character.equipment.treasure.isAny">
+                                <dndgen-treasure treasure="character.equipment.treasure"></dndgen-treasure>
+                            </dndgen-collapsable-list>
+                        </li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li>
+                <dndgen-collapsable-list heading="Combat" has-list="true">
+                    <ul>
+                        <li>Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus}}</li>
+                        <li>
+                            <span>Armor Class: {{character.combat.armorClass.full}} <span ng-show="character.combat.armorClass.circumstantialBonus">*</span></span>
+                            <ul>
+                                <li>Flat-Footed: {{character.combat.armorClass.flatFooted}}</li>
+                                <li>Touch: {{character.combat.armorClass.touch}}</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>Base Attack:</span>
+                            <ul>
+                                <li>Melee: {{character.combat.baseAttack.allMeleeBonuses[0] > -1 ? '+' : ''}}{{character.combat.baseAttack.allMeleeBonuses[0]}}<span ng-repeat="bonus in character.combat.baseAttack.allMeleeBonuses" ng-if="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span ng-show="character.combat.baseAttack.circumstantialBonus">*</span></li>
+                                <li>Ranged: {{character.combat.baseAttack.allRangedBonuses[0] > -1 ? '+' : ''}}{{character.combat.baseAttack.allRangedBonuses[0]}}<span ng-repeat="bonus in character.combat.baseAttack.allRangedBonuses" ng-if="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span ng-show="character.combat.baseAttack.circumstantialBonus">*</span></li>
+                            </ul>
+                        </li>
+                        <li>Hit Points: {{character.combat.hitPoints}}</li>
+                        <li>Initiative Bonus: {{character.combat.initiativeBonus}}</li>
+                        <li>
+                            <span>Saving Throws:</span>
+                            <ul>
+                                <li ng-show="character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude}}</li>
+                                <li>Reflex: {{character.combat.savingThrows.reflex}}</li>
+                                <li>Will: {{character.combat.savingThrows.will}}</li>
+                                <li ng-show="character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+        </ul>
+    </dndgen-collapsable-list>
+</div>

@@ -1,0 +1,28 @@
+﻿<div>
+    <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
+    <dndgen-collapsable-list ng-show="leadership.score > 0" heading="Leadership" has-list="leadership.score > 0">
+        <ul>
+            <li>Score: {{leadership.score | number}}</li>
+            <li ng-show="leadership.leadershipModifiers.length > 0">
+                <dndgen-collapsable-list heading="Leadership Modifiers" has-list="leadership.leadershipModifiers.length > 0">
+                    <ul>
+                        <li ng-repeat="modifier in leadership.leadershipModifiers track by $index">{{modifier}}</li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+            <li ng-show="cohort">
+                <span>Cohort:</span>
+                <dndgen-character-without-leadership character="cohort"></dndgen-character-without-leadership>
+            </li>
+            <li ng-show="followers.length > 0">
+                <dndgen-collapsable-list heading="Followers" has-list="followers.length > 0">
+                    <ul>
+                        <li ng-repeat="follower in followers track by $index">
+                            <dndgen-character-without-leadership character="follower"></dndgen-character-without-leadership>
+                        </li>
+                    </ul>
+                </dndgen-collapsable-list>
+            </li>
+        </ul>
+    </dndgen-collapsable-list>
+</div>

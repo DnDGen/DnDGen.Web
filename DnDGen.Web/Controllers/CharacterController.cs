@@ -1,10 +1,10 @@
 ﻿using CharacterGen.Characters;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -14,13 +14,14 @@ namespace DnDGen.Web.Controllers
         private readonly ICharacterGenerator characterGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public CharacterController(IRandomizerRepository randomizerRepository, ICharacterGenerator characterGenerator, ClientIDManager clientIdManager)
+        public CharacterController(IDependencyFactory dependencyFactory)
         {
-            this.randomizerRepository = randomizerRepository;
-            this.characterGenerator = characterGenerator;
-            this.clientIdManager = clientIdManager;
+            randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
+            characterGenerator = dependencyFactory.Get<ICharacterGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
+        [Route("Character")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -28,6 +29,7 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Character/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, CharacterSpecifications characterSpecifications)
         {
@@ -37,7 +39,10 @@ namespace DnDGen.Web.Controllers
             var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
             var levelRandomizer = randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
             var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
-            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(characterSpecifications.MetaraceRandomizerType, characterSpecifications.ForceMetarace, characterSpecifications.SetMetarace);
+            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(
+                characterSpecifications.MetaraceRandomizerType,
+                characterSpecifications.ForceMetarace,
+                characterSpecifications.SetMetarace);
             var abilitiesRandomizer = randomizerRepository.GetAbilitiesRandomizer(characterSpecifications.AbilitiesRandomizerType,
                 characterSpecifications.SetStrength,
                 characterSpecifications.SetConstitution,
@@ -51,7 +56,7 @@ namespace DnDGen.Web.Controllers
 
             character.Skills = CharacterHelper.SortSkills(character.Skills);
 
-            return Json(new { character = character }, JsonRequestBehavior.AllowGet);
+            return Json(new { character = character });
         }
     }
 }

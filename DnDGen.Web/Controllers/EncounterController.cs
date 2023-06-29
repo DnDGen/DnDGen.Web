@@ -1,9 +1,9 @@
-﻿using DnDGen.Web.Helpers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using EncounterGen.Generators;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -13,13 +13,14 @@ namespace DnDGen.Web.Controllers
         private readonly IEncounterVerifier encounterVerifier;
         private readonly ClientIDManager clientIdManager;
 
-        public EncounterController(IEncounterGenerator encounterGenerator, IEncounterVerifier encounterVerifier, ClientIDManager clientIdManager)
+        public EncounterController(IDependencyFactory dependencyFactory)
         {
-            this.encounterGenerator = encounterGenerator;
-            this.encounterVerifier = encounterVerifier;
-            this.clientIdManager = clientIdManager;
+            encounterGenerator = dependencyFactory.Get<IEncounterGenerator>();
+            encounterVerifier = dependencyFactory.Get<IEncounterVerifier>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
+        [Route("Encounter")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,8 +28,9 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Encounter/Generate")]
         [HttpGet]
-        public JsonResult Generate(Guid clientId, EncounterSpecifications encounterSpecifications)
+        public JsonResult Generate(Guid clientId, [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -39,11 +41,12 @@ namespace DnDGen.Web.Controllers
                 character.Skills = CharacterHelper.SortSkills(character.Skills);
             }
 
-            return Json(new { encounter = encounter }, JsonRequestBehavior.AllowGet);
+            return Json(new { encounter = encounter });
         }
 
+        [Route("Encounter/Validate")]
         [HttpGet]
-        public JsonResult Validate(Guid clientId, EncounterSpecifications encounterSpecifications)
+        public JsonResult Validate(Guid clientId, [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
             var isValid = false;
@@ -52,12 +55,13 @@ namespace DnDGen.Web.Controllers
             {
                 isValid = encounterVerifier.ValidEncounterExistsAtLevel(encounterSpecifications);
             }
-            catch
+            catch (Exception e)
             {
-
+                var message = $"An error occurred while verifying the encounter specifications. Message: {e.Message}";
+                return Json(new { isValid = false, error = message });
             }
 
-            return Json(new { isValid = isValid }, JsonRequestBehavior.AllowGet);
+            return Json(new { isValid = isValid });
         }
     }
 }

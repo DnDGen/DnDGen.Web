@@ -1,0 +1,10 @@
+﻿{
+  "name": "",
+  "foci": [],
+  "power": 0,
+  "frequency": {
+    "quantity": 0,
+    "timePeriod": ""
+  },
+  "canBeTakenMultipleTimes": false
+}

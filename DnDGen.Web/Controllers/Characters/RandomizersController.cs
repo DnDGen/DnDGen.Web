@@ -1,9 +1,9 @@
 ﻿using CharacterGen.Verifiers;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers.Characters
 {
@@ -13,13 +13,14 @@ namespace DnDGen.Web.Controllers.Characters
         private readonly IRandomizerVerifier randomizerVerifier;
         private readonly ClientIDManager clientIdManager;
 
-        public RandomizersController(IRandomizerRepository randomizerRepository, IRandomizerVerifier randomizerVerifier, ClientIDManager clientIdManager)
+        public RandomizersController(IDependencyFactory dependencyFactory)
         {
-            this.randomizerRepository = randomizerRepository;
-            this.randomizerVerifier = randomizerVerifier;
-            this.clientIdManager = clientIdManager;
+            randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
+            randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
+        [Route("Characters/Randomizers/Verify")]
         [HttpGet]
         public JsonResult Verify(Guid clientId, CharacterSpecifications characterSpecifications)
         {
@@ -36,12 +37,13 @@ namespace DnDGen.Web.Controllers.Characters
             {
                 compatible = randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
             }
-            catch
+            catch (Exception e)
             {
-
+                var message = $"An error occurred while verifying the randomizers. Message: {e.Message}";
+                return Json(new { compatible = false, error = message });
             }
 
-            return Json(new { compatible = compatible }, JsonRequestBehavior.AllowGet);
+            return Json(new { compatible = compatible });
         }
     }
 }

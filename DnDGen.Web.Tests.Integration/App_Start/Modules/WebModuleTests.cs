@@ -1,12 +1,13 @@
 ﻿using CharacterGen.Characters;
 using CharacterGen.Leaders;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
+using DnDGen.Web.Controllers.Characters;
 using DnDGen.Web.Repositories;
 using DnDGen.Web.Repositories.Domain;
 using DungeonGen;
 using EncounterGen.Generators;
 using NUnit.Framework;
-using Octokit;
 using RollGen;
 using TreasureGen.Generators;
 
@@ -18,64 +19,64 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         [Test]
         public void HomeControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<HomeController>();
+            var controller = InjectControllerAndAssertDuration<HomeController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
-        public void ErrorControllerIsInjected()
+        public void DependencyFactoryIsInjected()
         {
-            var controller = InjectAndAssertDuration<ErrorController>();
-            Assert.That(controller, Is.Not.Null);
+            var controller = InjectServiceAndAssertDuration<IDependencyFactory>();
+            Assert.That(controller, Is.Not.Null.And.InstanceOf<NinjectDependencyFactory>());
         }
 
         [Test]
         public void RollControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<RollController>();
+            var controller = InjectControllerAndAssertDuration<RollController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void TreasureControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<TreasureController>();
+            var controller = InjectControllerAndAssertDuration<TreasureController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void CharacterControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<CharacterController>();
+            var controller = InjectControllerAndAssertDuration<CharacterController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void LeadershipControllerIsInjected()
+        {
+            var controller = InjectControllerAndAssertDuration<LeadershipController>();
+            Assert.That(controller, Is.Not.Null);
+        }
+
+        [Test]
+        public void RandomizerControllerIsInjected()
+        {
+            var controller = InjectControllerAndAssertDuration<RandomizersController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void EncounterControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<EncounterController>();
+            var controller = InjectControllerAndAssertDuration<EncounterController>();
             Assert.That(controller, Is.Not.Null);
         }
 
         [Test]
         public void DungeonControllerIsInjected()
         {
-            var controller = InjectAndAssertDuration<DungeonController>();
+            var controller = InjectControllerAndAssertDuration<DungeonController>();
             Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void ErrorRepositoryIsInjected()
-        {
-            var repository = InjectAndAssertDuration<ErrorRepository>();
-            Assert.That(repository, Is.InstanceOf<GitHubErrorRepository>());
-        }
-
-        [Test]
-        public void GitHubClientIsInjected()
-        {
-            var client = InjectAndAssertDuration<IGitHubClient>();
-            Assert.That(client, Is.InstanceOf<GitHubClient>());
         }
 
         [Test]

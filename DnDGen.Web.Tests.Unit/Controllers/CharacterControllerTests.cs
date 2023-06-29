@@ -12,11 +12,11 @@ using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using DnDGen.Web.Repositories;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -37,7 +37,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockCharacterGenerator = new Mock<ICharacterGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new CharacterController(mockRandomizerRepository.Object, mockCharacterGenerator.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
+            mockDependencyFactory.Setup(f => f.Get<ICharacterGenerator>()).Returns(mockCharacterGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new CharacterController(mockDependencyFactory.Object);
             characterSpecifications = new CharacterSpecifications();
 
             characterSpecifications.AbilitiesRandomizerType = "abilities randomizer type";
@@ -379,17 +385,10 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateJsonResultAllowsGet()
-        {
-            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateReturnsCharacterFromGenerator()
         {
             var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.character, Is.EqualTo(character));
         }
 
@@ -407,7 +406,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(character.Skills, Is.Not.Ordered.By("Name"));
 
             var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.character, Is.EqualTo(character));
             Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
         }

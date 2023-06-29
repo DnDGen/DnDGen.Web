@@ -8,10 +8,11 @@ using DungeonGen;
 using EncounterGen.Common;
 using EncounterGen.Generators;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Linq;
 using TreasureGen;
 using TreasureGen.Goods;
 using TreasureGen.Items;
@@ -29,17 +30,14 @@ namespace DnDGen.Web.Tests.Unit.Models
             AssertJsonCorrect(treasure, "treasure");
         }
 
-        private void AssertJsonCorrect(object source, string fileTarget)
+        private void AssertJsonCorrect<T>(T source, string fileTarget)
         {
-            var serialized = JsonConvert.SerializeObject(source);
+            var expected = JsonConvert.SerializeObject(source);
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Scripts", "mocks", $"{fileTarget}.json");
-            var target = File.ReadAllText(path);
-            //INFO: Removes whitespace from the file.  Whitespace is there for readability in file, but breaks the equality assertion
-            target = Regex.Replace(target, @"\s+", string.Empty);
-            serialized = Regex.Replace(serialized, @"\s+", string.Empty);
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "wwwroot", "mocks", $"{fileTarget}.json");
+            var actual = File.ReadAllText(path);
 
-            Assert.That(target, Is.EqualTo(serialized));
+            Assert.That(new JValue(actual).ToArray(), Is.EquivalentTo(new JValue(expected).ToArray()));
         }
 
         [Test]

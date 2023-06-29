@@ -1,0 +1,69 @@
+{
+  "Framework": "jasmine",
+  "RootReferencePathMode": "SettingsFileDirectory",
+  "References": [
+    {
+      "Path": "wwwroot/lib/jquery/jquery.min.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/lib/jasmine/jasmine.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/lib/jasmine/jasmine-html.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/lib/jasmine/boot.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/lib/jasmine-jquery/jasmine-jquery.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/mocks/",
+      "Includes": [ "*.json" ]
+    },
+    { "Path": "wwwroot/mocks/mockProvider.js" },
+    {
+      "Path": "wwwroot/bootstrap/js/bootstrap.min.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/lib/angular.js/angular.min.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "wwwroot/angular-mocks/angular-mocks.min.js",
+      "IsTestFrameworkFile": true
+    },
+    {
+      "Path": "../DnDGen.Web/wwwroot/js/shared",
+      "Includes": [ "*.module.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../DnDGen.Web/wwwroot/js/shared",
+      "Includes": [ "*.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../DnDGen.Web/wwwroot/js",
+      "Includes": [ "*.module.js" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../DnDGen.Web/wwwroot/js",
+      "Includes": [ "*.js" ],
+      "Excludes": [ "*Resource*" ]
+    }
+  ],
+  "Tests": [
+    {
+      "Path": "wwwroot/js",
+      "Includes": [ "*.tests.js" ]
+    }
+  ]
+}

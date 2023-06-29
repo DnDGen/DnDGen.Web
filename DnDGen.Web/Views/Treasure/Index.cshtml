@@ -1,78 +1,75 @@
-﻿@{
-    @model DnDGen.Web.Models.TreasureViewModel
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model DnDGen.Web.Models.TreasureViewModel
 
 @section ngApp {
     ng-app='app.treasure'
 }
 
 @section Scripts {
-    <script src="~/Scripts/app/treasure/treasure.module.js"></script>
-    <script src="~/Scripts/app/treasure/treasure.service.js"></script>
-    <script src="~/Scripts/app/treasure/treasureFormatter.service.js"></script>
-    <script src="~/Scripts/app/treasure/treasure.controller.js"></script>
-    <script src="~/Scripts/app/treasure/item.directive.js"></script>
-    <script src="~/Scripts/app/treasure/treasure.directive.js"></script>
+    <script src="~/js/treasure/treasure.module.js"></script>
+    <script src="~/js/treasure/treasure.service.js"></script>
+    <script src="~/js/treasure/treasureFormatter.service.js"></script>
+    <script src="~/js/treasure/treasure.controller.js"></script>
+    <script src="~/js/treasure/item.directive.js"></script>
+    <script src="~/js/treasure/treasure.directive.js"></script>
 }
 
 @section Styles {
-    <link rel="stylesheet" type="text/css" href="~/Content/treasure.css">
+    <link rel="stylesheet" type="text/css" href="~/css/treasure.css">
 }
 
 <div ng-controller="Treasure as vm">
     <h1>TreasureGen</h1>
     <div class="row top-buffer">
         <div class="col-sm-6">
-            <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#treasure" aria-controls="treasure" role="tab" data-toggle="tab">Treasure</a></li>
-                <li role="presentation"><a href="#item" aria-controls="item" role="tab" data-toggle="tab">Item</a></li>
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="nav-item"><a class="nav-link active" href="#treasure" aria-controls="treasure" role="tab" data-bs-toggle="tab">Treasure</a></li>
+                <li role="presentation" class="nav-item"><a class="nav-link" href="#item" aria-controls="item" role="tab" data-bs-toggle="tab">Item</a></li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="treasure">
+                <div role="tabpanel" class="tab-pane fade show active" id="treasure">
                     <form name="treasureForm" class="form-horizontal top-buffer" role="form">
-                        <div class="form-group">
-                            <label for="treasureTypes" class="col-sm-3 control-label">Treasure Type:</label>
+                        <div class="form-group row">
+                            <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
                             <div class="col-sm-6">
-                                <select id="treasureTypes" class="form-control" ng-model="vm.treasureType" ng-options="treasureType for treasureType in vm.treasureModel.TreasureTypes" required></select>
+                                <select id="treasureTypes" class="form-select" ng-model="vm.treasureType" ng-options="treasureType for treasureType in vm.treasureModel.treasureTypes" required></select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="treasureLevel" class="col-sm-3 control-label">Level:</label>
+                        <div class="form-group row">
+                            <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
                             <div class="col-sm-6">
-                                <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="{{vm.treasureModel.MaxTreasureLevel}}" ng-model="vm.level" required />
+                                <input dndgen-no-decimals id="treasureLevel" class="form-control" type="number" min="1" max="{{vm.treasureModel.maxTreasureLevel}}" ng-model="vm.level" required />
                             </div>
                         </div>
-                        <button id="treasureButton" type="button" class="btn btn-success center-block" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
+                        <button id="treasureButton" type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generateTreasure()" ng-disabled="treasureForm.$invalid || vm.generating">Generate</button>
                     </form>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="item">
                     <form name="itemForm" class="form-horizontal top-buffer" role="form">
-                        <div class="form-group">
-                            <label for="itemTypes" class="col-sm-3 control-label">Item Type:</label>
+                        <div class="form-group row">
+                            <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
                             <div class="col-sm-6">
-                                <select id="itemTypes" class="form-control" ng-model="vm.itemType" ng-options="itemType for itemType in vm.itemTypes" required></select>
+                                <select id="itemTypes" class="form-select" ng-model="vm.itemType" ng-options="itemType for itemType in vm.itemTypes" required></select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="powers" class="col-sm-3 control-label">Power:</label>
+                        <div class="form-group row">
+                            <label for="powers" class="col-sm-3 col-form-label">Power:</label>
                             <div class="col-sm-6">
-                                <select id="powers" class="form-control" ng-model="vm.power" ng-options="power for power in vm.powers" required></select>
+                                <select id="powers" class="form-select" ng-model="vm.power" ng-options="power for power in vm.powers" required></select>
                             </div>
                         </div>
-                        <button id="itemButton" type="button" class="btn btn-success center-block" ng-click="vm.generateItem()" ng-disabled="itemForm.$invalid || vm.generating">Generate</button>
+                        <button id="itemButton" type="button" class="btn btn-success d-flex justify-content-center" ng-click="vm.generateItem()" ng-disabled="itemForm.$invalid || vm.generating">Generate</button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 clearfix" >
-            <button class="btn btn-lg pull-right" ng-show="!vm.generating && vm.treasure.IsAny" ng-click="vm.download()">Download</button>
+            <button class="btn btn-light btn-lg float-end" ng-show="!vm.generating && vm.treasure.isAny" ng-click="vm.download()">Download</button>
             <div id="generatingSection" ng-show="vm.generating">
                 <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>
             <div ng-hide="vm.generating">
-                <span id="noTreasure" class="italicize" ng-hide="vm.treasure.IsAny">No treasure was generated</span>
-                <dndgen-treasure treasure="vm.treasure" ng-show="vm.treasure.IsAny"></dndgen-treasure>
+                <span id="noTreasure" class="italicize" ng-hide="vm.treasure.isAny">No treasure was generated</span>
+                <dndgen-treasure treasure="vm.treasure" ng-show="vm.treasure.isAny"></dndgen-treasure>
             </div>
         </div>
     </div>
@@ -81,7 +78,7 @@
 @section PostBodyScripts {
     <script type="text/javascript">
         angular.module('app.treasure').factory('model', function () {
-            return @Html.Raw(Json.Encode(Model));
+            return @Html.Raw(Json.Serialize(Model));
         });
     </script>
 }

@@ -1,0 +1,62 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'DnDGen.Web.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- checkout: self
+  displayName: 'Checkout Code'
+  persistCredentials: true
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: 'DnDGen.Web/DnDGen.Web.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: Run Server-side Unit Tests
+  inputs:
+    command: test
+    projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
+    arguments: '-v normal'
+- task: DotNetCoreCLI@2
+  displayName: Run Integration Tests
+  inputs:
+    command: test
+    projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
+    arguments: '-v normal'
+- task: NuGetCommand@2
+  displayName: Install Chutzpah
+  inputs:
+    command: custom
+    arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
+- task: VSTest@2
+  displayName: Run Client-side Unit Tests
+  inputs:
+    pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
+    testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
+    failOnMinTestsNotRun: true
+
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Publish Website
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+- task: PublishPipelineArtifact@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Publish Artifacts
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'dndgen-web'

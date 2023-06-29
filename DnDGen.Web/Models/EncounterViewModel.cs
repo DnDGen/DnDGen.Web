@@ -1,7 +1,5 @@
 ﻿using EncounterGen.Common;
 using EncounterGen.Generators;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DnDGen.Web.Models
 {
@@ -11,7 +9,7 @@ namespace DnDGen.Web.Models
         public IEnumerable<string> TimesOfDay { get; set; }
         public IEnumerable<string> Temperatures { get; set; }
         public IEnumerable<string> CreatureTypes { get; set; }
-        public EncounterSpecifications EncounterSpecifications { get; set; }
+        public EncounterSpecifications Defaults { get; set; }
 
         public EncounterViewModel()
         {
@@ -60,11 +58,11 @@ namespace DnDGen.Web.Models
                 CreatureConstants.Types.Vermin
             };
 
-            EncounterSpecifications = new EncounterSpecifications();
-            EncounterSpecifications.Environment = Environments.First();
-            EncounterSpecifications.Level = 1;
-            EncounterSpecifications.Temperature = Temperatures.First();
-            EncounterSpecifications.TimeOfDay = TimesOfDay.First();
+            Defaults = new EncounterSpecifications();
+            Defaults.Environment = EnvironmentConstants.Forest;
+            Defaults.Level = 1;
+            Defaults.Temperature = EnvironmentConstants.Temperatures.Temperate;
+            Defaults.TimeOfDay = EnvironmentConstants.TimesOfDay.Day;
         }
     }
 }

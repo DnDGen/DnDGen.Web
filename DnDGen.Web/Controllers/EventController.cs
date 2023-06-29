@@ -1,16 +1,17 @@
-﻿using EventGen;
-using System;
-using System.Web.Mvc;
+﻿using DnDGen.Web.App_Start;
+using EventGen;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
+    [Route("[controller]/[action]")]
     public class EventController : Controller
     {
         private readonly GenEventQueue eventQueue;
 
-        public EventController(GenEventQueue eventQueue)
+        public EventController(IDependencyFactory dependencyFactory)
         {
-            this.eventQueue = eventQueue;
+            eventQueue = dependencyFactory.Get<GenEventQueue>();
         }
 
         [HttpGet]
@@ -18,7 +19,7 @@ namespace DnDGen.Web.Controllers
         {
             var clientId = Guid.NewGuid().ToString();
 
-            return Json(new { clientId = clientId }, JsonRequestBehavior.AllowGet);
+            return Json(new { clientId = clientId });
         }
 
         [HttpGet]
@@ -26,7 +27,7 @@ namespace DnDGen.Web.Controllers
         {
             var events = eventQueue.DequeueAll(clientId);
 
-            return Json(new { events = events }, JsonRequestBehavior.AllowGet);
+            return Json(new { events = events });
         }
 
         [HttpPost]

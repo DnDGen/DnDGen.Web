@@ -1,12 +1,13 @@
 ﻿using DnDGen.Core.Generators;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
-using System.Web.Mvc;
 using TreasureGen;
 using TreasureGen.Coins;
 using TreasureGen.Generators;
@@ -39,12 +40,16 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockGoodsGenerator = new Mock<IGoodsGenerator>();
             mockItemsGenerator = new Mock<IItemsGenerator>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new TreasureController(mockTreasureGenerator.Object,
-                mockJustInTimeFactory.Object,
-                mockCoinGenerator.Object,
-                mockGoodsGenerator.Object,
-                mockItemsGenerator.Object,
-                mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<ITreasureGenerator>()).Returns(mockTreasureGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<JustInTimeFactory>()).Returns(mockJustInTimeFactory.Object);
+            mockDependencyFactory.Setup(f => f.Get<ICoinGenerator>()).Returns(mockCoinGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IGoodsGenerator>()).Returns(mockGoodsGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IItemsGenerator>()).Returns(mockItemsGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new TreasureController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
             mockMagicalGenerator = new Mock<MagicalItemGenerator>();
@@ -171,20 +176,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateJsonResultAllowsGet()
-        {
-            var result = controller.Generate(clientId, "treasure type", 9266) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateReturnsTreasureAtLevelFromGenerator()
         {
             var treasure = new Treasure();
             mockTreasureGenerator.Setup(g => g.GenerateAtLevel(9266)).Returns(treasure);
 
             var result = controller.Generate(clientId, "Treasure", 9266) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure, Is.EqualTo(treasure));
         }
 
@@ -195,7 +193,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockCoinGenerator.Setup(g => g.GenerateAtLevel(9266)).Returns(coin);
 
             var result = controller.Generate(clientId, "Coin", 9266) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure.Coin, Is.EqualTo(coin));
         }
 
@@ -206,7 +204,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockGoodsGenerator.Setup(g => g.GenerateAtLevel(9266)).Returns(goods);
 
             var result = controller.Generate(clientId, "Goods", 9266) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure.Goods, Is.EqualTo(goods));
         }
 
@@ -217,7 +215,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockItemsGenerator.Setup(g => g.GenerateAtLevel(9266)).Returns(items);
 
             var result = controller.Generate(clientId, "Items", 9266) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure.Items, Is.EqualTo(items));
         }
 
@@ -239,13 +237,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateItemJsonResultAllowsGet()
-        {
-            var result = controller.GenerateItem(clientId, "item type", "power") as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateItemReturnsMundaneItemFromGenerator()
         {
             var mockMundaneGenerator = new Mock<MundaneItemGenerator>();
@@ -255,7 +246,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockMundaneGenerator.Setup(g => g.Generate()).Returns(item);
 
             var result = controller.GenerateItem(clientId, "item type", PowerConstants.Mundane) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure.Items[0], Is.EqualTo(item));
             Assert.That(data.treasure.Items.Length, Is.EqualTo(1));
         }
@@ -267,7 +258,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockMagicalGenerator.Setup(g => g.GenerateFrom("power")).Returns(item);
 
             var result = controller.GenerateItem(clientId, "item type", "power") as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.treasure.Items[0], Is.EqualTo(item));
             Assert.That(data.treasure.Items.Length, Is.EqualTo(1));
         }

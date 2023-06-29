@@ -1,26 +1,23 @@
-﻿@{
-    @model DnDGen.Web.Models.EncounterViewModel
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model DnDGen.Web.Models.EncounterViewModel
 
 @section ngApp {
     ng-app='app.encounter'
 }
 
 @section Scripts {
-    <script src="~/Scripts/app/treasure/treasure.module.js"></script>
-    <script src="~/Scripts/app/treasure/item.directive.js"></script>
-    <script src="~/Scripts/app/treasure/treasure.directive.js"></script>
-    <script src="~/Scripts/app/treasure/treasureFormatter.service.js"></script>
-    <script src="~/Scripts/app/character/character.module.js"></script>
-    <script src="~/Scripts/app/character/characterWithoutLeadership.directive.js"></script>
-    <script src="~/Scripts/app/character/character.directive.js"></script>
-    <script src="~/Scripts/app/character/characterFormatter.service.js"></script>
-    <script src="~/Scripts/app/encounter/encounter.module.js"></script>
-    <script src="~/Scripts/app/encounter/encounter.service.js"></script>
-    <script src="~/Scripts/app/encounter/encounterFormatter.service.js"></script>
-    <script src="~/Scripts/app/encounter/encounter.controller.js"></script>
-    <script src="~/Scripts/app/encounter/encounter.directive.js"></script>
+    <script src="~/js/treasure/treasure.module.js"></script>
+    <script src="~/js/treasure/item.directive.js"></script>
+    <script src="~/js/treasure/treasure.directive.js"></script>
+    <script src="~/js/treasure/treasureFormatter.service.js"></script>
+    <script src="~/js/character/character.module.js"></script>
+    <script src="~/js/character/characterWithoutLeadership.directive.js"></script>
+    <script src="~/js/character/character.directive.js"></script>
+    <script src="~/js/character/characterFormatter.service.js"></script>
+    <script src="~/js/encounter/encounter.module.js"></script>
+    <script src="~/js/encounter/encounter.service.js"></script>
+    <script src="~/js/encounter/encounterFormatter.service.js"></script>
+    <script src="~/js/encounter/encounter.controller.js"></script>
+    <script src="~/js/encounter/encounter.directive.js"></script>
 }
 
 <div ng-controller="Encounter as vm">
@@ -28,32 +25,32 @@
     <div class="row top-buffer">
         <div class="col-sm-6">
             <form name="encounterForm" class="form-horizontal top-buffer" role="form">
-                <div class="form-group">
-                    <label for="environments" class="col-sm-3 control-label">Environment:</label>
+                <div class="form-group row">
+                    <label for="environments" class="col-sm-3 col-form-label">Environment:</label>
                     <div class="col-sm-6">
-                        <select id="environments" class="form-control" ng-model="vm.environment" ng-options="environment for environment in vm.encounterModel.Environments" required></select>
+                        <select id="environments" class="form-select" ng-model="vm.environment" ng-options="environment for environment in vm.encounterModel.environments" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="temperatures" class="col-sm-3 control-label">Temperature:</label>
+                <div class="form-group row">
+                    <label for="temperatures" class="col-sm-3 col-form-label">Temperature:</label>
                     <div class="col-sm-6">
-                        <select id="temperatures" class="form-control" ng-model="vm.temperature" ng-options="temperature for temperature in vm.encounterModel.Temperatures" required></select>
+                        <select id="temperatures" class="form-select" ng-model="vm.temperature" ng-options="temperature for temperature in vm.encounterModel.temperatures" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="timesOfDay" class="col-sm-3 control-label">Time of Day:</label>
+                <div class="form-group row">
+                    <label for="timesOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
                     <div class="col-sm-6">
-                        <select id="timesOfDay" class="form-control" ng-model="vm.timeOfDay" ng-options="timeOfDay for timeOfDay in vm.encounterModel.TimesOfDay" required></select>
+                        <select id="timesOfDay" class="form-select" ng-model="vm.timeOfDay" ng-options="timeOfDay for timeOfDay in vm.encounterModel.timesOfDay" required></select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="level" class="col-sm-3 control-label">Level:</label>
+                <div class="form-group row">
+                    <label for="level" class="col-sm-3 col-form-label">Level:</label>
                     <div class="col-sm-2">
                         <input dndgen-no-decimals id="level" class="form-control" type="number" min="1" ng-model="vm.level" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">Options:</label>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Options:</label>
                     <div class="col-sm-3">
                         <div class="checkbox-inline">
                             <label>
@@ -69,21 +66,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Creature Type Filters (selecting none is the same as selecting all):</label>
+                <div class="form-group row">
+                    <label class="col-form-label">Creature Type Filters (selecting none is the same as selecting all):</label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="checkbox col-sm-4" ng-repeat="filter in vm.creatureTypeFilters">
                         <label>
                             <input type="checkbox" class="checkbox" ng-model="filter.checked"> {{filter.name}}
                         </label>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating || !vm.filtersAreValid">Generate</button>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-success" ng-click="vm.generateEncounter()" ng-disabled="encounterForm.$invalid || vm.generating || !vm.filtersAreValid">Generate</button>
+                </div>
             </form>
         </div>
         <div class="col-sm-6 clearfix">
-            <button class="btn btn-lg pull-right" ng-click="vm.download()" ng-show="!vm.generating && vm.encounter">Download</button>
+            <button class="btn btn-light btn-lg float-end" ng-click="vm.download()" ng-show="!vm.generating && vm.encounter">Download</button>
             <div ng-show="vm.generating">
                 <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
             </div>
@@ -98,7 +97,7 @@
 @section PostBodyScripts {
     <script type="text/javascript">
         angular.module('app.encounter').factory('model', function () {
-            return @Html.Raw(Json.Encode(Model));
+            return @Html.Raw(Json.Serialize(Model));
         });
     </script>
 }

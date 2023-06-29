@@ -1,4 +1,4 @@
-﻿using Ninject;
+﻿using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -8,8 +8,7 @@ namespace DnDGen.Web.Tests.Integration
     [TestFixture]
     public abstract class IoCTests : IntegrationTests
     {
-        [Inject]
-        public Stopwatch Stopwatch { get; set; }
+        protected Stopwatch Stopwatch;
 
         private TimeSpan TimeLimit;
 
@@ -17,6 +16,7 @@ namespace DnDGen.Web.Tests.Integration
         public void IoCSetup()
         {
             TimeLimit = new TimeSpan(TimeSpan.TicksPerSecond);
+            Stopwatch = new Stopwatch();
 
             Stopwatch.Reset();
         }
@@ -31,7 +31,35 @@ namespace DnDGen.Web.Tests.Integration
         {
             Stopwatch.Restart();
 
-            var instance = GetNewInstanceOf<T>();
+            var instance = GetDependency<T>();
+            Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
+
+            return instance;
+        }
+
+        protected T InjectServiceAndAssertDuration<T>()
+        {
+            Stopwatch.Restart();
+
+            var instance = GetService<T>();
+            Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
+
+            return instance;
+        }
+
+        protected T InjectControllerAndAssertDuration<T>()
+            where T : Controller
+        {
+            //INFO: Check if the controller is already bound. If not, add it.
+            var controller = GetService<T>();
+            if (controller == null)
+            {
+                AddController<T>();
+            }
+
+            Stopwatch.Restart();
+
+            var instance = GetService<T>();
             Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
 
             return instance;

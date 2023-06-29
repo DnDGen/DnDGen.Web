@@ -1,8 +1,8 @@
 ﻿using DnDGen.Core.Generators;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Models;
 using EventGen;
-using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TreasureGen;
 using TreasureGen.Coins;
 using TreasureGen.Generators;
@@ -22,21 +22,17 @@ namespace DnDGen.Web.Controllers
         private readonly IItemsGenerator itemsGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public TreasureController(ITreasureGenerator treasureGenerator,
-            JustInTimeFactory justInTimeFactory,
-            ICoinGenerator coinGenerator,
-            IGoodsGenerator goodsGenerator,
-            IItemsGenerator itemsGenerator,
-            ClientIDManager clientIdManager)
+        public TreasureController(IDependencyFactory dependencyFactory)
         {
-            this.treasureGenerator = treasureGenerator;
-            this.justInTimeFactory = justInTimeFactory;
-            this.coinGenerator = coinGenerator;
-            this.goodsGenerator = goodsGenerator;
-            this.itemsGenerator = itemsGenerator;
-            this.clientIdManager = clientIdManager;
+            treasureGenerator = dependencyFactory.Get<ITreasureGenerator>();
+            justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
+            coinGenerator = dependencyFactory.Get<ICoinGenerator>();
+            goodsGenerator = dependencyFactory.Get<IGoodsGenerator>();
+            itemsGenerator = dependencyFactory.Get<IItemsGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
+        [Route("Treasure")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -44,13 +40,14 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Treasure/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, string treasureType, int level)
         {
             clientIdManager.SetClientID(clientId);
 
             var treasure = GetTreasure(treasureType, level);
-            return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);
+            return Json(new { treasure = treasure });
         }
 
         private Treasure GetTreasure(string treasureType, int level)
@@ -70,6 +67,7 @@ namespace DnDGen.Web.Controllers
             return treasure;
         }
 
+        [Route("Treasure/GenerateItem")]
         [HttpGet]
         public JsonResult GenerateItem(Guid clientId, string itemType, string power)
         {
@@ -79,7 +77,7 @@ namespace DnDGen.Web.Controllers
             var treasure = new Treasure();
             treasure.Items = new[] { item };
 
-            return Json(new { treasure = treasure }, JsonRequestBehavior.AllowGet);
+            return Json(new { treasure = treasure });
 
         }
 

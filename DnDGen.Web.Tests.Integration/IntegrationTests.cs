@@ -1,58 +1,57 @@
-﻿using CharacterGen.Domain.IoC;
-using DnDGen.Core.IoC;
-using DnDGen.Web.App_Start.Modules;
-using DungeonGen.Domain.IoC;
-using EncounterGen.Domain.IoC;
-using EventGen.IoC;
-using Ninject;
+﻿using DnDGen.Web.App_Start;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using RollGen.Domain.IoC;
-using TreasureGen.Domain.IoC;
+using System;
 
 namespace DnDGen.Web.Tests.Integration
 {
     [TestFixture]
     public abstract class IntegrationTests
     {
-        private readonly IKernel kernel;
+        private IDependencyFactory dependencyFactory;
+        private IServiceProvider serviceProvider;
+        private IServiceCollection services;
 
-        protected IntegrationTests()
+        [OneTimeSetUp]
+        public void IntegrationSetup()
         {
-            kernel = new StandardKernel();
+            dependencyFactory = new NinjectDependencyFactory();
 
-            var rollGenModuleLoader = new RollGenModuleLoader();
-            rollGenModuleLoader.LoadModules(kernel);
+            services = new ServiceCollection();
+            Startup.ConfigureServices(services);
 
-            var eventGenLoader = new EventGenModuleLoader();
-            eventGenLoader.LoadModules(kernel);
-
-            var coreLoader = new CoreModuleLoader();
-            coreLoader.LoadModules(kernel);
-
-            var treasureGenModuleLoader = new TreasureGenModuleLoader();
-            treasureGenModuleLoader.LoadModules(kernel);
-
-            var characterGenLoader = new CharacterGenModuleLoader();
-            characterGenLoader.LoadModules(kernel);
-
-            var encounterGenLoader = new EncounterGenModuleLoader();
-            encounterGenLoader.LoadModules(kernel);
-
-            var dungeonGenLoader = new DungeonGenModuleLoader();
-            dungeonGenLoader.LoadModules(kernel);
-
-            kernel.Load<WebModule>();
+            serviceProvider = services.BuildServiceProvider();
         }
 
-        [SetUp]
-        public void IntegrationTestsSetup()
+        protected T GetDependency<T>()
         {
-            kernel.Inject(this);
+            return dependencyFactory.Get<T>();
         }
 
-        protected T GetNewInstanceOf<T>()
+        protected T GetService<T>()
         {
-            return kernel.Get<T>();
+            return serviceProvider.GetService<T>();
+        }
+
+        protected void AddController<T>()
+            where T : Controller
+        {
+            services.AddTransient<T>();
+            serviceProvider = services.BuildServiceProvider();
+        }
+
+        protected T GetController<T>()
+            where T : Controller
+        {
+            var controller = serviceProvider.GetService<T>();
+            if (controller == null)
+            {
+                AddController<T>();
+                controller = serviceProvider.GetService<T>();
+            }
+
+            return controller;
         }
     }
 }

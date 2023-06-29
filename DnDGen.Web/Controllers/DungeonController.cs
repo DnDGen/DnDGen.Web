@@ -1,11 +1,10 @@
-﻿using DnDGen.Web.Helpers;
+﻿using DnDGen.Web.App_Start;
+using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using DungeonGen;
 using EncounterGen.Generators;
 using EventGen;
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -14,12 +13,13 @@ namespace DnDGen.Web.Controllers
         private readonly IDungeonGenerator dungeonGenerator;
         private readonly ClientIDManager clientIdManager;
 
-        public DungeonController(IDungeonGenerator dungeonGenerator, ClientIDManager clientIdManager)
+        public DungeonController(IDependencyFactory dependencyFactory)
         {
-            this.dungeonGenerator = dungeonGenerator;
-            this.clientIdManager = clientIdManager;
+            dungeonGenerator = dependencyFactory.Get<IDungeonGenerator>();
+            clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
+        [Route("Dungeon")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,15 +27,19 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
+        [Route("Dungeon/GenerateFromHall")]
         [HttpGet]
-        public JsonResult GenerateFromHall(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
+        public JsonResult GenerateFromHall(
+            Guid clientId,
+            int dungeonLevel,
+            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
             var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
-            return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
+            return Json(new { areas = areas });
         }
 
         private IEnumerable<Area> SortCharacterTraits(IEnumerable<Area> areas)
@@ -62,15 +66,19 @@ namespace DnDGen.Web.Controllers
             return areas;
         }
 
+        [Route("Dungeon/GenerateFromDoor")]
         [HttpGet]
-        public JsonResult GenerateFromDoor(Guid clientId, int dungeonLevel, EncounterSpecifications encounterSpecifications)
+        public JsonResult GenerateFromDoor(
+            Guid clientId,
+            int dungeonLevel,
+            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
             var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, encounterSpecifications);
             areas = SortCharacterTraits(areas);
 
-            return Json(new { areas = areas }, JsonRequestBehavior.AllowGet);
+            return Json(new { areas = areas });
         }
     }
 }

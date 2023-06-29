@@ -1,0 +1,20 @@
+﻿{
+  "name": "",
+  "focus": "",
+  "baseAbility": {
+    "name": "",
+    "value": 10,
+    "bonus": 0
+  },
+  "bonus": 0,
+  "classSkill": false,
+  "armorCheckPenalty": 0,
+  "circumstantialBonus": false,
+  "rankCap": 0,
+  "hasArmorCheckPenalty": false,
+  "effectiveRanks": 0,
+  "ranksMaxedOut": true,
+  "ranks": 0,
+  "qualifiesForSkillSynergy": false,
+  "totalBonus": 0
+}

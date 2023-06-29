@@ -1,0 +1,10 @@
+﻿{
+  "creatures": [],
+  "characters": [],
+  "treasures": [],
+  "targetEncounterLevel": 0,
+  "averageEncounterLevel": 0,
+  "actualEncounterLevel": 0,
+  "averageDifficulty": "Challenging",
+  "actualDifficulty": "Challenging"
+}

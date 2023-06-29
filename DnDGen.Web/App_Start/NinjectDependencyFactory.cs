@@ -1,0 +1,59 @@
+﻿using CharacterGen.Domain.IoC;
+using DnDGen.Core.IoC;
+using DnDGen.Web.App_Start.Modules;
+using DungeonGen.Domain.IoC;
+using EncounterGen.Domain.IoC;
+using EventGen.IoC;
+using Ninject;
+using RollGen.Domain.IoC;
+using TreasureGen.Domain.IoC;
+
+namespace DnDGen.Web.App_Start
+{
+    public class NinjectDependencyFactory : IDependencyFactory
+    {
+        private IKernel kernel;
+
+        public NinjectDependencyFactory()
+        {
+            kernel = new StandardKernel();
+
+            RegisterServices();
+        }
+
+        /// <summary>
+        /// Load your modules or register your services here!
+        /// </summary>
+        /// <param name="kernel">The kernel.</param>
+        private void RegisterServices()
+        {
+            var rollGenLoader = new RollGenModuleLoader();
+            rollGenLoader.LoadModules(kernel);
+
+            var eventGenLoader = new EventGenModuleLoader();
+            eventGenLoader.LoadModules(kernel);
+
+            var coreLoader = new CoreModuleLoader();
+            coreLoader.LoadModules(kernel);
+
+            var treasureGenLoader = new TreasureGenModuleLoader();
+            treasureGenLoader.LoadModules(kernel);
+
+            var characterGenLoader = new CharacterGenModuleLoader();
+            characterGenLoader.LoadModules(kernel);
+
+            var encounterGenLoader = new EncounterGenModuleLoader();
+            encounterGenLoader.LoadModules(kernel);
+
+            var dungeonGenLoader = new DungeonGenModuleLoader();
+            dungeonGenLoader.LoadModules(kernel);
+
+            kernel.Load<WebModule>();
+        }
+
+        public T Get<T>()
+        {
+            return kernel.Get<T>();
+        }
+    }
+}

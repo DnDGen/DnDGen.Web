@@ -1,17 +1,18 @@
 ﻿using CharacterGen.Abilities;
 using CharacterGen.Characters;
 using CharacterGen.Skills;
+using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EncounterGen.Common;
 using EncounterGen.Generators;
 using EventGen;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
 {
@@ -32,7 +33,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterGenerator = new Mock<IEncounterGenerator>();
             mockEncounterVerifier = new Mock<IEncounterVerifier>();
             mockClientIdManager = new Mock<ClientIDManager>();
-            controller = new EncounterController(mockEncounterGenerator.Object, mockEncounterVerifier.Object, mockClientIdManager.Object);
+
+            var mockDependencyFactory = new Mock<IDependencyFactory>();
+            mockDependencyFactory.Setup(f => f.Get<IEncounterGenerator>()).Returns(mockEncounterGenerator.Object);
+            mockDependencyFactory.Setup(f => f.Get<IEncounterVerifier>()).Returns(mockEncounterVerifier.Object);
+            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
+
+            controller = new EncounterController(mockDependencyFactory.Object);
 
             clientId = Guid.NewGuid();
             filters = new List<string>();
@@ -151,17 +158,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateJsonAllowsGet()
-        {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-        }
-
-        [Test]
         public void GenerateJsonReturnsGeneratedEncounter()
         {
             var encounter = new Encounter();
@@ -169,7 +165,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
 
             var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
 
@@ -200,7 +196,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             };
 
             var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.encounter, Is.EqualTo(encounter));
 
             var firstCharacter = encounter.Characters.First();
@@ -224,7 +220,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
 
             var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
 
@@ -237,17 +233,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
             var result = controller.Validate(clientId, encounterSpecifications);
             Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void ValidateJsonAllowsGet()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
-
-            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         [Test]
@@ -272,7 +257,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
 
             var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.True);
         }
 
@@ -284,7 +269,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(false);
 
             var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -296,7 +281,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Throws<NullReferenceException>();
 
             var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.False);
         }
 
@@ -307,7 +292,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
 
             var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.isValid, Is.True);
         }
 
@@ -320,7 +305,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
 
             var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Data;
+            dynamic data = result.Value;
             Assert.That(data.encounter, Is.EqualTo(encounter));
         }
     }
