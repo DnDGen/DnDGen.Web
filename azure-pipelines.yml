@@ -67,7 +67,6 @@ steps:
   displayName: Build DnDGen.Web container and push to ACR
   inputs:
     command: buildAndPush
-    # Name of the image
     repository: dndgenweb
     dockerfile: 'DnDGen.Web/Dockerfile'
     containerRegistry: dndgenweb.azurecr.io
