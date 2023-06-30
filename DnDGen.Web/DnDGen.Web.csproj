@@ -30,6 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.dockerignore" Link=".dockerignore">
+      <DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Albatross.Expression" Version="1.3.6218.36673" />
     <PackageReference Include="CharacterGen" Version="10.0.3" />
     <PackageReference Include="CharacterGen.Domain" Version="10.0.3" />
