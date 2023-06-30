@@ -64,7 +64,7 @@ steps:
 
 - task: Docker@2
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Build DnDGen.Web container
+  displayName: Build DnDGen.Web container and push to ACR
   inputs:
     command: buildAndPush
     # Name of the image
