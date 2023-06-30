@@ -67,7 +67,7 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: Build DnDGen.Web container and push to ACR
   inputs:
-    command: buildAndPush
-    repository: dndgenweb
+    command: 'buildAndPush'
+    repository: 'dndgenweb'
     dockerfile: 'DnDGen.Web/Dockerfile'
-    containerRegistry: DnDGen - ACR
+    containerRegistry: 'DnDGen - ACR'
