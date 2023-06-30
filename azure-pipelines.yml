@@ -51,7 +51,6 @@ steps:
   inputs:
     command: publish
     projects: 'DnDGen.Web/DnDGen.Web.csproj'
-    publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
