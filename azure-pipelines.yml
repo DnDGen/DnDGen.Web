@@ -67,9 +67,10 @@ steps:
   displayName: Build DnDGen.Web container
   inputs:
     command: buildAndPush
+    # Name of the image
     repository: dndgenweb
     dockerfile: 'DnDGen.Web/Dockerfile'
-    containerRegistry: dndgenweb
+    containerRegistry: dndgenweb.azurecr.io
 
 # - task: AzureWebAppContainer@1
 #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
