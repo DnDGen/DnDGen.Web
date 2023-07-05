@@ -63,12 +63,13 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'dndgen-web'
 
-- task: Docker@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  displayName: Build DnDGen.Web container and push to ACR
-  inputs:
-    #Try again, comment for rebuild 2
-    command: 'buildAndPush'
-    repository: 'dndgenweb'
-    dockerfile: 'DnDGen.Web/Dockerfile'
-    containerRegistry: 'DnDGen - ACR'
+# INFO: Currently having an issue where we can't get Azure DevOps to talk to Azure Container Registry.
+# Not gonna go down the rabbit hole for now, so I'll move on to other things. Might revisit this at a later time.
+# - task: Docker@2
+#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#   displayName: Build DnDGen.Web container and push to ACR
+#   inputs:
+#     command: 'buildAndPush'
+#     repository: 'dndgenweb'
+#     dockerfile: 'DnDGen.Web/Dockerfile'
+#     containerRegistry: 'DnDGen - ACR'
