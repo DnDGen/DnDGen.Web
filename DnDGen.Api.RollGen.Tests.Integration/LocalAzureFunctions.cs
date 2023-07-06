@@ -7,6 +7,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration
     //Source: https://www.codit.eu/blog/locally-integration-testing-azure-functions-applications/?country_sel=be
     public class LocalAzureFunctions : IAsyncDisposable
     {
+        public string BaseUrl { get; set; }
+
         private readonly Process _application;
         private static readonly HttpClient HttpClient = new HttpClient();
 
@@ -17,16 +19,20 @@ namespace DnDGen.Api.RollGen.Tests.Integration
 
         public static async Task<LocalAzureFunctions> StartNewAsync(DirectoryInfo projectDirectory)
         {
-            int port = 7071;
-            Process app = StartApplication(port, projectDirectory);
-            await WaitUntilTriggerIsAvailableAsync($"http://localhost:{port}/");
+            Process app = StartApplication(projectDirectory);
 
-            return new LocalAzureFunctions(app);
+            var baseUrl = $"http://localhost:7071/";
+            await WaitUntilTriggerIsAvailableAsync(baseUrl, projectDirectory.FullName);
+
+            var localFunctions = new LocalAzureFunctions(app);
+            localFunctions.BaseUrl = baseUrl;
+
+            return localFunctions;
         }
 
-        private static Process StartApplication(int port, DirectoryInfo projectDirectory)
+        private static Process StartApplication(DirectoryInfo projectDirectory)
         {
-            var appInfo = new ProcessStartInfo("func", $"start --port {port} --prefix bin/Release/net6.0")
+            var appInfo = new ProcessStartInfo("func", $"start")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -38,7 +44,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             return app;
         }
 
-        private static async Task WaitUntilTriggerIsAvailableAsync(string endpoint)
+        private static async Task WaitUntilTriggerIsAvailableAsync(string endpoint, string projectDirectoryPath)
         {
             AsyncRetryPolicy retryPolicy =
                     Policy.Handle<Exception>()
@@ -51,9 +57,9 @@ namespace DnDGen.Api.RollGen.Tests.Integration
 
             if (result.Outcome == OutcomeType.Failure)
             {
-                throw new InvalidOperationException(
-                    "The Azure Functions project doesn't seem to be running, "
-                    + "please check any build or runtime errors that could occur during startup");
+                var message = $"The Azure Functions project at '{projectDirectoryPath}' doesn't seem to be running. " +
+                    "Please check any build or runtime errors that could occur during startup";
+                throw new InvalidOperationException(message);
             }
         }
 

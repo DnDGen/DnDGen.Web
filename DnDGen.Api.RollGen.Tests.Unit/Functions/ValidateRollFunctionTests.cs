@@ -1,4 +1,5 @@
 using DnDGen.Api.RollGen.Dependencies;
+using DnDGen.Api.RollGen.Functions;
 using DnDGen.RollGen;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -7,11 +8,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Moq;
 
-namespace DnDGen.Api.RollGen.Tests.Unit
+namespace DnDGen.Api.RollGen.Tests.Unit.Functions
 {
-    public class RollFunctionTests
+    public class ValidateRollFunctionTests
     {
-        private RollFunction function;
+        private ValidateRollFunction function;
         private Mock<Dice> mockDice;
         private Mock<PartialRoll> mockRoll;
         private Mock<ILogger> mockLogger;
@@ -28,11 +29,12 @@ namespace DnDGen.Api.RollGen.Tests.Unit
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<Dice>()).Returns(mockDice.Object);
 
-            function = new RollFunction(mockDependencyFactory.Object);
+            function = new ValidateRollFunction(mockDependencyFactory.Object);
         }
 
-        [Test]
-        public async Task Roll_ReturnsTheRollAsSum()
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task Run_ReturnsTheValidatedRoll(bool validRoll)
         {
             var query = new QueryCollection(new Dictionary<string, StringValues>
             {
@@ -42,16 +44,16 @@ namespace DnDGen.Api.RollGen.Tests.Unit
             mockRequest.Setup(x => x.Query).Returns(query);
 
             mockDice.Setup(d => d.Roll(9266)).Returns(mockRoll.Object);
-            mockRoll.Setup(r => r.d(90210).AsSum<int>()).Returns(42);
+            mockRoll.Setup(r => r.d(90210).IsValid()).Returns(validRoll);
 
             var result = await function.Run(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(42));
+            Assert.That(okResult.Value, Is.EqualTo(validRoll));
 
-            mockLogger.AssertLog("C# HTTP trigger function (RollFunction.Run) processed a request.");
-            mockLogger.AssertLog("Rolled 9266d90210 = 42");
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
+            mockLogger.AssertLog($"Validated 9266d90210 = {validRoll}");
         }
 
         [TestCase("quantity")]
@@ -71,8 +73,35 @@ namespace DnDGen.Api.RollGen.Tests.Unit
             var result = await function.Run(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
 
-            mockLogger.AssertLog("C# HTTP trigger function (RollFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
             mockLogger.AssertLog($"Query parameter '{missing}' is missing", LogLevel.Error);
+        }
+
+        [TestCase(10_001, 1)]
+        [TestCase(10_001, 10_000)]
+        [TestCase(10_001, 10_001)]
+        [TestCase(16_500_000, 1)]
+        [TestCase(16_500_001, 1)]
+        public async Task BUG_Run_HandlesQuantityAndDie(int quantity, int die)
+        {
+            var query = new QueryCollection(new Dictionary<string, StringValues>
+            {
+                { "quantity", new StringValues(quantity.ToString()) },
+                { "die", new StringValues(die.ToString()) },
+            });
+            mockRequest.Setup(x => x.Query).Returns(query);
+
+            mockDice.Setup(d => d.Roll(quantity)).Returns(mockRoll.Object);
+            mockRoll.Setup(r => r.d(die).IsValid()).Returns(true);
+
+            var result = await function.Run(mockRequest.Object, mockLogger.Object);
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.True);
+
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
+            mockLogger.AssertLog($"Validated {quantity}d{die} = {true}");
         }
     }
 }

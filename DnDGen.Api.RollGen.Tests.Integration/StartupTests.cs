@@ -15,7 +15,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration
         [Test]
         public void EXTERNAL_DiceInjected()
         {
-            var dice = InjectAndAssertDuration<Dice>();
+            var dice = InjectDependencyAndAssertDuration<Dice>();
             Assert.That(dice, Is.Not.Null);
         }
     }

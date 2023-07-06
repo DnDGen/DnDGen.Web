@@ -24,7 +24,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             Stopwatch.Stop();
         }
 
-        protected T InjectAndAssertDuration<T>()
+        protected T InjectDependencyAndAssertDuration<T>()
         {
             Stopwatch.Restart();
 

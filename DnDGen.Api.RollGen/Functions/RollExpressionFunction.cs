@@ -6,41 +6,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
-namespace DnDGen.Api.RollGen
+namespace DnDGen.Api.RollGen.Functions
 {
-    public class RollFunction
+    public class RollExpressionFunction
     {
         private readonly Dice dice;
 
-        public RollFunction(IDependencyFactory dependencyFactory)
+        public RollExpressionFunction(IDependencyFactory dependencyFactory)
         {
             dice = dependencyFactory.Get<Dice>();
         }
 
-        [FunctionName("RollFunction")]
+        [FunctionName("RollExpressionFunction")]
         public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "/api/rollgen/v1/roll")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "rollgen/v1/expression/roll")] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function (RollFunction.Run) processed a request.");
+            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.Run) processed a request.");
 
-            var valid = QueryHelper.CheckParameters(req, log, "quantity", "die");
+            var valid = QueryHelper.CheckParameters(req, log, "expression");
             if (!valid)
             {
                 IActionResult badResult = new BadRequestResult();
                 return Task.FromResult(badResult);
             }
 
-            var quantity = Convert.ToInt32(req.Query["quantity"]);
-            var die = Convert.ToInt32(req.Query["die"]);
+            var expression = req.Query["expression"];
 
-            var roll = dice.Roll(quantity).d(die).AsSum();
+            var roll = dice.Roll(expression).AsSum();
             IActionResult result = new OkObjectResult(roll);
 
-            log.LogInformation($"Rolled {quantity}d{die} = {roll}");
+            log.LogInformation($"Rolled {expression} = {roll}");
 
             return Task.FromResult(result);
         }
