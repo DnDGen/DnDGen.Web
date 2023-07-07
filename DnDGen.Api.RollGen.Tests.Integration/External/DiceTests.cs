@@ -28,5 +28,25 @@ namespace DnDGen.Api.RollGen.Tests.Integration.External
             var isValid = dice.Roll(quantity).d(die).IsValid();
             Assert.That(isValid, Is.EqualTo(valid));
         }
+
+        [TestCase("xdy", false)]
+        [TestCase("invalid", false)]
+        [TestCase("this is not a roll", false)]
+        [TestCase("1d2", true)]
+        public void BUG_IsValid_FromRoll_HandlesExpression(string expression, bool valid)
+        {
+            var isValid = dice.Roll(expression).IsValid();
+            Assert.That(isValid, Is.EqualTo(valid));
+        }
+
+        [TestCase("xdy", false)]
+        [TestCase("invalid", false)]
+        [TestCase("this is not a roll", false)]
+        [TestCase("1d2", true)]
+        public void BUG_IsValid_FromDice_HandlesExpression(string expression, bool valid)
+        {
+            var isValid = dice.IsValid(expression);
+            Assert.That(isValid, Is.EqualTo(valid));
+        }
     }
 }

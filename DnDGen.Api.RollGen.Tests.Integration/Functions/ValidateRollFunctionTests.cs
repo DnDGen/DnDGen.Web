@@ -27,7 +27,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("/api/rollgen/v1/roll/validate", 10_001, 10_000, false)]
         [TestCase("/api/rollgen/v1/roll/validate", 10_000, 10_001, false)]
         [TestCase("/api/rollgen/v1/roll/validate", 10_001, 10_001, false)]
-        public async Task ValidateRoll_ReturnsRoll(string route, int quantity, int die, bool valid)
+        public async Task ValidateRoll_ReturnsValidity(string route, int quantity, int die, bool valid)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
             var uri = new Uri(baseUri, $"{route}?quantity={quantity}&die={die}");
