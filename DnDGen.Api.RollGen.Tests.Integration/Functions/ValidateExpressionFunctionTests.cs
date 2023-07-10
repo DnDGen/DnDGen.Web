@@ -34,8 +34,13 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("/api/rollgen/v1/expression/validate", "xdy", false)]
         [TestCase("/api/rollgen/v1/expression/validate", "1d4*1000", true)]
         [TestCase("/api/rollgen/v1/expression/validate", "Roll 1d4*1000", false)]
-        [TestCase("/api/rollgen/v1/expression/validate", "avg(3d6)", true)]
-        [TestCase("/api/rollgen/v1/expression/validate", "avg(1d12, 2d6, 3d4, 4d3, 6d2)", true)]
+        [TestCase("/api/rollgen/v1/expression/validate", "-1d2", false)]
+        [TestCase("/api/rollgen/v1/expression/validate", "3-1", true)]
+        [TestCase("/api/rollgen/v1/expression/validate", "3-1d2", true)]
+        [TestCase("/api/rollgen/v1/expression/validate", "3d4-1d2", true)]
+        [TestCase("/api/rollgen/v1/expression/validate", "3d4+-1d2", false)]
+        [TestCase("/api/rollgen/v1/expression/validate", "3d4+-1", true)]
+        [TestCase("/api/rollgen/v1/expression/validate", "-3d4+1d2", false)]
         public async Task ValidateExpression_ReturnsValidity(string route, string expression, bool valid)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);

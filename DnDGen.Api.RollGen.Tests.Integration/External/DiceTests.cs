@@ -19,6 +19,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration.External
         [TestCase(10_000, 1, true)]
         [TestCase(10_001, 1, false)]
         [TestCase(10_000, 10_000, true)]
+        [TestCase(10_000, 10_001, false)]
         [TestCase(10_001, 10_000, false)]
         [TestCase(10_001, 10_001, false)]
         [TestCase(16_500_000, 1, false)]
