@@ -10,6 +10,8 @@ variables:
   solution: 'DnDGen.Web.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+- name: FunctionHostPath
+  value: C:\\npm\\prefix\\node_modules\\azure-functions-core-tools\\bin\\func.dll
 
 jobs:
 - job: DnDGen_Web
@@ -58,7 +60,6 @@ jobs:
       publishWebProjects: False
       arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/Website'
       zipAfterPublish: True
-
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Artifacts
@@ -95,17 +96,19 @@ jobs:
       command: test
       projects: 'DnDGen.Api.RollGen.Tests.Unit/DnDGen.Api.RollGen.Tests.Unit.csproj'
       arguments: '-v normal'
-  - task: Bash@3
-    displayName: Install Azure CLI
+  - task: Npm@1
+    displayName: Install Azure Functions Core Tools
     inputs:
-      targetType: 'inline'
-      script: npm install -g azure-functions-core-tools
+      command: custom
+      verbose: false
+      customCommand: 'install -g azure-functions-core-tools'
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
     inputs:
       command: test
       projects: 'DnDGen.Api.RollGen.Tests.Integration/DnDGen.Api.RollGen.Tests.Integration.csproj'
       arguments: '-v normal'
+
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish API
@@ -115,7 +118,6 @@ jobs:
       publishWebProjects: false
       arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/RollGen'
       zipAfterPublish: true
-
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Artifacts

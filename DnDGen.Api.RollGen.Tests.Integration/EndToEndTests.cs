@@ -1,18 +1,29 @@
-﻿namespace DnDGen.Api.RollGen.Tests.Integration
+﻿using Microsoft.Extensions.Configuration;
+
+namespace DnDGen.Api.RollGen.Tests.Integration
 {
     [TestFixture]
     public class EndToEndTests
     {
         protected HttpClient httpClient;
         protected LocalAzureFunctions localFunctions;
+        protected Settings settings;
 
         [OneTimeSetUp]
         public async Task EndToEndSetup()
         {
             httpClient = new HttpClient();
 
+            var configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+            settings = new Settings();
+            configurationRoot.Bind(settings);
+
             var projectDirectory = GetTargetProjectDirectory("DnDGen.Api.RollGen");
-            localFunctions = await LocalAzureFunctions.StartNewAsync(projectDirectory);
+            localFunctions = await LocalAzureFunctions.StartNewAsync(projectDirectory, settings);
         }
 
         private DirectoryInfo GetTargetProjectDirectory(string targetProject)

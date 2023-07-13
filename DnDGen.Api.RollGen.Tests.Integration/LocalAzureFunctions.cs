@@ -5,21 +5,22 @@ using System.Diagnostics;
 namespace DnDGen.Api.RollGen.Tests.Integration
 {
     //Source: https://www.codit.eu/blog/locally-integration-testing-azure-functions-applications/?country_sel=be
+    //Source: https://blog.kloud.com.au/2018/11/08/integration-testing-precompiled-v2-azure-functions/
     public class LocalAzureFunctions : IAsyncDisposable
     {
         public string BaseUrl { get; set; }
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         private readonly Process _application;
-        private static readonly HttpClient HttpClient = new HttpClient();
 
         private LocalAzureFunctions(Process application)
         {
             _application = application;
         }
 
-        public static async Task<LocalAzureFunctions> StartNewAsync(DirectoryInfo projectDirectory)
+        public static async Task<LocalAzureFunctions> StartNewAsync(DirectoryInfo projectDirectory, Settings settings)
         {
-            Process app = StartApplication(projectDirectory);
+            Process app = StartApplication(projectDirectory, settings);
 
             var baseUrl = $"http://localhost:7071/";
             await WaitUntilTriggerIsAvailableAsync(baseUrl, projectDirectory.FullName);
@@ -30,9 +31,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             return localFunctions;
         }
 
-        private static Process StartApplication(DirectoryInfo projectDirectory)
+        private static Process StartApplication(DirectoryInfo projectDirectory, Settings settings)
         {
-            var appInfo = new ProcessStartInfo("func", $"start")
+            var dotnetExePath = Environment.ExpandEnvironmentVariables(settings.DotnetExecutablePath);
+            var functionHostPath = Environment.ExpandEnvironmentVariables(settings.FunctionHostPath);
+
+            var appInfo = new ProcessStartInfo(dotnetExePath, $"\"{functionHostPath}\" start")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -71,6 +75,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             }
 
             _application.Dispose();
+
             return ValueTask.CompletedTask;
         }
     }
