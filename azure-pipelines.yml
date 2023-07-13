@@ -99,7 +99,7 @@ jobs:
     displayName: Install Azure CLI
     inputs:
       targetType: 'inline'
-      script: winget install -e --id Microsoft.AzureCLI
+      script: npm install -g azure-functions-core-tools
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
     inputs:
@@ -108,7 +108,7 @@ jobs:
       arguments: '-v normal'
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: 'Publish Artifacts'
+    displayName: Publish API
     inputs:
       command: 'publish'
       projects: 'DnDGen.Api.RollGen/DnDGen.Api.RollGen.csproj'
