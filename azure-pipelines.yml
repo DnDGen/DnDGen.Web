@@ -95,6 +95,11 @@ jobs:
       command: test
       projects: 'DnDGen.Api.RollGen.Tests.Unit/DnDGen.Api.RollGen.Tests.Unit.csproj'
       arguments: '-v normal'
+  - task: Bash@3
+    displayName: Install Azure CLI
+    inputs:
+      targetType: 'inline'
+      script: winget install -e --id Microsoft.AzureCLI
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
     inputs:
