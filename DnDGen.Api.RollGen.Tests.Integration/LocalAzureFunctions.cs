@@ -9,6 +9,7 @@ namespace DnDGen.Api.RollGen.Tests.Integration
     public class LocalAzureFunctions : IAsyncDisposable
     {
         public string BaseUrl { get; set; }
+
         private static readonly HttpClient HttpClient = new HttpClient();
 
         private readonly Process _application;
@@ -20,9 +21,10 @@ namespace DnDGen.Api.RollGen.Tests.Integration
 
         public static async Task<LocalAzureFunctions> StartNewAsync(DirectoryInfo projectDirectory, Settings settings)
         {
-            Process app = StartApplication(projectDirectory, settings);
+            var port = 7001;
+            var app = StartApplication(projectDirectory, settings, port);
 
-            var baseUrl = $"http://localhost:7071/";
+            var baseUrl = $"http://localhost:{port}/";
             await WaitUntilTriggerIsAvailableAsync(baseUrl, projectDirectory.FullName);
 
             var localFunctions = new LocalAzureFunctions(app);
@@ -31,12 +33,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             return localFunctions;
         }
 
-        private static Process StartApplication(DirectoryInfo projectDirectory, Settings settings)
+        private static Process StartApplication(DirectoryInfo projectDirectory, Settings settings, int port)
         {
             var dotnetExePath = Environment.ExpandEnvironmentVariables(settings.DotnetExecutablePath);
             var functionHostPath = Environment.ExpandEnvironmentVariables(settings.FunctionHostPath);
 
-            var appInfo = new ProcessStartInfo(dotnetExePath, $"\"{functionHostPath}\" start")
+            var appInfo = new ProcessStartInfo(dotnetExePath, $"\"{functionHostPath}\" start -p {port}")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,

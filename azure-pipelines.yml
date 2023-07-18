@@ -13,6 +13,7 @@ variables:
   FunctionHostPath: C:\\npm\\prefix\\node_modules\\azure-functions-core-tools\\bin\\func.dll
 
 jobs:
+# The DnDGen Website
 - job: DnDGen_Web
   displayName: DnDGen Website
   steps:
@@ -77,6 +78,7 @@ jobs:
 #     dockerfile: 'DnDGen.Web/Dockerfile'
 #     containerRegistry: 'DnDGen - ACR'
 
+# The RollGen API
 - job: RollGen_Api
   displayName: RollGen API
   steps:
@@ -99,7 +101,6 @@ jobs:
     displayName: Install Azure Functions Core Tools
     inputs:
       command: custom
-      verbose: false
       customCommand: 'install -g azure-functions-core-tools'
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
