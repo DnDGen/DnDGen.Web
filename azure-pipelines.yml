@@ -110,7 +110,7 @@ jobs:
       #HACK: We want to filter out the local-only tests, as they do not currently work when running in Azure Pipelines
       #While running the local Azure functions does not throw an exception, all endpoints return 404 in the pipeline
       #When run locally, all tests pass
-      arguments: '-v normal --filter "cat != LocalOnly"'
+      arguments: '-v normal --filter "TestCategory!=LocalOnly"'
 
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
