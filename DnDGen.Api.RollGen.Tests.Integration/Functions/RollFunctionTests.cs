@@ -1,27 +1,41 @@
-using System.Net;
+using DnDGen.Api.RollGen.Dependencies;
+using DnDGen.Api.RollGen.Functions;
+using DnDGen.Api.RollGen.Tests.Integration.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
 {
-    public class RollFunctionTests : EndToEndTests
+    //HACK: Since the E2E tests don't currently work in the build pipeline, this is a facsimile of those tests
+    public class RollFunctionTests : IntegrationTests
     {
-        [TestCase("/api/rollgen/v1/roll", 1, 1)]
-        [TestCase("/api/rollgen/v1/roll", 1, 1)]
-        [TestCase("/api/rollgen/v1/roll", 1, 20)]
-        [TestCase("/api/RollGen/v1/Roll", 1, 20)]
-        [TestCase("/api/rollgen/v1/roll", 3, 6)]
-        [TestCase("/api/rollgen/v1/roll", 42, 600)]
-        public async Task Roll_ReturnsRoll(string route, int quantity, int die)
+        private RollFunction function;
+        private ILogger logger;
+
+        [SetUp]
+        public void Setup()
         {
-            var baseUri = new Uri(localFunctions.BaseUrl);
-            var uri = new Uri(baseUri, $"{route}?quantity={quantity}&die={die}");
-            var response = await httpClient.GetAsync(uri);
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new RollFunction(dependencyFactory);
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);
-            Assert.That(response.Content.Headers.ContentType.ToString(), Is.EqualTo("application/json; charset=utf-8"), uri.AbsoluteUri);
+            var loggerFactory = new LoggerFactory();
+            logger = loggerFactory.CreateLogger("Integration Test");
+        }
 
-            var result = await response.Content.ReadAsStringAsync();
-            Assert.That(result, Is.Not.Empty, uri.AbsoluteUri);
-            Assert.That(Convert.ToInt32(result), Is.InRange(quantity, quantity * die), uri.AbsoluteUri);
+        [TestCase(1, 1)]
+        [TestCase(1, 1)]
+        [TestCase(1, 20)]
+        [TestCase(1, 20)]
+        [TestCase(3, 6)]
+        [TestCase(42, 600)]
+        public async Task Roll_ReturnsRoll(int quantity, int die)
+        {
+            var request = RequestHelper.BuildRequest($"?quantity={quantity}&die={die}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InRange(quantity, quantity * die));
         }
     }
 }

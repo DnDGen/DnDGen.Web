@@ -3,6 +3,7 @@
 namespace DnDGen.Api.RollGen.Tests.Integration
 {
     [TestFixture]
+    [Category("LocalOnly")]
     public class EndToEndTests
     {
         protected HttpClient httpClient;
