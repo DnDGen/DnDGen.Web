@@ -15,5 +15,11 @@ namespace DnDGen.Web.Tests.Integration
             var webApplicationFactory = new WebApplicationFactory<Program>();
             httpClient = webApplicationFactory.CreateDefaultClient();
         }
+
+        [OneTimeTearDown]
+        public void EndToEndTeardown()
+        {
+            httpClient.Dispose();
+        }
     }
 }

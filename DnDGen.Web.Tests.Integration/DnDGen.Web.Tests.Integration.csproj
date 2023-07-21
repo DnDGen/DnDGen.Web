@@ -39,7 +39,7 @@
     <Reference Include="System.Web.Routing" />
     <PackageReference Include="DnDGen.TreasureGen" Version="8.2.0" />
     <PackageReference Include="DnDGen.TreasureGen.Domain" Version="8.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
 
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0">
