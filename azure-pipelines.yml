@@ -10,7 +10,7 @@ variables:
   solution: 'DnDGen.Web.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  FunctionHostPath: C:\\npm\\prefix\\node_modules\\azure-functions-core-tools\\bin\\func.dll
+  FunctionHostPath: 'C:\\npm\\prefix\\node_modules\\azure-functions-core-tools\\bin\\func.dll'
 
 jobs:
 # The DnDGen Website
