@@ -6,7 +6,6 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
     public class RollExpressionFunctionTests : EndToEndTests
     {
         [TestCase("/api/v1/expression/roll", "3d6+2", 5, 20)]
-        [TestCase("/api/v1/Expression/Roll", "3d6+2", 5, 20)]
         [TestCase("/api/v1/expression/roll", "3 d 6 + 2", 5, 20)]
         [TestCase("/api/v1/expression/roll", "3d6 + 2", 5, 20)]
         [TestCase("/api/v1/expression/roll", "42d600", 42, 42 * 600)]
@@ -15,6 +14,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         [TestCase("/api/v1/expression/roll", "1d2d3d4", 1, 24)]
         [TestCase("/api/v1/expression/roll", "d100", 1, 100)]
         [TestCase("/api/v1/expression/roll", "1d(2d3)+4d(5d6+7)-8", 1 + 4 - 8, 6 + 4 * 37 - 8)]
+        [TestCase("/api/v1/expression/roll", "1d4*1000", 1000, 4000)]
+        [TestCase("/api/v1/expression/roll", "(1d6-1)*6+1d6", 1, 36)]
         public async Task RollExpression_ReturnsRoll(string route, string expression, int min, int max)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);

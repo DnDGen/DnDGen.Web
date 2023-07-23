@@ -6,7 +6,6 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
     public class ValidateExpressionFunctionTests : EndToEndTests
     {
         [TestCase("/api/v1/expression/validate", "3d6+2", true)]
-        [TestCase("/api/v1/Expression/Validate", "3d6+2", true)]
         [TestCase("/api/v1/Expression/Validate", "3 d 6 + 2", true)]
         [TestCase("/api/v1/Expression/Validate", "3d6 + 2", true)]
         [TestCase("/api/v1/expression/validate", "invalid", false)]
