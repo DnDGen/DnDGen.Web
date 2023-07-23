@@ -4,12 +4,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
 {
     public class RollFunctionTests : EndToEndTests
     {
-        [TestCase("/api/rollgen/v1/roll", 1, 1)]
-        [TestCase("/api/rollgen/v1/roll", 1, 1)]
-        [TestCase("/api/rollgen/v1/roll", 1, 20)]
-        [TestCase("/api/RollGen/v1/Roll", 1, 20)]
-        [TestCase("/api/rollgen/v1/roll", 3, 6)]
-        [TestCase("/api/rollgen/v1/roll", 42, 600)]
+        [TestCase("/api/v1/roll", 1, 1)]
+        [TestCase("/api/v1/roll", 1, 1)]
+        [TestCase("/api/v1/roll", 1, 20)]
+        [TestCase("/api/v1/Roll", 1, 20)]
+        [TestCase("/api/v1/roll", 3, 6)]
+        [TestCase("/api/v1/roll", 42, 600)]
         public async Task Roll_ReturnsRoll(string route, int quantity, int die)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
