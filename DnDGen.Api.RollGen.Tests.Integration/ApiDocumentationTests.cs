@@ -4,8 +4,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration
 {
     public class ApiDocumentationTests : EndToEndTests
     {
-        [TestCase("/api/rollgen/swagger/ui")]
-        [TestCase("/API/RollGen/swagger/ui")]
+        [TestCase("/api/swagger/ui")]
+        [TestCase("/API/swagger/ui")]
         public async Task Swagger_ReturnsDocumentation(string route)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
@@ -24,8 +24,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             //if the OpenApi endpoint contains the urls, and the swagger endpoint is not empty, then the swagger should contain the endpoints
         }
 
-        [TestCase("/api/rollgen/openapi/1.0")]
-        [TestCase("/API/RollGen/openapi/1.0")]
+        [TestCase("/api/openapi/1.0")]
+        [TestCase("/API/openapi/1.0")]
         public async Task OpenApi_ReturnsDocumentation(string route)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
