@@ -27,6 +27,8 @@ namespace DnDGen.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices()
         {
+            //HACK: Even though we use the API for this now, we need to load it for higher dependencies such as DungeonGen
+            //Once all packages use the API, we can remove this dependency
             var rollGenLoader = new RollGenModuleLoader();
             rollGenLoader.LoadModules(kernel);
 
