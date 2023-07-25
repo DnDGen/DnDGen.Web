@@ -18,24 +18,24 @@ describe('Roll Service', function () {
     it('gets a roll', function () {
         var promise = rollService.getRoll(9266, 90210);
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('roll.dndgen.com/api/v1/roll', { quantity: 9266, die: 90210 });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://roll.dndgen.com/api/v1/roll', { quantity: 9266, die: 90210 });
     });
 
     it('gets an expression roll', function () {
         var promise = rollService.getExpressionRoll("expression");
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('roll.dndgen.com/api/v1/expression/roll', {expression: 'expression'});
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://roll.dndgen.com/api/v1/expression/roll', {expression: 'expression'});
     });
 
     it('validates an expression', function () {
         var promise = rollService.validateExpression("expression");
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('roll.dndgen.com/api/v1/expression/validate', { expression: 'expression' });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://roll.dndgen.com/api/v1/expression/validate', { expression: 'expression' });
     });
 
     it('validates a roll', function () {
         var promise = rollService.validateRoll(9266, 90210);
         expect(promise).not.toBeNull();
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('roll.dndgen.com/api/v1/roll/validate', { quantity: 9266, die: 90210 });
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://roll.dndgen.com/api/v1/roll/validate', { quantity: 9266, die: 90210 });
     });
 });

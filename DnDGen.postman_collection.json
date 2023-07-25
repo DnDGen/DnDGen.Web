@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "14776232-5e0e-4ae7-a01b-b89cd9d3e28b",
+		"name": "DnDGen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "Website",
+			"item": [
+				{
+					"name": "Home Page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Returns homepage\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"<h1>Welcome!</h1>\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "dndgen.com",
+							"host": [
+								"dndgen",
+								"com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RollGen API",
+			"item": [
+				{
+					"name": "Swagger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Returns Swagger UI\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "roll.dndgen.com/api/swagger/ui",
+							"host": [
+								"roll",
+								"dndgen",
+								"com"
+							],
+							"path": [
+								"api",
+								"swagger",
+								"ui"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OpenAPI",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Returns Open API documentation\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"/v1/roll\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"/v1/roll/validate\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"/v1/expression/roll\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"/v1/expression/validate\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "roll.dndgen.com/api/openapi/1.0",
+							"host": [
+								"roll",
+								"dndgen",
+								"com"
+							],
+							"path": [
+								"api",
+								"openapi",
+								"1.0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

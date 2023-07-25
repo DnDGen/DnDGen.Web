@@ -13,23 +13,23 @@ describe('Roll Controller', function () {
         rollServiceMock = {
             getRoll: function (quantity, die) {
                 var shouldFail = die === 666 || quantity === 666;
-                return getMockedPromise({ "roll": quantity * die }, shouldFail);
+                return getMockedPromise(quantity * die, shouldFail);
             },
             getExpressionRoll: function (expression) {
                 var shouldFail = expression === 'FAIL';
-                return getMockedPromise({ "roll": 42 * 600 }, shouldFail);
+                return getMockedPromise(42 * 600, shouldFail);
             },
             validateRoll: function (quantity, die) {
                 var shouldFail = die === 666;
                 var isValid = quantity !== 666;
 
-                return getMockedPromise({ "isValid": isValid }, shouldFail);
+                return getMockedPromise(isValid, shouldFail);
             },
             validateExpression: function (expression) {
                 var shouldFail = expression === 'FAIL';
                 var isValid = expression !== 'invalid';
 
-                return getMockedPromise({ "isValid": isValid }, shouldFail);
+                return getMockedPromise(isValid, shouldFail);
             }
         };
 
