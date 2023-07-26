@@ -9,11 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web.Tests.Unit", "Dn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Web", "DnDGen.Web\DnDGen.Web.csproj", "{7B25892C-DB0F-496C-8FAC-35FCA2D01849}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.RollGen", "DnDGen.Api.RollGen\DnDGen.Api.RollGen.csproj", "{A6770CC7-017D-49DC-8695-E4B5D152360B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.RollGen", "DnDGen.Api.RollGen\DnDGen.Api.RollGen.csproj", "{A6770CC7-017D-49DC-8695-E4B5D152360B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.RollGen.Tests.Unit", "DnDGen.Api.RollGen.Tests.Unit\DnDGen.Api.RollGen.Tests.Unit.csproj", "{6CE25BFF-BCE2-4FDE-A286-D98B234F473E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.RollGen.Tests.Unit", "DnDGen.Api.RollGen.Tests.Unit\DnDGen.Api.RollGen.Tests.Unit.csproj", "{6CE25BFF-BCE2-4FDE-A286-D98B234F473E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.RollGen.Tests.Integration", "DnDGen.Api.RollGen.Tests.Integration\DnDGen.Api.RollGen.Tests.Integration.csproj", "{6F553446-EEAB-4120-927C-BA4BE155BA94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.RollGen.Tests.Integration", "DnDGen.Api.RollGen.Tests.Integration\DnDGen.Api.RollGen.Tests.Integration.csproj", "{6F553446-EEAB-4120-927C-BA4BE155BA94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.TreasureGen", "DnDGen.Api.TreasureGen\DnDGen.Api.TreasureGen.csproj", "{B39D8E7E-1212-41D7-96A9-5B613C83855F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.TreasureGen.Tests.Unit", "DnDGen.Api.TreasureGen.Tests.Unit\DnDGen.Api.TreasureGen.Tests.Unit.csproj", "{2E2BF059-C2E5-4CB8-BCE6-910A634226B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{6F553446-EEAB-4120-927C-BA4BE155BA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F553446-EEAB-4120-927C-BA4BE155BA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F553446-EEAB-4120-927C-BA4BE155BA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B39D8E7E-1212-41D7-96A9-5B613C83855F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B39D8E7E-1212-41D7-96A9-5B613C83855F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B39D8E7E-1212-41D7-96A9-5B613C83855F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B39D8E7E-1212-41D7-96A9-5B613C83855F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E2BF059-C2E5-4CB8-BCE6-910A634226B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E2BF059-C2E5-4CB8-BCE6-910A634226B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E2BF059-C2E5-4CB8-BCE6-910A634226B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E2BF059-C2E5-4CB8-BCE6-910A634226B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
