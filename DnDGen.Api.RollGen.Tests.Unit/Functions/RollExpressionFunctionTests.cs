@@ -72,5 +72,25 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
             mockLogger.AssertLog("C# HTTP trigger function (RollExpressionFunction.Run) processed a request.");
             mockLogger.AssertLog($"Query parameter '{missing}' is missing", LogLevel.Error);
         }
+
+        [Test]
+        public async Task Run_ReturnsBadRequest_WhenExpressionIsNotValid()
+        {
+            var query = new QueryCollection(new Dictionary<string, StringValues>
+            {
+                { "expression", new StringValues("my+expression") },
+            });
+            mockRequest.Setup(x => x.Query).Returns(query);
+
+            mockDice.Setup(d => d.Roll("my+expression")).Returns(mockRoll.Object);
+            mockRoll.Setup(r => r.IsValid()).Returns(false);
+            mockRoll.Setup(r => r.AsSum<int>()).Returns(666);
+
+            var result = await function.Run(mockRequest.Object, mockLogger.Object);
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
+
+            mockLogger.AssertLog("C# HTTP trigger function (RollExpressionFunction.Run) processed a request.");
+            mockLogger.AssertLog("Roll my+expression is not a valid roll expression.", LogLevel.Error);
+        }
     }
 }

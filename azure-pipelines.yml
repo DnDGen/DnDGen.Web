@@ -127,3 +127,53 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Api/RollGen' 
       artifactName: 'rollgen-api'
+
+# The TreasureGen API
+- job: TreasureGen_Api
+  displayName: TreasureGen API
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: 'DnDGen.Api.TreasureGen/DnDGen.Api.TreasureGen.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    displayName: Run Unit Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Api.TreasureGen.Tests.Unit/DnDGen.Api.TreasureGen.Tests.Unit.csproj'
+      arguments: '-v normal'
+  - task: Npm@1
+    displayName: Install Azure Functions Core Tools
+    inputs:
+      command: custom
+      customCommand: 'install -g azure-functions-core-tools'
+  - task: DotNetCoreCLI@2
+    displayName: Run Integration Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Api.TreasureGen.Tests.Integration/DnDGen.Api.TreasureGen.Tests.Integration.csproj'
+      #HACK: We want to filter out the local-only tests, as they do not currently work when running in Azure Pipelines
+      #While running the local Azure functions does not throw an exception, all endpoints return 404 in the pipeline
+      #When run locally, all tests pass
+      arguments: '-v normal --filter "TestCategory!=LocalOnly"'
+
+  - task: DotNetCoreCLI@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish API
+    inputs:
+      command: 'publish'
+      projects: 'DnDGen.Api.TreasureGen/DnDGen.Api.TreasureGen.csproj'
+      publishWebProjects: false
+      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/TreasureGen'
+      zipAfterPublish: true
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Artifacts
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/Api/TreasureGen' 
+      artifactName: 'treasuregen-api'

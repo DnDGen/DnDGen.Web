@@ -1,4 +1,4 @@
-﻿namespace DnDGen.Api.TreasureGen.Functions
+﻿namespace DnDGen.Api.TreasureGen.Models
 {
     public enum TreasureTypes
     {

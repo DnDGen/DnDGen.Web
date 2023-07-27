@@ -48,6 +48,15 @@ namespace DnDGen.Api.RollGen.Functions
             var quantity = Convert.ToInt32(req.Query["quantity"]);
             var die = Convert.ToInt32(req.Query["die"]);
 
+            var validRoll = dice.Roll(quantity).d(die).IsValid();
+            if (!validRoll)
+            {
+                log.LogError($"Rolled {quantity}d{die} is not a valid roll.");
+
+                IActionResult badResult = new BadRequestResult();
+                return Task.FromResult(badResult);
+            }
+
             var roll = dice.Roll(quantity).d(die).AsSum();
             IActionResult result = new OkObjectResult(roll);
 

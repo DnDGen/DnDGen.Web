@@ -44,6 +44,15 @@ namespace DnDGen.Api.RollGen.Functions
 
             var expression = req.Query["expression"];
 
+            var validRoll = dice.Roll(expression).IsValid();
+            if (!validRoll)
+            {
+                log.LogError($"Rolled {expression} is not a valid roll expression.");
+
+                IActionResult badResult = new BadRequestResult();
+                return Task.FromResult(badResult);
+            }
+
             var roll = dice.Roll(expression).AsSum();
             IActionResult result = new OkObjectResult(roll);
 
