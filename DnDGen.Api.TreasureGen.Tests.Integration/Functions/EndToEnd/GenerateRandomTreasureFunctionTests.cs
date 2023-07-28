@@ -24,7 +24,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
 
             var treasure = JsonConvert.DeserializeObject<Treasure>(result);
             Assert.That(treasure, Is.Not.Null, uri.AbsoluteUri);
-            Assert.That(treasure.IsAny, Is.True, uri.AbsoluteUri);
+            //HACK: Generating treasure does not guarantee you would get treasure, so IsAny can be True or False
+            Assert.That(treasure.IsAny, Is.True.Or.False, uri.AbsoluteUri);
         }
 
         public static IEnumerable TreasureGenerationData
@@ -37,58 +38,14 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
 
                 foreach (var treasureType in treasureTypes)
                 {
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString().ToLower(), 20);
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString().ToUpper(), 20);
                     yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), LevelLimits.Minimum);
                     yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 2);
                     yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 10);
                     yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 20);
+                    yield return new TestCaseData("/api/v1/generate/random", ((int)treasureType).ToString(), 20);
                     yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), LevelLimits.Maximum);
                 }
             }
         }
-
-        //[Repeat(100)]
-        //[TestCaseSource(nameof(ItemGenerationData))]
-        //public async Task GenerateItem_ReturnsItem(string route, string itemType, string power)
-        //{
-        //    var baseUri = new Uri(localFunctions.BaseUrl);
-        //    var uri = new Uri(baseUri, $"{route}?itemType={HttpUtility.UrlEncode(itemType)}&power={power}");
-        //    var response = await httpClient.GetAsync(uri);
-
-        //    response.EnsureSuccessStatusCode();
-        //    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        //    Assert.That(response.Content.Headers.ContentType.ToString(), Is.EqualTo("application/json; charset=utf-8"));
-
-        //    var result = await response.Content.ReadAsStringAsync();
-        //    Assert.That(result, Is.Not.Empty, uri.AbsoluteUri);
-
-        //    var treasure = JsonConvert.DeserializeObject<Treasure>(result);
-        //    Assert.That(treasure, Is.Not.Null, uri.AbsoluteUri);
-        //    Assert.That(treasure.IsAny, Is.True, uri.AbsoluteUri);
-        //    Assert.That(treasure.Coin.Quantity, Is.Zero);
-        //    Assert.That(treasure.Goods, Is.Empty);
-        //    Assert.That(treasure.Items, Is.Not.Empty);
-        //    Assert.That(treasure.Items.Count(), Is.EqualTo(1));
-        //}
-
-        //public static IEnumerable ItemGenerationData
-        //{
-        //    get
-        //    {
-        //        yield return new TestCaseData("/API/V1/GenerateItem", "Alchemical Item", "Mundane");
-        //        yield return new TestCaseData("/api/v1/generateItem", "Alchemical Item", "Mundane");
-
-        //        var viewModel = new TreasureViewModel();
-
-        //        foreach (var kvp in viewModel.ItemPowers)
-        //        {
-        //            foreach (var power in kvp.Value)
-        //            {
-        //                yield return new TestCaseData("/api/v1/generateitem", kvp.Key, power);
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

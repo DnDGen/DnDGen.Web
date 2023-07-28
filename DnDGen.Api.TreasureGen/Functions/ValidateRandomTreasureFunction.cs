@@ -19,14 +19,14 @@ using System.Threading.Tasks;
 
 namespace DnDGen.Api.TreasureGen.Functions
 {
-    public class GenerateRandomTreasureFunction
+    public class ValidateRandomTreasureFunction
     {
         private readonly ITreasureGenerator treasureGenerator;
         private readonly ICoinGenerator coinGenerator;
         private readonly IGoodsGenerator goodsGenerator;
         private readonly IItemsGenerator itemsGenerator;
 
-        public GenerateRandomTreasureFunction(IDependencyFactory dependencyFactory)
+        public ValidateRandomTreasureFunction(IDependencyFactory dependencyFactory)
         {
             treasureGenerator = dependencyFactory.Get<ITreasureGenerator>();
             coinGenerator = dependencyFactory.Get<ICoinGenerator>();
@@ -34,9 +34,9 @@ namespace DnDGen.Api.TreasureGen.Functions
             itemsGenerator = dependencyFactory.Get<IItemsGenerator>();
         }
 
-        [FunctionName("GenerateRandomTreasureFunction")]
-        [OpenApiOperation(operationId: "GenerateRandomTreasureFunctionRun", Summary = "Generate random treasure",
-            Description = "Generate random treasure at the specified level. Can narrow the treasure to coin, goods, or items.")]
+        [FunctionName("ValidateRandomTreasureFunction")]
+        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", Summary = "Validate parameters for random treasure generation",
+            Description = "Validates the parameters for random treasure generation")]
         [OpenApiParameter(name: "treasureType", In = ParameterLocation.Query, Required = true, Type = typeof(TreasureTypes),
             Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
         [OpenApiParameter(name: "level", In = ParameterLocation.Query, Required = true, Type = typeof(int),
@@ -44,10 +44,10 @@ namespace DnDGen.Api.TreasureGen.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
             Description = "The OK response containing the generated treasure")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/generate/random")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/generate/random/validate")] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            log.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
 
             var valid = QueryHelper.CheckParameters(req, log, "treasureType", "level");
             if (!valid)
@@ -60,41 +60,25 @@ namespace DnDGen.Api.TreasureGen.Functions
             if (!validTreasureType)
             {
                 log.LogError($"Query parameter 'treasureType' of '{req.Query["treasureType"]}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items");
-                IActionResult badResult = new BadRequestResult();
-                return badResult;
+
+                IActionResult invalidResult = new OkObjectResult(false);
+                return invalidResult;
             }
 
             var validLevel = int.TryParse(req.Query["level"], out var level);
             if (!validLevel || level < LevelLimits.Minimum || level > LevelLimits.Maximum)
             {
                 log.LogError($"Query parameter 'level' of '{req.Query["level"]}' is not a valid level. Should be 1 <= L <= 100");
-                IActionResult badResult = new BadRequestResult();
-                return badResult;
+
+                IActionResult invalidResult = new OkObjectResult(false);
+                return invalidResult;
             }
 
-            var treasure = await GetTreasureAsync(treasureType, level);
-            IActionResult result = new OkObjectResult(treasure);
+            IActionResult result = new OkObjectResult(true);
 
-            log.LogInformation($"Generated random Treasure ({treasureType}) at level {level}");
+            log.LogInformation($"Validated random Treasure ({treasureType}) at level {level}");
 
             return result;
-        }
-
-        private async Task<Treasure> GetTreasureAsync(TreasureTypes treasureType, int level)
-        {
-            if (treasureType == TreasureTypes.Treasure)
-                return await treasureGenerator.GenerateAtLevelAsync(level);
-
-            var treasure = new Treasure();
-
-            switch (treasureType)
-            {
-                case TreasureTypes.Coin: treasure.Coin = coinGenerator.GenerateAtLevel(level); break;
-                case TreasureTypes.Goods: treasure.Goods = await goodsGenerator.GenerateAtLevelAsync(level); break;
-                case TreasureTypes.Items: treasure.Items = await itemsGenerator.GenerateRandomAtLevelAsync(level); break;
-            }
-
-            return treasure;
         }
     }
 }

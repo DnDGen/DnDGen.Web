@@ -29,11 +29,11 @@ namespace DnDGen.Api.RollGen.Functions
             Description = "The expression to compute")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
-        public Task<IActionResult> Run(
+        public Task<IActionResult> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/expression/roll")] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.Run) processed a request.");
+            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV1) processed a request.");
 
             var valid = QueryHelper.CheckParameters(req, log, "expression");
             if (!valid)
@@ -47,7 +47,37 @@ namespace DnDGen.Api.RollGen.Functions
             var validRoll = dice.Roll(expression).IsValid();
             if (!validRoll)
             {
-                log.LogError($"Rolled {expression} is not a valid roll expression.");
+                log.LogError($"Roll {expression} is not a valid roll expression.");
+
+                IActionResult badResult = new BadRequestResult();
+                return Task.FromResult(badResult);
+            }
+
+            var roll = dice.Roll(expression).AsSum();
+            IActionResult result = new OkObjectResult(roll);
+
+            log.LogInformation($"Rolled {expression} = {roll}");
+
+            return Task.FromResult(result);
+        }
+
+        [FunctionName("RollExpressionFunctionV2")]
+        [OpenApiOperation(operationId: "RollExpressionFunctionV2Run", Summary = "Roll an expression",
+            Description = "Computes the expression, including all roll values")]
+        [OpenApiParameter(name: "expression", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+            Description = "The expression to compute")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
+            Description = "The OK response containing the resulting roll")]
+        public Task<IActionResult> RunV2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{expression}/roll")] HttpRequest req,
+            string expression, ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV2) processed a request.");
+
+            var validRoll = dice.Roll(expression).IsValid();
+            if (!validRoll)
+            {
+                log.LogError($"Roll {expression} is not a valid roll expression.");
 
                 IActionResult badResult = new BadRequestResult();
                 return Task.FromResult(badResult);

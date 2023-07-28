@@ -36,7 +36,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
             Description = "The OK response containing the generated item")]
         public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/generate")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/generate/random")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");

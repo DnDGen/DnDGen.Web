@@ -38,7 +38,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration
             var result = await response.Content.ReadAsStringAsync();
             Assert.That(result, Is.Not.Empty, uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/generate/random"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v1/generate/random/validate"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/item/generate/random"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v1/item/generate/random/validate"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/item/validate"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/item/generate"), uri.AbsoluteUri);
         }
