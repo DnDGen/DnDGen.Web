@@ -44,8 +44,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration
 
             Assert.That(result, Contains.Substring("/v2/{quantity}/d/{die}/roll"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v2/{quantity}/d/{die}/validate"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v2/{expression}/roll"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v2/{expression}/validate"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v2/expression/roll"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v2/expression/validate"), uri.AbsoluteUri);
         }
     }
 }

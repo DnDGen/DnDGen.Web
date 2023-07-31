@@ -10,10 +10,10 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
     {
         [Repeat(100)]
         [TestCaseSource(nameof(TreasureGenerationData))]
-        public async Task GenerateRandom_ReturnsTreasure(string route, string treasureType, int level)
+        public async Task GenerateRandom_ReturnsTreasure(string treasureType, int level)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
-            var uri = new Uri(baseUri, $"{route}?treasureType={treasureType}&level={level}");
+            var uri = new Uri(baseUri, $"/api/v1/{treasureType}/level/{level}/generate");
             var response = await httpClient.GetAsync(uri);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);
@@ -32,18 +32,18 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
         {
             get
             {
-                yield return new TestCaseData("/API/V1/Generate/Random", TreasureTypes.Treasure.ToString(), 20);
+                yield return new TestCaseData(TreasureTypes.Treasure.ToString(), 20);
 
                 var treasureTypes = Enum.GetValues(typeof(TreasureTypes));
 
                 foreach (var treasureType in treasureTypes)
                 {
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), LevelLimits.Minimum);
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 2);
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 10);
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), 20);
-                    yield return new TestCaseData("/api/v1/generate/random", ((int)treasureType).ToString(), 20);
-                    yield return new TestCaseData("/api/v1/generate/random", treasureType.ToString(), LevelLimits.Maximum);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Minimum);
+                    yield return new TestCaseData(treasureType.ToString(), 2);
+                    yield return new TestCaseData(treasureType.ToString(), 10);
+                    yield return new TestCaseData(treasureType.ToString(), 20);
+                    yield return new TestCaseData(((int)treasureType).ToString(), 20);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum);
                 }
             }
         }

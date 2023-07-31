@@ -34,6 +34,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("1d(2d3)+4d(5d6+7)-8", 1 + 4 - 8, 6 + 4 * 37 - 8)]
         [TestCase("1d4*1000", 1000, 4000)]
         [TestCase("(1d6-1)*6+1d6", 1, 36)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", 1 + 3 - 30 * 56 / 9, 2 + 12 - 5 * 7 / 90)]
+        [TestCase("100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpression_ReturnsRoll(string expression, int min, int max)
         {
             var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
@@ -67,10 +69,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("1d(2d3)+4d(5d6+7)-8", 1 + 4 - 8, 6 + 4 * 37 - 8)]
         [TestCase("1d4*1000", 1000, 4000)]
         [TestCase("(1d6-1)*6+1d6", 1, 36)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", 1 + 3 - 30 * 56 / 9, 2 + 12 - 5 * 7 / 90)]
+        [TestCase("100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpressionV2_ReturnsRoll(string expression, int min, int max)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.RunV2(request, expression, logger);
+            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
+            var response = await function.RunV2(request, logger);
             Assert.That(response, Is.InstanceOf<OkObjectResult>());
 
             var okResult = response as OkObjectResult;
@@ -83,8 +87,16 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("not a valid roll")]
         public async Task RollExpressionV2_ReturnsBadRequest(string expression)
         {
+            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
+            var response = await function.RunV2(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task RollExpressionV2_ReturnsBadRequest_WhenExpressionMissing()
+        {
             var request = RequestHelper.BuildRequest();
-            var response = await function.RunV2(request, expression, logger);
+            var response = await function.RunV2(request, logger);
             Assert.That(response, Is.InstanceOf<BadRequestResult>());
         }
     }

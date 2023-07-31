@@ -1,5 +1,4 @@
 using DnDGen.Api.TreasureGen.Dependencies;
-using DnDGen.Api.TreasureGen.Helpers;
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.TreasureGen;
 using DnDGen.TreasureGen.Coins;
@@ -37,46 +36,23 @@ namespace DnDGen.Api.TreasureGen.Functions
         [FunctionName("ValidateRandomTreasureFunction")]
         [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", Summary = "Validate parameters for random treasure generation",
             Description = "Validates the parameters for random treasure generation")]
-        [OpenApiParameter(name: "treasureType", In = ParameterLocation.Query, Required = true, Type = typeof(TreasureTypes),
+        [OpenApiParameter(name: "treasureType", In = ParameterLocation.Path, Required = true, Type = typeof(TreasureTypes),
             Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
-        [OpenApiParameter(name: "level", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
             Description = "The level at which to generate the treasure. Should be 1 <= L <= 100")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated treasure")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/generate/random/validate")] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/validate")] HttpRequest req,
+            string treasureType, int level, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
 
-            var valid = QueryHelper.CheckParameters(req, log, "treasureType", "level");
-            if (!valid)
-            {
-                IActionResult badResult = new BadRequestResult();
-                return badResult;
-            }
+            var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, out var validatedTreasureType);
+            var valid = validTreasureType && LevelLimits.Minimum <= level && level <= LevelLimits.Maximum;
+            IActionResult result = new OkObjectResult(valid);
 
-            var validTreasureType = Enum.TryParse<TreasureTypes>(req.Query["treasureType"], out var treasureType);
-            if (!validTreasureType)
-            {
-                log.LogError($"Query parameter 'treasureType' of '{req.Query["treasureType"]}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items");
-
-                IActionResult invalidResult = new OkObjectResult(false);
-                return invalidResult;
-            }
-
-            var validLevel = int.TryParse(req.Query["level"], out var level);
-            if (!validLevel || level < LevelLimits.Minimum || level > LevelLimits.Maximum)
-            {
-                log.LogError($"Query parameter 'level' of '{req.Query["level"]}' is not a valid level. Should be 1 <= L <= 100");
-
-                IActionResult invalidResult = new OkObjectResult(false);
-                return invalidResult;
-            }
-
-            IActionResult result = new OkObjectResult(true);
-
-            log.LogInformation($"Validated random Treasure ({treasureType}) at level {level}");
+            log.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {validatedTreasureType}");
 
             return result;
         }

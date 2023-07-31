@@ -41,6 +41,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         [TestCase("/api/v1/expression/validate", "3d4+-(1d2)", true)]
         [TestCase("/api/v1/expression/validate", "3d4+-1", true)]
         [TestCase("/api/v1/expression/validate", "-3d4+1d2", false)]
+        [TestCase("/api/v1/expression/validate", "1d2+3d4-5d6*7d8/9d10", true)]
+        [TestCase("/api/v1/expression/validate", "100d20/12d10/8d6/4d3", true)]
         public async Task ValidateExpression_ReturnsValidity(string route, string expression, bool valid)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
@@ -91,10 +93,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         [TestCase("3d4+-(1d2)", true)]
         [TestCase("3d4+-1", true)]
         [TestCase("-3d4+1d2", false)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", true)]
+        [TestCase("100d20/12d10/8d6/4d3", true)]
         public async Task ValidateExpressionV2_ReturnsValidity(string expression, bool valid)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
-            var uri = new Uri(baseUri, $"/api/v2/{HttpUtility.UrlEncode(expression)}/validate");
+            var uri = new Uri(baseUri, $"/api/v2/expression/validate?expression={HttpUtility.UrlEncode(expression)}");
             var response = await httpClient.GetAsync(uri);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);

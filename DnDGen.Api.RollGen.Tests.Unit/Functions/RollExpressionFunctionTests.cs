@@ -97,11 +97,17 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
         [Test]
         public async Task RunV2_ReturnsTheExpressionRolledAsSum()
         {
+            var query = new QueryCollection(new Dictionary<string, StringValues>
+            {
+                { "expression", new StringValues("my+expression") },
+            });
+            mockRequest.Setup(x => x.Query).Returns(query);
+
             mockDice.Setup(d => d.Roll("my+expression")).Returns(mockRoll.Object);
             mockRoll.Setup(r => r.IsValid()).Returns(true);
             mockRoll.Setup(r => r.AsSum<int>()).Returns(9266);
 
-            var result = await function.RunV2(mockRequest.Object, "my+expression", mockLogger.Object);
+            var result = await function.RunV2(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
@@ -114,11 +120,17 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
         [Test]
         public async Task RunV2_ReturnsBadRequest_WhenExpressionIsNotValid()
         {
+            var query = new QueryCollection(new Dictionary<string, StringValues>
+            {
+                { "expression", new StringValues("my+expression") },
+            });
+            mockRequest.Setup(x => x.Query).Returns(query);
+
             mockDice.Setup(d => d.Roll("my+expression")).Returns(mockRoll.Object);
             mockRoll.Setup(r => r.IsValid()).Returns(false);
             mockRoll.Setup(r => r.AsSum<int>()).Returns(666);
 
-            var result = await function.RunV2(mockRequest.Object, "my+expression", mockLogger.Object);
+            var result = await function.RunV2(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
 
             mockLogger.AssertLog("C# HTTP trigger function (RollExpressionFunction.RunV2) processed a request.");

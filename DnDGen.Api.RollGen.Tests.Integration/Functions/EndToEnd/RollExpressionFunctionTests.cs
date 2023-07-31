@@ -17,6 +17,8 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         [TestCase("/api/v1/expression/roll", "1d(2d3)+4d(5d6+7)-8", 1 + 4 - 8, 6 + 4 * 37 - 8)]
         [TestCase("/api/v1/expression/roll", "1d4*1000", 1000, 4000)]
         [TestCase("/api/v1/expression/roll", "(1d6-1)*6+1d6", 1, 36)]
+        [TestCase("/api/v1/expression/roll", "1d2+3d4-5d6*7d8/9d10", 1 + 3 - 30 * 56 / 9, 2 + 12 - 5 * 7 / 90)]
+        [TestCase("/api/v1/expression/roll", "100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpression_ReturnsRoll(string route, string expression, int min, int max)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
@@ -56,10 +58,12 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         [TestCase("1d(2d3)+4d(5d6+7)-8", 1 + 4 - 8, 6 + 4 * 37 - 8)]
         [TestCase("1d4*1000", 1000, 4000)]
         [TestCase("(1d6-1)*6+1d6", 1, 36)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", 1 + 3 - 30 * 56 / 9, 2 + 12 - 5 * 7 / 90)]
+        [TestCase("100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpressionV2_ReturnsRoll(string expression, int min, int max)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
-            var uri = new Uri(baseUri, $"/api/v2/{HttpUtility.UrlEncode(expression)}/roll");
+            var uri = new Uri(baseUri, $"/api/v2/expression/roll?expression={HttpUtility.UrlEncode(expression)}");
             var response = await httpClient.GetAsync(uri);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);
@@ -77,7 +81,17 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions.EndToEnd
         public async Task RollExpressionV2_ReturnsBadRequest(string expression)
         {
             var baseUri = new Uri(localFunctions.BaseUrl);
-            var uri = new Uri(baseUri, $"/api/v2/{HttpUtility.UrlEncode(expression)}/roll");
+            var uri = new Uri(baseUri, $"/api/v2/expression/roll?expression={HttpUtility.UrlEncode(expression)}");
+            var response = await httpClient.GetAsync(uri);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), uri.AbsoluteUri);
+        }
+
+        [Test]
+        public async Task RollExpressionV2_ReturnsBadRequest_WhenExpressionMissing()
+        {
+            var baseUri = new Uri(localFunctions.BaseUrl);
+            var uri = new Uri(baseUri, "/api/v2/expression/roll");
             var response = await httpClient.GetAsync(uri);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest), uri.AbsoluteUri);

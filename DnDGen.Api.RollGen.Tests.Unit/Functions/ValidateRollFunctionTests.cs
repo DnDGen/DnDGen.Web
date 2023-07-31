@@ -34,7 +34,7 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
 
         [TestCase(true)]
         [TestCase(false)]
-        public async Task Run_ReturnsTheValidatedRoll(bool validRoll)
+        public async Task RunV1_ReturnsTheValidatedRoll(bool validRoll)
         {
             var query = new QueryCollection(new Dictionary<string, StringValues>
             {
@@ -46,19 +46,19 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
             mockDice.Setup(d => d.Roll(9266)).Returns(mockRoll.Object);
             mockRoll.Setup(r => r.d(90210).IsValid()).Returns(validRoll);
 
-            var result = await function.Run(mockRequest.Object, mockLogger.Object);
+            var result = await function.RunV1(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
             Assert.That(okResult.Value, Is.EqualTo(validRoll));
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Validated 9266d90210 = {validRoll}");
         }
 
         [TestCase("quantity")]
         [TestCase("die")]
-        public async Task Roll_ReturnsBadRequest_WhenParameterMissing(string missing)
+        public async Task RollV1_ReturnsBadRequest_WhenParameterMissing(string missing)
         {
             var values = new Dictionary<string, StringValues>
             {
@@ -70,10 +70,10 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
             var query = new QueryCollection(values);
             mockRequest.Setup(x => x.Query).Returns(query);
 
-            var result = await function.Run(mockRequest.Object, mockLogger.Object);
+            var result = await function.RunV1(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Query parameter '{missing}' is missing", LogLevel.Error);
         }
 
@@ -82,7 +82,7 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
         [TestCase(10_001, 10_001)]
         [TestCase(16_500_000, 1)]
         [TestCase(16_500_001, 1)]
-        public async Task BUG_Run_HandlesQuantityAndDie(int quantity, int die)
+        public async Task BUG_RunV1_HandlesQuantityAndDie(int quantity, int die)
         {
             var query = new QueryCollection(new Dictionary<string, StringValues>
             {
@@ -94,14 +94,31 @@ namespace DnDGen.Api.RollGen.Tests.Unit.Functions
             mockDice.Setup(d => d.Roll(quantity)).Returns(mockRoll.Object);
             mockRoll.Setup(r => r.d(die).IsValid()).Returns(true);
 
-            var result = await function.Run(mockRequest.Object, mockLogger.Object);
+            var result = await function.RunV1(mockRequest.Object, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
             Assert.That(okResult.Value, Is.True);
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Validated {quantity}d{die} = {true}");
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task RunV2_ReturnsTheValidatedRoll(bool validRoll)
+        {
+            mockDice.Setup(d => d.Roll(9266)).Returns(mockRoll.Object);
+            mockRoll.Setup(r => r.d(90210).IsValid()).Returns(validRoll);
+
+            var result = await function.RunV2(mockRequest.Object, 9266, 90210, mockLogger.Object);
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(validRoll));
+
+            mockLogger.AssertLog("C# HTTP trigger function (ValidateRollFunction.RunV2) processed a request.");
+            mockLogger.AssertLog($"Validated 9266d90210 = {validRoll}");
         }
     }
 }

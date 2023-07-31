@@ -4,13 +4,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Helpers
 {
     public static class RequestHelper
     {
-        public static HttpRequest BuildRequest(string queryString)
+        public static HttpRequest BuildRequest(string queryString = null)
         {
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Method = "GET";
             httpContext.Request.Scheme = "http";
             httpContext.Request.Host = new HostString("localhost");
-            httpContext.Request.QueryString = new QueryString(queryString);
+
+            if (queryString != null)
+                httpContext.Request.QueryString = new QueryString(queryString);
 
             return httpContext.Request;
         }
