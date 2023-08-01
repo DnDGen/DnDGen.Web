@@ -1,6 +1,6 @@
-using DnDGen.Api.TreasureGen.Dependencies;
+using DnDGen.Api.TreasureGen.Helpers;
+using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Validators;
-using DnDGen.Infrastructure.Generators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -15,17 +16,10 @@ namespace DnDGen.Api.TreasureGen.Functions
 {
     public class ValidateRandomItemFunction
     {
-        private readonly JustInTimeFactory justInTimeFactory;
-
-        public ValidateRandomItemFunction(IDependencyFactory dependencyFactory)
-        {
-            justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
-        }
-
         [FunctionName("ValidateRandomItemFunction")]
         [OpenApiOperation(operationId: "ValidateRandomItemFunctionRun", Summary = "Validate parameters for random item generation",
             Description = "Validates the parameters for random item generation")]
-        [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
             Description = "The type of item to generate. Valid values: Alchemical Item, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, Wondrous Item")]
         [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
@@ -37,10 +31,18 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             log.LogInformation("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
 
-            var valid = ItemValidator.Validate(itemType, power);
+            var validItemType = Enum.TryParse<ItemTypes>(itemType, out var validatedItemType);
+            var valid = validItemType;
+
+            if (validItemType)
+            {
+                var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
+                valid &= ItemValidator.Validate(itemTypeDescription, power);
+            }
+
             IActionResult result = new OkObjectResult(valid);
 
-            log.LogInformation($"Validated Item ({itemType}) at power {power} = {valid}");
+            log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {valid}");
 
             return Task.FromResult(result);
         }

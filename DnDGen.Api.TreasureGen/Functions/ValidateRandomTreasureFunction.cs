@@ -1,10 +1,5 @@
-using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.TreasureGen;
-using DnDGen.TreasureGen.Coins;
-using DnDGen.TreasureGen.Generators;
-using DnDGen.TreasureGen.Goods;
-using DnDGen.TreasureGen.Items;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -20,19 +15,6 @@ namespace DnDGen.Api.TreasureGen.Functions
 {
     public class ValidateRandomTreasureFunction
     {
-        private readonly ITreasureGenerator treasureGenerator;
-        private readonly ICoinGenerator coinGenerator;
-        private readonly IGoodsGenerator goodsGenerator;
-        private readonly IItemsGenerator itemsGenerator;
-
-        public ValidateRandomTreasureFunction(IDependencyFactory dependencyFactory)
-        {
-            treasureGenerator = dependencyFactory.Get<ITreasureGenerator>();
-            coinGenerator = dependencyFactory.Get<ICoinGenerator>();
-            goodsGenerator = dependencyFactory.Get<IGoodsGenerator>();
-            itemsGenerator = dependencyFactory.Get<IItemsGenerator>();
-        }
-
         [FunctionName("ValidateRandomTreasureFunction")]
         [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", Summary = "Validate parameters for random treasure generation",
             Description = "Validates the parameters for random treasure generation")]
@@ -52,7 +34,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             var valid = validTreasureType && LevelLimits.Minimum <= level && level <= LevelLimits.Maximum;
             IActionResult result = new OkObjectResult(valid);
 
-            log.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {validatedTreasureType}");
+            log.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {valid}");
 
             return result;
         }

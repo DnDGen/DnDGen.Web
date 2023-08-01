@@ -66,7 +66,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             var treasure = await GetTreasureAsync(validatedTreasureType, level);
             IActionResult result = new OkObjectResult(treasure);
 
-            log.LogInformation($"Generated random Treasure ({treasureType}) at level {level}");
+            log.LogInformation($"Generated Treasure ({validatedTreasureType}) at level {level}");
 
             return result;
         }

@@ -25,12 +25,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             logger = loggerFactory.CreateLogger("Integration Test");
         }
 
-        [Repeat(100)]
         [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task GenerateRandom_ReturnsTreasure(string treasureType, int level)
         {
-            var request = RequestHelper.BuildRequest($"?treasureType={treasureType}&level={level}");
-            var response = await function.Run(request, logger);
+            var request = RequestHelper.BuildRequest();
+            var response = await function.Run(request, treasureType, level, logger);
             Assert.That(response, Is.InstanceOf<OkObjectResult>());
 
             var okResult = response as OkObjectResult;

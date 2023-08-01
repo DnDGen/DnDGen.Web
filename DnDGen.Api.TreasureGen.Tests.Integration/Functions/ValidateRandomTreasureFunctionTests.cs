@@ -1,4 +1,3 @@
-using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Tests.Integration.Helpers;
@@ -18,8 +17,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new ValidateRandomTreasureFunction(dependencyFactory);
+            function = new ValidateRandomTreasureFunction();
 
             var loggerFactory = new LoggerFactory();
             logger = loggerFactory.CreateLogger("Integration Test");
@@ -28,8 +26,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(TreasureValidationData))]
         public async Task ValidateRandom_ReturnsValidity(string treasureType, int level, bool valid)
         {
-            var request = RequestHelper.BuildRequest($"?treasureType={treasureType}&level={level}");
-            var response = await function.Run(request, logger);
+            var request = RequestHelper.BuildRequest();
+            var response = await function.Run(request, treasureType, level, logger);
             Assert.That(response, Is.InstanceOf<OkObjectResult>());
 
             var okResult = response as OkObjectResult;

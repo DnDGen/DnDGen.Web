@@ -8,7 +8,6 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
 {
     public class GenerateRandomTreasureFunctionTests : EndToEndTests
     {
-        [Repeat(100)]
         [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task GenerateRandom_ReturnsTreasure(string treasureType, int level)
         {

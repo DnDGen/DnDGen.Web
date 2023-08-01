@@ -1,5 +1,6 @@
 using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
+using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Infrastructure.Generators;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
@@ -39,48 +40,50 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             mockItemGenerator.Setup(g => g.GenerateRandom()).Returns(item);
 
             mockJustInTimeFactory
-                .Setup(f => f.Build<MundaneItemGenerator>("my item type"))
+                .Setup(f => f.Build<MundaneItemGenerator>(ItemTypeConstants.Tool))
                 .Returns(mockItemGenerator.Object);
 
-            var result = await function.Run(mockRequest.Object, "my item type", PowerConstants.Mundane, mockLogger.Object);
+            var result = await function.Run(mockRequest.Object, ItemTypeConstants.Tool, PowerConstants.Mundane, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
             Assert.That(okResult.Value, Is.EqualTo(item));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
-            mockLogger.AssertLog("Generated random Item (my item type) at power Mundane");
+            mockLogger.AssertLog("Generated Item (Tool) at power Mundane");
         }
 
-        [Test]
-        public async Task Run_ReturnsTheGeneratedItem_Magical()
+        [TestCase(PowerConstants.Minor)]
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task Run_ReturnsTheGeneratedItem_Magical(string power)
         {
             var mockItemGenerator = new Mock<MagicalItemGenerator>();
             var item = new Item { Name = "my item" };
-            mockItemGenerator.Setup(g => g.GenerateRandom("my power")).Returns(item);
+            mockItemGenerator.Setup(g => g.GenerateRandom(power)).Returns(item);
 
             mockJustInTimeFactory
-                .Setup(f => f.Build<MagicalItemGenerator>("my item type"))
+                .Setup(f => f.Build<MagicalItemGenerator>(ItemTypeConstants.Wand))
                 .Returns(mockItemGenerator.Object);
 
-            var result = await function.Run(mockRequest.Object, "my item type", "my power", mockLogger.Object);
+            var result = await function.Run(mockRequest.Object, ItemTypeConstants.Wand, power, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
             var okResult = result as OkObjectResult;
             Assert.That(okResult.Value, Is.EqualTo(item));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
-            mockLogger.AssertLog("Generated random Item (my item type) at power Mundane");
+            mockLogger.AssertLog($"Generated Item (Wand) at power {power}");
         }
 
         [Test]
         public async Task Run_ReturnsBadRequest_WhenItemTypeInvalid()
         {
-            var result = await function.Run(mockRequest.Object, "wrong item type", "my power", mockLogger.Object);
+            var result = await function.Run(mockRequest.Object, "wrong item type", PowerConstants.Medium, mockLogger.Object);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
-            mockLogger.AssertLog($"Query parameter 'treasureType' of 'wrong item type' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items", LogLevel.Error);
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("Parameter 'itemType' of 'wrong item type' is not a valid Item Type. Should be one of: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem", LogLevel.Error);
         }
 
         [Test]
@@ -89,8 +92,20 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var result = await function.Run(mockRequest.Object, ItemTypeConstants.Weapon, "wrong power", mockLogger.Object);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
-            mockLogger.AssertLog($"Query parameter 'power' of 'wrong power' is not a valid level. Should be 1 <= L <= 100", LogLevel.Error);
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("Parameters 'itemType' of 'Weapon' and power 'wrong power' is not a valid combination", LogLevel.Error);
+        }
+
+        [TestCase(ItemTypes.AlchemicalItem, PowerConstants.Medium)]
+        [TestCase(ItemTypes.Ring, PowerConstants.Mundane)]
+        [TestCase(ItemTypes.Rod, PowerConstants.Minor)]
+        public async Task Run_ReturnsBadRequest_WhenParameterCombinationInvalid(ItemTypes itemType, string power)
+        {
+            var result = await function.Run(mockRequest.Object, itemType.ToString(), power, mockLogger.Object);
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog($"Parameters 'itemType' of '{itemType}' and power '{power}' is not a valid combination", LogLevel.Error);
         }
     }
 }

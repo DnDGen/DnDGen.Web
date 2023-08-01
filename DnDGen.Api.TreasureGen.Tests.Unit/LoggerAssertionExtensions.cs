@@ -14,7 +14,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit
                     It.Is<It.IsAnyType>((v, t) => v.ToString() == message),
                     It.IsAny<Exception>(),
                     It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-                Times.Once);
+                Times.Once, $"Expected message: '{message}'");
         }
     }
 }

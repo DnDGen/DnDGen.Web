@@ -39,10 +39,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration
             Assert.That(result, Is.Not.Empty, uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/{treasureType}/level/{level}/generate"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/{treasureType}/level/{level}/validate"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v1/item/{treasureType}/power/{power}/generate"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v1/item/{treasureType}/power/{power}/validate"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v1/item/{name}/power/{power}/generate"), uri.AbsoluteUri);
-            Assert.That(result, Contains.Substring("/v1/item/{name}/power/{power}/validate"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v1/item/{itemType}/power/{power}/generate"), uri.AbsoluteUri);
+            Assert.That(result, Contains.Substring("/v1/item/{itemType}/power/{power}/validate"), uri.AbsoluteUri);
         }
     }
 }

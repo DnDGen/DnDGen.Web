@@ -18,7 +18,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions.EndToEnd
             Assert.That(response.Content.Headers.ContentType.ToString(), Is.EqualTo("application/json; charset=utf-8"), uri.AbsoluteUri);
 
             var result = await response.Content.ReadAsStringAsync();
-            Assert.That(result, Is.EqualTo(valid.ToString()), uri.AbsoluteUri);
+            Assert.That(result, Is.Not.Empty, uri.AbsoluteUri);
+            Assert.That(Convert.ToBoolean(result), Is.EqualTo(valid), uri.AbsoluteUri);
         }
 
         public static IEnumerable TreasureValidationData

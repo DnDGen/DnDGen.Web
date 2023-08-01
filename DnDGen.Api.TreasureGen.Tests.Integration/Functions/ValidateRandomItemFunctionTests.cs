@@ -1,5 +1,5 @@
-using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
+using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Tests.Integration.Helpers;
 using DnDGen.TreasureGen.Items;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +16,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new ValidateRandomItemFunction(dependencyFactory);
+            function = new ValidateRandomItemFunction();
 
             var loggerFactory = new LoggerFactory();
             logger = loggerFactory.CreateLogger("Integration Test");
@@ -44,70 +43,148 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 yield return new TestCaseData("Building", PowerConstants.Major, false);
 
                 yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, PowerConstants.Mundane, true);
+                yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, PowerConstants.Mundane, false);
                 yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, PowerConstants.Minor, false);
                 yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, PowerConstants.Medium, false);
                 yield return new TestCaseData(ItemTypeConstants.AlchemicalItem, PowerConstants.Major, false);
 
-                yield return new TestCaseData(ItemTypeConstants.Armor, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Armor, PowerConstants.Mundane, true);
-                yield return new TestCaseData(ItemTypeConstants.Armor, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Armor, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Armor, PowerConstants.Major, true);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Medium, false);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Major, false);
 
-                yield return new TestCaseData(ItemTypeConstants.Potion, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Potion, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Potion, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Potion, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Potion, PowerConstants.Major, true);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), PowerConstants.Medium, false);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), PowerConstants.Major, false);
 
-                yield return new TestCaseData(ItemTypeConstants.Ring, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Ring, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Ring, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Ring, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Ring, PowerConstants.Major, true);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Rod, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Rod, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Rod, PowerConstants.Minor, false);
-                yield return new TestCaseData(ItemTypeConstants.Rod, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Rod, PowerConstants.Major, true);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Scroll, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Scroll, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Scroll, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Scroll, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Scroll, PowerConstants.Major, true);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Staff, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Staff, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Staff, PowerConstants.Minor, false);
-                yield return new TestCaseData(ItemTypeConstants.Staff, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Staff, PowerConstants.Major, true);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Tool, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Tool, PowerConstants.Mundane, true);
-                yield return new TestCaseData(ItemTypeConstants.Tool, PowerConstants.Minor, false);
-                yield return new TestCaseData(ItemTypeConstants.Tool, PowerConstants.Medium, false);
-                yield return new TestCaseData(ItemTypeConstants.Tool, PowerConstants.Major, false);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Wand, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Wand, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.Wand, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Wand, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Wand, PowerConstants.Major, true);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), PowerConstants.Major, true);
 
-                yield return new TestCaseData(ItemTypeConstants.Weapon, "Omnipotent", false);
-                yield return new TestCaseData(ItemTypeConstants.Weapon, PowerConstants.Mundane, true);
-                yield return new TestCaseData(ItemTypeConstants.Weapon, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.Weapon, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.Weapon, PowerConstants.Major, true);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Medium, false);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Major, false);
+
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), PowerConstants.Minor, false);
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), PowerConstants.Medium, false);
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), PowerConstants.Major, false);
+
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), PowerConstants.Mundane, true);
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), PowerConstants.Major, true);
 
                 yield return new TestCaseData(ItemTypeConstants.WondrousItem, "Omnipotent", false);
                 yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Mundane, false);
-                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Minor, true);
-                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Medium, true);
-                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Major, true);
+                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Minor, false);
+                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Medium, false);
+                yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Major, false);
+
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), "Omnipotent", false);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, true);
+
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), "Omnipotent", false);
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), PowerConstants.Mundane, false);
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), PowerConstants.Minor, true);
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), PowerConstants.Medium, true);
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), PowerConstants.Major, true);
             }
         }
     }
