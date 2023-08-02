@@ -9,29 +9,50 @@ describe('Treasure Controller', function () {
     var sweetAlertServiceMock;
     var fileSaverServiceMock;
     var treasureFormatterServiceMock;
-    var eventServiceMock;
 
     beforeEach(module('app.treasure'));
 
     beforeEach(function () {
         model = {
             treasureTypes: ["first treasure", "second treasure"],
-            itemPowers: {
-                'first item type': ["1-1", "1-2"],
-                'second item type': ["2-1", "2-2"]
+            itemTypes: ["first item type", "second item type"],
+            powers: ["low power", "high power"],
+            items: {
+                'first item type': ["item 1-1", "item 1-2"],
+                'second item type': ["item 2-1", "item 2-2"]
             }
         };
 
         treasureServiceMock = {
-            getTreasure: function (clientId, treasureType, level) {
-                var treasure = { description: clientId + ' ' + treasureType + ' ' + level };
-                var data = { treasure: treasure };
-                return getMockedPromise(data);
+            getTreasure: function (treasureType, level) {
+                var treasure = { description: treasureType + ' ' + level };
+                var shouldFail = level === 666;
+                return getMockedPromise(treasure, shouldFail);
             },
-            getItem: function (clientId, itemType, power) {
-                var treasure = { description: clientId + ' ' + power + ' ' + itemType };
-                var data = { treasure: treasure };
-                return getMockedPromise(data);
+            validateTreasure: function (treasureType, level) {
+                var valid = treasureType.indexOf('invalid') === -1 && level >= 0;
+                var shouldFail = level === 666;
+                return getMockedPromise(valid, shouldFail);
+            },
+            getRandomItem: function (itemType, power) {
+                var item = { description: power + ' ' + itemType };
+                var shouldFail = power.indexOf('fail') > -1;
+                return getMockedPromise(item, shouldFail);
+            },
+            validateRandomItem: function (itemType, power) {
+                var valid = itemType.indexOf('invalid') === -1 && power.indexOf('invalid') === -1;
+                var shouldFail = power.indexOf('fail') > -1;
+                return getMockedPromise(valid, shouldFail);
+            },
+            getItem: function (itemType, power, name) {
+                var item = { description: name + ' ' + power + ' ' + itemType };
+                var shouldFail = power.indexOf('fail') > -1;
+                return getMockedPromise(item, shouldFail);
+            },
+            validateItem: function (itemType, power, name) {
+                var valid = itemType.indexOf('invalid') === -1 && power.indexOf('invalid') === -1 && name.indexOf('invalid') === -1;
+                var shouldFail = power.indexOf('fail') > -1;
+                return getMockedPromise(valid, shouldFail);
             }
         };
 
@@ -49,20 +70,12 @@ describe('Treasure Controller', function () {
                 return item.toString();
             }
         };
-
-        var idCount = 1;
-        eventServiceMock = {
-            getClientId: function () {
-                var data = { clientId: 'client id ' + idCount++ };
-                return getMockedPromise(data);
-            }
-        };
     });
 
-    function getMockedPromise(data) {
+    function getMockedPromise(data, shouldFail) {
         var deferred = q.defer();
 
-        if (data.treasure && data.treasure.description.indexOf('666') > -1)
+        if (shouldFail)
             deferred.reject();
         else
             deferred.resolve({ data: data });
@@ -79,8 +92,7 @@ describe('Treasure Controller', function () {
             treasureService: treasureServiceMock,
             sweetAlertService: sweetAlertServiceMock,
             fileSaverService: fileSaverServiceMock,
-            treasureFormatterService: treasureFormatterServiceMock,
-            eventService: eventServiceMock,
+            treasureFormatterService: treasureFormatterServiceMock
         });
     }));
 
@@ -88,15 +100,20 @@ describe('Treasure Controller', function () {
         expect(vm.treasureModel).toBe(model);
     });
 
-    it('has initial values for inputs', function () {
+    it('has initial values for inputs on load', function () {
         expect(vm.level).toBe(1);
         expect(vm.treasureType).toBe('first treasure');
         expect(vm.itemType).toBe('first item type');
-        expect(vm.power).toBe('1-1');
+        expect(vm.power).toBe('low power');
+        expect(vm.itemName).toBeNull();
     });
 
-    it('has an empty treasure for results', function () {
+    it('has an empty treasure on load', function () {
         expect(vm.treasure).toBeNull();
+    });
+
+    it('has an empty item on load', function () {
+        expect(vm.item).toBeNull();
     });
 
     it('is not generating on load', function () {
@@ -110,108 +127,286 @@ describe('Treasure Controller', function () {
         vm.generateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 Treasure 9266');
+        expect(vm.treasure.description).toBe('Treasure 9266');
     });
 
-    it('generates treasure uniquely', function () {
-        vm.treasureType = 'Treasure';
-        vm.level = 9266;
-
-        vm.generateTreasure();
-        scope.$apply();
-
-        expect(vm.treasure.description).toBe('client id 1 Treasure 9266');
-
-        vm.generateTreasure();
-        scope.$apply();
-
-        expect(vm.treasure.description).toBe('client id 2 Treasure 9266');
-    });
-
-    it('generates treasure type', function () {
+    it('generates treasure of type', function () {
         vm.treasureType = 'treasure type';
         vm.level = 9266;
 
         vm.generateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 treasure type 9266');
+        expect(vm.treasure.description).toBe('treasure type 9266');
     });
 
-    it('generates treasure type uniquely', function () {
+    it('validates treasure of type - valid', function () {
         vm.treasureType = 'treasure type';
         vm.level = 9266;
 
-        vm.generateTreasure();
+        vm.validateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 treasure type 9266');
-        vm.generateTreasure();
+        expect(vm.validTreasure).toBeTruthy();
+    });
+
+    it('validates treasure of type - invalid', function () {
+        vm.treasureType = 'invalid treasure type';
+        vm.level = 9266;
+
+        vm.validateTreasure();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 2 treasure type 9266');
+        expect(vm.validTreasure).toBeFalsy();
+    });
+
+    it('generates random mundane item', function () {
+        vm.power = 'mundane';
+        vm.itemType = 'item type';
+
+        vm.generateRandomItem();
+        scope.$apply();
+
+        expect(vm.item.description).toBe('mundane item type');
+    });
+
+    it('generates random powered item', function () {
+        vm.power = 'power';
+        vm.itemType = 'item type';
+
+        vm.generateRandomItem();
+        scope.$apply();
+
+        expect(vm.item.description).toBe('power item type');
+    });
+
+    it('validates random powered item - valid', function () {
+        vm.power = 'power';
+        vm.itemType = 'invalid item type';
+
+        vm.validateRandomItem();
+        scope.$apply();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates random powered item - invalid', function () {
+        vm.power = 'power';
+        vm.itemType = 'invalid item type';
+
+        vm.validateRandomItem();
+        scope.$apply();
+
+        expect(vm.validItem).toBeFalsy();
     });
 
     it('generates mundane item', function () {
         vm.power = 'mundane';
         vm.itemType = 'item type';
+        vm.itemName = 'my mundane item';
 
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 mundane item type');
-    });
-
-    it('generates mundane item uniquely', function () {
-        vm.power = 'mundane';
-        vm.itemType = 'item type';
-
-        vm.generateItem();
-        scope.$apply();
-
-        expect(vm.treasure.description).toBe('client id 1 mundane item type');
-
-        vm.generateItem();
-        scope.$apply();
-
-        expect(vm.treasure.description).toBe('client id 2 mundane item type');
+        expect(vm.item.description).toBe('my mundane item mundane item type');
     });
 
     it('generates powered item', function () {
         vm.power = 'power';
         vm.itemType = 'item type';
+        vm.itemName = 'my powered item';
 
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 power item type');
+        expect(vm.item.description).toBe('my powered item power item type');
     });
 
-    it('generates powered item uniquely', function () {
+    it('validates random powered item - valid', function () {
         vm.power = 'power';
-        vm.itemType = 'item type';
+        vm.itemType = 'invalid item type';
+        vm.itemName = 'my powered item';
 
-        vm.generateItem();
+        vm.validateRandomItem();
         scope.$apply();
 
-        expect(vm.treasure.description).toBe('client id 1 power item type');
-
-        vm.generateItem();
-        scope.$apply();
-
-        expect(vm.treasure.description).toBe('client id 2 power item type');
+        expect(vm.validItem).toBeTruthy();
     });
 
-    it('updates the powers when the item type is changed', function () {
+    it('validates random powered item - invalid', function () {
+        vm.power = 'power';
+        vm.itemType = 'invalid item type';
+        vm.itemName = 'my powered item';
+
+        vm.validateRandomItem();
+        scope.$apply();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('validates the treasure when the treasure type is changed - valid', function () {
         scope.$digest();
 
-        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
+        vm.treasureType = vm.treasureModel.itemTypes[1];
         scope.$digest();
 
-        expect(vm.powers[0]).toBe('2-1');
-        expect(vm.powers[1]).toBe('2-2');
-        expect(vm.powers.length).toBe(2);
-        expect(vm.power).toBe('2-1');
+        expect(vm.validTreasure).toBeTruthy();
+    });
+
+    it('validates the treasure when the treasure type is changed - invalid', function () {
+        scope.$digest();
+
+        vm.treasureType = 'my invalid treasure type';
+        scope.$digest();
+
+        expect(vm.validTreasure).toBeFalsy();
+    });
+
+    it('validates the treasure when the level is changed - valid', function () {
+        scope.$digest();
+
+        vm.level = 90120;
+        scope.$digest();
+
+        expect(vm.validTreasure).toBeTruthy();
+    });
+
+    it('validates the treasure when the level is changed - invalid', function () {
+        scope.$digest();
+
+        vm.level = -42;
+        scope.$digest();
+
+        expect(vm.validTreasure).toBeFalsy();
+    });
+
+    it('validates the item when the item type is changed - valid', function () {
+        scope.$digest();
+
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        scope.$digest();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates the item when the item type is changed - invalid', function () {
+        scope.$digest();
+
+        vm.itemType = 'my invalid item type';
+        scope.$digest();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('validates the item when the power is changed - valid', function () {
+        scope.$digest();
+
+        vm.power = vm.treasureModel.powers[1];
+        scope.$digest();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates the item when the power is changed - invalid', function () {
+        scope.$digest();
+
+        vm.power = 'my invalid power';
+        scope.$digest();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('validates the item when the name is entered - valid', function () {
+        vm.itemName = null;
+        scope.$digest();
+
+        vm.itemName = vm.treasureModel.items['first item type'][1];
+        scope.$digest();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates the item when the name is entered - invalid', function () {
+        vm.itemName = null;
+        scope.$digest();
+
+        vm.itemName = 'my invalid item name';
+        scope.$digest();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('validates the item when the name is changed - valid', function () {
+        vm.itemName = 'my item name';
+        scope.$digest();
+
+        vm.itemName = vm.treasureModel.items['first item type'][1];
+        scope.$digest();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates the item when the name is changed - invalid', function () {
+        vm.itemName = 'my item name';
+        scope.$digest();
+
+        vm.itemName = 'my invalid item name';
+        scope.$digest();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('validates the item when the name is removed - valid', function () {
+        vm.itemName = 'my item name';
+        scope.$digest();
+
+        vm.itemName = null;
+        scope.$digest();
+
+        expect(vm.validItem).toBeTruthy();
+    });
+
+    it('validates the item when the name is removed - invalid', function () {
+        vm.itemName = 'my item name';
+        scope.$digest();
+
+        vm.itemType = 'my invalid item type'
+        vm.itemName = null;
+        scope.$digest();
+
+        expect(vm.validItem).toBeFalsy();
+    });
+
+    it('updates the item names when the item type is changed', function () {
+        vm.itemName = 'my item name';
+        scope.$digest();
+
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        scope.$digest();
+
+        expect(vm.itemNames[0]).toBe('item 2-1');
+        expect(vm.itemNames[1]).toBe('item 2-2');
+        expect(vm.itemNames.length).toBe(2);
+        expect(vm.itemName).toBeNull();
+    });
+
+    it('says it is validating while validating treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.level = 9266;
+
+        vm.validateTreasure();
+
+        expect(vm.validating).toBeTruthy();
+    });
+
+    it('says it is done validating while validating treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.level = 9266;
+
+        vm.validateTreasure();
+        scope.$apply();
+
+        expect(vm.validating).toBeFalsy();
     });
 
     it('says it is generating while fetching treasure', function () {
@@ -233,8 +428,27 @@ describe('Treasure Controller', function () {
         expect(vm.generating).toBeFalsy();
     });
 
-    it('says it is generating while fetching an item', function () {
-        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
+    it('says it is validating while validating a random item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+
+        vm.validateItem();
+
+        expect(vm.validating).toBeTruthy();
+    });
+
+    it('says it is done validating while validating a random item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('says it is generating while fetching a random item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
         vm.power = 'power';
 
         vm.generateItem();
@@ -242,9 +456,51 @@ describe('Treasure Controller', function () {
         expect(vm.generating).toBeTruthy();
     });
 
-    it('says it is done generating while fetching an item', function () {
-        vm.itemType = Object.keys(vm.treasureModel.itemPowers)[1];
+    it('says it is done generating while fetching a random item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
         vm.power = 'power';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('says it is validating while validating an item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+        vm.itemName = 'my item';
+
+        vm.validateItem();
+
+        expect(vm.validating).toBeTruthy();
+    });
+
+    it('says it is done validating while validating an item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+        vm.itemName = 'my item';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(vm.validating).toBeFalsy();
+    });
+
+    it('says it is generating while fetching an item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+        vm.itemName = 'my item';
+
+        vm.generateItem();
+
+        expect(vm.generating).toBeTruthy();
+    });
+
+    it('says it is done generating while fetching an item', function () {
+        vm.itemType = vm.treasureModel.itemTypes[1];
+        vm.power = 'power';
+        vm.itemName = 'my item';
 
         vm.generateItem();
         scope.$apply();
@@ -272,6 +528,10 @@ describe('Treasure Controller', function () {
         expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
+    it('ERROR CHECK VALIDATE TREASURE', function () {
+        expect(1).toBe(2);
+    });
+
     it('says it is done generating if an error is thrown while fetching item', function () {
         vm.power = '666';
 
@@ -290,6 +550,14 @@ describe('Treasure Controller', function () {
         expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
+    it('ERROR CHECK VALIDATE RANDOM ITEM', function () {
+        expect(1).toBe(2);
+    });
+
+    it('ERROR CHECK VALIDATE ITEM', function () {
+        expect(1).toBe(2);
+    });
+
     it('clears the treasure if an error is thrown while fetching treasure', function () {
         vm.treasureType = 'treasure type';
         vm.level = 9266;
@@ -305,7 +573,21 @@ describe('Treasure Controller', function () {
         expect(vm.treasure).toBeNull();
     });
 
-    it('clears the treasure if an error is thrown while fetching items', function () {
+    it('clears the item if an error is thrown while fetching random item', function () {
+        vm.generateItem();
+        scope.$apply();
+
+        vm.power = '666';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.treasure).toBeNull();
+    });
+
+    it('clears the item if an error is thrown while fetching item', function () {
+        expect(1).toBe(2);
+
         vm.generateItem();
         scope.$apply();
 
@@ -327,5 +609,9 @@ describe('Treasure Controller', function () {
 
         var fileName = 'Treasure ' + new Date().toString();
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Treasure 9266', fileName);
+    });
+
+    it('DOWNLOADS ITEM', function () {
+        expect(1).toBe(2);
     });
 })

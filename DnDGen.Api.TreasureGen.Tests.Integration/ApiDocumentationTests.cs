@@ -42,5 +42,29 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration
             Assert.That(result, Contains.Substring("/v1/item/{itemType}/power/{power}/generate"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v1/item/{itemType}/power/{power}/validate"), uri.AbsoluteUri);
         }
+
+        [TestCase("/api/v1/Treasure/level/1/validate")]
+        [TestCase("/api/v1/Treasure/level/1/generate")]
+        [TestCase("/api/v1/item/Weapon/power/Mundane/validate")]
+        [TestCase("/api/v1/item/Weapon/power/Mundane/generate")]
+        public async Task ApiRoutes_AreFound(string route)
+        {
+            var baseUri = new Uri(localFunctions.BaseUrl);
+            var uri = new Uri(baseUri, route);
+            var response = await httpClient.GetAsync(uri);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);
+        }
+
+        [TestCase("/api/v1/roll/validate?quantity=1&die=6")]
+        [TestCase("/api/v2/1/d/6/validate")]
+        public async Task OtherApiRoutes_AreNotFound(string route)
+        {
+            var baseUri = new Uri(localFunctions.BaseUrl);
+            var uri = new Uri(baseUri, route);
+            var response = await httpClient.GetAsync(uri);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), uri.AbsoluteUri);
+        }
     }
 }
