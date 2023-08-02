@@ -23,6 +23,8 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The type of item to generate. Valid values: Alchemical Item, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, Wondrous Item")]
         [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
+        [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated item")]
         public Task<IActionResult> Run(
@@ -31,18 +33,30 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             log.LogInformation("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
 
+            var name = (string)req.Query["name"];
             var validItemType = Enum.TryParse<ItemTypes>(itemType, out var validatedItemType);
             var valid = validItemType;
 
             if (validItemType)
             {
                 var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
-                valid &= ItemValidator.Validate(itemTypeDescription, power);
+
+                if (name == null)
+                {
+                    valid &= ItemValidator.Validate(itemTypeDescription, power);
+                }
+                else
+                {
+                    valid &= ItemValidator.Validate(itemTypeDescription, power, name);
+                }
             }
 
             IActionResult result = new OkObjectResult(valid);
 
-            log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {valid}");
+            if (name == null)
+                log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {valid}");
+            else
+                log.LogInformation($"Validated Item {name} ({itemType}) at power '{power}' = {valid}");
 
             return Task.FromResult(result);
         }

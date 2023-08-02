@@ -1,4 +1,7 @@
 ﻿using DnDGen.TreasureGen.Items;
+using DnDGen.TreasureGen.Items.Magical;
+using DnDGen.TreasureGen.Items.Mundane;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -90,6 +93,45 @@ namespace DnDGen.Api.TreasureGen.Validators
             var powers = GetPowers();
 
             return powers.ContainsKey(itemType) && powers[itemType].Contains(power);
+        }
+
+        public static bool Validate(string itemType, string power, string name)
+        {
+            var valid = Validate(itemType, power);
+
+            var items = GetItemNames(itemType, power, name);
+            valid &= items.Contains(name);
+
+            return valid;
+        }
+
+        private static IEnumerable<string> GetItemNames(string itemType, string power, string name)
+        {
+            switch (itemType)
+            {
+                case ItemTypeConstants.AlchemicalItem: return AlchemicalItemConstants.GetAllAlchemicalItems();
+                case ItemTypeConstants.Armor:
+                    var specificArmors = ArmorConstants.GetAllSpecificArmorsAndShields();
+                    if (specificArmors.Contains(name) && power == PowerConstants.Mundane)
+                        return Enumerable.Empty<string>();
+
+                    return ArmorConstants.GetAllArmorsAndShields(true);
+                case ItemTypeConstants.Potion: return PotionConstants.GetAllPotions(false);
+                case ItemTypeConstants.Ring: return RingConstants.GetAllRings();
+                case ItemTypeConstants.Rod: return RodConstants.GetAllRods();
+                case ItemTypeConstants.Scroll: return new[] { name };
+                case ItemTypeConstants.Staff: return StaffConstants.GetAllStaffs();
+                case ItemTypeConstants.Tool: return ToolConstants.GetAllTools();
+                case ItemTypeConstants.Wand: return new[] { name };
+                case ItemTypeConstants.Weapon:
+                    var specificWeapons = WeaponConstants.GetAllSpecific();
+                    if (specificWeapons.Contains(name) && power == PowerConstants.Mundane)
+                        return Enumerable.Empty<string>();
+
+                    return WeaponConstants.GetAllWeapons(true, false);
+                case ItemTypeConstants.WondrousItem: return WondrousItemConstants.GetAllWondrousItems();
+                default: return Enumerable.Empty<string>();
+            }
         }
     }
 }

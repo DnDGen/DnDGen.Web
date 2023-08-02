@@ -62,11 +62,14 @@ namespace DnDGen.Api.TreasureGen.Functions
                 return Task.FromResult(badResult);
             }
 
-            var name = req.Query["name"];
+            var name = (string)req.Query["name"];
             var item = GetItem(itemTypeDescription, power, name);
             IActionResult result = new OkObjectResult(item);
 
-            log.LogInformation($"Generated Item ({itemType}) at power {power}");
+            if (name == null)
+                log.LogInformation($"Generated Item ({itemType}) at power {power}");
+            else
+                log.LogInformation($"Generated Item {name} ({itemType}) at power {power}");
 
             return Task.FromResult(result);
         }

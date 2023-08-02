@@ -6,6 +6,7 @@ using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -35,6 +36,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [Test]
         public async Task Run_ReturnsTheGeneratedItem_Mundane()
         {
+            var query = new QueryCollection();
+            mockRequest.Setup(x => x.Query).Returns(query);
+
             var mockItemGenerator = new Mock<MundaneItemGenerator>();
             var item = new Item { Name = "my item" };
             mockItemGenerator.Setup(g => g.GenerateRandom()).Returns(item);
@@ -58,6 +62,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [TestCase(PowerConstants.Major)]
         public async Task Run_ReturnsTheGeneratedItem_Magical(string power)
         {
+            var query = new QueryCollection();
+            mockRequest.Setup(x => x.Query).Returns(query);
+
             var mockItemGenerator = new Mock<MagicalItemGenerator>();
             var item = new Item { Name = "my item" };
             mockItemGenerator.Setup(g => g.GenerateRandom(power)).Returns(item);
