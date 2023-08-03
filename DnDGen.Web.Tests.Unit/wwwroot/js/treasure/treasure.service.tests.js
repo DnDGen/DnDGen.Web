@@ -34,19 +34,19 @@ describe('Treasure Service', function () {
     });
 
     it('gets a random mundane item', function () {
-        var promise = treasureService.getRandomItem('myItemType', 'Mundane');
+        var promise = treasureService.getItem('myItemType', 'Mundane');
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/Mundane/generate');
     });
 
     it('gets a random powered item', function () {
-        var promise = treasureService.getRandomItem('myItemType', 'myPower');
+        var promise = treasureService.getItem('myItemType', 'myPower');
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/myPower/generate');
     });
 
     it('validates the random item parameters', function () {
-        var promise = treasureService.validateRandomItem('myItemType', 'myPower');
+        var promise = treasureService.validateItem('myItemType', 'myPower');
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/myPower/validate');
     });

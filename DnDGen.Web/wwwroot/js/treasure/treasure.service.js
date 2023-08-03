@@ -11,8 +11,6 @@
         return {
             getTreasure: getTreasure,
             validateTreasure: validateTreasure,
-            getRandomItem: getRandomItem,
-            validateRandomItem: validateRandomItem,
             getItem: getItem,
             validateItem: validateItem
         };
@@ -27,24 +25,24 @@
             return promiseService.getPromise(url);
         }
 
-        function getRandomItem(itemType, power) {
-            var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
-            return promiseService.getPromise(url);
-        }
-
-        function validateRandomItem(itemType, power) {
-            var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
-            return promiseService.getPromise(url);
-        }
-
         function getItem(itemType, power, name) {
             var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
+
+            if (!name) {
+                return promiseService.getPromise(url);
+            }
+
             var parameters = { name: name };
             return promiseService.getPromise(url, parameters);
         }
 
         function validateItem(itemType, power, name) {
             var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
+
+            if (!name) {
+                return promiseService.getPromise(url);
+            }
+
             var parameters = { name: name };
             return promiseService.getPromise(url, parameters);
         }

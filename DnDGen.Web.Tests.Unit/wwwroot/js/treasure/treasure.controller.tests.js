@@ -34,23 +34,16 @@ describe('Treasure Controller', function () {
                 var shouldFail = level === 666;
                 return getMockedPromise(valid, shouldFail);
             },
-            getRandomItem: function (itemType, power) {
-                var item = { description: power + ' ' + itemType };
-                var shouldFail = power.indexOf('fail') > -1;
-                return getMockedPromise(item, shouldFail);
-            },
-            validateRandomItem: function (itemType, power) {
-                var valid = itemType.indexOf('invalid') === -1 && power.indexOf('invalid') === -1;
-                var shouldFail = power.indexOf('fail') > -1;
-                return getMockedPromise(valid, shouldFail);
-            },
             getItem: function (itemType, power, name) {
-                var item = { description: name + ' ' + power + ' ' + itemType };
+                var item = { description: power + ' ' + itemType };
+                if (name)
+                    item.name = name;
+
                 var shouldFail = power.indexOf('fail') > -1;
                 return getMockedPromise(item, shouldFail);
             },
             validateItem: function (itemType, power, name) {
-                var valid = itemType.indexOf('invalid') === -1 && power.indexOf('invalid') === -1 && name.indexOf('invalid') === -1;
+                var valid = itemType.indexOf('invalid') === -1 && power.indexOf('invalid') === -1 && (!name || name.indexOf('invalid') === -1);
                 var shouldFail = power.indexOf('fail') > -1;
                 return getMockedPromise(valid, shouldFail);
             }
@@ -106,18 +99,18 @@ describe('Treasure Controller', function () {
         expect(vm.itemType).toBe('first item type');
         expect(vm.power).toBe('low power');
         expect(vm.itemName).toBeNull();
+        expect(vm.validTreasure).toBeFalsy();
+        expect(vm.validItem).toBeFalsy();
     });
 
     it('has an empty treasure on load', function () {
         expect(vm.treasure).toBeNull();
-    });
-
-    it('has an empty item on load', function () {
         expect(vm.item).toBeNull();
     });
 
     it('is not generating on load', function () {
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('generates treasure', function () {
@@ -128,6 +121,7 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.treasure.description).toBe('Treasure 9266');
+        expect(vm.item).toBeNull();
     });
 
     it('generates treasure of type', function () {
@@ -138,6 +132,7 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.treasure.description).toBe('treasure type 9266');
+        expect(vm.item).toBeNull();
     });
 
     it('validates treasure of type - valid', function () {
@@ -167,7 +162,10 @@ describe('Treasure Controller', function () {
         vm.generateRandomItem();
         scope.$apply();
 
+
+        expect(vm.item.name).toBeNull();
         expect(vm.item.description).toBe('mundane item type');
+        expect(vm.treasure).toBeNull();
     });
 
     it('generates random powered item', function () {
@@ -177,7 +175,10 @@ describe('Treasure Controller', function () {
         vm.generateRandomItem();
         scope.$apply();
 
+
+        expect(vm.item.name).toBeNull();
         expect(vm.item.description).toBe('power item type');
+        expect(vm.treasure).toBeNull();
     });
 
     it('validates random powered item - valid', function () {
@@ -208,7 +209,9 @@ describe('Treasure Controller', function () {
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.item.description).toBe('my mundane item mundane item type');
+        expect(vm.item.name).toBe('my mundane item');
+        expect(vm.item.description).toBe('mundane item type');
+        expect(vm.treasure).toBeNull();
     });
 
     it('generates powered item', function () {
@@ -219,7 +222,9 @@ describe('Treasure Controller', function () {
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.item.description).toBe('my powered item power item type');
+        expect(vm.item.name).toBe('my powered item');
+        expect(vm.item.description).toBe('power item type');
+        expect(vm.treasure).toBeNull();
     });
 
     it('validates random powered item - valid', function () {
@@ -508,6 +513,26 @@ describe('Treasure Controller', function () {
         expect(vm.generating).toBeFalsy();
     });
 
+    it('says it is done validating if an error is thrown while validating treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.level = 666;
+
+        vm.validateTreasure();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown while validating treasure', function () {
+        vm.treasureType = 'treasure type';
+        vm.level = 666;
+
+        vm.validateTreasure();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
     it('says it is done generating if an error is thrown while fetching treasure', function () {
         vm.treasureType = 'treasure type';
         vm.level = 666;
@@ -528,12 +553,65 @@ describe('Treasure Controller', function () {
         expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
-    it('ERROR CHECK VALIDATE TREASURE', function () {
-        expect(1).toBe(2);
+    it('says it is done validating if an error is thrown while validating random item', function () {
+        vm.power = 'fail power';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown while validating random item', function () {
+        vm.power = 'fail power';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('says it is done generating if an error is thrown while fetching random item', function () {
+        vm.power = 'fail power';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown while fetching random item', function () {
+        vm.power = 'fail power';
+
+        vm.generateItem();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+    });
+
+    it('says it is done validating if an error is thrown while validating item', function () {
+        vm.power = 'fail power';
+        vm.itemName = 'my item';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(vm.generating).toBeFalsy();
+    });
+
+    it('shows an alert if an error is thrown while validating item', function () {
+        vm.power = 'fail power';
+        vm.itemName = 'my item';
+
+        vm.validateItem();
+        scope.$apply();
+
+        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching item', function () {
-        vm.power = '666';
+        vm.power = 'fail power';
+        vm.itemName = 'my item';
 
         vm.generateItem();
         scope.$apply();
@@ -542,20 +620,13 @@ describe('Treasure Controller', function () {
     });
 
     it('shows an alert if an error is thrown while fetching item', function () {
-        vm.power = '666';
+        vm.power = 'fail power';
+        vm.itemName = 'my item';
 
         vm.generateItem();
         scope.$apply();
 
         expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
-    });
-
-    it('ERROR CHECK VALIDATE RANDOM ITEM', function () {
-        expect(1).toBe(2);
-    });
-
-    it('ERROR CHECK VALIDATE ITEM', function () {
-        expect(1).toBe(2);
     });
 
     it('clears the treasure if an error is thrown while fetching treasure', function () {
@@ -577,26 +648,25 @@ describe('Treasure Controller', function () {
         vm.generateItem();
         scope.$apply();
 
-        vm.power = '666';
+        vm.power = 'fail power';
 
         vm.generateItem();
         scope.$apply();
 
-        expect(vm.treasure).toBeNull();
+        expect(vm.item).toBeNull();
     });
 
     it('clears the item if an error is thrown while fetching item', function () {
-        expect(1).toBe(2);
+        vm.generateItem();
+        scope.$apply();
+
+        vm.power = 'fail power';
+        vm.itemName = "my item";
 
         vm.generateItem();
         scope.$apply();
 
-        vm.power = '666';
-
-        vm.generateItem();
-        scope.$apply();
-
-        expect(vm.treasure).toBeNull();
+        expect(vm.item).toBeNull();
     });
 
     it('downloads treasure', function () {
@@ -604,14 +674,22 @@ describe('Treasure Controller', function () {
             description: 'Treasure 9266'
         };
 
-        vm.download();
+        vm.downloadTreasure();
         scope.$apply();
 
         var fileName = 'Treasure ' + new Date().toString();
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Treasure 9266', fileName);
     });
 
-    it('DOWNLOADS ITEM', function () {
-        expect(1).toBe(2);
+    it('downloads item', function () {
+        vm.item = {
+            description: 'Item 9266'
+        };
+
+        vm.downloadItem();
+        scope.$apply();
+
+        var fileName = 'Item ' + new Date().toString();
+        expect(fileSaverServiceMock.save).toHaveBeenCalledWith('Item 9266', fileName);
     });
 })
