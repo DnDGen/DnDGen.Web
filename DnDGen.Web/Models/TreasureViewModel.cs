@@ -1,98 +1,46 @@
-﻿using System.Collections.Generic;
-using TreasureGen.Items;
+﻿using TreasureGen.Items;
+using TreasureGen.Items.Magical;
+using TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.Models
 {
     public class TreasureViewModel
     {
         public IEnumerable<string> TreasureTypes { get; set; }
+        public IEnumerable<string> Powers { get; set; }
         public int MaxTreasureLevel { get; set; }
-        public Dictionary<string, IEnumerable<string>> ItemPowers { get; set; }
+        public Dictionary<string, IEnumerable<string>> ItemNames { get; set; }
 
         public TreasureViewModel()
         {
-            MaxTreasureLevel = 30;
+            MaxTreasureLevel = 100;
             TreasureTypes = new[] { "Treasure", "Coin", "Goods", "Items" };
-            ItemPowers = GetPowers();
+            Powers = new[]
+            {
+                PowerConstants.Mundane,
+                PowerConstants.Minor,
+                PowerConstants.Medium,
+                PowerConstants.Major
+            };
+            ItemNames = GetNames();
         }
 
-        private Dictionary<string, IEnumerable<string>> GetPowers()
+        private Dictionary<string, IEnumerable<string>> GetNames()
         {
-            var powers = new Dictionary<string, IEnumerable<string>>();
-            powers[ItemTypeConstants.AlchemicalItem] = new[]
-            {
-                PowerConstants.Mundane
-            };
+            var names = new Dictionary<string, IEnumerable<string>>();
+            names[ItemTypeConstants.AlchemicalItem] = AlchemicalItemConstants.GetAllAlchemicalItems();
+            names[ItemTypeConstants.Armor] = ArmorConstants.GetAllArmors(true);
+            names[ItemTypeConstants.Potion] = PotionConstants.GetAllPotions();
+            names[ItemTypeConstants.Ring] = RingConstants.GetAllRings();
+            names[ItemTypeConstants.Rod] = RodConstants.GetAllRods();
+            names[ItemTypeConstants.Scroll] = new[] { "Scroll" };
+            names[ItemTypeConstants.Staff] = StaffConstants.GetAllStaffs();
+            names[ItemTypeConstants.Tool] = ToolConstants.GetAllTools();
+            names[ItemTypeConstants.Wand] = new[] { "Wand" };
+            names[ItemTypeConstants.Weapon] = WeaponConstants.GetAllWeapons();
+            names[ItemTypeConstants.WondrousItem] = WondrousItemConstants.GetAllWondrousItems();
 
-            powers[ItemTypeConstants.Armor] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Potion] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Ring] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Rod] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Scroll] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Staff] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Tool] = new[]
-            {
-                PowerConstants.Mundane
-            };
-
-            powers[ItemTypeConstants.Wand] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Weapon] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.WondrousItem] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            return powers;
+            return names;
         }
     }
 }
