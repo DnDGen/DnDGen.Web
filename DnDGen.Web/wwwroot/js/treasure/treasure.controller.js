@@ -19,6 +19,7 @@
         vm.validating = false;
         vm.itemType = vm.treasureModel.itemTypeViewModels[0];
         vm.power = vm.treasureModel.powers[0];
+        vm.itemNames = vm.treasureModel.itemNames[vm.itemType.itemType];
         vm.itemName = null;
         vm.validTreasure = false;
         vm.validItem = false;
@@ -63,7 +64,7 @@
             vm.validating = true;
 
             treasureService.validateTreasure(vm.treasureType, vm.level)
-                .then(setTreasureValidity, handleError);
+                .then(setTreasureValidity, handleValidationError);
         }
 
         function setTreasureValidity(response) {
@@ -71,11 +72,18 @@
             vm.validating = false;
         }
 
+        function handleValidationError() {
+            vm.generating = false;
+            vm.validating = false;
+            vm.validItem = false;
+            vm.validTreasure = false;
+        }
+
         function validateItem() {
             vm.validating = true;
 
             treasureService.validateItem(vm.itemType.itemType, vm.power, vm.itemName)
-                .then(setItemValidity, handleError);
+                .then(setItemValidity, handleValidationError);
         }
 
         function setItemValidity(response) {
@@ -86,13 +94,14 @@
         $scope.$watch('vm.treasureType', validateTreasure, true);
         $scope.$watch('vm.level', validateTreasure, true);
 
-        //HACK: Keeping this code around in case we need to update the list of item names this way
-        //$scope.$watch('vm.itemType', function (newValue, oldValue) {
-        //    vm.powers = vm.treasureModel.itemPowers[vm.itemType];
-        //    vm.power = vm.powers[0];
-        //});
+        $scope.$watch('vm.itemType', function (newValue, oldValue) {
+            vm.itemNames = vm.treasureModel.itemNames[vm.itemType.itemType];
+            vm.itemName = null;
 
-        $scope.$watch('vm.itemType', validateItem, true);
+            validateItem();
+        }, true);
+
+        //$scope.$watch('vm.itemType', validateItem, true);
         $scope.$watch('vm.power', validateItem, true);
         $scope.$watch('vm.itemName', validateItem, true);
 

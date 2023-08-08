@@ -104,6 +104,7 @@ describe('Treasure Controller', function () {
         expect(vm.itemType.itemType).toBe('firstItemType');
         expect(vm.itemType.displayName).toBe('first item type');
         expect(vm.power).toBe('low power');
+        expect(vm.itemNames).toBe(model.itemNames['firstItemType']);
         expect(vm.itemName).toBeNull();
         expect(vm.validTreasure).toBeFalsy();
         expect(vm.validItem).toBeFalsy();
@@ -145,7 +146,6 @@ describe('Treasure Controller', function () {
         vm.treasureType = 'treasure type';
         vm.level = 9266;
 
-        //vm.validateTreasure();
         scope.$apply();
 
         expect(vm.validTreasure).toBeTruthy();
@@ -155,7 +155,6 @@ describe('Treasure Controller', function () {
         vm.treasureType = 'invalid treasure type';
         vm.level = 9266;
 
-        //vm.validateTreasure();
         scope.$apply();
 
         expect(vm.validTreasure).toBeFalsy();
@@ -165,7 +164,6 @@ describe('Treasure Controller', function () {
         vm.treasureType = 'treasure type';
         vm.level = 666;
 
-        //vm.validateTreasure();
         scope.$apply();
 
         expect(vm.validTreasure).toBeFalsy();
@@ -289,8 +287,11 @@ describe('Treasure Controller', function () {
     it('validates mundane item - invalid (item name)', function () {
         vm.power = 'Mundane';
         vm.itemType = { itemType: 'myItemType', displayName: 'my item type' };
-        vm.itemName = 'my invalid mundane item';
+        scope.$apply();
 
+        expect(vm.validItem).toBeTruthy();
+
+        vm.itemName = 'my invalid mundane item';
         scope.$apply();
 
         expect(vm.validItem).toBeFalsy();
@@ -329,8 +330,11 @@ describe('Treasure Controller', function () {
     it('validates powered item - invalid (item name)', function () {
         vm.power = 'power';
         vm.itemType = { itemType: 'myItemType', displayName: 'my item type' };
-        vm.itemName = 'my invalid powered item';
+        scope.$apply();
 
+        expect(vm.validItem).toBeTruthy();
+
+        vm.itemName = 'my invalid powered item';
         scope.$apply();
 
         expect(vm.validItem).toBeFalsy();
@@ -469,8 +473,7 @@ describe('Treasure Controller', function () {
         expect(vm.validItem).toBeFalsy();
     });
 
-    //IGNORE: This might not be needed, depending on if the view works as defined accessing the model directly for names for an item type
-    xit('updates the item names when the item type is changed', function () {
+    it('updates the item names when the item type is changed', function () {
         vm.itemName = 'my item name';
         scope.$digest();
 
@@ -599,24 +602,32 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('says it is done validating if an error is thrown while validating treasure', function () {
-        vm.treasureType = 'treasure type';
+        vm.treasureType = 'my treasure type';
         vm.level = 666;
+
+        vm.validTreasure = true;
 
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+        expect(vm.validTreasure).toBeFalsy();
     });
 
-    it('shows an alert if an error is thrown while validating treasure', function () {
+    it('do not show an alert if an error is thrown while validating treasure', function () {
         vm.treasureType = 'treasure type';
         vm.level = 666;
 
+        vm.validTreasure = true;
+
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(vm.validTreasure).toBeFalsy();
+        expect(sweetAlertServiceMock.showError).not.toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching treasure', function () {
@@ -627,6 +638,7 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching treasure', function () {
@@ -642,17 +654,23 @@ describe('Treasure Controller', function () {
     it('says it is done validating if an error is thrown while validating random item', function () {
         vm.power = 'fail power';
 
+        vm.validTreasure = true;
+        vm.validItem = true;
+
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+        expect(vm.validTreasure).toBeFalsy();
+        expect(vm.validItem).toBeFalsy();
     });
 
-    it('shows an alert if an error is thrown while validating random item', function () {
+    it('do not show an alert if an error is thrown while validating random item', function () {
         vm.power = 'fail power';
 
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(sweetAlertServiceMock.showError).not.toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching random item', function () {
@@ -662,6 +680,7 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching random item', function () {
@@ -677,18 +696,24 @@ describe('Treasure Controller', function () {
         vm.power = 'fail power';
         vm.itemName = 'my item';
 
+        vm.validTreasure = true;
+        vm.validItem = true;
+
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
+        expect(vm.validTreasure).toBeFalsy();
+        expect(vm.validItem).toBeFalsy();
     });
 
-    it('shows an alert if an error is thrown while validating item', function () {
+    it('do not show an alert if an error is thrown while validating item', function () {
         vm.power = 'fail power';
         vm.itemName = 'my item';
 
         scope.$apply();
 
-        expect(sweetAlertServiceMock.showError).toHaveBeenCalled();
+        expect(sweetAlertServiceMock.showError).not.toHaveBeenCalled();
     });
 
     it('says it is done generating if an error is thrown while fetching item', function () {
@@ -699,6 +724,7 @@ describe('Treasure Controller', function () {
         scope.$apply();
 
         expect(vm.generating).toBeFalsy();
+        expect(vm.validating).toBeFalsy();
     });
 
     it('shows an alert if an error is thrown while fetching item', function () {
