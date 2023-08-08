@@ -101,7 +101,6 @@
             validateItem();
         }, true);
 
-        //$scope.$watch('vm.itemType', validateItem, true);
         $scope.$watch('vm.power', validateItem, true);
         $scope.$watch('vm.itemName', validateItem, true);
 

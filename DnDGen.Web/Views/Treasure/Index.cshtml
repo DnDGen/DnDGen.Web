@@ -75,10 +75,14 @@
                         </div>
                         <div class="form-group row">
                             <label for="powers" class="col-sm-3 col-form-label">Power:</label>
-                            <div class="col-sm-3">
+                            @*<div class="col-sm-3">*@
+                            <div class="col-sm-4">
                                 <select id="powers" class="form-select" ng-model="vm.power" ng-options="power for power in vm.treasureModel.powers" required></select>
                             </div>
-                            <div class="col-sm-6">
+                            <!--HACK: We can't include the names for generation/validation until the Web project updates to the current TreasureGen
+                                The casing of the item names differs between the package versions, so validation fails
+                            -->
+                            @*<div class="col-sm-6">
                                 <select id="itemNames" 
                                         class="form-select"
                                         ng-model="vm.itemName"
@@ -89,7 +93,7 @@
                                        type="text"
                                        ng-model="vm.itemName"
                                        ng-show="vm.itemType.itemType == 'Wand' || vm.itemType.itemType == 'Scroll'"></input>
-                            </div>
+                            </div>*@
                         </div>
                         <button 
                             id="itemButton"
