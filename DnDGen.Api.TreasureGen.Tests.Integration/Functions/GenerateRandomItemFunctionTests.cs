@@ -41,7 +41,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             var item = okResult.Value as Item;
             Assert.That(item, Is.Not.Null);
             Assert.That(item.Name, Is.Not.Empty);
-            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput));
+            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
+            Assert.That(item.Quantity, Is.Positive, item.Name);
         }
 
         public static IEnumerable RandomItemGenerationData
@@ -103,8 +104,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             var item = okResult.Value as Item;
             Assert.That(item, Is.Not.Null);
             Assert.That(item.Name, Is.Not.Empty);
-            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput));
             Assert.That(item.BaseNames.Union(new[] { item.Name }), Contains.Item(name));
+            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
+            Assert.That(item.Quantity, Is.Positive, item.Name);
         }
 
         public static IEnumerable ItemGenerationData
@@ -203,6 +205,23 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, wondrousItem, ItemTypeConstants.WondrousItem);
                 }
             }
+        }
+
+        [Test]
+        public async Task BUG_GenerateItem_ReturnsSpecificItem_WithQuantity()
+        {
+            var request = RequestHelper.BuildRequest($"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
+            var response = await function.Run(request, ItemTypes.Weapon.ToString(), PowerConstants.Major, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Item>());
+
+            var item = okResult.Value as Item;
+            Assert.That(item, Is.Not.Null);
+            Assert.That(item.Name, Is.Not.Empty.And.EqualTo(WeaponConstants.AssassinsDagger));
+            Assert.That(item.ItemType, Is.EqualTo(ItemTypeConstants.Weapon));
+            Assert.That(item.Quantity, Is.EqualTo(1));
         }
     }
 }
