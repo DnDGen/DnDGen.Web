@@ -20,6 +20,10 @@ using TreasureGen.Items.Magical;
 
 namespace DnDGen.Web.Tests.Unit.Models
 {
+    //INFO: These tests aren't as useful anymore
+    //Web references outdated Nuget packages, so models from the APIs are different
+    //Also, API models won't be referenced directly in C# code, so this structure might not be relevant
+    //We will see once all packages are up-to-date
     [TestFixture]
     public class BindingTests
     {

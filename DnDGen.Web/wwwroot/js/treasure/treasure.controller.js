@@ -17,7 +17,7 @@
         vm.item = null;
         vm.generating = false;
         vm.validating = false;
-        vm.itemType = vm.treasureModel.itemTypes[0];
+        vm.itemType = vm.treasureModel.itemTypeViewModels[0];
         vm.power = vm.treasureModel.powers[0];
         vm.itemName = null;
         vm.validTreasure = false;
@@ -48,7 +48,7 @@
         vm.generateItem = function () {
             vm.generating = true;
 
-            treasureService.getItem(vm.itemType, vm.power, vm.itemName)
+            treasureService.getItem(vm.itemType.itemType, vm.power, vm.itemName)
                 .then(setItem, handleError);
         };
 
@@ -74,7 +74,7 @@
         function validateItem() {
             vm.validating = true;
 
-            treasureService.validateItem(vm.itemType, vm.power, vm.itemName)
+            treasureService.validateItem(vm.itemType.itemType, vm.power, vm.itemName)
                 .then(setItemValidity, handleError);
         }
 
@@ -105,7 +105,7 @@
 
         vm.downloadItem = function () {
             var formattedItem = treasureFormatterService.formatItem(vm.item);
-            var fileName = 'Item (' vm.item.name + ') ' + new Date().toString();
+            var fileName = 'Item (' + vm.item.name + ') ' + new Date().toString();
 
             fileSaverService.save(formattedItem, fileName);
         };

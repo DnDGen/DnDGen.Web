@@ -1,4 +1,4 @@
-﻿using DnDGen.Web.Models;
+﻿using DnDGen.Web.Models.Treasures;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
