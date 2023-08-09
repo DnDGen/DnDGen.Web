@@ -68,17 +68,17 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
         [TestCase(ItemTypeConstants.WondrousItem, PowerConstants.Minor, true)]
         [TestCase(ItemTypeConstants.WondrousItem, PowerConstants.Medium, true)]
         [TestCase(ItemTypeConstants.WondrousItem, PowerConstants.Major, true)]
-        public void Validate_ReturnsValidity(string itemType, string power, bool valid)
+        public void GetValid_ReturnsValidity(string itemType, string power, bool valid)
         {
-            var isValid = ItemValidator.Validate(itemType, power);
-            Assert.That(isValid, Is.EqualTo(valid));
+            var result = ItemValidator.GetValid(itemType, power);
+            Assert.That(result.Valid, Is.EqualTo(valid));
         }
 
         [TestCaseSource(nameof(ItemGenerationData))]
-        public void Validate_ReturnsValidity_WithName(string itemType, string power, string name, bool valid)
+        public void GetValid_ReturnsValidity_WithName(string itemType, string power, string name, bool valid)
         {
-            var isValid = ItemValidator.Validate(itemType, power, name);
-            Assert.That(isValid, Is.EqualTo(valid));
+            var result = ItemValidator.GetValid(itemType, power, name);
+            Assert.That(result.Valid, Is.EqualTo(valid));
         }
 
         public static IEnumerable ItemGenerationData
@@ -569,6 +569,24 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
                 yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Medium, WeaponConstants.AssassinsDagger, false);
                 //yield return new TestCaseData(ItemTypeConstants.WondrousItem, PowerConstants.Medium, WondrousItemConstants.AmuletOfHealth, false);
             }
+        }
+
+        [Test]
+        public void GetValid_ReturnsValidItemType()
+        {
+            Assert.Fail("not yet written. Test cases are variations on item types");
+        }
+
+        [Test]
+        public void GetValid_ReturnsValidPower()
+        {
+            Assert.Fail("not yet written. Test cases are variations on powers");
+        }
+
+        [Test]
+        public void GetValid_ReturnsValidItemName()
+        {
+            Assert.Fail("not yet written. Test cases are variations on names (including null/not set)");
         }
     }
 }

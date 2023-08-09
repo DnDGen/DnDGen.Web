@@ -53,8 +53,6 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             get
             {
-                yield return new TestCaseData(TreasureTypes.Treasure.ToString(), 20);
-
                 var treasureTypes = Enum.GetValues(typeof(TreasureTypes));
 
                 foreach (var treasureType in treasureTypes)
@@ -63,6 +61,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString(), 2);
                     yield return new TestCaseData(treasureType.ToString(), 10);
                     yield return new TestCaseData(treasureType.ToString(), 20);
+                    yield return new TestCaseData(treasureType.ToString().ToUpper(), 20);
+                    yield return new TestCaseData(treasureType.ToString().ToLower(), 20);
                     yield return new TestCaseData(((int)treasureType).ToString(), 20);
                     yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum);
                 }

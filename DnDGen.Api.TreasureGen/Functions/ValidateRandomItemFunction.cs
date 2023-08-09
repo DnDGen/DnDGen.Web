@@ -1,4 +1,3 @@
-using DnDGen.Api.TreasureGen.Helpers;
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Validators;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +7,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -34,29 +32,14 @@ namespace DnDGen.Api.TreasureGen.Functions
             log.LogInformation("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
 
             var name = (string)req.Query["name"];
-            var validItemType = Enum.TryParse<ItemTypes>(itemType, out var validatedItemType);
-            var valid = validItemType;
+            var validatorResult = ItemValidator.GetValid(itemType, power, name);
 
-            if (validItemType)
-            {
-                var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
-
-                if (name == null)
-                {
-                    valid &= ItemValidator.Validate(itemTypeDescription, power);
-                }
-                else
-                {
-                    valid &= ItemValidator.Validate(itemTypeDescription, power, name);
-                }
-            }
-
-            IActionResult result = new OkObjectResult(valid);
+            IActionResult result = new OkObjectResult(validatorResult.Valid);
 
             if (name == null)
-                log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {valid}");
+                log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {validatorResult.Valid}");
             else
-                log.LogInformation($"Validated Item {name} ({itemType}) at power '{power}' = {valid}");
+                log.LogInformation($"Validated Item {name} ({itemType}) at power '{power}' = {validatorResult.Valid}");
 
             return Task.FromResult(result);
         }

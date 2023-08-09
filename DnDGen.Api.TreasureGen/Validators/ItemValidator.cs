@@ -1,4 +1,6 @@
-﻿using DnDGen.TreasureGen.Items;
+﻿using DnDGen.Api.TreasureGen.Helpers;
+using DnDGen.Api.TreasureGen.Models;
+using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
 using System;
@@ -9,6 +11,8 @@ namespace DnDGen.Api.TreasureGen.Validators
 {
     public static class ItemValidator
     {
+        private static IEnumerable<string> Powers => new[] { PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major };
+
         private static Dictionary<string, IEnumerable<string>> GetPowers()
         {
             var powers = new Dictionary<string, IEnumerable<string>>();
@@ -88,21 +92,11 @@ namespace DnDGen.Api.TreasureGen.Validators
             return powers;
         }
 
-        public static bool Validate(string itemType, string power)
+        private static bool Validate(string itemType, string power)
         {
             var powers = GetPowers();
 
             return powers.ContainsKey(itemType) && powers[itemType].Contains(power);
-        }
-
-        public static bool Validate(string itemType, string power, string name)
-        {
-            var valid = Validate(itemType, power);
-
-            var items = GetItemNames(itemType, power, name);
-            valid &= items.Contains(name);
-
-            return valid;
         }
 
         private static IEnumerable<string> GetItemNames(string itemType, string power, string name)
@@ -132,6 +126,34 @@ namespace DnDGen.Api.TreasureGen.Validators
                 case ItemTypeConstants.WondrousItem: return WondrousItemConstants.GetAllWondrousItems();
                 default: return Enumerable.Empty<string>();
             }
+        }
+
+        public static (bool Valid, string ItemType, string Power, string Name) GetValid(string itemType, string power, string name = null)
+        {
+            var validatedPower = Powers.FirstOrDefault(p => p.ToLower() == power.ToLower());
+            var valid = validatedPower != null;
+
+            var validItemType = Enum.TryParse<ItemTypes>(itemType, true, out var validatedItemType);
+            valid &= validItemType;
+
+            if (!valid)
+            {
+                return (false, null, null, null);
+            }
+
+            var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
+            valid &= Validate(itemTypeDescription, validatedPower);
+
+            if (name == null)
+            {
+                return (valid, itemTypeDescription, validatedPower, null);
+            }
+
+            var items = GetItemNames(itemType, power, name);
+            var validatedName = items.FirstOrDefault(n => n.ToLower() == name.ToLower());
+            valid &= validatedName != null;
+
+            return (valid, itemTypeDescription, validatedPower, validatedName);
         }
     }
 }

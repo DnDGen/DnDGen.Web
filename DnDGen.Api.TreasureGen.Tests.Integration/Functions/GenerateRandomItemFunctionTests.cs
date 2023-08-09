@@ -50,43 +50,98 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             get
             {
                 yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, ItemTypeConstants.AlchemicalItem);
+                yield return new TestCaseData(((int)ItemTypes.AlchemicalItem).ToString(), PowerConstants.Mundane, ItemTypeConstants.AlchemicalItem);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString().ToUpper(), PowerConstants.Mundane, ItemTypeConstants.AlchemicalItem);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString().ToLower(), PowerConstants.Mundane, ItemTypeConstants.AlchemicalItem);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane.ToUpper(), ItemTypeConstants.AlchemicalItem);
+                yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane.ToLower(), ItemTypeConstants.AlchemicalItem);
 
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, ItemTypeConstants.Armor);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, ItemTypeConstants.Armor);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, ItemTypeConstants.Armor);
+                yield return new TestCaseData(((int)ItemTypes.Armor).ToString(), PowerConstants.Medium, ItemTypeConstants.Armor);
+                yield return new TestCaseData(ItemTypes.Armor.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Armor);
+                yield return new TestCaseData(ItemTypes.Armor.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Armor);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Armor);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Armor);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, ItemTypeConstants.Armor);
 
                 yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Minor, ItemTypeConstants.Potion);
                 yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, ItemTypeConstants.Potion);
+                yield return new TestCaseData(((int)ItemTypes.Potion).ToString(), PowerConstants.Medium, ItemTypeConstants.Potion);
+                yield return new TestCaseData(ItemTypes.Potion.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Potion);
+                yield return new TestCaseData(ItemTypes.Potion.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Potion);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Potion);
+                yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Potion);
                 yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Major, ItemTypeConstants.Potion);
 
                 yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Minor, ItemTypeConstants.Ring);
                 yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ItemTypeConstants.Ring);
+                yield return new TestCaseData(((int)ItemTypes.Ring).ToString(), PowerConstants.Medium, ItemTypeConstants.Ring);
+                yield return new TestCaseData(ItemTypes.Ring.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Ring);
+                yield return new TestCaseData(ItemTypes.Ring.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Ring);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Ring);
+                yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Ring);
                 yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Major, ItemTypeConstants.Ring);
 
                 yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, ItemTypeConstants.Rod);
+                yield return new TestCaseData(((int)ItemTypes.Rod).ToString(), PowerConstants.Medium, ItemTypeConstants.Rod);
+                yield return new TestCaseData(ItemTypes.Rod.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Rod);
+                yield return new TestCaseData(ItemTypes.Rod.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Rod);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Rod);
+                yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Rod);
                 yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Major, ItemTypeConstants.Rod);
 
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Minor, ItemTypeConstants.Scroll);
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, ItemTypeConstants.Scroll);
+                yield return new TestCaseData(((int)ItemTypes.Scroll).ToString(), PowerConstants.Medium, ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Scroll);
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Major, ItemTypeConstants.Scroll);
 
                 yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, ItemTypeConstants.Staff);
+                yield return new TestCaseData(((int)ItemTypes.Staff).ToString(), PowerConstants.Medium, ItemTypeConstants.Staff);
+                yield return new TestCaseData(ItemTypes.Staff.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Staff);
+                yield return new TestCaseData(ItemTypes.Staff.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Staff);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Staff);
+                yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Staff);
                 yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Major, ItemTypeConstants.Staff);
 
                 yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, ItemTypeConstants.Tool);
+                yield return new TestCaseData(((int)ItemTypes.Tool).ToString(), PowerConstants.Mundane, ItemTypeConstants.Tool);
+                yield return new TestCaseData(ItemTypes.Tool.ToString().ToUpper(), PowerConstants.Mundane, ItemTypeConstants.Tool);
+                yield return new TestCaseData(ItemTypes.Tool.ToString().ToLower(), PowerConstants.Mundane, ItemTypeConstants.Tool);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane.ToUpper(), ItemTypeConstants.Tool);
+                yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane.ToLower(), ItemTypeConstants.Tool);
 
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Minor, ItemTypeConstants.Wand);
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, ItemTypeConstants.Wand);
+                yield return new TestCaseData(((int)ItemTypes.Wand).ToString(), PowerConstants.Medium, ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Wand);
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Major, ItemTypeConstants.Wand);
 
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, ItemTypeConstants.Weapon);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, ItemTypeConstants.Weapon);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, ItemTypeConstants.Weapon);
+                yield return new TestCaseData(((int)ItemTypes.Weapon).ToString(), PowerConstants.Medium, ItemTypeConstants.Weapon);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.Weapon);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.Weapon);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.Weapon);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.Weapon);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, ItemTypeConstants.Weapon);
 
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Minor, ItemTypeConstants.WondrousItem);
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, ItemTypeConstants.WondrousItem);
+                yield return new TestCaseData(((int)ItemTypes.WondrousItem).ToString(), PowerConstants.Medium, ItemTypeConstants.WondrousItem);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString().ToUpper(), PowerConstants.Medium, ItemTypeConstants.WondrousItem);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString().ToLower(), PowerConstants.Medium, ItemTypeConstants.WondrousItem);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium.ToUpper(), ItemTypeConstants.WondrousItem);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium.ToLower(), ItemTypeConstants.WondrousItem);
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, ItemTypeConstants.WondrousItem);
             }
         }
@@ -117,6 +172,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 foreach (var alchemicalItem in alchemicalItems)
                 {
                     yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem, ItemTypeConstants.AlchemicalItem);
+                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToUpper(), ItemTypeConstants.AlchemicalItem);
+                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToLower(), ItemTypeConstants.AlchemicalItem);
                 }
 
                 var armors = ArmorConstants.GetAllArmorsAndShields(false);
@@ -125,6 +182,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor, ItemTypeConstants.Armor);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor);
                 }
 
@@ -133,6 +192,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 {
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor);
                 }
 
@@ -141,6 +202,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 {
                     yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Minor, potion, ItemTypeConstants.Potion);
                     yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion, ItemTypeConstants.Potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToUpper(), ItemTypeConstants.Potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToLower(), ItemTypeConstants.Potion);
                     yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Major, potion, ItemTypeConstants.Potion);
                 }
 
@@ -149,6 +212,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 {
                     yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Minor, ring, ItemTypeConstants.Ring);
                     yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring, ItemTypeConstants.Ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToUpper(), ItemTypeConstants.Ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToLower(), ItemTypeConstants.Ring);
                     yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Major, ring, ItemTypeConstants.Ring);
                 }
 
@@ -156,17 +221,23 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 foreach (var rod in rods)
                 {
                     yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod, ItemTypeConstants.Rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToUpper(), ItemTypeConstants.Rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToLower(), ItemTypeConstants.Rod);
                     yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Major, rod, ItemTypeConstants.Rod);
                 }
 
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Minor, "My Scroll", ItemTypeConstants.Scroll);
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "My Scroll", ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "MY SCROLL", ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "my scroll", ItemTypeConstants.Scroll);
                 yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Major, "My Scroll", ItemTypeConstants.Scroll);
 
                 var staffs = StaffConstants.GetAllStaffs();
                 foreach (var staff in staffs)
                 {
                     yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff, ItemTypeConstants.Staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToUpper(), ItemTypeConstants.Staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToLower(), ItemTypeConstants.Staff);
                     yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Major, staff, ItemTypeConstants.Staff);
                 }
 
@@ -174,10 +245,14 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 foreach (var tool in tools)
                 {
                     yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool, ItemTypeConstants.Tool);
+                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToUpper(), ItemTypeConstants.Tool);
+                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToLower(), ItemTypeConstants.Tool);
                 }
 
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Minor, "My Wand", ItemTypeConstants.Wand);
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "My Wand", ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "MY WAND", ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "my wand", ItemTypeConstants.Wand);
                 yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Major, "My Wand", ItemTypeConstants.Wand);
 
                 var weapons = WeaponConstants.GetAllWeapons(false, false);
@@ -186,6 +261,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon, ItemTypeConstants.Weapon);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon);
                 }
 
@@ -194,6 +271,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 {
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon);
                 }
 
@@ -202,13 +281,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 {
                     yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Minor, wondrousItem, ItemTypeConstants.WondrousItem);
                     yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem, ItemTypeConstants.WondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToUpper(), ItemTypeConstants.WondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToLower(), ItemTypeConstants.WondrousItem);
                     yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, wondrousItem, ItemTypeConstants.WondrousItem);
                 }
             }
         }
 
         [Test]
-        public async Task BUG_GenerateItem_ReturnsSpecificItem_WithQuantity()
+        public async Task BUG_GenerateItem_ReturnsSpecificWeapon_WithQuantity()
         {
             var request = RequestHelper.BuildRequest($"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
             var response = await function.Run(request, ItemTypes.Weapon.ToString(), PowerConstants.Major, logger);
