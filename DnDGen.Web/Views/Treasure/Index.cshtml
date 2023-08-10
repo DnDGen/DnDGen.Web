@@ -80,7 +80,8 @@
                                 <select id="powers" class="form-select" ng-model="vm.power" ng-options="power for power in vm.treasureModel.powers" required></select>
                             </div>
                             <!--HACK: We can't include the names for generation/validation until the Web project updates to the current TreasureGen
-                                The casing of the item names differs between the package versions, so validation fails
+                                The casing of the item names differs between the package versions, so validation fails.
+                                There has been an update to the nuget package that fixes this, but we have to wait for the API to deploy the update
                             -->
                             @*<div class="col-sm-6">
                                 <select id="itemNames" 

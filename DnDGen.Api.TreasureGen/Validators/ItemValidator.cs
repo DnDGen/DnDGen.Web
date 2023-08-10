@@ -149,7 +149,7 @@ namespace DnDGen.Api.TreasureGen.Validators
                 return (valid, itemTypeDescription, validatedPower, null);
             }
 
-            var items = GetItemNames(itemType, power, name);
+            var items = GetItemNames(itemTypeDescription, validatedPower, name);
             var validatedName = items.FirstOrDefault(n => n.ToLower() == name.ToLower());
             valid &= validatedName != null;
 

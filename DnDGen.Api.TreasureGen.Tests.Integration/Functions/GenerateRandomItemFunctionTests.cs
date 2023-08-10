@@ -147,7 +147,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [TestCaseSource(nameof(ItemGenerationData))]
-        public async Task GenerateItem_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput)
+        public async Task GenerateItem_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
         {
             var request = RequestHelper.BuildRequest($"?name={HttpUtility.UrlEncode(name)}");
             var response = await function.Run(request, itemTypeInput, power, logger);
@@ -159,7 +159,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             var item = okResult.Value as Item;
             Assert.That(item, Is.Not.Null);
             Assert.That(item.Name, Is.Not.Empty);
-            Assert.That(item.BaseNames.Union(new[] { item.Name }), Contains.Item(name));
+            Assert.That(item.NameMatches(itemNameOutput), Is.True, item.Name);
             Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
             Assert.That(item.Quantity, Is.Positive, item.Name);
         }
@@ -171,119 +171,127 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 var alchemicalItems = AlchemicalItemConstants.GetAllAlchemicalItems();
                 foreach (var alchemicalItem in alchemicalItems)
                 {
-                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem, ItemTypeConstants.AlchemicalItem);
-                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToUpper(), ItemTypeConstants.AlchemicalItem);
-                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToLower(), ItemTypeConstants.AlchemicalItem);
+                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem,
+                        ItemTypeConstants.AlchemicalItem, alchemicalItem);
+                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToUpper(),
+                        ItemTypeConstants.AlchemicalItem, alchemicalItem);
+                    yield return new TestCaseData(ItemTypes.AlchemicalItem.ToString(), PowerConstants.Mundane, alchemicalItem.ToLower(),
+                        ItemTypeConstants.AlchemicalItem, alchemicalItem);
                 }
 
                 var armors = ArmorConstants.GetAllArmorsAndShields(false);
                 foreach (var armor in armors)
                 {
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor, ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor, ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor, armor);
                 }
 
                 var specificArmors = ArmorConstants.GetAllSpecificArmorsAndShields();
                 foreach (var armor in specificArmors)
                 {
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor);
-                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), ItemTypeConstants.Armor, armor);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, ItemTypeConstants.Armor, armor);
                 }
 
                 var potions = PotionConstants.GetAllPotions(false);
                 foreach (var potion in potions)
                 {
-                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Minor, potion, ItemTypeConstants.Potion);
-                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion, ItemTypeConstants.Potion);
-                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToUpper(), ItemTypeConstants.Potion);
-                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToLower(), ItemTypeConstants.Potion);
-                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Major, potion, ItemTypeConstants.Potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Minor, potion, ItemTypeConstants.Potion, potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion, ItemTypeConstants.Potion, potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToUpper(), ItemTypeConstants.Potion, potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Medium, potion.ToLower(), ItemTypeConstants.Potion, potion);
+                    yield return new TestCaseData(ItemTypes.Potion.ToString(), PowerConstants.Major, potion, ItemTypeConstants.Potion, potion);
                 }
 
                 var rings = RingConstants.GetAllRings();
                 foreach (var ring in rings)
                 {
-                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Minor, ring, ItemTypeConstants.Ring);
-                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring, ItemTypeConstants.Ring);
-                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToUpper(), ItemTypeConstants.Ring);
-                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToLower(), ItemTypeConstants.Ring);
-                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Major, ring, ItemTypeConstants.Ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Minor, ring, ItemTypeConstants.Ring, ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring, ItemTypeConstants.Ring, ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToUpper(), ItemTypeConstants.Ring, ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Medium, ring.ToLower(), ItemTypeConstants.Ring, ring);
+                    yield return new TestCaseData(ItemTypes.Ring.ToString(), PowerConstants.Major, ring, ItemTypeConstants.Ring, ring);
                 }
 
                 var rods = RodConstants.GetAllRods();
                 foreach (var rod in rods)
                 {
-                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod, ItemTypeConstants.Rod);
-                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToUpper(), ItemTypeConstants.Rod);
-                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToLower(), ItemTypeConstants.Rod);
-                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Major, rod, ItemTypeConstants.Rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod, ItemTypeConstants.Rod, rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToUpper(), ItemTypeConstants.Rod, rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Medium, rod.ToLower(), ItemTypeConstants.Rod, rod);
+                    yield return new TestCaseData(ItemTypes.Rod.ToString(), PowerConstants.Major, rod, ItemTypeConstants.Rod, rod);
                 }
 
-                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Minor, "My Scroll", ItemTypeConstants.Scroll);
-                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "My Scroll", ItemTypeConstants.Scroll);
-                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "MY SCROLL", ItemTypeConstants.Scroll);
-                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "my scroll", ItemTypeConstants.Scroll);
-                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Major, "My Scroll", ItemTypeConstants.Scroll);
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Minor, "My Scroll", ItemTypeConstants.Scroll, "My Scroll");
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "My Scroll", ItemTypeConstants.Scroll, "My Scroll");
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "MY SCROLL", ItemTypeConstants.Scroll, "MY SCROLL");
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Medium, "my scroll", ItemTypeConstants.Scroll, "my scroll");
+                yield return new TestCaseData(ItemTypes.Scroll.ToString(), PowerConstants.Major, "My Scroll", ItemTypeConstants.Scroll, "My Scroll");
 
                 var staffs = StaffConstants.GetAllStaffs();
                 foreach (var staff in staffs)
                 {
-                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff, ItemTypeConstants.Staff);
-                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToUpper(), ItemTypeConstants.Staff);
-                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToLower(), ItemTypeConstants.Staff);
-                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Major, staff, ItemTypeConstants.Staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff, ItemTypeConstants.Staff, staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToUpper(), ItemTypeConstants.Staff, staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Medium, staff.ToLower(), ItemTypeConstants.Staff, staff);
+                    yield return new TestCaseData(ItemTypes.Staff.ToString(), PowerConstants.Major, staff, ItemTypeConstants.Staff, staff);
                 }
 
                 var tools = ToolConstants.GetAllTools();
                 foreach (var tool in tools)
                 {
-                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool, ItemTypeConstants.Tool);
-                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToUpper(), ItemTypeConstants.Tool);
-                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToLower(), ItemTypeConstants.Tool);
+                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool, ItemTypeConstants.Tool, tool);
+                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToUpper(), ItemTypeConstants.Tool, tool);
+                    yield return new TestCaseData(ItemTypes.Tool.ToString(), PowerConstants.Mundane, tool.ToLower(), ItemTypeConstants.Tool, tool);
                 }
 
-                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Minor, "My Wand", ItemTypeConstants.Wand);
-                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "My Wand", ItemTypeConstants.Wand);
-                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "MY WAND", ItemTypeConstants.Wand);
-                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "my wand", ItemTypeConstants.Wand);
-                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Major, "My Wand", ItemTypeConstants.Wand);
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Minor, "My Wand", ItemTypeConstants.Wand, "My Wand");
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "My Wand", ItemTypeConstants.Wand, "My Wand");
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "MY WAND", ItemTypeConstants.Wand, "MY WAND");
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Medium, "my wand", ItemTypeConstants.Wand, "my wand");
+                yield return new TestCaseData(ItemTypes.Wand.ToString(), PowerConstants.Major, "My Wand", ItemTypeConstants.Wand, "My Wand");
 
                 var weapons = WeaponConstants.GetAllWeapons(false, false);
                 foreach (var weapon in weapons)
                 {
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon, ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon, ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon, weapon);
                 }
 
                 var specificWeapons = WeaponConstants.GetAllSpecific().Except(WeaponConstants.GetAllTemplates());
                 foreach (var weapon in specificWeapons)
                 {
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon);
-                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), ItemTypeConstants.Weapon, weapon);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, ItemTypeConstants.Weapon, weapon);
                 }
 
                 var wondrousItems = WondrousItemConstants.GetAllWondrousItems();
                 foreach (var wondrousItem in wondrousItems)
                 {
-                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Minor, wondrousItem, ItemTypeConstants.WondrousItem);
-                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem, ItemTypeConstants.WondrousItem);
-                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToUpper(), ItemTypeConstants.WondrousItem);
-                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToLower(), ItemTypeConstants.WondrousItem);
-                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, wondrousItem, ItemTypeConstants.WondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Minor, wondrousItem,
+                        ItemTypeConstants.WondrousItem, wondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem,
+                        ItemTypeConstants.WondrousItem, wondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToUpper(),
+                        ItemTypeConstants.WondrousItem, wondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, wondrousItem.ToLower(),
+                        ItemTypeConstants.WondrousItem, wondrousItem);
+                    yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Major, wondrousItem,
+                        ItemTypeConstants.WondrousItem, wondrousItem);
                 }
             }
         }

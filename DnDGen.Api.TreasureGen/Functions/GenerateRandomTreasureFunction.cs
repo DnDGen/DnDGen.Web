@@ -48,7 +48,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             log.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
 
-            var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, out var validatedTreasureType);
+            var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
             if (!validTreasureType)
             {
                 log.LogError($"Parameter 'treasureType' of '{treasureType}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items");
