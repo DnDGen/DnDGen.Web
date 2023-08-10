@@ -1,5 +1,4 @@
 using DnDGen.Api.TreasureGen.Dependencies;
-using DnDGen.Api.TreasureGen.Helpers;
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Validators;
 using DnDGen.Infrastructure.Generators;
@@ -13,7 +12,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -45,31 +43,23 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             log.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
 
-            var validItemType = Enum.TryParse<ItemTypes>(itemType, out var validatedItemType);
-            if (!validItemType)
-            {
-                log.LogError($"Parameter 'itemType' of '{itemType}' is not a valid Item Type. Should be one of: {string.Join(", ", Enum.GetValues<ItemTypes>())}");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
-            }
-
-            var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
-            var valid = ItemValidator.Validate(itemTypeDescription, power);
-            if (!valid)
-            {
-                log.LogError($"Parameters 'itemType' of '{itemType}' and power '{power}' is not a valid combination");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
-            }
-
             var name = (string)req.Query["name"];
-            var item = GetItem(itemTypeDescription, power, name);
+            var validatorResult = ItemValidator.GetValid(itemType, power, name);
+
+            if (!validatorResult.Valid)
+            {
+                log.LogError($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: {name ?? "(None)"}");
+                IActionResult badResult = new BadRequestResult();
+                return Task.FromResult(badResult);
+            }
+
+            var item = GetItem(validatorResult.ItemType, validatorResult.Power, validatorResult.Name);
             IActionResult result = new OkObjectResult(item);
 
-            if (name == null)
-                log.LogInformation($"Generated Item ({itemType}) at power {power}");
+            if (validatorResult.Name == null)
+                log.LogInformation($"Generated Item ({validatorResult.ItemType}) at power {validatorResult.Power}");
             else
-                log.LogInformation($"Generated Item {name} ({itemType}) at power {power}");
+                log.LogInformation($"Generated Item {validatorResult.Name} ({validatorResult.ItemType}) at power {validatorResult.Power}");
 
             return Task.FromResult(result);
         }

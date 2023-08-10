@@ -47,5 +47,32 @@ namespace DnDGen.Api.RollGen.Tests.Integration
             Assert.That(result, Contains.Substring("/v2/expression/roll"), uri.AbsoluteUri);
             Assert.That(result, Contains.Substring("/v2/expression/validate"), uri.AbsoluteUri);
         }
+
+        [TestCase("/api/v1/roll?quantity=1&die=6")]
+        [TestCase("/api/v1/roll/validate?quantity=1&die=6")]
+        [TestCase("/api/v1/expression/roll?expression=9266")]
+        [TestCase("/api/v1/expression/validate?expression=9266")]
+        [TestCase("/api/v2/1/d/6/roll")]
+        [TestCase("/api/v2/1/d/6/validate")]
+        [TestCase("/api/v2/expression/roll?expression=9266")]
+        [TestCase("/api/v2/expression/validate?expression=9266")]
+        public async Task ApiRoutes_AreFound(string route)
+        {
+            var baseUri = new Uri(localFunctions.BaseUrl);
+            var uri = new Uri(baseUri, route);
+            var response = await httpClient.GetAsync(uri);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), uri.AbsoluteUri);
+        }
+
+        [TestCase("/api/v1/Treasure/level/1/validate")]
+        public async Task OtherApiRoutes_AreNotFound(string route)
+        {
+            var baseUri = new Uri(localFunctions.BaseUrl);
+            var uri = new Uri(baseUri, route);
+            var response = await httpClient.GetAsync(uri);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound), uri.AbsoluteUri);
+        }
     }
 }

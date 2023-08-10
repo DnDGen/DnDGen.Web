@@ -6,7 +6,7 @@
 
     <script src="~/jquery/jquery.min.js"></script>
     <script src="~/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/angular.js/angular.js"></script>
+    <script src="~/angular.js/angular.min.js"></script>
     <script src="~/sweetalert/sweetalert.min.js"></script>
     <script src="~/FileSaver.js/FileSaver.js"></script>
     <script src="~/js/shared/shared.module.js"></script>
@@ -52,21 +52,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="roll" asp-action="index">RollGen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="treasure" asp-action="index">TreasureGen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="character" asp-action="index">CharacterGen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="encounter" asp-action="index">EncounterGen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="dungeon" asp-action="index">DungeonGen</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="~/Roll">RollGen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="~/Treasure">TreasureGen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="~/Character">CharacterGen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="~/Encounter">EncounterGen</a></li>
+                        <li class="nav-item"><a class="nav-link" href="~/Dungeon">DungeonGen</a></li>
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end">

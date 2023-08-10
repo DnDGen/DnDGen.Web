@@ -30,7 +30,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             log.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
 
-            var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, out var validatedTreasureType);
+            var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
             var valid = validTreasureType && LevelLimits.Minimum <= level && level <= LevelLimits.Maximum;
             IActionResult result = new OkObjectResult(valid);
 

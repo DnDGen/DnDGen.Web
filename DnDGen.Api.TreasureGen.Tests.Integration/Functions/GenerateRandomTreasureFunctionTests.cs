@@ -39,14 +39,20 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(treasure, Is.Not.Null);
             //HACK: Generating treasure does not guarantee you would get treasure, so IsAny can be True or False
             Assert.That(treasure.IsAny, Is.True.Or.False);
+
+            foreach (var item in treasure.Items)
+            {
+                Assert.That(item, Is.Not.Null);
+                Assert.That(item.Name, Is.Not.Empty);
+                Assert.That(item.ItemType, Is.Not.Empty, item.Name);
+                Assert.That(item.Quantity, Is.Positive, item.Name);
+            }
         }
 
         public static IEnumerable TreasureGenerationData
         {
             get
             {
-                yield return new TestCaseData(TreasureTypes.Treasure.ToString(), 20);
-
                 var treasureTypes = Enum.GetValues(typeof(TreasureTypes));
 
                 foreach (var treasureType in treasureTypes)
@@ -55,6 +61,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString(), 2);
                     yield return new TestCaseData(treasureType.ToString(), 10);
                     yield return new TestCaseData(treasureType.ToString(), 20);
+                    yield return new TestCaseData(treasureType.ToString().ToUpper(), 20);
+                    yield return new TestCaseData(treasureType.ToString().ToLower(), 20);
                     yield return new TestCaseData(((int)treasureType).ToString(), 20);
                     yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum);
                 }

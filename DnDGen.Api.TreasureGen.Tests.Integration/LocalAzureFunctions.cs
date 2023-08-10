@@ -21,7 +21,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration
 
         public static async Task<LocalAzureFunctions> StartNewAsync(DirectoryInfo projectDirectory, Settings settings)
         {
-            var port = 7001;
+            var port = 7002;
             var app = StartApplication(projectDirectory, settings, port);
 
             var baseUrl = $"http://localhost:{port}/";

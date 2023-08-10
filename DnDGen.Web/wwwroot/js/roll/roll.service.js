@@ -17,20 +17,17 @@
         };
 
         function getRoll(quantity, die) {
-            var url = "https://roll.dndgen.com/api/v1/roll";
-            var parameters = getParameters(quantity, die);
-            return promiseService.getPromise(url, parameters);
+            var url = "https://roll.dndgen.com/api/v2/" + quantity + "/d/" + die + "/roll";
+            return promiseService.getPromise(url);
         }
 
-        function getParameters(quantity, die) {
-            return {
-                quantity: quantity,
-                die: die
-            };
+        function validateRoll(quantity, die) {
+            var url = "https://roll.dndgen.com/api/v2/" + quantity + "/d/" + die + "/validate";
+            return promiseService.getPromise(url);
         }
 
         function getExpressionRoll(expression) {
-            var url = 'https://roll.dndgen.com/api/v1/expression/roll';
+            var url = 'https://roll.dndgen.com/api/v2/expression/roll';
             var parameters = getExpressionParameters(expression);
             return promiseService.getPromise(url, parameters);
         }
@@ -42,14 +39,8 @@
         }
 
         function validateExpression(expression) {
-            var url = 'https://roll.dndgen.com/api/v1/expression/validate';
+            var url = 'https://roll.dndgen.com/api/v2/expression/validate';
             var parameters = getExpressionParameters(expression);
-            return promiseService.getPromise(url, parameters);
-        }
-
-        function validateRoll(quantity, die) {
-            var url = 'https://roll.dndgen.com/api/v1/roll/validate';
-            var parameters = getParameters(quantity, die);
             return promiseService.getPromise(url, parameters);
         }
     };
