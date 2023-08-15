@@ -24,7 +24,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The level at which to generate the treasure. Should be 1 <= L <= 100")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated treasure")]
-        public async Task<IActionResult> Run(
+        public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/validate")] HttpRequest req,
             string treasureType, int level, ILogger log)
         {
@@ -36,7 +36,7 @@ namespace DnDGen.Api.TreasureGen.Functions
 
             log.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {valid}");
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }
