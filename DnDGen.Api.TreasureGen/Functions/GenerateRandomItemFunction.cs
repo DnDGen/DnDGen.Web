@@ -30,7 +30,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         [OpenApiOperation(operationId: "GenerateRandomItemFunctionRun", Summary = "Generate random item",
             Description = "Generate a random item of the specified item type at the specified power.")]
         [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
-            Description = "The type of item to generate. Valid values: Alchemical Item, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, Wondrous Item")]
+            Description = "The type of item to generate. Valid values: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem")]
         [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = false, Type = typeof(string),
