@@ -416,6 +416,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, ArmorConstants.BandedMail, true);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, ArmorConstants.BandedMail.ToUpper(), true);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, ArmorConstants.BandedMail.ToLower(), true);
+                yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, ArmorConstants.PlateArmorOfTheDeep, false);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, "Wrong Item", false);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, "Wrong Item", false);
                 yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, WeaponConstants.Arrow, false);
@@ -503,6 +504,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, WeaponConstants.Arrow, true);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, WeaponConstants.Arrow.ToUpper(), true);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, WeaponConstants.Arrow.ToLower(), true);
+                yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, WeaponConstants.FrostBrand, false);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, "Wrong Item", false);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, "Wrong Item", false);
                 yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, ArmorConstants.BandedMail, false);
@@ -523,6 +525,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.AmuletOfHealth, true);
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.AmuletOfHealth.ToUpper(), true);
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.AmuletOfHealth.ToLower(), true);
+                yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.CloakOfArachnida, true);
             }
         }
     }
