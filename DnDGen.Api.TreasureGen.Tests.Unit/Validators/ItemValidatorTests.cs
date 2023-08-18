@@ -178,6 +178,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
                 {
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, true);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, true);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToLower(), true);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor.ToUpper(), true);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, true);
 
                     yield return new TestCaseData("Wrong Item Type", PowerConstants.Medium, armor, false);
@@ -195,6 +197,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
 
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), "Wrong Power", armor, false);
                     yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor, false);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor.ToLower(), false);
+                    yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Mundane, armor.ToUpper(), false);
                     //yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Minor, armor, false);
                     //yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Medium, armor, false);
                     //yield return new TestCaseData(ItemTypes.Armor.ToString(), PowerConstants.Major, armor, false);
@@ -516,6 +520,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
                 {
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, true);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, true);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToUpper(), true);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon.ToLower(), true);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, true);
 
                     yield return new TestCaseData("Wrong Item Type", PowerConstants.Medium, weapon, false);
@@ -533,6 +539,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
 
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), "Wrong Power", weapon, false);
                     yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon, false);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon.ToLower(), false);
+                    yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Mundane, weapon.ToUpper(), false);
                     //yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Minor, weapon, false);
                     //yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Medium, weapon, false);
                     //yield return new TestCaseData(ItemTypes.Weapon.ToString(), PowerConstants.Major, weapon, false);

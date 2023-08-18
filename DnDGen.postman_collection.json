@@ -10941,7 +10941,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.not.be.empty;\r",
 													"    pm.expect(item.itemType).to.equal('Tool');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -10995,7 +10995,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Spyglass');\r",
 													"    pm.expect(item.itemType).to.equal('Tool');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -11420,7 +11420,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Potion of Invisibility');\r",
 													"    pm.expect(item.itemType).to.equal('Potion');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -11588,7 +11588,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.not.be.empty;\r",
 													"    pm.expect(item.itemType).to.equal('Potion');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -11797,7 +11797,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Ring of Invisibility');\r",
 													"    pm.expect(item.itemType).to.equal('Ring');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -11965,7 +11965,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.not.be.empty;\r",
 													"    pm.expect(item.itemType).to.equal('Ring');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12174,7 +12174,7 @@
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Cloak of Arachnida');\r",
 													"    pm.expect(item.itemType).to.equal('Wondrous Item');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12338,11 +12338,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
+													"pm.test(\"Returns item\", function () {\r",
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.not.be.empty;\r",
 													"    pm.expect(item.itemType).to.equal('Wondrous Item');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12547,11 +12547,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
+													"pm.test(\"Returns item\", function () {\r",
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('my scroll');\r",
 													"    pm.expect(item.itemType).to.equal('Scroll');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"    pm.expect(item.contents).to.not.be.empty;\r",
 													"});"
 												],
@@ -12608,11 +12608,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
+													"pm.test(\"Returns item\", function () {\r",
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Scroll');\r",
 													"    pm.expect(item.itemType).to.equal('Scroll');\r",
-													"    pm.expect(item.quantity).to.be.at.least(1);\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"    pm.expect(item.contents).to.not.be.empty;\r",
 													"});"
 												],
@@ -12707,17 +12707,14 @@
 							"name": "Wand",
 							"item": [
 								{
-									"name": "Validate Mundane Wand",
+									"name": "Mundane Wand Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12728,7 +12725,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -12741,7 +12738,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -12758,17 +12755,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Wand - Wand of Spell",
+									"name": "Mundane Wand - Wand of Spell Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12779,7 +12773,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -12792,7 +12786,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -12815,7 +12809,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Wand - Wand of Spell",
+									"name": "Generate Medium Wand - Wand of Spell",
 									"event": [
 										{
 											"listen": "test",
@@ -12824,8 +12818,12 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('wand of spell');\r",
+													"    pm.expect(item.itemType).to.equal('Wand');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
+													"    pm.expect(item.magic.charges).to.be.at.least(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12836,7 +12834,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -12849,7 +12847,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -12872,7 +12870,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Wand",
+									"name": "Generate Medium Wand",
 									"event": [
 										{
 											"listen": "test",
@@ -12881,8 +12879,12 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Wand');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
+													"    pm.expect(item.magic.charges).to.be.at.least(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12893,7 +12895,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -12906,7 +12908,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -12923,17 +12925,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Omnipotent Wand",
+									"name": "Omnipotent Wand Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -12944,7 +12943,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -12957,7 +12956,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -12979,17 +12978,14 @@
 							"name": "Rod",
 							"item": [
 								{
-									"name": "Validate Mundane Rod",
+									"name": "Mundane Rod Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13000,7 +12996,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13013,7 +13009,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13030,17 +13026,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Rod - Immovable Rod",
+									"name": "Mundane Rod - Immovable Rod Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13051,7 +13044,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13064,7 +13057,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13087,7 +13080,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Rod - Immovable Rod",
+									"name": "Generate Medium Rod - Immovable Rod",
 									"event": [
 										{
 											"listen": "test",
@@ -13096,8 +13089,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Immovable Rod');\r",
+													"    pm.expect(item.itemType).to.equal('Rod');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13108,7 +13104,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13121,7 +13117,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13144,17 +13140,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Rod - Staff of Size Alteration",
+									"name": "Medium Rod - Staff of Size Alteration Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13165,7 +13158,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13178,7 +13171,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13201,17 +13194,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Rod - Invalid",
+									"name": "Medium Rod - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13222,7 +13212,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13235,7 +13225,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13258,7 +13248,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Rod",
+									"name": "Generate Medium Rod",
 									"event": [
 										{
 											"listen": "test",
@@ -13267,8 +13257,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Rod');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13279,7 +13272,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13292,7 +13285,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13309,17 +13302,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Omnipotent Rod",
+									"name": "Omnipotent Rod Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13330,7 +13320,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13343,7 +13333,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13365,17 +13355,14 @@
 							"name": "Staff",
 							"item": [
 								{
-									"name": "Validate Mundane Staff",
+									"name": "Mundane Staff Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13386,7 +13373,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13399,7 +13386,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13416,17 +13403,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Staff - Staff of Size Alteration",
+									"name": "Mundane Staff - Staff of Size Alteration Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13437,7 +13421,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13450,7 +13434,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13473,17 +13457,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Staff - Immovable Rod",
+									"name": "Medium Staff - Immovable Rod Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13494,7 +13475,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13507,7 +13488,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13530,7 +13511,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Staff - Staff of Size Alteration",
+									"name": "Generate Medium Staff - Staff of Size Alteration",
 									"event": [
 										{
 											"listen": "test",
@@ -13539,8 +13520,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Staff of Size Alteration');\r",
+													"    pm.expect(item.itemType).to.equal('Staff');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13551,7 +13535,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13564,7 +13548,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13587,17 +13571,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Rod - Invalid",
+									"name": "Medium Rod - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13608,7 +13589,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13621,7 +13602,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13644,7 +13625,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Staff",
+									"name": "Generate Medium Staff",
 									"event": [
 										{
 											"listen": "test",
@@ -13654,7 +13635,10 @@
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Staff');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13665,7 +13649,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13678,7 +13662,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13695,17 +13679,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Omnipotent Staff",
+									"name": "Omnipotent Staff Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13716,7 +13697,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13729,7 +13710,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13751,17 +13732,14 @@
 							"name": "Weapon",
 							"item": [
 								{
-									"name": "Validate Omnipotent Weapon",
+									"name": "Omnipotent Weapon Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13772,7 +13750,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13785,7 +13763,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13802,7 +13780,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Weapon",
+									"name": "Generate Mundane Weapon",
 									"event": [
 										{
 											"listen": "test",
@@ -13811,8 +13789,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13823,7 +13804,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13836,7 +13817,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -13853,7 +13834,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Weapon - Longsword",
+									"name": "Generate Mundane Weapon - Longsword",
 									"event": [
 										{
 											"listen": "test",
@@ -13862,8 +13843,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Longsword');\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13874,7 +13858,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13887,7 +13871,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13910,17 +13894,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Weapon - Breastplate",
+									"name": "Mundane Weapon - Breastplate Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13931,7 +13912,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -13944,7 +13925,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -13967,17 +13948,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Weapon - Frost Brand",
+									"name": "Mundane Weapon - Frost Brand Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13988,7 +13966,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14001,7 +13979,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14024,17 +14002,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Weapon - Invalid",
+									"name": "Mundane Weapon - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14045,7 +14020,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14058,7 +14033,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14081,7 +14056,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Weapon",
+									"name": "Generate Medium Weapon",
 									"event": [
 										{
 											"listen": "test",
@@ -14090,8 +14065,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14102,7 +14080,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14115,7 +14093,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -14132,7 +14110,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Weapon - Longsword",
+									"name": "Generate Medium Weapon - Longsword",
 									"event": [
 										{
 											"listen": "test",
@@ -14141,8 +14119,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Longsword');\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14153,7 +14134,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14166,7 +14147,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14189,17 +14170,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Weapon - Breastplate",
+									"name": "Medium Weapon - Breastplate Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14210,7 +14188,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14223,7 +14201,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14246,7 +14224,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Weapon - Frost Brand",
+									"name": "Generate Medium Weapon - Frost Brand",
 									"event": [
 										{
 											"listen": "test",
@@ -14255,8 +14233,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Frost Brand');\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14267,7 +14248,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14280,7 +14261,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14303,17 +14284,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Weapon - Invalid",
+									"name": "Medium Weapon - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14324,7 +14302,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14337,7 +14315,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14365,17 +14343,14 @@
 							"name": "Armor",
 							"item": [
 								{
-									"name": "Validate Omnipotent Armor",
+									"name": "Omnipotent Armor Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14386,7 +14361,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14399,7 +14374,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -14416,7 +14391,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Armor",
+									"name": "Generate Mundane Armor",
 									"event": [
 										{
 											"listen": "test",
@@ -14425,8 +14400,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Armor');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14437,7 +14415,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14450,7 +14428,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -14467,17 +14445,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Armor - Longsword",
+									"name": "Mundane Armor - Longsword Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14488,7 +14463,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14501,7 +14476,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14524,7 +14499,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Armor - Breastplate",
+									"name": "Generate Mundane Armor - Breastplate",
 									"event": [
 										{
 											"listen": "test",
@@ -14533,8 +14508,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Breastplate');\r",
+													"    pm.expect(item.itemType).to.equal('Armor');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14545,7 +14523,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14558,7 +14536,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14581,17 +14559,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Armor - Plate Armor of the Deep",
+									"name": "Mundane Armor - Plate Armor of the Deep Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14602,7 +14577,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14615,7 +14590,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14638,17 +14613,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Mundane Armor - Invalid",
+									"name": "Mundane Armor - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14659,7 +14631,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14672,7 +14644,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14695,7 +14667,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Armor",
+									"name": "Generate Medium Armor",
 									"event": [
 										{
 											"listen": "test",
@@ -14704,8 +14676,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.not.be.empty;\r",
+													"    pm.expect(item.itemType).to.equal('Armor');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14716,7 +14691,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14729,7 +14704,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -14746,17 +14721,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Armor - Longsword",
+									"name": "Medium Armor - Longsword Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14767,7 +14739,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14780,7 +14752,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14803,7 +14775,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Armor - Breastplate",
+									"name": "Generate Medium Armor - Breastplate",
 									"event": [
 										{
 											"listen": "test",
@@ -14812,8 +14784,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Breastplate');\r",
+													"    pm.expect(item.itemType).to.equal('Armor');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14824,7 +14799,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14837,7 +14812,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14860,7 +14835,7 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Armor - Plate Armor of the Deep",
+									"name": "Generate Medium Armor - Plate Armor of the Deep",
 									"event": [
 										{
 											"listen": "test",
@@ -14869,8 +14844,11 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(true);\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Plate Armor of the Deep');\r",
+													"    pm.expect(item.itemType).to.equal('Armor');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14881,7 +14859,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14894,7 +14872,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14917,17 +14895,14 @@
 									"response": []
 								},
 								{
-									"name": "Validate Medium Armor - Invalid",
+									"name": "Medium Armor - Invalid Returns Bad Request",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns validity\", function () {\r",
-													"    pm.expect(pm.response.json()).to.equal(false);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -14938,7 +14913,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
 												"treasure",
 												"dndgen",
@@ -14951,7 +14926,7 @@
 												":itemType",
 												"power",
 												":power",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -14976,17 +14951,14 @@
 							]
 						},
 						{
-							"name": "Validate Mundane Invalid Copy",
+							"name": "Mundane Invalid Returns Bad Request",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -14997,7 +14969,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 									"host": [
 										"treasure",
 										"dndgen",
@@ -15010,7 +14982,7 @@
 										":itemType",
 										"power",
 										":power",
-										"validate"
+										"generate"
 									],
 									"variable": [
 										{
@@ -15027,17 +14999,14 @@
 							"response": []
 						},
 						{
-							"name": "Validate Mundane Invalid - Longsword Copy",
+							"name": "Mundane Invalid - Longsword Returns Bad Request",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -15048,7 +15017,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
 										"treasure",
 										"dndgen",
@@ -15061,7 +15030,7 @@
 										":itemType",
 										"power",
 										":power",
-										"validate"
+										"generate"
 									],
 									"query": [
 										{
@@ -15084,17 +15053,14 @@
 							"response": []
 						},
 						{
-							"name": "Validate Medium Invalid Copy",
+							"name": "Medium Invalid Returns Bad Request",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -15105,7 +15071,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate",
+									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate",
 									"host": [
 										"treasure",
 										"dndgen",
@@ -15118,7 +15084,7 @@
 										":itemType",
 										"power",
 										":power",
-										"validate"
+										"generate"
 									],
 									"variable": [
 										{
@@ -15135,17 +15101,14 @@
 							"response": []
 						},
 						{
-							"name": "Validate Medium Invalid - Longsword Copy",
+							"name": "Medium Invalid - Longsword Returns Bad Request",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
 										"type": "text/javascript"
@@ -15156,7 +15119,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
 										"treasure",
 										"dndgen",
@@ -15169,7 +15132,7 @@
 										":itemType",
 										"power",
 										":power",
-										"validate"
+										"generate"
 									],
 									"query": [
 										{
