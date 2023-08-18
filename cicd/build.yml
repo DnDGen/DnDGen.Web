@@ -69,7 +69,7 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Test Collection Artifacts
     inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/DnDGen.postman_collection.json' 
+      targetPath: '$(System.DefaultWorkingDirectory)/cicd/DnDGen.postman_collection.json' 
       artifactName: 'dndgen-web-tests'
       
 # The RollGen API
