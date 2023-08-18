@@ -7,7 +7,6 @@ using System.Web;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
 {
-    //HACK: Since the E2E tests don't currently work in the build pipeline, this is a facsimile of those tests
     public class ValidateExpressionFunctionTests : IntegrationTests
     {
         private ValidateExpressionFunction function;
@@ -62,6 +61,10 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("-3d4+1d2", false)]
         [TestCase("1d2+3d4-5d6*7d8/9d10", true)]
         [TestCase("100d20/12d10/8d6/4d3", true)]
+        [TestCase("1 d 2 + 3 d 4", true)]
+        [TestCase("9266+90210-42*600/1337", true)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", true)]
+        [TestCase("1d2+*3d4", false)]
         public async Task ValidateExpression_ReturnsValidity(string expression, bool valid)
         {
             var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
@@ -111,6 +114,10 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("-3d4+1d2", false)]
         [TestCase("1d2+3d4-5d6*7d8/9d10", true)]
         [TestCase("100d20/12d10/8d6/4d3", true)]
+        [TestCase("1 d 2 + 3 d 4", true)]
+        [TestCase("9266+90210-42*600/1337", true)]
+        [TestCase("1d2+3d4-5d6*7d8/9d10", true)]
+        [TestCase("1d2+*3d4", false)]
         public async Task ValidateExpressionV2_ReturnsValidity(string expression, bool valid)
         {
             var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");

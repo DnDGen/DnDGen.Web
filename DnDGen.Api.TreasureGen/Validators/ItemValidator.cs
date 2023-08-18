@@ -106,7 +106,7 @@ namespace DnDGen.Api.TreasureGen.Validators
                 case ItemTypeConstants.AlchemicalItem: return AlchemicalItemConstants.GetAllAlchemicalItems();
                 case ItemTypeConstants.Armor:
                     var specificArmors = ArmorConstants.GetAllSpecificArmorsAndShields();
-                    if (specificArmors.Contains(name) && power == PowerConstants.Mundane)
+                    if (specificArmors.Select(n => n.ToLower()).Contains(name.ToLower()) && power == PowerConstants.Mundane)
                         return Enumerable.Empty<string>();
 
                     return ArmorConstants.GetAllArmorsAndShields(true);
@@ -119,7 +119,7 @@ namespace DnDGen.Api.TreasureGen.Validators
                 case ItemTypeConstants.Wand: return new[] { name };
                 case ItemTypeConstants.Weapon:
                     var specificWeapons = WeaponConstants.GetAllSpecific();
-                    if (specificWeapons.Contains(name) && power == PowerConstants.Mundane)
+                    if (specificWeapons.Select(n => n.ToLower()).Contains(name.ToLower()) && power == PowerConstants.Mundane)
                         return Enumerable.Empty<string>();
 
                     return WeaponConstants.GetAllWeapons(true, false);

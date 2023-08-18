@@ -10,7 +10,6 @@ variables:
   solution: 'DnDGen.Web.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  FunctionHostPath: 'C:\\npm\\prefix\\node_modules\\azure-functions-core-tools\\bin\\func.dll'
 
 jobs:
 # The DnDGen Website
@@ -62,22 +61,17 @@ jobs:
       zipAfterPublish: True
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Artifacts
+    displayName: Publish Website Artifacts
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Website' 
       artifactName: 'dndgen-web'
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Test Collection Artifacts
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/DnDGen.postman_collection.json' 
+      artifactName: 'dndgen-web-tests'
       
-# INFO: Currently having an issue where we can't get Azure DevOps to talk to Azure Container Registry.
-# Not gonna go down the rabbit hole for now, so I'll move on to other things. Might revisit this at a later time.
-# - task: Docker@2
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#   displayName: Build DnDGen.Web container and push to ACR
-#   inputs:
-#     command: 'buildAndPush'
-#     repository: 'dndgenweb'
-#     dockerfile: 'DnDGen.Web/Dockerfile'
-#     containerRegistry: 'DnDGen - ACR'
-
 # The RollGen API
 - job: RollGen_Api
   displayName: RollGen API
@@ -97,20 +91,12 @@ jobs:
       command: test
       projects: 'DnDGen.Api.RollGen.Tests.Unit/DnDGen.Api.RollGen.Tests.Unit.csproj'
       arguments: '-v normal'
-  - task: Npm@1
-    displayName: Install Azure Functions Core Tools
-    inputs:
-      command: custom
-      customCommand: 'install -g azure-functions-core-tools'
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
     inputs:
       command: test
       projects: 'DnDGen.Api.RollGen.Tests.Integration/DnDGen.Api.RollGen.Tests.Integration.csproj'
-      #HACK: We want to filter out the local-only tests, as they do not currently work when running in Azure Pipelines
-      #While running the local Azure functions does not throw an exception, all endpoints return 404 in the pipeline
-      #When run locally, all tests pass
-      arguments: '-v normal --filter "TestCategory!=LocalOnly"'
+      arguments: '-v normal'
 
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -147,20 +133,12 @@ jobs:
       command: test
       projects: 'DnDGen.Api.TreasureGen.Tests.Unit/DnDGen.Api.TreasureGen.Tests.Unit.csproj'
       arguments: '-v normal'
-  - task: Npm@1
-    displayName: Install Azure Functions Core Tools
-    inputs:
-      command: custom
-      customCommand: 'install -g azure-functions-core-tools'
   - task: DotNetCoreCLI@2
     displayName: Run Integration Tests
     inputs:
       command: test
       projects: 'DnDGen.Api.TreasureGen.Tests.Integration/DnDGen.Api.TreasureGen.Tests.Integration.csproj'
-      #HACK: We want to filter out the local-only tests, as they do not currently work when running in Azure Pipelines
-      #While running the local Azure functions does not throw an exception, all endpoints return 404 in the pipeline
-      #When run locally, all tests pass
-      arguments: '-v normal --filter "TestCategory!=LocalOnly"'
+      arguments: '-v normal'
 
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
 {
-    //HACK: Since the E2E tests don't currently work in the build pipeline, this is a facsimile of those tests
     public class ValidateRollFunctionTests : IntegrationTests
     {
         private ValidateRollFunction function;
