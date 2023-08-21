@@ -17,6 +17,7 @@ jobs:
 # The RollGen API
 - deployment: RollGen_Api
   displayName: Deploy RollGen API
+  environment: Prod
   strategy:
     runOnce:
       deploy:
@@ -35,6 +36,7 @@ jobs:
 # The TreasureGen API       
 - deployment: TreasureGen_Api
   displayName: Deploy TreasureGen API
+  environment: Prod
   strategy:
     runOnce:
       deploy:
@@ -53,6 +55,7 @@ jobs:
 # The DnDGen Website
 - deployment: Website
   displayName: Deploy Website
+  environment: Prod
   dependsOn:
   - RollGen_Api
   - TreasureGen_Api
@@ -76,6 +79,7 @@ jobs:
 # Post-Deployment Tests
 - deployment: Tests
   displayName: Post-Deployment Tests
+  environment: Prod
   dependsOn:
   - RollGen_Api
   - TreasureGen_Api
