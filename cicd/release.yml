@@ -26,6 +26,10 @@ jobs:
         #   displayName: Download Artifact
         #   inputs:
         #     artifactName: 'rollgen-api'
+        - script: |
+            echo $(System.DefaultWorkingDirectory)
+            dir $(System.DefaultWorkingDirectory)
+          displayName: 'Look at Variables'
         - task: AzureFunctionApp@2
           displayName: 'Deploy Azure Function App'
           inputs:
