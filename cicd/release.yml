@@ -1,8 +1,8 @@
 pool:
   vmImage: 'windows-latest'
 
-trigger:
-- none
+trigger: none
+pr: none
 
 resources:
   pipelines:
