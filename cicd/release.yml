@@ -27,8 +27,8 @@ jobs:
         #   inputs:
         #     artifactName: 'rollgen-api'
         - script: |
-            echo $(System.DefaultWorkingDirectory)
-            dir $(System.DefaultWorkingDirectory)
+            echo $(Pipeline.Workspace)
+            dir $(Pipeline.Workspace)
           displayName: 'Look at Variables'
         - task: AzureFunctionApp@2
           displayName: 'Deploy Azure Function App'
@@ -37,7 +37,7 @@ jobs:
             appType: 'functionApp'
             appName: 'rollgen-api'
             # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/rollgen-api/DnDGen.Api.RollGen.zip'
-            package: '$(System.DefaultWorkingDirectory)/**/rollgen-api/*.zip'
+            package: '$(Pipeline.Workspace)/**/rollgen-api/*.zip'
      
 # The TreasureGen API       
 - deployment: TreasureGen_Api
@@ -58,7 +58,7 @@ jobs:
             appType: 'functionApp'
             appName: 'treasuregen-api'
             # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/treasuregen-api/DnDGen.Api.TreasureGen.zip'
-            package: '$(System.DefaultWorkingDirectory)/**/treasuregen-api/*.zip'
+            package: '$(Pipeline.Workspace)/**/treasuregen-api/*.zip'
 
 # The DnDGen Website
 - deployment: Website
@@ -84,7 +84,7 @@ jobs:
             deployToSlotOrASE: true
             resourceGroupName: 'Default-Web-NorthCentralUS'
             # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/dndgen-web/DnDGen.Web.zip'
-            package: '$(System.DefaultWorkingDirectory)/**/dndgen-web/*.zip'
+            package: '$(Pipeline.Workspace)/**/dndgen-web/*.zip'
 
 # Post-Deployment Tests
 - deployment: Tests
@@ -103,9 +103,9 @@ jobs:
         #   inputs:
         #     artifactName: 'dndgen-web-tests'
         - script: 'npm install -g newman'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(System.DefaultWorkingDirectory)\DnDGen.Web\dndgen-web-tests\DnDGen.postman_collection.json --reporters cli,junit --reporter-junit-export Results\junitReport.xml --suppress-exit-code --insecure'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-web-tests\DnDGen.postman_collection.json --reporters cli,junit --reporter-junit-export Results\junitReport.xml --suppress-exit-code --insecure'
           displayName: 'Run Tests'
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
