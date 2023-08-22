@@ -1,0 +1,104 @@
+pool:
+  vmImage: 'windows-latest'
+
+trigger:
+- none
+
+resources:
+  pipelines:
+  - pipeline: DnDGen.Web
+    source: DnDGen.Web
+    trigger: 
+      branches:
+      - master
+
+jobs:
+
+# The RollGen API
+- deployment: RollGen_Api
+  displayName: Deploy RollGen API
+  environment: Prod
+  strategy:
+    runOnce:
+      deploy:
+        steps:          
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifactName: 'rollgen-api'
+        - task: AzureFunctionApp@2
+          displayName: 'Deploy Azure Function App'
+          inputs:
+            connectedServiceNameARM: 'Azure - DnDGen'
+            appType: 'functionApp'
+            appName: 'rollgen-api'
+            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/rollgen-api/DnDGen.Api.RollGen.zip'
+     
+# The TreasureGen API       
+- deployment: TreasureGen_Api
+  displayName: Deploy TreasureGen API
+  environment: Prod
+  strategy:
+    runOnce:
+      deploy:
+        steps:          
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifactName: 'treasuregen-api'
+        - task: AzureFunctionApp@2
+          displayName: 'Deploy Azure Function App'
+          inputs:
+            connectedServiceNameARM: 'Azure - DnDGen'
+            appType: 'functionApp'
+            appName: 'treasuregen-api'
+            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/treasuregen-api/DnDGen.Api.TreasureGen.zip'
+
+# The DnDGen Website
+- deployment: Website
+  displayName: Deploy Website
+  environment: Prod
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  strategy:
+    runOnce:
+      deploy:
+        steps:          
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifactName: 'dndgen-web'
+        - task: AzureWebApp@1
+          displayName: 'Azure Web App Deploy: dndgen'
+          inputs:
+            azureSubscription: 'Azure - DnDGen'
+            appType: webApp
+            appName: dndgen
+            deployToSlotOrASE: true
+            resourceGroupName: 'Default-Web-NorthCentralUS'
+            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/dndgen-web/DnDGen.Web.zip'
+
+# Post-Deployment Tests
+- deployment: Tests
+  displayName: Post-Deployment Tests
+  environment: Prod
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - Website
+  strategy:
+    runOnce:
+      deploy:
+        steps:          
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifactName: 'dndgen-web-tests'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(System.DefaultWorkingDirectory)\_DnDGen.DnDGen.Web\dndgen-web-tests\DnDGen.postman_collection.json --reporters cli,junit --reporter-junit-export Results\junitReport.xml --suppress-exit-code --insecure'
+          displayName: 'Run Tests'
+        - task: PublishTestResults@2
+          displayName: 'Publish Test Results'
+          inputs:
+            testResultsFiles: '**/junitReport.xml'
+            mergeTestResults: true
+            failTaskOnFailedTests: true
