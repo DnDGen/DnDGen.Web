@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "14776232-5e0e-4ae7-a01b-b89cd9d3e28b",
+		"name": "DnDGen Website",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "Home Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns homepage\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>Welcome!</h1>\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com",
+					"host": [
+						"dndgen",
+						"com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Error Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns error page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>Critical Miss</h1>\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/error",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"error"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RollGen Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns RollGen page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>RollGen</h1>\");\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a class=\"nav-link active\" href=\"#standard\" area-controls=\"standard\" role=\"tab\" data-bs-toggle=\"tab\" aria-selected=\"true\">Standard</a>');\r",
+							"    pm.expect(pageText).to.include('<a class=\"nav-link\" href=\"#custom\" area-controls=\"custom\" role=\"tab\" data-bs-toggle=\"tab\" aria-selected=\"false\">Custom</a>');\r",
+							"    pm.expect(pageText).to.include('<a class=\"nav-link\" href=\"#expression\" area-controls=\"expression\" role=\"tab\" data-bs-toggle=\"tab\" aria-selected=\"false\">Expression</a>');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/roll",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"roll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TreasureGen Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns TreasureGen page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>TreasureGen</h1>\");\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li role=\"presentation\" class=\"nav-item\"><a class=\"nav-link active\" href=\"#treasure\" aria-controls=\"treasure\" role=\"tab\" data-bs-toggle=\"tab\">Treasure</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li role=\"presentation\" class=\"nav-item\"><a class=\"nav-link\" href=\"#item\" aria-controls=\"item\" role=\"tab\" data-bs-toggle=\"tab\">Item</a></li>');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/treasure",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"treasure"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CharacterGen Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns CharacterGen page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>CharacterGen</h1>\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/character",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EncounterGen Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns EncounterGen page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>EncounterGen</h1>\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/encounter",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"encounter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DungeonGen Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns DungeonGen page\", function () {\r",
+							"    var pageText = pm.response.text();\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Roll\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Treasure\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Character\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Encounter\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5 class=\"nav-item\"><a class=\"nav-link\" href=\"/Dungeon\">DungeonGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen\">The DnDGen Project</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/RollGen\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/TreasureGen\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/CharacterGen\">CharacterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/EncounterGen\">EncounterGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DungeonGen\">DungeonGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://github.com/DnDGen/DnDGen.Web\">This Site</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
+							"    \r",
+							"    pm.expect(pageText).to.include(\"<h1>DungeonGen</h1>\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "dndgen.com/dungeon",
+					"host": [
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"dungeon"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
