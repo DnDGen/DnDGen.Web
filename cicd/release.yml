@@ -22,10 +22,10 @@ jobs:
     runOnce:
       deploy:
         steps:          
-        - task: DownloadPipelineArtifact@2
-          displayName: Download Artifact
-          inputs:
-            artifactName: 'rollgen-api'
+        # - task: DownloadPipelineArtifact@2
+        #   displayName: Download Artifact
+        #   inputs:
+        #     artifactName: 'rollgen-api'
         - task: AzureFunctionApp@2
           displayName: 'Deploy Azure Function App'
           inputs:
@@ -42,10 +42,10 @@ jobs:
     runOnce:
       deploy:
         steps:          
-        - task: DownloadPipelineArtifact@2
-          displayName: Download Artifact
-          inputs:
-            artifactName: 'treasuregen-api'
+        # - task: DownloadPipelineArtifact@2
+        #   displayName: Download Artifact
+        #   inputs:
+        #     artifactName: 'treasuregen-api'
         - task: AzureFunctionApp@2
           displayName: 'Deploy Azure Function App'
           inputs:
@@ -65,10 +65,10 @@ jobs:
     runOnce:
       deploy:
         steps:          
-        - task: DownloadPipelineArtifact@2
-          displayName: Download Artifact
-          inputs:
-            artifactName: 'dndgen-web'
+        # - task: DownloadPipelineArtifact@2
+        #   displayName: Download Artifact
+        #   inputs:
+        #     artifactName: 'dndgen-web'
         - task: AzureWebApp@1
           displayName: 'Azure Web App Deploy: dndgen'
           inputs:
@@ -91,10 +91,10 @@ jobs:
     runOnce:
       deploy:
         steps:          
-        - task: DownloadPipelineArtifact@2
-          displayName: Download Artifact
-          inputs:
-            artifactName: 'dndgen-web-tests'
+        # - task: DownloadPipelineArtifact@2
+        #   displayName: Download Artifact
+        #   inputs:
+        #     artifactName: 'dndgen-web-tests'
         - script: 'npm install -g newman'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
           displayName: 'Install Newman'
