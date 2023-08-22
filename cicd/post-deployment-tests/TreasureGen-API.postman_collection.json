@@ -9234,7 +9234,10 @@
 													"});\r",
 													"pm.test(\"Returns item\", function () {\r",
 													"    var item = pm.response.json();\r",
-													"    pm.expect(item.name).to.equal('Longsword');\r",
+													"    var names = [...item.baseNames];\r",
+													"    names.push(item.name);\r",
+													"\r",
+													"    pm.expect(names).to.include('Longsword');\r",
 													"    pm.expect(item.itemType).to.equal('Weapon');\r",
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
@@ -9266,6 +9269,70 @@
 												{
 													"key": "name",
 													"value": "longsword"
+												}
+											],
+											"variable": [
+												{
+													"key": "itemType",
+													"value": "weapon"
+												},
+												{
+													"key": "power",
+													"value": "medium"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "BUG - Generate Medium Weapon - Sword of the Planes",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns item\", function () {\r",
+													"    var item = pm.response.json();\r",
+													"    var names = [...item.baseNames];\r",
+													"    names.push(item.name);\r",
+													"\r",
+													"    pm.expect(item.name).to.equal('Sword of the Planes');\r",
+													"    pm.expect(item.baseNames).to.include('Longsword');\r",
+													"    pm.expect(item.itemType).to.equal('Weapon');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "treasure.dndgen.com/api/v1/item/:itemType/power/:power/generate?name=sword%20of%20the%20planes",
+											"host": [
+												"treasure",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"item",
+												":itemType",
+												"power",
+												":power",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "sword%20of%20the%20planes"
 												}
 											],
 											"variable": [
@@ -9899,7 +9966,10 @@
 													"});\r",
 													"pm.test(\"Returns item\", function () {\r",
 													"    var item = pm.response.json();\r",
-													"    pm.expect(item.name).to.equal('Breastplate');\r",
+													"    var names = [...item.baseNames];\r",
+													"    names.push(item.name);\r",
+													"\r",
+													"    pm.expect(names).to.include('Breastplate');\r",
 													"    pm.expect(item.itemType).to.equal('Armor');\r",
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
