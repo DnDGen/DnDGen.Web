@@ -32,7 +32,8 @@ jobs:
             connectedServiceNameARM: 'Azure - DnDGen'
             appType: 'functionApp'
             appName: 'rollgen-api'
-            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/rollgen-api/DnDGen.Api.RollGen.zip'
+            # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/rollgen-api/DnDGen.Api.RollGen.zip'
+            package: '$(System.DefaultWorkingDirectory)/**/rollgen-api/*.zip'
      
 # The TreasureGen API       
 - deployment: TreasureGen_Api
@@ -52,7 +53,8 @@ jobs:
             connectedServiceNameARM: 'Azure - DnDGen'
             appType: 'functionApp'
             appName: 'treasuregen-api'
-            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/treasuregen-api/DnDGen.Api.TreasureGen.zip'
+            # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/treasuregen-api/DnDGen.Api.TreasureGen.zip'
+            package: '$(System.DefaultWorkingDirectory)/**/treasuregen-api/*.zip'
 
 # The DnDGen Website
 - deployment: Website
@@ -77,7 +79,8 @@ jobs:
             appName: dndgen
             deployToSlotOrASE: true
             resourceGroupName: 'Default-Web-NorthCentralUS'
-            package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/dndgen-web/DnDGen.Web.zip'
+            # package: '$(System.DefaultWorkingDirectory)/_DnDGen.DnDGen.Web/dndgen-web/DnDGen.Web.zip'
+            package: '$(System.DefaultWorkingDirectory)/**/dndgen-web/*.zip'
 
 # Post-Deployment Tests
 - deployment: Tests
@@ -98,7 +101,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
           displayName: 'Install Newman'
-        - script: 'newman run $(System.DefaultWorkingDirectory)\_DnDGen.DnDGen.Web\dndgen-web-tests\DnDGen.postman_collection.json --reporters cli,junit --reporter-junit-export Results\junitReport.xml --suppress-exit-code --insecure'
+        - script: 'newman run $(System.DefaultWorkingDirectory)\DnDGen.Web\dndgen-web-tests\DnDGen.postman_collection.json --reporters cli,junit --reporter-junit-export Results\junitReport.xml --suppress-exit-code --insecure'
           displayName: 'Run Tests'
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
