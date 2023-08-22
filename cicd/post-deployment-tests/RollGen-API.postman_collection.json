@@ -1,0 +1,4515 @@
+{
+	"info": {
+		"_postman_id": "1d272bfb-fb35-41c8-99d9-e6a8c0396bde",
+		"name": "RollGen API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "V1",
+			"item": [
+				{
+					"name": "Validate Roll",
+					"item": [
+						{
+							"name": "Validate 1d20",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=1&die=20",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 3d6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=3&die=6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "3"
+										},
+										{
+											"key": "die",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266d42",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=9266&die=42",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "9266"
+										},
+										{
+											"key": "die",
+											"value": "42"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=1&die=1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 0d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=0&die=1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "0"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=1&die=0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=10000&die=10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10001d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=10001&die=10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10001"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10001",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll/validate?quantity=10000&die=10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Compute Roll",
+					"item": [
+						{
+							"name": "Compute 1d20",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(20);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=1&die=20",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 3d6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(3).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=3&die=6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "3"
+										},
+										{
+											"key": "die",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266d42",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(9266).and.at.most(9266 * 42);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=9266&die=42",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "9266"
+										},
+										{
+											"key": "die",
+											"value": "42"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=1&die=1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 10000d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(10000).and.at.most(10000 * 10000);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=10000&die=10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "0d1 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=0&die=1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "0"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d0 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=1&die=0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10001d10000 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=10001&die=10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10001"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10000d10001 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/roll?quantity=10000&die=10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validate Expression",
+					"item": [
+						{
+							"name": "Validate 4d6!t1k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=4d6!t1k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=9266",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1 d 2 + 3 d 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=1%20d%202%20%2B%203%20d%204",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1%20d%202%20%2B%203%20d%204"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 4d6!t1:5k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=4d6!t1%3A5k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1%3A5k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2d3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=1d2d3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2d3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 5dd6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=5dd6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "5dd6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 0d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=0d1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "0d1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=1d0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10001d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=10001d10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10001d10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10001",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=10000d10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10000d10001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=invalid",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "invalid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266+90210-42*600/1337",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=9266%2B90210-42*600%2F1337",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266%2B90210-42*600%2F1337"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2+3d4-5d6*7d8/9d10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=1d2%2B3d4-5d6*7d8%2F9d10",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B3d4-5d6*7d8%2F9d10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2+*3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=1d2%2B*3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B*3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 2s3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/validate?expression=2s3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "2s3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Compute Expression",
+					"item": [
+						{
+							"name": "Compute 4d6!t1k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(6).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=4d6!t1k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(9266).and.at.most(9266);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=9266",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1 d 2 + 3 d 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(4).and.at.most(14);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=1%20d%202%20%2B%203%20d%204",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1%20d%202%20%2B%203%20d%204"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 4d6!t1:5k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(6).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=4d6!t1%3A5k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1%3A5k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d2d3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(24);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=1d2d3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2d3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266+90210-42*600/1337",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(99457).and.at.most(99457);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=9266%2B90210-42*600%2F1337",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266%2B90210-42*600%2F1337"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d2+3d4-5d6*7d8/9d10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(-183).and.at.most(14);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=1d2%2B3d4-5d6*7d8%2F9d10",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B3d4-5d6*7d8%2F9d10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5dd6 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=5dd6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "5dd6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "0d1 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=0d1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "0d1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d0 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=1d0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10001d10000 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=10001d10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10001d10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10000d10001 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=10000d10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10000d10001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=invalid",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "invalid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d2+*3d4 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=1d2%2B*3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B*3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2s3 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v1/expression/roll?expression=2s3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "2s3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "V2",
+			"item": [
+				{
+					"name": "Validate Roll",
+					"item": [
+						{
+							"name": "Validate 1d20",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 3d6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "3"
+										},
+										{
+											"key": "die",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266d42",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "9266"
+										},
+										{
+											"key": "die",
+											"value": "42"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 0d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "0"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10001d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10001"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10001",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/validate",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"validate"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Compute Roll",
+					"item": [
+						{
+							"name": "Compute 1d20",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(20);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 3d6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(3).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "3"
+										},
+										{
+											"key": "die",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266d42",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(9266).and.at.most(9266 * 42);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "9266"
+										},
+										{
+											"key": "die",
+											"value": "42"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 10000d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns roll value\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(10000).and.at.most(10000 * 10000);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "0d1 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "0"
+										},
+										{
+											"key": "die",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d0 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "1"
+										},
+										{
+											"key": "die",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10001d10000 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10001"
+										},
+										{
+											"key": "die",
+											"value": "10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10000d10001 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/:quantity/d/:die/roll",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										":quantity",
+										"d",
+										":die",
+										"roll"
+									],
+									"variable": [
+										{
+											"key": "quantity",
+											"value": "10000"
+										},
+										{
+											"key": "die",
+											"value": "10001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Compute Expression",
+					"item": [
+						{
+							"name": "Compute 4d6!t1k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(6).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=4d6!t1k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(9266).and.at.most(9266);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=9266",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1 d 2 + 3 d 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(4).and.at.most(14);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=1%20d%202%20%2B%203%20d%204",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1%20d%202%20%2B%203%20d%204"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 4d6!t1:5k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(6).and.at.most(18);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=4d6!t1%3A5k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1%3A5k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d2d3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(1).and.at.most(24);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=1d2d3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2d3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 9266+90210-42*600/1337",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(99457).and.at.most(99457);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=9266%2B90210-42*600%2F1337",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266%2B90210-42*600%2F1337"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Compute 1d2+3d4-5d6*7d8/9d10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.at.least(-183).and.at.most(14);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=1d2%2B3d4-5d6*7d8%2F9d10",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B3d4-5d6*7d8%2F9d10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5dd6 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=5dd6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "5dd6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "0d1 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=0d1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "0d1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d0 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=1d0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10001d10000 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=10001d10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10001d10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "10000d10001 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=10000d10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10000d10001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=invalid",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "invalid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1d2+*3d4 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=1d2%2B*3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B*3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2s3 Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/roll?expression=2s3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"roll"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "2s3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validate Expression",
+					"item": [
+						{
+							"name": "Validate 4d6!t1k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=4d6!t1k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1 d 2 + 3 d 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=1%20d%202%20%2B%203%20d%204",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1%20d%202%20%2B%203%20d%204"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 4d6!t1:5k3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=4d6!t1%3A5k3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "4d6!t1%3A5k3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2d3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=1d2d3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2d3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 5dd6",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=5dd6",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "5dd6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 0d1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=0d1",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "0d1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=1d0",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10001d10000",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=10001d10000",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10001d10000"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 10000d10001",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=10000d10001",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "10000d10001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=invalid",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "invalid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266+90210-42*600/1337",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=9266%2B90210-42*600%2F1337",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266%2B90210-42*600%2F1337"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2+3d4-5d6*7d8/9d10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=1d2%2B3d4-5d6*7d8%2F9d10",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B3d4-5d6*7d8%2F9d10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 1d2+*3d4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=1d2%2B*3d4",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "1d2%2B*3d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 2s3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=2s3",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "2s3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate 9266",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns validity\", function () {\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "roll.dndgen.com/api/v2/expression/validate?expression=9266",
+									"host": [
+										"roll",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v2",
+										"expression",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "expression",
+											"value": "9266"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Swagger UI\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+							"    pm.expect(pm.response.text()).to.include('url: \"https://roll.dndgen.com/api/swagger.json\"');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "roll.dndgen.com/api/swagger/ui",
+					"host": [
+						"roll",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger",
+						"ui"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Swagger data\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"host\": \"roll.dndgen.com\"');\r",
+							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/roll/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/expression/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/expression/validate\");\r",
+							"    \r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/{quantity}/d/{die}/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/{quantity}/d/{die}/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/expression/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/expression/roll\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "roll.dndgen.com/api/swagger.json",
+					"host": [
+						"roll",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OpenAPI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Open API documentation\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://roll.dndgen.com/api\"');\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/roll/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/expression/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/expression/validate\");\r",
+							"    \r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/{quantity}/d/{die}/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/{quantity}/d/{die}/roll\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/expression/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v2/expression/roll\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "roll.dndgen.com/api/openapi/1.0",
+					"host": [
+						"roll",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"openapi",
+						"1.0"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

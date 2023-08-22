@@ -60,12 +60,6 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Website' 
       artifactName: 'dndgen-web'
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Test Collection Artifacts
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/cicd/DnDGen.postman_collection.json' 
-      artifactName: 'dndgen-web-tests'
       
 # The RollGen API
 - job: RollGen_Api
@@ -150,3 +144,18 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Api/TreasureGen' 
       artifactName: 'treasuregen-api'
+
+# The Post-Deployment Tests
+- job: deployTests
+  displayName: Package Post-Deployment Tests
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Post-Deployment Test Artifacts
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/cicd/post-deployment-tests' 
+      artifactName: 'dndgen-deployment-tests'
+      
