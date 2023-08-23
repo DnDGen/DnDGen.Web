@@ -30,7 +30,8 @@
     "run-script-os": "^1.1.6",
     "rxjs": "~7.8.1",
     "tslib": "^2.5.0",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.13.0",
+    "sweetalert2": "^11.7.27"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.7",

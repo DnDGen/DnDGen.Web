@@ -1,0 +1,71 @@
+<h1>RollGen</h1>
+<div class="row top-buffer">
+  <div class="col-sm-6">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="nav-item">
+        <a class="nav-link active" href="#standard" area-controls="standard" role="tab" data-bs-toggle="tab" aria-selected="true">Standard</a>
+      </li>
+      <li role="presentation" class="nav-item">
+        <a class="nav-link" href="#custom" area-controls="custom" role="tab" data-bs-toggle="tab" aria-selected="false">Custom</a>
+      </li>
+      <li role="presentation" class="nav-item">
+        <a class="nav-link" href="#expression" area-controls="expression" role="tab" data-bs-toggle="tab" aria-selected="false">Expression</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade show active" id="standard">
+        <form name="standardRollForm" class="form-horizontal top-buffer" role="form">
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <input dndgen-no-decimals class="form-control" type="number" min="1" [(ngModel)]="standardQuantity" required />
+            </div>
+            <label for="standardRolls" class="col-sm-1 col-form-label px-0 text-end">d</label>
+            <div class="col-sm-2 px-0">
+              <select id="standardRolls" class="form-control" [(ngModel)]="standardDie" required>
+                <option *ngFor="let standardDie of standardDice">{{standardDie.name}}</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button id="standardRollButton" type="button" class="btn btn-success" (click)="rollStandard()" [disabled]="standardRollForm.$invalid || rolling || !rollIsValid ? true : null">Roll</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="custom">
+        <form name="customRollForm" class="form-horizontal top-buffer" role="form">
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <input dndgen-no-decimals class="form-control" type="number" min="1" [(ngModel)]="customQuantity" required />
+            </div>
+            <label for="customDie" class="col-sm-1 col-form-label px-0 text-end">d</label>
+            <div class="col-sm-2 px-0">
+              <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" [(ngModel)]="customDie" required />
+            </div>
+            <div class="col-sm-2">
+              <button id="customRollButton" type="button" class="btn btn-success" (click)="rollCustom()" [disabled]="customRollForm.$invalid || rolling || !rollIsValid ? true : null">Roll</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="expression">
+        <form name="expressionRollForm" class="form-horizontal top-buffer" role="form">
+          <div class="form-group row">
+            <label for="rollExpression" class="col-sm-2 col-form-label">Expression</label>
+            <div class="col-sm-3 col-sm-offset-1">
+              <input id="rollExpression" class="form-control" type="text" [(ngModel)]="expression" required />
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="rollExpression()" [disabled]="expressionRollForm.$invalid || rolling || validating || !rollIsValid ? true : null">Roll</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <span [hidden]="rolling" class="font-green font-big">{{roll | number}}</span>
+    <span id="rollingSection" [hidden]="!rolling">
+      <img style="width: 300px; height: auto;" src="/assets/loading-dice.svg" />
+    </span>
+  </div>
+</div>
