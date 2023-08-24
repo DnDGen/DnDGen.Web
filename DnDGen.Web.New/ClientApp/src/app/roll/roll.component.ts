@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { RollService } from './roll.service';
+import { SweetAlertService } from '../shared/sweetAlert.service';
 
 @Component({
   selector: 'dndgen-roll-component',
@@ -8,16 +9,17 @@ import { RollService } from './roll.service';
   providers: [ RollService ]
 })
 
-export class RollComponent {
+export class RollComponent implements OnChanges {
   constructor(
     private rollService: RollService,
     private sweetAlertService: SweetAlertService) { }
 
-  public standardQuantity = 1;
-  public customQuantity = 1;
-  public customDie = 1;
+  @Input() standardQuantity = 1;
+  @Input() customQuantity = 1;
+  @Input() customDie = 1;
+  @Input() expression = '3d6+2';
+
   public rolling = false;
-  public expression = '3d6+2';
   public validating = false;
   public rollIsValid = false;
 
@@ -35,21 +37,27 @@ export class RollComponent {
     { name: 'Percentile', die: 100 }
   ];
 
-  public standardDie = this.standardDice[7];
+  @Input() standardDie = this.standardDice[7];
 
   public rollStandard() {
     this.rolling = true;
-    this.rollService.getRoll(this.standardQuantity, this.standardDie.die)
-      .then(setRoll, handleError);
+    var rollResult = this.rollService.getRoll(this.standardQuantity, this.standardDie.die);
+
+    if (rollResult == null) {
+      this.handleError();
+      return;
+    }
+
+    this.setRoll(rollResult);
   };
 
-  setRoll(response) {
-    this.roll = response.data;
+  private setRoll(rollResult: number) {
+    this.roll = rollResult;
     this.rolling = false;
   }
 
-  handleError() {
-    sweetAlertService.showError();
+  private handleError() {
+    this.sweetAlertService.showError();
     this.roll = 0;
     this.rolling = false;
     this.validating = false;
@@ -57,65 +65,83 @@ export class RollComponent {
 
   public rollCustom() {
     this.rolling = true;
-    rollService.getRoll(this.customQuantity, this.customDie)
-      .then(setRoll, handleError);
+    var rollResult = this.rollService.getRoll(this.customQuantity, this.customDie);
+
+    if (rollResult == null) {
+      this.handleError();
+      return;
+    }
+
+    this.setRoll(rollResult);
   };
 
   public rollExpression() {
     this.rolling = true;
-    rollService.getExpressionRoll(this.expression)
-      .then(setRoll, handleError);
+    var rollResult = this.rollService.getExpressionRoll(this.expression);
+
+    if (rollResult == null) {
+      this.handleError();
+      return;
+    }
+
+    this.setRoll(rollResult);
   };
 
-  $scope.$watch('vm.expression', function (newValue, oldValue) {
-    vm.validating = true;
-
-    if (!vm.expression || vm.expression === '') {
-      vm.rollIsValid = false;
-      vm.validating = false;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.standardQuantity.currentValue != changes.standardQuantity.previousValue
+      || changes.standardDie.currentValue != changes.standardDie.previousValue) {
+      this.validateRoll(changes.standardQuantity.currentValue, changes.standardDie.currentValue);
     }
-    else {
-      rollService.validateExpression(vm.expression).then(function (response) {
-        vm.rollIsValid = response.data;
-        vm.validating = false;
-      }, function () {
-        handleError();
-        vm.rollIsValid = false;
-      });
+
+    if (changes.customQuantity.currentValue != changes.customQuantity.previousValue
+      || changes.customDie.currentValue != changes.customDie.previousValue) {
+      this.validateRoll(changes.customQuantity.currentValue, changes.customDie.currentValue);
     }
-  });
 
-  $scope.$watch('vm.standardQuantity', function (newValue, oldValue) {
-    validateRoll(vm.standardQuantity, vm.standardDie.die);
-  });
-
-  $scope.$watch('vm.standardDie', function (newValue, oldValue) {
-    validateRoll(vm.standardQuantity, vm.standardDie.die);
-  }, true);
-
-  $scope.$watch('vm.customQuantity', function (newValue, oldValue) {
-    validateRoll(vm.customQuantity, vm.customDie);
-  });
-
-  $scope.$watch('vm.customDie', function (newValue, oldValue) {
-    validateRoll(vm.customQuantity, vm.customDie);
-  });
-
-  function validateRoll(quantity, die) {
-    vm.validating = true;
-
-    if (!quantity || !die || quantity === '' || die === '') {
-      vm.rollIsValid = false;
-      vm.validating = false;
+    if (changes.expression.currentValue != changes.expression.previousValue) {
+      this.validateExpression(changes.expression.currentValue);
     }
-    else {
-      rollService.validateRoll(quantity, die).then(function (response) {
-        vm.rollIsValid = response.data;
-        vm.validating = false;
-      }, function () {
-        handleError();
-        vm.rollIsValid = false;
-      });
+  }
+
+  private validateRoll(quantity: number, die: number) {
+    this.validating = true;
+
+    if (!quantity || !die) {
+      this.rollIsValid = false;
+      this.validating = false;
+      return;
     }
+
+    var validationResult = this.rollService.validateRoll(quantity, die);
+
+    if (validationResult == null) {
+      this.handleError();
+      this.rollIsValid = false;
+      return;
+    }
+
+    this.rollIsValid = validationResult;
+    this.validating = false;
+  }
+
+  private validateExpression(expression: string) {
+    this.validating = true;
+
+    if (!expression || expression === '') {
+      this.rollIsValid = false;
+      this.validating = false;
+      return;
+    }
+
+    var validationResult = this.rollService.validateExpression(expression);
+
+    if (validationResult == null) {
+      this.handleError();
+      this.rollIsValid = false;
+      return;
+    }
+
+    this.rollIsValid = validationResult;
+    this.validating = false;
   }
 }
