@@ -27,20 +27,34 @@
 
   <ItemGroup>
     <None Remove="ClientApp\.angular\**" />
+    <None Remove="ClientApp\src\app\character\character.service.ts" />
     <None Remove="ClientApp\src\app\roll\roll.component.css" />
     <None Remove="ClientApp\src\app\roll\roll.service.ts" />
+    <None Remove="ClientApp\src\app\shared\eventLog.component.html" />
+    <None Remove="ClientApp\src\app\shared\eventLog.component.ts" />
     <None Remove="ClientApp\src\app\shared\logger.service.ts" />
     <None Remove="ClientApp\src\app\shared\sweetAlert.service.ts" />
-    <None Include="ClientApp\src\assets\favicon.ico" />
     <None Include="ClientApp\src\assets\loading-dice.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\app\character\character.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="ClientApp\src\app\roll\roll.component.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="ClientApp\src\app\roll\roll.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\eventLog.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\eventLog.component.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -52,10 +66,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\assets\favicon.ico">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="ClientApp\src\assets\loading-dice.svg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -63,14 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\favicon.ico">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\loading-dice.svg">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

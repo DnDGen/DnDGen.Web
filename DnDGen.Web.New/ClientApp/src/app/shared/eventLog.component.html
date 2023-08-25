@@ -1,0 +1,6 @@
+<div class="console">
+    <span class="italicize">Generating...</span>
+    <div *ngFor="let event of events">
+        <span>[{{event.when | date : 'mediumTime'}}] {{event.source}}: {{event.message}}</span>
+    </div>
+</div>
