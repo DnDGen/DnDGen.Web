@@ -124,11 +124,11 @@
     <button class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || !character">Download</button>
     <div id="generatingSection" [hidden]="!generating">
       <span>{{generatingMessage}}</span>
-      <dndgen-event-log client-id="clientId" is-logging="generating"></dndgen-event-log>
+      <dndgen-event-log [clientId]="clientId" [isLogging]="generating"></dndgen-event-log>
     </div>
     <div [hidden]="generating">
       <span id="noCharacter" class="italicize" [hidden]="character">No character has been generated</span>
-      <dndgen-character character="character" leadership="leadership" cohort="cohort" followers="followers" [hidden]="!character"></dndgen-character>
+      <dndgen-character [character]="character" [leadership]="leadership" [cohort]="cohort" [followers]="followers" [hidden]="!character"></dndgen-character>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { RollService } from './roll.service';
-import { StandardDie } from './standardDie.class';
+import { StandardDie } from './standardDie.model';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
 

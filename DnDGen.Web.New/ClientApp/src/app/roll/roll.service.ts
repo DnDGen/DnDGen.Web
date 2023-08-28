@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { LoggerService } from '../shared/logger.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RollService {
-  constructor(private http: HttpClient, private logger: LoggerService) { }
+  constructor(private http: HttpClient) { }
 
   public getRoll(quantity: number, die: number): Observable<number> {
     var url = "https://roll.dndgen.com/api/v2/" + quantity + "/d/" + die + "/roll";

@@ -27,9 +27,12 @@
 
   <ItemGroup>
     <None Remove="ClientApp\.angular\**" />
+    <None Remove="ClientApp\src\app\character\character.directive.html" />
+    <None Remove="ClientApp\src\app\character\character.directive.ts" />
     <None Remove="ClientApp\src\app\character\character.service.ts" />
     <None Remove="ClientApp\src\app\roll\roll.component.css" />
     <None Remove="ClientApp\src\app\roll\roll.service.ts" />
+    <None Remove="ClientApp\src\app\shared\event.service.ts" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.html" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.ts" />
     <None Remove="ClientApp\src\app\shared\logger.service.ts" />
@@ -38,6 +41,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\app\character\character.directive.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\character.directive.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="ClientApp\src\app\character\character.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -47,6 +58,10 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="ClientApp\src\app\roll\roll.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\event.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

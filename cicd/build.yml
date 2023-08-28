@@ -45,6 +45,57 @@ jobs:
       testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
       failOnMinTestsNotRun: true
 
+  # - task: NodeTool@0
+  #   inputs:
+  #     versionSpec: '16.x'
+  #   displayName: 'Install Node.js 16.x'
+
+  # - script: |
+  #     cd AngularWithAzure/
+  #     npm install -g @angular/cli
+  #     npm install
+  #     ng build --prod
+  #   displayName: 'npm install and build'
+  #   workingDirectory: '$(Build.SourcesDirectory)'
+  # - task: CmdLine@2
+  #   displayName: "Run unit tests"
+  #   inputs:
+  #     script: |
+  #       cd AngularWithAzure/
+  #       ng test --browsers=ChromeHeadless --code-coverage --watch=false
+  # - task: ArchiveFiles@2
+  #   displayName: 'Archive files'
+  #   inputs:
+  #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/angular-with-azure/'
+  #     includeRootFolder: false
+  #     archiveType: zip
+  #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+  #     replaceExistingArchive: true
+# - task: Npm@1  
+#   displayName: 'Angular CLI 13.2.5'  
+#   inputs:  
+#     command: custom  
+#     verbose: false  
+#     customCommand: 'install -g @angular/cli@13.2.5'
+ 
+# - task: Npm@1  
+#   displayName: 'npm install'  
+#   inputs:
+#     command: custom  
+#     customCommand: 'install file:custom-angular-lib.tgz --legacy-peer-deps'  
+   
+# - task: Npm@1  
+#   displayName: Build  
+#   inputs: 
+#     command: custom  
+#     verbose: false  
+#     customCommand: 'run build'
+  # - task: PublishBuildArtifacts@1
+  #   inputs:
+  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  #     ArtifactName: 'drop'
+  #     publishLocation: 'Container'
+
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Website
