@@ -27,25 +27,54 @@
 
   <ItemGroup>
     <None Remove="ClientApp\.angular\**" />
-    <None Remove="ClientApp\src\app\character\character.directive.html" />
-    <None Remove="ClientApp\src\app\character\character.directive.ts" />
+    <None Remove="ClientApp\src\app\character\character.component.html" />
+    <None Remove="ClientApp\src\app\character\character.component.ts" />
+    <None Remove="ClientApp\src\app\character\character.service.js" />
     <None Remove="ClientApp\src\app\character\character.service.ts" />
-    <None Remove="ClientApp\src\app\roll\roll.component.css" />
+    <None Remove="ClientApp\src\app\character\characterFormatter.service.ts" />
+    <None Remove="ClientApp\src\app\character\leader.component.html" />
+    <None Remove="ClientApp\src\app\character\leader.component.ts" />
+    <None Remove="ClientApp\src\app\character\leadership.service.js" />
+    <None Remove="ClientApp\src\app\character\randomizer.service.js" />
     <None Remove="ClientApp\src\app\roll\roll.service.ts" />
+    <None Remove="ClientApp\src\app\roll\rollgen.component.css" />
+    <None Remove="ClientApp\src\app\shared\collapsibleList.component.html" />
+    <None Remove="ClientApp\src\app\shared\collapsibleList.component.ts" />
     <None Remove="ClientApp\src\app\shared\event.service.ts" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.html" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.ts" />
     <None Remove="ClientApp\src\app\shared\logger.service.ts" />
     <None Remove="ClientApp\src\app\shared\sweetAlert.service.ts" />
+    <None Remove="ClientApp\src\app\treasure\item.component.html" />
+    <None Remove="ClientApp\src\app\treasure\item.component.ts" />
+    <None Remove="ClientApp\src\app\treasure\treasure.component.html" />
+    <None Remove="ClientApp\src\app\treasure\treasure.component.ts" />
+    <None Remove="ClientApp\src\app\treasure\treasureFormatter.service.ts" />
     <None Include="ClientApp\src\assets\loading-dice.svg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ClientApp\src\app\character\character.directive.ts">
+    <Content Include="ClientApp\src\app\character\character.service.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\app\character\character.directive.html">
+    <Content Include="ClientApp\src\app\character\characterFormatter.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\leader.component.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\leader.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\character.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\character.component.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -53,11 +82,27 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\app\roll\roll.component.css">
+    <Content Include="ClientApp\src\app\character\leadership.service.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\character\randomizer.service.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\roll\rollgen.component.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="ClientApp\src\app\roll\roll.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\collapsibleList.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\collapsibleList.component.html">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -78,6 +123,26 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="ClientApp\src\app\shared\sweetAlert.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\treasure\treasure.component.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\treasure\treasure.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\treasure\item.component.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\treasure\item.component.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\treasure\treasureFormatter.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

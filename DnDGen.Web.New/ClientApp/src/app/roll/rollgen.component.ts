@@ -6,14 +6,14 @@ import { LoggerService } from '../shared/logger.service';
 
 @Component({
   selector: 'dndgen-roll-component',
-  templateUrl: './roll.component.html',
-  styleUrls: ['./roll.component.css'],
+  templateUrl: './rollgen.component.html',
+  styleUrls: ['./rollgen.component.css'],
   providers: [
     RollService
   ]
 })
 
-export class RollComponent implements OnInit {
+export class RollGenComponent implements OnInit {
   constructor(
     private rollService: RollService,
     private sweetAlertService: SweetAlertService,
