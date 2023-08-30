@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GenEvent } from './genEvent.model';
 
@@ -19,9 +19,10 @@ export class EventService {
   }
 
   public getEvents(clientId: string): Observable<{ events: GenEvent[] }> {
-    var url = this.baseUrl + "event/all?clientId=" + clientId;
+    var url = this.baseUrl + "event/all";
+    let params = new HttpParams().set('clientId', clientId);
 
-    return this.http.get<{ events: GenEvent[] }>(url);
+    return this.http.get<{ events: GenEvent[] }>(url, { params: params });
   }
 
   public clearEvents(clientId: string): void {

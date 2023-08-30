@@ -3,6 +3,8 @@ import { Treasure } from './treasure.model';
 import { Item } from './item.model';
 import { Armor } from './armor.model';
 import { Weapon } from './weapon.model';
+import { SpecialAbility } from './specialAbility.model';
+import { Intelligence } from './intelligence.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,7 @@ import { Weapon } from './weapon.model';
 export class TreasureFormatterService {
   constructor() { }
 
-  formatTreasure(treasure: Treasure, prefix: string): string {
+  public formatTreasure(treasure: Treasure, prefix?: string): string {
     if (!prefix)
         prefix = '';
 
@@ -39,11 +41,11 @@ export class TreasureFormatterService {
     return formattedTreasure;
   }
 
-  formatNumber(number: number): string {
+  private formatNumber(number: number): string {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  formatItem(item: Item, prefix: string): string {
+  public formatItem(item: Item, prefix: string): string {
       if (!prefix)
           prefix = '';
 
@@ -59,7 +61,7 @@ export class TreasureFormatterService {
       if (item.magic.bonus > 0)
           formattedItem += prefix + '\tBonus: +' + item.magic.bonus + '\r\n';
 
-      formattedItem += formatSpecialAbilities(item.magic.specialAbilities, prefix + '\t');
+      formattedItem += this.formatSpecialAbilities(item.magic.specialAbilities, prefix + '\t');
 
       if (item.attributes.indexOf('Charged') > -1)
           formattedItem += prefix + '\tCharges: ' + item.magic.charges + '\r\n';
@@ -67,19 +69,19 @@ export class TreasureFormatterService {
       if (item.magic.curse.length > 0)
           formattedItem += prefix + '\tCurse: ' + item.magic.curse + '\r\n';
 
-      formattedItem += formatIntelligence(item.magic.intelligence, prefix + '\t');
+      formattedItem += this.formatIntelligence(item.magic.intelligence, prefix + '\t');
 
       if (item instanceof Armor) {
           formattedItem += this.formatArmor(item as Armor, prefix + '\t');
       }
       else if (item instanceof Weapon) {
-          formattedItem += formatWeapon(item as Weapon, prefix + '\t');
+          formattedItem += this.formatWeapon(item as Weapon, prefix + '\t');
       }
 
       return formattedItem;
   }
 
-  formatList(list: string[], title: string, prefix: string): string {
+  private formatList(list: string[], title: string, prefix: string): string {
       if (!list.length)
           return '';
 
@@ -95,7 +97,7 @@ export class TreasureFormatterService {
       return formattedList;
   }
 
-  formatArmor(armor: Armor, prefix: string): string {
+  private formatArmor(armor: Armor, prefix: string): string {
       var formattedArmor = prefix + 'Armor:' + '\r\n';
 
       formattedArmor += prefix + '\t' + 'Size: ' + armor.size + '\r\n';
@@ -108,7 +110,7 @@ export class TreasureFormatterService {
       return formattedArmor;
   }
 
-  formatWeapon(weapon: Weapon, prefix: string): string {
+  private formatWeapon(weapon: Weapon, prefix: string): string {
       var formattedWeapon = prefix + 'Weapon:' + '\r\n';
 
       formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
@@ -125,7 +127,7 @@ export class TreasureFormatterService {
       return formattedWeapon;
   }
 
-  function formatSpecialAbilities(abilities, prefix) {
+  private formatSpecialAbilities(abilities: SpecialAbility[], prefix: string): string {
       if (!abilities.length)
           return '';
 
@@ -141,7 +143,7 @@ export class TreasureFormatterService {
       return formattedAbilities;
   }
 
-  function formatIntelligence(intelligence, prefix) {
+  private formatIntelligence(intelligence: Intelligence, prefix: string): string {
       if (!intelligence.ego)
           return '';
 
@@ -154,10 +156,10 @@ export class TreasureFormatterService {
       formattedIntelligence += prefix + '\tWisdom: ' + intelligence.wisdomStat + '\r\n';
       formattedIntelligence += prefix + '\tCharisma: ' + intelligence.charismaStat + '\r\n';
       formattedIntelligence += prefix + '\tAlignment: ' + intelligence.alignment + '\r\n';
-      formattedIntelligence += formatList(intelligence.communication, 'Communication', prefix + '\t');
-      formattedIntelligence += formatList(intelligence.languages, 'Languages', prefix + '\t\t');
+      formattedIntelligence += this.formatList(intelligence.communication, 'Communication', prefix + '\t');
+      formattedIntelligence += this.formatList(intelligence.languages, 'Languages', prefix + '\t\t');
       formattedIntelligence += prefix + '\tSenses: ' + intelligence.senses + '\r\n';
-      formattedIntelligence += formatList(intelligence.powers, 'Powers', prefix + '\t');
+      formattedIntelligence += this.formatList(intelligence.powers, 'Powers', prefix + '\t');
 
       if (intelligence.specialPurpose.length > 0) {
           formattedIntelligence += prefix + '\tSpecial Purpose: ' + intelligence.specialPurpose + '\r\n';

@@ -1,5 +1,7 @@
 import { Input, Component } from '@angular/core';
 import { Item } from './item.model';
+import { Armor } from './armor.model';
+import { Weapon } from './weapon.model';
 
 @Component({
   selector: 'dndgen-item',
@@ -8,4 +10,33 @@ import { Item } from './item.model';
 
 export class ItemComponent {
   @Input() item!: Item;
+
+  public armor: Armor = this.item as Armor;
+  public weapon: Weapon = this.item as Weapon;
+
+  public isArmor(): boolean {
+    return this.item instanceof Armor;
+  }
+
+  public isWeapon(): boolean {
+    return this.item instanceof Weapon;
+  }
+
+  public hasList(): boolean {
+    if (!this.item)
+      return false;
+
+    var additionalData = this.item.contents.length > 0
+      || this.item.traits.length > 0
+      || this.item.magic.bonus > 0
+      || this.item.attributes.indexOf('Charged') > -1
+      || this.item.magic.specialAbilities.length > 0
+      || this.item.magic.curse.length > 0
+      || this.item.magic.intelligence.ego > 0;
+
+    additionalData ||= this.isArmor() && this.armor.totalArmorBonus > 0;
+    additionalData ||= this.isWeapon() && this.weapon.damage.length > 0;
+
+    return additionalData;
+  }
 }

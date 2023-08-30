@@ -5,7 +5,7 @@ import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
 
 @Component({
-  selector: 'dndgen-roll-component',
+  selector: 'dndgen-rollgen',
   templateUrl: './rollgen.component.html',
   styleUrls: ['./rollgen.component.css'],
   providers: [

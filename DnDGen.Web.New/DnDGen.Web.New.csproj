@@ -11,6 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CharacterGen.Domain" Version="10.0.3" />
+    <PackageReference Include="DnDGen.RollGen.Domain" Version="13.4.2" />
+    <PackageReference Include="DnDGen.TreasureGen.Domain" Version="8.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.20" />
   </ItemGroup>
 
@@ -34,8 +37,8 @@
     <None Remove="ClientApp\src\app\character\characterFormatter.service.ts" />
     <None Remove="ClientApp\src\app\character\leader.component.html" />
     <None Remove="ClientApp\src\app\character\leader.component.ts" />
-    <None Remove="ClientApp\src\app\character\leadership.service.js" />
-    <None Remove="ClientApp\src\app\character\randomizer.service.js" />
+    <None Remove="ClientApp\src\app\character\leadership.service.ts" />
+    <None Remove="ClientApp\src\app\character\randomizer.service.ts" />
     <None Remove="ClientApp\src\app\roll\roll.service.ts" />
     <None Remove="ClientApp\src\app\roll\rollgen.component.css" />
     <None Remove="ClientApp\src\app\shared\collapsibleList.component.html" />
@@ -43,6 +46,8 @@
     <None Remove="ClientApp\src\app\shared\event.service.ts" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.html" />
     <None Remove="ClientApp\src\app\shared\eventLog.component.ts" />
+    <None Remove="ClientApp\src\app\shared\fileSaver.service.ts" />
+    <None Remove="ClientApp\src\app\shared\inchesToFeet.pipe.ts" />
     <None Remove="ClientApp\src\app\shared\logger.service.ts" />
     <None Remove="ClientApp\src\app\shared\sweetAlert.service.ts" />
     <None Remove="ClientApp\src\app\treasure\item.component.html" />
@@ -82,11 +87,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\app\character\leadership.service.js">
+    <Content Include="ClientApp\src\app\character\leadership.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="ClientApp\src\app\character\randomizer.service.js">
+    <Content Include="ClientApp\src\app\character\randomizer.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -118,7 +123,15 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="ClientApp\src\app\shared\inchesToFeet.pipe.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="ClientApp\src\app\shared\logger.service.ts">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\app\shared\fileSaver.service.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

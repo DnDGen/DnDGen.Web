@@ -1,15 +1,15 @@
 <div>
-  <dndgen-collapsible-list [heading]="{{item.name}} (x{{item.quantity}})" [hasList]="hasList()">
+  <dndgen-collapsible-list heading="{{item.name}} (x{{item.quantity}})" [hasList]="hasList()">
     <ul>
       <li [hidden]="item.contents.length == 0">
-        <dndgen-collapsible-list [heading]="Contents" [hasList]="true">
+        <dndgen-collapsible-list heading="Contents" [hasList]="true">
           <ul>
             <li *ngFor="let content of item.contents">{{content}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
       <li [hidden]="item.traits.length == 0">
-        <dndgen-collapsible-list [heading]="Traits" [hasList]="true">
+        <dndgen-collapsible-list heading="Traits" [hasList]="true">
           <ul>
             <li *ngFor="let trait of item.traits">{{trait}}</li>
           </ul>
@@ -17,7 +17,7 @@
       </li>
       <li [hidden]="item.magic.bonus == 0">Bonus: +{{item.magic.bonus}}</li>
       <li [hidden]="item.magic.specialAbilities.length == 0">
-        <dndgen-collapsible-list [heading]="Special Abilities" [hasList]="true">
+        <dndgen-collapsible-list heading="Special Abilities" [hasList]="true">
           <ul>
             <li *ngFor="let ability of item.magic.specialAbilities">{{ability.name}}</li>
           </ul>
@@ -26,7 +26,7 @@
       <li [hidden]="item.attributes.indexOf('Charged') == -1">Charges: {{item.magic.charges}}</li>
       <li [hidden]="item.magic.curse.length == 0">Curse: {{item.magic.curse}}</li>
       <li [hidden]="item.magic.intelligence.ego == 0">
-        <dndgen-collapsible-list [heading]="Intelligence" [hasList]="true">
+        <dndgen-collapsible-list heading="Intelligence" [hasList]="true">
           <ul>
             <li>Ego: {{item.magic.intelligence.ego}}</li>
             <li>Intelligence: {{item.magic.intelligence.intelligenceStat}}</li>
@@ -38,7 +38,7 @@
               <ul>
                 <li *ngFor="let method of item.magic.intelligence.communication">{{method}}</li>
                 <li [hidden]="item.magic.intelligence.languages.length == 0">
-                  <dndgen-collapsible-list [heading]="Languages" [hasList]="item.magic.intelligence.languages.length > 0">
+                  <dndgen-collapsible-list heading="Languages" [hasList]="item.magic.intelligence.languages.length > 0">
                     <ul>
                       <li *ngFor="let language of item.magic.intelligence.languages">{{language}}</li>
                     </ul>
@@ -63,26 +63,26 @@
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="!item.totalArmorBonus">
-        <dndgen-collapsible-list [heading]="Armor" [hasList]="true">
+      <li [hidden]="!isArmor()">
+        <dndgen-collapsible-list heading="Armor" [hasList]="true">
           <ul>
-            <li>Size: {{item.size}}</li>
-            <li>Armor Bonus: {{item.totalArmorBonus}}</li>
-            <li>Armor Check Penalty: {{item.totalArmorCheckPenalty}}</li>
-            <li [hidden]="item.totalMaxDexterityBonus >= 100">Max Dexterity Bonus: {{item.totalMaxDexterityBonus}}</li>
+            <li>Size: {{armor.size}}</li>
+            <li>Armor Bonus: {{armor.totalArmorBonus}}</li>
+            <li>Armor Check Penalty: {{armor.totalArmorCheckPenalty}}</li>
+            <li [hidden]="armor.totalMaxDexterityBonus >= 100">Max Dexterity Bonus: {{armor.totalMaxDexterityBonus}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="!item.damage">
-        <dndgen-collapsible-list [heading]="Weapon" [hasList]="true">
+      <li [hidden]="!isWeapon()">
+        <dndgen-collapsible-list heading="Weapon" [hasList]="true">
           <ul>
-            <li>Size: {{item.size}}</li>
-            <li>Combat Types: {{item.combatTypes.join(", ")}}</li>
-            <li>Damage: {{item.damage}}</li>
-            <li>Damage Type: {{item.damageType}}</li>
-            <li>Threat Range: {{item.threatRange}}</li>
-            <li>Critical Multiplier: {{item.criticalMultiplier}}</li>
-            <li [hidden]="!item.ammunition">Ammunition Used: {{item.ammunition}}</li>
+            <li>Size: {{weapon.size}}</li>
+            <li>Combat Types: {{weapon.combatTypes.join(", ")}}</li>
+            <li>Damage: {{weapon.damage}}</li>
+            <li>Damage Type: {{weapon.damageType}}</li>
+            <li>Threat Range: {{weapon.threatRange}}</li>
+            <li>Critical Multiplier: {{weapon.criticalMultiplier}}</li>
+            <li [hidden]="!weapon.ammunition">Ammunition Used: {{weapon.ammunition}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
