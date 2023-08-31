@@ -110,6 +110,7 @@ export class CharacterGenComponent implements OnInit {
   @Input() setCharisma = 0;
   @Input() allowAbilitiesAdjustments = true;
 
+  public clientId: string = '';
   public character!: Character | null;
   public valid: boolean = false; //compatible
   public validating: boolean = false; //verifying
@@ -118,8 +119,6 @@ export class CharacterGenComponent implements OnInit {
   public cohort!: Character | null;
   public followers: Character[] = [];
   public generatingMessage: string = '';
-
-  private clientId: string = '';
 
   public validateRandomizers(): void {
     this.validating = true;
@@ -243,15 +242,8 @@ export class CharacterGenComponent implements OnInit {
     }
 
     this.generatingMessage = 'Generating leadership...';
-    var charisma = this.character.abilities.get('Charisma');
 
-    if (!charisma) {
-      this.generating = false;
-      this.generatingMessage = '';
-      return;
-    }
-
-    this.leadershipService.generate(this.clientId, this.character.Class.level, charisma.bonus, this.character.magic.animal)
+    this.leadershipService.generate(this.clientId, this.character.Class.level, this.character.abilities.charisma.bonus, this.character.magic.animal)
       .subscribe({
         next: data => {
           this.leadership = data.leadership;

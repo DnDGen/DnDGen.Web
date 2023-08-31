@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.New.Controllers.Characters
 {
+    [ApiController]
     public class LeadershipController : Controller
     {
         private readonly ILeadershipGenerator leadershipGenerator;

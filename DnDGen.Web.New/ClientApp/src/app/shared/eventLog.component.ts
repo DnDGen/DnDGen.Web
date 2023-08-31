@@ -1,6 +1,7 @@
 import { Input, Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { EventService } from './event.service';
 import { GenEvent } from './genEvent.model';
+import { Subject, takeUntil, timer } from 'rxjs';
 
 @Component({
   selector: 'dndgen-event-log',
@@ -16,18 +17,22 @@ export class EventLogComponent implements OnInit, OnChanges {
   @Input() clientId: string = '';
   @Input() isLogging: boolean = false;
 
-  private events: object[] = [];
+  public events: GenEvent[] = [];
+
   private pollInterval: number = 1000;
   private quantityOfEventsToShow: number = 10;
-  private timer: string | number | NodeJS.Timer | undefined;
+  private timer = timer(this.pollInterval, this.pollInterval);
+  private subject = new Subject<void>();
 
   private start() {
     this.events = [];
-    this.timer = setInterval(this.getEvents, this.pollInterval);
+    this.timer
+      .pipe(takeUntil(this.subject))
+      .subscribe(this.getEvents);
   }
 
   private stop() {
-    clearInterval(this.timer);
+    this.subject.next();
     this.eventService.clearEvents(this.clientId);
   }
 

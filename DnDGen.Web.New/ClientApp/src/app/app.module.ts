@@ -64,7 +64,9 @@ import { CharacterComponent } from './character/character.component';
       //{ path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [],
+  providers: [
+    InchesToFeetPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,8 +8,8 @@ import { Leadership } from './leadership.model';
 })
 
 export class LeaderComponent {
-  @Input() character!: Character;
-  @Input() leadership!: Leadership;
-  @Input() cohort!: Character;
-  @Input() followers!: Character[];
+  @Input() character!: Character | null;
+  @Input() leadership!: Leadership | null;
+  @Input() cohort!: Character | null;
+  @Input() followers: Character[] = [];
 }

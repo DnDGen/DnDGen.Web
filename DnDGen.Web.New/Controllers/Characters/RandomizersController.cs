@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.New.Controllers.Characters
 {
+    [ApiController]
     public class RandomizersController : Controller
     {
         private readonly IRandomizerRepository randomizerRepository;

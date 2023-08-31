@@ -4,7 +4,6 @@ import { Character } from './character.model';
 import { Leadership } from './leadership.model';
 import { Measurement } from './measurement.model';
 import { InchesToFeetPipe } from '../shared/inchesToFeet.pipe'
-import { Ability } from './ability.model';
 import { Skill } from './skill.model';
 import { Feat } from './feat.model';
 import { FeatCollection } from './featCollection.model';
@@ -15,6 +14,7 @@ import { Equipment } from './equipment.model';
 import { Treasure } from '../treasure/treasure.model';
 import { ArmorClass } from './armorClass.model';
 import { BaseAttack } from './baseAttack.model';
+import { Abilities } from './abilities.model';
 
 @Injectable({
   providedIn: 'root',
@@ -182,35 +182,21 @@ export class CharacterFormatterService {
       return formattedList;
   }
 
-  private formatAbilities(abilities: Map<string, Ability>, prefix: string): string {
+  private formatAbilities(abilities: Abilities, prefix: string): string {
     if (!prefix)
       prefix = '';
 
     var formattedAbilities = prefix + 'Abilities:\r\n';
-    var strength = abilities.get('Strength');
-    var constitution = abilities.get('Constitution');
-    var dexterity = abilities.get('Dexterity');
-    var intelligence = abilities.get('Intelligence');
-    var wisdom = abilities.get('Wisdom');
-    var charisma = abilities.get('Charisma');
 
-    if (strength)
-      formattedAbilities += prefix + "\t" + "Strength: " + strength.value + " (" + strength.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Strength: " + abilities.strength.value + " (" + abilities.strength.bonus + ")\r\n";
 
-    if (constitution)
-      formattedAbilities += prefix + "\t" + "Constitution: " + constitution.value + " (" + constitution.bonus + ")\r\n";
+    if (abilities.constitution)
+      formattedAbilities += prefix + "\t" + "Constitution: " + abilities.constitution.value + " (" + abilities.constitution.bonus + ")\r\n";
 
-    if (dexterity)
-      formattedAbilities += prefix + "\t" + "Dexterity: " + dexterity.value + " (" + dexterity.bonus + ")\r\n";
-
-    if (intelligence)
-      formattedAbilities += prefix + "\t" + "Intelligence: " + intelligence.value + " (" + intelligence.bonus + ")\r\n";
-
-    if (wisdom)
-      formattedAbilities += prefix + "\t" + "Wisdom: " + wisdom.value + " (" + wisdom.bonus + ")\r\n";
-
-    if (charisma)
-      formattedAbilities += prefix + "\t" + "Charisma: " + charisma.value + " (" + charisma.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.dexterity.value + " (" + abilities.dexterity.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.intelligence.value + " (" + abilities.intelligence.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.wisdom.value + " (" + abilities.wisdom.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Charisma: " + abilities.charisma.value + " (" + abilities.charisma.bonus + ")\r\n";
 
     return formattedAbilities;
   }

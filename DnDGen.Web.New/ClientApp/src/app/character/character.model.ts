@@ -1,4 +1,4 @@
-import { Ability } from "./ability.model"
+import { Abilities } from "./abilities.model"
 import { Alignment } from "./alignment.model"
 import { CharacterClass } from "./characterClass.model"
 import { Combat } from "./combat.model"
@@ -19,7 +19,7 @@ export class Character {
     public skills: Skill[],
     public languages: string[],
     public feats: FeatCollection,
-    public abilities: Map<string, Ability>,
+    public abilities: Abilities,
     public equipment: Equipment,
     public magic: Magic,
     public isLeader: boolean,
