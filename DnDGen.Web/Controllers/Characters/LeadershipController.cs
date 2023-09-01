@@ -17,7 +17,7 @@ namespace DnDGen.Web.Controllers.Characters
             clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
-        [Route("Characters/Leadership/Generate")]
+        [Route("Character/Leadership/Generate")]
         [HttpGet]
         public JsonResult Generate(Guid clientId, int leaderLevel, int leaderCharismaBonus, string leaderAnimal)
         {
@@ -27,7 +27,7 @@ namespace DnDGen.Web.Controllers.Characters
             return Json(new { leadership = leadership });
         }
 
-        [Route("Characters/Leadership/Cohort")]
+        [Route("Character/Cohort/generate")]
         [HttpGet]
         public JsonResult Cohort(Guid clientId, int cohortScore, int leaderLevel, string leaderAlignment, string leaderClass)
         {
@@ -43,7 +43,7 @@ namespace DnDGen.Web.Controllers.Characters
             return Json(new { cohort = cohort });
         }
 
-        [Route("Characters/Leadership/Follower")]
+        [Route("Character/Follower/generate")]
         [HttpGet]
         public JsonResult Follower(Guid clientId, int followerLevel, string leaderAlignment, string leaderClass)
         {

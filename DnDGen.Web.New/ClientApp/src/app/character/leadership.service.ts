@@ -14,7 +14,7 @@ export class LeadershipService {
     this.baseUrl = baseUrl;
   }
 
-  public generate(clientId: string, leaderLevel: number, leaderCharismaBonus: number, leaderAnimal: string): Observable<{ leadership: Leadership }> {
+  public generate(clientId: string, leaderLevel: number, leaderCharismaBonus: number, leaderAnimal: string): Observable<Leadership> {
     var url = this.baseUrl + "character/leadership/generate";
     let params = new HttpParams()
       .set('clientId', clientId)
@@ -22,11 +22,11 @@ export class LeadershipService {
       .set('leaderCharismaBonus', leaderCharismaBonus)
       .set('leaderAnimal', leaderAnimal);
 
-    return this.http.get<{ leadership: Leadership }>(url, { params: params });
+    return this.http.get<Leadership>(url, { params: params });
   }
 
-  public generateCohort(clientId: string, leaderLevel: number, cohortScore: number, leaderAlignment: string, leaderClass: string): Observable<{ cohort: Character }> {
-    var url = this.baseUrl + "character/leadership/cohort";
+  public generateCohort(clientId: string, leaderLevel: number, cohortScore: number, leaderAlignment: string, leaderClass: string): Observable<Character> {
+    var url = this.baseUrl + "character/cohort/generate";
     let params = new HttpParams()
       .set('clientId', clientId)
       .set('leaderLevel', leaderLevel)
@@ -34,17 +34,17 @@ export class LeadershipService {
       .set('leaderAlignment', leaderAlignment)
       .set('leaderClass', leaderClass);
 
-    return this.http.get<{ cohort: Character }>(url, { params: params });
+    return this.http.get<Character>(url, { params: params });
   }
 
-  public generateFollower(clientId: string, followerLevel: number, leaderAlignment: string, leaderClass: string): Observable<{ follower: Character }> {
-    var url = this.baseUrl + "character/leadership/follower";
+  public generateFollower(clientId: string, followerLevel: number, leaderAlignment: string, leaderClass: string): Observable<Character> {
+    var url = this.baseUrl + "character/follower/generate";
     let params = new HttpParams()
       .set('clientId', clientId)
       .set('followerLevel', followerLevel)
       .set('leaderAlignment', leaderAlignment)
       .set('leaderClass', leaderClass);
 
-    return this.http.get<{ follower: Character }>(url, { params: params });
+    return this.http.get<Character>(url, { params: params });
   }
 }

@@ -12,7 +12,7 @@ export class Character {
   constructor(
     public specialChallengeRatings: string[],
     public alignment: Alignment,
-    public Class: CharacterClass,
+    public class: CharacterClass,
     public race: Race,
     public interestingTrait: string,
     public combat: Combat,

@@ -43,8 +43,8 @@ export class EventLogComponent implements OnInit, OnChanges {
       });
   }
 
-  private setEvents(data: { events: GenEvent[] }) {
-    var newestEvents = data.events.reverse();
+  private setEvents(data: GenEvent[]) {
+    var newestEvents = data.reverse();
 
     for (var i = 0; i < this.quantityOfEventsToShow && i < newestEvents.length; i++) {
       this.events.splice(i, 0, newestEvents[i]);
@@ -69,7 +69,7 @@ export class EventLogComponent implements OnInit, OnChanges {
     if (!this.clientId)
       return;
 
-    if (changes.isLogging.currentValue) {
+    if (changes.isLogging && changes.isLogging.currentValue) {
       this.start();
     } else {
       this.stop();

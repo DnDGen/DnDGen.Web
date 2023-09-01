@@ -4,19 +4,19 @@
       <li>Challenge Rating: {{character.challengeRating}}</li>
       <li>Alignment: {{character.alignment.full}}</li>
       <li>
-        <dndgen-collapsible-list [heading]="character.Class.summary" [hasList]="character.Class.specialistFields.length > 0 || character.Class.prohibitedFields.length > 0">
+        <dndgen-collapsible-list [heading]="character['class'].summary" [hasList]="character['class'].specialistFields.length > 0 || character['class'].prohibitedFields.length > 0">
           <ul>
-            <li [hidden]="character.Class.specialistFields.length == 0">
-              <dndgen-collapsible-list heading="Specialist Fields" [hasList]="character.Class.specialistFields.length > 0">
+            <li [hidden]="character['class'].specialistFields.length == 0">
+              <dndgen-collapsible-list heading="Specialist Fields" [hasList]="character['class'].specialistFields.length > 0">
                 <ul>
-                  <li *ngFor="let field of character.Class.specialistFields">{{field}}</li>
+                  <li *ngFor="let field of character['class'].specialistFields">{{field}}</li>
                 </ul>
               </dndgen-collapsible-list>
             </li>
-            <li [hidden]="character.Class.prohibitedFields.length == 0">
-              <dndgen-collapsible-list heading="Prohibited Fields" [hasList]="character.Class.prohibitedFields.length > 0">
+            <li [hidden]="character['class'].prohibitedFields.length == 0">
+              <dndgen-collapsible-list heading="Prohibited Fields" [hasList]="character['class'].prohibitedFields.length > 0">
                 <ul>
-                  <li *ngFor="let field of character.Class.prohibitedFields">{{field}}</li>
+                  <li *ngFor="let field of character['class'].prohibitedFields">{{field}}</li>
                 </ul>
               </dndgen-collapsible-list>
             </li>
@@ -106,10 +106,10 @@
                 </ul>
               </dndgen-collapsible-list>
             </li>
-            <li [hidden]="character.feats.Class.length == 0">
-              <dndgen-collapsible-list heading="Class" [hasList]="character.feats.Class.length > 0">
+            <li [hidden]="character.feats['class'].length == 0">
+              <dndgen-collapsible-list heading="Class" [hasList]="character.feats['class'].length > 0">
                 <ul>
-                  <li *ngFor="let feat of character.feats.Class">
+                  <li *ngFor="let feat of character.feats['class']">
                     <dndgen-collapsible-list [heading]="feat.name" [hasList]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
                       <ul>
                         <li [hidden]="feat.foci.length == 0">

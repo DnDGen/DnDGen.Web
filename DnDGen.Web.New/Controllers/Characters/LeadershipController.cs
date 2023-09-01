@@ -1,4 +1,5 @@
-﻿using CharacterGen.Leaders;
+﻿using CharacterGen.Characters;
+using CharacterGen.Leaders;
 using DnDGen.Web.New.Helpers;
 using DnDGen.Web.New.IoC;
 using EventGen;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DnDGen.Web.New.Controllers.Characters
 {
     [ApiController]
-    public class LeadershipController : Controller
+    public class LeadershipController : ControllerBase
     {
         private readonly ILeadershipGenerator leadershipGenerator;
         private readonly ClientIDManager clientIdManager;
@@ -18,19 +19,19 @@ namespace DnDGen.Web.New.Controllers.Characters
             clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
-        [Route("Characters/Leadership/Generate")]
+        [Route("Character/Leadership/Generate")]
         [HttpGet]
-        public JsonResult Generate(Guid clientId, int leaderLevel, int leaderCharismaBonus, string leaderAnimal)
+        public Leadership Generate(Guid clientId, int leaderLevel, int leaderCharismaBonus, string leaderAnimal)
         {
             clientIdManager.SetClientID(clientId);
 
             var leadership = leadershipGenerator.GenerateLeadership(leaderLevel, leaderCharismaBonus, leaderAnimal);
-            return Json(new { leadership = leadership });
+            return leadership;
         }
 
-        [Route("Characters/Leadership/Cohort")]
+        [Route("Character/cohort/generate")]
         [HttpGet]
-        public JsonResult Cohort(Guid clientId, int cohortScore, int leaderLevel, string leaderAlignment, string leaderClass)
+        public Character Cohort(Guid clientId, int cohortScore, int leaderLevel, string leaderAlignment, string leaderClass)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -41,12 +42,12 @@ namespace DnDGen.Web.New.Controllers.Characters
                 cohort.Skills = CharacterHelper.SortSkills(cohort.Skills);
             }
 
-            return Json(new { cohort = cohort });
+            return cohort;
         }
 
-        [Route("Characters/Leadership/Follower")]
+        [Route("Character/Follower/generate")]
         [HttpGet]
-        public JsonResult Follower(Guid clientId, int followerLevel, string leaderAlignment, string leaderClass)
+        public Character Follower(Guid clientId, int followerLevel, string leaderAlignment, string leaderClass)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -54,7 +55,7 @@ namespace DnDGen.Web.New.Controllers.Characters
 
             follower.Skills = CharacterHelper.SortSkills(follower.Skills);
 
-            return Json(new { follower = follower });
+            return follower;
         }
     }
 }

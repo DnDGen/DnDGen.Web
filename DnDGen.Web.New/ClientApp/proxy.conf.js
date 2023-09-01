@@ -7,7 +7,18 @@ const PROXY_CONFIG = [
   {
     context: [
       "/weatherforecast",
-   ],
+
+      "/event/clientid",
+      "/event/all",
+      "/event/clear",
+
+      "/character/viewmodel",
+      "/character/generate",
+      "/character/leadership/generate",
+      "/character/cohort/generate",
+      "/character/follower/generate",
+      "/character/randomizers/validate"
+    ],
     proxyTimeout: 10000,
     target: target,
     secure: false,

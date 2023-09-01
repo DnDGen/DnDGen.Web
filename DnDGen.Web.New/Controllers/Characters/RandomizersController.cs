@@ -8,22 +8,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace DnDGen.Web.New.Controllers.Characters
 {
     [ApiController]
-    public class RandomizersController : Controller
+    public class RandomizersController : ControllerBase
     {
         private readonly IRandomizerRepository randomizerRepository;
         private readonly IRandomizerVerifier randomizerVerifier;
         private readonly ClientIDManager clientIdManager;
+        private readonly ILogger<RandomizersController> logger;
 
-        public RandomizersController(IDependencyFactory dependencyFactory)
+        public RandomizersController(IDependencyFactory dependencyFactory, ILogger<RandomizersController> logger)
         {
             randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
             randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
             clientIdManager = dependencyFactory.Get<ClientIDManager>();
+
+            this.logger = logger;
         }
 
-        [Route("Characters/Randomizers/Verify")]
+        [Route("Character/Randomizers/validate")]
         [HttpGet]
-        public JsonResult Verify(Guid clientId, CharacterSpecifications characterSpecifications)
+        public bool Validate(Guid clientId, [ModelBinder(BinderType = typeof(RandomizerSpecificationsModelBinder))] RandomizerSpecifications characterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -41,10 +44,11 @@ namespace DnDGen.Web.New.Controllers.Characters
             catch (Exception e)
             {
                 var message = $"An error occurred while verifying the randomizers. Message: {e.Message}";
-                return Json(new { compatible = false, error = message });
+                logger.LogError(message);
+                return false;
             }
 
-            return Json(new { compatible = compatible });
+            return compatible;
         }
     }
 }

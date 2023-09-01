@@ -1,134 +1,147 @@
-<h1>CharacterGen</h1>
-<div class="row top-buffer">
-  <div class="col-sm-6">
-    <form name="characterForm" #characterForm="ngForm" class="form-horizontal top-buffer" role="form">
-      <div class="form-group row">
-        <label for="alignmentRandomizerTypes" class="col-sm-4 col-form-label">Alignment Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="alignmentRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="alignmentRandomizerType" name="alignmentRandomizerTypes" required>
-            <option *ngFor="let alignmentRandomizerType of characterModel.alignmentRandomizerTypes" [ngValue]="alignmentRandomizerType">{{alignmentRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4">
-          <select id="setAlignments" class="form-select" [hidden]="alignmentRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setAlignment" name="setAlignments" [required]="alignmentRandomizerType == 'Set'">
-            <option *ngFor="let alignment of characterModel.alignments" [ngValue]="alignment">{{alignment}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="classNameRandomizerTypes" class="col-sm-4 col-form-label">Class Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="classNameRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="classNameRandomizerType" name="classNameRandomizerTypes" required>
-            <option *ngFor="let classNameRandomizerType of characterModel.classNameRandomizerTypes" [ngValue]="classNameRandomizerType">{{classNameRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4">
-          <select id="setClassNames" class="form-select" [hidden]="classNameRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setClassName" name="setClassNames" [required]="classNameRandomizerType == 'Set'">
-            <option *ngFor="let className of characterModel.classNames" [ngValue]="className">{{className}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="levelRandomizerTypes" class="col-sm-4 col-form-label">Level Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="levelRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="levelRandomizerType" name="levelRandomizerTypes" required>
-            <option *ngFor="let levelRandomizerType of characterModel.levelRandomizerTypes" [ngValue]="levelRandomizerType">{{levelRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4">
-          <input pattern="^[0-9]+$" [hidden]="levelRandomizerType != 'Set'" id="setLevel" class="form-control" type="number" min="0" max="20" (input)="validateRandomizers()" [(ngModel)]="setLevel" name="setLevel" [required]="levelRandomizerType == 'Set'" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="baseRaceRandomizerTypes" class="col-sm-4 col-form-label">Base Race Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="baseRaceRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="baseRaceRandomizerType" name="baseRaceRandomizerTypes" required>
-            <option *ngFor="let baseRaceRandomizerType of characterModel.baseRaceRandomizerTypes" [ngValue]="baseRaceRandomizerType">{{baseRaceRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4">
-          <select id="setBaseRaces" class="form-select" [hidden]="baseRaceRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setBaseRace" name="setBaseRaces" [required]="baseRaceRandomizerType == 'Set'">
-            <option *ngFor="let baseRace of characterModel.baseRaces" [ngValue]="baseRace">{{baseRace}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="metaraceRandomizerTypes" class="col-sm-4 col-form-label">Metarace Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="metaraceRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="metaraceRandomizerType" name="metaraceRandomizerTypes" required>
-            <option *ngFor="let metaraceRandomizerType of characterModel.metaraceRandomizerTypes" [ngValue]="metaraceRandomizerType">{{metaraceRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4" [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'">
-          <div class="checkbox-inline">
-            <label>
-              <input type="checkbox" (input)="validateRandomizers()" [(ngModel)]="forceMetarace" name="forceMetarace"> Force
-            </label>
-          </div>
-        </div>
-        <div class="col-sm-4" [hidden]="metaraceRandomizerType != 'Set'">
-          <select id="setMetaraces" class="form-select" (input)="validateRandomizers()" [(ngModel)]="setMetarace" name="setMetaraces" [required]="metaraceRandomizerType == 'Set'">
-            <option *ngFor="let metarace of characterModel.metaraces" [ngValue]="metarace">{{metarace}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="abilitiesRandomizerType" class="col-sm-4 col-form-label">Abilities Randomizer:</label>
-        <div class="col-sm-4">
-          <select id="abilitiesRandomizerType" class="form-select" (input)="validateRandomizers()" [(ngModel)]="abilitiesRandomizerType" name="abilitiesRandomizerType" required>
-            <option *ngFor="let abilitiesRandomizerType of characterModel.abilitiesRandomizerTypes" [ngValue]="abilitiesRandomizerType">{{abilitiesRandomizerType}}</option>
-          </select>
-        </div>
-        <div class="col-sm-4">
-          <div class="checkbox-inline" [hidden]="abilitiesRandomizerType != 'Set'">
-            <label>
-              <input type="checkbox" (input)="validateRandomizers()" [(ngModel)]="allowAbilitiesAdjustments" name="allowAbilityAdjustments"> Allow Adjustments
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
-        <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setStrength" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setStrength" name="setStrength" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-        <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setConstitution" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setConstitution" name="setConstitution" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-        <label for="setDexterity" class="col-sm-2 col-form-label">Dexterity:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setDexterity" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setDexterity" name="setDexterity" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-      </div>
-      <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
-        <label for="setIntelligence" class="col-sm-2 col-form-label">Intelligence:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setIntelligence" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setIntelligence" name="setIntelligence" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-        <label for="setWisdom" class="col-sm-2 col-form-label">Wisdom:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setWisdom" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setWisdom" name="setWisdom" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-        <label for="setCharisma" class="col-sm-2 col-form-label">Charisma:</label>
-        <div class="col-sm-2">
-          <input pattern="^[0-9]+$" id="setCharisma" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setCharisma" name="setCharisma" [required]="abilitiesRandomizerType == 'Set'" />
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button id="generateButton" type="button" class="btn btn-success" (click)="generate()" [disabled]="characterForm.form.invalid || generating || validating || !valid">Generate</button>
-      </div>
-    </form>
-  </div>
-  <div class="col-sm-6 clearfix">
-    <button class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || !character">Download</button>
-    <div id="generatingSection" [hidden]="!generating">
-      <span>{{generatingMessage}}</span>
-      <dndgen-event-log [clientId]="clientId" [isLogging]="generating"></dndgen-event-log>
+<div *ngIf="!characterModel" class="container">
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <img style="width: 500px; height: auto;" class="center-block" src="/assets/loading-dice.svg" />
     </div>
-    <div [hidden]="generating">
-      <span id="noCharacter" class="italicize" [hidden]="character">No character has been generated</span>
-      <dndgen-leader [character]="character" [leadership]="leadership" [cohort]="cohort" [followers]="followers" [hidden]="!character"></dndgen-leader>
+    <div class="col-sm-4"></div>
+  </div>
+</div>
+<div *ngIf="characterModel">
+  <h1>CharacterGen</h1>
+  <div class="row top-buffer">
+    <div class="col-sm-6">
+      <form name="characterForm" #characterForm="ngForm" class="form-horizontal top-buffer" role="form">
+        <div class="form-group row">
+          <label for="alignmentRandomizerTypes" class="col-sm-4 col-form-label">Alignment Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="alignmentRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="alignmentRandomizerType" name="alignmentRandomizerTypes" required>
+              <option *ngFor="let alignmentRandomizerType of characterModel.alignmentRandomizerTypes" [ngValue]="alignmentRandomizerType">{{alignmentRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select id="setAlignments" class="form-select" [hidden]="alignmentRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setAlignment" name="setAlignments" [required]="alignmentRandomizerType == 'Set'">
+              <option *ngFor="let alignment of characterModel.alignments" [ngValue]="alignment">{{alignment}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="classNameRandomizerTypes" class="col-sm-4 col-form-label">Class Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="classNameRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="classNameRandomizerType" name="classNameRandomizerTypes" required>
+              <option *ngFor="let classNameRandomizerType of characterModel.classNameRandomizerTypes" [ngValue]="classNameRandomizerType">{{classNameRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select id="setClassNames" class="form-select" [hidden]="classNameRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setClassName" name="setClassNames" [required]="classNameRandomizerType == 'Set'">
+              <option *ngFor="let className of characterModel.classNames" [ngValue]="className">{{className}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="levelRandomizerTypes" class="col-sm-4 col-form-label">Level Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="levelRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="levelRandomizerType" name="levelRandomizerTypes" required>
+              <option *ngFor="let levelRandomizerType of characterModel.levelRandomizerTypes" [ngValue]="levelRandomizerType">{{levelRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <input pattern="^[0-9]+$" [hidden]="levelRandomizerType != 'Set'" id="setLevel" class="form-control" type="number" min="0" max="20" (input)="validateRandomizers()" [(ngModel)]="setLevel" name="setLevel" [required]="levelRandomizerType == 'Set'" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="baseRaceRandomizerTypes" class="col-sm-4 col-form-label">Base Race Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="baseRaceRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="baseRaceRandomizerType" name="baseRaceRandomizerTypes" required>
+              <option *ngFor="let baseRaceRandomizerType of characterModel.baseRaceRandomizerTypes" [ngValue]="baseRaceRandomizerType">{{baseRaceRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select id="setBaseRaces" class="form-select" [hidden]="baseRaceRandomizerType != 'Set'" (input)="validateRandomizers()" [(ngModel)]="setBaseRace" name="setBaseRaces" [required]="baseRaceRandomizerType == 'Set'">
+              <option *ngFor="let baseRace of characterModel.baseRaces" [ngValue]="baseRace">{{baseRace}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="metaraceRandomizerTypes" class="col-sm-4 col-form-label">Metarace Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="metaraceRandomizerTypes" class="form-select" (input)="validateRandomizers()" [(ngModel)]="metaraceRandomizerType" name="metaraceRandomizerTypes" required>
+              <option *ngFor="let metaraceRandomizerType of characterModel.metaraceRandomizerTypes" [ngValue]="metaraceRandomizerType">{{metaraceRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4" [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'">
+            <div class="checkbox-inline">
+              <label>
+                <input type="checkbox" (input)="validateRandomizers()" [(ngModel)]="forceMetarace" name="forceMetarace"> Force
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-4" [hidden]="metaraceRandomizerType != 'Set'">
+            <select id="setMetaraces" class="form-select" (input)="validateRandomizers()" [(ngModel)]="setMetarace" name="setMetaraces" [required]="metaraceRandomizerType == 'Set'">
+              <option *ngFor="let metarace of characterModel.metaraces" [ngValue]="metarace">{{metarace}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="abilitiesRandomizerType" class="col-sm-4 col-form-label">Abilities Randomizer:</label>
+          <div class="col-sm-4">
+            <select id="abilitiesRandomizerType" class="form-select" (input)="validateRandomizers()" [(ngModel)]="abilitiesRandomizerType" name="abilitiesRandomizerType" required>
+              <option *ngFor="let abilitiesRandomizerType of characterModel.abilitiesRandomizerTypes" [ngValue]="abilitiesRandomizerType">{{abilitiesRandomizerType}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <div class="checkbox-inline" [hidden]="abilitiesRandomizerType != 'Set'">
+              <label>
+                <input type="checkbox" (input)="validateRandomizers()" [(ngModel)]="allowAbilitiesAdjustments" name="allowAbilityAdjustments"> Allow Adjustments
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
+          <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setStrength" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setStrength" name="setStrength" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+          <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setConstitution" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setConstitution" name="setConstitution" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+          <label for="setDexterity" class="col-sm-2 col-form-label">Dexterity:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setDexterity" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setDexterity" name="setDexterity" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+        </div>
+        <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
+          <label for="setIntelligence" class="col-sm-2 col-form-label">Intelligence:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setIntelligence" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setIntelligence" name="setIntelligence" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+          <label for="setWisdom" class="col-sm-2 col-form-label">Wisdom:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setWisdom" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setWisdom" name="setWisdom" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+          <label for="setCharisma" class="col-sm-2 col-form-label">Charisma:</label>
+          <div class="col-sm-2">
+            <input pattern="^[0-9]+$" id="setCharisma" class="form-control" type="number" min="0" (input)="validateRandomizers()" [(ngModel)]="setCharisma" name="setCharisma" [required]="abilitiesRandomizerType == 'Set'" />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button id="generateButton" type="button" class="btn btn-success" (click)="generate()" [disabled]="characterForm.form.invalid || generating || validating || !valid">Generate</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6 clearfix">
+      <button class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || !character">Download</button>
+      <div id="generatingSection" *ngIf="generating">
+        <span>{{generatingMessage}}</span>
+        <dndgen-event-log [clientId]="clientId" [isLogging]="generating"></dndgen-event-log>
+      </div>
+      <div [hidden]="generating">
+        <span id="noCharacter" class="italicize" [hidden]="character">No character has been generated</span>
+        <div *ngIf="character">
+          <dndgen-leader [character]="character!" [leadership]="leadership" [cohort]="cohort" [followers]="followers"></dndgen-leader>
+        </div>
+      </div>
     </div>
   </div>
 </div>

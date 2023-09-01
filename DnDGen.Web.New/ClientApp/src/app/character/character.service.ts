@@ -40,7 +40,7 @@ export class CharacterService {
     setWisdom: number,
     setCharisma: number,
     allowAbilityAdjustments: boolean
-  ): Observable<{ character: Character }> {
+  ): Observable<Character> {
     var url = this.baseUrl + "character/generate";
     let params = new HttpParams()
       .set('clientId', clientId)
@@ -65,6 +65,6 @@ export class CharacterService {
       .set('setCharisma', setCharisma)
       .set('allowAbilityAdjustments', allowAbilityAdjustments);
 
-    return this.http.get<{ character: Character }>(url, { params: params });
+    return this.http.get<Character>(url, { params: params });
   }
 }

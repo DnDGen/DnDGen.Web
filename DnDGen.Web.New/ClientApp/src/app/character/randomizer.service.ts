@@ -25,7 +25,7 @@ export class RandomizerService {
     metaraceRandomizerType: string,
     forceMetarace: boolean,
     setMetarace: string
-  ): Observable<{ valid: boolean }> {
+  ): Observable<boolean> {
     var url = this.baseUrl + "character/randomizers/validate";
     let params = new HttpParams()
       .set('clientId', clientId)
@@ -42,6 +42,6 @@ export class RandomizerService {
       .set('forceMetarace', forceMetarace)
       .set('setMetarace', setMetarace);
 
-    return this.http.get<{ valid: boolean }>(url, { params: params });
+    return this.http.get<boolean>(url, { params: params });
   }
 }

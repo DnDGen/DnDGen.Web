@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DnDGen.Web.New.Controllers
 {
     [ApiController]
-    public class CharacterController : Controller
+    public class CharacterController : ControllerBase
     {
         private readonly IRandomizerRepository randomizerRepository;
         private readonly ICharacterGenerator characterGenerator;
@@ -22,17 +22,17 @@ namespace DnDGen.Web.New.Controllers
             clientIdManager = dependencyFactory.Get<ClientIDManager>();
         }
 
-        [Route("Character/viewmodel")]
+        [Route("character/viewmodel")]
         [HttpGet]
-        public ActionResult GetViewModel()
+        public CharacterViewModel GetViewModel()
         {
             var model = new CharacterViewModel();
-            return Json(model);
+            return model;
         }
 
         [Route("Character/Generate")]
         [HttpGet]
-        public JsonResult Generate(Guid clientId, CharacterSpecifications characterSpecifications)
+        public Character Generate(Guid clientId, [ModelBinder(BinderType = typeof(CharacterSpecificationsModelBinder))] CharacterSpecifications characterSpecifications)
         {
             clientIdManager.SetClientID(clientId);
 
@@ -57,7 +57,7 @@ namespace DnDGen.Web.New.Controllers
 
             character.Skills = CharacterHelper.SortSkills(character.Skills);
 
-            return Json(new { character = character });
+            return character;
         }
     }
 }

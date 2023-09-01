@@ -1,6 +1,6 @@
 <div>
     <dndgen-character [character]="character!"></dndgen-character>
-    <div [hidden]="!leadership">
+    <div *ngIf="leadership">
       <dndgen-collapsible-list [hidden]="leadership!.score == 0" heading="Leadership" [hasList]="leadership!.score > 0">
         <ul>
           <li>Score: {{leadership!.score | number}}</li>
@@ -11,7 +11,7 @@
               </ul>
             </dndgen-collapsible-list>
           </li>
-          <li [hidden]="!cohort">
+          <li *ngIf="!cohort">
             <span>Cohort:</span>
             <dndgen-character [character]="cohort!"></dndgen-character>
           </li>

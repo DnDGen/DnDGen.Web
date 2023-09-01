@@ -13,16 +13,16 @@ export class EventService {
     this.baseUrl = baseUrl;
   }
 
-  public getClientId(): Observable<{ clientId: string }> {
+  public getClientId(): Observable<string> {
     var url = this.baseUrl + "event/clientid";
-    return this.http.get<{ clientId: string }>(url);
+    return this.http.get<string>(url);
   }
 
-  public getEvents(clientId: string): Observable<{ events: GenEvent[] }> {
+  public getEvents(clientId: string): Observable<GenEvent[]> {
     var url = this.baseUrl + "event/all";
     let params = new HttpParams().set('clientId', clientId);
 
-    return this.http.get<{ events: GenEvent[] }>(url, { params: params });
+    return this.http.get<GenEvent[]>(url, { params: params });
   }
 
   public clearEvents(clientId: string): void {

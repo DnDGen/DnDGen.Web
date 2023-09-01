@@ -20,8 +20,8 @@ import { ItemComponent } from './treasure/item.component';
 import { CharacterGenComponent } from './character/charactergen.component';
 import { LeaderComponent } from './character/leader.component';
 import { CharacterComponent } from './character/character.component';
-//import { CounterComponent } from './counter/counter.component';
-//import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +46,8 @@ import { CharacterComponent } from './character/character.component';
     LeaderComponent,
     CharacterComponent,
 
-    //CounterComponent,
-    //FetchDataComponent
+    //Samples
+    FetchDataComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -60,8 +60,7 @@ import { CharacterComponent } from './character/character.component';
       { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
       //TODO: EncounterGen
       //TODO: DungeonGen
-      //{ path: 'counter', component: CounterComponent },
-      //{ path: 'fetch-data', component: FetchDataComponent },
+      { path: 'fetch-data', component: FetchDataComponent, pathMatch: 'full' },
     ])
   ],
   providers: [
