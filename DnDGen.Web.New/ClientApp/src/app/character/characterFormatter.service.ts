@@ -68,9 +68,9 @@ export class CharacterFormatterService {
       formattedCharacter += prefix + '\t' + 'Alignment: ' + character.alignment.full + '\r\n';
 
       //Class
-      formattedCharacter += prefix + '\t' + character.Class.summary + '\r\n';
-    formattedCharacter += this.formatList(character.Class.specialistFields, 'Specialist', prefix + '\t\t');
-    formattedCharacter += this.formatList(character.Class.prohibitedFields, 'Prohibited', prefix + '\t\t');
+      formattedCharacter += prefix + '\t' + character['class'].summary + '\r\n';
+    formattedCharacter += this.formatList(character['class'].specialistFields, 'Specialist', prefix + '\t\t');
+    formattedCharacter += this.formatList(character['class'].prohibitedFields, 'Prohibited', prefix + '\t\t');
 
       //Race
       formattedCharacter += prefix + '\t' + character.race.summary + '\r\n';
@@ -188,15 +188,15 @@ export class CharacterFormatterService {
 
     var formattedAbilities = prefix + 'Abilities:\r\n';
 
-    formattedAbilities += prefix + "\t" + "Strength: " + abilities.strength.value + " (" + abilities.strength.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Strength: " + abilities.Strength.value + " (" + abilities.Strength.bonus + ")\r\n";
 
-    if (abilities.constitution)
-      formattedAbilities += prefix + "\t" + "Constitution: " + abilities.constitution.value + " (" + abilities.constitution.bonus + ")\r\n";
+    if (abilities.Constitution)
+      formattedAbilities += prefix + "\t" + "Constitution: " + abilities.Constitution.value + " (" + abilities.Constitution.bonus + ")\r\n";
 
-    formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.dexterity.value + " (" + abilities.dexterity.bonus + ")\r\n";
-    formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.intelligence.value + " (" + abilities.intelligence.bonus + ")\r\n";
-    formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.wisdom.value + " (" + abilities.wisdom.bonus + ")\r\n";
-    formattedAbilities += prefix + "\t" + "Charisma: " + abilities.charisma.value + " (" + abilities.charisma.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.Dexterity.value + " (" + abilities.Dexterity.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.Intelligence.value + " (" + abilities.Intelligence.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.Wisdom.value + " (" + abilities.Wisdom.bonus + ")\r\n";
+    formattedAbilities += prefix + "\t" + "Charisma: " + abilities.Charisma.value + " (" + abilities.Charisma.bonus + ")\r\n";
 
     return formattedAbilities;
   }
@@ -250,11 +250,11 @@ export class CharacterFormatterService {
           }
       }
 
-      if (feats.Class.length) {
+      if (feats['class'].length) {
           formattedFeats += prefix + '\t' + 'Class:\r\n';
 
-        for (var j = 0; j < feats.Class.length; j++) {
-          formattedFeats += this.formatFeat(feats.Class[j], prefix + "\t\t");
+        for (var j = 0; j < feats['class'].length; j++) {
+          formattedFeats += this.formatFeat(feats['class'][j], prefix + "\t\t");
         }
       }
 

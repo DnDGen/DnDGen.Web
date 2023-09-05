@@ -176,7 +176,21 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private getRandomizerValidity(): void {
-    this.randomizerService.validate(this.clientId, this.alignmentRandomizerType, this.setAlignment, this.classNameRandomizerType, this.setClassName, this.levelRandomizerType, this.setLevel, this.allowLevelAdjustments, this.baseRaceRandomizerType, this.setBaseRace, this.metaraceRandomizerType, this.forceMetarace, this.setMetarace)
+    this.randomizerService
+      .validate(
+        this.clientId,
+        this.alignmentRandomizerType,
+        this.setAlignment,
+        this.classNameRandomizerType,
+        this.setClassName,
+        this.levelRandomizerType,
+        this.setLevel,
+        this.allowLevelAdjustments,
+        this.baseRaceRandomizerType,
+        this.setBaseRace,
+        this.metaraceRandomizerType,
+        this.forceMetarace,
+        this.setMetarace)
       .subscribe({
         next: data => {
           this.valid = data;
@@ -219,7 +233,29 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private generateCharacter(): void {
-    this.characterService.generate(this.clientId, this.alignmentRandomizerType, this.setAlignment, this.classNameRandomizerType, this.setClassName, this.levelRandomizerType, this.setLevel, this.allowLevelAdjustments, this.baseRaceRandomizerType, this.setBaseRace, this.metaraceRandomizerType, this.forceMetarace, this.setMetarace, this.abilitiesRandomizerType, this.setStrength, this.setConstitution, this.setDexterity, this.setIntelligence, this.setWisdom, this.setCharisma, this.allowAbilitiesAdjustments)
+    this.characterService
+      .generate(
+        this.clientId,
+        this.alignmentRandomizerType,
+        this.setAlignment,
+        this.classNameRandomizerType,
+        this.setClassName,
+        this.levelRandomizerType,
+        this.setLevel,
+        this.allowLevelAdjustments,
+        this.baseRaceRandomizerType,
+        this.setBaseRace,
+        this.metaraceRandomizerType,
+        this.forceMetarace,
+        this.setMetarace,
+        this.abilitiesRandomizerType,
+        this.setStrength,
+        this.setConstitution,
+        this.setDexterity,
+        this.setIntelligence,
+        this.setWisdom,
+        this.setCharisma,
+        this.allowAbilitiesAdjustments)
       .subscribe({
         next: data => {
           this.character = data;
@@ -243,7 +279,7 @@ export class CharacterGenComponent implements OnInit {
 
     this.generatingMessage = 'Generating leadership...';
 
-    this.leadershipService.generate(this.clientId, this.character.Class.level, this.character.abilities.charisma.bonus, this.character.magic.animal)
+    this.leadershipService.generate(this.clientId, this.character['class'].level, this.character.abilities.Charisma.bonus, this.character.magic.animal)
       .subscribe({
         next: data => {
           this.leadership = data;
@@ -267,7 +303,13 @@ export class CharacterGenComponent implements OnInit {
 
     this.generatingMessage = 'Generating cohort...';
 
-    this.leadershipService.generateCohort(this.clientId, this.character.Class.level, this.leadership.cohortScore, this.character.alignment.full, this.character.Class.name)
+    this.leadershipService
+      .generateCohort(
+        this.clientId,
+        this.character['class'].level,
+        this.leadership.cohortScore,
+        this.character.alignment.full,
+        this.character['class'].name)
       .subscribe({
         next: data => {
           this.cohort = data;
@@ -327,7 +369,7 @@ export class CharacterGenComponent implements OnInit {
 
     this.generatingMessage = 'Generating follower ' + (this.followers.length + 1) + ' of ' + expectedTotal + '...';
 
-    this.leadershipService.generateFollower(this.clientId, level, this.character.alignment.full, this.character.Class.name)
+    this.leadershipService.generateFollower(this.clientId, level, this.character.alignment.full, this.character['class'].name)
       .subscribe({
         next: data => {
           this.followers.push(data);

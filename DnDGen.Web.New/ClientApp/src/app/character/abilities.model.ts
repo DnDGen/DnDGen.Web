@@ -2,11 +2,11 @@ import { Ability } from "./ability.model";
 
 export class Abilities {
   constructor(
-    public strength: Ability,
-    public constitution: Ability | null,
-    public dexterity: Ability,
-    public intelligence: Ability,
-    public wisdom: Ability,
-    public charisma: Ability
+    public Strength: Ability,
+    public Constitution: Ability | null,
+    public Dexterity: Ability,
+    public Intelligence: Ability,
+    public Wisdom: Ability,
+    public Charisma: Ability
   ) { }
 }

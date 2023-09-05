@@ -9,10 +9,12 @@ import { Race } from "./race.model"
 import { Skill } from "./skill.model"
 
 export class Character {
+  public "class": CharacterClass
+
   constructor(
     public specialChallengeRatings: string[],
     public alignment: Alignment,
-    public class: CharacterClass,
+    classParam: CharacterClass,
     public race: Race,
     public interestingTrait: string,
     public combat: Combat,
@@ -25,5 +27,7 @@ export class Character {
     public isLeader: boolean,
     public summary: string,
     public challengeRating: number
-  ) { }
+  ) {
+    this.class = classParam;
+  }
 }

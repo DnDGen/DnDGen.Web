@@ -42,12 +42,12 @@
       <li>
         <dndgen-collapsible-list heading="Abilities" [hasList]="true">
           <ul>
-            <li>Strength: {{character.abilities.strength.value}} ({{character.abilities.strength.bonus}})</li>
-            <li [hidden]="!character.abilities.constitution">Constitution: {{character.abilities.constitution!.value}} ({{character.abilities.constitution!.bonus}})</li>
-            <li>Dexterity: {{character.abilities.dexterity.value}} ({{character.abilities.dexterity.bonus}})</li>
-            <li>Intelligence: {{character.abilities.intelligence.value}} ({{character.abilities.intelligence.bonus}})</li>
-            <li>Wisdom: {{character.abilities.wisdom.value}} ({{character.abilities.wisdom.bonus}})</li>
-            <li>Charisma: {{character.abilities.charisma.value}} ({{character.abilities.charisma.bonus}})</li>
+            <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus}})</li>
+            <li *ngIf="character.abilities.Constitution">Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus}})</li>
+            <li>Dexterity: {{character.abilities.Dexterity.value}} ({{character.abilities.Dexterity.bonus}})</li>
+            <li>Intelligence: {{character.abilities.Intelligence.value}} ({{character.abilities.Intelligence.bonus}})</li>
+            <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus}})</li>
+            <li>Charisma: {{character.abilities.Charisma.value}} ({{character.abilities.Charisma.bonus}})</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
@@ -217,8 +217,8 @@
             <li>
               <span>Base Attack:</span>
               <ul>
-                <li>Melee: {{character.combat.baseAttack.allMeleeBonuses[0] > -1 ? '+' : ''}}{{character.combat.baseAttack.allMeleeBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allMeleeBonuses" ngIf="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
-                <li>Ranged: {{character.combat.baseAttack.allRangedBonuses[0] > -1 ? '+' : ''}}{{character.combat.baseAttack.allRangedBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allRangedBonuses" ngIf="!$first">/{{bonus > -1 ? '+' : ''}}{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
+                <li>Melee: <span *ngIf="character.combat.baseAttack.allMeleeBonuses[0] > -1">+</span>{{character.combat.baseAttack.allMeleeBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allMeleeBonuses | slice:1">/<span *ngIf="bonus > -1">+</span>{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
+                <li>Ranged: <span *ngIf="character.combat.baseAttack.allRangedBonuses[0] > -1">+</span>{{character.combat.baseAttack.allRangedBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allRangedBonuses | slice:1">/<span *ngIf="bonus > -1">+</span>{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
               </ul>
             </li>
             <li>Hit Points: {{character.combat.hitPoints}}</li>
