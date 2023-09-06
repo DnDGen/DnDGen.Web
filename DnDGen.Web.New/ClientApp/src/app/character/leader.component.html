@@ -11,7 +11,7 @@
               </ul>
             </dndgen-collapsible-list>
           </li>
-          <li *ngIf="!cohort">
+          <li *ngIf="cohort">
             <span>Cohort:</span>
             <dndgen-character [character]="cohort!"></dndgen-character>
           </li>

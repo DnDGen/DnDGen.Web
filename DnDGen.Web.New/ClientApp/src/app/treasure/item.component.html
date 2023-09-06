@@ -59,11 +59,11 @@
             <li [hidden]="item.magic.intelligence.specialPurpose.length == 0">
               <span>Dedicated Power: {{item.magic.intelligence.dedicatedPower}}</span>
             </li>
-            <li>Personality: {{item.magic.intelligence.personality.length > 0 ? item.magic.intelligence.personality : 'None'}}</li>
+            <li>Personality: <span *ngIf="item.magic.intelligence.personality.length > 0">{{item.magic.intelligence.personality}}</span><span *ngIf="item.magic.intelligence.personality.length == 0">None</span></li>
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="!isArmor()">
+      <li *ngIf="isArmor()">
         <dndgen-collapsible-list heading="Armor" [hasList]="true">
           <ul>
             <li>Size: {{armor.size}}</li>
@@ -73,7 +73,7 @@
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="!isWeapon()">
+      <li *ngIf="isWeapon()">
         <dndgen-collapsible-list heading="Weapon" [hasList]="true">
           <ul>
             <li>Size: {{weapon.size}}</li>

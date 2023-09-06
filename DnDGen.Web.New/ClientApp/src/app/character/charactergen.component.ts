@@ -17,7 +17,9 @@ import { CharacterGenViewModel } from './charactergenViewModel.model';
   providers: [
     CharacterService,
     LeadershipService,
-    RandomizerService
+    RandomizerService,
+    EventService,
+    CharacterFormatterService,
   ]
 })
 

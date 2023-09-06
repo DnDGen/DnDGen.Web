@@ -8,12 +8,10 @@ namespace DnDGen.Web.New
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDependencyFactory, NinjectDependencyFactory>();
 
-            //services.AddControllersWithViews();
             services.AddControllers();
         }
     }

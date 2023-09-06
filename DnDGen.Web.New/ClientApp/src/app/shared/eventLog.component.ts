@@ -11,7 +11,7 @@ import { Subject, takeUntil, timer } from 'rxjs';
   ]
 })
 
-export class EventLogComponent implements OnInit, OnChanges {
+export class EventLogComponent implements OnChanges {
   constructor(private eventService: EventService) { }
 
   @Input() clientId: string = '';
@@ -21,14 +21,14 @@ export class EventLogComponent implements OnInit, OnChanges {
 
   private pollInterval: number = 1000;
   private quantityOfEventsToShow: number = 10;
-  private timer = timer(this.pollInterval, this.pollInterval);
+  private timer = timer(0, this.pollInterval);
   private subject = new Subject<void>();
 
   private start() {
     this.events = [];
     this.timer
       .pipe(takeUntil(this.subject))
-      .subscribe(this.getEvents);
+      .subscribe(val => this.getEvents());
   }
 
   private stop() {
@@ -54,22 +54,11 @@ export class EventLogComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-    if (!this.clientId)
-      return;
-
-    if (this.isLogging) {
-      this.start();
-    } else {
-      this.stop();
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.clientId)
       return;
 
-    if (changes.isLogging && changes.isLogging.currentValue) {
+    if (this.isLogging) {
       this.start();
     } else {
       this.stop();

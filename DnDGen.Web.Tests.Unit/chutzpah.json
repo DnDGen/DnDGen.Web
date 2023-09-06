@@ -58,12 +58,26 @@
       "Path": "../DnDGen.Web/wwwroot/js",
       "Includes": [ "*.js" ],
       "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../DnDGen.Web.New/ClientApp/src/app/shared",
+      "Includes": [ "*.ts" ],
+      "Excludes": [ "*Resource*" ]
+    },
+    {
+      "Path": "../DnDGen.Web.New/ClientApp/src/app",
+      "Includes": [ "*.ts" ],
+      "Excludes": [ "*Resource*" ]
     }
   ],
   "Tests": [
     {
       "Path": "wwwroot/js",
       "Includes": [ "*.tests.js" ]
+    },
+    {
+      "Path": "ClientApp/src/app",
+      "Includes": [ "*.tests.ts" ]
     }
   ]
 }

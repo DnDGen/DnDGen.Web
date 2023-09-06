@@ -10,12 +10,7 @@ app.UseExceptionHandler("/Error");
 app.UseHttpsRedirection();
 app.MapControllers();
 
-//TODO: See if this is needed
 app.UseStaticFiles();
 app.UseRouting();
-
-//app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
-//app.MapControllerRoute(name: "randomizers", pattern: "Characters/{controller=Randomizers}/{action=Verify}");
-//app.MapControllerRoute(name: "leadership", pattern: "Characters/{controller=Leadership}/{action=Generate}");
 
 app.Run();

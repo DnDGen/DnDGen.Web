@@ -19,7 +19,7 @@ const PROXY_CONFIG = [
       "/character/follower/generate",
       "/character/randomizers/validate"
     ],
-    proxyTimeout: 10000,
+    proxyTimeout: 60000,
     target: target,
     secure: false,
     headers: {

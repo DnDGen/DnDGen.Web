@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
+import { ErrorComponent } from './error/error.component';
 
 import { CollapsibleListComponent } from './shared/collapsibleList.component';
 import { EventLogComponent } from './shared/eventLog.component';
@@ -21,13 +22,12 @@ import { CharacterGenComponent } from './character/charactergen.component';
 import { LeaderComponent } from './character/leader.component';
 import { CharacterComponent } from './character/character.component';
 
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    ErrorComponent,
 
     //Shared
     CollapsibleListComponent,
@@ -44,10 +44,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     //CharacterGen
     CharacterGenComponent,
     LeaderComponent,
-    CharacterComponent,
-
-    //Samples
-    FetchDataComponent
+    CharacterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,12 +52,13 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', redirectTo: "/", pathMatch: 'full' },
       { path: 'roll', component: RollGenComponent, pathMatch: 'full' },
       //TODO: TreasureGen
       { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
       //TODO: EncounterGen
       //TODO: DungeonGen
-      { path: 'fetch-data', component: FetchDataComponent, pathMatch: 'full' },
+      { path: '**', component: ErrorComponent, pathMatch: 'full' }
     ])
   ],
   providers: [

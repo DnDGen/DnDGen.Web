@@ -21,7 +21,7 @@ namespace DnDGen.Web.New.Controllers.Characters
 
         [Route("Character/Leadership/Generate")]
         [HttpGet]
-        public Leadership Generate(Guid clientId, int leaderLevel, int leaderCharismaBonus, string leaderAnimal)
+        public Leadership Generate(Guid clientId, int leaderLevel, int leaderCharismaBonus, string? leaderAnimal)
         {
             clientIdManager.SetClientID(clientId);
 
