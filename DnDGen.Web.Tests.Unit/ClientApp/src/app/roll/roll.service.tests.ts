@@ -1,12 +1,11 @@
 ﻿import 'jasmine';
 import { RollService } from "../../../../../DnDGen.Web.New/ClientApp/src/app/roll/roll.service"
-import { HttpClient, HttpParams } from '../../../../wwwroot/lib/angular/common/http';
+import { HttpClient, HttpParams } from '../../../../wwwroot/lib/angular/core.umd';
 import { Observable } from '../../../../wwwroot/lib/rxjs/rxjs.umd';
 
 describe('Roll Service', () => {
     let rollService: RollService;
     let http: HttpClient;
-    let spy: any;
 
     beforeEach(() => {
         http = new HttpClient();
@@ -14,11 +13,11 @@ describe('Roll Service', () => {
     });
 
     beforeEach(() => {
-        spy = spyOn(http, 'get').and.returnValue(new Observable(666));
+        spyOn(http, 'get').and.returnValue(new Observable(666));
     });
 
     it('validates a roll - valid', () => {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(true));
+        spyOn(http, 'get').and.returnValue(new Observable(true));
 
         var result = rollService.validateRoll(9266, 90210);
         expect(result).not.toBeNull();
@@ -30,7 +29,7 @@ describe('Roll Service', () => {
     });
 
     it('validates a roll - invalid', () => {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(false));
+        spyOn(http, 'get').and.returnValue(new Observable(false));
 
         var result = rollService.validateRoll(9266, 90210);
         expect(result).not.toBeNull();
@@ -42,7 +41,7 @@ describe('Roll Service', () => {
     });
 
     it('gets a roll', () => {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(9266));
+        spyOn(http, 'get').and.returnValue(new Observable(9266));
 
         var result = rollService.getRoll(9266, 90210);
         expect(result).not.toBeNull();
@@ -54,7 +53,7 @@ describe('Roll Service', () => {
     });
 
     it('validates an expression - valid', () => {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(true));
+        spyOn(http, 'get').and.returnValue(new Observable(true));
 
         var result = rollService.validateExpression("my expression");
         expect(result).not.toBeNull();
@@ -67,7 +66,7 @@ describe('Roll Service', () => {
     });
 
     it('validates an expression - invalid', function () {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(false));
+        spyOn(http, 'get').and.returnValue(new Observable(false));
 
         var result = rollService.validateExpression("my expression");
         expect(result).not.toBeNull();
@@ -80,7 +79,7 @@ describe('Roll Service', () => {
     });
 
     it('gets an expression roll', function () {
-        spy = spyOn(http, 'get').and.returnValue(Observable.of(9266));
+        spyOn(http, 'get').and.returnValue(new Observable(9266));
 
         var result = rollService.getExpressionRoll("my expression");
         expect(result).not.toBeNull();

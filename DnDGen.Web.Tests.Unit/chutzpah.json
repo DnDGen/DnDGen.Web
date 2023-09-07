@@ -1,7 +1,19 @@
 {
   "Framework": "jasmine",
   "RootReferencePathMode": "SettingsFileDirectory",
+  "Compile": {
+    "Extensions": [ ".ts" ],
+    "ExtensionsWithNoOutput": [ ".d.ts" ],
+    "Executable": "%powershellexe%",
+    "Arguments": "-NoProfile %chutzpahsettingsdir%\\compile.ps1",
+    "UseSourceMaps": true,
+    "OutDirectory": "out"
+  },
   "References": [
+    {
+      "Path": "wwwroot/lib/typescript/typescript.js",
+      "IsTestFrameworkFile": true
+    },
     {
       "Path": "wwwroot/lib/jquery/jquery.min.js",
       "IsTestFrameworkFile": true
@@ -58,16 +70,6 @@
       "Path": "../DnDGen.Web/wwwroot/js",
       "Includes": [ "*.js" ],
       "Excludes": [ "*Resource*" ]
-    },
-    {
-      "Path": "../DnDGen.Web.New/ClientApp/src/app/shared",
-      "Includes": [ "*.ts" ],
-      "Excludes": [ "*Resource*" ]
-    },
-    {
-      "Path": "../DnDGen.Web.New/ClientApp/src/app",
-      "Includes": [ "*.ts" ],
-      "Excludes": [ "*Resource*" ]
     }
   ],
   "Tests": [
@@ -78,6 +80,9 @@
     {
       "Path": "ClientApp/src/app",
       "Includes": [ "*.tests.ts" ]
+    },
+    {
+      "Path": "ClientApp/src/app/roll/sample.tests.ts"
     }
   ]
 }

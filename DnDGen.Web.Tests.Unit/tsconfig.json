@@ -1,0 +1,9 @@
+{
+  "include": [
+    "ClientApp/src/**/*",
+    "../DnDGen.Web.New/ClientApp/src/**/*"
+  ],
+  "compilerOptions": {
+    "outDir": "./build"
+  }
+}

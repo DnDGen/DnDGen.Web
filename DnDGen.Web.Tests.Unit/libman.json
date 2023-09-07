@@ -36,12 +36,16 @@
       ]
     },
     {
-      "library": "angular@16.2.3",
+      "library": "angular@12.2.17",
       "destination": "wwwroot/lib/angular/"
     },
     {
       "library": "rxjs@7.8.1",
       "destination": "wwwroot/lib/rxjs/"
+    },
+    {
+      "library": "typescript@5.2.2",
+      "destination": "wwwroot/lib/typescript/"
     }
   ]
 }
