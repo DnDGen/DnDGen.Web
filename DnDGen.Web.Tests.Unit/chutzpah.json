@@ -1,13 +1,17 @@
 {
   "Framework": "jasmine",
   "RootReferencePathMode": "SettingsFileDirectory",
+  "Engine": "JSDom",
   "Compile": {
+    "Mode": "External",
     "Extensions": [ ".ts" ],
     "ExtensionsWithNoOutput": [ ".d.ts" ],
-    "Executable": "%powershellexe%",
-    "Arguments": "-NoProfile %chutzpahsettingsdir%\\compile.ps1",
-    "UseSourceMaps": true,
-    "OutDirectory": "out"
+    "Paths": [
+      {
+        "OutputPath": "_out",
+        "SourcePath": "ClientApp"
+      }
+    ]
   },
   "References": [
     {
@@ -33,56 +37,11 @@
     {
       "Path": "wwwroot/lib/jasmine-jquery/jasmine-jquery.js",
       "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "wwwroot/mocks/",
-      "Includes": [ "*.json" ]
-    },
-    { "Path": "wwwroot/mocks/mockProvider.js" },
-    {
-      "Path": "wwwroot/bootstrap/js/bootstrap.min.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "wwwroot/lib/angular.js/angular.min.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "wwwroot/angular-mocks/angular-mocks.min.js",
-      "IsTestFrameworkFile": true
-    },
-    {
-      "Path": "../DnDGen.Web/wwwroot/js/shared",
-      "Includes": [ "*.module.js" ],
-      "Excludes": [ "*Resource*" ]
-    },
-    {
-      "Path": "../DnDGen.Web/wwwroot/js/shared",
-      "Includes": [ "*.js" ],
-      "Excludes": [ "*Resource*" ]
-    },
-    {
-      "Path": "../DnDGen.Web/wwwroot/js",
-      "Includes": [ "*.module.js" ],
-      "Excludes": [ "*Resource*" ]
-    },
-    {
-      "Path": "../DnDGen.Web/wwwroot/js",
-      "Includes": [ "*.js" ],
-      "Excludes": [ "*Resource*" ]
     }
   ],
   "Tests": [
     {
-      "Path": "wwwroot/js",
-      "Includes": [ "*.tests.js" ]
-    },
-    {
-      "Path": "ClientApp/src/app",
-      "Includes": [ "*.tests.ts" ]
-    },
-    {
-      "Path": "ClientApp/src/app/roll/sample.tests.ts"
+      "Path": "_out/*/ClientApp/src/app/roll/sample.tests.js"
     }
   ]
 }

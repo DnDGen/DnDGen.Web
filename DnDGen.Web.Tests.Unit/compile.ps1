@@ -1,1 +1,1 @@
-tsc ClientApp/src/app/roll/*.ts --sourcemap
+tsc ClientApp/src/app/roll/sample.tests.ts --sourcemap --declaration --outDir _out

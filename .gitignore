@@ -167,7 +167,7 @@ pip-log.txt
 _Chutzpah.*.test.html
 
 ########
-Angular
+## Angular
 ########
 # compiled output
 /dist
@@ -201,6 +201,7 @@ node_modules
 npm-debug.log
 testem.log
 /typings
+_out
 
 # e2e
 /e2e/*.js

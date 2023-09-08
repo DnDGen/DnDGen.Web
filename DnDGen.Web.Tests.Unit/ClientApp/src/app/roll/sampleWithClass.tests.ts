@@ -1,7 +1,7 @@
 ﻿/// <reference path="../../../../wwwroot/lib/jasmine/jasmine.js"/>
 /// <reference path="./sample.calc.ts"/>
 
-//describe('SAMPLE', () => {
+//describe('SAMPLE WITH CLASS', () => {
 //    let myCalc: MyCalc;
 
 //    beforeEach(() => {

@@ -1,9 +1,19 @@
 {
-  "include": [
-    "ClientApp/src/**/*",
-    "../DnDGen.Web.New/ClientApp/src/**/*"
-  ],
+  "compileOnSave": true,
   "compilerOptions": {
-    "outDir": "./build"
-  }
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "ES5",
+    "outDir": "_out",
+    "module": "CommonJS"
+  },
+  "include": [
+    "ClientApp/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
 }
