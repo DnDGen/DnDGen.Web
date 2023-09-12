@@ -27,6 +27,7 @@
     <None Remove="node_modules\**" />
     <None Remove="out\**" />
     <None Remove="_out\**" />
+    <TypeScriptCompile Remove="node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,10 +50,6 @@
 	  <PackageReference Include="DungeonGen" Version="3.1.3" />
 	  <PackageReference Include="EncounterGen" Version="3.0.5" />
 	  <PackageReference Include="EventGen" Version="2.0.1" />
-	  <PackageReference Include="Microsoft.JavaScript.UnitTest" Version="1.5.10610.1">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <Reference Include="Microsoft.CSharp" />
 	  <PackageReference Include="Moq" Version="4.18.4" />

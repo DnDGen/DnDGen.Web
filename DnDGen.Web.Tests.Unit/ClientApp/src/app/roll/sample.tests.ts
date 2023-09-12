@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../../wwwroot/lib/jasmine/jasmine.js"/>
+﻿import "jasmine";
 
 describe('SAMPLE', () => {
     let myNumber: number;
@@ -33,5 +33,10 @@ describe('SAMPLE', () => {
     it('resets number 1336', () => {
         myNumber = 1336;
         expect(myNumber).toBe(1336);
+    });
+
+    it('resets number 96', () => {
+        myNumber = 96;
+        expect(myNumber).toBe(96);
     });
 });
