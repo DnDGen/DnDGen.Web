@@ -1269,7 +1269,7 @@ describe('Character Controller', function () {
     });
 
     it('downloads character', function () {
-        vm.character = { name: 'Joe Shmoe', Summary: 'character summary' };
+        vm.character = { name: 'Joe Shmoe', summary: 'character summary' };
 
         vm.download();
         scope.$apply();
@@ -1278,7 +1278,7 @@ describe('Character Controller', function () {
     });
 
     it('downloads character with leadership', function () {
-        vm.character = { name: 'Joe Shmoe', Summary: 'character summary' };
+        vm.character = { name: 'Joe Shmoe', summary: 'character summary' };
         vm.leadership = { score: 9266 };
         vm.cohort = { name: 'Cohort' };
         vm.followers = [{ name: 'Thing 1' }, { name: 'Thing 2' }];

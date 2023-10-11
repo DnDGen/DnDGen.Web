@@ -264,7 +264,7 @@
 
         vm.download = function () {
             var formattedCharacter = characterFormatterService.formatCharacter(vm.character, vm.leadership, vm.cohort, vm.followers);
-            fileSaverService.save(formattedCharacter, vm.character.Summary);
+            fileSaverService.save(formattedCharacter, vm.character.summary);
         };
     };
 })();
