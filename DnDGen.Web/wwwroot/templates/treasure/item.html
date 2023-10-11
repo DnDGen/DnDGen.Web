@@ -73,7 +73,8 @@
                     </ul>
                 </dndgen-collapsable-list>
             </li>
-            <li ng-show="item.damage">
+            <!--<li ng-show="item.damage">-->
+            <li ng-show="item.damage || item.damages.length > 0">
                 <dndgen-collapsable-list heading="Weapon" has-list="true">
                     <ul>
                         <li>Size: {{item.size}}</li>
