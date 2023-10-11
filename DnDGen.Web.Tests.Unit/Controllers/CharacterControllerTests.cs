@@ -387,7 +387,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         [Test]
         public void GenerateReturnsCharacterFromGenerator()
         {
-            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
+            var result = controller.Generate(clientId, characterSpecifications);
             dynamic data = result.Value;
             Assert.That(data.character, Is.EqualTo(character));
         }
@@ -405,7 +405,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
 
             Assert.That(character.Skills, Is.Not.Ordered.By("Name"));
 
-            var result = controller.Generate(clientId, characterSpecifications) as JsonResult;
+            var result = controller.Generate(clientId, characterSpecifications);
             dynamic data = result.Value;
             Assert.That(data.character, Is.EqualTo(character));
             Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));

@@ -13,7 +13,7 @@ namespace DnDGen.Web
         {
             services.AddSingleton<IDependencyFactory, NinjectDependencyFactory>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
         }
     }
 }
