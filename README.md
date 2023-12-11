@@ -3,7 +3,7 @@ DnDGen.Web
 
 This is the website through which people can use the dice roller (RollGen), the equipment generator (TreasureGen), the character generator (CharacterGen), the encounter generator (EncounterGen), and the dungeon generator (DungeonGen).
 
-[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.DnDGen.Web?branchName=master)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=6&branchName=master)
+[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=master)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=master)
 
 The website: [DnDGen.com](http://dndgen.com)
 
