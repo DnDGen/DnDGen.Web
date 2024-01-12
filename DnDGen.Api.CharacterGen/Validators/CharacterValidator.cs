@@ -135,17 +135,33 @@ namespace DnDGen.Api.CharacterGen.Validators
         public static (bool Valid, string Error, CharacterSpecifications CharacterSpecifications) GetValid(HttpRequest request)
         {
             //TODO: Get all the possible parameters from the request
+            var spec = new CharacterSpecifications();
 
-            var alignmentRandomizer = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
-            var classNameRandomizer = (string)request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
-            var levelRandomizer = (string)request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
-            var baseRaceRandomizer = (string)request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
-            var metaraceRandomizer = (string)request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
-            var abilitiesRandomizer = (string)request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
+            spec.AlignmentRandomizerType = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
+            spec.ClassNameRandomizerType = (string)request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
+            spec.LevelRandomizerType = (string)request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
+            spec.BaseRaceRandomizerType = (string)request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
+            spec.MetaraceRandomizerType = (string)request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
+            spec.AbilitiesRandomizerType = (string)request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
 
-            //TODO: set values
-            //TODO: force metarace
-            //TODO: allow adjustments
+            spec.SetAlignment = (string)request.Query["setAlignment"];
+            spec.SetClassName = (string)request.Query["setClassName"];
+            spec.SetLevel = Convert.ToInt32(request.Query["setLevel"]);
+            spec.SetBaseRace = (string)request.Query["setBaseRace"];
+            spec.SetMetarace = (string)request.Query["setMetarace"];
+            spec.ForceMetarace = Convert.ToBoolean(request.Query["forceMetarace"]);
+            spec.SetStrength = Convert.ToInt32(request.Query["setStrength"]);
+            spec.SetConstitution = Convert.ToInt32(request.Query["setConstitution"]);
+            spec.SetDexterity = Convert.ToInt32(request.Query["setDexterity"]);
+            spec.SetIntelligence = Convert.ToInt32(request.Query["setIntelligence"]);
+            spec.SetWisdom = Convert.ToInt32(request.Query["setWisdom"]);
+            spec.SetCharisma = Convert.ToInt32(request.Query["setCharisma"]);
+            spec.AllowAbilityAdjustments = Convert.ToBoolean(request.Query["allowAbilityAdjustments"]);
+
+            if (spec.AlignmentRandomizerType == RandomizerTypeConstants.Set && string.IsNullOrEmpty(spec.SetAlignment))
+            {
+                return (false, "Need to provide setAlignment", null);
+            }
 
             //Validate that all things are entered as needed (if set alignment, there is a set alignment value, it's valid, etc.)
 
