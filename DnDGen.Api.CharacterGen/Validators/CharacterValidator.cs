@@ -15,7 +15,21 @@ namespace DnDGen.Api.CharacterGen.Validators
 {
     public static class CharacterValidator
     {
-        private static IEnumerable<string> Powers => new[] { PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major };
+        private static IEnumerable<string> AlignmentRandomizers = new[]
+        {
+            RandomizerTypeConstants.Set,
+            AlignmentRandomizerTypeConstants.Any,
+            AlignmentRandomizerTypeConstants.Chaotic,
+            AlignmentRandomizerTypeConstants.Evil,
+            AlignmentRandomizerTypeConstants.Good,
+            AlignmentRandomizerTypeConstants.Lawful,
+            AlignmentRandomizerTypeConstants.Neutral,
+            AlignmentRandomizerTypeConstants.NonChaotic,
+            AlignmentRandomizerTypeConstants.NonEvil,
+            AlignmentRandomizerTypeConstants.NonGood,
+            AlignmentRandomizerTypeConstants.NonLawful,
+            AlignmentRandomizerTypeConstants.NonNeutral,
+        };
 
         private static Dictionary<string, IEnumerable<string>> GetPowers()
         {
@@ -137,58 +151,67 @@ namespace DnDGen.Api.CharacterGen.Validators
             //TODO: Get all the possible parameters from the request
             var spec = new CharacterSpecifications();
 
-            spec.AlignmentRandomizerType = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
-            spec.ClassNameRandomizerType = (string)request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
-            spec.LevelRandomizerType = (string)request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
-            spec.BaseRaceRandomizerType = (string)request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
-            spec.MetaraceRandomizerType = (string)request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
-            spec.AbilitiesRandomizerType = (string)request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
+            var alignmentRandomizerType = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
+            var classNameRandomizerType = (string)request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
+            var levelRandomizerType = (string)request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
+            var baseRaceRandomizerType = (string)request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
+            var metaraceRandomizerType = (string)request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
+            var abilitiesRandomizerType = (string)request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
 
-            spec.SetAlignment = (string)request.Query["setAlignment"];
-            spec.SetClassName = (string)request.Query["setClassName"];
-            spec.SetLevel = Convert.ToInt32(request.Query["setLevel"]);
-            spec.SetBaseRace = (string)request.Query["setBaseRace"];
-            spec.SetMetarace = (string)request.Query["setMetarace"];
-            spec.ForceMetarace = Convert.ToBoolean(request.Query["forceMetarace"]);
-            spec.SetStrength = Convert.ToInt32(request.Query["setStrength"]);
-            spec.SetConstitution = Convert.ToInt32(request.Query["setConstitution"]);
-            spec.SetDexterity = Convert.ToInt32(request.Query["setDexterity"]);
-            spec.SetIntelligence = Convert.ToInt32(request.Query["setIntelligence"]);
-            spec.SetWisdom = Convert.ToInt32(request.Query["setWisdom"]);
-            spec.SetCharisma = Convert.ToInt32(request.Query["setCharisma"]);
-            spec.AllowAbilityAdjustments = Convert.ToBoolean(request.Query["allowAbilityAdjustments"]);
+            var setAlignment = (string)request.Query["setAlignment"];
+            var setClassName = (string)request.Query["setClassName"];
+            var setLevel = Convert.ToInt32(request.Query["setLevel"]);
+            var setBaseRace = (string)request.Query["setBaseRace"];
+            var setMetarace = (string)request.Query["setMetarace"];
+            var forceMetarace = Convert.ToBoolean(request.Query["forceMetarace"]);
+            var setStrength = Convert.ToInt32(request.Query["setStrength"]);
+            var setConstitution = Convert.ToInt32(request.Query["setConstitution"]);
+            var setDexterity = Convert.ToInt32(request.Query["setDexterity"]);
+            var setIntelligence = Convert.ToInt32(request.Query["setIntelligence"]);
+            var setWisdom = Convert.ToInt32(request.Query["setWisdom"]);
+            var setCharisma = Convert.ToInt32(request.Query["setCharisma"]);
+            var allowAbilityAdjustments = Convert.ToBoolean(request.Query["allowAbilityAdjustments"]);
 
-            if (spec.AlignmentRandomizerType == RandomizerTypeConstants.Set && string.IsNullOrEmpty(spec.SetAlignment))
-            {
-                return (false, "Need to provide setAlignment", null);
-            }
+            spec.SetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
+            spec.SetClassNameRandomizer(classNameRandomizerType, setClassName);
+            spec.SetLevelRandomizer(levelRandomizerType, setLevel);
+            spec.SetBaseRaceRandomizer(baseRaceRandomizerType, setBaseRace);
+            spec.SetMetaraceRandomizer(metaraceRandomizerType, setMetarace, forceMetarace);
+            spec.SetAbilitiesRandomizer(
+                abilitiesRandomizerType,
+                setStrength,
+                setConstitution,
+                setDexterity,
+                setIntelligence,
+                setWisdom,
+                setCharisma,
+                allowAbilityAdjustments);
 
-            //Validate that all things are entered as needed (if set alignment, there is a set alignment value, it's valid, etc.)
+            //var validatedPower = Powers.FirstOrDefault(p => p.ToLower() == power.ToLower());
+            //var valid = validatedPower != null;
 
-            var validatedPower = Powers.FirstOrDefault(p => p.ToLower() == power.ToLower());
-            var valid = validatedPower != null;
+            //var validItemType = Enum.TryParse<ItemTypes>(itemType, true, out var validatedItemType);
+            //valid &= validItemType;
 
-            var validItemType = Enum.TryParse<ItemTypes>(itemType, true, out var validatedItemType);
-            valid &= validItemType;
+            //if (!valid)
+            //{
+            //    return (false, null, null, null);
+            //}
 
-            if (!valid)
-            {
-                return (false, null, null, null);
-            }
+            //var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
+            //valid &= Validate(itemTypeDescription, validatedPower);
 
-            var itemTypeDescription = EnumHelper.GetDescription(validatedItemType);
-            valid &= Validate(itemTypeDescription, validatedPower);
+            //if (name == null)
+            //{
+            //    return (valid, itemTypeDescription, validatedPower, null);
+            //}
 
-            if (name == null)
-            {
-                return (valid, itemTypeDescription, validatedPower, null);
-            }
+            //var items = GetItemNames(itemTypeDescription, validatedPower, name);
+            //var validatedName = items.FirstOrDefault(n => n.ToLower() == name.ToLower());
+            //valid &= validatedName != null;
 
-            var items = GetItemNames(itemTypeDescription, validatedPower, name);
-            var validatedName = items.FirstOrDefault(n => n.ToLower() == name.ToLower());
-            valid &= validatedName != null;
-
-            return (valid, itemTypeDescription, validatedPower, validatedName);
+            var result = spec.IsValid();
+            return (result.Valid, result.Error, spec);
         }
     }
 }

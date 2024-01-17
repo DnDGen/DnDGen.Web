@@ -1,0 +1,889 @@
+{
+	"info": {
+		"_postman_id": "34356649-7c5a-4b74-97c5-ede22477fa9d",
+		"name": "CharacterGen API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "V1",
+			"item": [
+				{
+					"name": "Generate Character",
+					"item": [
+						{
+							"name": "Alignment Randomizers",
+							"item": [
+								{
+									"name": "Generate Character with Any Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Neutral Good\", \"Chaotic Good\", \"Lawful Neutral\", \"True Neutral\", \"Chaotic Neutral\", \"Lawful Evil\", \"Neutral Evil\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Any",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Any"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Chaotic Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-chaotic alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Neutral Good\", \"Lawful Neutral\", \"True Neutral\", \"Lawful Evil\", \"Neutral Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Chaotic",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Non-Chaotic"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Evil Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-evil alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Neutral Good\", \"Chaotic Good\", \"Lawful Neutral\", \"True Neutral\", \"Chaotic Neutral\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Evil",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Non-Evil"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Good Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-good alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Neutral\", \"True Neutral\", \"Chaotic Neutral\", \"Lawful Evil\", \"Neutral Evil\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Good",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Non-Good"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Lawful Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-lawful alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Neutral Good\", \"Chaotic Good\", \"True Neutral\", \"Chaotic Neutral\", \"Neutral Evil\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Lawful",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Non-Lawful"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Neutral Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-neutral alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Chaotic Good\", \"Lawful Evil\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Neutral",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Non-Neutral"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Chaotic Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with chaotic alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Chaotic Good\", \"Chaotic Neutral\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Chaotic",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Chaotic"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Evil Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with evil alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Evil\", \"Neutral Evil\", \"Chaotic Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Evil",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Evil"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Good Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with good alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Neutral Good\", \"Chaotic Good\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Good",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Good"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Lawful Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with lawful alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Lawful Good\", \"Lawful Neutral\", \"Lawful Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Lawful",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Lawful"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Neutral Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with neutral alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.be.oneOf([\"Neutral Good\", \"Lawful Neutral\", \"True Neutral\", \"Chaotic Neutral\", \"Neutral Evil\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Neutral",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Neutral"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Class Name Randomizers",
+							"item": []
+						},
+						{
+							"name": "Level Randomizers",
+							"item": []
+						},
+						{
+							"name": "Base Race Randomizers",
+							"item": []
+						},
+						{
+							"name": "Metarace Randomizers",
+							"item": []
+						},
+						{
+							"name": "Abilities Randomizers",
+							"item": []
+						},
+						{
+							"name": "Generate Character with Defaults",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns generated character\", function () {\r",
+											"    var character = pm.response.json();\r",
+											"    pm.expect(character.summary).to.not.be.empty;\r",
+											"    pm.expect(character.class.level).to.be.at.least(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "character.dndgen.com/api/v1/character/generate",
+									"host": [
+										"character",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"character",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Character with No Defaults",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Returns generated character\", function () {\r",
+											"    var character = pm.response.json();\r",
+											"    pm.expect(character.summary).to.not.be.empty;\r",
+											"    pm.expect(character.class.level).to.be.at.least(1);\r",
+											"\r",
+											"    pm.expect(character.alignment.full).to.not.contain(\"Evil\");\r",
+											"    pm.expect(character.class.name).to.be.oneOf([\"Fighter\", \"Monk\", \"Paladin\", \"Ranger\"]);\r",
+											"    pm.expect(character.class.level).to.be.at.least(11).and.at.most(15);\r",
+											"    pm.expect(character.race.baseRace).to.be.oneOf([\"Human\", \"High Elf\", \"Half-Elf\", \"Half-Orc\", \"Lightfoot Halfling\", \"Rock Gnome\", \"Hill Dwarf\"]);\r",
+											"    pm.expect(character.race.metarace).to.be.oneOf([\"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\"]);\r",
+											"    pm.expect(character.abilities.strength).to.not.be.null();\r",
+											"    pm.expect(character.abilities.strength.value).to.be.at.least(6);\r",
+											"    pm.expect(character.abilities.constitution).to.not.be.null();\r",
+											"    pm.expect(character.abilities.constitution.value).to.be.at.least(6);\r",
+											"    pm.expect(character.abilities.dexterity).to.not.be.null();\r",
+											"    pm.expect(character.abilities.dexterity.value).to.be.at.least(6);\r",
+											"    pm.expect(character.abilities.intelligence).to.not.be.null();\r",
+											"    pm.expect(character.abilities.intelligence.value).to.be.at.least(6);\r",
+											"    pm.expect(character.abilities.wisdom).to.not.be.null();\r",
+											"    pm.expect(character.abilities.wisdom.value).to.be.at.least(6);\r",
+											"    pm.expect(character.abilities.charisma).to.not.be.null();\r",
+											"    pm.expect(character.abilities.charisma.value).to.be.at.least(6);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
+									"host": [
+										"character",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"character",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "alignmentRandomizerType",
+											"value": "Non-Evil"
+										},
+										{
+											"key": "classNameRandomizerType",
+											"value": "Physical Combat"
+										},
+										{
+											"key": "levelRandomizerType",
+											"value": "High"
+										},
+										{
+											"key": "baseRaceRandomizerType",
+											"value": "Standard Base"
+										},
+										{
+											"key": "metaraceRandomizerType",
+											"value": "Genetic Meta"
+										},
+										{
+											"key": "forceMetarace",
+											"value": "true"
+										},
+										{
+											"key": "abilitiesRandomizerType",
+											"value": "Ones as Sixes"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Randomizers Returns Bad Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizer=Good&metaraceRandomizer=Undead Meta&forceMetarace=true",
+									"host": [
+										"character",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"character",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "alignmentRandomizer",
+											"value": "Good"
+										},
+										{
+											"key": "metaraceRandomizer",
+											"value": "Undead Meta"
+										},
+										{
+											"key": "forceMetarace",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validate Randomizers",
+					"item": []
+				},
+				{
+					"name": "Generate Leadership",
+					"item": []
+				},
+				{
+					"name": "Generate Cohort",
+					"item": []
+				},
+				{
+					"name": "Generate Follower",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Swagger UI\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+							"    pm.expect(pm.response.text()).to.include('url: \"https://character.dndgen.com/api/swagger.json\"');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "character.dndgen.com/api/swagger/ui",
+					"host": [
+						"character",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger",
+						"ui"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Swagger data\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"host\": \"character.dndgen.com\"');\r",
+							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.include(\"TODO: Generate character endpoint\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TODO: Validate randomizers endpoint\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TODO: Generate leadership endpoint\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TODO: Generate cohort endpoint\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TODO: Generate follower endpoint\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "character.dndgen.com/api/swagger.json",
+					"host": [
+						"character",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OpenAPI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Returns Open API documentation\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://treasure.dndgen.com/api\"');\r",
+							"\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/generate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/item/{itemType}/power/{power}/validate\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/item/{itemType}/power/{power}/generate\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "character.dndgen.com/api/openapi/1.0",
+					"host": [
+						"character",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"openapi",
+						"1.0"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

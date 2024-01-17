@@ -33,29 +33,29 @@ namespace DnDGen.Api.CharacterGen.Functions
         [FunctionName("GenerateCharacterFunction")]
         [OpenApiOperation(operationId: "GenerateCharacterFunctionRun", Summary = "Generate character",
             Description = "Generate a random character with the specified randomizers.")]
-        [OpenApiParameter(name: "alignmentRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of alignment randomizer. Defaults to 'Any'")]
-        [OpenApiParameter(name: "classNameRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of class name randomizer. Defaults to 'Any Player'")]
-        [OpenApiParameter(name: "levelRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of level randomizer. Defaults to 'Any'")]
-        [OpenApiParameter(name: "baseRaceRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of base race randomizer. Defaults to 'Any Base'")]
-        [OpenApiParameter(name: "metaraceRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of metarace randomizer. Defaults to 'Any Meta'")]
-        [OpenApiParameter(name: "abilitiesRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum
-            Description = "The type of abilities randomizer. Defaults to 'Raw'")]
-        [OpenApiParameter(name: "setAlignment", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum?
+        [OpenApiParameter(name: "alignmentRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of alignment randomizer. Defaults to 'Any'. Valid values: Set, Any, Chaotic, Evil, Good, Lawful, Neutral, Non-Chaotic, Non-Evil, Non-Good, Non-Lawful, Non-Neutral")]
+        [OpenApiParameter(name: "classNameRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of class name randomizer. Defaults to 'Any Player'. Valid values: Set, Any Player, Any NPC, Arcane Spellcaster, Divine Spellcaster, Non-Spellcaster, Physical Combat, Spellcaster, Stealth")]
+        [OpenApiParameter(name: "levelRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of level randomizer. Defaults to 'Any'. Valid values: Set, Low, Medium, High, Very High")]
+        [OpenApiParameter(name: "baseRaceRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of base race randomizer. Defaults to 'Any Base'. Valid values: Set, Any Base, Aquatic Base, Monster Base, Non-Monster Base, Non-Standard Base, Standard Base")]
+        [OpenApiParameter(name: "metaraceRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of metarace randomizer. Defaults to 'Any Meta'. Valid values: Set, Any Meta, Genetic Meta, Lycanthrope Meta, No Meta, Undead Meta")]
+        [OpenApiParameter(name: "abilitiesRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+            Description = "The type of abilities randomizer. Defaults to 'Raw'. Valid values: Set, Average, Best of Four, Good, Heroic, Ones as Sixes, Poor, Raw, 2d10")]
+        [OpenApiParameter(name: "setAlignment", In = ParameterLocation.Query, Required = false, Type = typeof(string),
             Description = "The specific alignment. Required if using the 'Set' alignment randomizer")]
-        [OpenApiParameter(name: "setClassName", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum?
+        [OpenApiParameter(name: "setClassName", In = ParameterLocation.Query, Required = false, Type = typeof(string),
             Description = "The specific class name. Required if using the 'Set' class name randomizer")]
         [OpenApiParameter(name: "setLevel", In = ParameterLocation.Query, Required = false, Type = typeof(int),
             Description = "The specific level. Required if using the 'Set' level randomizer")]
-        [OpenApiParameter(name: "setBaseRace", In = ParameterLocation.Query, Required = false, Type = typeof(string), //make enum?
+        [OpenApiParameter(name: "setBaseRace", In = ParameterLocation.Query, Required = false, Type = typeof(string),
             Description = "The specific base race. Required if using the 'Set' base race randomizer")]
         [OpenApiParameter(name: "forceMetarace", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
             Description = "Sets whether the metarace of 'None' is allowed in the metarace randomizer. Defaults to 'false'")]
-        [OpenApiParameter(name: "setMetarace", In = ParameterLocation.Query, Required = false, Type = typeof(string),  //make enum?
+        [OpenApiParameter(name: "setMetarace", In = ParameterLocation.Query, Required = false, Type = typeof(string),
             Description = "The specific metarace. Required if using the 'Set' metarace randomizer")]
         [OpenApiParameter(name: "allowAbilityAdjustments", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
             Description = "Sets whether racial modifiers can adjust abilities. Defaults to 'false'")]

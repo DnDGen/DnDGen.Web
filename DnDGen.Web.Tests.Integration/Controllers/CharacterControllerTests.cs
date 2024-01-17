@@ -18,7 +18,7 @@ namespace DnDGen.Web.Tests.Integration.Controllers
 
         [Test]
         [Ignore("This test does not actually perform the serialization, so it is not valid. However, we will want to create a E2E version of this test when it converts to API")]
-        public void BUG_Generate_ReturnsSerializedDerviedProperties()
+        public void BUG_Generate_ReturnsSerializedDerivedProperties()
         {
             var clientId = Guid.NewGuid();
             var characterSpecifications = new CharacterSpecifications();
