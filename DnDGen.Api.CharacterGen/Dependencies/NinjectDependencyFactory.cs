@@ -1,11 +1,11 @@
-﻿using DnDGen.TreasureGen.IoC;
+﻿using DnDGen.CharacterGen.IoC;
 using Ninject;
 
 namespace DnDGen.Api.CharacterGen.Dependencies
 {
     public class NinjectDependencyFactory : IDependencyFactory
     {
-        private IKernel kernel;
+        private readonly IKernel kernel;
 
         public NinjectDependencyFactory()
         {
@@ -20,8 +20,8 @@ namespace DnDGen.Api.CharacterGen.Dependencies
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices()
         {
-            var treasureGenLoader = new TreasureGenModuleLoader();
-            treasureGenLoader.LoadModules(kernel);
+            var characterGenLoader = new CharacterGenModuleLoader();
+            characterGenLoader.LoadModules(kernel);
         }
 
         public T Get<T>()
