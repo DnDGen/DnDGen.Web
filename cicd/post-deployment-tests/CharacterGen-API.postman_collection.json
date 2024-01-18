@@ -542,28 +542,2513 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Generate Character with Set Alignment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with set alignment\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.alignment.full).to.equal(\"Lawful Good\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Lawful Good",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setAlignment",
+													"value": "Lawful Good"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Alignment Randomizer returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Alignment returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Invalid Alignment",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setAlignment",
+													"value": "Invalid Alignment"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Alignment returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "alignmentRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setAlignment",
+													"value": "Invalid Alignment",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
 						{
 							"name": "Class Name Randomizers",
-							"item": []
+							"item": [
+								{
+									"name": "Generate Character with Set Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with set class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.equal(\"Fighter\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Fighter",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setClassName",
+													"value": "Fighter"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Any Player Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any player class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Barbarian\", \"Bard\", \"Cleric\", \"Druid\", \"Fighter\", \"Paladin\", \"Monk\", \"Ranger\", \"Rogue\", \"Sorcerer\", \"Wizard\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Any Player",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Any Player"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Spellcaster Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with spellcaster class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Bard\", \"Cleric\", \"Druid\", \"Paladin\", \"Ranger\", \"Sorcerer\", \"Wizard\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Spellcaster",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Spellcaster"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Class Name Randomizer Returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Class Name Returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setClassName",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Class Name Returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setClassName",
+													"value": "Invalid",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Stealth Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with stealth class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Ranger\", \"Rogue\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Stealth",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Stealth"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Spellcaster Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-spellcaster class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Barbarian\", \"Fighter\", \"Monk\", \"Rogue\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Non-Spellcaster",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Non-Spellcaster"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Divine Spellcaster Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with divine spellcaster class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Cleric\", \"Druid\", \"Paladin\", \"Ranger\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Divine Spellcaster",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Divine Spellcaster"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Arcane Spellcaster Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with arcane spellcaster class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Bard\", \"Sorcerer\", \"Wizard\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Arcane Spellcaster",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Arcane Spellcaster"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Physical Combat Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with physical combat class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Barbarian\", \"Fighter\", \"Paladin\", \"Monk\", \"Ranger\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Physical Combat",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Physical Combat"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Any NPC Class Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any NPC class name\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.name).to.be.oneOf([\"Adept\", \"Aristocrat\", \"Warrior\", \"Commoner\", \"Expert\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Any NPC",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "classNameRandomizerType",
+													"value": "Any NPC"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						},
 						{
 							"name": "Level Randomizers",
-							"item": []
+							"item": [
+								{
+									"name": "Generate Character with Any Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(1).and.at.most(20);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Any",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Any"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Low Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with low level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(1).and.at.most(5);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Low",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Low"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Medium Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with medium level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(6).and.at.most(10);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Medium",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Medium"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with High Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with high level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(11).and.at.most(15);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=High",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "High"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Very High Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with very high level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(16).and.at.most(20);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Very High",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Very High"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Set Level",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with set level\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.class.level).to.be.at.least(1).and.at.most(20);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set&setLevel=14",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setLevel",
+													"value": "14"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Level Randomizer returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Level returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set&setLevel=666",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setLevel",
+													"value": "666"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Level returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "levelRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setLevel",
+													"value": "666",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						},
 						{
 							"name": "Base Race Randomizers",
-							"item": []
+							"item": [
+								{
+									"name": "Generate Character with Any Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.not.be.empty;\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Any Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Any Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Aquatic Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with aquatic base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Aquatic Elf\", \"Sahuagin\", \"Kuo-toa\", \"Kapoacinth\", \"Locathah\", \"Merfolk\", \"Merrow\", \"Scrag\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Aquatic Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Aquatic Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Monster Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with monster base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Azer\", \"Blue Slaad\", \"Bugbear\", \"Centaur\", \"Cloud Giant\", \"Death Slaad\", \"Doppelganger\", \"Fire Giant\", \"Frost Giant\", \"Gargoyle\", \"Githyanki\", \"Githzerai\", \"Gnoll\", \"Goblin\", \"Gray Slaad\", \"Green Slaad\", \"Grimlock\", \"Harpy\", \"Hobgoblin\", \"Hound Archon\", \"Janni\", \"Kapoacinth\", \"Kobold\", \"Kuo-toa\", \"Lizardfolk\", \"Locathah\", \"Merfolk\", \"Merrow\", \"Ogre\", \"Troll\", \"Scrag\", \"Ogre Mage\", \"Orc\", \"Pixie\", \"Rakshasa\", \"Red Slaad\", \"Sahuagin\", \"Satyr\", \"Scorpionfolk\", \"Storm Giant\", \"Stone Giant\", \"Troglodyte\", \"Yuan-ti Pureblood\", \"Yuan-ti Halfblood\", \"Yuan-ti Abomination\", \"Hill Giant\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Monster Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Monster Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Monster Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-monster base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Aasimar\", \"Aquatic Elf\", \"Deep Dwarf\", \"Deep Halfling\", \"Derro\", \"Drow\", \"Duergar Dwarf\", \"Forest Gnome\", \"Rock Gnome\", \"Svirfneblin\", \"Human\", \"High Elf\", \"Half-Elf\", \"Half-Orc\", \"Gray Elf\", \"Wild Elf\", \"Wood Elf\", \"Hill Dwarf\", \"Mountain Dwarf\", \"Lightfoot Halfling\", \"Tallfellow Halfling\", \"Tiefling\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Non-Monster Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Non-Monster Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Non-Standard Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with non-standard base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.not.be.oneOf([\"Human\", \"High Elf\", \"Hill Dwarf\", \"Lightfoot Halfling\", \"Half-Orc\", \"Half-Elf\", \"Rock Gnome\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Non-Standard Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Non-Standard Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Standard Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with standard base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Human\", \"High Elf\", \"Hill Dwarf\", \"Lightfoot Halfling\", \"Half-Orc\", \"Half-Elf\", \"Rock Gnome\"]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Standard Base",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Standard Base"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Set Base Race",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with standard base race\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.baseRace).to.equal(\"Tiefling\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Tiefling",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setBaseRace",
+													"value": "Tiefling"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Base Race Randomizer returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Base Race returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setBaseRace",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Base Race returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setBaseRace",
+													"value": "Invalid",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						},
 						{
 							"name": "Metarace Randomizers",
-							"item": []
+							"item": [
+								{
+									"name": "Generate Character with Any Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
+													"        \"\", \r",
+													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\",\r",
+													"        \"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\",\r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Any Meta",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Any Meta"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Any Forced Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with any forced metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
+													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\",\r",
+													"        \"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\",\r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Any Meta&forceMetarace=true",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Any Meta"
+												},
+												{
+													"key": "forceMetarace",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Genetic Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with genetic metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
+													"        \"\", \r",
+													"        \"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Genetic Meta",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Genetic Meta"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Lycanthrope Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with lycanthrope metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
+													"        \"\", \r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Lycanthrope Meta",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Lycanthrope Meta"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Undead Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with undead metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
+													"        \"\", \r",
+													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\"\r",
+													"    ]);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Undead Meta",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Undead Meta"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with No Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with no metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.equal(\"\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=No Meta",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "No Meta"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Set Metarace",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with set metarace\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.equal(\"Half-Dragon\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Half-Dragon",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setMetarace",
+													"value": "Half-Dragon"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Generate Character with Set Metarace - None",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with set metarace of none\", function () {\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.equal(\"\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setMetarace",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Metarace Randomizer returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Metarace returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setMetarace",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Metarace returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "metaraceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setMetarace",
+													"value": "Invalid",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						},
 						{
 							"name": "Abilities Randomizers",
-							"item": []
+							"item": [
+								{
+									"name": "Generate Character with Raw Abilities",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns generated character with raw abilities\", function () {\r",
+													"    //INFO: We set the metarace to None to avoid racial adjustments\r",
+													"    //INFO: We set the base race to Human to avoid racial adjustments\r",
+													"    //INFO: We set the level to 1 to avoid level-up ability adjustments\r",
+													"\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"\r",
+													"    pm.expect(character.abilities.strength).to.not.be.null();\r",
+													"    pm.expect(character.abilities.strength.value).to.be.at.least(3).and.at.most(18);\r",
+													"    pm.expect(character.abilities.constitution).to.not.be.null();\r",
+													"    pm.expect(character.abilities.constitution.value).to.be.at.least(3).and.at.most(18);\r",
+													"    pm.expect(character.abilities.dexterity).to.not.be.null();\r",
+													"    pm.expect(character.abilities.dexterity.value).to.be.at.least(3).and.at.most(18);\r",
+													"    pm.expect(character.abilities.intelligence).to.not.be.null();\r",
+													"    pm.expect(character.abilities.intelligence.value).to.be.at.least(3).and.at.most(18);\r",
+													"    pm.expect(character.abilities.wisdom).to.not.be.null();\r",
+													"    pm.expect(character.abilities.wisdom.value).to.be.at.least(3).and.at.most(18);\r",
+													"    pm.expect(character.abilities.charisma).to.not.be.null();\r",
+													"    pm.expect(character.abilities.charisma.value).to.be.at.least(3).and.at.most(18);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Raw&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "abilitiesRandomizerType",
+													"value": "Raw"
+												},
+												{
+													"key": "metaraceRandomizerType",
+													"value": "No Meta"
+												},
+												{
+													"key": "baseRaceRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setBaseRace",
+													"value": "Human"
+												},
+												{
+													"key": "levelRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setLevel",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Abilities Randomizer returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Invalid",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "abilitiesRandomizerType",
+													"value": "Invalid"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Set Strength returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=0&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "abilitiesRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setStrength",
+													"value": "0"
+												},
+												{
+													"key": "setConstitution",
+													"value": "12"
+												},
+												{
+													"key": "setDexterity",
+													"value": "14"
+												},
+												{
+													"key": "setIntelligence",
+													"value": "16"
+												},
+												{
+													"key": "setWisdom",
+													"value": "18"
+												},
+												{
+													"key": "setCharisma",
+													"value": "8"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Missing Set Strength returns Bad Request",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"host": [
+												"character",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"character",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "abilitiesRandomizerType",
+													"value": "Set"
+												},
+												{
+													"key": "setStrength",
+													"value": "10",
+													"disabled": true
+												},
+												{
+													"key": "setConstitution",
+													"value": "12"
+												},
+												{
+													"key": "setDexterity",
+													"value": "14"
+												},
+												{
+													"key": "setIntelligence",
+													"value": "16"
+												},
+												{
+													"key": "setWisdom",
+													"value": "18"
+												},
+												{
+													"key": "setCharisma",
+													"value": "8"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						},
 						{
 							"name": "Generate Character with Defaults",
