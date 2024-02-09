@@ -232,13 +232,13 @@ namespace DnDGen.Api.CharacterGen.Models
         public void SetAlignmentRandomizer(string randomizerType, string setValue)
         {
             AlignmentRandomizerType = AlignmentRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
-            SetAlignment = Alignments.FirstOrDefault(a => a.ToLower() == setValue.ToLower());
+            SetAlignment = Alignments.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetClassNameRandomizer(string randomizerType, string setValue)
         {
             ClassNameRandomizerType = ClassNameRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
-            SetClassName = ClassNames.FirstOrDefault(a => a.ToLower() == setValue.ToLower());
+            SetClassName = ClassNames.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetLevelRandomizer(string randomizerType, int setValue)
@@ -250,13 +250,13 @@ namespace DnDGen.Api.CharacterGen.Models
         public void SetBaseRaceRandomizer(string randomizerType, string setValue)
         {
             BaseRaceRandomizerType = BaseRaceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
-            SetBaseRace = BaseRaces.FirstOrDefault(a => a.ToLower() == setValue.ToLower());
+            SetBaseRace = BaseRaces.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetMetaraceRandomizer(string randomizerType, string setValue, bool forceMetarace)
         {
             MetaraceRandomizerType = MetaraceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
-            SetMetarace = Metaraces.FirstOrDefault(a => a.ToLower() == setValue.ToLower());
+            SetMetarace = Metaraces.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
             ForceMetarace = forceMetarace;
         }
 

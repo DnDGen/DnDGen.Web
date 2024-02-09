@@ -6,6 +6,7 @@ using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Races;
+using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
@@ -132,6 +133,41 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Summary, Is.Not.Empty);
         }
 
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_AlignmentRandomizers_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Any.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.LawfulGood,
+                AlignmentConstants.LawfulNeutral,
+                AlignmentConstants.LawfulEvil,
+                AlignmentConstants.NeutralGood,
+                AlignmentConstants.TrueNeutral,
+                AlignmentConstants.NeutralEvil,
+                AlignmentConstants.ChaoticGood,
+                AlignmentConstants.ChaoticNeutral,
+                AlignmentConstants.ChaoticEvil));
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidAlignmentRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?alignmentRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
         [TestCase(AlignmentConstants.LawfulGood)]
         [TestCase(AlignmentConstants.LawfulNeutral)]
         [TestCase(AlignmentConstants.LawfulEvil)]
@@ -157,6 +193,41 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Class.Level, Is.AtLeast(1));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetAlignment_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulGood.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.EqualTo(AlignmentConstants.LawfulGood));
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetAlignment()
+        {
+            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetAlignment()
+        {
+            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode("Invalid Alignment")}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
         }
 
         [TestCase(ClassNameRandomizerTypeConstants.AnyPlayer,
@@ -228,6 +299,44 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Summary, Is.Not.Empty);
         }
 
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_ClassNameRandomizers_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
+                CharacterClassConstants.Bard,
+                CharacterClassConstants.Cleric,
+                CharacterClassConstants.Druid,
+                CharacterClassConstants.Fighter,
+                CharacterClassConstants.Monk,
+                CharacterClassConstants.Paladin,
+                CharacterClassConstants.Ranger,
+                CharacterClassConstants.Rogue,
+                CharacterClassConstants.Sorcerer,
+                CharacterClassConstants.Wizard));
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidClassNameRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?classNameRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
         [TestCase(CharacterClassConstants.Barbarian)]
         [TestCase(CharacterClassConstants.Bard)]
         [TestCase(CharacterClassConstants.Cleric)]
@@ -263,17 +372,48 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Summary, Is.Not.Empty);
         }
 
-        [TestCase(LevelRandomizerTypeConstants.Any,
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)]
-        [TestCase(LevelRandomizerTypeConstants.Low,
-            1, 2, 3, 4, 5)]
-        [TestCase(LevelRandomizerTypeConstants.Medium,
-            6, 7, 8, 9, 10)]
-        [TestCase(LevelRandomizerTypeConstants.High,
-            11, 12, 13, 14, 15)]
-        [TestCase(LevelRandomizerTypeConstants.VeryHigh,
-            16, 17, 18, 19, 20)]
-        public async Task GenerateCharacter_ReturnsCharacter_LevelRandomizers(string levelRandomizerType, params int[] expectedLevels)
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetClassName_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Druid.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Class.Name, Is.EqualTo(CharacterClassConstants.Druid));
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetClassName()
+        {
+            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetClassName()
+        {
+            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set&setClassName=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(LevelRandomizerTypeConstants.Any, 1, 20)]
+        [TestCase(LevelRandomizerTypeConstants.Low, 1, 5)]
+        [TestCase(LevelRandomizerTypeConstants.Medium, 6, 10)]
+        [TestCase(LevelRandomizerTypeConstants.High, 11, 15)]
+        [TestCase(LevelRandomizerTypeConstants.VeryHigh, 16, 20)]
+        public async Task GenerateCharacter_ReturnsCharacter_LevelRandomizers(string levelRandomizerType, int min, int max)
         {
             var request = RequestHelper.BuildRequest($"?levelRandomizerType={HttpUtility.UrlEncode(levelRandomizerType)}");
             var response = await function.Run(request, logger);
@@ -286,9 +426,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.AnyOf(expectedLevels));
+            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(min, max));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_LevelRandomizers_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Any.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(1, 20));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidLevelRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?levelRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
         }
 
         [TestCase(1)]
@@ -327,6 +494,26 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(level));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetLevel()
+        {
+            var request = RequestHelper.BuildRequest($"?levelRandomizerType=Set");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetLevel(int invalidLevel)
+        {
+            var request = RequestHelper.BuildRequest($"?levelRandomizerType=Set&setLevel={invalidLevel}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
         }
 
         [TestCase(RaceRandomizerTypeConstants.BaseRace.AnyBase,
@@ -573,6 +760,40 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.BaseRace, Is.AnyOf(expectedBaseRaces));
         }
 
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_BaseRaceRandomizers_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.StandardBase.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.HalfElf,
+                RaceConstants.BaseRaces.HalfOrc,
+                RaceConstants.BaseRaces.HighElf,
+                RaceConstants.BaseRaces.HillDwarf,
+                RaceConstants.BaseRaces.Human,
+                RaceConstants.BaseRaces.LightfootHalfling,
+                RaceConstants.BaseRaces.RockGnome));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidBaseRaceRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?baseRaceRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
         [TestCase(RaceConstants.BaseRaces.Aasimar)]
         [TestCase(RaceConstants.BaseRaces.AquaticElf)]
         [TestCase(RaceConstants.BaseRaces.Azer)]
@@ -662,6 +883,42 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.BaseRace, Is.EqualTo(baseRace));
         }
 
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetBaseRace_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Tiefling.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetBaseRace()
+        {
+            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType=Set");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetBaseRace()
+        {
+            var request = RequestHelper.BuildRequest("?baseRaceRandomizerType=Set&setBaseRace=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
         [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta, true,
             RaceConstants.Metaraces.Ghost,
             RaceConstants.Metaraces.HalfCelestial,
@@ -745,6 +1002,37 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Metarace, Is.AnyOf(expectedMetaraces));
         }
 
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_MetaraceRandomizers_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.None,
+                RaceConstants.Metaraces.HalfCelestial,
+                RaceConstants.Metaraces.HalfDragon,
+                RaceConstants.Metaraces.HalfFiend));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidMetaraceRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?metaraceRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
         [TestCase(RaceConstants.Metaraces.None)]
         [TestCase(RaceConstants.Metaraces.Ghost)]
         [TestCase(RaceConstants.Metaraces.HalfCelestial)]
@@ -777,71 +1065,51 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Metarace, Is.EqualTo(metarace));
         }
 
-        [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta, true,
-            RaceConstants.Metaraces.Ghost,
-            RaceConstants.Metaraces.HalfCelestial,
-            RaceConstants.Metaraces.HalfDragon,
-            RaceConstants.Metaraces.HalfFiend,
-            RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
-            RaceConstants.Metaraces.Vampire,
-            RaceConstants.Metaraces.Werebear,
-            RaceConstants.Metaraces.Wereboar,
-            RaceConstants.Metaraces.Wererat,
-            RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta, false,
-            RaceConstants.Metaraces.None,
-            RaceConstants.Metaraces.Ghost,
-            RaceConstants.Metaraces.HalfCelestial,
-            RaceConstants.Metaraces.HalfDragon,
-            RaceConstants.Metaraces.HalfFiend,
-            RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
-            RaceConstants.Metaraces.Vampire,
-            RaceConstants.Metaraces.Werebear,
-            RaceConstants.Metaraces.Wereboar,
-            RaceConstants.Metaraces.Wererat,
-            RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.GeneticMeta, true,
-            RaceConstants.Metaraces.HalfCelestial,
-            RaceConstants.Metaraces.HalfDragon,
-            RaceConstants.Metaraces.HalfFiend)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.GeneticMeta, false,
-            RaceConstants.Metaraces.None,
-            RaceConstants.Metaraces.HalfCelestial,
-            RaceConstants.Metaraces.HalfDragon,
-            RaceConstants.Metaraces.HalfFiend)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta, true,
-            RaceConstants.Metaraces.Werebear,
-            RaceConstants.Metaraces.Wereboar,
-            RaceConstants.Metaraces.Wererat,
-            RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta, false,
-            RaceConstants.Metaraces.None,
-            RaceConstants.Metaraces.Werebear,
-            RaceConstants.Metaraces.Wereboar,
-            RaceConstants.Metaraces.Wererat,
-            RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.UndeadMeta, true,
-            RaceConstants.Metaraces.Ghost,
-            RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
-            RaceConstants.Metaraces.Vampire)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.UndeadMeta, false,
-            RaceConstants.Metaraces.None,
-            RaceConstants.Metaraces.Ghost,
-            RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
-            RaceConstants.Metaraces.Vampire)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NoMeta, false,
-            RaceConstants.Metaraces.None)]
-        [TestCase(RaceRandomizerTypeConstants.Metarace.NoMeta, true,
-            RaceConstants.Metaraces.None)]
-        public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers(string abilitiesRandomizerType, params int[] expectedAbilities)
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetMetarace_CaseInsensitive()
+        {
+            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Vampire.ToUpper())}");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.Vampire));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetMetarace()
+        {
+            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType=Set");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetMetarace()
+        {
+            var request = RequestHelper.BuildRequest("?metaraceRandomizerType=Set&setMetarace=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(AbilitiesRandomizerTypeConstants.Average, 10, 13)]
+        [TestCase(AbilitiesRandomizerTypeConstants.BestOfFour, 3, 18)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Good, 13, 16)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Heroic, 15, 18)]
+        [TestCase(AbilitiesRandomizerTypeConstants.OnesAsSixes, 6, 18)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Poor, 3, 9)]
+        [TestCase(AbilitiesRandomizerTypeConstants.Raw, 3, 18)]
+        [TestCase(AbilitiesRandomizerTypeConstants.TwoTenSidedDice, 2, 20)]
+        public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers(string abilitiesRandomizerType, int min, int max)
         {
             var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(abilitiesRandomizerType)}";
             queryString += "&levelRandomizerType=Set&setLevel=1";
@@ -869,18 +1137,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 .And.ContainKey(AbilityConstants.Intelligence)
                 .And.ContainKey(AbilityConstants.Wisdom)
                 .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength], Is.AnyOf(expectedAbilities));
-            Assert.That(character.Abilities[AbilityConstants.Constitution], Is.AnyOf(expectedAbilities));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity], Is.AnyOf(expectedAbilities));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence], Is.AnyOf(expectedAbilities));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom], Is.AnyOf(expectedAbilities));
-            Assert.That(character.Abilities[AbilityConstants.Charisma], Is.AnyOf(expectedAbilities));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(min, max));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(min, max));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(min, max));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(min, max));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(min, max));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(min, max));
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsCharacter_SetAbilities()
+        public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers_CaseInsensitive()
         {
-            var queryString = $"?abilitiesRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(metarace)}";
+            var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.OnesAsSixes.ToUpper())}";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+
             var request = RequestHelper.BuildRequest(queryString);
             var response = await function.Run(request, logger);
             Assert.That(response, Is.InstanceOf<OkObjectResult>());
@@ -895,7 +1167,875 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Class.Level, Is.AtLeast(1));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.EqualTo(metarace));
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(6, 18));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(6, 18));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(6, 18));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(6, 18));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(6, 18));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(6, 18));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidAbilitiesRandomizer()
+        {
+            var request = RequestHelper.BuildRequest("?abilitiesRandomizerType=Invalid");
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetAbilities()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetAbilities_AllowAbilityAdjustments()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=20";
+            queryString += $"&baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
+            queryString += $"&metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.HalfDragon)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=96";
+            queryString += "&allowAbilityAdjustments=true";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+
+            var sigma = 20;
+            var abilityValues = character.Abilities.Values.Select(a => a.Value).OrderBy(v => v).ToArray();
+            Assert.That(abilityValues[0], Is.EqualTo(42).Within(sigma));
+            Assert.That(abilityValues[1], Is.EqualTo(96).Within(sigma));
+            Assert.That(abilityValues[2], Is.EqualTo(600).Within(sigma));
+            Assert.That(abilityValues[3], Is.EqualTo(1337).Within(sigma));
+            Assert.That(abilityValues[4], Is.EqualTo(9266).Within(sigma));
+            Assert.That(abilityValues[5], Is.EqualTo(90210).Within(sigma));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_SetAbilities_DoNotAllowAbilityAdjustments()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=20";
+            queryString += $"&baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
+            queryString += $"&metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.HalfDragon)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+            queryString += "&allowAbilityAdjustments=false";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetStrength()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            //queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetStrength(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += $"&setStrength={invalidAbility}";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetConstitution()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            //queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetConstitution(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += $"&setConstitution={invalidAbility}";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetDexterity()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            //queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetDexterity(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += $"&setDexterity={invalidAbility}";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetIntelligence()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            //queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetIntelligence(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += $"&setIntelligence={invalidAbility}";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetWisdom()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            //queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetWisdom(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += $"&setWisdom={invalidAbility}";
+            queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_NoSetCharisma()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            //queryString += "&setCharisma=1336";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [TestCase(-2)]
+        [TestCase(-1)]
+        [TestCase(0)]
+        public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetCharisma(int invalidAbility)
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += "&levelRandomizerType=Set&setLevel=1";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += $"&setCharisma={invalidAbility}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_AllVariables()
+        {
+            var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.TwoTenSidedDice)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonLawful)}";
+            queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.PhysicalCombat)}";
+            queryString += $"&levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Medium)}";
+            queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonStandardBase)}";
+            queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta)}&forceMetarace=true";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.NeutralGood,
+                AlignmentConstants.TrueNeutral,
+                AlignmentConstants.NeutralEvil,
+                AlignmentConstants.ChaoticGood,
+                AlignmentConstants.ChaoticNeutral,
+                AlignmentConstants.ChaoticEvil));
+            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(6, 10));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
+                CharacterClassConstants.Fighter,
+                CharacterClassConstants.Monk,
+                CharacterClassConstants.Paladin,
+                CharacterClassConstants.Ranger));
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.Aasimar,
+                RaceConstants.BaseRaces.AquaticElf,
+                RaceConstants.BaseRaces.Azer,
+                RaceConstants.BaseRaces.BlueSlaad,
+                RaceConstants.BaseRaces.Bugbear,
+                RaceConstants.BaseRaces.Centaur,
+                RaceConstants.BaseRaces.CloudGiant,
+                RaceConstants.BaseRaces.DeathSlaad,
+                RaceConstants.BaseRaces.DeepDwarf,
+                RaceConstants.BaseRaces.DeepHalfling,
+                RaceConstants.BaseRaces.Derro,
+                RaceConstants.BaseRaces.Doppelganger,
+                RaceConstants.BaseRaces.Drow,
+                RaceConstants.BaseRaces.DuergarDwarf,
+                RaceConstants.BaseRaces.FireGiant,
+                RaceConstants.BaseRaces.ForestGnome,
+                RaceConstants.BaseRaces.FrostGiant,
+                RaceConstants.BaseRaces.Gargoyle,
+                RaceConstants.BaseRaces.Githyanki,
+                RaceConstants.BaseRaces.Githzerai,
+                RaceConstants.BaseRaces.Gnoll,
+                RaceConstants.BaseRaces.Goblin,
+                RaceConstants.BaseRaces.GrayElf,
+                RaceConstants.BaseRaces.GraySlaad,
+                RaceConstants.BaseRaces.GreenSlaad,
+                RaceConstants.BaseRaces.Grimlock,
+                RaceConstants.BaseRaces.Harpy,
+                RaceConstants.BaseRaces.HillGiant,
+                RaceConstants.BaseRaces.Hobgoblin,
+                RaceConstants.BaseRaces.HoundArchon,
+                RaceConstants.BaseRaces.Janni,
+                RaceConstants.BaseRaces.Kapoacinth,
+                RaceConstants.BaseRaces.Kobold,
+                RaceConstants.BaseRaces.KuoToa,
+                RaceConstants.BaseRaces.Lizardfolk,
+                RaceConstants.BaseRaces.Locathah,
+                RaceConstants.BaseRaces.Merfolk,
+                RaceConstants.BaseRaces.Merrow,
+                RaceConstants.BaseRaces.MindFlayer,
+                RaceConstants.BaseRaces.Minotaur,
+                RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Ogre,
+                RaceConstants.BaseRaces.OgreMage,
+                RaceConstants.BaseRaces.Orc,
+                RaceConstants.BaseRaces.Pixie,
+                RaceConstants.BaseRaces.Rakshasa,
+                RaceConstants.BaseRaces.RedSlaad,
+                RaceConstants.BaseRaces.Sahuagin,
+                RaceConstants.BaseRaces.Satyr,
+                RaceConstants.BaseRaces.Scorpionfolk,
+                RaceConstants.BaseRaces.Scrag,
+                RaceConstants.BaseRaces.StoneGiant,
+                RaceConstants.BaseRaces.StormGiant,
+                RaceConstants.BaseRaces.Svirfneblin,
+                RaceConstants.BaseRaces.TallfellowHalfling,
+                RaceConstants.BaseRaces.Tiefling,
+                RaceConstants.BaseRaces.Troglodyte,
+                RaceConstants.BaseRaces.Troll,
+                RaceConstants.BaseRaces.WildElf,
+                RaceConstants.BaseRaces.WoodElf,
+                RaceConstants.BaseRaces.YuanTiAbomination,
+                RaceConstants.BaseRaces.YuanTiHalfblood,
+                RaceConstants.BaseRaces.YuanTiPureblood));
+            Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.Werebear,
+                RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wererat,
+                RaceConstants.Metaraces.Weretiger,
+                RaceConstants.Metaraces.Werewolf));
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(2, 20));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleAlignmentRandomizer()
+        {
+            var queryString = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Lawful)}";
+            queryString += "&classNameRandomizerType=Set&setClassName=Bard";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleAlignmentRandomizer()
+        {
+            var queryString = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonLawful)}";
+            queryString += "&classNameRandomizerType=Set&setClassName=Bard";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleClassNameRandomizer()
+        {
+            var queryString = $"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
+            queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleClassNameRandomizer()
+        {
+            var queryString = $"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer)}";
+            queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleBaseRaceRandomizer()
+        {
+            var queryString = $"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+            queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleBaseRaceRandomizer()
+        {
+            var queryString = $"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
+            queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test, Ignore("No non-set metarace randomizer can be incompatible with non-set alignment, class name, or non-set base race")]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleMetaraceRandomizer()
+        {
+            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=true";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleMetaraceRandomizer()
+        {
+            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}&forceMetarace=true";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleMetaraceRandomizer_AllowNone()
+        {
+            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=false";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_AllSetVariables()
+        {
+            var queryString = "?abilitiesRandomizerType=Set";
+            queryString += $"&alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralEvil)}";
+            queryString += "&classNameRandomizerType=Set&setClassName=Barbarian";
+            queryString += "&levelRandomizerType=Set&setLevel=9";
+            queryString += "&baseRaceRandomizerType=Set&setBaseRace=Tiefling";
+            queryString += $"&metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.HalfDragon)}";
+            queryString += "&setStrength=9266";
+            queryString += "&setConstitution=90210";
+            queryString += "&setDexterity=42";
+            queryString += "&setIntelligence=600";
+            queryString += "&setWisdom=1337";
+            queryString += "&setCharisma=1336";
+            queryString += "&allowAbilityAdjustments=false";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty.And.EqualTo(AlignmentConstants.NeutralEvil));
+            Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(9));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Class.Name, Is.Not.Empty.And.EqualTo(CharacterClassConstants.Barbarian));
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
+            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
+            Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                .And.ContainKey(AbilityConstants.Strength)
+                .And.ContainKey(AbilityConstants.Constitution)
+                .And.ContainKey(AbilityConstants.Dexterity)
+                .And.ContainKey(AbilityConstants.Intelligence)
+                .And.ContainKey(AbilityConstants.Wisdom)
+                .And.ContainKey(AbilityConstants.Charisma));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetAlignment()
+        {
+            var queryString = $"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulNeutral)}";
+            queryString += "&classNameRandomizerType=Set&setClassName=Bard";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetAlignment()
+        {
+            var queryString = $"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
+            queryString += "&classNameRandomizerType=Set&setClassName=Bard";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetClassName()
+        {
+            var queryString = $"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Warrior)}";
+            queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetClassName()
+        {
+            var queryString = $"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Wizard)}";
+            queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetBaseRace()
+        {
+            var queryString = $"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Good)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetBaseRace()
+        {
+            var queryString = $"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Orc)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Good)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetMetarace()
+        {
+            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Lich)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetMetarace()
+        {
+            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Weretiger)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetRandomizer_None()
+        {
+            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.None)}";
+            queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
+
+            var request = RequestHelper.BuildRequest(queryString);
+            var response = await function.Run(request, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var character = okResult.Value as Character;
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
         }
     }
 }

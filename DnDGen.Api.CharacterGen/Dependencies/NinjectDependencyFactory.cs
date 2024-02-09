@@ -22,6 +22,8 @@ namespace DnDGen.Api.CharacterGen.Dependencies
         {
             var characterGenLoader = new CharacterGenModuleLoader();
             characterGenLoader.LoadModules(kernel);
+
+            kernel.Load<ApiModule>();
         }
 
         public T Get<T>()
