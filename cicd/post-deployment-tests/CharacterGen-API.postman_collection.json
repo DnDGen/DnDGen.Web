@@ -11935,7 +11935,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -11959,7 +11959,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -11992,7 +11992,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12017,7 +12017,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12074,7 +12074,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter",
 											"disabled": true
 										}
@@ -12170,7 +12170,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=6&leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=6&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12194,7 +12194,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12238,7 +12238,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12258,7 +12258,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12311,7 +12311,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter",
 											"disabled": true
 										}
@@ -12345,7 +12345,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12366,7 +12366,7 @@
 											"disabled": true
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12405,7 +12405,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12425,7 +12425,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12464,7 +12464,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12484,7 +12484,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12523,7 +12523,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12543,7 +12543,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12582,7 +12582,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12602,7 +12602,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],
@@ -12641,7 +12641,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClass=Fighter",
+									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
 										"character",
 										"dndgen",
@@ -12661,7 +12661,7 @@
 											"value": "True Neutral"
 										},
 										{
-											"key": "leaderClass",
+											"key": "leaderClassName",
 											"value": "Fighter"
 										}
 									],

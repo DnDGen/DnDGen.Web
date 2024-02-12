@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace DnDGen.Api.CharacterGen.Models
 {
-    public class CohortSpecifications
+    public class FollowerSpecifications
     {
-        public int LeaderLevel { get; set; }
+        public int FollowerLevel { get; set; }
         public string LeaderAlignment { get; set; }
         public string LeaderClassName { get; set; }
 
@@ -58,9 +58,9 @@ namespace DnDGen.Api.CharacterGen.Models
         {
             var valid = true;
 
-            valid &= LeaderLevel >= 6 && LeaderLevel <= 20;
+            valid &= FollowerLevel >= 1 && FollowerLevel <= 6;
             if (!valid)
-                return (false, $"LeaderLevel is not valid. Should be 6 <= level <= 20");
+                return (false, $"FollowerLevel is not valid. Should be 1 <= level <= 6");
 
             valid &= LeaderAlignment != null;
             if (!valid)

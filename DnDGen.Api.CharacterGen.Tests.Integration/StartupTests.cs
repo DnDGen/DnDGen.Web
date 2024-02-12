@@ -18,7 +18,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration
         [Test]
         public void RandomizerRepositoryIsInjected()
         {
-            var repository = InjectServiceAndAssertDuration<IRandomizerRepository>();
+            var repository = InjectDependencyAndAssertDuration<IRandomizerRepository>();
             Assert.That(repository, Is.Not.Null.And.InstanceOf<RandomizerRepository>());
         }
 

@@ -14,22 +14,20 @@ using System.Threading.Tasks;
 
 namespace DnDGen.Api.CharacterGen.Functions
 {
-    public class GenerateCohortFunction
+    public class GenerateFollowerFunction
     {
         private readonly ILeadershipGenerator leadershipGenerator;
 
-        public GenerateCohortFunction(IDependencyFactory dependencyFactory)
+        public GenerateFollowerFunction(IDependencyFactory dependencyFactory)
         {
             leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
         }
 
-        [FunctionName("GenerateCohortFunction")]
-        [OpenApiOperation(operationId: "GenerateCohortFunctionRun", Summary = "Generate cohort",
-            Description = "Generate a cohort with the given cohort score.")]
-        [OpenApiParameter(name: "cohortScore", In = ParameterLocation.Path, Required = true, Type = typeof(int),
-            Description = "The leadership score, adjusted to be cohort-specific, used to generate the cohort.")]
-        [OpenApiParameter(name: "leaderLevel", In = ParameterLocation.Query, Required = true, Type = typeof(int),
-            Description = "The level of the leader for whom the cohort is being generated. Valid values are 6 <= level <= 20.")]
+        [FunctionName("GenerateFollowerFunction")]
+        [OpenApiOperation(operationId: "GenerateFollowerFunctionRun", Summary = "Generate cohort",
+            Description = "Generate a follower at the given level.")]
+        [OpenApiParameter(name: "followerLevel", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+            Description = "The level of the follower to generate. Valid values are 1 <= level <= 6.")]
         [OpenApiParameter(name: "leaderAlignment", In = ParameterLocation.Query, Required = true, Type = typeof(int),
             Description = "The alignment of the leader.")]
         [OpenApiParameter(name: "leaderClassName", In = ParameterLocation.Query, Required = true, Type = typeof(string),
@@ -37,12 +35,12 @@ namespace DnDGen.Api.CharacterGen.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated cohort character")]
         public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/cohort/score/{cohortScore}/generate")] HttpRequest req,
-            int cohortScore, ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/follower/level/{followerLevel}/generate")] HttpRequest req,
+            int followerLevel, ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateCohortFunction.Run) processed a request.");
+            log.LogInformation("C# HTTP trigger function (GenerateFollowerFunction.Run) processed a request.");
 
-            var validatorResult = CohortValidator.GetValid(req);
+            var validatorResult = FollowerValidator.GetValid(followerLevel, req);
             if (!validatorResult.Valid)
             {
                 log.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
@@ -50,12 +48,12 @@ namespace DnDGen.Api.CharacterGen.Functions
                 return Task.FromResult(badResult);
             }
 
-            var cohortSpec = validatorResult.CohortSpecifications;
-            var cohort = leadershipGenerator.GenerateCohort(cohortScore, cohortSpec.LeaderLevel, cohortSpec.LeaderAlignment, cohortSpec.LeaderClassName);
+            var followerSpec = validatorResult.CohortSpecifications;
+            var follower = leadershipGenerator.GenerateFollower(followerLevel, followerSpec.LeaderAlignment, followerSpec.LeaderClassName);
 
-            log.LogInformation($"Generated Cohort: {cohort?.Summary ?? "(None)"}");
+            log.LogInformation($"Generated Follower: {follower.Summary}");
 
-            IActionResult result = new OkObjectResult(cohort);
+            IActionResult result = new OkObjectResult(follower);
             return Task.FromResult(result);
         }
     }
