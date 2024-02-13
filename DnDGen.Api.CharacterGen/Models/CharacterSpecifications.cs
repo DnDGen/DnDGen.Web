@@ -12,25 +12,25 @@ namespace DnDGen.Api.CharacterGen.Models
 {
     public class CharacterSpecifications
     {
-        public string AlignmentRandomizerType { get; set; }
-        public string ClassNameRandomizerType { get; set; }
-        public string LevelRandomizerType { get; set; }
-        public string BaseRaceRandomizerType { get; set; }
-        public string MetaraceRandomizerType { get; set; }
-        public string AbilitiesRandomizerType { get; set; }
-        public string SetAlignment { get; set; }
-        public string SetClassName { get; set; }
-        public int SetLevel { get; set; }
-        public string SetBaseRace { get; set; }
-        public bool ForceMetarace { get; set; }
-        public string SetMetarace { get; set; }
-        public int SetStrength { get; set; }
-        public int SetConstitution { get; set; }
-        public int SetDexterity { get; set; }
-        public int SetIntelligence { get; set; }
-        public int SetWisdom { get; set; }
-        public int SetCharisma { get; set; }
-        public bool AllowAbilityAdjustments { get; set; }
+        public string AlignmentRandomizerType { get; private set; }
+        public string ClassNameRandomizerType { get; private set; }
+        public string LevelRandomizerType { get; private set; }
+        public string BaseRaceRandomizerType { get; private set; }
+        public string MetaraceRandomizerType { get; private set; }
+        public string AbilitiesRandomizerType { get; private set; }
+        public string SetAlignment { get; private set; }
+        public string SetClassName { get; private set; }
+        public int SetLevel { get; private set; }
+        public string SetBaseRace { get; private set; }
+        public bool ForceMetarace { get; private set; }
+        public string SetMetarace { get; private set; }
+        public int SetStrength { get; private set; }
+        public int SetConstitution { get; private set; }
+        public int SetDexterity { get; private set; }
+        public int SetIntelligence { get; private set; }
+        public int SetWisdom { get; private set; }
+        public int SetCharisma { get; private set; }
+        public bool AllowAbilityAdjustments { get; private set; }
 
         private static IEnumerable<string> AlignmentRandomizers = new[]
         {

@@ -12,7 +12,6 @@ namespace DnDGen.Api.CharacterGen.Validators
     {
         public static (bool Valid, string Error, CharacterSpecifications CharacterSpecifications) GetValid(HttpRequest request)
         {
-            //TODO: Get all the possible parameters from the request
             var spec = new CharacterSpecifications();
 
             var alignmentRandomizerType = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
