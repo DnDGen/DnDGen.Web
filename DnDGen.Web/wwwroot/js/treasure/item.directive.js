@@ -28,7 +28,7 @@
                     || scope.item.magic.curse.length
                     || scope.item.totalArmorBonus
                     || scope.item.damage
-                    || scope.item.damages.length
+                    || (scope.item.damages && scope.item.damages.length)
                     || scope.item.magic.intelligence.ego;
             }
         }
