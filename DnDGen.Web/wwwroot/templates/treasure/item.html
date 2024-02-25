@@ -78,10 +78,9 @@
                     <ul>
                         <li>Size: {{item.size}}</li>
                         <li>Combat Types: {{item.combatTypes.join(", ")}}</li>
-                        <li>Damage: {{item.damage}}</li>
-                        <li>Damage Type: {{item.damageType}}</li>
-                        <li>Threat Range: {{item.threatRange}}</li>
-                        <li>Critical Multiplier: {{item.criticalMultiplier}}</li>
+                        <li ng-if="item.damage">Damage: {{item.damage}} {{item.damageType}}</li>
+                        <li ng-if="item.damageDescription">Damage: {{item.damageDescription}}</li>
+                        <li>Critical: {{item.threatRangeDescription ? item.threatRangeDescription : item.threatRange}} ({{item.criticalMultiplier}})</li>
                         <li ng-show="item.ammunition">Ammunition Used: {{item.ammunition}}</li>
                     </ul>
                 </dndgen-collapsable-list>
