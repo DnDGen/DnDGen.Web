@@ -1,7 +1,9 @@
-﻿<div>
-    <span>Target Encounter Level: {{encounter.targetEncounterLevel}}</span><br />
-    <span>Average Encounter Level: {{encounter.averageEncounterLevel}} ({{encounter.averageDifficulty}})</span><br />
-    <span>Actual Encounter Level: {{encounter.actualEncounterLevel}} ({{encounter.actualDifficulty}})</span>
+﻿<span>Target Encounter Level: {{encounter.targetEncounterLevel}}</span>
+<br />
+<span>Average Encounter Level: {{encounter.averageEncounterLevel}} ({{encounter.averageDifficulty}})</span>
+<br />
+<span>Actual Encounter Level: {{encounter.actualEncounterLevel}} ({{encounter.actualDifficulty}})</span>
+<div>
     <dndgen-collapsable-list heading="Creatures" has-list="true">
         <ul>
             <li ng-repeat="creature in encounter.creatures">
@@ -22,6 +24,8 @@
             </li>
         </ul>
     </dndgen-collapsable-list>
+</div>
+<div>
     <dndgen-collapsable-list heading="Treasures{{encounter.treasures.length ? '' : ': None'}}" has-list="encounter.treasures.length > 0">
         <ul>
             <li ng-repeat="treasure in encounter.treasures">
@@ -29,10 +33,12 @@
             </li>
         </ul>
     </dndgen-collapsable-list>
+</div>
+<div>
     <dndgen-collapsable-list ng-show="encounter.characters.length" heading="Characters" has-list="true">
         <ul>
             <li ng-repeat="character in encounter.characters">
-                <dndgen-character-without-leadership character="character"></dndgen-character-without-leadership>
+                <dndgen-character character="character"></dndgen-character>
             </li>
         </ul>
     </dndgen-collapsable-list>

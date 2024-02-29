@@ -1,7 +1,5 @@
-﻿<div ng-show="hasList">
-    <a href="#{{id}}" role="button" data-bs-toggle="collapse">{{heading}}</a>
-    <div class="collapse" id="{{id}}">
-        <ng-transclude></ng-transclude>
-    </div>
+﻿<span ng-hide="hasList">{{heading}}</span>
+<a ng-show="hasList" href="#{{id}}" role="button" data-bs-toggle="collapse">{{heading}}</a>
+<div ng-show="hasList" class="collapse" id="{{id}}">
+    <ng-transclude></ng-transclude>
 </div>
-<span ng-hide="hasList">{{heading}}</span>

@@ -73,7 +73,7 @@
             if (item.totalArmorBonus) {
                 formattedItem += formatArmor(item, prefix + '\t');
             }
-            else if (item.damage) {
+            else if (item.damage || item.damageDescription) {
                 formattedItem += formatWeapon(item, prefix + '\t');
             }
 
@@ -98,10 +98,15 @@
 
             formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
             formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.damageType + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRange + '\r\n';
-            formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.criticalMultiplier + '\r\n';
+
+            if (weapon.damage) {
+                formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + ' ' + weapon.damageType + '\r\n';
+                formattedWeapon += prefix + '\t' + 'Critical: ' + weapon.threatRange + ' (' + weapon.criticalMultiplier + ')' + '\r\n';
+            }
+            else if (weapon.damageDescription) {
+                formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
+                formattedWeapon += prefix + '\t' + 'Critical: ' + weapon.threatRangeDescription + ' (' + weapon.criticalMultiplier + ')' + '\r\n';
+            }
 
             if (weapon.ammunition) {
                 formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';

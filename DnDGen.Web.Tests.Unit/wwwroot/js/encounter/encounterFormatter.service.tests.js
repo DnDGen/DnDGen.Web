@@ -21,7 +21,7 @@ describe('Encounter Formatter Service', function () {
         }
 
         characterFormatterServiceMock = {
-            formatCharacter: function (character, leadership, cohort, followers, prefix) {
+            formatCharacter: function (character, prefix) {
                 if (!prefix)
                     prefix = '';
 

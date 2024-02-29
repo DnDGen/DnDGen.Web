@@ -14,8 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="wwwroot\templates\character\Character.html" />
-    <None Remove="wwwroot\templates\character\CharacterWithoutLeadership.html" />
     <None Remove="wwwroot\templates\dungeon\DungeonArea.html" />
     <None Remove="wwwroot\templates\dungeon\DungeonTreasure.html" />
     <None Remove="wwwroot\templates\encounter\Encounter.html" />
