@@ -32,7 +32,7 @@ namespace DnDGen.Api.CharacterGen.Models
         public int SetCharisma { get; private set; }
         public bool AllowAbilityAdjustments { get; private set; }
 
-        private static IEnumerable<string> AlignmentRandomizers = new[]
+        private static readonly IEnumerable<string> AlignmentRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             AlignmentRandomizerTypeConstants.Any,
@@ -48,7 +48,7 @@ namespace DnDGen.Api.CharacterGen.Models
             AlignmentRandomizerTypeConstants.NonNeutral,
         };
 
-        private static IEnumerable<string> Alignments = new[]
+        private static readonly IEnumerable<string> Alignments = new[]
         {
             AlignmentConstants.LawfulGood,
             AlignmentConstants.LawfulNeutral,
@@ -61,7 +61,7 @@ namespace DnDGen.Api.CharacterGen.Models
             AlignmentConstants.NeutralEvil,
         };
 
-        private static IEnumerable<string> ClassNameRandomizers = new[]
+        private static readonly IEnumerable<string> ClassNameRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             ClassNameRandomizerTypeConstants.AnyNPC,
@@ -74,7 +74,7 @@ namespace DnDGen.Api.CharacterGen.Models
             ClassNameRandomizerTypeConstants.Stealth,
         };
 
-        private static IEnumerable<string> ClassNames = new[]
+        private static readonly IEnumerable<string> ClassNames = new[]
         {
             CharacterClassConstants.Adept,
             CharacterClassConstants.Aristocrat,
@@ -94,7 +94,7 @@ namespace DnDGen.Api.CharacterGen.Models
             CharacterClassConstants.Wizard,
         };
 
-        private static IEnumerable<string> LevelRandomizers = new[]
+        private static readonly IEnumerable<string> LevelRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             LevelRandomizerTypeConstants.Any,
@@ -104,7 +104,7 @@ namespace DnDGen.Api.CharacterGen.Models
             LevelRandomizerTypeConstants.VeryHigh,
         };
 
-        private static IEnumerable<string> BaseRaceRandomizers = new[]
+        private static readonly IEnumerable<string> BaseRaceRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             RaceRandomizerTypeConstants.BaseRace.AnyBase,
@@ -115,7 +115,7 @@ namespace DnDGen.Api.CharacterGen.Models
             RaceRandomizerTypeConstants.BaseRace.StandardBase,
         };
 
-        private static IEnumerable<string> BaseRaces = new[]
+        private static readonly IEnumerable<string> BaseRaces = new[]
         {
             RaceConstants.BaseRaces.Aasimar,
             RaceConstants.BaseRaces.AquaticElf,
@@ -189,7 +189,7 @@ namespace DnDGen.Api.CharacterGen.Models
             RaceConstants.BaseRaces.YuanTiPureblood,
         };
 
-        private static IEnumerable<string> MetaraceRandomizers = new[]
+        private static readonly IEnumerable<string> MetaraceRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             RaceRandomizerTypeConstants.Metarace.AnyMeta,
@@ -199,7 +199,7 @@ namespace DnDGen.Api.CharacterGen.Models
             RaceRandomizerTypeConstants.Metarace.UndeadMeta,
         };
 
-        private static IEnumerable<string> Metaraces = new[]
+        private static readonly IEnumerable<string> Metaraces = new[]
         {
             RaceConstants.Metaraces.Ghost,
             RaceConstants.Metaraces.HalfCelestial,
@@ -216,7 +216,7 @@ namespace DnDGen.Api.CharacterGen.Models
             RaceConstants.Metaraces.Werewolf,
         };
 
-        private static IEnumerable<string> AbilitiesRandomizers = new[]
+        private static readonly IEnumerable<string> AbilitiesRandomizers = new[]
         {
             RandomizerTypeConstants.Set,
             AbilitiesRandomizerTypeConstants.Average,
@@ -231,31 +231,31 @@ namespace DnDGen.Api.CharacterGen.Models
 
         public void SetAlignmentRandomizer(string randomizerType, string setValue)
         {
-            AlignmentRandomizerType = AlignmentRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            AlignmentRandomizerType = AlignmentRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetAlignment = Alignments.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetClassNameRandomizer(string randomizerType, string setValue)
         {
-            ClassNameRandomizerType = ClassNameRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            ClassNameRandomizerType = ClassNameRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetClassName = ClassNames.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetLevelRandomizer(string randomizerType, int setValue)
         {
-            LevelRandomizerType = LevelRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            LevelRandomizerType = LevelRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetLevel = setValue;
         }
 
         public void SetBaseRaceRandomizer(string randomizerType, string setValue)
         {
-            BaseRaceRandomizerType = BaseRaceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            BaseRaceRandomizerType = BaseRaceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetBaseRace = BaseRaces.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
         }
 
         public void SetMetaraceRandomizer(string randomizerType, string setValue, bool forceMetarace)
         {
-            MetaraceRandomizerType = MetaraceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            MetaraceRandomizerType = MetaraceRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetMetarace = Metaraces.FirstOrDefault(a => a.ToLower() == setValue?.ToLower());
             ForceMetarace = forceMetarace;
         }
@@ -270,7 +270,7 @@ namespace DnDGen.Api.CharacterGen.Models
             int setCharismaValue,
             bool allowAbilityAdjustments)
         {
-            AbilitiesRandomizerType = AbilitiesRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType.ToLower());
+            AbilitiesRandomizerType = AbilitiesRandomizers.FirstOrDefault(r => r.ToLower() == randomizerType?.ToLower());
             SetStrength = setStrengthValue;
             SetConstitution = setConstitutionValue;
             SetDexterity = setDexterityValue;

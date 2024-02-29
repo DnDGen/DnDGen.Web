@@ -11,7 +11,7 @@ namespace DnDGen.Api.CharacterGen.Models
         public string LeaderAlignment { get; set; }
         public string LeaderClassName { get; set; }
 
-        private static IEnumerable<string> Alignments = new[]
+        private static readonly IEnumerable<string> Alignments = new[]
         {
             AlignmentConstants.LawfulGood,
             AlignmentConstants.LawfulNeutral,
@@ -24,7 +24,7 @@ namespace DnDGen.Api.CharacterGen.Models
             AlignmentConstants.NeutralEvil,
         };
 
-        private static IEnumerable<string> ClassNames = new[]
+        private static readonly IEnumerable<string> ClassNames = new[]
         {
             CharacterClassConstants.Adept,
             CharacterClassConstants.Aristocrat,

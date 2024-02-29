@@ -26,7 +26,7 @@ namespace DnDGen.Api.CharacterGen.Validators
             var setLevel = Convert.ToInt32(request.Query["setLevel"]);
             var setBaseRace = (string)request.Query["setBaseRace"];
             var setMetarace = (string)request.Query["setMetarace"];
-            var forceMetarace = Convert.ToBoolean(request.Query["forceMetarace"]);
+            var validForceMetarace = bool.TryParse(request.Query["forceMetarace"], out var forceMetarace);
             var setStrength = Convert.ToInt32(request.Query["setStrength"]);
             var setConstitution = Convert.ToInt32(request.Query["setConstitution"]);
             var setDexterity = Convert.ToInt32(request.Query["setDexterity"]);
@@ -49,6 +49,9 @@ namespace DnDGen.Api.CharacterGen.Validators
                 setWisdom,
                 setCharisma,
                 allowAbilityAdjustments);
+
+            if (!validForceMetarace)
+                return (false, "forceMetarace must be true or false", spec);
 
             var result = spec.IsValid();
             return (result.Valid, result.Error, spec);

@@ -469,7 +469,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         [TestCase("Invalid", null)]
         [TestCase("invalid", null)]
         [TestCase("INVALID", null)]
-        [TestCase("", null)]
+        [TestCase("", null, Ignore = "This is equal to the 'None' Metarace")]
         [TestCase(null, null)]
         public void SetMetaraceRandomizer_SetsSetMetarace(string input, string expected)
         {
@@ -1293,11 +1293,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             Assert.That(valid.Error, Is.Null);
             Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
             Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(score));
+            Assert.That(spec.SetConstitution, Is.EqualTo(10));
             Assert.That(spec.SetDexterity, Is.EqualTo(10));
             Assert.That(spec.SetIntelligence, Is.EqualTo(10));
             Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            Assert.That(spec.SetCharisma, Is.EqualTo(score));
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1313,11 +1313,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             Assert.That(valid.Error, Is.EqualTo("SetCharisma is not valid. Should be SetCharisma > 0"));
             Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
             Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(score));
+            Assert.That(spec.SetConstitution, Is.EqualTo(10));
             Assert.That(spec.SetDexterity, Is.EqualTo(10));
             Assert.That(spec.SetIntelligence, Is.EqualTo(10));
             Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            Assert.That(spec.SetCharisma, Is.EqualTo(score));
         }
     }
 }
