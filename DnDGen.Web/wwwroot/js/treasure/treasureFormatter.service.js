@@ -73,7 +73,7 @@
             if (item.totalArmorBonus) {
                 formattedItem += formatArmor(item, prefix + '\t');
             }
-            else if (item.damage) {
+            else if (item.damage || item.damageDescription) {
                 formattedItem += formatWeapon(item, prefix + '\t');
             }
 

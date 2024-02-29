@@ -35,7 +35,7 @@
             formattedEncounter += prefix + 'Characters:\r\n';
 
             for (var j = 0; j < encounter.characters.length; j++) {
-                formattedEncounter += characterFormatterService.formatCharacter(encounter.characters[j], null, null, null, prefix + '\t');
+                formattedEncounter += characterFormatterService.formatCharacter(encounter.characters[j], prefix + '\t');
                 formattedEncounter += '\r\n';
             }
 

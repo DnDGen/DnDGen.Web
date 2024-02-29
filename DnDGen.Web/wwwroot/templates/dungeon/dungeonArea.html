@@ -1,72 +1,70 @@
-﻿<div>
-    <dndgen-collapsable-list heading="{{area.type}}" has-list="true">
-        <ul>
-            <li ng-show="area.descriptions.length > 0">
-                <dndgen-collapsable-list heading="Descriptions" has-list="area.descriptions.length > 0">
-                    <ul>
-                        <li ng-repeat="description in area.descriptions track by $index">{{description}}</li>
-                    </ul>
-                </dndgen-collapsable-list>
-            </li>
-            <li ng-show="area.length > 0">
-                <span ng-show="area.width == 0">continues {{area.length | number}}'</span>
-                <span ng-show="area.width == 1">about {{area.length | number}} square feet</span>
-                <span ng-show="area.width > 1">{{area.length | number}}' x {{area.width | number}}'</span>
-            </li>
-            <li ng-show="area.contents.isEmpty == false">
-                <dndgen-collapsable-list heading="Contents" has-list="area.contents.isEmpty == false">
-                    <ul>
-                        <li ng-repeat="misc in area.contents.miscellaneous">{{misc}}</li>
-                        <li ng-show="area.contents.pool">
-                            <dndgen-collapsable-list heading="Pool" has-list="area.contents.pool.encounter || area.contents.pool.treasure || area.contents.pool.magicPower">
-                                <ul>
-                                    <li ng-show="area.contents.pool.encounter">
-                                        <dndgen-encounter encounter="area.contents.pool.encounter"></dndgen-encounter>
-                                    </li>
-                                    <li ng-show="area.contents.pool.treasure">
-                                        <dndgen-dungeon-treasure dungeon-treasure="area.contents.pool.treasure"></dndgen-dungeon-treasure>
-                                    </li>
-                                    <li ng-show="area.contents.pool.magicPower.length > 0">{{area.contents.pool.magicPower}}</li>
-                                </ul>
-                            </dndgen-collapsable-list>
-                        </li>
-                        <li ng-show="area.contents.traps.length > 0">
-                            <dndgen-collapsable-list heading="Traps" has-list="area.contents.traps.length > 0">
-                                <ul>
-                                    <li ng-repeat="trap in area.contents.traps">
-                                        <dndgen-collapsable-list heading="{{trap.name}}" has-list="true">
-                                            <ul>
-                                                <li ng-repeat="description in trap.descriptions">{{description}}</li>
-                                                <li>Challenge Rating: {{trap.challengeRating}}</li>
-                                                <li>Search DC: {{trap.searchDC}}</li>
-                                                <li>Disable Device DC: {{trap.disableDeviceDC}}</li>
-                                            </ul>
-                                        </dndgen-collapsable-list>
-                                    </li>
-                                </ul>
-                            </dndgen-collapsable-list>
-                        </li>
-                        <li ng-show="area.contents.encounters.length > 0">
-                            <dndgen-collapsable-list heading="Encounters" has-list="area.contents.encounters.length > 0">
-                                <ul>
-                                    <li ng-repeat="encounter in area.contents.encounters">
-                                        <dndgen-encounter encounter="encounter"></dndgen-encounter>
-                                    </li>
-                                </ul>
-                            </dndgen-collapsable-list>
-                        </li>
-                        <li ng-show="area.contents.treasures.length > 0">
-                            <dndgen-collapsable-list heading="Treasures" has-list="area.contents.treasures.length > 0">
-                                <ul>
-                                    <li ng-repeat="treasure in area.contents.treasures">
-                                        <dndgen-dungeon-treasure dungeon-treasure="treasure"></dndgen-dungeon-treasure>
-                                    </li>
-                                </ul>
-                            </dndgen-collapsable-list>
-                        </li>
-                    </ul>
-                </dndgen-collapsable-list>
-            </li>
-        </ul>
-    </dndgen-collapsable-list>
-</div>
+﻿<dndgen-collapsable-list heading="{{area.type}}" has-list="true">
+    <ul>
+        <li ng-show="area.descriptions.length > 0">
+            <dndgen-collapsable-list heading="Descriptions" has-list="area.descriptions.length > 0">
+                <ul>
+                    <li ng-repeat="description in area.descriptions track by $index">{{description}}</li>
+                </ul>
+            </dndgen-collapsable-list>
+        </li>
+        <li ng-show="area.length > 0">
+            <span ng-show="area.width == 0">continues {{area.length | number}}'</span>
+            <span ng-show="area.width == 1">about {{area.length | number}} square feet</span>
+            <span ng-show="area.width > 1">{{area.length | number}}' x {{area.width | number}}'</span>
+        </li>
+        <li ng-show="area.contents.isEmpty == false">
+            <dndgen-collapsable-list heading="Contents" has-list="area.contents.isEmpty == false">
+                <ul>
+                    <li ng-repeat="misc in area.contents.miscellaneous">{{misc}}</li>
+                    <li ng-show="area.contents.pool">
+                        <dndgen-collapsable-list heading="Pool" has-list="area.contents.pool.encounter || area.contents.pool.treasure || area.contents.pool.magicPower">
+                            <ul>
+                                <li ng-show="area.contents.pool.encounter">
+                                    <dndgen-encounter encounter="area.contents.pool.encounter"></dndgen-encounter>
+                                </li>
+                                <li ng-show="area.contents.pool.treasure">
+                                    <dndgen-dungeon-treasure dungeon-treasure="area.contents.pool.treasure"></dndgen-dungeon-treasure>
+                                </li>
+                                <li ng-show="area.contents.pool.magicPower.length > 0">{{area.contents.pool.magicPower}}</li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </li>
+                    <li ng-show="area.contents.traps.length > 0">
+                        <dndgen-collapsable-list heading="Traps" has-list="area.contents.traps.length > 0">
+                            <ul>
+                                <li ng-repeat="trap in area.contents.traps">
+                                    <dndgen-collapsable-list heading="{{trap.name}}" has-list="true">
+                                        <ul>
+                                            <li ng-repeat="description in trap.descriptions">{{description}}</li>
+                                            <li>Challenge Rating: {{trap.challengeRating}}</li>
+                                            <li>Search DC: {{trap.searchDC}}</li>
+                                            <li>Disable Device DC: {{trap.disableDeviceDC}}</li>
+                                        </ul>
+                                    </dndgen-collapsable-list>
+                                </li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </li>
+                    <li ng-show="area.contents.encounters.length > 0">
+                        <dndgen-collapsable-list heading="Encounters" has-list="area.contents.encounters.length > 0">
+                            <ul>
+                                <li ng-repeat="encounter in area.contents.encounters">
+                                    <dndgen-encounter encounter="encounter"></dndgen-encounter>
+                                </li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </li>
+                    <li ng-show="area.contents.treasures.length > 0">
+                        <dndgen-collapsable-list heading="Treasures" has-list="area.contents.treasures.length > 0">
+                            <ul>
+                                <li ng-repeat="treasure in area.contents.treasures">
+                                    <dndgen-dungeon-treasure dungeon-treasure="treasure"></dndgen-dungeon-treasure>
+                                </li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </li>
+                </ul>
+            </dndgen-collapsable-list>
+        </li>
+    </ul>
+</dndgen-collapsable-list>

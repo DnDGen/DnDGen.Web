@@ -9,14 +9,15 @@
 
     function characterFormatterService(treasureFormatterService, inchesToFeetFilter) {
         return {
+            formatLeader: formatLeader,
             formatCharacter: formatCharacter
         };
 
-        function formatCharacter(character, leadership, cohort, followers, prefix) {
+        function formatLeader(character, leadership, cohort, followers, prefix) {
             if (!prefix)
                 prefix = '';
 
-            var formattedCharacter = formatCharacterWithoutLeadership(character, prefix);
+            var formattedCharacter = formatCharacter(character, prefix);
 
             if (leadership) {
                 formattedCharacter += '\r\n';
@@ -26,7 +27,7 @@
             if (cohort) {
                 formattedCharacter += '\r\n';
                 formattedCharacter += prefix + 'Cohort:\r\n';
-                formattedCharacter += formatCharacterWithoutLeadership(cohort, prefix + '\t');
+                formattedCharacter += formatCharacter(cohort, prefix + '\t');
             }
 
             if (followers && followers.length > 0) {
@@ -35,14 +36,14 @@
 
                 for (var i = 0; i < followers.length; i++) {
                     formattedCharacter += '\r\n';
-                    formattedCharacter += formatCharacterWithoutLeadership(followers[i], prefix + '\t');
+                    formattedCharacter += formatCharacter(followers[i], prefix + '\t');
                 }
             }
 
             return formattedCharacter;
         }
 
-        function formatCharacterWithoutLeadership(character, prefix) {
+        function formatCharacter(character, prefix) {
             if (!character)
                 return '';
 

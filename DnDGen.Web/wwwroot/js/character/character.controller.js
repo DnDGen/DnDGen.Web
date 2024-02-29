@@ -263,7 +263,7 @@
         }, true);
 
         vm.download = function () {
-            var formattedCharacter = characterFormatterService.formatCharacter(vm.character, vm.leadership, vm.cohort, vm.followers);
+            var formattedCharacter = characterFormatterService.formatLeader(vm.character, vm.leadership, vm.cohort, vm.followers);
             fileSaverService.save(formattedCharacter, vm.character.summary);
         };
     };

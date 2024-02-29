@@ -15,8 +15,8 @@
     <script src="~/js/character/character.service.js"></script>
     <script src="~/js/character/characterFormatter.service.js"></script>
     <script src="~/js/character/character.controller.js"></script>
-    <script src="~/js/character/characterWithoutLeadership.directive.js"></script>
     <script src="~/js/character/character.directive.js"></script>
+    <script src="~/js/character/leader.directive.js"></script>
 }
 
 <div ng-controller="Character as vm">
@@ -130,7 +130,7 @@
             </div>
             <div ng-hide="vm.generating">
                 <span id="noCharacter" class="italicize" ng-hide="vm.character">No character has been generated</span>
-                <dndgen-character character="vm.character" leadership="vm.leadership" cohort="vm.cohort" followers="vm.followers" ng-show="vm.character"></dndgen-character>
+                <dndgen-leader character="vm.character" leadership="vm.leadership" cohort="vm.cohort" followers="vm.followers" ng-show="vm.character"></dndgen-leader>
             </div>
         </div>
     </div>

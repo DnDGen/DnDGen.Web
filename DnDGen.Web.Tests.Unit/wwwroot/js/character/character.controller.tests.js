@@ -110,7 +110,7 @@ describe('Character Controller', function () {
         fileSaverServiceMock.save = jasmine.createSpy();
 
         characterFormatterServiceMock = {
-            formatCharacter: function (character, leadership, cohort, followers) {
+            formatLeader: function (character, leadership, cohort, followers) {
                 var formattedCharacter = character.name + '\n';
 
                 if (leadership)

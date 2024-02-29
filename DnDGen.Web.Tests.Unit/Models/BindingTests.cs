@@ -69,7 +69,7 @@ namespace DnDGen.Web.Tests.Unit.Models
         public void WeaponBinding()
         {
             var weapon = new Weapon();
-            AssertJsonCorrect(weapon, "weapon");
+            AssertJsonCorrect(weapon, "weapon.web");
         }
 
         [Test]
