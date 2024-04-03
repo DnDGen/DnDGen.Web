@@ -27,13 +27,37 @@ namespace DnDGen.Api.CharacterGen.Validators
             var setBaseRace = (string)request.Query["setBaseRace"];
             var setMetarace = (string)request.Query["setMetarace"];
             var validForceMetarace = bool.TryParse(request.Query["forceMetarace"], out var forceMetarace);
-            var setStrength = Convert.ToInt32(request.Query["setStrength"]);
-            var setConstitution = Convert.ToInt32(request.Query["setConstitution"]);
-            var setDexterity = Convert.ToInt32(request.Query["setDexterity"]);
-            var setIntelligence = Convert.ToInt32(request.Query["setIntelligence"]);
-            var setWisdom = Convert.ToInt32(request.Query["setWisdom"]);
-            var setCharisma = Convert.ToInt32(request.Query["setCharisma"]);
-            var allowAbilityAdjustments = Convert.ToBoolean(request.Query["allowAbilityAdjustments"]);
+            var validSetStrength = int.TryParse(request.Query["setStrength"], out var setStrength);
+            var validSetConstitution = int.TryParse(request.Query["setConstitution"], out var setConstitution);
+            var validSetDexterity = int.TryParse(request.Query["setDexterity"], out var setDexterity);
+            var validSetIntelligence = int.TryParse(request.Query["setIntelligence"], out var setIntelligence);
+            var validSetWisdom = int.TryParse(request.Query["setWisdom"], out var setWisdom);
+            var validSetCharisma = int.TryParse(request.Query["setCharisma"], out var setCharisma);
+            var validAllowAbilityAdjustments = bool.TryParse(request.Query["allowAbilityAdjustments"], out var allowAbilityAdjustments);
+
+            if (!validForceMetarace)
+                forceMetarace = false;
+
+            if (!validSetStrength)
+                setStrength = 0;
+
+            if (!validSetConstitution)
+                setConstitution = 0;
+
+            if (!validSetDexterity)
+                setDexterity = 0;
+
+            if (!validSetIntelligence)
+                setIntelligence = 0;
+
+            if (!validSetWisdom)
+                setWisdom = 0;
+
+            if (!validSetCharisma)
+                setCharisma = 0;
+
+            if (!validAllowAbilityAdjustments)
+                allowAbilityAdjustments = false;
 
             spec.SetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
             spec.SetClassNameRandomizer(classNameRandomizerType, setClassName);
@@ -49,9 +73,6 @@ namespace DnDGen.Api.CharacterGen.Validators
                 setWisdom,
                 setCharisma,
                 allowAbilityAdjustments);
-
-            if (!validForceMetarace)
-                return (false, "forceMetarace must be true or false", spec);
 
             var result = spec.IsValid();
             return (result.Valid, result.Error, spec);

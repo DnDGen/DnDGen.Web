@@ -74,9 +74,25 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?alignmentRandomizerType=invalid");
 
+            var alignmentRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                AlignmentRandomizerTypeConstants.Any,
+                AlignmentRandomizerTypeConstants.Chaotic,
+                AlignmentRandomizerTypeConstants.Evil,
+                AlignmentRandomizerTypeConstants.Good,
+                AlignmentRandomizerTypeConstants.Lawful,
+                AlignmentRandomizerTypeConstants.Neutral,
+                AlignmentRandomizerTypeConstants.NonChaotic,
+                AlignmentRandomizerTypeConstants.NonEvil,
+                AlignmentRandomizerTypeConstants.NonGood,
+                AlignmentRandomizerTypeConstants.NonLawful,
+                AlignmentRandomizerTypeConstants.NonNeutral,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"AlignmentRandomizerType is not valid. Should be one of: [{string.Join(", ", alignmentRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.Null);
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -92,9 +108,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?alignmentRandomizerType=set&setAlignment={HttpUtility.UrlEncode("invalid alignment")}");
 
+            var alignments = new[]
+            {
+                AlignmentConstants.LawfulGood,
+                AlignmentConstants.LawfulNeutral,
+                AlignmentConstants.LawfulEvil,
+                AlignmentConstants.ChaoticGood,
+                AlignmentConstants.ChaoticNeutral,
+                AlignmentConstants.ChaoticEvil,
+                AlignmentConstants.NeutralGood,
+                AlignmentConstants.TrueNeutral,
+                AlignmentConstants.NeutralEvil,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"SetAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
             Assert.That(result.CharacterSpecifications.SetAlignment, Is.Null);
@@ -148,9 +177,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?classNameRandomizerType=invalid");
 
+            var classNameRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                ClassNameRandomizerTypeConstants.AnyNPC,
+                ClassNameRandomizerTypeConstants.AnyPlayer,
+                ClassNameRandomizerTypeConstants.ArcaneSpellcaster,
+                ClassNameRandomizerTypeConstants.DivineSpellcaster,
+                ClassNameRandomizerTypeConstants.NonSpellcaster,
+                ClassNameRandomizerTypeConstants.PhysicalCombat,
+                ClassNameRandomizerTypeConstants.Spellcaster,
+                ClassNameRandomizerTypeConstants.Stealth,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"ClassNameRandomizerType is not valid. Should be one of: [{string.Join(", ", classNameRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.Null);
@@ -222,9 +264,19 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?levelRandomizerType=invalid");
 
+            var levelRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                LevelRandomizerTypeConstants.Any,
+                LevelRandomizerTypeConstants.High,
+                LevelRandomizerTypeConstants.Low,
+                LevelRandomizerTypeConstants.Medium,
+                LevelRandomizerTypeConstants.VeryHigh,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"LevelRandomizerType is not valid. Should be one of: [{string.Join(", ", levelRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -315,9 +367,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType=invalid");
 
+            var baseRaceRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                RaceRandomizerTypeConstants.BaseRace.AnyBase,
+                RaceRandomizerTypeConstants.BaseRace.AquaticBase,
+                RaceRandomizerTypeConstants.BaseRace.MonsterBase,
+                RaceRandomizerTypeConstants.BaseRace.NonMonsterBase,
+                RaceRandomizerTypeConstants.BaseRace.NonStandardBase,
+                RaceRandomizerTypeConstants.BaseRace.StandardBase,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"BaseRaceRandomizerType is not valid. Should be one of: [{string.Join(", ", baseRaceRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -333,9 +396,83 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType=set&setBaseRace=invalid");
 
+            var baseRaces = new[]
+            {
+                RaceConstants.BaseRaces.Aasimar,
+                RaceConstants.BaseRaces.AquaticElf,
+                RaceConstants.BaseRaces.Azer,
+                RaceConstants.BaseRaces.BlueSlaad,
+                RaceConstants.BaseRaces.Bugbear,
+                RaceConstants.BaseRaces.Centaur,
+                RaceConstants.BaseRaces.CloudGiant,
+                RaceConstants.BaseRaces.DeathSlaad,
+                RaceConstants.BaseRaces.DeepDwarf,
+                RaceConstants.BaseRaces.DeepHalfling,
+                RaceConstants.BaseRaces.Derro,
+                RaceConstants.BaseRaces.Doppelganger,
+                RaceConstants.BaseRaces.Drow,
+                RaceConstants.BaseRaces.DuergarDwarf,
+                RaceConstants.BaseRaces.FireGiant,
+                RaceConstants.BaseRaces.ForestGnome,
+                RaceConstants.BaseRaces.FrostGiant,
+                RaceConstants.BaseRaces.Gargoyle,
+                RaceConstants.BaseRaces.Githyanki,
+                RaceConstants.BaseRaces.Githzerai,
+                RaceConstants.BaseRaces.Gnoll,
+                RaceConstants.BaseRaces.Goblin,
+                RaceConstants.BaseRaces.GrayElf,
+                RaceConstants.BaseRaces.GraySlaad,
+                RaceConstants.BaseRaces.GreenSlaad,
+                RaceConstants.BaseRaces.Grimlock,
+                RaceConstants.BaseRaces.HalfElf,
+                RaceConstants.BaseRaces.HalfOrc,
+                RaceConstants.BaseRaces.Harpy,
+                RaceConstants.BaseRaces.HighElf,
+                RaceConstants.BaseRaces.HillDwarf,
+                RaceConstants.BaseRaces.HillGiant,
+                RaceConstants.BaseRaces.Hobgoblin,
+                RaceConstants.BaseRaces.HoundArchon,
+                RaceConstants.BaseRaces.Human,
+                RaceConstants.BaseRaces.Janni,
+                RaceConstants.BaseRaces.Kapoacinth,
+                RaceConstants.BaseRaces.Kobold,
+                RaceConstants.BaseRaces.KuoToa,
+                RaceConstants.BaseRaces.LightfootHalfling,
+                RaceConstants.BaseRaces.Lizardfolk,
+                RaceConstants.BaseRaces.Locathah,
+                RaceConstants.BaseRaces.Merfolk,
+                RaceConstants.BaseRaces.Merrow,
+                RaceConstants.BaseRaces.MindFlayer,
+                RaceConstants.BaseRaces.Minotaur,
+                RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Ogre,
+                RaceConstants.BaseRaces.OgreMage,
+                RaceConstants.BaseRaces.Orc,
+                RaceConstants.BaseRaces.Pixie,
+                RaceConstants.BaseRaces.Rakshasa,
+                RaceConstants.BaseRaces.RedSlaad,
+                RaceConstants.BaseRaces.RockGnome,
+                RaceConstants.BaseRaces.Sahuagin,
+                RaceConstants.BaseRaces.Satyr,
+                RaceConstants.BaseRaces.Scorpionfolk,
+                RaceConstants.BaseRaces.Scrag,
+                RaceConstants.BaseRaces.StoneGiant,
+                RaceConstants.BaseRaces.StormGiant,
+                RaceConstants.BaseRaces.Svirfneblin,
+                RaceConstants.BaseRaces.TallfellowHalfling,
+                RaceConstants.BaseRaces.Tiefling,
+                RaceConstants.BaseRaces.Troglodyte,
+                RaceConstants.BaseRaces.Troll,
+                RaceConstants.BaseRaces.WildElf,
+                RaceConstants.BaseRaces.WoodElf,
+                RaceConstants.BaseRaces.YuanTiAbomination,
+                RaceConstants.BaseRaces.YuanTiHalfblood,
+                RaceConstants.BaseRaces.YuanTiPureblood,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"SetBaseRace is not valid. Should be one of: [{string.Join(", ", baseRaces)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -372,6 +509,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [TestCase("FALSE", false)]
         [TestCase("0", false)]
         [TestCase("", false)]
+        [TestCase("invalid", false)]
         public void GetValid_ReturnsValid_WithForceMetarace(string value, bool expected)
         {
             var query = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}";
@@ -435,38 +573,25 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=invalid");
 
+            var metaraceRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                RaceRandomizerTypeConstants.Metarace.AnyMeta,
+                RaceRandomizerTypeConstants.Metarace.GeneticMeta,
+                RaceRandomizerTypeConstants.Metarace.LycanthropeMeta,
+                RaceRandomizerTypeConstants.Metarace.NoMeta,
+                RaceRandomizerTypeConstants.Metarace.UndeadMeta,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"MetaraceRandomizerType is not valid. Should be one of: [{string.Join(", ", metaraceRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.Null);
-            Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
-            Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
-        }
-
-        [TestCase("invalid")]
-        [TestCase("2")]
-        [TestCase("-1")]
-        public void GetValid_ReturnsInvalid_WithForceMetarace(string value)
-        {
-            var query = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}";
-            query += $"&forceMetarace={value}";
-
-            var req = RequestHelper.BuildRequest(query);
-
-            var result = CharacterValidator.GetValid(req);
-            Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("forceMetarace must be true or false"));
-            Assert.That(result.CharacterSpecifications, Is.Not.Null);
-            Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
-            Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
-            Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
-            Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.GeneticMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
         }
@@ -548,6 +673,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [TestCase("FALSE", false)]
         [TestCase("0", false)]
         [TestCase("", false)]
+        [TestCase("invalid", false)]
         public void GetValid_ReturnsValid_WithAllowAbilityAdjustments(string value, bool expected)
         {
             var query = $"?abilitiesRandomizerType=set";
@@ -562,22 +688,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             var req = RequestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
-            Assert.That(result.Valid, Is.True);
             Assert.That(result.Error, Is.Null);
+            Assert.That(result.Valid, Is.True);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
-            Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.GeneticMeta));
+            Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
             Assert.That(result.CharacterSpecifications.SetStrength, Is.EqualTo(9266));
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.EqualTo(expected));
         }
 
@@ -586,9 +712,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?abilitiesRandomizerType=invalid");
 
+            var abilitiesRandomizers = new[]
+            {
+                RandomizerTypeConstants.Set,
+                AbilitiesRandomizerTypeConstants.Average,
+                AbilitiesRandomizerTypeConstants.BestOfFour,
+                AbilitiesRandomizerTypeConstants.Good,
+                AbilitiesRandomizerTypeConstants.Heroic,
+                AbilitiesRandomizerTypeConstants.OnesAsSixes,
+                AbilitiesRandomizerTypeConstants.Poor,
+                AbilitiesRandomizerTypeConstants.Raw,
+                AbilitiesRandomizerTypeConstants.TwoTenSidedDice,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"AbilitiesRandomizerType is not valid. Should be one of: [{string.Join(", ", abilitiesRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -614,7 +753,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetStrength is not valid. Should be SetStrength > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -647,7 +786,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetStrength is not valid. Should be SetStrength > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -681,7 +820,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetConstitution is not valid. Should be SetConstitution > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -714,7 +853,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetConstitution is not valid. Should be SetConstitution > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -748,7 +887,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetDexterity is not valid. Should be SetDexterity > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -781,7 +920,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetDexterity is not valid. Should be SetDexterity > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -815,7 +954,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetIntelligence is not valid. Should be SetIntelligence > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -848,7 +987,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetIntelligence is not valid. Should be SetIntelligence > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -882,7 +1021,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetWisdom is not valid. Should be SetWisdom > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -915,7 +1054,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetWisdom is not valid. Should be SetWisdom > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -949,7 +1088,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetCharisma is not valid. Should be SetCharisma > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -962,7 +1101,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(0));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
@@ -982,12 +1121,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetCharisma is not valid. Should be SetCharisma > 0"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
