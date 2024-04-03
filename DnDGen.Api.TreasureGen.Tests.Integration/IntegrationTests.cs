@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace DnDGen.Api.TreasureGen.Tests.Integration
 {
     [TestFixture]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Structure",
+    "NUnit1032:An IDisposable field/property should be Disposed in a TearDown method",
+    Justification = "The serviceProvider is not actually disposable")]
     public abstract class IntegrationTests
     {
         private IDependencyFactory dependencyFactory;
