@@ -1,6 +1,5 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace DnDGen.Api.CharacterGen.Validators
 {
@@ -10,7 +9,10 @@ namespace DnDGen.Api.CharacterGen.Validators
         {
             var leaderAlignment = (string)request.Query["leaderAlignment"];
             var leaderClassName = (string)request.Query["leaderClassName"];
-            var leaderLevel = Convert.ToInt32(request.Query["leaderLevel"]);
+            var validLeaderLevel = int.TryParse(request.Query["leaderLevel"], out var leaderLevel);
+
+            if (!validLeaderLevel)
+                leaderLevel = 0;
 
             var spec = new CohortSpecifications { LeaderLevel = leaderLevel };
             spec.SetAlignment(leaderAlignment);

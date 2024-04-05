@@ -156,7 +156,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetClassName()
         {
-            var req = RequestHelper.BuildRequest($"?classNameRandomizerType=set&setAlignment=paladin");
+            var req = RequestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=paladin");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
@@ -208,9 +208,29 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=invalid");
 
+            var classNames = new[]
+            {
+                CharacterClassConstants.Adept,
+                CharacterClassConstants.Aristocrat,
+                CharacterClassConstants.Barbarian,
+                CharacterClassConstants.Bard,
+                CharacterClassConstants.Cleric,
+                CharacterClassConstants.Commoner,
+                CharacterClassConstants.Druid,
+                CharacterClassConstants.Expert,
+                CharacterClassConstants.Fighter,
+                CharacterClassConstants.Monk,
+                CharacterClassConstants.Paladin,
+                CharacterClassConstants.Ranger,
+                CharacterClassConstants.Rogue,
+                CharacterClassConstants.Sorcerer,
+                CharacterClassConstants.Warrior,
+                CharacterClassConstants.Wizard,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"SetClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
@@ -294,7 +314,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetLevel is not valid. Should be 1 <= level <= 20"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -313,7 +333,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo("SetLevel is not valid. Should be 1 <= level <= 20"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -504,7 +524,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 
         [TestCase("true", true)]
         [TestCase("TRUE", true)]
-        [TestCase("1", true)]
+        [TestCase("1", false)] //Even though 1 = true, "1" != true
         [TestCase("false", false)]
         [TestCase("FALSE", false)]
         [TestCase("0", false)]
@@ -601,9 +621,26 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace=invalid");
 
+            var metaraces = new[]
+            {
+                RaceConstants.Metaraces.Ghost,
+                RaceConstants.Metaraces.HalfCelestial,
+                RaceConstants.Metaraces.HalfDragon,
+                RaceConstants.Metaraces.HalfFiend,
+                RaceConstants.Metaraces.Lich,
+                RaceConstants.Metaraces.Mummy,
+                RaceConstants.Metaraces.None,
+                RaceConstants.Metaraces.Vampire,
+                RaceConstants.Metaraces.Werebear,
+                RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wererat,
+                RaceConstants.Metaraces.Weretiger,
+                RaceConstants.Metaraces.Werewolf,
+            };
+
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
-            Assert.That(result.Error, Is.EqualTo("stuff"));
+            Assert.That(result.Error, Is.EqualTo($"SetMetarace is not valid. Should be one of: [{string.Join(", ", metaraces)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -661,14 +698,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
         [TestCase("true", true)]
         [TestCase("TRUE", true)]
-        [TestCase("1", true)]
+        [TestCase("1", false)] //Even though 1 = true, "1" != true
         [TestCase("false", false)]
         [TestCase("FALSE", false)]
         [TestCase("0", false)]
@@ -766,8 +803,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -790,8 +827,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
@@ -800,8 +836,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -833,8 +869,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(0));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -857,8 +893,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
@@ -867,8 +902,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(-1));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -900,8 +935,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(0));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -924,8 +959,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
@@ -934,8 +968,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(-1));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -967,8 +1001,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(0));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -991,8 +1025,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
@@ -1001,8 +1034,8 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(-1));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -1035,7 +1068,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(0));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -1058,18 +1091,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetLevel, Is.EqualTo(666));
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetStrength, Is.EqualTo(-1));
+            Assert.That(result.CharacterSpecifications.SetStrength, Is.EqualTo(9266));
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(-1));
-            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1337));
+            Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
         }
 
@@ -1134,17 +1166,9 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetConstitution, Is.EqualTo(90210));
             Assert.That(result.CharacterSpecifications.SetDexterity, Is.EqualTo(42));
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
-            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1336));
+            Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(-1));
             Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
-        }
-
-        [Test]
-        public void NeedMoreTests()
-        {
-            Assert.Fail("Copy to cohort validator tests");
-            Assert.Fail("Copy to follower validator tests");
-            Assert.Fail("Make functions tests");
         }
     }
 }

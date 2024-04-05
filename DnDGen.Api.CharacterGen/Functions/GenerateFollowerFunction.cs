@@ -48,7 +48,7 @@ namespace DnDGen.Api.CharacterGen.Functions
                 return Task.FromResult(badResult);
             }
 
-            var followerSpec = validatorResult.CohortSpecifications;
+            var followerSpec = validatorResult.FollowerSpecifications;
             var follower = leadershipGenerator.GenerateFollower(followerLevel, followerSpec.LeaderAlignment, followerSpec.LeaderClassName);
 
             log.LogInformation($"Generated Follower: {follower.Summary}");

@@ -6,6 +6,9 @@ using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Structure",
+    "NUnit1001:The individual arguments provided by a TestCaseAttribute must match the type of the corresponding parameter of the method",
+    Justification = "NUnit doesn't like passing in null for string parameters")]
     public class FollowerSpecificationsTests
     {
         private FollowerSpecifications spec;
@@ -227,7 +230,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             Assert.That(valid.Valid, Is.False);
             Assert.That(valid.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
-            Assert.That(spec.SetClassName, Is.Null);
+            Assert.That(spec.LeaderClassName, Is.Null);
         }
 
         [TestCase(1)]

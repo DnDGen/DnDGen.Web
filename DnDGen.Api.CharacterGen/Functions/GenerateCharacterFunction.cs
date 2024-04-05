@@ -109,7 +109,7 @@ namespace DnDGen.Api.CharacterGen.Functions
             var compatible = randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
             if (!compatible)
             {
-                log.LogError($"Randomizers are not a valid combination.");
+                log.LogError("Randomizers are not a valid combination.");
                 IActionResult badResult = new BadRequestResult();
                 return Task.FromResult(badResult);
             }

@@ -7,6 +7,9 @@ using System.Collections;
 
 namespace DnDGen.Api.TreasureGen.Tests.Unit.Validators
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Structure",
+    "NUnit1001:The individual arguments provided by a TestCaseAttribute must match the type of the corresponding parameter of the method",
+    Justification = "NUnit doesn't like passing in null for string parameters")]
     public class ItemValidatorTests
     {
         [TestCaseSource(nameof(RandomItemGenerationData))]

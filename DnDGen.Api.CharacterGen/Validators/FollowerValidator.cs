@@ -5,7 +5,7 @@ namespace DnDGen.Api.CharacterGen.Validators
 {
     public static class FollowerValidator
     {
-        public static (bool Valid, string Error, FollowerSpecifications CohortSpecifications) GetValid(int followerLevel, HttpRequest request)
+        public static (bool Valid, string Error, FollowerSpecifications FollowerSpecifications) GetValid(int followerLevel, HttpRequest request)
         {
             var leaderAlignment = (string)request.Query["leaderAlignment"];
             var leaderClassName = (string)request.Query["leaderClassName"];

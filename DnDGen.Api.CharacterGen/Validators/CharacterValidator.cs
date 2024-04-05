@@ -4,7 +4,6 @@ using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace DnDGen.Api.CharacterGen.Validators
 {
@@ -23,7 +22,7 @@ namespace DnDGen.Api.CharacterGen.Validators
 
             var setAlignment = (string)request.Query["setAlignment"];
             var setClassName = (string)request.Query["setClassName"];
-            var setLevel = Convert.ToInt32(request.Query["setLevel"]);
+            var validSetLevel = int.TryParse(request.Query["setLevel"], out var setLevel);
             var setBaseRace = (string)request.Query["setBaseRace"];
             var setMetarace = (string)request.Query["setMetarace"];
             var validForceMetarace = bool.TryParse(request.Query["forceMetarace"], out var forceMetarace);
@@ -34,6 +33,9 @@ namespace DnDGen.Api.CharacterGen.Validators
             var validSetWisdom = int.TryParse(request.Query["setWisdom"], out var setWisdom);
             var validSetCharisma = int.TryParse(request.Query["setCharisma"], out var setCharisma);
             var validAllowAbilityAdjustments = bool.TryParse(request.Query["allowAbilityAdjustments"], out var allowAbilityAdjustments);
+
+            if (!validSetLevel)
+                setLevel = 0;
 
             if (!validForceMetarace)
                 forceMetarace = false;
