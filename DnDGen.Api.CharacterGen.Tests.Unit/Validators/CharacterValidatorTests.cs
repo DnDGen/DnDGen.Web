@@ -700,17 +700,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [TestCase("true", true)]
         [TestCase("TRUE", true)]
-        [TestCase("1", false)] //Even though 1 = true, "1" != true
+        [TestCase("1", true)]
         [TestCase("false", false)]
         [TestCase("FALSE", false)]
-        [TestCase("0", false)]
-        [TestCase("", false)]
-        [TestCase("invalid", false)]
+        [TestCase("0", true)]
+        [TestCase("", true)]
+        [TestCase("invalid", true)]
         public void GetValid_ReturnsValid_WithAllowAbilityAdjustments(string value, bool expected)
         {
             var query = $"?abilitiesRandomizerType=set";
@@ -805,7 +805,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -838,7 +838,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -871,7 +871,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -904,7 +904,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -937,7 +937,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -970,7 +970,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1003,7 +1003,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(0));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1036,7 +1036,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(-1));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1069,7 +1069,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(0));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1102,7 +1102,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(-1));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(1336));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1135,7 +1135,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(0));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
 
         [Test]
@@ -1168,7 +1168,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.SetIntelligence, Is.EqualTo(600));
             Assert.That(result.CharacterSpecifications.SetWisdom, Is.EqualTo(1337));
             Assert.That(result.CharacterSpecifications.SetCharisma, Is.EqualTo(-1));
-            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.False);
+            Assert.That(result.CharacterSpecifications.AllowAbilityAdjustments, Is.True);
         }
     }
 }

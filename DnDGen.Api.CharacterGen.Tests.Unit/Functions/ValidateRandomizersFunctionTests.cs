@@ -6,7 +6,6 @@ using DnDGen.Api.CharacterGen.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
 using DnDGen.CharacterGen.Characters;
-using DnDGen.CharacterGen.Generators.Characters;
 using DnDGen.CharacterGen.Races;
 using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
@@ -21,11 +20,10 @@ using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
 {
-    public class GenerateCharacterFunctionTests
+    public class ValidateRandomizersFunctionTests
     {
-        private GenerateCharacterFunction function;
+        private ValidateRandomizersFunction function;
         private Mock<IRandomizerRepository> mockRandomizerRepository;
-        private Mock<ICharacterGenerator> mockCharacterGenerator;
         private Mock<IRandomizerVerifier> mockRandomizerVerifier;
         private Mock<ILogger> mockLogger;
         private HttpRequest request;
@@ -34,17 +32,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         public void Setup()
         {
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
-            mockCharacterGenerator = new Mock<ICharacterGenerator>();
             mockRandomizerVerifier = new Mock<IRandomizerVerifier>();
             mockLogger = new Mock<ILogger>();
             request = RequestHelper.BuildRequest();
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
-            mockDependencyFactory.Setup(f => f.Get<ICharacterGenerator>()).Returns(mockCharacterGenerator.Object);
             mockDependencyFactory.Setup(f => f.Get<IRandomizerVerifier>()).Returns(mockRandomizerVerifier.Object);
 
-            function = new GenerateCharacterFunction(mockDependencyFactory.Object);
+            function = new ValidateRandomizersFunction(mockDependencyFactory.Object);
         }
 
         [Test]

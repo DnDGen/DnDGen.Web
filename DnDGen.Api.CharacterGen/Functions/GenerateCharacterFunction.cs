@@ -58,7 +58,7 @@ namespace DnDGen.Api.CharacterGen.Functions
         [OpenApiParameter(name: "setMetarace", In = ParameterLocation.Query, Required = false, Type = typeof(string),
             Description = "The specific metarace. Required if using the 'Set' metarace randomizer")]
         [OpenApiParameter(name: "allowAbilityAdjustments", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
-            Description = "Sets whether racial modifiers can adjust abilities. Defaults to 'false'")]
+            Description = "Sets whether racial modifiers can adjust abilities. Defaults to 'true'")]
         [OpenApiParameter(name: "setStrength", In = ParameterLocation.Query, Required = false, Type = typeof(int),
             Description = "The specific Strength score. Required if using the 'Set' abilities randomizer")]
         [OpenApiParameter(name: "setConstitution", In = ParameterLocation.Query, Required = false, Type = typeof(int),

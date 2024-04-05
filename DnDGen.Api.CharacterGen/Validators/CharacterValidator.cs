@@ -59,7 +59,7 @@ namespace DnDGen.Api.CharacterGen.Validators
                 setCharisma = 0;
 
             if (!validAllowAbilityAdjustments)
-                allowAbilityAdjustments = false;
+                allowAbilityAdjustments = true;
 
             spec.SetAlignmentRandomizer(alignmentRandomizerType, setAlignment);
             spec.SetClassNameRandomizer(classNameRandomizerType, setClassName);
