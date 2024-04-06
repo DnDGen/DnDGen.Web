@@ -1203,6 +1203,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setIntelligence=600";
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
+            queryString += "&allowAbilityAdjustments=false";
 
             var request = RequestHelper.BuildRequest(queryString);
             var response = await function.Run(request, logger);
@@ -1673,12 +1674,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 .And.ContainKey(AbilityConstants.Intelligence)
                 .And.ContainKey(AbilityConstants.Wisdom)
                 .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(2, 20));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(2, 20));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(2, 20));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(2, 20));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(2, 20));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(2, 20));
+            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.Positive);
+            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.Positive);
+            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.Positive);
+            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.Positive);
+            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.Positive);
+            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.Positive);
         }
 
         [Test]

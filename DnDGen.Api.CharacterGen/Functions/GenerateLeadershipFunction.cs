@@ -7,7 +7,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -46,8 +45,11 @@ namespace DnDGen.Api.CharacterGen.Functions
                 return Task.FromResult(badResult);
             }
 
-            var animal = (string)req.Query["leaderAnimal"];
-            var charismaBonus = Convert.ToInt32(req.Query["leaderCharismaBonus"]);
+            var animal = (string)req.Query["leaderAnimal"] ?? string.Empty;
+            var validCharismaBonus = int.TryParse(req.Query["leaderCharismaBonus"], out var charismaBonus);
+
+            if (!validCharismaBonus)
+                charismaBonus = 0;
 
             var leadership = leadershipGenerator.GenerateLeadership(level, charismaBonus, animal);
 

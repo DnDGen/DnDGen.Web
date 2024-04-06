@@ -43,7 +43,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         }
 
         [Test]
-        public void GetValid_ReturnsInvalid_WithSetAlignment()
+        public void GetValid_ReturnsInvalid_WithLeaderAlignment()
         {
             var query = $"?leaderAlignment={HttpUtility.UrlEncode("invalid alignment")}";
             query += "&leaderClassName=Paladin";
@@ -73,7 +73,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         }
 
         [Test]
-        public void GetValid_ReturnsValid_WithSetClassName()
+        public void GetValid_ReturnsInvalid_WithoutLeaderAlignment()
+        {
+            var query = $"?leaderClassName=Paladin";
+
+            var req = RequestHelper.BuildRequest(query);
+
+            var alignments = new[]
+            {
+                AlignmentConstants.LawfulGood,
+                AlignmentConstants.LawfulNeutral,
+                AlignmentConstants.LawfulEvil,
+                AlignmentConstants.ChaoticGood,
+                AlignmentConstants.ChaoticNeutral,
+                AlignmentConstants.ChaoticEvil,
+                AlignmentConstants.NeutralGood,
+                AlignmentConstants.TrueNeutral,
+                AlignmentConstants.NeutralEvil,
+            };
+
+            var result = FollowerValidator.GetValid(3, req);
+            Assert.That(result.Valid, Is.False);
+            Assert.That(result.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
+            Assert.That(result.FollowerSpecifications, Is.Not.Null);
+            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.Null);
+            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
+            Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void GetValid_ReturnsValid_WithLeaderClassName()
         {
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
             query += "&leaderClassName=barbarian";
@@ -90,10 +119,46 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         }
 
         [Test]
-        public void GetValid_ReturnsInvalid_WithSetClassName()
+        public void GetValid_ReturnsInvalid_WithLeaderClassName()
         {
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
             query += "&leaderClassName=invalid";
+
+            var req = RequestHelper.BuildRequest(query);
+
+            var classNames = new[]
+            {
+                CharacterClassConstants.Adept,
+                CharacterClassConstants.Aristocrat,
+                CharacterClassConstants.Barbarian,
+                CharacterClassConstants.Bard,
+                CharacterClassConstants.Cleric,
+                CharacterClassConstants.Commoner,
+                CharacterClassConstants.Druid,
+                CharacterClassConstants.Expert,
+                CharacterClassConstants.Fighter,
+                CharacterClassConstants.Monk,
+                CharacterClassConstants.Paladin,
+                CharacterClassConstants.Ranger,
+                CharacterClassConstants.Rogue,
+                CharacterClassConstants.Sorcerer,
+                CharacterClassConstants.Warrior,
+                CharacterClassConstants.Wizard,
+            };
+
+            var result = FollowerValidator.GetValid(5, req);
+            Assert.That(result.Valid, Is.False);
+            Assert.That(result.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
+            Assert.That(result.FollowerSpecifications, Is.Not.Null);
+            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
+            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.Null);
+            Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void GetValid_ReturnsInvalid_WithoutLeaderClassName()
+        {
+            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
 
             var req = RequestHelper.BuildRequest(query);
 

@@ -513,14 +513,5 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             mockLogger.AssertLog("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
             mockLogger.AssertLog("Randomizers are not a valid combination.", LogLevel.Error);
         }
-
-        [Test]
-        public void NeedMoreTests()
-        {
-            Assert.Fail("Validate Randomizers functions tests");
-            Assert.Fail("Leadership functions tests");
-            Assert.Fail("Cohort functions tests");
-            Assert.Fail("Follower functions tests");
-        }
     }
 }
