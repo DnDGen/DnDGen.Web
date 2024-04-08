@@ -5,7 +5,7 @@ namespace DnDGen.Api.RollGen.Dependencies
 {
     public class NinjectDependencyFactory : IDependencyFactory
     {
-        private IKernel kernel;
+        private readonly IKernel kernel;
 
         public NinjectDependencyFactory()
         {
