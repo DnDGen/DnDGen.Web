@@ -19,7 +19,7 @@
 									"name": "Generate Character with Any Alignment",
 									"event": [
 										{
-											"listen": "test",
+											"listen": "test",swa
 											"script": {
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {\r",

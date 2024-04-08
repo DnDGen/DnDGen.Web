@@ -16,7 +16,7 @@ describe('Randomizer Service', function () {
     }));
 
     it('verifies randomizers are compatible', function () {
-        var promise = randomizerService.verify('client',
+        var promise = randomizerService.verify(
             "any alignment",
             "set alignment",
             "any class",
@@ -33,7 +33,6 @@ describe('Randomizer Service', function () {
         expect(promise).not.toBeNull();
 
         var parameters = {
-            clientId: 'client',
             alignmentRandomizerType: 'any alignment',
             classNameRandomizerType: 'any class',
             levelRandomizerType: 'any level',
@@ -48,6 +47,6 @@ describe('Randomizer Service', function () {
             setMetarace: 'set metarace',
         };
 
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Characters/Randomizers/Verify', parameters);
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/validate', parameters);
     });
 });

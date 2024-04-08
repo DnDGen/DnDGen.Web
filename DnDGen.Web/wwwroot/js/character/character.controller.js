@@ -5,9 +5,9 @@
         .module('app.character')
         .controller('Character', Character);
 
-    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService', 'fileSaverService', 'characterFormatterService', 'eventService'];
+    Character.$inject = ['$scope', 'bootstrapData', 'randomizerService', 'characterService', 'sweetAlertService', 'leadershipService', 'fileSaverService', 'characterFormatterService'];
 
-    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService, fileSaverService, characterFormatterService, eventService) {
+    function Character($scope, bootstrapData, randomizerService, characterService, sweetAlertService, leadershipService, fileSaverService, characterFormatterService) {
         var vm = this;
         vm.characterModel = bootstrapData.characterModel;
         vm.alignmentRandomizerType = vm.characterModel.alignmentRandomizerTypes[0];
@@ -38,7 +38,6 @@
         vm.cohort = null;
         vm.followers = [];
         vm.generatingMessage = '';
-        vm.clientId = '';
 
         function verifyRandomizers() {
             vm.verifying = true;
@@ -79,20 +78,16 @@
             }
 
             if (vm.verifying) {
-                eventService.getClientId().then(function (response) {
-                    vm.clientId = response.data.clientId;
-
-                    randomizerService.verify(vm.clientId, vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace)
-                        .then(function (response) {
-                            vm.compatible = response.data.compatible;
-                        }, function () {
-                            sweetAlertService.showError();
-                            vm.compatible = false;
-                        }).then(function () {
-                            vm.verifying = false;
-                            eventService.clearEvents(vm.clientId);
-                        });
-                });
+                randomizerService
+                    .verify(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace)
+                    .then(function (response) {
+                        vm.compatible = response.data.compatible;
+                    }, function () {
+                        sweetAlertService.showError();
+                        vm.compatible = false;
+                    }).then(function () {
+                        vm.verifying = false;
+                    });
             }
         }
 
@@ -107,10 +102,8 @@
 
             vm.generatingMessage = 'Generating character...';
 
-            eventService.getClientId().then(function (response) {
-                vm.clientId = response.data.clientId;
-
-                characterService.generate(vm.clientId, vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace, vm.abilitiesRandomizerType, vm.setStrength, vm.setConstitution, vm.setDexterity, vm.setIntelligence, vm.setWisdom, vm.setCharisma, vm.allowAbilitiesAdjustments)
+            characterService
+                .generate(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace, vm.abilitiesRandomizerType, vm.setStrength, vm.setConstitution, vm.setDexterity, vm.setIntelligence, vm.setWisdom, vm.setCharisma, vm.allowAbilitiesAdjustments)
                 .then(function (response) {
                     if (typeof response.data === 'string')
                         console.log(data);
@@ -120,12 +113,12 @@
                     if (vm.character && vm.character.isLeader) {
                         vm.generatingMessage = 'Generating leadership...';
 
-                        leadershipService.generate(vm.clientId, vm.character.class.level, vm.character.abilities.Charisma.bonus, vm.character.magic.animal)
+                        leadershipService.generate(vm.character.class.level, vm.character.abilities.Charisma.bonus, vm.character.magic.animal)
                             .then(function (response) {
                                 vm.leadership = response.data.leadership;
                             }).then(function () {
                                 vm.generatingMessage = 'Generating cohort...';
-                                return leadershipService.generateCohort(vm.clientId, vm.character.class.level, vm.leadership.cohortScore, vm.character.alignment.full, vm.character.class.name)
+                                return leadershipService.generateCohort(vm.leadership.cohortScore, vm.character.class.level, vm.character.alignment.full, vm.character.class.name)
                             }).then(function (response) {
                                 vm.cohort = response.data.cohort;
                             }, function () {
@@ -147,7 +140,6 @@
                         noLongerGenerating();
                     }
                 });
-            });
         };
 
         function noLongerGenerating() {
@@ -157,7 +149,7 @@
 
         function generateFollowers(level, amount) {
             for (var i = amount; i > 0; i--) {
-                leadershipService.generateFollower(vm.clientId, level, vm.character.alignment.full, vm.character.class.name)
+                leadershipService.generateFollower(level, vm.character.alignment.full, vm.character.class.name)
                     .then(function (response) {
                         vm.followers.push(response.data.follower);
                     }, function () {

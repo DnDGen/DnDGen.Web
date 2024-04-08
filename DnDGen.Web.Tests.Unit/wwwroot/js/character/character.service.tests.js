@@ -16,7 +16,7 @@ describe('Character Service', function () {
     }));
 
     it('generates character', function () {
-        var promise = characterService.generate('client',
+        var promise = characterService.generate(
             "any alignment",
             "set alignment",
             "any class",
@@ -41,7 +41,6 @@ describe('Character Service', function () {
         expect(promise).not.toBeNull();
 
         var parameters = {
-            clientId: 'client',
             alignmentRandomizerType: 'any alignment',
             classNameRandomizerType: 'any class',
             levelRandomizerType: 'any level',
@@ -64,6 +63,6 @@ describe('Character Service', function () {
             allowAbilityAdjustments: false,
         };
 
-        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('/Character/Generate', parameters);
+        expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/generate', parameters);
     });
 });

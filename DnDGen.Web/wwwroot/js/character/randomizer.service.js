@@ -13,12 +13,11 @@
             verify: verify
         };
 
-        function verify(clientId, alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace)
+        function verify(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace)
         {
-            var url = "/Characters/Randomizers/Verify";
+            var url = "https://character.dndgen.com/api/v1/character/validate";
 
             var parameters = {
-                clientId: clientId,
                 alignmentRandomizerType: alignmentRandomizerType,
                 classNameRandomizerType: classNameRandomizerType,
                 levelRandomizerType: levelRandomizerType,

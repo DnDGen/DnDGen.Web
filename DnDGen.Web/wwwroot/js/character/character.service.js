@@ -13,12 +13,11 @@
             generate: generate
         };
 
-        function generate(clientId, alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments)
+        function generate(alignmentRandomizerType, setAlignment, classNameRandomizerType, setClassName, levelRandomizerType, setLevel, allowLevelAdjustments, baseRaceRandomizerType, setBaseRace, metaraceRandomizerType, forceMetarace, setMetarace, statsRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma, allowStatsAdjustments)
         {
-            var url = "/Character/Generate";
+            var url = "https://character.dndgen.com/api/v1/character/generate";
 
             var parameters = {
-                clientId: clientId,
                 alignmentRandomizerType: alignmentRandomizerType,
                 classNameRandomizerType: classNameRandomizerType,
                 levelRandomizerType: levelRandomizerType,
