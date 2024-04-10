@@ -34,13 +34,15 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include(\"<h1>Welcome!</h1>\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -85,13 +87,15 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include(\"<h1>Critical Miss</h1>\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -139,6 +143,7 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
@@ -149,7 +154,8 @@
 							"    pm.expect(pageText).to.include('<a class=\"nav-link\" href=\"#expression\" area-controls=\"expression\" role=\"tab\" data-bs-toggle=\"tab\" aria-selected=\"false\">Expression</a>');\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -197,6 +203,7 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
@@ -206,7 +213,8 @@
 							"    pm.expect(pageText).to.include('<li role=\"presentation\" class=\"nav-item\"><a class=\"nav-link\" href=\"#item\" aria-controls=\"item\" role=\"tab\" data-bs-toggle=\"tab\">Item</a></li>');\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -254,13 +262,15 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include(\"<h1>CharacterGen</h1>\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -308,13 +318,15 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include(\"<h1>EncounterGen</h1>\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -362,13 +374,15 @@
 							"    \r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://roll.dndgen.com/api/swagger/ui\">RollGen</a></li>');\r",
 							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://treasure.dndgen.com/api/swagger/ui\">TreasureGen</a></li>');\r",
+							"    pm.expect(pageText).to.include('<li b-vuplltt5r5><a b-vuplltt5r5 class=\"dropdown-item\" target=\"_blank\" href=\"https://character.dndgen.com/api/swagger/ui\">CharacterGen</a></li>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include('<a b-vuplltt5r5 class=\"nav-link\" target=\"_blank\" href=\"http://dnd.wizards.com/\">Official D&D Site</a>');\r",
 							"    \r",
 							"    pm.expect(pageText).to.include(\"<h1>DungeonGen</h1>\");\r",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],

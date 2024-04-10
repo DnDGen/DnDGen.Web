@@ -208,5 +208,29 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(cohort.Class.Summary, Is.Not.Empty);
             Assert.That(cohort.Race.Summary, Is.Not.Empty);
         }
+
+        [TestCase(27, 19, AlignmentConstants.ChaoticEvil, CharacterClassConstants.Barbarian)]
+        public async Task BUG_GenerateCohort_WithoutError(int score, int leaderLevel, string leaderAlignment, string leaderClass)
+        {
+            var query = string.Empty;
+            query += $"?leaderAlignment={HttpUtility.UrlEncode(leaderAlignment)}";
+            query += $"&leaderClassName={leaderClass}";
+            query += $"&leaderLevel={leaderLevel}";
+
+            var request = RequestHelper.BuildRequest(query);
+            var response = await function.Run(request, score, logger);
+            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = response as OkObjectResult;
+            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+            var cohort = okResult.Value as Character;
+            Assert.That(cohort, Is.Not.Null);
+            Assert.That(cohort.Summary, Is.Not.Empty);
+            Assert.That(cohort.Alignment.Full, Is.Not.Empty);
+            Assert.That(cohort.Class.Level, Is.AtLeast(1));
+            Assert.That(cohort.Class.Summary, Is.Not.Empty);
+            Assert.That(cohort.Race.Summary, Is.Not.Empty);
+        }
     }
 }

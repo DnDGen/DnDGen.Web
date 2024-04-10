@@ -15,13 +15,11 @@
             generateFollower: generateFollower
         };
 
-        function generate(clientId, leaderLevel, leaderCharismaBonus, leaderAnimal)
+        function generate(leaderLevel, leaderCharismaBonus, leaderAnimal)
         {
-            var url = "/Characters/Leadership/Generate";
+            var url = "https://character.dndgen.com/api/v1/leadership/level/" + leaderLevel + "/generate";
 
             var parameters = {
-                clientId: clientId,
-                leaderLevel: leaderLevel,
                 leaderCharismaBonus: leaderCharismaBonus,
                 leaderAnimal: leaderAnimal,
             };
@@ -29,28 +27,26 @@
             return promiseService.getPromise(url, parameters);
         }
 
-        function generateCohort(clientId, leaderLevel, cohortScore, leaderAlignment, leaderClass) {
-            var url = "/Characters/Leadership/Cohort";
+        function generateCohort(cohortScore, leaderLevel, leaderAlignment, leaderClass)
+        {
+            var url = "https://character.dndgen.com/api/v1/cohort/score/" + cohortScore + "/generate";
 
             var parameters = {
-                clientId: clientId,
                 leaderLevel: leaderLevel,
-                cohortScore: cohortScore,
                 leaderAlignment: leaderAlignment,
-                leaderClass: leaderClass,
+                leaderClassName: leaderClass,
             };
 
             return promiseService.getPromise(url, parameters);
         }
 
-        function generateFollower(clientId, followerLevel, leaderAlignment, leaderClass) {
-            var url = "/Characters/Leadership/Follower";
+        function generateFollower(followerLevel, leaderAlignment, leaderClass)
+        {
+            var url = "https://character.dndgen.com/api/v1/follower/level/" + followerLevel + "/generate";
 
             var parameters = {
-                clientId: clientId,
-                followerLevel: followerLevel,
                 leaderAlignment: leaderAlignment,
-                leaderClass: leaderClass,
+                leaderClassName: leaderClass,
             };
 
             return promiseService.getPromise(url, parameters);
