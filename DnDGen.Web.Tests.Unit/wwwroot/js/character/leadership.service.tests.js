@@ -35,7 +35,7 @@ describe('Leadership Service', function () {
         var parameters = {
             leaderLevel: 90210,
             leaderAlignment: 'alignment',
-            leaderClass: 'class',
+            leaderClassName: 'class',
         };
 
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/cohort/score/9266/generate', parameters);
@@ -47,7 +47,7 @@ describe('Leadership Service', function () {
 
         var parameters = {
             leaderAlignment: 'alignment',
-            leaderClass: 'class',
+            leaderClassName: 'class',
         };
 
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/follower/level/9266/generate', parameters);

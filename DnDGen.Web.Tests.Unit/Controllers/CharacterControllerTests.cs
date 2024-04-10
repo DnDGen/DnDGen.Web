@@ -1,21 +1,14 @@
-﻿using CharacterGen.Abilities;
-using CharacterGen.CharacterClasses;
-using CharacterGen.Characters;
+﻿using CharacterGen.CharacterClasses;
 using CharacterGen.Races;
 using CharacterGen.Randomizers.Abilities;
 using CharacterGen.Randomizers.Alignments;
 using CharacterGen.Randomizers.CharacterClasses;
 using CharacterGen.Randomizers.Races;
-using CharacterGen.Skills;
 using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
-using DnDGen.Web.Repositories;
-using EventGen;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using NUnit.Framework;
-using System;
 using System.Linq;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
@@ -24,81 +17,14 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     public class CharacterControllerTests
     {
         private CharacterController controller;
-        private Mock<ICharacterGenerator> mockCharacterGenerator;
-        private Mock<IRandomizerRepository> mockRandomizerRepository;
-        private Mock<ClientIDManager> mockClientIdManager;
-        private CharacterSpecifications characterSpecifications;
-        private Guid clientId;
-        private Character character;
 
         [SetUp]
         public void Setup()
         {
-            mockRandomizerRepository = new Mock<IRandomizerRepository>();
-            mockCharacterGenerator = new Mock<ICharacterGenerator>();
-            mockClientIdManager = new Mock<ClientIDManager>();
-
-            var mockDependencyFactory = new Mock<IDependencyFactory>();
-            mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
-            mockDependencyFactory.Setup(f => f.Get<ICharacterGenerator>()).Returns(mockCharacterGenerator.Object);
-            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
-
-            controller = new CharacterController(mockDependencyFactory.Object);
-            characterSpecifications = new CharacterSpecifications();
-
-            characterSpecifications.AbilitiesRandomizerType = "abilities randomizer type";
-            characterSpecifications.AlignmentRandomizerType = "alignment randomizer type";
-            characterSpecifications.BaseRaceRandomizerType = "base race randomizer type";
-            characterSpecifications.ClassNameRandomizerType = "class name randomizer type";
-            characterSpecifications.LevelRandomizerType = "level randomizer type";
-            characterSpecifications.MetaraceRandomizerType = "metarace randomizer type";
-            characterSpecifications.SetAlignment = "set alignment";
-            characterSpecifications.SetBaseRace = "set base race";
-            characterSpecifications.SetCharisma = 9266;
-            characterSpecifications.SetClassName = "set class name";
-            characterSpecifications.SetConstitution = 90210;
-            characterSpecifications.SetDexterity = 42;
-            characterSpecifications.SetIntelligence = 600;
-            characterSpecifications.SetLevel = 1337;
-            characterSpecifications.SetMetarace = "set metarace";
-            characterSpecifications.SetStrength = 1234;
-            characterSpecifications.SetWisdom = 2345;
-
-            clientId = Guid.NewGuid();
-
-            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
-            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
-            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
-            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
-            var mockMetaraceRandomizer = new Mock<IForcableMetaraceRandomizer>();
-            var mockAbilitiesRandomizer = new Mock<IAbilitiesRandomizer>();
-
-            mockRandomizerRepository.Setup(r => r.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment)).Returns(mockAlignmentRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName)).Returns(mockClassNameRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel)).Returns(mockLevelRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace)).Returns(mockBaseRaceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetMetaraceRandomizer(characterSpecifications.MetaraceRandomizerType, characterSpecifications.ForceMetarace, characterSpecifications.SetMetarace)).Returns(mockMetaraceRandomizer.Object);
-            mockRandomizerRepository.Setup(r => r.GetAbilitiesRandomizer(
-                characterSpecifications.AbilitiesRandomizerType,
-                characterSpecifications.SetStrength,
-                characterSpecifications.SetConstitution,
-                characterSpecifications.SetDexterity,
-                characterSpecifications.SetIntelligence,
-                characterSpecifications.SetWisdom,
-                characterSpecifications.SetCharisma,
-                characterSpecifications.AllowAbilityAdjustments)).Returns(mockAbilitiesRandomizer.Object);
-
-            character = new Character();
-            mockCharacterGenerator.Setup(g => g.GenerateWith(mockAlignmentRandomizer.Object,
-                mockClassNameRandomizer.Object,
-                mockLevelRandomizer.Object,
-                mockBaseRaceRandomizer.Object,
-                mockMetaraceRandomizer.Object,
-                mockAbilitiesRandomizer.Object)).Returns(character);
+            controller = new CharacterController();
         }
 
         [TestCase("Index")]
-        [TestCase("Generate")]
         public void ActionHandlesGetVerb(string action)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, action);
@@ -365,50 +291,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(model.BaseRaceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(model.MetaraceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(model.AbilitiesRandomizerTypes.First(), Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
-        }
-
-        [Test]
-        public void GenerateSetsClientId()
-        {
-            var result = controller.Generate(clientId, characterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-
-            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
-            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
-        }
-
-        [Test]
-        public void GenerateReturnsJsonResult()
-        {
-            var result = controller.Generate(clientId, characterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void GenerateReturnsCharacterFromGenerator()
-        {
-            var result = controller.Generate(clientId, characterSpecifications);
-            dynamic data = result.Value;
-            Assert.That(data.character, Is.EqualTo(character));
-        }
-
-        [Test]
-        public void GenerateSortsCharacterSkills()
-        {
-            character.Skills = new[]
-            {
-                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
-                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
-            };
-
-            Assert.That(character.Skills, Is.Not.Ordered.By("Name"));
-
-            var result = controller.Generate(clientId, characterSpecifications);
-            dynamic data = result.Value;
-            Assert.That(data.character, Is.EqualTo(character));
-            Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
         }
     }
 }

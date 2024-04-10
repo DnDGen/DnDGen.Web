@@ -39,6 +39,13 @@
         vm.followers = [];
         vm.generatingMessage = '';
 
+        vm.leaderInput = {};
+        vm.leaderInput.alignment = vm.characterModel.alignments[0];
+        vm.leaderInput.className = vm.characterModel.classNames[0];
+        vm.leaderInput.level = 6;
+        vm.leaderInput.charismaBonus = 0;
+        vm.leaderInput.animal = null;
+
         function verifyRandomizers() {
             vm.verifying = true;
 
@@ -81,7 +88,7 @@
                 randomizerService
                     .verify(vm.alignmentRandomizerType, vm.setAlignment, vm.classNameRandomizerType, vm.setClassName, vm.levelRandomizerType, vm.setLevel, vm.allowLevelAdjustments, vm.baseRaceRandomizerType, vm.setBaseRace, vm.metaraceRandomizerType, vm.forceMetarace, vm.setMetarace)
                     .then(function (response) {
-                        vm.compatible = response.data.compatible;
+                        vm.compatible = response.data;
                     }, function () {
                         sweetAlertService.showError();
                         vm.compatible = false;
@@ -93,7 +100,7 @@
 
         verifyRandomizers();
 
-        vm.generate = function () {
+        vm.generateCharacter = function () {
             vm.generating = true;
             vm.character = null;
             vm.leadership = null;
@@ -108,37 +115,55 @@
                     if (typeof response.data === 'string')
                         console.log(data);
 
-                    vm.character = response.data.character;
+                    vm.character = response.data;
                 }, sweetAlertService.showError).then(function () {
                     if (vm.character && vm.character.isLeader) {
-                        vm.generatingMessage = 'Generating leadership...';
 
-                        leadershipService.generate(vm.character.class.level, vm.character.abilities.Charisma.bonus, vm.character.magic.animal)
-                            .then(function (response) {
-                                vm.leadership = response.data.leadership;
-                            }).then(function () {
-                                vm.generatingMessage = 'Generating cohort...';
-                                return leadershipService.generateCohort(vm.leadership.cohortScore, vm.character.class.level, vm.character.alignment.full, vm.character.class.name)
-                            }).then(function (response) {
-                                vm.cohort = response.data.cohort;
-                            }, function () {
-                                sweetAlertService.showError();
-                            }).then(function () {
-                                if (vm.leadership.followerQuantities.level1 === 0) {
-                                    vm.generating = false;
-                                    return;
-                                }
+                        vm.leaderInput.alignment = vm.character.alignment.full;
+                        vm.leaderInput.className = vm.character.class.name;
+                        vm.leaderInput.level = vm.character.class.level;
+                        vm.leaderInput.charismaBonus = vm.character.abilities.Charisma.bonus;
+                        vm.leaderInput.animal = vm.character.magic.animal;
 
-                                generateFollowers(1, vm.leadership.followerQuantities.level1);
-                                generateFollowers(2, vm.leadership.followerQuantities.level2);
-                                generateFollowers(3, vm.leadership.followerQuantities.level3);
-                                generateFollowers(4, vm.leadership.followerQuantities.level4);
-                                generateFollowers(5, vm.leadership.followerQuantities.level5);
-                                generateFollowers(6, vm.leadership.followerQuantities.level6);
-                            });
+                        vm.generateLeadership();
                     } else {
                         noLongerGenerating();
                     }
+                });
+        };
+
+        vm.generateLeadership = function () {
+            vm.generating = true;
+            vm.leadership = null;
+            vm.cohort = null;
+            vm.followers = [];
+
+            vm.generatingMessage = 'Generating leadership...';
+
+            leadershipService.generate(vm.leaderInput.level, vm.leaderInput.charismaBonus, vm.leaderInput.animal)
+                .then(function (response) {
+                    vm.leadership = response.data;
+                }, sweetAlertService.showError).then(function () {
+                    if (vm.leadership) {
+                        vm.generatingMessage = 'Generating cohort...';
+                        return leadershipService.generateCohort(vm.leadership.cohortScore, vm.leaderInput.level, vm.leaderInput.alignment, vm.leaderInput.className);
+                    } else {
+                        noLongerGenerating();
+                    }
+                }).then(function (response) {
+                    vm.cohort = response.data;
+                }, sweetAlertService.showError).then(function () {
+                    if (vm.leadership.followerQuantities.level1 === 0) {
+                        vm.generating = false;
+                        return;
+                    }
+
+                    generateFollowers(1, vm.leadership.followerQuantities.level1);
+                    generateFollowers(2, vm.leadership.followerQuantities.level2);
+                    generateFollowers(3, vm.leadership.followerQuantities.level3);
+                    generateFollowers(4, vm.leadership.followerQuantities.level4);
+                    generateFollowers(5, vm.leadership.followerQuantities.level5);
+                    generateFollowers(6, vm.leadership.followerQuantities.level6);
                 });
         };
 
@@ -149,12 +174,10 @@
 
         function generateFollowers(level, amount) {
             for (var i = amount; i > 0; i--) {
-                leadershipService.generateFollower(level, vm.character.alignment.full, vm.character.class.name)
+                leadershipService.generateFollower(level, vm.leaderInput.alignment, vm.leaderInput.className)
                     .then(function (response) {
-                        vm.followers.push(response.data.follower);
-                    }, function () {
-                        sweetAlertService.showError();
-                    });
+                        vm.followers.push(response.data);
+                    }, sweetAlertService.showError);
             }
         }
 

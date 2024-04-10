@@ -34,7 +34,7 @@
             var parameters = {
                 leaderLevel: leaderLevel,
                 leaderAlignment: leaderAlignment,
-                leaderClass: leaderClass,
+                leaderClassName: leaderClass,
             };
 
             return promiseService.getPromise(url, parameters);
@@ -46,7 +46,7 @@
 
             var parameters = {
                 leaderAlignment: leaderAlignment,
-                leaderClass: leaderClass,
+                leaderClassName: leaderClass,
             };
 
             return promiseService.getPromise(url, parameters);

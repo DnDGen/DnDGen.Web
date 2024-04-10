@@ -1,6 +1,5 @@
 ﻿using CharacterGen.Domain.IoC;
 using DnDGen.Core.IoC;
-using DnDGen.Web.App_Start.Modules;
 using DungeonGen.Domain.IoC;
 using EncounterGen.Domain.IoC;
 using EventGen.IoC;
@@ -49,8 +48,6 @@ namespace DnDGen.Web.App_Start
 
             var dungeonGenLoader = new DungeonGenModuleLoader();
             dungeonGenLoader.LoadModules(kernel);
-
-            kernel.Load<WebModule>();
         }
 
         public T Get<T>()
