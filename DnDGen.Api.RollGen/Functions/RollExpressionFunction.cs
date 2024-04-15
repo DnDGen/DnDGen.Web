@@ -3,7 +3,8 @@ using DnDGen.Api.RollGen.Helpers;
 using DnDGen.RollGen;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -21,7 +22,7 @@ namespace DnDGen.Api.RollGen.Functions
             dice = dependencyFactory.Get<Dice>();
         }
 
-        [Function("RollExpressionFunction")]
+        [FunctionName("RollExpressionFunction")]
         [OpenApiOperation(operationId: "RollExpressionFunctionRun", Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
         [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),
@@ -62,7 +63,7 @@ namespace DnDGen.Api.RollGen.Functions
 
         //HACK: Have to put the expression in the query, instead of the path, as the expression may contain invalid path characters such as slashes.
         //URL encoding does not fix the issue. It is a known issue: https://github.com/Azure/azure-functions-host/issues/9290
-        [Function("RollExpressionFunctionV2")]
+        [FunctionName("RollExpressionFunctionV2")]
         [OpenApiOperation(operationId: "RollExpressionFunctionV2Run", Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
         [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),

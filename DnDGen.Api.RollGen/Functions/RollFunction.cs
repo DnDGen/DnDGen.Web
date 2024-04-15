@@ -3,7 +3,8 @@ using DnDGen.Api.RollGen.Helpers;
 using DnDGen.RollGen;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -22,7 +23,7 @@ namespace DnDGen.Api.RollGen.Functions
             dice = dependencyFactory.Get<Dice>();
         }
 
-        [Function("RollFunction")]
+        [FunctionName("RollFunction")]
         [OpenApiOperation(operationId: "RollFunctionRun", Summary = "Roll XdY",
             Description = "Rolls the die Y quantity X times (XdY) and returns the sum")]
         [OpenApiParameter(name: "quantity", In = ParameterLocation.Query, Required = true, Type = typeof(int),
@@ -64,7 +65,7 @@ namespace DnDGen.Api.RollGen.Functions
             return Task.FromResult(result);
         }
 
-        [Function("RollFunctionV2")]
+        [FunctionName("RollFunctionV2")]
         [OpenApiOperation(operationId: "RollFunctionV2Run", Summary = "Roll XdY",
             Description = "Rolls the die Y quantity X times (XdY) and returns the sum")]
         [OpenApiParameter(name: "quantity", In = ParameterLocation.Path, Required = true, Type = typeof(int),
