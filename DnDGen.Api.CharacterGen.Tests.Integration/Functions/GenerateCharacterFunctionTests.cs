@@ -1727,7 +1727,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleClassNameRandomizer()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleClassNameRandomizer()
         {
             var queryString = $"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
@@ -1760,7 +1760,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleBaseRaceRandomizer()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleBaseRaceRandomizer()
         {
             var queryString = $"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
             queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
@@ -1793,7 +1793,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleMetaraceRandomizer()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleMetaraceRandomizer()
         {
             var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}&forceMetarace=true";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
@@ -1815,7 +1815,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleMetaraceRandomizer_AllowNone()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleMetaraceRandomizer_AllowNone()
         {
             var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=false";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
@@ -1930,7 +1930,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetClassName()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetClassName()
         {
             var queryString = $"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Wizard)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
@@ -1963,7 +1963,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetBaseRace()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetBaseRace()
         {
             var queryString = $"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Orc)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Good)}";
@@ -1996,7 +1996,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetMetarace()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetMetarace()
         {
             var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Weretiger)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
@@ -2018,7 +2018,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_CompatibleSetRandomizer_None()
+        public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetRandomizer_None()
         {
             var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.None)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
@@ -2037,6 +2037,47 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Class.Level, Is.AtLeast(1));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        [Test]
+        public async Task BUG_GenerateCharacter_ReturnsCharacter_WithoutMetarace()
+        {
+            var queryString = "?abilitiesRandomizerType=Raw";
+            queryString += "&alignmentRandomizerType=Any";
+            queryString += "&classNameRandomizerType=Any+Player";
+            queryString += "&levelRandomizerType=Low";
+            queryString += "&baseRaceRandomizerType=Any+Base";
+            queryString += "&metaraceRandomizerType=Any+Meta";
+            queryString += "&forceMetarace=false";
+            queryString += "&allowAbilityAdjustments=true";
+            queryString += "&allowLevelAdjustments=true";
+
+            var request = RequestHelper.BuildRequest(queryString);
+
+            //INFO: will try 10 times to see if we get a character without metarace. Should happen at least once, if not more than once
+            var hasMeta = true;
+            var attempts = 10;
+
+            while (attempts-- > 0 && hasMeta)
+            {
+                var response = await function.Run(request, logger);
+                Assert.That(response, Is.InstanceOf<OkObjectResult>());
+
+                var okResult = response as OkObjectResult;
+                Assert.That(okResult.Value, Is.InstanceOf<Character>());
+
+                var character = okResult.Value as Character;
+                Assert.That(character, Is.Not.Null);
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+
+                hasMeta = character.Race.Metarace != RaceConstants.Metaraces.None;
+            }
+
+            Assert.That(hasMeta, Is.False);
         }
     }
 }
