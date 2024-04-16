@@ -2054,9 +2054,9 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
 
             var request = RequestHelper.BuildRequest(queryString);
 
-            //INFO: will try 10 times to see if we get a character without metarace. Should happen at least once, if not more than once
+            //INFO: will try 2 times to see if we get a character without metarace. Should happen at least once, if not more than once
             var hasMeta = true;
-            var attempts = 10;
+            var attempts = 2;
 
             while (attempts-- > 0 && hasMeta)
             {
