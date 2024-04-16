@@ -16,7 +16,6 @@
     <script src="~/js/character/characterFormatter.service.js"></script>
     <script src="~/js/character/character.controller.js"></script>
     <script src="~/js/character/character.directive.js"></script>
-    <script src="~/js/character/leader.directive.js"></script>
     <script src="~/js/character/leadership.directive.js"></script>
 }
 
@@ -172,8 +171,12 @@
             <button class="btn btn-light btn-lg float-end" ng-click="vm.download()" ng-show="!vm.generating && vm.character">Download</button>
             <div ng-hide="vm.generating">
                 <span id="noCharacter" class="italicize" ng-hide="vm.character || vm.leadership">No character has been generated</span>
-                <dndgen-character character="vm.character" ng-show="vm.character"></dndgen-character>
-                <dndgen-leadership leadership="vm.leadership" cohort="vm.cohort" followers="vm.followers" ng-show="vm.leadership"></dndgen-leadership>
+                <div>
+                    <dndgen-character character="vm.character" ng-show="vm.character"></dndgen-character>
+                </div>
+                <div>
+                    <dndgen-leadership leadership="vm.leadership" cohort="vm.cohort" followers="vm.followers" ng-show="vm.leadership"></dndgen-leadership>
+                </div>
             </div>
             <span id="generatingSection" ng-show="vm.generating">
                 <span>{{vm.generatingMessage}}</span><br />
