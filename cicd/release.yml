@@ -62,6 +62,22 @@ jobs:
             appName: 'charactergen-api'
             package: '$(Pipeline.Workspace)/**/charactergen-api/*.zip'
 
+# The EncounterGen API       
+- deployment: EncounterGen_Api
+  displayName: Deploy EncounterGen API
+  environment: Prod
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureFunctionApp@2
+          displayName: 'Deploy Azure Function App'
+          inputs:
+            connectedServiceNameARM: 'Azure - DnDGen'
+            appType: 'functionApp'
+            appName: 'encountergen-api'
+            package: '$(Pipeline.Workspace)/**/encountergen-api/*.zip'
+
 # The DnDGen Website
 - deployment: Website
   displayName: Deploy Website
@@ -70,6 +86,7 @@ jobs:
   - RollGen_Api
   - TreasureGen_Api
   - CharacterGen_Api
+  - EncounterGen_Api
   strategy:
     runOnce:
       deploy:
@@ -92,6 +109,7 @@ jobs:
   - RollGen_Api
   - TreasureGen_Api
   - CharacterGen_Api
+  - EncounterGen_Api
   - Website
   strategy:
     runOnce:
@@ -106,6 +124,8 @@ jobs:
           displayName: 'Run TreasureGen API Tests'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml --suppress-exit-code'
           displayName: 'Run CharacterGen API Tests'
+         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml --suppress-exit-code'
+          displayName: 'Run EncounterGen API Tests'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml --suppress-exit-code --insecure'
           displayName: 'Run DnDGen Website Tests'
         - task: PublishTestResults@2
