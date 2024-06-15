@@ -1,3 +1,5 @@
+using DnDGen.Api.EncounterGen.Validators;
+using DnDGen.EncounterGen.Generators;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -10,10 +12,12 @@ namespace DnDGen.Api.EncounterGen.Functions
     public class ValidateFunction
     {
         private readonly ILogger _logger;
+        private readonly IEncounterVerifier _verifier;
 
-        public ValidateFunction(ILoggerFactory loggerFactory)
+        public ValidateFunction(ILoggerFactory loggerFactory, IEncounterVerifier verifier)
         {
             _logger = loggerFactory.CreateLogger<ValidateFunction>();
+            _verifier = verifier;
         }
 
         [Function("ValidateFunction")]
@@ -35,44 +39,28 @@ namespace DnDGen.Api.EncounterGen.Functions
             Description = "The allowed creature types for the encounter. Providing all is the same as providing none. Valid values: Aberration, Animal, Dragon, Elemental, Fey, Humanoid, Monstrous Humanoid, Ooze, Outsider, Undead, Vermin")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the parameter combination")]
-        public HttpResponseData Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/encounter/{temperature}/{environment}/{timeOfDay}/{level}/validate")] HttpRequestData req)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/encounter/{temperature}/{environment}/{timeOfDay}/{level:int}/validate")] HttpRequestData req,
+            string temperature, string environment, string timeOfDay, int level)
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateFunction.Run) processed a request.");
 
-            //var response = req.CreateResponse(HttpStatusCode.OK);
-            //response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-
-            //response.WriteString("Welcome to Azure Functions!");
-
-            //return response;
-
-            var validatorResult = EncounterValidator.GetValid(req);
+            var validatorResult = EncounterValidator.GetValid(req, temperature, environment, timeOfDay, level);
             if (!validatorResult.Valid)
             {
                 _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
 
-                IActionResult invalidResult = new OkObjectResult(validatorResult.Valid);
-                return Task.FromResult(invalidResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
+                await invalidResponse.WriteAsJsonAsync(validatorResult.Valid);
+                return invalidResponse;
             }
 
-            var characterSpecifications = validatorResult.CharacterSpecifications;
-
-            var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
-            var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
-            var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
-            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(
-                characterSpecifications.MetaraceRandomizerType,
-                characterSpecifications.ForceMetarace,
-                characterSpecifications.SetMetarace);
-
-            var compatible = randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
-            _logger.LogInformation($"Randomizer Validity: {compatible}");
+            var compatible = _verifier.ValidEncounterExists(validatorResult.EncounterSpecifications);
+            _logger.LogInformation($"Encounter Validity: {compatible}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.WriteAsJsonAsync()
-            return Task.FromResult(result);
+            await response.WriteAsJsonAsync(compatible);
+            return response;
         }
     }
 }
