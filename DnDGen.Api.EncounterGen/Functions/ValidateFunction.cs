@@ -1,3 +1,4 @@
+using DnDGen.Api.EncounterGen.Dependencies;
 using DnDGen.Api.EncounterGen.Validators;
 using DnDGen.EncounterGen.Generators;
 using Microsoft.Azure.Functions.Worker;
@@ -14,17 +15,17 @@ namespace DnDGen.Api.EncounterGen.Functions
         private readonly ILogger _logger;
         private readonly IEncounterVerifier _verifier;
 
-        public ValidateFunction(ILoggerFactory loggerFactory, IEncounterVerifier verifier)
+        public ValidateFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
             _logger = loggerFactory.CreateLogger<ValidateFunction>();
-            _verifier = verifier;
+            _verifier = dependencyFactory.Get<IEncounterVerifier>();
         }
 
         [Function("ValidateFunction")]
         [OpenApiOperation(operationId: "ValidateFunctionRun", Summary = "Validate encounter parameters",
             Description = "Validate the parameter combination for encounter generation.")]
         [OpenApiParameter(name: "environment", In = ParameterLocation.Path, Required = true, Type = typeof(string),
-            Description = "The environment of the encounter. Valid values: Aquatic, Civilized, Desert, Hill, Marsh, Mountain, Plains, Underground")]
+            Description = "The environment of the encounter. Valid values: Aquatic, Civilized, Desert, Forest, Hill, Marsh, Mountain, Plains, Underground")]
         [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
             Description = "The target level of the encounter. Valid values: 1 <= L <= 30")]
         [OpenApiParameter(name: "temperature", In = ParameterLocation.Path, Required = true, Type = typeof(string),
@@ -36,11 +37,11 @@ namespace DnDGen.Api.EncounterGen.Functions
         [OpenApiParameter(name: "allowUnderground", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
             Description = "Whether to allow underground encounters. Defaults to false")]
         [OpenApiParameter(name: "creatureTypeFilters", In = ParameterLocation.Query, Required = false, Type = typeof(string[]),
-            Description = "The allowed creature types for the encounter. Providing all is the same as providing none. Valid values: Aberration, Animal, Dragon, Elemental, Fey, Humanoid, Monstrous Humanoid, Ooze, Outsider, Undead, Vermin")]
+            Description = "The allowed creature types for the encounter. Providing all is the same as providing none. Valid values: Aberration, Animal, Construct, Dragon, Elemental, Fey, Giant, Humanoid, Magical Beast, Monstrous Humanoid, Ooze, Outsider, Plant, Undead, Vermin")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the parameter combination")]
         public async Task<HttpResponseData> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/encounter/{temperature}/{environment}/{timeOfDay}/{level:int}/validate")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level:int}/validate")] HttpRequestData req,
             string temperature, string environment, string timeOfDay, int level)
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateFunction.Run) processed a request.");

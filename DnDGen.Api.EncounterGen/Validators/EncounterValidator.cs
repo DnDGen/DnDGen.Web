@@ -25,21 +25,13 @@ namespace DnDGen.Api.EncounterGen.Validators
             if (!validAllowUnderground)
                 allowUnderground = false;
 
-            //TODO: Parse temperature to be case-insensitive
-            //TODO: Parse time of day to be case-insensitive
-            //TODO: Parse creature type filters to be case-insensitive
-
             spec.Environment = GetEnvironment(environment);
-            spec.Temperature = temperature;
-            spec.TimeOfDay = timeOfDay;
+            spec.Temperature = GetTemperature(temperature);
+            spec.TimeOfDay = GetTimeOfDay(timeOfDay);
             spec.Level = level;
             spec.AllowAquatic = allowAquatic;
             spec.AllowUnderground = allowUnderground;
-            spec.CreatureTypeFilters = creatureTypeFilters;
-
-            //TODO: Check real temperature
-            //TODO: Check real time of day
-            //TODO: Check real creature type filters
+            spec.CreatureTypeFilters = GetCreatureTypeFilters(creatureTypeFilters);
 
             var valid = spec.IsValid();
             return (valid, string.Empty, spec);
@@ -61,6 +53,54 @@ namespace DnDGen.Api.EncounterGen.Validators
             };
 
             return environments.FirstOrDefault(e => e.Equals(environment, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string GetTemperature(string temperature)
+        {
+            var temperatures = new[]
+            {
+                EnvironmentConstants.Temperatures.Temperate,
+                EnvironmentConstants.Temperatures.Warm,
+                EnvironmentConstants.Temperatures.Cold,
+            };
+
+            return temperatures.FirstOrDefault(t => t.Equals(temperature, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static string GetTimeOfDay(string timeOfDay)
+        {
+            var timesOfDay = new[]
+            {
+                EnvironmentConstants.TimesOfDay.Day,
+                EnvironmentConstants.TimesOfDay.Night,
+            };
+
+            return timesOfDay.FirstOrDefault(t => t.Equals(timeOfDay, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private static IEnumerable<string> GetCreatureTypeFilters(string[] filters)
+        {
+            var creatureTypes = new[]
+            {
+                CreatureDataConstants.Types.Aberration,
+                CreatureDataConstants.Types.Animal,
+                CreatureDataConstants.Types.Construct,
+                CreatureDataConstants.Types.Dragon,
+                CreatureDataConstants.Types.Elemental,
+                CreatureDataConstants.Types.Fey,
+                CreatureDataConstants.Types.Giant,
+                CreatureDataConstants.Types.Humanoid,
+                CreatureDataConstants.Types.MagicalBeast,
+                CreatureDataConstants.Types.MonstrousHumanoid,
+                CreatureDataConstants.Types.Ooze,
+                CreatureDataConstants.Types.Outsider,
+                CreatureDataConstants.Types.Plant,
+                CreatureDataConstants.Types.Undead,
+                CreatureDataConstants.Types.Vermin,
+            };
+
+            var comparer = EqualityComparer<string>.Create((s, t) => s.Equals(t, StringComparison.OrdinalIgnoreCase));
+            return filters.Intersect(creatureTypes, comparer);
         }
     }
 }
