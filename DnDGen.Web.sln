@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.CharacterGen.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.CharacterGen.Tests.Unit", "DnDGen.Api.CharacterGen.Tests.Unit\DnDGen.Api.CharacterGen.Tests.Unit.csproj", "{10973204-BEB8-4AF3-844B-6BC70FEFAEF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.EncounterGen", "DnDGen.Api.EncounterGen\DnDGen.Api.EncounterGen.csproj", "{4884DFD5-BF83-47FE-A86D-16BD6C3A9DAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.EncounterGen", "DnDGen.Api.EncounterGen\DnDGen.Api.EncounterGen.csproj", "{4884DFD5-BF83-47FE-A86D-16BD6C3A9DAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.EncounterGen.Tests.Integration", "DnDGen.Api.EncounterGen.Tests.Integration\DnDGen.Api.EncounterGen.Tests.Integration.csproj", "{D478DB84-B09E-4897-A47F-0C43ECB0D50A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{4884DFD5-BF83-47FE-A86D-16BD6C3A9DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4884DFD5-BF83-47FE-A86D-16BD6C3A9DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4884DFD5-BF83-47FE-A86D-16BD6C3A9DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D478DB84-B09E-4897-A47F-0C43ECB0D50A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D478DB84-B09E-4897-A47F-0C43ECB0D50A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D478DB84-B09E-4897-A47F-0C43ECB0D50A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D478DB84-B09E-4897-A47F-0C43ECB0D50A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
