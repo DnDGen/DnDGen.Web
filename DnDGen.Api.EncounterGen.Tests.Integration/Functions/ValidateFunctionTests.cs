@@ -1,6 +1,7 @@
 using DnDGen.Api.EncounterGen.Dependencies;
 using DnDGen.Api.EncounterGen.Functions;
 using DnDGen.Api.EncounterGen.Tests.Integration.Helpers;
+using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -21,9 +22,10 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task Validate_ReturnsValid_BasicUseCase()
+        public async Task Validate_ReturnsValid_BaselineUsecase()
         {
-            var request = RequestHelper.BuildRequest("https://encounter.dndgen.com/api/v1/encounter/Temperate/Plains/Day/level/1/validate");
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
@@ -32,6 +34,278 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
 
             var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
             Assert.That(body, Is.True);
+        }
+
+        private string GetUrl(
+            string temperature = EnvironmentConstants.Temperatures.Temperate,
+            string environment = EnvironmentConstants.Plains,
+            string timeOfDay = EnvironmentConstants.TimesOfDay.Day,
+            int level = 1,
+            string query = "")
+        {
+            var url = $"https://encounter.dndgen.com/api/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/validate";
+            if (query.Any())
+                url += "?" + query;
+
+            return url;
+        }
+
+        [TestCase(EnvironmentConstants.Temperatures.Cold)]
+        [TestCase(EnvironmentConstants.Temperatures.Temperate)]
+        [TestCase(EnvironmentConstants.Temperatures.Warm)]
+        public async Task Validate_ReturnsValid_Temperature(string temperature)
+        {
+            var url = GetUrl(temperature: temperature);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, temperature, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsInvalid_Temperature(string temperature)
+        {
+            var url = GetUrl(temperature: temperature);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, temperature, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
+        }
+
+        [TestCase(EnvironmentConstants.Aquatic)]
+        [TestCase(EnvironmentConstants.Civilized)]
+        [TestCase(EnvironmentConstants.Desert)]
+        [TestCase(EnvironmentConstants.Hills)]
+        [TestCase(EnvironmentConstants.Marsh)]
+        [TestCase(EnvironmentConstants.Mountain)]
+        [TestCase(EnvironmentConstants.Plains)]
+        [TestCase(EnvironmentConstants.Underground)]
+        public async Task Validate_ReturnsValid_Environment(string environment)
+        {
+            var url = GetUrl(environment: environment);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, environment, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsInvalid_Environment(string environment)
+        {
+            var url = GetUrl(environment: environment);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, environment, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
+        }
+
+        [TestCase(EnvironmentConstants.TimesOfDay.Day)]
+        [TestCase(EnvironmentConstants.TimesOfDay.Night)]
+        public async Task Validate_ReturnsValid_TimeOfDay(string timeOfDay)
+        {
+            var url = GetUrl(timeOfDay: timeOfDay);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, timeOfDay, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsInvalid_TimeOfDay(string timeOfDay)
+        {
+            var url = GetUrl(timeOfDay: timeOfDay);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, timeOfDay, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
+        }
+
+        [TestCase(EncounterSpecifications.MinimumLevel)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        [TestCase(23)]
+        [TestCase(24)]
+        [TestCase(25)]
+        [TestCase(26)]
+        [TestCase(27)]
+        [TestCase(28)]
+        [TestCase(29)]
+        [TestCase(EncounterSpecifications.MaximumLevel, Ignore = "There are no actual encounters with average level of 30")]
+        public async Task Validate_ReturnsValid_Level(int level)
+        {
+            var url = GetUrl(level: level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase(0)]
+        [TestCase(EncounterSpecifications.MaximumLevel)]
+        [TestCase(EncounterSpecifications.MaximumLevel + 1)]
+        public async Task Validate_ReturnsInvalid_Level(int level)
+        {
+            var url = GetUrl(level: level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
+        }
+
+        [Test]
+        public async Task Validate_ReturnsValid_AllowAquatic_Default()
+        {
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task Validate_ReturnsValid_AllowAquatic(bool allowAquatic)
+        {
+            var url = GetUrl(query: $"allowAquatic={allowAquatic}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsInvalid_AllowAquatic(string allowAquatic)
+        {
+            var url = GetUrl(query: $"allowAquatic={allowAquatic}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
+        }
+
+        [Test]
+        public async Task Validate_ReturnsValid_AllowUnderground_Default()
+        {
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public async Task Validate_ReturnsValid_AllowUnderground(bool allowUnderground)
+        {
+            var url = GetUrl(query: $"allowUnderground={allowUnderground}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsInvalid_AllowUnderground(string allowUnderground)
+        {
+            var url = GetUrl(query: $"allowUnderground={allowUnderground}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.False);
         }
     }
 }

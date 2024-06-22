@@ -5,9 +5,9 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Helpers
 {
     public static class RequestHelper
     {
-        public static HttpRequestData BuildRequest(string url)
+        public static HttpRequestData BuildRequest(string url, IServiceProvider serviceProvider)
         {
-            var context = new FakeFunctionContext();
+            var context = new FakeFunctionContext { InstanceServices = serviceProvider };
             var request = new FakeHttpRequestData(context, new Uri(url));
 
             return request;
