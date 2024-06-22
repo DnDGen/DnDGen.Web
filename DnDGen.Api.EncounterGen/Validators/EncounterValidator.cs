@@ -99,8 +99,7 @@ namespace DnDGen.Api.EncounterGen.Validators
                 CreatureDataConstants.Types.Vermin,
             };
 
-            var comparer = EqualityComparer<string>.Create((s, t) => s.Equals(t, StringComparison.OrdinalIgnoreCase));
-            return filters.Intersect(creatureTypes, comparer);
+            return creatureTypes.Where(ct => filters.Any(f => f.Equals(ct, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Fakes
         }
 
         public override HttpStatusCode StatusCode { get; set; }
-        public override HttpHeadersCollection Headers { get; set; } = new HttpHeadersCollection();
+        public override HttpHeadersCollection Headers { get; set; } = [];
         public override Stream Body { get; set; } = new MemoryStream();
         public override HttpCookies Cookies { get; }
     }
