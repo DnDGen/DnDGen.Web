@@ -6,7 +6,7 @@ namespace DnDGen.Api.EncounterGen.Validators
 {
     public static class EncounterValidator
     {
-        public static (bool Valid, string Error, EncounterSpecifications EncounterSpecifications) GetValid(
+        public static EncounterSpecifications GetSpecifications(
             HttpRequestData request,
             string temperature,
             string environment,
@@ -17,13 +17,17 @@ namespace DnDGen.Api.EncounterGen.Validators
 
             var validAllowAquatic = bool.TryParse(request.Query["allowAquatic"], out var allowAquatic);
             var validAllowUnderground = bool.TryParse(request.Query["allowUnderground"], out var allowUnderground);
-            var creatureTypeFilters = request.Query["creatureTypeFilters"]?.Split(',') ?? [];
+            var creatureTypeFilters = request.Query.GetValues("creatureTypeFilters") ?? [];
 
             if (!validAllowAquatic)
+            {
                 allowAquatic = false;
+            }
 
             if (!validAllowUnderground)
+            {
                 allowUnderground = false;
+            }
 
             spec.Environment = GetEnvironment(environment);
             spec.Temperature = GetTemperature(temperature);
@@ -33,8 +37,7 @@ namespace DnDGen.Api.EncounterGen.Validators
             spec.AllowUnderground = allowUnderground;
             spec.CreatureTypeFilters = GetCreatureTypeFilters(creatureTypeFilters);
 
-            var valid = spec.IsValid();
-            return (valid, string.Empty, spec);
+            return spec;
         }
 
         private static string GetEnvironment(string environment)

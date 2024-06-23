@@ -247,7 +247,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
 
         [TestCase("")]
         [TestCase("Invalid")]
-        public async Task Validate_ReturnsInvalid_AllowAquatic(string allowAquatic)
+        public async Task Validate_ReturnsValid_AllowAquatic_InvalidValue(string allowAquatic)
         {
             var url = GetUrl(query: $"allowAquatic={allowAquatic}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
@@ -258,7 +258,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
-            Assert.That(body, Is.False);
+            Assert.That(body, Is.True);
         }
 
         [Test]
@@ -294,7 +294,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
 
         [TestCase("")]
         [TestCase("Invalid")]
-        public async Task Validate_ReturnsInvalid_AllowUnderground(string allowUnderground)
+        public async Task Validate_ReturnsValid_AllowUnderground_InvalidValue(string allowUnderground)
         {
             var url = GetUrl(query: $"allowUnderground={allowUnderground}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
@@ -305,7 +305,113 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [Test]
+        public async Task Validate_ReturnsValid_CreatureTypeFilters_Default()
+        {
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase(CreatureDataConstants.Types.Aberration, EnvironmentConstants.Plains, 10)]
+        [TestCase(CreatureDataConstants.Types.Animal)]
+        [TestCase(CreatureDataConstants.Types.Construct)]
+        [TestCase(CreatureDataConstants.Types.Dragon, EnvironmentConstants.Mountain, 10)]
+        [TestCase(CreatureDataConstants.Types.Elemental)]
+        [TestCase(CreatureDataConstants.Types.Fey, EnvironmentConstants.Forest, 10)]
+        [TestCase(CreatureDataConstants.Types.Giant, EnvironmentConstants.Hills, 10)]
+        [TestCase(CreatureDataConstants.Types.Humanoid)]
+        [TestCase(CreatureDataConstants.Types.MagicalBeast)]
+        [TestCase(CreatureDataConstants.Types.MonstrousHumanoid, EnvironmentConstants.Plains, 11)]
+        [TestCase(CreatureDataConstants.Types.Ooze, EnvironmentConstants.Underground, 7)]
+        [TestCase(CreatureDataConstants.Types.Outsider)]
+        [TestCase(CreatureDataConstants.Types.Plant, EnvironmentConstants.Marsh, 6)]
+        [TestCase(CreatureDataConstants.Types.Undead)]
+        [TestCase(CreatureDataConstants.Types.Vermin)]
+        public async Task Validate_ReturnsValid_CreatureTypeFilters(string creatureType, string environment = EnvironmentConstants.Plains, int level = 1)
+        {
+            var url = GetUrl(query: $"creatureTypeFilters={creatureType}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, environment, EnvironmentConstants.TimesOfDay.Day, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase(CreatureDataConstants.Types.Aberration, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Dragon, EnvironmentConstants.Mountain, 1)]
+        [TestCase(CreatureDataConstants.Types.Dragon, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Dragon, EnvironmentConstants.Plains, 10)]
+        [TestCase(CreatureDataConstants.Types.Fey, EnvironmentConstants.Forest, 1)]
+        [TestCase(CreatureDataConstants.Types.Fey, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Fey, EnvironmentConstants.Plains, 10)]
+        [TestCase(CreatureDataConstants.Types.Giant, EnvironmentConstants.Hills, 1)]
+        [TestCase(CreatureDataConstants.Types.Giant, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Giant, EnvironmentConstants.Plains, 10)]
+        [TestCase(CreatureDataConstants.Types.MonstrousHumanoid, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Ooze, EnvironmentConstants.Underground, 1)]
+        [TestCase(CreatureDataConstants.Types.Ooze, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Ooze, EnvironmentConstants.Plains, 7)]
+        [TestCase(CreatureDataConstants.Types.Plant, EnvironmentConstants.Marsh, 1)]
+        [TestCase(CreatureDataConstants.Types.Plant, EnvironmentConstants.Plains, 1)]
+        [TestCase(CreatureDataConstants.Types.Plant, EnvironmentConstants.Plains, 6)]
+        public async Task Validate_ReturnsInvalid_CreatureTypeFilters(string creatureType, string environment, int level)
+        {
+            var url = GetUrl(query: $"creatureTypeFilters={creatureType}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, environment, EnvironmentConstants.TimesOfDay.Day, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
             Assert.That(body, Is.False);
+        }
+
+        [Test]
+        public async Task Validate_ReturnsValid_CreatureTypeFilters_Multiple()
+        {
+            var url = GetUrl(query: $"creatureTypeFilters=humanoid&creatureTypeFilters=animal");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
+        }
+
+        [TestCase("")]
+        [TestCase("Invalid")]
+        public async Task Validate_ReturnsValid_CreatureTypeFilters_InvalidValue(string creatureType)
+        {
+            var url = GetUrl(query: $"creatureTypeFilters={creatureType}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.True);
         }
     }
 }

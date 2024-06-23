@@ -46,17 +46,17 @@ namespace DnDGen.Api.EncounterGen.Functions
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateFunction.Run) processed a request.");
 
-            var validatorResult = EncounterValidator.GetValid(req, temperature, environment, timeOfDay, level);
-            if (!validatorResult.Valid)
+            var spec = EncounterValidator.GetSpecifications(req, temperature, environment, timeOfDay, level);
+            if (!spec.IsValid())
             {
-                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+                _logger.LogError($"Parameters are not a valid combination. Valid specification: {spec.Description}");
 
                 var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
-                await invalidResponse.WriteAsJsonAsync(validatorResult.Valid);
+                await invalidResponse.WriteAsJsonAsync(false);
                 return invalidResponse;
             }
 
-            var compatible = _verifier.ValidEncounterExists(validatorResult.EncounterSpecifications);
+            var compatible = _verifier.ValidEncounterExists(spec);
             _logger.LogInformation($"Encounter Validity: {compatible}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);

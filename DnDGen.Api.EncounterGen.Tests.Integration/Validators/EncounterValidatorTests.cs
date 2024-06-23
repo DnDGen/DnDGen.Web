@@ -7,21 +7,21 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Validators
     internal class EncounterValidatorTests : IntegrationTests
     {
         [Test]
-        public void GetValid_ReturnsValidEncounterSpec()
+        public void GetSpecifications_ReturnsValidEncounterSpec()
         {
             var url = GetUrl();
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.True);
-            Assert.That(result.EncounterSpecifications.CreatureTypeFilters, Is.Not.Null.And.Empty);
-            Assert.That(result.EncounterSpecifications.CreatureTypeFilters.Any(), Is.False);
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.CreatureTypeFilters, Is.Not.Null.And.Empty);
+            Assert.That(spec.CreatureTypeFilters.Any(), Is.False);
+            Assert.That(spec.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
         }
 
         private string GetUrl(
@@ -39,107 +39,103 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Validators
         }
 
         [Test]
-        public void Validate_ReturnsValid_AllowAquatic_Default()
+        public void GetSpecifications_ReturnsValid_AllowAquatic_Default()
         {
             var url = GetUrl();
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.True);
-            Assert.That(result.EncounterSpecifications.AllowAquatic, Is.False);
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowAquatic, Is.False);
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Validate_ReturnsValid_AllowAquatic(bool allowAquatic)
+        public void GetSpecifications_ReturnsValid_AllowAquatic(bool allowAquatic)
         {
             var url = GetUrl(query: $"allowAquatic={allowAquatic}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.True);
-            Assert.That(result.EncounterSpecifications.AllowAquatic, Is.EqualTo(allowAquatic));
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowAquatic, Is.EqualTo(allowAquatic));
         }
 
         [TestCase("")]
         [TestCase("Invalid")]
-        public void Validate_ReturnsInvalid_AllowAquatic(string allowAquatic)
+        public void GetSpecifications_ReturnsInvalid_AllowAquatic(string allowAquatic)
         {
             var url = GetUrl(query: $"allowAquatic={allowAquatic}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.False);
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowAquatic, Is.False);
         }
 
         [Test]
-        public void Validate_ReturnsValid_AllowUnderground_Default()
+        public void GetSpecifications_ReturnsValid_AllowUnderground_Default()
         {
             var url = GetUrl();
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.True);
-            Assert.That(result.EncounterSpecifications.AllowUnderground, Is.False);
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowUnderground, Is.False);
         }
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Validate_ReturnsValid_AllowUnderground(bool allowUnderground)
+        public void GetSpecifications_ReturnsValid_AllowUnderground(bool allowUnderground)
         {
             var url = GetUrl(query: $"allowUnderground={allowUnderground}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.True);
-            Assert.That(result.EncounterSpecifications.AllowUnderground, Is.EqualTo(allowUnderground));
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowUnderground, Is.EqualTo(allowUnderground));
         }
 
         [TestCase("")]
         [TestCase("Invalid")]
-        public void Validate_ReturnsInvalid_AllowUnderground(string allowUnderground)
+        public void GetSpecifications_ReturnsInvalid_AllowUnderground(string allowUnderground)
         {
             var url = GetUrl(query: $"allowUnderground={allowUnderground}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var result = EncounterValidator.GetValid(
+            var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(result.Valid, Is.False);
-            Assert.That(result.EncounterSpecifications.Description, Is.EqualTo("Level 1 Temperate Plains Day"));
+            Assert.That(spec.IsValid(), Is.True);
+            Assert.That(spec.AllowUnderground, Is.False);
         }
     }
 }
