@@ -1606,6 +1606,69 @@
 									"response": []
 								},
 								{
+									"name": "Level 31 is Invalid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns invalid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.false;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "31"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Level 10 is Valid",
 									"event": [
 										{
@@ -1793,69 +1856,6 @@
 										}
 									},
 									"response": []
-								},
-								{
-									"name": "Level 31 is Invalid",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns invalid\", function () {\r",
-													"    var valid = pm.response.json();\r",
-													"    pm.expect(valid).to.be.false;\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
-											"host": [
-												"encounter",
-												"dndgen",
-												"com"
-											],
-											"path": [
-												"api",
-												"v1",
-												"encounter",
-												":temperature",
-												":environment",
-												":timeOfDay",
-												"level",
-												":level",
-												"validate"
-											],
-											"variable": [
-												{
-													"key": "temperature",
-													"value": "temperate"
-												},
-												{
-													"key": "environment",
-													"value": "plains"
-												},
-												{
-													"key": "timeOfDay",
-													"value": "day"
-												},
-												{
-													"key": "level",
-													"value": "31"
-												}
-											]
-										}
-									},
-									"response": []
 								}
 							]
 						},
@@ -1926,7 +1926,7 @@
 									"response": []
 								},
 								{
-									"name": "Allow Aquatic is Valid",
+									"name": "Allow Aquatic is Valid Copy",
 									"event": [
 										{
 											"listen": "test",
@@ -2064,7 +2064,7 @@
 									"response": []
 								},
 								{
-									"name": "Invalid Allow Aquatic is Invalid",
+									"name": "Invalid Allow Aquatic is Valid",
 									"event": [
 										{
 											"listen": "test",
@@ -2270,6 +2270,75 @@
 									"response": []
 								},
 								{
+									"name": "Invalid Allow Underground is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowUnderground=invalid",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "allowUnderground",
+													"value": "invalid"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Do Not Allow Underground is Valid",
 									"event": [
 										{
@@ -2337,9 +2406,14 @@
 										}
 									},
 									"response": []
-								},
+								}
+							]
+						},
+						{
+							"name": "Creature Type Filters",
+							"item": [
 								{
-									"name": "Invalid Allow Underground is Invalid",
+									"name": "Default Filters are Valid",
 									"event": [
 										{
 											"listen": "test",
@@ -2348,9 +2422,9 @@
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
-													"pm.test(\"Returns invalid\", function () {\r",
+													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
-													"    pm.expect(valid).to.be.false;\r",
+													"    pm.expect(valid).to.be.true;\r",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2362,7 +2436,70 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowUnderground=invalid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Aberration is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=aberration",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -2381,7 +2518,1115 @@
 											],
 											"query": [
 												{
-													"key": "allowUnderground",
+													"key": "creatureTypeFilters",
+													"value": "aberration"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Animal is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=animal",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "animal"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Construct is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=construct",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "construct"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Dragon is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=dragon",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "dragon"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Elemental is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=elemental",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "elemental"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Fey is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=fey",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "fey"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Giant is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=giant",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "giant"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Humanoid is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=humanoid",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "humanoid"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Magical Beast is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=magical beast",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "magical beast"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Monstrous Humanoid is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=monstrous humanoid",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "monstrous humanoid"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Ooze is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=ooze",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "ooze"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Outsider is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=outsider",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "outsider"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Plant is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=plant",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "plant"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Undead is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=undead",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "undead"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Vermin is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=vermin",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "vermin"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Multiple Filters are Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
+													"value": "aberration"
+												},
+												{
+													"key": "creatureTypeFilters",
+													"value": "humanoid"
+												}
+											],
+											"variable": [
+												{
+													"key": "temperature",
+													"value": "temperate"
+												},
+												{
+													"key": "environment",
+													"value": "plains"
+												},
+												{
+													"key": "timeOfDay",
+													"value": "day"
+												},
+												{
+													"key": "level",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Invalid Filter is Valid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Returns valid\", function () {\r",
+													"    var valid = pm.response.json();\r",
+													"    pm.expect(valid).to.be.true;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=invalid",
+											"host": [
+												"encounter",
+												"dndgen",
+												"com"
+											],
+											"path": [
+												"api",
+												"v1",
+												"encounter",
+												":temperature",
+												":environment",
+												":timeOfDay",
+												"level",
+												":level",
+												"validate"
+											],
+											"query": [
+												{
+													"key": "creatureTypeFilters",
 													"value": "invalid"
 												}
 											],
