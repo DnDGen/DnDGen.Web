@@ -413,5 +413,121 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
             var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
             Assert.That(body, Is.True);
         }
+
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Aberration)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Aberration, CreatureDataConstants.Types.Vermin)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Animal)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Construct)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Dragon)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Elemental)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Fey)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Giant)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Humanoid)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.MagicalBeast)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.MonstrousHumanoid)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Plant)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 2, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 10, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Aquatic, 20, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(false, EnvironmentConstants.Aquatic, 20, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Vermin, CreatureDataConstants.Types.Animal, CreatureDataConstants.Types.Ooze)]
+        [TestCase(true, EnvironmentConstants.Civilized, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Civilized, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Desert, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Desert, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, true, true)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, true, true)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Aberration)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Animal)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Construct)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Dragon)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Elemental)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Fey)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Giant)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Humanoid)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.MagicalBeast)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.MonstrousHumanoid)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Ooze)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Outsider)]
+        [TestCase(false, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Plant)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Undead)]
+        [TestCase(true, EnvironmentConstants.Forest, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Vermin)]
+        [TestCase(true, EnvironmentConstants.Forest, 2, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.MonstrousHumanoid)]
+        [TestCase(true, EnvironmentConstants.Forest, 3, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Fey)]
+        [TestCase(true, EnvironmentConstants.Forest, 3, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Plant)]
+        [TestCase(true, EnvironmentConstants.Hills, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Hills, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Hills, 7, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Giant)]
+        [TestCase(true, EnvironmentConstants.Mountain, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Mountain, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Plains, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Plains, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Underground, 1, EnvironmentConstants.Temperatures.Cold, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Underground, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false)]
+        [TestCase(true, EnvironmentConstants.Underground, 7, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Aberration)]
+        [TestCase(true, EnvironmentConstants.Underground, 7, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.TimesOfDay.Day, false, false,
+            CreatureDataConstants.Types.Ooze)]
+        public async Task BUG_EncounterValidatesWithoutError(bool valid,
+            string environment,
+            int level,
+            string temperature,
+            string timeOfDay,
+            bool allowAquatic,
+            bool allowUnderground,
+            params string[] creatureTypes)
+        {
+            var query = $"allowAquatic={allowAquatic}";
+            query += $"&allowUnderground={allowUnderground}";
+
+            foreach (var creatureType in creatureTypes)
+            {
+                query += $"&creatureTypeFilters={creatureType}";
+            }
+
+            var url = GetUrl(temperature, environment, timeOfDay, level, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, temperature, environment, timeOfDay, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var body = Convert.ToBoolean(StreamHelper.Read(response.Body));
+            Assert.That(body, Is.EqualTo(valid));
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Helpers
             context.SetupProperty(c => c.InstanceServices, serviceProvider);
 
             var request = new Mock<HttpRequestData>(context.Object);
-            request.SetupProperty(r => r.Query);
+            request.SetupGet(r => r.Query).Returns(new NameValueCollection());
 
             if (query?.Count > 0)
             {
