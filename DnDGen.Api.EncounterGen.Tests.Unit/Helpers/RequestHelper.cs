@@ -1,41 +1,49 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using Azure.Core.Serialization;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System.Collections.Specialized;
 
 namespace DnDGen.Api.EncounterGen.Tests.Unit.Helpers
 {
-    public static class RequestHelper
+    public class RequestHelper
     {
-        public static HttpRequestData BuildRequest(NameValueCollection? query = null)
+        private readonly Mock<FunctionContext> mockContext;
+
+        public RequestHelper()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddScoped<ILoggerFactory, LoggerFactory>();
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var mockServiceProvider = new Mock<IServiceProvider>();
+            var options = Options.Create(new WorkerOptions { Serializer = new JsonObjectSerializer() });
+            mockServiceProvider.Setup(p => p.GetService(typeof(IOptions<WorkerOptions>))).Returns(options);
 
-            var context = new Mock<FunctionContext>();
-            context.SetupProperty(c => c.InstanceServices, serviceProvider);
+            mockContext = new Mock<FunctionContext>();
+            mockContext.SetupProperty(c => c.InstanceServices, mockServiceProvider.Object);
+        }
 
-            var request = new Mock<HttpRequestData>(context.Object);
-            request.SetupGet(r => r.Query).Returns(new NameValueCollection());
+        public HttpRequestData BuildRequest(NameValueCollection? query = null)
+        {
+            var request = new Mock<HttpRequestData>(mockContext.Object);
+            request.SetupGet(r => r.Query).Returns([]);
 
             if (query?.Count > 0)
             {
                 request.SetupGet(r => r.Query).Returns(query!);
             }
 
-            request.Setup(r => r.CreateResponse()).Returns(() =>
-            {
-                var response = new Mock<HttpResponseData>(context.Object);
-                response.SetupProperty(r => r.Headers, new HttpHeadersCollection());
-                response.SetupProperty(r => r.StatusCode);
-                response.SetupProperty(r => r.Body, new MemoryStream());
-                return response.Object;
-            });
+            request.Setup(r => r.CreateResponse()).Returns(BuildResponse);
 
             return request.Object;
+        }
+
+        public HttpResponseData BuildResponse()
+        {
+            var response = new Mock<HttpResponseData>(mockContext.Object);
+            response.SetupProperty(r => r.Headers, []);
+            response.SetupProperty(r => r.StatusCode);
+            response.SetupProperty(r => r.Body, new MemoryStream());
+
+            return response.Object;
         }
     }
 }

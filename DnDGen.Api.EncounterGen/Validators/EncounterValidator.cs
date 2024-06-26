@@ -6,6 +6,40 @@ namespace DnDGen.Api.EncounterGen.Validators
 {
     public static class EncounterValidator
     {
+        public static IEnumerable<string> Temperatures = [
+                EnvironmentConstants.Temperatures.Temperate,
+                EnvironmentConstants.Temperatures.Warm,
+                EnvironmentConstants.Temperatures.Cold];
+        public static IEnumerable<string> Environments = [
+                EnvironmentConstants.Aquatic,
+                EnvironmentConstants.Civilized,
+                EnvironmentConstants.Desert,
+                EnvironmentConstants.Forest,
+                EnvironmentConstants.Hills,
+                EnvironmentConstants.Marsh,
+                EnvironmentConstants.Mountain,
+                EnvironmentConstants.Plains,
+                EnvironmentConstants.Underground];
+        public static IEnumerable<string> TimesOfDay = [
+                EnvironmentConstants.TimesOfDay.Day,
+                EnvironmentConstants.TimesOfDay.Night];
+        public static IEnumerable<string> CreatureTypeFilters = [
+                CreatureDataConstants.Types.Aberration,
+                CreatureDataConstants.Types.Animal,
+                CreatureDataConstants.Types.Construct,
+                CreatureDataConstants.Types.Dragon,
+                CreatureDataConstants.Types.Elemental,
+                CreatureDataConstants.Types.Fey,
+                CreatureDataConstants.Types.Giant,
+                CreatureDataConstants.Types.Humanoid,
+                CreatureDataConstants.Types.MagicalBeast,
+                CreatureDataConstants.Types.MonstrousHumanoid,
+                CreatureDataConstants.Types.Ooze,
+                CreatureDataConstants.Types.Outsider,
+                CreatureDataConstants.Types.Plant,
+                CreatureDataConstants.Types.Undead,
+                CreatureDataConstants.Types.Vermin];
+
         public static EncounterSpecifications GetSpecifications(
             HttpRequestData request,
             string temperature,
@@ -42,67 +76,22 @@ namespace DnDGen.Api.EncounterGen.Validators
 
         private static string GetEnvironment(string environment)
         {
-            var environments = new[]
-            {
-                EnvironmentConstants.Aquatic,
-                EnvironmentConstants.Civilized,
-                EnvironmentConstants.Desert,
-                EnvironmentConstants.Forest,
-                EnvironmentConstants.Hills,
-                EnvironmentConstants.Marsh,
-                EnvironmentConstants.Mountain,
-                EnvironmentConstants.Plains,
-                EnvironmentConstants.Underground,
-            };
-
-            return environments.FirstOrDefault(e => e.Equals(environment, StringComparison.OrdinalIgnoreCase));
+            return Environments.FirstOrDefault(e => e.Equals(environment, StringComparison.OrdinalIgnoreCase));
         }
 
         private static string GetTemperature(string temperature)
         {
-            var temperatures = new[]
-            {
-                EnvironmentConstants.Temperatures.Temperate,
-                EnvironmentConstants.Temperatures.Warm,
-                EnvironmentConstants.Temperatures.Cold,
-            };
-
-            return temperatures.FirstOrDefault(t => t.Equals(temperature, StringComparison.OrdinalIgnoreCase));
+            return Temperatures.FirstOrDefault(t => t.Equals(temperature, StringComparison.OrdinalIgnoreCase));
         }
 
         private static string GetTimeOfDay(string timeOfDay)
         {
-            var timesOfDay = new[]
-            {
-                EnvironmentConstants.TimesOfDay.Day,
-                EnvironmentConstants.TimesOfDay.Night,
-            };
-
-            return timesOfDay.FirstOrDefault(t => t.Equals(timeOfDay, StringComparison.OrdinalIgnoreCase));
+            return TimesOfDay.FirstOrDefault(t => t.Equals(timeOfDay, StringComparison.OrdinalIgnoreCase));
         }
 
-        private static IEnumerable<string> GetCreatureTypeFilters(string[] filters)
+        private static IEnumerable<string> GetCreatureTypeFilters(IEnumerable<string> filters)
         {
-            var creatureTypes = new[]
-            {
-                CreatureDataConstants.Types.Aberration,
-                CreatureDataConstants.Types.Animal,
-                CreatureDataConstants.Types.Construct,
-                CreatureDataConstants.Types.Dragon,
-                CreatureDataConstants.Types.Elemental,
-                CreatureDataConstants.Types.Fey,
-                CreatureDataConstants.Types.Giant,
-                CreatureDataConstants.Types.Humanoid,
-                CreatureDataConstants.Types.MagicalBeast,
-                CreatureDataConstants.Types.MonstrousHumanoid,
-                CreatureDataConstants.Types.Ooze,
-                CreatureDataConstants.Types.Outsider,
-                CreatureDataConstants.Types.Plant,
-                CreatureDataConstants.Types.Undead,
-                CreatureDataConstants.Types.Vermin,
-            };
-
-            return creatureTypes.Where(ct => filters.Any(f => f.Equals(ct, StringComparison.OrdinalIgnoreCase)));
+            return CreatureTypeFilters.Where(ct => filters.Any(f => f.Equals(ct, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

@@ -8,10 +8,18 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
 {
     internal class EncounterValidatorTests
     {
+        private RequestHelper requestHelper;
+
+        [SetUp]
+        public void Setup()
+        {
+            requestHelper = new RequestHelper();
+        }
+
         [Test]
         public void GetSpecifications_ReturnsEncounterSpec()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -43,7 +51,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [TestCase("invalid", "")]
         public void GetSpecifications_ReturnsEncounterSpec_Temperature(string input, string expected)
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 input,
@@ -83,7 +91,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [TestCase("invalid", "")]
         public void GetSpecifications_ReturnsEncounterSpec_Environment(string input, string expected)
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -105,7 +113,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [TestCase("invalid", "")]
         public void GetSpecifications_ReturnsEncounterSpec_TimeOfDay(string input, string expected)
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -153,7 +161,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [TestCase(EncounterSpecifications.MaximumLevel + 1)]
         public void GetSpecifications_ReturnsEncounterSpec_TimeOfDay(int input)
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -168,7 +176,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [Test]
         public void GetSpecifications_ReturnsEncounterSpec_AllowAquatic_Default()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -187,7 +195,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowAquatic", bool.TrueString }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -206,7 +214,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowAquatic", bool.FalseString }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -226,7 +234,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowAquatic", allowAquatic }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -241,7 +249,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
         [Test]
         public void GetSpecifications_ReturnsEncounterSpec_AllowUnderground_Default()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -260,7 +268,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowUnderground", bool.TrueString }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -279,7 +287,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowUnderground", bool.FalseString }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -299,7 +307,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "allowUnderground", allowUnderground }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -362,7 +370,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "creatureTypeFilters", input }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -382,7 +390,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
             {
                 { "creatureTypeFilters", input }
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,
@@ -402,7 +410,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
                 { "creatureTypeFilters", CreatureDataConstants.Types.Undead },
                 { "creatureTypeFilters", CreatureDataConstants.Types.Ooze },
             };
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
             var spec = EncounterValidator.GetSpecifications(
                 request,
                 EnvironmentConstants.Temperatures.Temperate,

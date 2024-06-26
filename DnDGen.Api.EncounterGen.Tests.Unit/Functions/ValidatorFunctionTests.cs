@@ -16,6 +16,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         private ValidateFunction _function;
         private Mock<IEncounterVerifier> mockEncounterVerifier;
         private Mock<ILogger<ValidateFunction>> mockLogger;
+        private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
@@ -31,12 +32,13 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            mockLoggerFactory.Setup(f => f.CreateLogger("ValidateFunction")).Returns(mockLogger.Object);
+            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.EncounterGen.Functions.ValidateFunction")).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<IEncounterVerifier>()).Returns(mockEncounterVerifier.Object);
 
             _function = new ValidateFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
+            requestHelper = new RequestHelper();
         }
 
         [TestCase(true)]
@@ -48,7 +50,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -73,7 +75,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day, allowing aquatic")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -98,7 +100,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day, allowing underground")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -123,7 +125,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day, allowing [Humanoid]")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -149,7 +151,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day, allowing [Animal, Humanoid]")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -177,7 +179,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                     s.Description == "Level 1 Temperate Plains Day, allowing aquatic, allowing underground, allowing [Animal, Humanoid]")))
                 .Returns(validity);
 
-            var request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -192,7 +194,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         [Test]
         public async Task Run_ReturnsTheEncounterValidity_WhenTemperatureInvalid()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
 
             var response = await _function.Run(request, "invalid", EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -207,7 +209,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         [Test]
         public async Task Run_ReturnsTheEncounterValidity_WhenEnvironmentInvalid()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, "invalid", EnvironmentConstants.TimesOfDay.Day, 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -222,7 +224,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         [Test]
         public async Task Run_ReturnsTheEncounterValidity_WhenTimeOfDayInvalid()
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, "invalid", 1);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -238,7 +240,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         [TestCase(EncounterSpecifications.MaximumLevel + 1)]
         public async Task Run_ReturnsTheEncounterValidity_WhenLevelInvalid(int badLevel)
         {
-            var request = RequestHelper.BuildRequest();
+            var request = requestHelper.BuildRequest();
 
             var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, badLevel);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
