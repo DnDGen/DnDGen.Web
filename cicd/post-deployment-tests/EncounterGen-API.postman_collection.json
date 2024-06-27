@@ -5235,7 +5235,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(2);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -5304,7 +5304,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(20);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -5373,7 +5373,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(29);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -5568,7 +5568,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(10);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -6435,7 +6435,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(10);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -6490,7 +6490,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -6660,7 +6660,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(10);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -6707,7 +6707,7 @@
 												},
 												{
 													"key": "environment",
-													"value": "plains"
+													"value": "mountain"
 												},
 												{
 													"key": "timeOfDay",
@@ -6715,7 +6715,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -6810,7 +6810,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(10);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -6857,7 +6857,7 @@
 												},
 												{
 													"key": "environment",
-													"value": "plains"
+													"value": "forest"
 												},
 												{
 													"key": "timeOfDay",
@@ -6865,7 +6865,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -6885,7 +6885,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(10);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -6932,7 +6932,7 @@
 												},
 												{
 													"key": "environment",
-													"value": "plains"
+													"value": "hills"
 												},
 												{
 													"key": "timeOfDay",
@@ -6940,7 +6940,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -7110,7 +7110,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(11);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -7165,7 +7165,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "11"
 												}
 											]
 										}
@@ -7185,7 +7185,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(7);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -7232,7 +7232,7 @@
 												},
 												{
 													"key": "environment",
-													"value": "plains"
+													"value": "underground"
 												},
 												{
 													"key": "timeOfDay",
@@ -7240,7 +7240,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "7"
 												}
 											]
 										}
@@ -7335,7 +7335,7 @@
 													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
-													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
+													"    pm.expect(encounter.targetEncounterLevel).to.equal(6);\r",
 													"    pm.expect(encounter.averageEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.actualEncounterLevel).to.be.greaterThan(0);\r",
 													"    pm.expect(encounter.averageDifficulty).to.not.be.empty;\r",
@@ -7382,7 +7382,7 @@
 												},
 												{
 													"key": "environment",
-													"value": "plains"
+													"value": "marsh"
 												},
 												{
 													"key": "timeOfDay",
@@ -7390,7 +7390,7 @@
 												},
 												{
 													"key": "level",
-													"value": "1"
+													"value": "6"
 												}
 											]
 										}
@@ -7895,7 +7895,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Returns Swagger data\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"host\": \"character.dndgen.com\"');\r",
+							"    pm.expect(pm.response.text()).to.include('\"host\": \"encounter.dndgen.com\"');\r",
 							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/validate\");\r",
