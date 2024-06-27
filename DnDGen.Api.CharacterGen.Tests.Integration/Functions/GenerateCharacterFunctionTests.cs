@@ -1259,26 +1259,27 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var character = okResult.Value as Character;
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty, character.Summary);
+            Assert.That(character.Class.Level, Is.AtLeast(1), character.Summary);
+            Assert.That(character.Class.Summary, Is.Not.Empty, character.Summary);
+            Assert.That(character.Race.Summary, Is.Not.Empty, character.Summary);
             Assert.That(character.Abilities, Has.Count.EqualTo(6)
                 .And.ContainKey(AbilityConstants.Strength)
                 .And.ContainKey(AbilityConstants.Constitution)
                 .And.ContainKey(AbilityConstants.Dexterity)
                 .And.ContainKey(AbilityConstants.Intelligence)
                 .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
+                .And.ContainKey(AbilityConstants.Charisma), character.Summary);
 
-            var sigma = 20;
-            var abilityValues = character.Abilities.Values.Select(a => a.Value).OrderBy(v => v).ToArray();
-            Assert.That(abilityValues[0], Is.EqualTo(42).Within(sigma));
-            Assert.That(abilityValues[1], Is.EqualTo(96).Within(sigma));
-            Assert.That(abilityValues[2], Is.EqualTo(600).Within(sigma));
-            Assert.That(abilityValues[3], Is.EqualTo(1337).Within(sigma));
-            Assert.That(abilityValues[4], Is.EqualTo(9266).Within(sigma));
-            Assert.That(abilityValues[5], Is.EqualTo(90210).Within(sigma));
+            //INFO: 10 for Ogre Mage (Str), 8 for Half-Dragon (Str), 5 for leveling up (every 4 levels)
+            var sigma = 10 + 8 + 5;
+            var abilities = character.Abilities.Values.OrderBy(a => a.Value).ToArray();
+            Assert.That(abilities[0].Value, Is.EqualTo(42).Within(sigma), $"{character.Summary}: {abilities[0].Name}");
+            Assert.That(abilities[1].Value, Is.EqualTo(96).Within(sigma), $"{character.Summary}: {abilities[1].Name}");
+            Assert.That(abilities[2].Value, Is.EqualTo(600).Within(sigma), $"{character.Summary}: {abilities[2].Name}");
+            Assert.That(abilities[3].Value, Is.EqualTo(1337).Within(sigma), $"{character.Summary}: {abilities[3].Name}");
+            Assert.That(abilities[4].Value, Is.EqualTo(9266).Within(sigma), $"{character.Summary}: {abilities[4].Name}");
+            Assert.That(abilities[5].Value, Is.EqualTo(90210).Within(sigma), $"{character.Summary}: {abilities[5].Name}");
         }
 
         [Test]
