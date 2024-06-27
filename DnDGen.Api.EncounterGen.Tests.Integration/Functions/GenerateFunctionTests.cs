@@ -567,5 +567,28 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration.Functions
             Assert.That(encounter.ActualDifficulty, Is.Not.Empty);
             Assert.That(encounter.Creatures, Is.Not.Empty);
         }
+
+        [Test]
+        public async Task BUG_JsonIsSerializedCorrectly()
+        {
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var json = StreamHelper.Read(response.Body);
+            Assert.That(json, Contains.Substring("\"description\""));
+            Assert.That(json, Contains.Substring("\"targetEncounterLevel\""));
+            Assert.That(json, Contains.Substring("\"averageEncounterLevel\""));
+            Assert.That(json, Contains.Substring("\"actualEncounterLevel\""));
+            Assert.That(json, Contains.Substring("\"averageDifficulty\""));
+            Assert.That(json, Contains.Substring("\"actualDifficulty\""));
+            Assert.That(json, Contains.Substring("\"creatures\""));
+            Assert.That(json, Contains.Substring("\"characters\""));
+            Assert.That(json, Contains.Substring("\"treasures\""));
+        }
     }
 }
