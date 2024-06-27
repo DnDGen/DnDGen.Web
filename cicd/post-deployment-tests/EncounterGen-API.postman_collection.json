@@ -1801,12 +1801,11 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns invalid\", function () {\r",
-													"    var valid = pm.response.json();\r",
-													"    pm.expect(valid).to.be.false;\r",
+													"pm.test(\"Validate - Missing level return Not Found\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"    \r",
+													"    var body = pm.response.text();\r",
+													"    pm.expect(body).to.be.empty;\r",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2070,12 +2069,10 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - invalid Allow Aquatic returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns invalid\", function () {\r",
 													"    var valid = pm.response.json();\r",
-													"    pm.expect(valid).to.be.false;\r",
+													"    pm.expect(valid).to.be.true;\r",
 													"});"
 												],
 												"type": "text/javascript",
@@ -2482,10 +2479,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Aberration creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -2689,10 +2684,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Dragon creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -2827,10 +2820,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Fey creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -2896,10 +2887,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Giant creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -3103,10 +3092,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Monstrous Humanoid creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -3172,10 +3159,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Ooze creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -3310,10 +3295,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Validate - Plant creature type returns valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns valid\", function () {\r",
 													"    var valid = pm.response.json();\r",
 													"    pm.expect(valid).to.be.true;\r",
 													"});"
@@ -5694,10 +5677,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"pm.test(\"Returns bad request\", function () {\r",
+													"pm.test(\"Generate - missing Level return Not Found\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
 													"    var body = pm.response.text();\r",
 													"    pm.expect(body).to.be.empty;\r",
 													"});"
@@ -5981,10 +5962,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Generate - invalid Allow Aquatic returns encounter\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns encounter\", function () {\r",
 													"    var encounter = pm.response.json();\r",
 													"    pm.expect(encounter.description).to.not.be.empty;\r",
 													"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",
