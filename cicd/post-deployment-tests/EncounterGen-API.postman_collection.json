@@ -3792,7 +3792,7 @@
 					"name": "Generate",
 					"item": [
 						{
-							"name": "Temperatures Copy",
+							"name": "Temperatures",
 							"item": [
 								{
 									"name": "Cold is Valid",
@@ -3818,7 +3818,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -3833,7 +3833,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -3881,7 +3881,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -3896,7 +3896,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -3944,7 +3944,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -3959,7 +3959,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4007,7 +4007,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4022,7 +4022,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4070,7 +4070,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4085,7 +4085,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4112,7 +4112,7 @@
 							]
 						},
 						{
-							"name": "Environments Copy",
+							"name": "Environments",
 							"item": [
 								{
 									"name": "Aquatic is Valid",
@@ -4138,7 +4138,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4153,7 +4153,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4201,7 +4201,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4216,7 +4216,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4264,7 +4264,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4279,7 +4279,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4327,7 +4327,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4342,7 +4342,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4390,7 +4390,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4405,7 +4405,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4453,7 +4453,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4468,7 +4468,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4516,7 +4516,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4531,7 +4531,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4579,7 +4579,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4594,7 +4594,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4642,7 +4642,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4657,7 +4657,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4705,7 +4705,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4720,7 +4720,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4768,7 +4768,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4783,7 +4783,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4810,7 +4810,7 @@
 							]
 						},
 						{
-							"name": "Times of Day Copy",
+							"name": "Times of Day",
 							"item": [
 								{
 									"name": "Day is Valid",
@@ -4836,7 +4836,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4851,7 +4851,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4899,7 +4899,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4914,7 +4914,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -4962,7 +4962,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -4977,7 +4977,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5025,7 +5025,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5040,7 +5040,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5067,7 +5067,7 @@
 							]
 						},
 						{
-							"name": "Levels Copy",
+							"name": "Levels",
 							"item": [
 								{
 									"name": "Level 1 is Valid",
@@ -5093,7 +5093,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5108,7 +5108,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5156,7 +5156,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5171,7 +5171,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5219,7 +5219,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5234,7 +5234,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5282,7 +5282,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5297,7 +5297,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5345,7 +5345,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5360,7 +5360,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5408,7 +5408,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5423,7 +5423,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5471,7 +5471,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5486,7 +5486,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5534,7 +5534,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5549,7 +5549,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5597,7 +5597,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5612,7 +5612,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5639,7 +5639,7 @@
 							]
 						},
 						{
-							"name": "Allow Aquatic Copy",
+							"name": "Allow Aquatic",
 							"item": [
 								{
 									"name": "Default Allow Aquatic Returns Valid",
@@ -5665,7 +5665,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5680,7 +5680,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -5728,7 +5728,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowAquatic=true",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowAquatic=true",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5743,7 +5743,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -5797,7 +5797,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowAquatic=false",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowAquatic=false",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5812,7 +5812,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -5866,7 +5866,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowAquatic=invalid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowAquatic=invalid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5881,7 +5881,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -5914,7 +5914,7 @@
 							]
 						},
 						{
-							"name": "Allow Underground Copy",
+							"name": "Allow Underground",
 							"item": [
 								{
 									"name": "Default Allow Underground is Valid",
@@ -5940,7 +5940,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -5955,7 +5955,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -6003,7 +6003,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowUnderground=true",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowUnderground=true",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6018,7 +6018,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6072,7 +6072,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowUnderground=invalid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowUnderground=invalid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6087,7 +6087,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6141,7 +6141,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?allowUnderground=false",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?allowUnderground=false",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6156,7 +6156,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6189,7 +6189,7 @@
 							]
 						},
 						{
-							"name": "Creature Type Filters Copy",
+							"name": "Creature Type Filters",
 							"item": [
 								{
 									"name": "Default Filters are Valid",
@@ -6215,7 +6215,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6230,7 +6230,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"variable": [
 												{
@@ -6278,7 +6278,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=aberration",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=aberration",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6293,7 +6293,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6347,7 +6347,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=animal",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=animal",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6362,7 +6362,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6416,7 +6416,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=construct",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=construct",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6431,7 +6431,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6485,7 +6485,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=dragon",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=dragon",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6500,7 +6500,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6554,7 +6554,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=elemental",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=elemental",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6569,7 +6569,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6623,7 +6623,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=fey",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=fey",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6638,7 +6638,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6692,7 +6692,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=giant",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=giant",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6707,7 +6707,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6761,7 +6761,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=humanoid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=humanoid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6776,7 +6776,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6830,7 +6830,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=magical beast",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=magical beast",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6845,7 +6845,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6899,7 +6899,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=monstrous humanoid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=monstrous humanoid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6914,7 +6914,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -6968,7 +6968,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=ooze",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=ooze",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -6983,7 +6983,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7037,7 +7037,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=outsider",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=outsider",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7052,7 +7052,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7106,7 +7106,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=plant",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=plant",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7121,7 +7121,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7175,7 +7175,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=undead",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=undead",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7190,7 +7190,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7244,7 +7244,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=vermin",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=vermin",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7259,7 +7259,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7313,7 +7313,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7328,7 +7328,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7386,7 +7386,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=invalid",
+											"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=invalid",
 											"host": [
 												"encounter",
 												"dndgen",
@@ -7401,7 +7401,7 @@
 												":timeOfDay",
 												"level",
 												":level",
-												"validate"
+												"generate"
 											],
 											"query": [
 												{
@@ -7503,18 +7503,18 @@
 							"response": []
 						},
 						{
-							"name": "Valid Parameters Have No Valid Encounters Copy",
+							"name": "Valid Parameters Have No Valid Encounters",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});\r",
-											"pm.test(\"Returns invalid\", function () {\r",
-											"    var valid = pm.response.json();\r",
-											"    pm.expect(valid).to.be.false;\r",
+											"pm.test(\"Returns bad request\", function () {\r",
+											"    var body = pm.response.text();\r",
+											"    pm.expect(body).to.be.empty;\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -7526,7 +7526,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=ooze",
+									"raw": "encounter.dndgen.com/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=ooze",
 									"host": [
 										"encounter",
 										"dndgen",
@@ -7541,7 +7541,7 @@
 										":timeOfDay",
 										"level",
 										":level",
-										"validate"
+										"generate"
 									],
 									"query": [
 										{
