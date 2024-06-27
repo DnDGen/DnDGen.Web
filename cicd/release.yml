@@ -118,18 +118,24 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml --suppress-exit-code'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
           displayName: 'Run RollGen API Tests'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml --suppress-exit-code'
+          condition: always()
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
           displayName: 'Run TreasureGen API Tests'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml --suppress-exit-code'
+          condition: always()
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
           displayName: 'Run CharacterGen API Tests'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml --suppress-exit-code'
+          condition: always()
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
           displayName: 'Run EncounterGen API Tests'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml --suppress-exit-code --insecure'
+          condition: always()
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'
+          condition: always()
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
+          condition: always()
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
