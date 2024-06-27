@@ -132,5 +132,4 @@ jobs:
           displayName: 'Publish Test Results'
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
-            mergeTestResults: true
             failTaskOnFailedTests: true
