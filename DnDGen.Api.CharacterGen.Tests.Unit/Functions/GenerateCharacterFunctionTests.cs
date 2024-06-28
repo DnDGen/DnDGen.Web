@@ -3,6 +3,7 @@ using DnDGen.Api.CharacterGen.Functions;
 using DnDGen.Api.CharacterGen.Models;
 using DnDGen.Api.CharacterGen.Repositories;
 using DnDGen.Api.CharacterGen.Tests.Unit.Helpers;
+using DnDGen.CharacterGen.Abilities;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
 using DnDGen.CharacterGen.Characters;
@@ -12,6 +13,7 @@ using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Skills;
 using DnDGen.CharacterGen.Verifiers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -512,6 +514,83 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
             mockLogger.AssertLog("Randomizers are not a valid combination.", LogLevel.Error);
+        }
+
+        [Test]
+        public async Task Run_ReturnsCharacter_SortsCharacterSkills()
+        {
+            var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
+            var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
+            var mockLevelRandomizer = new Mock<ILevelRandomizer>();
+            var mockBaseRaceRandomizer = new Mock<RaceRandomizer>();
+            var mockMetaraceRandomizer = new Mock<RaceRandomizer>();
+            var mockAbilitiesRandomizer = new Mock<IAbilitiesRandomizer>();
+
+            mockRandomizerRepository
+                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Any, null))
+                .Returns(mockAlignmentRandomizer.Object);
+
+            mockRandomizerRepository
+                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.AnyPlayer, null))
+                .Returns(mockClassNameRandomizer.Object);
+
+            mockRandomizerRepository
+                .Setup(r => r.GetLevelRandomizer(LevelRandomizerTypeConstants.Any, 0))
+                .Returns(mockLevelRandomizer.Object);
+
+            mockRandomizerRepository
+                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.AnyBase, null))
+                .Returns(mockBaseRaceRandomizer.Object);
+
+            mockRandomizerRepository
+                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.AnyMeta, false, null))
+                .Returns(mockMetaraceRandomizer.Object);
+
+            mockRandomizerRepository
+                .Setup(r => r.GetAbilitiesRandomizer(AbilitiesRandomizerTypeConstants.Raw, 0, 0, 0, 0, 0, 0, true))
+                .Returns(mockAbilitiesRandomizer.Object);
+
+            mockRandomizerVerifier
+                .Setup(v => v.VerifyCompatibility(
+                    mockAlignmentRandomizer.Object,
+                    mockClassNameRandomizer.Object,
+                    mockLevelRandomizer.Object,
+                    mockBaseRaceRandomizer.Object,
+                    mockMetaraceRandomizer.Object))
+                .Returns(true);
+
+            var character = new Character();
+            character.Alignment = new Alignment("my alignment");
+            character.Class.Level = 42;
+            character.Class.Name = "my class";
+            character.Race.BaseRace = "my base race";
+            character.Skills = new[]
+            {
+                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
+                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
+            };
+
+            mockCharacterGenerator
+                .Setup(g => g.GenerateWith(
+                    mockAlignmentRandomizer.Object,
+                    mockClassNameRandomizer.Object,
+                    mockLevelRandomizer.Object,
+                    mockBaseRaceRandomizer.Object,
+                    mockMetaraceRandomizer.Object,
+                    mockAbilitiesRandomizer.Object))
+                .Returns(character);
+
+            var result = await function.Run(request, mockLogger.Object);
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(character));
+            Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
+            mockLogger.AssertLog($"Generated Character: {character.Summary}");
         }
     }
 }

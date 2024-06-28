@@ -1,7 +1,4 @@
-﻿using CharacterGen.Abilities;
-using CharacterGen.Characters;
-using CharacterGen.Skills;
-using DnDGen.Web.App_Start;
+﻿using DnDGen.Web.App_Start;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using EncounterGen.Common;
@@ -128,47 +125,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Undead));
             Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Vermin));
             Assert.That(model.CreatureTypes.Count(), Is.EqualTo(15));
-        }
-
-        [Test]
-        public void GenerateSortsCharacterSkills()
-        {
-            var character = new Character();
-            var otherCharacter = new Character();
-            var encounter = new Encounter();
-
-            encounter.Characters = new[] { character, otherCharacter };
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            character.Skills = new[]
-            {
-                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
-                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
-            };
-
-            otherCharacter.Skills = new[]
-            {
-                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 2345 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 3456 },
-                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 4567 },
-                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 5678 },
-            };
-
-            var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.encounter, Is.EqualTo(encounter));
-
-            var firstCharacter = encounter.Characters.First();
-            var lastCharacter = encounter.Characters.Last();
-
-            Assert.That(encounter.Characters.Count(), Is.EqualTo(2));
-            Assert.That(firstCharacter, Is.Not.EqualTo(lastCharacter));
-            Assert.That(firstCharacter, Is.EqualTo(character));
-            Assert.That(firstCharacter.Skills, Is.Ordered.By("Name").Then.By("Focus"));
-            Assert.That(lastCharacter, Is.EqualTo(otherCharacter));
-            Assert.That(lastCharacter.Skills, Is.Ordered.By("Name").Then.By("Focus"));
         }
     }
 }
