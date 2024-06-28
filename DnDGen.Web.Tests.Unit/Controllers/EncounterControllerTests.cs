@@ -39,7 +39,7 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             mockDependencyFactory.Setup(f => f.Get<IEncounterVerifier>()).Returns(mockEncounterVerifier.Object);
             mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
 
-            controller = new EncounterController(mockDependencyFactory.Object);
+            controller = new EncounterController();
 
             clientId = Guid.NewGuid();
             filters = new List<string>();
@@ -49,8 +49,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [TestCase("Index")]
-        [TestCase("Generate")]
-        [TestCase("Validate")]
         public void ActionHandlesGetVerb(string methodName)
         {
             var attributes = AttributeProvider.GetAttributesFor(controller, methodName);
@@ -133,43 +131,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         }
 
         [Test]
-        public void GenerateReturnsJsonResult()
-        {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void GenerateSetsClientId()
-        {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-
-            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
-            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
-        }
-
-        [Test]
-        public void GenerateJsonReturnsGeneratedEncounter()
-        {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.encounter, Is.EqualTo(encounter));
-        }
-
-        [Test]
         public void GenerateSortsCharacterSkills()
         {
             var character = new Character();
@@ -208,105 +169,6 @@ namespace DnDGen.Web.Tests.Unit.Controllers
             Assert.That(firstCharacter.Skills, Is.Ordered.By("Name").Then.By("Focus"));
             Assert.That(lastCharacter, Is.EqualTo(otherCharacter));
             Assert.That(lastCharacter.Skills, Is.Ordered.By("Name").Then.By("Focus"));
-        }
-
-        [Test]
-        public void GenerateJsonUsesFilters()
-        {
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.encounter, Is.EqualTo(encounter));
-        }
-
-        [Test]
-        public void ValidateReturnsJsonResult()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
-
-            var result = controller.Validate(clientId, encounterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-        }
-
-        [Test]
-        public void ValidatSetsClientId()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
-
-            var result = controller.Validate(clientId, encounterSpecifications);
-            Assert.That(result, Is.InstanceOf<JsonResult>());
-
-            mockClientIdManager.Verify(m => m.SetClientID(It.IsAny<Guid>()), Times.Once);
-            mockClientIdManager.Verify(m => m.SetClientID(clientId), Times.Once);
-        }
-
-        [Test]
-        public void ValidateJsonReturnsValid()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
-
-            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.isValid, Is.True);
-        }
-
-        [Test]
-        public void ValidateJsonReturnsInvalid()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(false);
-
-            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.isValid, Is.False);
-        }
-
-        [Test]
-        public void ValidateJsonReturnsInvalidIfErrorOccurs()
-        {
-            filters.Add("filter 1");
-            filters.Add("filter 2");
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Throws<NullReferenceException>();
-
-            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.isValid, Is.False);
-        }
-
-        [Test]
-        public void CanValidateNullFilters()
-        {
-            encounterSpecifications.CreatureTypeFilters = null;
-            mockEncounterVerifier.Setup(g => g.ValidEncounterExistsAtLevel(encounterSpecifications)).Returns(true);
-
-            var result = controller.Validate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.isValid, Is.True);
-        }
-
-        [Test]
-        public void CanGenerateNullFilters()
-        {
-            encounterSpecifications.CreatureTypeFilters = null;
-            var encounter = new Encounter();
-            encounter.Characters = Enumerable.Empty<Character>();
-            mockEncounterGenerator.Setup(g => g.Generate(encounterSpecifications)).Returns(encounter);
-
-            var result = controller.Generate(clientId, encounterSpecifications) as JsonResult;
-            dynamic data = result.Value;
-            Assert.That(data.encounter, Is.EqualTo(encounter));
         }
     }
 }
