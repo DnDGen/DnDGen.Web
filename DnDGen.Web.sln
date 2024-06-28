@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CharacterGen", "CharacterGe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EncounterGen", "EncounterGen", "{12847B46-C666-4BCC-BFE9-E53A3C0B15EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.EncounterGen.Tests.Unit", "DnDGen.Api.EncounterGen.Tests.Unit\DnDGen.Api.EncounterGen.Tests.Unit.csproj", "{162D46C4-31E6-4E57-AB5C-3434AE2C017B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.EncounterGen.Tests.Unit", "DnDGen.Api.EncounterGen.Tests.Unit\DnDGen.Api.EncounterGen.Tests.Unit.csproj", "{162D46C4-31E6-4E57-AB5C-3434AE2C017B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
