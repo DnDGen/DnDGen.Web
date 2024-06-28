@@ -84,7 +84,7 @@
         <div class="col-sm-6 clearfix">
             <button class="btn btn-light btn-lg float-end" ng-click="vm.download()" ng-show="!vm.generating && vm.encounter">Download</button>
             <div ng-show="vm.generating">
-                <dndgen-event-log client-id="vm.clientId" is-logging="vm.generating"></dndgen-event-log>
+                <img style="width: 300px; height: auto;" src="~/loading-dice.svg" />
             </div>
             <div ng-hide="vm.generating">
                 <span class="italicize" ng-hide="vm.encounter">No encounter has been generated</span>

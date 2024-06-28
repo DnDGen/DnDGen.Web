@@ -1,4 +1,5 @@
 using DnDGen.Api.EncounterGen.Dependencies;
+using DnDGen.Api.EncounterGen.Helpers;
 using DnDGen.Api.EncounterGen.Validators;
 using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;
@@ -69,6 +70,11 @@ namespace DnDGen.Api.EncounterGen.Functions
             }
 
             var encounter = _generator.Generate(spec);
+
+            foreach (var character in encounter.Characters)
+            {
+                character.Skills = CharacterHelper.SortSkills(character.Skills);
+            }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(encounter);

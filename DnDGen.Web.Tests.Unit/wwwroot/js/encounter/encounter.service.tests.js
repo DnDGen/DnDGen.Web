@@ -66,7 +66,7 @@ describe('Encounter Service', function () {
     });
 
     it('validates', function () {
-        var promise = encounterService.getEncounter("environment", "temperature", "time of day", 9266, [], false, false);
+        var promise = encounterService.validateFilters("environment", "temperature", "time of day", 9266, [], false, false);
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://encounter.dndgen.com/api/v1/encounter/temperature/environment/time of day/level/9266/validate', {
             creatureTypeFilters: [],
@@ -76,7 +76,7 @@ describe('Encounter Service', function () {
     });
 
     it('validates aquatic', function () {
-        var promise = encounterService.getEncounter("environment", "temperature", "time of day", 9266, [], true, false);
+        var promise = encounterService.validateFilters("environment", "temperature", "time of day", 9266, [], true, false);
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://encounter.dndgen.com/api/v1/encounter/temperature/environment/time of day/level/9266/validate', {
             creatureTypeFilters: [],
@@ -86,7 +86,7 @@ describe('Encounter Service', function () {
     });
 
     it('validates underground', function () {
-        var promise = encounterService.getEncounter("environment", "temperature", "time of day", 9266, [], false, true);
+        var promise = encounterService.validateFilters("environment", "temperature", "time of day", 9266, [], false, true);
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://encounter.dndgen.com/api/v1/encounter/temperature/environment/time of day/level/9266/validate', {
             creatureTypeFilters: [],
@@ -106,7 +106,7 @@ describe('Encounter Service', function () {
     });
 
     it('validates all parameters', function () {
-        var promise = encounterService.getEncounter("environment", "temperature", "time of day", 9266, ['heffalump', 'woozle'], true, true);
+        var promise = encounterService.validateFilters("environment", "temperature", "time of day", 9266, ['heffalump', 'woozle'], true, true);
         expect(promise).not.toBeNull();
         expect(promiseServiceMock.getPromise).toHaveBeenCalledWith('https://encounter.dndgen.com/api/v1/encounter/temperature/environment/time of day/level/9266/validate', {
             creatureTypeFilters: ['heffalump', 'woozle'],
