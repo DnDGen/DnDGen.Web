@@ -18,6 +18,10 @@
 
             var formattedEncounter = '';
 
+            if (encounter.description) {
+                formattedEncounter += prefix + encounter.description + '\r\n';
+            }
+
             formattedEncounter += prefix + 'Target Encounter Level: ' + encounter.targetEncounterLevel + '\r\n';
             formattedEncounter += prefix + 'Average Encounter Level: ' + encounter.averageEncounterLevel + ' (' + encounter.averageDifficulty + ')' + '\r\n';
             formattedEncounter += prefix + 'Actual Encounter Level: ' + encounter.actualEncounterLevel + ' (' + encounter.actualDifficulty + ')' + '\r\n';
@@ -43,7 +47,14 @@
         }
 
         function formatCreature(creature, prefix) {
-            var formattedCreature = prefix + formatCreatureName(creature.type, prefix);
+            var formattedCreature = '';
+
+            if (creature.type) {
+                formattedCreature = prefix + formatCreatureNameWeb(creature.type, prefix);
+            }
+            else if (creature.creature) {
+                formattedCreature = prefix + formatCreatureNameApi(creature.creature, prefix);
+            }
 
             formattedCreature += prefix + '\t' + 'Challenge Rating: ' + creature.challengeRating + '\r\n';
             formattedCreature += prefix + '\t' + 'Quantity: ' + creature.quantity + '\r\n';
@@ -51,7 +62,7 @@
             return formattedCreature;
         }
 
-        function formatCreatureName(creatureType, prefix) {
+        function formatCreatureNameWeb(creatureType, prefix) {
             var formattedType = creatureType.name;
 
             if (creatureType.description) {
@@ -61,10 +72,26 @@
             formattedType += '\r\n';
 
             if (creatureType.subType) {
-                formattedType += prefix + '\t' + 'Subtype: ' + formatCreatureName(creatureType.subType, prefix + '\t');
+                formattedType += prefix + '\t' + 'Subtype: ' + formatCreatureNameWeb(creatureType.subType, prefix + '\t');
             }
 
             return formattedType;
+        }
+
+        function formatCreatureNameApi(creature, prefix) {
+            var formattedCreature = creature.name;
+
+            if (creature.description) {
+                formattedCreature += ' (' + creature.description + ')';
+            }
+
+            formattedCreature += '\r\n';
+
+            if (creature.subCreature) {
+                formattedCreature += prefix + '\t' + 'Sub-creature: ' + formatCreatureNameApi(creature.subCreature, prefix + '\t');
+            }
+
+            return formattedCreature;
         }
 
         function formatTreasures(treasures, prefix)
