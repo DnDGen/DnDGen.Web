@@ -7689,10 +7689,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
+											"pm.test(\"Generate encounter baseline usecase returns encounter\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"pm.test(\"Returns encounter\", function () {\r",
 											"    var encounter = pm.response.json();\r",
 											"    pm.expect(encounter.description).to.not.be.empty;\r",
 											"    pm.expect(encounter.targetEncounterLevel).to.equal(1);\r",

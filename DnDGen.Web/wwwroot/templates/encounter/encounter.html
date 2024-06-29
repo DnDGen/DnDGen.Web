@@ -8,20 +8,40 @@
         <dndgen-collapsable-list heading="Creatures" has-list="true">
             <ul>
                 <li ng-repeat="creature in encounter.creatures">
-                    <dndgen-collapsable-list heading="{{creature.type.name}} {{creature.type.description ? '(' + creature.type.description + ')' : ''}} x{{creature.quantity}}" has-list="true">
-                        <ul>
-                            <li ng-show="creature.type.subType">
-                                <dndgen-collapsable-list heading="{{creature.type.subType.name}} {{creature.type.subType.description ? '(' + creature.type.subType.description + ')' : ''}}" has-list="creature.type.subType.subType">
-                                    <ul>
-                                        <li ng-show="creature.type.subType.subType">
-                                            <span>{{creature.type.subType.subType.name}} {{creature.type.subType.subType.description ? '(' + creature.type.subType.subType.description + ')' : ''}}</span>
-                                        </li>
-                                    </ul>
-                                </dndgen-collapsable-list>
-                            </li>
-                            <li>Challenge Rating: {{creature.challengeRating}}</li>
-                        </ul>
-                    </dndgen-collapsable-list>
+                    <!--MVC-->
+                    <div ng-if="creature.type">
+                        <dndgen-collapsable-list heading="{{creature.type.name}} {{creature.type.description ? '(' + creature.type.description + ')' : ''}} x{{creature.quantity}}" has-list="true">
+                            <ul>
+                                <li ng-show="creature.type.subType">
+                                    <dndgen-collapsable-list heading="{{creature.type.subType.name}} {{creature.type.subType.description ? '(' + creature.type.subType.description + ')' : ''}}" has-list="creature.type.subType.subType">
+                                        <ul>
+                                            <li ng-show="creature.type.subType.subType">
+                                                <span>{{creature.type.subType.subType.name}} {{creature.type.subType.subType.description ? '(' + creature.type.subType.subType.description + ')' : ''}}</span>
+                                            </li>
+                                        </ul>
+                                    </dndgen-collapsable-list>
+                                </li>
+                                <li>Challenge Rating: {{creature.challengeRating}}</li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </div>
+                    <!--API-->
+                    <div ng-if="creature.creature">
+                        <dndgen-collapsable-list heading="{{creature.creature.name}} {{creature.creature.description ? '(' + creature.creature.description + ')' : ''}} x{{creature.quantity}}" has-list="true">
+                            <ul>
+                                <li ng-show="creature.creature.subCreature">
+                                    <dndgen-collapsable-list heading="{{creature.creature.subCreature.name}} {{creature.creature.subCreature.description ? '(' + creature.creature.subCreature.description + ')' : ''}}" has-list="creature.creature.subCreature.subCreature">
+                                        <ul>
+                                            <li ng-show="creature.creature.subCreature.subCreature">
+                                                <span>{{creature.creature.subCreature.subCreature.name}} {{creature.creature.subCreature.subCreature.description ? '(' + creature.creature.subCreature.subCreature.description + ')' : ''}}</span>
+                                            </li>
+                                        </ul>
+                                    </dndgen-collapsable-list>
+                                </li>
+                                <li>Challenge Rating: {{creature.challengeRating}}</li>
+                            </ul>
+                        </dndgen-collapsable-list>
+                    </div>
                 </li>
             </ul>
         </dndgen-collapsable-list>
