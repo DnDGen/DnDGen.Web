@@ -13,27 +13,26 @@
             validateFilters: validateFilters
         };
 
-        function getEncounter(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-            var parameters = getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
-            return promiseService.getPromise('/Encounter/Generate', parameters);
+        function getEncounter(environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var url = "https://encounter.dndgen.com/api/v1/encounter/" + temperature + "/" + environment + "/" + timeOfDay + "/level/" + level + "/generate";
+
+            var parameters = getParameters(filters, allowAquatic, allowUnderground);
+            return promiseService.getPromise(url, parameters);
         }
 
-        function getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+        function getParameters(filters, allowAquatic, allowUnderground) {
             return {
-                clientId: clientId,
-                environment: environment,
-                temperature: temperature,
-                timeOfDay: timeOfDay,
-                level: level,
                 creatureTypeFilters: filters,
                 allowAquatic: allowAquatic,
                 allowUnderground: allowUnderground,
             };
         }
 
-        function validateFilters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-            var parameters = getParameters(clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
-            return promiseService.getPromise('/Encounter/Validate', parameters);
+        function validateFilters(environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var url = "https://encounter.dndgen.com/api/v1/encounter/" + temperature + "/" + environment + "/" + timeOfDay + "/level/" + level + "/validate";
+
+            var parameters = getParameters(filters, allowAquatic, allowUnderground);
+            return promiseService.getPromise(url, parameters);
         }
     };
 })();

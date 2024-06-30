@@ -5,9 +5,9 @@
         .module('app.encounter')
         .controller('Encounter', Encounter);
 
-    Encounter.$inject = ['$scope', 'model', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService', 'eventService'];
+    Encounter.$inject = ['$scope', 'model', 'encounterService', 'sweetAlertService', 'fileSaverService', 'encounterFormatterService'];
 
-    function Encounter($scope, model, encounterService, sweetAlertService, fileSaverService, encounterFormatterService, eventService) {
+    function Encounter($scope, model, encounterService, sweetAlertService, fileSaverService, encounterFormatterService) {
         var vm = this;
         vm.encounterModel = model;
 
@@ -21,7 +21,6 @@
         vm.generating = false;
         vm.validating = false;
         vm.filtersAreValid = true;
-        vm.clientId = '';
         vm.creatureTypeFilters = [];
 
         for (var i = 0; i < vm.encounterModel.creatureTypes.length; i++) {
@@ -35,12 +34,8 @@
             vm.generating = true;
             var checkedFilters = getCheckedFilters();
 
-            eventService.getClientId().then(function (response) {
-                vm.clientId = response.data.clientId;
-
-                encounterService.getEncounter(vm.clientId, vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters, vm.allowAquatic, vm.allowUnderground)
-                    .then(setEncounter, handleError);
-            });
+            encounterService.getEncounter(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters, vm.allowAquatic, vm.allowUnderground)
+                .then(setEncounter, handleError);
         };
 
         function getCheckedFilters() {
@@ -56,7 +51,7 @@
         }
 
         function setEncounter(response) {
-            vm.encounter = response.data.encounter;
+            vm.encounter = response.data;
             vm.generating = false;
         }
 
@@ -80,18 +75,12 @@
             vm.validating = true;
             var checkedFilters = getCheckedFilters();
 
-            eventService.getClientId().then(function (response) {
-                vm.clientId = response.data.clientId;
-
-                encounterService.validateFilters(vm.clientId, vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
-                    .then(function (response) {
-                        vm.filtersAreValid = response.data.isValid;
-                        vm.validating = false;
-                    }, handleError)
-                    .then(function () {
-                        eventService.clearEvents(vm.clientId);
-                    });
-            });
+            //encounterService.validateFilters(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters)
+            encounterService.validateFilters(vm.environment, vm.temperature, vm.timeOfDay, vm.level, checkedFilters, vm.allowAquatic, vm.allowUnderground)
+                .then(function (response) {
+                    vm.filtersAreValid = response.data;
+                    vm.validating = false;
+                }, handleError);
         }
 
         $scope.$watch('vm.environment', validateFilters, true);

@@ -19,6 +19,11 @@
     </PackageReference>
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
     <PackageReference Include="Polly" Version="8.4.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Polly" Version="7.2.4" />
   </ItemGroup>
 
   <ItemGroup>

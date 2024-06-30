@@ -9,7 +9,6 @@ describe('Encounter Controller', function () {
     var sweetAlertServiceMock;
     var fileSaverServiceMock;
     var encounterFormatterServiceMock;
-    var eventServiceMock;
 
     beforeEach(module('app.encounter'));
 
@@ -27,20 +26,22 @@ describe('Encounter Controller', function () {
             }
         };
 
+        var counter = 0;
         encounterServiceMock = {
-            getEncounter: function (clientId, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            getEncounter: function (environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
                 var encounter = {
-                    creature: clientId + " Monster " + level + " in " + environment + ' ' + temperature + ' ' + timeOfDay,
+                    creature: "Monster " + (level + counter) + " in " + temperature + ' ' + environment + ' ' + timeOfDay,
                     aquatic: allowAquatic,
-                    underground: allowUnderground
+                    underground: allowUnderground,
+                    filters: filters,
                 };
-                var data = { "encounter": encounter };
                 var shouldFail = level === 666;
-                return getMockedPromise(data, shouldFail);
+                counter++;
+                return getMockedPromise(encounter, shouldFail);
             },
-            validateFilters: function (clientId, environment, temperature, timeOfDay, level, filters, allowAQuatic, allowUnderground) {
-                var data = { "isValid": (filters[0] !== 'undead' && environment !== "invalid" && temperature !== "invalid" && timeOfDay !== "invalid" && level !== 666) };
-                return getMockedPromise(data);
+            validateFilters: function (environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+                var valid = (filters[0] !== 'undead' && environment !== "invalid" && temperature !== "invalid" && timeOfDay !== "invalid" && level !== 666);
+                return getMockedPromise(valid);
             }
         };
 
@@ -53,14 +54,6 @@ describe('Encounter Controller', function () {
         encounterFormatterServiceMock = {
             formatEncounter: function (encounter) {
                 return encounter.creature + " formatted";
-            }
-        };
-
-        var idCount = 1;
-        eventServiceMock = {
-            getClientId: function () {
-                var data = { clientId: 'client id ' + idCount++ };
-                return getMockedPromise(data, false);
             }
         };
     });
@@ -85,8 +78,7 @@ describe('Encounter Controller', function () {
             encounterService: encounterServiceMock,
             sweetAlertService: sweetAlertServiceMock,
             fileSaverService: fileSaverServiceMock,
-            encounterFormatterService: encounterFormatterServiceMock,
-            eventService: eventServiceMock
+            encounterFormatterService: encounterFormatterServiceMock
         });
     }));
 
@@ -124,9 +116,10 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in mountain temp twilight');
+        expect(vm.encounter.creature).toBe('Monster 9266 in temp mountain twilight');
         expect(vm.encounter.aquatic).toBeFalsy();
         expect(vm.encounter.undeground).toBeFalsy();
+        expect(vm.encounter.filters).toEqual([]);
     });
 
     it('generates aquatic encounter', function () {
@@ -139,9 +132,10 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in mountain temp twilight');
+        expect(vm.encounter.creature).toBe('Monster 9266 in temp mountain twilight');
         expect(vm.encounter.aquatic).toBeTruthy();
         expect(vm.encounter.undeground).toBeFalsy();
+        expect(vm.encounter.filters).toEqual([]);
     });
 
     it('generates underground encounter', function () {
@@ -154,9 +148,27 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in mountain temp twilight');
+        expect(vm.encounter.creature).toBe('Monster 9266 in temp mountain twilight');
         expect(vm.encounter.aquatic).toBeFalsy();
         expect(vm.encounter.underground).toBeTruthy();
+        expect(vm.encounter.filters).toEqual([]);
+    });
+
+    it('generates filtered encounter', function () {
+        vm.environment = 'mountain';
+        vm.temperature = "temp";
+        vm.timeOfDay = 'twilight';
+        vm.level = 9266;
+        vm.creatureTypeFilters[1].checked = true;
+        vm.creatureTypeFilters[2].checked = true;
+
+        vm.generateEncounter();
+        scope.$apply();
+
+        expect(vm.encounter.creature).toBe('Monster 9266 in temp mountain twilight');
+        expect(vm.encounter.aquatic).toBeFalsy();
+        expect(vm.encounter.underground).toBeFalsy();
+        expect(vm.encounter.filters).toEqual(['character', 'yo mamma']);
     });
 
     it('generates encounter uniquely', function () {
@@ -168,12 +180,12 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in mountain temp twilight');
+        expect(vm.encounter.creature).toBe('Monster 9266 in temp mountain twilight');
 
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 9 Monster 9266 in mountain temp twilight');
+        expect(vm.encounter.creature).toBe('Monster 9267 in temp mountain twilight');
     });
 
     it('says it is generating while fetching encounter', function () {
@@ -277,8 +289,8 @@ describe('Encounter Controller', function () {
         vm.generateEncounter();
         scope.$apply();
 
-        expect(vm.encounter.creature).toBe('client id 1 Monster 9266 in swamp hot night');
-        expect(encounterServiceMock.getEncounter).toHaveBeenCalledWith('client id 1',
+        expect(vm.encounter.creature).toBe('Monster 9266 in hot swamp night');
+        expect(encounterServiceMock.getEncounter).toHaveBeenCalledWith(
             'swamp',
             'hot',
             'night',
@@ -368,5 +380,96 @@ describe('Encounter Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
+    });
+
+    it('verifies allow aquatic is valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            true,
+            false);
+    });
+
+    it('verifies do not allow aquatic is valid', function () {
+        vm.allowAquatic = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = false;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            false);
+    });
+
+    it('verifies allow underground is valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowUnderground = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            true);
+    });
+
+    it('verifies do not allow underground is valid', function () {
+        vm.allowUnderground = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowUnderground = false;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            false);
+    });
+
+    it('verifies all parameters are valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = true;
+        vm.allowUnderground = true;
+        vm.creatureTypeFilters[1].checked = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            ['character'],
+            true,
+            true);
     });
 })

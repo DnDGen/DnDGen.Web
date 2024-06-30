@@ -1,6 +1,9 @@
 ﻿using DnDGen.Api.EncounterGen.Dependencies;
 using DnDGen.Api.EncounterGen.Functions;
 using DnDGen.Api.EncounterGen.Tests.Unit.Helpers;
+using DnDGen.CharacterGen.Abilities;
+using DnDGen.CharacterGen.Characters;
+using DnDGen.CharacterGen.Skills;
 using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -427,6 +430,62 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
+        }
+
+        [Test]
+        public async Task Run_ReturnsEncounter_SortsCharacterSkills()
+        {
+            mockEncounterVerifier
+                .Setup(v => v.ValidEncounterExists(It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(true);
+
+            var character = new Character();
+            var otherCharacter = new Character();
+
+            character.Skills =
+            [
+                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
+                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
+            ];
+
+            otherCharacter.Skills =
+            [
+                new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 2345 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 3456 },
+                new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 4567 },
+                new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 5678 },
+            ];
+
+            var expectedEncounter = new Encounter
+            {
+                Description = "My encounter description",
+                Characters = [character, otherCharacter]
+            };
+            mockEncounterGenerator
+                .Setup(v => v.Generate(It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(expectedEncounter);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var encounter = StreamHelper.Read<Encounter>(response.Body);
+            Assert.That(encounter.Description, Is.EqualTo(expectedEncounter.Description));
+
+            foreach (var encounterCharacter in encounter.Characters)
+            {
+                Assert.That(encounterCharacter.Skills, Is.Ordered.By("Name").Then.By("Focus"));
+            }
+
+            Assert.That(encounter.Characters.Count(), Is.EqualTo(2));
         }
     }
 }
