@@ -1,7 +1,8 @@
-﻿using DnDGen.Api.EncounterGen.Dependencies;
+﻿using DnDGen.Api.DungeonGen.Dependencies;
+using DnDGen.DungeonGen.Generators;
 using DnDGen.EncounterGen.Generators;
 
-namespace DnDGen.Api.EncounterGen.Tests.Integration
+namespace DnDGen.Api.DungeonGen.Tests.Integration
 {
     public class StartupTests : IoCTests
     {
@@ -13,9 +14,9 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration
         }
 
         [Test]
-        public void EXTERNAL_EncounterGeneratorInjected()
+        public void EXTERNAL_DungeonGeneratorInjected()
         {
-            var generator = InjectDependencyAndAssertDuration<IEncounterGenerator>();
+            var generator = InjectDependencyAndAssertDuration<IDungeonGenerator>();
             Assert.That(generator, Is.Not.Null);
         }
 
