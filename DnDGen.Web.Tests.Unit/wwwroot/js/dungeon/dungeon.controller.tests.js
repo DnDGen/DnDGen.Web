@@ -70,7 +70,13 @@ describe('Dungeon Controller', function () {
             environments: ["field", "mountain"],
             temperatures: ["cold", "hot"],
             timesOfDay: ["day", "night"],
-            creatureTypes: ["undead", "character", "yo mamma"]
+            creatureTypes: ["undead", "character", "yo mamma"],
+            defaults: {
+                environment: "mountain",
+                level: 90210,
+                temperature: "hot",
+                timeOfDay: "night"
+            }
         };
 
         encounterServiceMock = {
@@ -128,10 +134,10 @@ describe('Dungeon Controller', function () {
 
     it('has initial values for inputs', function () {
         expect(vm.dungeonLevel).toBe(1);
-        expect(vm.level).toBe(1);
-        expect(vm.environment).toBe('field');
-        expect(vm.temperature).toBe('cold');
-        expect(vm.timeOfDay).toBe('day');
+        expect(vm.level).toBe(90210);
+        expect(vm.environment).toBe('mountain');
+        expect(vm.temperature).toBe('hot');
+        expect(vm.timeOfDay).toBe('night');
         expect(vm.allowAquatic).toBeFalsy();
         expect(vm.allowUnderground).toBeFalsy();
     });
@@ -161,12 +167,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day hall room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day hall exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -182,12 +188,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day hall room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day hall exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -197,12 +203,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day hall room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x2');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day hall exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -277,12 +283,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day door room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day door exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -298,12 +304,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day door room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day door exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -313,12 +319,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('temp field day door room 9266');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x2');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual([]);
-        expect(vm.areas[1].type).toBe('temp field day door exit 9266');
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -398,10 +404,10 @@ describe('Dungeon Controller', function () {
 
         var fileName = 'Dungeon level 9266, party level 90210 ' + new Date().toString();
         var formattedAreas = 'Area 1:\n'
-            + '\ttemp field day hall room 9266\n'
+            + '\ttemp mountain night hall room 9266\n'
             + '\tmonster CR 90210 x1\n'
             + 'Area 2:\n'
-            + '\ttemp field day hall exit 9266\n'
+            + '\ttemp mountain night hall exit 9266\n'
             + '\ttrap CR 90210\n';
 
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith(formattedAreas, fileName);
@@ -428,12 +434,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('cold mountain day hall room 9266');
+        expect(vm.areas[0].type).toBe('hot mountain night hall room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual(['character', 'yo mamma']);
-        expect(vm.areas[1].type).toBe('cold mountain day hall exit 9266');
+        expect(vm.areas[1].type).toBe('hot mountain night hall exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -443,8 +449,8 @@ describe('Dungeon Controller', function () {
         expect(dungeonServiceMock.getDungeonAreasFromHall).toHaveBeenCalledWith(
             9266,
             'mountain',
-            'cold',
-            'day',
+            'hot',
+            'night',
             90210,
             ['character', 'yo mamma'],
             false,
@@ -463,12 +469,12 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('cold mountain day door room 9266');
+        expect(vm.areas[0].type).toBe('hot mountain night door room 9266');
         expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
         expect(vm.areas[0].aquatic).toBe(false);
         expect(vm.areas[0].underground).toBe(false);
         expect(vm.areas[0].filters).toEqual(['character', 'yo mamma']);
-        expect(vm.areas[1].type).toBe('cold mountain day door exit 9266');
+        expect(vm.areas[1].type).toBe('hot mountain night door exit 9266');
         expect(vm.areas[1].contents).toBe('trap CR 90210');
         expect(vm.areas[1].aquatic).toBe(false);
         expect(vm.areas[1].underground).toBe(false);
@@ -478,8 +484,8 @@ describe('Dungeon Controller', function () {
         expect(dungeonServiceMock.getDungeonAreasFromDoor).toHaveBeenCalledWith(
             9266,
             'mountain',
-            'cold',
-            'day',
+            'hot',
+            'night',
             90210,
             ['character', 'yo mamma'],
             false,
@@ -579,7 +585,7 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
-        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('field', 'cold', 'day', 1,
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
             [],
             true,
             false);
@@ -598,7 +604,7 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
-        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('field', 'cold', 'day', 1,
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
             [],
             false,
             false);
@@ -615,7 +621,7 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
-        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('field', 'cold', 'day', 1,
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
             [],
             false,
             true);
@@ -634,7 +640,7 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
-        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('field', 'cold', 'day', 1,
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
             [],
             false,
             false);
@@ -653,7 +659,7 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
-        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('field', 'cold', 'day', 1,
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
             ['character'],
             true,
             true);

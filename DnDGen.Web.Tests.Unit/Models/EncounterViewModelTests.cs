@@ -73,13 +73,13 @@ namespace DnDGen.Web.Tests.Unit.Models
         public void ModelHasDefaults()
         {
             Assert.That(model.Defaults, Is.Not.Null);
+            Assert.That(model.Defaults.Temperature, Is.EqualTo(EnvironmentConstants.Temperatures.Temperate));
+            Assert.That(model.Defaults.Environment, Is.EqualTo(EnvironmentConstants.Plains));
+            Assert.That(model.Defaults.TimeOfDay, Is.EqualTo(EnvironmentConstants.TimesOfDay.Day));
+            Assert.That(model.Defaults.Level, Is.EqualTo(1));
             Assert.That(model.Defaults.AllowAquatic, Is.False);
             Assert.That(model.Defaults.AllowUnderground, Is.False);
             Assert.That(model.Defaults.CreatureTypeFilters, Is.Empty);
-            Assert.That(model.Defaults.Environment, Is.EqualTo(EnvironmentConstants.Forest));
-            Assert.That(model.Defaults.Level, Is.EqualTo(1));
-            Assert.That(model.Defaults.Temperature, Is.EqualTo(EnvironmentConstants.Temperatures.Temperate));
-            Assert.That(model.Defaults.TimeOfDay, Is.EqualTo(EnvironmentConstants.TimesOfDay.Day));
         }
     }
 }

@@ -26,15 +26,15 @@
         <div class="col-sm-6">
             <form name="encounterForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group row">
-                    <label for="environments" class="col-sm-3 col-form-label">Environment:</label>
-                    <div class="col-sm-6">
-                        <select id="environments" class="form-select" ng-model="vm.environment" ng-options="environment for environment in vm.encounterModel.environments" required></select>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="temperatures" class="col-sm-3 col-form-label">Temperature:</label>
                     <div class="col-sm-6">
                         <select id="temperatures" class="form-select" ng-model="vm.temperature" ng-options="temperature for temperature in vm.encounterModel.temperatures" required></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="environments" class="col-sm-3 col-form-label">Environment:</label>
+                    <div class="col-sm-6">
+                        <select id="environments" class="form-select" ng-model="vm.environment" ng-options="environment for environment in vm.encounterModel.environments" required></select>
                     </div>
                 </div>
                 <div class="form-group row">

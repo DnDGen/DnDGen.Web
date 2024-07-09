@@ -59,10 +59,10 @@ namespace DnDGen.Web.Models
             };
 
             Defaults = new EncounterSpecifications();
-            Defaults.Environment = EnvironmentConstants.Forest;
-            Defaults.Level = 1;
             Defaults.Temperature = EnvironmentConstants.Temperatures.Temperate;
+            Defaults.Environment = EnvironmentConstants.Plains;
             Defaults.TimeOfDay = EnvironmentConstants.TimesOfDay.Day;
+            Defaults.Level = 1;
         }
     }
 }
