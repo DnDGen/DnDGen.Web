@@ -2772,10 +2772,9 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
 													"pm.test(\"Returns areas\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"\r",
 													"    var areas = pm.response.json();\r",
 													"    pm.expect(areas.length).to.be.greaterThan(0);\r",
 													"    pm.expect(areas[0].type).to.not.be.empty;\r",
@@ -2835,7 +2834,7 @@
 												},
 												{
 													"key": "partyLevel",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -7340,10 +7339,9 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
 													"pm.test(\"Returns areas\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"\r",
 													"    var areas = pm.response.json();\r",
 													"    pm.expect(areas.length).to.be.greaterThan(0);\r",
 													"    pm.expect(areas[0].type).to.not.be.empty;\r",
@@ -7403,7 +7401,7 @@
 												},
 												{
 													"key": "partyLevel",
-													"value": "1"
+													"value": "10"
 												}
 											]
 										}
@@ -9154,12 +9152,11 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
 							"pm.test(\"Returns Swagger UI\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(pm.response.text()).to.include('url: \"https://encounter.dndgen.com/api/swagger.json\"');\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+							"    pm.expect(text).to.include('url: \"https://dungeon.dndgen.com/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -9193,15 +9190,15 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
 							"pm.test(\"Returns Swagger data\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"host\": \"encounter.dndgen.com\"');\r",
-							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
+							"    pm.response.to.have.status(200);\r",
+							"    \r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"host\": \"dungeon.dndgen.com\"');\r",
+							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
-							"    pm.expect(pm.response.text()).to.include(\"/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/validate\");\r",
-							"    pm.expect(pm.response.text()).to.include(\"/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -9234,14 +9231,14 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
 							"pm.test(\"Returns Open API documentation\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://encounter.dndgen.com/api\"');\r",
+							"    pm.response.to.have.status(200);\r",
 							"\r",
-							"    pm.expect(pm.response.text()).to.include(\"/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/validate\");\r",
-							"    pm.expect(pm.response.text()).to.include(\"/v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/generate\");\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"url\": \"https://dungeon.dndgen.com/api\"');\r",
+							"\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
 							"});"
 						],
 						"type": "text/javascript",
