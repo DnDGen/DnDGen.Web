@@ -1,17 +1,17 @@
-﻿using DnDGen.Web.Models.Treasures;
+﻿using DnDGen.TreasureGen.Items;
+using DnDGen.TreasureGen.Items.Magical;
+using DnDGen.TreasureGen.Items.Mundane;
+using DnDGen.Web.Models.Treasures;
 using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TreasureGen.Items;
-using TreasureGen.Items.Magical;
-using TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.Tests.Unit.Models
 {
     [TestFixture]
-    public class TreasureModelTests
+    public class TreasureViewModelTests
     {
         private TreasureViewModel model;
 
@@ -80,7 +80,7 @@ namespace DnDGen.Web.Tests.Unit.Models
         [TestCaseSource(nameof(ItemNamesData))]
         public void ModelHasItemNames(ItemTypes itemType, IEnumerable<string> names)
         {
-            Assert.That(model.ItemNames.Count(), Is.EqualTo(11).And.EqualTo(Enum.GetValues<ItemTypes>().Count()));
+            Assert.That(model.ItemNames.Count(), Is.EqualTo(11).And.EqualTo(Enum.GetValues<ItemTypes>().Length));
             Assert.That(model.ItemNames, Contains.Key(itemType.ToString())
                 .And.ContainKey(Enum.GetName(itemType)));
             Assert.That(model.ItemNames[itemType.ToString()], Is.EquivalentTo(names));
@@ -93,14 +93,14 @@ namespace DnDGen.Web.Tests.Unit.Models
             {
                 yield return new TestCaseData(ItemTypes.AlchemicalItem, AlchemicalItemConstants.GetAllAlchemicalItems());
                 yield return new TestCaseData(ItemTypes.Armor, ArmorConstants.GetAllArmors(true));
-                yield return new TestCaseData(ItemTypes.Potion, PotionConstants.GetAllPotions());
+                yield return new TestCaseData(ItemTypes.Potion, PotionConstants.GetAllPotions(false));
                 yield return new TestCaseData(ItemTypes.Ring, RingConstants.GetAllRings());
                 yield return new TestCaseData(ItemTypes.Rod, RodConstants.GetAllRods());
                 yield return new TestCaseData(ItemTypes.Scroll, new[] { "Scroll" });
                 yield return new TestCaseData(ItemTypes.Staff, StaffConstants.GetAllStaffs());
                 yield return new TestCaseData(ItemTypes.Tool, ToolConstants.GetAllTools());
                 yield return new TestCaseData(ItemTypes.Wand, new[] { "Wand of Spell" });
-                yield return new TestCaseData(ItemTypes.Weapon, WeaponConstants.GetAllWeapons());
+                yield return new TestCaseData(ItemTypes.Weapon, WeaponConstants.GetAllWeapons(true, false));
                 yield return new TestCaseData(ItemTypes.WondrousItem, WondrousItemConstants.GetAllWondrousItems());
             }
         }

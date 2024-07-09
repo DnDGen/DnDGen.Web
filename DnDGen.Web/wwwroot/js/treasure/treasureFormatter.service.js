@@ -98,15 +98,8 @@
 
             formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
             formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
-
-            if (weapon.damage) {
-                formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + ' ' + weapon.damageType + '\r\n';
-                formattedWeapon += prefix + '\t' + 'Critical: ' + weapon.threatRange + ' (' + weapon.criticalMultiplier + ')' + '\r\n';
-            }
-            else if (weapon.damageDescription) {
-                formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
-                formattedWeapon += prefix + '\t' + 'Critical: ' + weapon.threatRangeDescription + ' (' + weapon.criticalMultiplier + ')' + '\r\n';
-            }
+            formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
+            formattedWeapon += prefix + '\t' + 'Critical: ' + weapon.threatRangeDescription + ' (' + weapon.criticalMultiplier + ')' + '\r\n';
 
             if (weapon.ammunition) {
                 formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';

@@ -9,33 +9,55 @@ describe('Dungeon Controller', function () {
     var fileSaverServiceMock;
     var dungeonFormatterServiceMock;
     var model;
-    var eventServiceMock;
     var encounterServiceMock;
 
     beforeEach(module('app.dungeon'));
 
     beforeEach(function () {
+        var callCount = 0;
         dungeonServiceMock = {
-            getDungeonAreasFromHall: function (clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-                var body = {
-                    areas: [
-                        { type: clientId + ' ' + temperature + ' hall room ' + dungeonLevel, contents: 'monster ' + level },
-                        { type: clientId + ' ' + temperature + ' hall exit ' + dungeonLevel, contents: 'trap ' + level }
-                    ]
-                };
+            getDungeonAreasFromHall: function (dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+                callCount++;
+                var body = [
+                    {
+                        type: temperature + ' ' + environment + ' ' + timeOfDay + ' hall room ' + dungeonLevel,
+                        contents: 'monster CR ' + level + ' x' + callCount,
+                        aquatic: allowAquatic,
+                        underground: allowUnderground,
+                        filters: filters,
+                    },
+                    {
+                        type: temperature + ' ' + environment + ' ' + timeOfDay + ' hall exit ' + dungeonLevel,
+                        contents: 'trap CR ' + level,
+                        aquatic: allowAquatic,
+                        underground: allowUnderground,
+                        filters: filters,
+                    }
+                ];
 
                 if (dungeonLevel == 666)
                     return getMockedPromise(body, true);
 
                 return getMockedPromise(body);
             },
-            getDungeonAreasFromDoor: function (clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-                var body = {
-                    areas: [
-                        { type: clientId + ' ' + temperature + ' door room ' + dungeonLevel, contents: 'monster ' + level },
-                        { type: clientId + ' ' + temperature + ' door exit ' + dungeonLevel, contents: 'trap ' + level }
-                    ]
-                };
+            getDungeonAreasFromDoor: function (dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+                callCount++;
+                var body = [
+                    {
+                        type: temperature + ' ' + environment + ' ' + timeOfDay + ' door room ' + dungeonLevel,
+                        contents: 'monster CR ' + level + ' x' + callCount,
+                        aquatic: allowAquatic,
+                        underground: allowUnderground,
+                        filters: filters,
+                    },
+                    {
+                        type: temperature + ' ' + environment + ' ' + timeOfDay + ' door exit ' + dungeonLevel,
+                        contents: 'trap CR ' + level,
+                        aquatic: allowAquatic,
+                        underground: allowUnderground,
+                        filters: filters,
+                    }
+                ];
 
                 if (dungeonLevel == 666)
                     return getMockedPromise(body, true);
@@ -48,13 +70,19 @@ describe('Dungeon Controller', function () {
             environments: ["field", "mountain"],
             temperatures: ["cold", "hot"],
             timesOfDay: ["day", "night"],
-            creatureTypes: ["undead", "character", "yo mamma"]
+            creatureTypes: ["undead", "character", "yo mamma"],
+            defaults: {
+                environment: "mountain",
+                level: 90210,
+                temperature: "hot",
+                timeOfDay: "night"
+            }
         };
 
         encounterServiceMock = {
-            validateFilters: function (clientId, environment, temperature, timeOfDay, level, filters, allowAQuatic, allowUnderground) {
-                var data = { "isValid": (filters[0] !== 'undead' && environment !== "invalid" && temperature !== "invalid" && timeOfDay !== "invalid" && level !== 666) };
-                return getMockedPromise(data);
+            validateFilters: function (environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+                var valid = (filters[0] !== 'undead' && environment !== "invalid" && temperature !== "invalid" && timeOfDay !== "invalid" && level !== 666);
+                return getMockedPromise(valid);
             }
         };
 
@@ -75,14 +103,6 @@ describe('Dungeon Controller', function () {
                 }
 
                 return output;
-            }
-        };
-
-        var idCount = 1;
-        eventServiceMock = {
-            getClientId: function () {
-                var data = { clientId: 'client id ' + idCount++ };
-                return getMockedPromise(data, false);
             }
         };
     });
@@ -108,17 +128,16 @@ describe('Dungeon Controller', function () {
             fileSaverService: fileSaverServiceMock,
             dungeonFormatterService: dungeonFormatterServiceMock,
             model: model,
-            eventService: eventServiceMock,
             encounterService: encounterServiceMock
         });
     }));
 
     it('has initial values for inputs', function () {
         expect(vm.dungeonLevel).toBe(1);
-        expect(vm.level).toBe(1);
-        expect(vm.environment).toBe('field');
-        expect(vm.temperature).toBe('cold');
-        expect(vm.timeOfDay).toBe('day');
+        expect(vm.level).toBe(90210);
+        expect(vm.environment).toBe('mountain');
+        expect(vm.temperature).toBe('hot');
+        expect(vm.timeOfDay).toBe('night');
         expect(vm.allowAquatic).toBeFalsy();
         expect(vm.allowUnderground).toBeFalsy();
     });
@@ -148,10 +167,16 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 temp hall room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 temp hall exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
     });
 
@@ -163,19 +188,31 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 temp hall room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 temp hall exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
 
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 9 temp hall room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 9 temp hall exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night hall room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x2');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night hall exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
     });
 
@@ -246,10 +283,16 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 temp door room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 temp door exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
     });
 
@@ -261,19 +304,31 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 temp door room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 temp door exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
 
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 9 temp door room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 9 temp door exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('temp mountain night door room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x2');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual([]);
+        expect(vm.areas[1].type).toBe('temp mountain night door exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual([]);
         expect(vm.areas.length).toBe(2);
     });
 
@@ -347,13 +402,13 @@ describe('Dungeon Controller', function () {
         vm.download();
         scope.$apply();
 
-        var fileName = 'temp Dungeon level 9266, party level 90210 ' + new Date().toString();
+        var fileName = 'Dungeon level 9266, party level 90210 ' + new Date().toString();
         var formattedAreas = 'Area 1:\n'
-            + '\tclient id 1 temp hall room 9266\n'
-            + '\tmonster 90210\n'
+            + '\ttemp mountain night hall room 9266\n'
+            + '\tmonster CR 90210 x1\n'
             + 'Area 2:\n'
-            + '\tclient id 1 temp hall exit 9266\n'
-            + '\ttrap 90210\n';
+            + '\ttemp mountain night hall exit 9266\n'
+            + '\ttrap CR 90210\n';
 
         expect(fileSaverServiceMock.save).toHaveBeenCalledWith(formattedAreas, fileName);
     });
@@ -379,17 +434,23 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromHall();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 cold hall room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 cold hall exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('hot mountain night hall room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual(['character', 'yo mamma']);
+        expect(vm.areas[1].type).toBe('hot mountain night hall exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual(['character', 'yo mamma']);
         expect(vm.areas.length).toBe(2);
 
-        expect(dungeonServiceMock.getDungeonAreasFromHall).toHaveBeenCalledWith('client id 1',
+        expect(dungeonServiceMock.getDungeonAreasFromHall).toHaveBeenCalledWith(
             9266,
             'mountain',
-            'cold',
-            'day',
+            'hot',
+            'night',
             90210,
             ['character', 'yo mamma'],
             false,
@@ -408,17 +469,23 @@ describe('Dungeon Controller', function () {
         vm.generateDungeonAreasFromDoor();
         scope.$apply();
 
-        expect(vm.areas[0].type).toBe('client id 1 cold door room 9266');
-        expect(vm.areas[0].contents).toBe('monster 90210');
-        expect(vm.areas[1].type).toBe('client id 1 cold door exit 9266');
-        expect(vm.areas[1].contents).toBe('trap 90210');
+        expect(vm.areas[0].type).toBe('hot mountain night door room 9266');
+        expect(vm.areas[0].contents).toBe('monster CR 90210 x1');
+        expect(vm.areas[0].aquatic).toBe(false);
+        expect(vm.areas[0].underground).toBe(false);
+        expect(vm.areas[0].filters).toEqual(['character', 'yo mamma']);
+        expect(vm.areas[1].type).toBe('hot mountain night door exit 9266');
+        expect(vm.areas[1].contents).toBe('trap CR 90210');
+        expect(vm.areas[1].aquatic).toBe(false);
+        expect(vm.areas[1].underground).toBe(false);
+        expect(vm.areas[1].filters).toEqual(['character', 'yo mamma']);
         expect(vm.areas.length).toBe(2);
 
-        expect(dungeonServiceMock.getDungeonAreasFromDoor).toHaveBeenCalledWith('client id 1',
+        expect(dungeonServiceMock.getDungeonAreasFromDoor).toHaveBeenCalledWith(
             9266,
             'mountain',
-            'cold',
-            'day',
+            'hot',
+            'night',
             90210,
             ['character', 'yo mamma'],
             false,
@@ -505,5 +572,96 @@ describe('Dungeon Controller', function () {
 
         expect(vm.filtersAreValid).toBeTruthy();
         expect(vm.validating).toBeFalsy();
+    });
+
+    it('verifies allow aquatic is valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            true,
+            false);
+    });
+
+    it('verifies do not allow aquatic is valid', function () {
+        vm.allowAquatic = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = false;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            false);
+    });
+
+    it('verifies allow underground is valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowUnderground = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            true);
+    });
+
+    it('verifies do not allow underground is valid', function () {
+        vm.allowUnderground = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowUnderground = false;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            [],
+            false,
+            false);
+    });
+
+    it('verifies all parameters are valid', function () {
+        scope.$digest();
+        expect(vm.filtersAreValid).toBeTruthy();
+
+        spyOn(encounterServiceMock, 'validateFilters').and.callThrough();
+
+        vm.allowAquatic = true;
+        vm.allowUnderground = true;
+        vm.creatureTypeFilters[1].checked = true;
+        scope.$digest();
+
+        expect(vm.filtersAreValid).toBeTruthy();
+        expect(vm.validating).toBeFalsy();
+        expect(encounterServiceMock.validateFilters).toHaveBeenCalledWith('mountain', 'hot', 'night', 90210,
+            ['character'],
+            true,
+            true);
     });
 })

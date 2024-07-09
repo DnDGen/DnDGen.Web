@@ -74,7 +74,9 @@ namespace DnDGen.Api.DungeonGen.Functions
 
             var areas = _generator.GenerateFromDoor(dungeonLevel, spec);
 
-            var characters = areas.SelectMany(a => a.Contents.Encounters).SelectMany(e => e.Characters);
+            var characters = areas.SelectMany(a => a.Contents.Encounters).SelectMany(e => e.Characters)
+                .Union(areas.SelectMany(a => a.Contents.Pool?.Encounter?.Characters ?? []));
+
             foreach (var character in characters)
             {
                 character.Skills = CharacterHelper.SortSkills(character.Skills);

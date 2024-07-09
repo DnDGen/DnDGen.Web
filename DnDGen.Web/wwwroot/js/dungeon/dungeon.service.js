@@ -13,28 +13,26 @@
             getDungeonAreasFromDoor: getDungeonAreasFromDoor
         };
 
-        function getDungeonAreasFromHall(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-            var parameters = getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
-            return promiseService.getPromise('/Dungeon/GenerateFromHall', parameters);
+        function getDungeonAreasFromHall(dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var url = "https://dungeon.dndgen.com/api/v1/dungeon/level/" + dungeonLevel + "/hall/" + temperature + "/" + environment + "/" + timeOfDay + "/level/" + level + "/generate";
+
+            var parameters = getParameters(filters, allowAquatic, allowUnderground);
+            return promiseService.getPromise(url, parameters);
         }
 
-        function getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+        function getParameters(filters, allowAquatic, allowUnderground) {
             return {
-                clientId: clientId,
-                dungeonLevel: dungeonLevel,
-                environment: environment,
-                temperature: temperature,
-                timeOfDay: timeOfDay,
-                level: level,
                 creatureTypeFilters: filters,
                 allowAquatic: allowAquatic,
                 allowUnderground: allowUnderground,
             };
         }
 
-        function getDungeonAreasFromDoor(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
-            var parameters = getParameters(clientId, dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground);
-            return promiseService.getPromise('/Dungeon/GenerateFromDoor', parameters);
+        function getDungeonAreasFromDoor(dungeonLevel, environment, temperature, timeOfDay, level, filters, allowAquatic, allowUnderground) {
+            var url = "https://dungeon.dndgen.com/api/v1/dungeon/level/" + dungeonLevel + "/door/" + temperature + "/" + environment + "/" + timeOfDay + "/level/" + level + "/generate";
+
+            var parameters = getParameters(filters, allowAquatic, allowUnderground);
+            return promiseService.getPromise(url, parameters);
         }
     };
 })();

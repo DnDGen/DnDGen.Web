@@ -479,16 +479,18 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
                 .Returns(true);
 
             var expectedCharacters = new List<Character>();
-            while (expectedCharacters.Count < 8)
+            while (expectedCharacters.Count < 12)
             {
                 var character = new Character
                 {
+                    InterestingTrait = $"Character {expectedCharacters.Count}",
                     Skills =
                     [
-                        new Skill("zzzz", new Ability(string.Empty), 123456) { Ranks = 42 },
-                        new Skill("aaaa", new Ability(string.Empty), 123456, "ccccc") { Ranks = 600 },
-                        new Skill("aaaa", new Ability(string.Empty), 123456, "bbbbb") { Ranks = 1234 },
-                        new Skill("kkkk", new Ability(string.Empty), 123456) { Ranks = 1337 },
+                        new Skill("zzzz", new Ability(string.Empty), int.MaxValue) { Ranks = 42 + expectedCharacters.Count },
+                        new Skill("aaaa", new Ability(string.Empty), int.MaxValue, "ccccc") { Ranks = 600 + expectedCharacters.Count },
+                        new Skill("aaaa", new Ability(string.Empty), int.MaxValue, "bbbbb") { Ranks = 1234 + expectedCharacters.Count },
+                        new Skill("kkkk", new Ability(string.Empty), int.MaxValue) { Ranks = 1337 + expectedCharacters.Count },
+                        new Skill($"Skill {expectedCharacters.Count}", new Ability(string.Empty), int.MaxValue) { Ranks = 96 + expectedCharacters.Count },
                     ]
                 };
                 expectedCharacters.Add(character);
@@ -510,7 +512,16 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
                             {
                                 Description = "My other encounter description",
                                 Characters = [expectedCharacters[2], expectedCharacters[3]]
-                            }]
+                            }],
+                        Pool = new Pool
+                        {
+                            MagicPower = "I grant wishes",
+                            Encounter = new Encounter
+                            {
+                                Description = "My pool encounter description",
+                                Characters = [expectedCharacters[8], expectedCharacters[9]]
+                            }
+                        }
                     }
                 },
                 new Area
@@ -528,7 +539,16 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
                             {
                                 Description = "My OTHER other encounter description",
                                 Characters = [expectedCharacters[6], expectedCharacters[7]]
-                            }]
+                            }],
+                        Pool = new Pool
+                        {
+                            MagicPower = "I grant curses",
+                            Encounter = new Encounter
+                            {
+                                Description = "My other pool encounter description",
+                                Characters = [expectedCharacters[10], expectedCharacters[11]]
+                            }
+                        }
                     }
                 },
             };
@@ -550,13 +570,15 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
             Assert.That(areas[0].Type, Is.EqualTo(expectedAreas[0].Type));
             Assert.That(areas[1].Type, Is.EqualTo(expectedAreas[1].Type));
 
-            var characters = areas.SelectMany(a => a.Contents.Encounters).SelectMany(e => e.Characters);
+            var characters = areas.SelectMany(a => a.Contents.Encounters).SelectMany(e => e.Characters)
+                .Union(areas.SelectMany(a => a.Contents.Pool.Encounter.Characters));
+
             foreach (var character in characters)
             {
-                Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"));
+                Assert.That(character.Skills, Is.Ordered.By("Name").Then.By("Focus"), character.InterestingTrait);
             }
 
-            Assert.That(characters.Count(), Is.EqualTo(8));
+            Assert.That(characters.Select(c => c.InterestingTrait), Is.EquivalentTo(expectedCharacters.Select(c => c.InterestingTrait)));
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using CharacterGen.CharacterClasses;
-using CharacterGen.Races;
-using CharacterGen.Randomizers.Abilities;
-using CharacterGen.Randomizers.Alignments;
-using CharacterGen.Randomizers.CharacterClasses;
-using CharacterGen.Randomizers.Races;
-using DnDGen.Web.App_Start;
+﻿using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.Races;
+using DnDGen.CharacterGen.Randomizers.Abilities;
+using DnDGen.CharacterGen.Randomizers.Alignments;
+using DnDGen.CharacterGen.Randomizers.CharacterClasses;
+using DnDGen.CharacterGen.Randomizers.Races;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
 using Microsoft.AspNetCore.Mvc;

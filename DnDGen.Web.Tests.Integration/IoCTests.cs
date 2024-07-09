@@ -27,16 +27,6 @@ namespace DnDGen.Web.Tests.Integration
             Stopwatch.Stop();
         }
 
-        protected T InjectAndAssertDuration<T>()
-        {
-            Stopwatch.Restart();
-
-            var instance = GetDependency<T>();
-            Assert.That(Stopwatch.Elapsed, Is.AtMost(TimeLimit));
-
-            return instance;
-        }
-
         protected T InjectServiceAndAssertDuration<T>()
         {
             Stopwatch.Restart();

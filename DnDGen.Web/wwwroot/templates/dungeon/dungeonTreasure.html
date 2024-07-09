@@ -1,7 +1,7 @@
-﻿<ul>
-    <li ng-show="dungeonTreasure.Container.length > 0">Container: {{dungeonTreasure.Container}}</li>
-    <li ng-show="dungeonTreasure.Concealment.length > 0">Concealment: {{dungeonTreasure.Concealment}}</li>
-    <li ng-show="dungeonTreasure.Treasure">
-        <dndgen-treasure treasure="dungeonTreasure.Treasure"></dndgen-treasure>
-    </li>
-</ul>
+﻿<span ng-show="dungeonTreasure.container.length > 0">Container: {{dungeonTreasure.container}}</span>
+<br />
+<span ng-show="dungeonTreasure.concealment.length > 0">Concealment: {{dungeonTreasure.concealment}}</span>
+<br />
+<div ng-show="dungeonTreasure.treasure">
+    <dndgen-treasure treasure="dungeonTreasure.treasure"></dndgen-treasure>
+</div>

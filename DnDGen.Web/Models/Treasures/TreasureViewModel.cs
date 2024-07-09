@@ -1,6 +1,6 @@
-﻿using TreasureGen.Items;
-using TreasureGen.Items.Magical;
-using TreasureGen.Items.Mundane;
+﻿using DnDGen.TreasureGen.Items;
+using DnDGen.TreasureGen.Items.Magical;
+using DnDGen.TreasureGen.Items.Mundane;
 
 namespace DnDGen.Web.Models.Treasures
 {
@@ -32,14 +32,14 @@ namespace DnDGen.Web.Models.Treasures
             var names = new Dictionary<string, IEnumerable<string>>();
             names[ItemTypes.AlchemicalItem.ToString()] = AlchemicalItemConstants.GetAllAlchemicalItems().OrderBy(n => n);
             names[ItemTypes.Armor.ToString()] = ArmorConstants.GetAllArmors(true).OrderBy(n => n);
-            names[ItemTypes.Potion.ToString()] = PotionConstants.GetAllPotions().OrderBy(n => n);
+            names[ItemTypes.Potion.ToString()] = PotionConstants.GetAllPotions(false).OrderBy(n => n);
             names[ItemTypes.Ring.ToString()] = RingConstants.GetAllRings().OrderBy(n => n);
             names[ItemTypes.Rod.ToString()] = RodConstants.GetAllRods().OrderBy(n => n);
             names[ItemTypes.Scroll.ToString()] = new[] { "Scroll" };
             names[ItemTypes.Staff.ToString()] = StaffConstants.GetAllStaffs().OrderBy(n => n);
             names[ItemTypes.Tool.ToString()] = ToolConstants.GetAllTools().OrderBy(n => n);
             names[ItemTypes.Wand.ToString()] = new[] { "Wand of Spell" };
-            names[ItemTypes.Weapon.ToString()] = WeaponConstants.GetAllWeapons().OrderBy(n => n);
+            names[ItemTypes.Weapon.ToString()] = WeaponConstants.GetAllWeapons(true, false).OrderBy(n => n);
             names[ItemTypes.WondrousItem.ToString()] = WondrousItemConstants.GetAllWondrousItems().OrderBy(n => n);
 
             return names;
