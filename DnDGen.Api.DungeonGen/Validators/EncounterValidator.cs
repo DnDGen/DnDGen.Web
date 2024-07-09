@@ -74,24 +74,13 @@ namespace DnDGen.Api.DungeonGen.Validators
             return spec;
         }
 
-        private static string GetEnvironment(string environment)
-        {
-            return Environments.FirstOrDefault(e => e.Equals(environment, StringComparison.OrdinalIgnoreCase));
-        }
+        private static string GetEnvironment(string environment) => Environments.FirstOrDefault(e => e.Equals(environment, StringComparison.OrdinalIgnoreCase)) ?? string.Empty;
 
-        private static string GetTemperature(string temperature)
-        {
-            return Temperatures.FirstOrDefault(t => t.Equals(temperature, StringComparison.OrdinalIgnoreCase));
-        }
+        private static string GetTemperature(string temperature) => Temperatures.FirstOrDefault(t => t.Equals(temperature, StringComparison.OrdinalIgnoreCase)) ?? string.Empty;
 
-        private static string GetTimeOfDay(string timeOfDay)
-        {
-            return TimesOfDay.FirstOrDefault(t => t.Equals(timeOfDay, StringComparison.OrdinalIgnoreCase));
-        }
+        private static string GetTimeOfDay(string timeOfDay) => TimesOfDay.FirstOrDefault(t => t.Equals(timeOfDay, StringComparison.OrdinalIgnoreCase)) ?? string.Empty;
 
         private static IEnumerable<string> GetCreatureTypeFilters(IEnumerable<string> filters)
-        {
-            return CreatureTypeFilters.Where(ct => filters.Any(f => f.Equals(ct, StringComparison.OrdinalIgnoreCase)));
-        }
+            => CreatureTypeFilters.Where(ct => filters.Any(f => f.Equals(ct, StringComparison.OrdinalIgnoreCase)));
     }
 }

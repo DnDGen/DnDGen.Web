@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="App_Data\**" />
     <Compile Remove="Scripts\**" />
@@ -16,7 +14,6 @@
     <None Remove="App_Data\**" />
     <None Remove="Scripts\**" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="wwwroot\templates\dungeon\DungeonArea.html" />
     <None Remove="wwwroot\templates\dungeon\DungeonTreasure.html" />
@@ -26,22 +23,17 @@
     <None Remove="wwwroot\templates\treasure\Item.html" />
     <None Remove="wwwroot\templates\treasure\Treasure.html" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\.dockerignore" Link=".dockerignore">
       <DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
     </None>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="DnDGen.EncounterGen" Version="4.0.0" />
+    <PackageReference Include="DnDGen.EncounterGen" Version="5.0.1" />
     <PackageReference Include="DnDGen.RollGen" Version="15.5.7" />
     <PackageReference Include="DnDGen.TreasureGen" Version="10.5.7" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
-    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.28" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
     <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
   </ItemGroup>
 </Project>

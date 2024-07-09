@@ -1,44 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-	  <TargetFrameworks>net6.0</TargetFrameworks>
-	  <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-	  <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-	  <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-	  <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-	  <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-	  <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-	  <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-
-	  <IsPackable>false</IsPackable>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
-	  <PackageReference Include="Castle.Core" Version="5.1.1" />
-	  <PackageReference Include="Chutzpah" Version="4.4.13" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	  <Reference Include="Microsoft.CSharp" />
-	  <PackageReference Include="Moq" Version="4.20.70" />
-	  <PackageReference Include="Ninject" Version="3.3.6" />
-	  <PackageReference Include="NUnit" Version="4.1.0" />
-	  <Reference Include="System" />
-	  <Reference Include="System.Drawing" />
-	  <Reference Include="System.Net.Http" />
-	  <Reference Include="System.Web" />
-	  <Reference Include="System.Web.Extensions" />
-	  <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0" />
-	  <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
-	  <PackageReference Include="Microsoft.AspNet.Razor" Version="3.3.0" />
-	  <Reference Include="System.Web.Routing" />
-	  <PackageReference Include="DnDGen.TreasureGen" Version="10.5.7" />
-	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-	  <PackageReference Include="NUnit3TestAdapter" Version="4.5.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+    <PackageReference Include="Castle.Core" Version="5.1.1" />
+    <PackageReference Include="Chutzpah" Version="4.4.13" />
+    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="NUnit" Version="4.1.0" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <PackageReference Include="DnDGen.TreasureGen" Version="10.5.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters" Version="1.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
   <ItemGroup>
-	  <ProjectReference Include="..\DnDGen.Web\DnDGen.Web.csproj" />
+    <ProjectReference Include="..\DnDGen.Web\DnDGen.Web.csproj" />
   </ItemGroup>
 </Project>
