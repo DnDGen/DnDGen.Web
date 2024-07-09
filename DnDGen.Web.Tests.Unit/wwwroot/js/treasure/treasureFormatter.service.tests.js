@@ -486,38 +486,8 @@ describe('Treasure Formatter Service', function () {
         expect(lines.length).toBe(expected.length);
     });
 
-    it('formats weapon web', function () {
-        var weapon = getMock('weapon.web');
-        weapon.name = "weapon name";
-        weapon.size = "weapon size";
-        weapon.combatTypes = ["melee", "ranged"];
-        weapon.damage = "weapon damage";
-        weapon.damageType = "damage type";
-        weapon.threatRange = "threat range";
-        weapon.criticalMultiplier = "over 9000";
-
-        var formattedItem = treasureFormatterService.formatItem(weapon);
-        var lines = formattedItem.split('\r\n');
-
-        var expected = [
-            'weapon name',
-            '\t' + 'Weapon:',
-            '\t\t' + 'Size: weapon size',
-            '\t\t' + 'Combat Types: melee, ranged',
-            '\t\t' + 'Damage: weapon damage damage type',
-            '\t\t' + 'Critical: threat range (over 9000)',
-            '',
-        ];
-
-        for (var i = 0; i < lines.length; i++) {
-            expect(lines[i]).toBe(expected[i]);
-        }
-
-        expect(lines.length).toBe(expected.length);
-    });
-
-    it('formats weapon api', function () {
-        var weapon = getMock('weapon.api');
+    it('formats weapon', function () {
+        var weapon = getMock('weapon');
         weapon.name = "weapon name";
         weapon.size = "weapon size";
         weapon.combatTypes = ["melee", "ranged"];
@@ -545,40 +515,8 @@ describe('Treasure Formatter Service', function () {
         expect(lines.length).toBe(expected.length);
     });
 
-    it('formats weapon web requiring ammunition', function () {
-        var weapon = getMock('weapon.web');
-        weapon.name = "weapon name";
-        weapon.size = "weapon size";
-        weapon.combatTypes = ["ranged"];
-        weapon.damage = "weapon damage";
-        weapon.damageType = "damage type";
-        weapon.threatRange = "threat range";
-        weapon.criticalMultiplier = "over 9000";
-        weapon.ammunition = "needed ammo";
-
-        var formattedItem = treasureFormatterService.formatItem(weapon);
-        var lines = formattedItem.split('\r\n');
-
-        var expected = [
-            'weapon name',
-            '\t' + 'Weapon:',
-            '\t\t' + 'Size: weapon size',
-            '\t\t' + 'Combat Types: ranged',
-            '\t\t' + 'Damage: weapon damage damage type',
-            '\t\t' + 'Critical: threat range (over 9000)',
-            '\t\t' + 'Ammunition Used: needed ammo',
-            '',
-        ];
-
-        for (var i = 0; i < lines.length; i++) {
-            expect(lines[i]).toBe(expected[i]);
-        }
-
-        expect(lines.length).toBe(expected.length);
-    });
-
-    it('formats weapon api requiring ammunition', function () {
-        var weapon = getMock('weapon.api');
+    it('formats weapon requiring ammunition', function () {
+        var weapon = getMock('weapon');
         weapon.name = "weapon name";
         weapon.size = "weapon size";
         weapon.combatTypes = ["ranged"];

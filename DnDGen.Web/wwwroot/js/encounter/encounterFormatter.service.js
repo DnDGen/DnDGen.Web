@@ -49,12 +49,7 @@
         function formatCreature(creature, prefix) {
             var formattedCreature = '';
 
-            if (creature.type) {
-                formattedCreature = prefix + formatCreatureNameWeb(creature.type, prefix);
-            }
-            else if (creature.creature) {
-                formattedCreature = prefix + formatCreatureNameApi(creature.creature, prefix);
-            }
+            formattedCreature = prefix + formatCreatureName(creature.creature, prefix);
 
             formattedCreature += prefix + '\t' + 'Challenge Rating: ' + creature.challengeRating + '\r\n';
             formattedCreature += prefix + '\t' + 'Quantity: ' + creature.quantity + '\r\n';
@@ -62,23 +57,7 @@
             return formattedCreature;
         }
 
-        function formatCreatureNameWeb(creatureType, prefix) {
-            var formattedType = creatureType.name;
-
-            if (creatureType.description) {
-                formattedType += ' (' + creatureType.description + ')';
-            }
-
-            formattedType += '\r\n';
-
-            if (creatureType.subType) {
-                formattedType += prefix + '\t' + 'Subtype: ' + formatCreatureNameWeb(creatureType.subType, prefix + '\t');
-            }
-
-            return formattedType;
-        }
-
-        function formatCreatureNameApi(creature, prefix) {
+        function formatCreatureName(creature, prefix) {
             var formattedCreature = creature.name;
 
             if (creature.description) {
@@ -88,7 +67,7 @@
             formattedCreature += '\r\n';
 
             if (creature.subCreature) {
-                formattedCreature += prefix + '\t' + 'Sub-creature: ' + formatCreatureNameApi(creature.subCreature, prefix + '\t');
+                formattedCreature += prefix + '\t' + 'Sub-creature: ' + formatCreatureName(creature.subCreature, prefix + '\t');
             }
 
             return formattedCreature;

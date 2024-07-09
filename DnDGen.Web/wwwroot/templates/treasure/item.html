@@ -72,14 +72,13 @@
                 </ul>
             </dndgen-collapsable-list>
         </li>
-        <li ng-show="item.damage || item.damages.length > 0">
+        <li ng-show="item.damages.length > 0">
             <dndgen-collapsable-list heading="Weapon" has-list="true">
                 <ul>
                     <li>Size: {{item.size}}</li>
                     <li>Combat Types: {{item.combatTypes.join(", ")}}</li>
-                    <li ng-if="item.damage">Damage: {{item.damage}} {{item.damageType}}</li>
-                    <li ng-if="item.damageDescription">Damage: {{item.damageDescription}}</li>
-                    <li>Critical: {{item.threatRangeDescription ? item.threatRangeDescription : item.threatRange}} ({{item.criticalMultiplier}})</li>
+                    <li>Damage: {{item.damageDescription}}</li>
+                    <li>Critical: {{item.threatRangeDescription}} ({{item.criticalMultiplier}})</li>
                     <li ng-show="item.ammunition">Ammunition Used: {{item.ammunition}}</li>
                 </ul>
             </dndgen-collapsable-list>
