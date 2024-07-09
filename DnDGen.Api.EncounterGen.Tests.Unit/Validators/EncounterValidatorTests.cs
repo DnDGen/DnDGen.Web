@@ -59,7 +59,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(spec.Temperature, Is.EqualTo(expected == string.Empty ? null : expected));
+            Assert.That(spec.Temperature, Is.EqualTo(expected));
             Assert.That(spec.Description, Is.EqualTo($"Level 1 {expected} Plains Day"));
         }
 
@@ -99,7 +99,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
                 EnvironmentConstants.TimesOfDay.Day,
                 1);
 
-            Assert.That(spec.Environment, Is.EqualTo(expected == string.Empty ? null : expected));
+            Assert.That(spec.Environment, Is.EqualTo(expected));
             Assert.That(spec.Description, Is.EqualTo($"Level 1 Temperate {expected} Day"));
         }
 
@@ -121,7 +121,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Validators
                 input,
                 1);
 
-            Assert.That(spec.TimeOfDay, Is.EqualTo(expected == string.Empty ? null : expected));
+            Assert.That(spec.TimeOfDay, Is.EqualTo(expected));
             Assert.That(spec.Description, Is.EqualTo($"Level 1 Temperate Plains {expected}"));
         }
 
