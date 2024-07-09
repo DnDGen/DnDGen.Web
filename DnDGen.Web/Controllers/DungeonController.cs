@@ -2,7 +2,6 @@
 using DnDGen.Web.Helpers;
 using DnDGen.Web.Models;
 using DungeonGen;
-using EncounterGen.Generators;
 using EventGen;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,21 +26,6 @@ namespace DnDGen.Web.Controllers
             return View(model);
         }
 
-        [Route("Dungeon/GenerateFromHall")]
-        [HttpGet]
-        public JsonResult GenerateFromHall(
-            Guid clientId,
-            int dungeonLevel,
-            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
-        {
-            clientIdManager.SetClientID(clientId);
-
-            var areas = dungeonGenerator.GenerateFromHall(dungeonLevel, encounterSpecifications);
-            areas = SortCharacterTraits(areas);
-
-            return Json(new { areas = areas });
-        }
-
         private IEnumerable<Area> SortCharacterTraits(IEnumerable<Area> areas)
         {
             foreach (var area in areas)
@@ -64,21 +48,6 @@ namespace DnDGen.Web.Controllers
             }
 
             return areas;
-        }
-
-        [Route("Dungeon/GenerateFromDoor")]
-        [HttpGet]
-        public JsonResult GenerateFromDoor(
-            Guid clientId,
-            int dungeonLevel,
-            [ModelBinder(BinderType = typeof(EncounterSpecificationsModelBinder))] EncounterSpecifications encounterSpecifications)
-        {
-            clientIdManager.SetClientID(clientId);
-
-            var areas = dungeonGenerator.GenerateFromDoor(dungeonLevel, encounterSpecifications);
-            areas = SortCharacterTraits(areas);
-
-            return Json(new { areas = areas });
         }
     }
 }

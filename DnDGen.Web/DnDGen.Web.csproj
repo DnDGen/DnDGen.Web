@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="App_Data\**" />
     <Compile Remove="Scripts\**" />
+    <Content Remove="App_Data\**" />
     <Content Remove="Scripts\**" />
+    <EmbeddedResource Remove="App_Data\**" />
     <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="App_Data\**" />
     <None Remove="Scripts\**" />
   </ItemGroup>
 
@@ -21,10 +25,6 @@
     <None Remove="wwwroot\templates\shared\EventLog.html" />
     <None Remove="wwwroot\templates\treasure\Item.html" />
     <None Remove="wwwroot\templates\treasure\Treasure.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="App_Data\" />
   </ItemGroup>
 
   <ItemGroup>
