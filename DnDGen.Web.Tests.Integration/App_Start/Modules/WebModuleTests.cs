@@ -1,6 +1,4 @@
-﻿using DnDGen.Web.App_Start;
-using DnDGen.Web.Controllers;
-using DungeonGen;
+﻿using DnDGen.Web.Controllers;
 using NUnit.Framework;
 
 namespace DnDGen.Web.Tests.Integration.App_Start.Modules
@@ -13,13 +11,6 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         {
             var controller = InjectControllerAndAssertDuration<HomeController>();
             Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void DependencyFactoryIsInjected()
-        {
-            var controller = InjectServiceAndAssertDuration<IDependencyFactory>();
-            Assert.That(controller, Is.Not.Null.And.InstanceOf<NinjectDependencyFactory>());
         }
 
         [Test]
@@ -55,13 +46,6 @@ namespace DnDGen.Web.Tests.Integration.App_Start.Modules
         {
             var controller = InjectControllerAndAssertDuration<DungeonController>();
             Assert.That(controller, Is.Not.Null);
-        }
-
-        [Test]
-        public void EXTERNAL_DungeonGeneratorInjected()
-        {
-            var generator = InjectAndAssertDuration<IDungeonGenerator>();
-            Assert.That(generator, Is.Not.Null);
         }
     }
 }

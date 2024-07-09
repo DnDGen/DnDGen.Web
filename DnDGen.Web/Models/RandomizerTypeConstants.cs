@@ -1,4 +1,4 @@
-﻿namespace DnDGen.Web.App_Start
+﻿namespace DnDGen.Web.Models
 {
     public static class RandomizerTypeConstants
     {

@@ -1,5 +1,5 @@
-﻿using DnDGen.Web.Models;
-using EncounterGen.Common;
+﻿using DnDGen.EncounterGen.Models;
+using DnDGen.Web.Models;
 using NUnit.Framework;
 using System.Linq;
 
@@ -51,21 +51,21 @@ namespace DnDGen.Web.Tests.Unit.Models
         [Test]
         public void ModelContainsCreatureTypes()
         {
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Aberration));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Animal));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Construct));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Dragon));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Elemental));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Fey));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Giant));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Humanoid));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MagicalBeast));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MonstrousHumanoid));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Ooze));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Outsider));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Plant));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Undead));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Vermin));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Aberration));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Animal));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Construct));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Dragon));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Elemental));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Fey));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Giant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Humanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.MagicalBeast));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.MonstrousHumanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Ooze));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Outsider));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Plant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Undead));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Vermin));
             Assert.That(model.CreatureTypes.Count(), Is.EqualTo(15));
         }
 

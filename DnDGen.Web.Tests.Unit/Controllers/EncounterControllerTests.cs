@@ -1,14 +1,8 @@
-﻿using DnDGen.Web.App_Start;
+﻿using DnDGen.EncounterGen.Models;
 using DnDGen.Web.Controllers;
 using DnDGen.Web.Models;
-using EncounterGen.Common;
-using EncounterGen.Generators;
-using EventGen;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DnDGen.Web.Tests.Unit.Controllers
@@ -17,32 +11,11 @@ namespace DnDGen.Web.Tests.Unit.Controllers
     public class EncounterControllerTests
     {
         private EncounterController controller;
-        private Mock<IEncounterGenerator> mockEncounterGenerator;
-        private Mock<IEncounterVerifier> mockEncounterVerifier;
-        private List<string> filters;
-        private EncounterSpecifications encounterSpecifications;
-        private Mock<ClientIDManager> mockClientIdManager;
-        private Guid clientId;
 
         [SetUp]
         public void Setup()
         {
-            mockEncounterGenerator = new Mock<IEncounterGenerator>();
-            mockEncounterVerifier = new Mock<IEncounterVerifier>();
-            mockClientIdManager = new Mock<ClientIDManager>();
-
-            var mockDependencyFactory = new Mock<IDependencyFactory>();
-            mockDependencyFactory.Setup(f => f.Get<IEncounterGenerator>()).Returns(mockEncounterGenerator.Object);
-            mockDependencyFactory.Setup(f => f.Get<IEncounterVerifier>()).Returns(mockEncounterVerifier.Object);
-            mockDependencyFactory.Setup(f => f.Get<ClientIDManager>()).Returns(mockClientIdManager.Object);
-
             controller = new EncounterController();
-
-            clientId = Guid.NewGuid();
-            filters = new List<string>();
-            encounterSpecifications = new EncounterSpecifications();
-
-            encounterSpecifications.CreatureTypeFilters = filters;
         }
 
         [TestCase("Index")]
@@ -109,21 +82,21 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var result = controller.Index() as ViewResult;
             var model = result.Model as EncounterViewModel;
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Aberration));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Animal));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Construct));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Dragon));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Elemental));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Fey));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Giant));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Humanoid));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MagicalBeast));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.MonstrousHumanoid));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Ooze));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Outsider));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Plant));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Undead));
-            Assert.That(model.CreatureTypes, Contains.Item(CreatureConstants.Types.Vermin));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Aberration));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Animal));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Construct));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Dragon));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Elemental));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Fey));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Giant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Humanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.MagicalBeast));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.MonstrousHumanoid));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Ooze));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Outsider));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Plant));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Undead));
+            Assert.That(model.CreatureTypes, Contains.Item(CreatureDataConstants.Types.Vermin));
             Assert.That(model.CreatureTypes.Count(), Is.EqualTo(15));
         }
     }
