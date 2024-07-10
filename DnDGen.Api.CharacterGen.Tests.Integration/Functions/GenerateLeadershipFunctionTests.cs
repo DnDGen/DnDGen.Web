@@ -2,25 +2,23 @@ using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Functions;
 using DnDGen.Api.CharacterGen.Tests.Integration.Helpers;
 using DnDGen.CharacterGen.Leaders;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
 {
     public class GenerateLeadershipFunctionTests : IntegrationTests
     {
         private GenerateLeadershipFunction function;
-        private ILogger logger;
         private const int sigma = 6;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new GenerateLeadershipFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new GenerateLeadershipFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCase(6)]
@@ -40,14 +38,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(20)]
         public async Task GenerateLeadership_ReturnsLeadership(int level)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, level, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Leadership>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var leadership = okResult.Value as Leadership;
+            var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(level).Within(sigma));
             Assert.That(leadership.CohortScore, Is.EqualTo(level).Within(sigma));
@@ -59,6 +58,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(leadership.FollowerQuantities.Level4, Is.Not.Negative.And.LessThanOrEqualTo(leadership.FollowerQuantities.Level3));
             Assert.That(leadership.FollowerQuantities.Level5, Is.Not.Negative.And.LessThanOrEqualTo(leadership.FollowerQuantities.Level4));
             Assert.That(leadership.FollowerQuantities.Level6, Is.Not.Negative.And.LessThanOrEqualTo(leadership.FollowerQuantities.Level5));
+        }
+
+        private string GetUrl(int level, string query = "")
+        {
+            var url = $"https://character.dndgen.com/api/v1/leadership/level/{level}/generate";
+            if (query.Any())
+            {
+                if (!query.StartsWith('?'))
+                    url += "?";
+
+                url += query;
+            }
+
+            return url;
         }
 
         [TestCase(-2)]
@@ -73,9 +86,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(22)]
         public async Task GenerateLeadership_ReturnsBadRequest_WhenLevelInvalid(int level)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, level, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-5)]
@@ -92,14 +112,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(42)]
         public async Task GenerateLeadership_ReturnsLeadership_WithCharismaModifier(int charismaBonus)
         {
-            var request = RequestHelper.BuildRequest($"?leaderCharismaBonus={charismaBonus}");
-            var response = await function.Run(request, 9, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(9, $"?leaderCharismaBonus={charismaBonus}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 9);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Leadership>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var leadership = okResult.Value as Leadership;
+            var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(9 + charismaBonus).Within(sigma));
             Assert.That(leadership.CohortScore, Is.EqualTo(9 + charismaBonus).Within(sigma));
@@ -116,14 +137,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateLeadership_ReturnsLeadership_WithAnimal()
         {
-            var request = RequestHelper.BuildRequest($"?leaderAnimal=Cat");
-            var response = await function.Run(request, 9, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(9, "?leaderAnimal=Cat");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 9);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Leadership>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var leadership = okResult.Value as Leadership;
+            var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(9).Within(sigma));
             Assert.That(leadership.CohortScore, Is.EqualTo(9).Within(sigma));
@@ -140,14 +162,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateLeadership_ReturnsLeadership_WithAllParameters()
         {
-            var request = RequestHelper.BuildRequest($"?leaderCharismaBonus=5&leaderAnimal=Grizzly+Bear");
-            var response = await function.Run(request, 20, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(20, "?leaderCharismaBonus=5&leaderAnimal=Grizzly+Bear");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 20);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Leadership>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var leadership = okResult.Value as Leadership;
+            var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(24).Within(sigma));
             Assert.That(leadership.CohortScore, Is.EqualTo(24).Within(sigma));

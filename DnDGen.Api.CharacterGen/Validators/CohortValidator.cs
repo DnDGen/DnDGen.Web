@@ -1,14 +1,14 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace DnDGen.Api.CharacterGen.Validators
 {
     public static class CohortValidator
     {
-        public static (bool Valid, string Error, CohortSpecifications CohortSpecifications) GetValid(HttpRequest request)
+        public static (bool Valid, string Error, CohortSpecifications CohortSpecifications) GetValid(HttpRequestData request)
         {
-            var leaderAlignment = (string)request.Query["leaderAlignment"];
-            var leaderClassName = (string)request.Query["leaderClassName"];
+            var leaderAlignment = request.Query["leaderAlignment"] ?? string.Empty;
+            var leaderClassName = request.Query["leaderClassName"] ?? string.Empty;
             var validLeaderLevel = int.TryParse(request.Query["leaderLevel"], out var leaderLevel);
 
             if (!validLeaderLevel)

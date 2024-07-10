@@ -1,5 +1,6 @@
 ﻿using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +12,8 @@ namespace DnDGen.Api.CharacterGen.Models
         public string LeaderAlignment { get; set; }
         public string LeaderClassName { get; set; }
 
-        private static readonly IEnumerable<string> Alignments = new[]
-        {
+        private static readonly IEnumerable<string> Alignments =
+        [
             AlignmentConstants.LawfulGood,
             AlignmentConstants.LawfulNeutral,
             AlignmentConstants.LawfulEvil,
@@ -22,10 +23,10 @@ namespace DnDGen.Api.CharacterGen.Models
             AlignmentConstants.NeutralGood,
             AlignmentConstants.TrueNeutral,
             AlignmentConstants.NeutralEvil,
-        };
+        ];
 
-        private static readonly IEnumerable<string> ClassNames = new[]
-        {
+        private static readonly IEnumerable<string> ClassNames =
+        [
             CharacterClassConstants.Adept,
             CharacterClassConstants.Aristocrat,
             CharacterClassConstants.Barbarian,
@@ -42,16 +43,22 @@ namespace DnDGen.Api.CharacterGen.Models
             CharacterClassConstants.Sorcerer,
             CharacterClassConstants.Warrior,
             CharacterClassConstants.Wizard,
-        };
+        ];
+
+        public CohortSpecifications()
+        {
+            LeaderAlignment = string.Empty;
+            LeaderClassName = string.Empty;
+        }
 
         public void SetAlignment(string value)
         {
-            LeaderAlignment = Alignments.FirstOrDefault(a => a.ToLower() == value?.ToLower());
+            LeaderAlignment = Alignments.FirstOrDefault(a => a.Equals(value, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
         }
 
         public void SetClassName(string value)
         {
-            LeaderClassName = ClassNames.FirstOrDefault(a => a.ToLower() == value?.ToLower());
+            LeaderClassName = ClassNames.FirstOrDefault(a => a.Equals(value, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
         }
 
         public (bool Valid, string Error) IsValid()
@@ -62,15 +69,15 @@ namespace DnDGen.Api.CharacterGen.Models
             if (!valid)
                 return (false, $"LeaderLevel is not valid. Should be 6 <= level <= 20");
 
-            valid &= LeaderAlignment != null;
+            valid &= LeaderAlignment != string.Empty;
             if (!valid)
                 return (false, $"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", Alignments)}]");
 
-            valid &= LeaderClassName != null;
+            valid &= LeaderClassName != string.Empty;
             if (!valid)
                 return (false, $"LeaderClassName is not valid. Should be one of: [{string.Join(", ", ClassNames)}]");
 
-            return (valid, null);
+            return (valid, string.Empty);
         }
     }
 }

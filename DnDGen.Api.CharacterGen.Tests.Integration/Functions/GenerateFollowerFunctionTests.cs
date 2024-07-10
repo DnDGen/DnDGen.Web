@@ -4,8 +4,9 @@ using DnDGen.Api.CharacterGen.Tests.Integration.Helpers;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
 using DnDGen.CharacterGen.Characters;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
@@ -13,16 +14,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
     public class GenerateFollowerFunctionTests : IntegrationTests
     {
         private GenerateFollowerFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new GenerateFollowerFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new GenerateFollowerFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCase(1)]
@@ -36,20 +34,35 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
             query += "&leaderClassName=Fighter";
 
-            var request = RequestHelper.BuildRequest(query);
-            var response = await function.Run(request, level, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(level, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var cohort = okResult.Value as Character;
-            Assert.That(cohort, Is.Not.Null);
-            Assert.That(cohort.Summary, Is.Not.Empty);
-            Assert.That(cohort.Alignment.Full, Is.Not.Empty);
-            Assert.That(cohort.Class.Level, Is.AtLeast(1).And.EqualTo(level));
-            Assert.That(cohort.Class.Summary, Is.Not.Empty);
-            Assert.That(cohort.Race.Summary, Is.Not.Empty);
+            var follower = StreamHelper.Read<Character>(response.Body);
+            Assert.That(follower, Is.Not.Null);
+            Assert.That(follower.Summary, Is.Not.Empty);
+            Assert.That(follower.Alignment.Full, Is.Not.Empty);
+            Assert.That(follower.Class.Level, Is.AtLeast(1).And.EqualTo(level));
+            Assert.That(follower.Class.Summary, Is.Not.Empty);
+            Assert.That(follower.Race.Summary, Is.Not.Empty);
+        }
+
+        private string GetUrl(int level, string query = "")
+        {
+            var url = $"https://character.dndgen.com/api/v1/follower/level/{level}/generate";
+            if (query.Any())
+            {
+                if (!query.StartsWith('?'))
+                    url += "?";
+
+                url += query;
+            }
+
+            return url;
         }
 
         [Test]
@@ -58,9 +71,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var query = $"?leaderAlignment={HttpUtility.UrlEncode("Invalid Alignment")}";
             query += "&leaderClassName=Fighter";
 
-            var request = RequestHelper.BuildRequest(query);
-            var response = await function.Run(request, 1, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(1, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(AlignmentConstants.LawfulGood)]
@@ -77,20 +97,21 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(leaderAlignment)}";
             query += "&leaderClassName=Fighter";
 
-            var request = RequestHelper.BuildRequest(query);
-            var response = await function.Run(request, 1, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(1, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var cohort = okResult.Value as Character;
-            Assert.That(cohort, Is.Not.Null);
-            Assert.That(cohort.Summary, Is.Not.Empty);
-            Assert.That(cohort.Alignment.Full, Is.Not.Empty);
-            Assert.That(cohort.Class.Level, Is.AtLeast(1));
-            Assert.That(cohort.Class.Summary, Is.Not.Empty);
-            Assert.That(cohort.Race.Summary, Is.Not.Empty);
+            var follower = StreamHelper.Read<Character>(response.Body);
+            Assert.That(follower, Is.Not.Null);
+            Assert.That(follower.Summary, Is.Not.Empty);
+            Assert.That(follower.Alignment.Full, Is.Not.Empty);
+            Assert.That(follower.Class.Level, Is.AtLeast(1));
+            Assert.That(follower.Class.Summary, Is.Not.Empty);
+            Assert.That(follower.Race.Summary, Is.Not.Empty);
         }
 
         [Test]
@@ -99,9 +120,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
             query += "&leaderClassName=Invalid";
 
-            var request = RequestHelper.BuildRequest(query);
-            var response = await function.Run(request, 1, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(1, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(CharacterClassConstants.Adept)]
@@ -125,20 +153,21 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
             query += $"&leaderClassName={leaderClassName}";
 
-            var request = RequestHelper.BuildRequest(query);
-            var response = await function.Run(request, 1, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(1, query);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var cohort = okResult.Value as Character;
-            Assert.That(cohort, Is.Not.Null);
-            Assert.That(cohort.Summary, Is.Not.Empty);
-            Assert.That(cohort.Alignment.Full, Is.Not.Empty);
-            Assert.That(cohort.Class.Level, Is.AtLeast(1));
-            Assert.That(cohort.Class.Summary, Is.Not.Empty);
-            Assert.That(cohort.Race.Summary, Is.Not.Empty);
+            var follower = StreamHelper.Read<Character>(response.Body);
+            Assert.That(follower, Is.Not.Null);
+            Assert.That(follower.Summary, Is.Not.Empty);
+            Assert.That(follower.Alignment.Full, Is.Not.Empty);
+            Assert.That(follower.Class.Level, Is.AtLeast(1));
+            Assert.That(follower.Class.Summary, Is.Not.Empty);
+            Assert.That(follower.Race.Summary, Is.Not.Empty);
         }
     }
 }

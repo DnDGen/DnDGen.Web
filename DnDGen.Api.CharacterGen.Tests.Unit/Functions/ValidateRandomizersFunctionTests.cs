@@ -10,11 +10,10 @@ using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
 using DnDGen.CharacterGen.Verifiers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Web;
+using System.Net;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
 {
@@ -23,22 +22,32 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         private ValidateRandomizersFunction function;
         private Mock<IRandomizerRepository> mockRandomizerRepository;
         private Mock<IRandomizerVerifier> mockRandomizerVerifier;
-        private Mock<ILogger> mockLogger;
-        private HttpRequest request;
+        private Mock<ILogger<ValidateRandomizersFunction>> mockLogger;
+        private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
         {
             mockRandomizerRepository = new Mock<IRandomizerRepository>();
             mockRandomizerVerifier = new Mock<IRandomizerVerifier>();
-            mockLogger = new Mock<ILogger>();
-            request = RequestHelper.BuildRequest();
+            mockLogger = new Mock<ILogger<ValidateRandomizersFunction>>();
+
+            var mockLoggerFactory = new Mock<ILoggerFactory>();
+            mockLogger.Setup(l => l.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+
+            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CharacterGen.Functions.ValidateRandomizersFunction")).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<IRandomizerRepository>()).Returns(mockRandomizerRepository.Object);
             mockDependencyFactory.Setup(f => f.Get<IRandomizerVerifier>()).Returns(mockRandomizerVerifier.Object);
 
-            function = new ValidateRandomizersFunction(mockDependencyFactory.Object);
+            function = new ValidateRandomizersFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
+            requestHelper = new RequestHelper();
         }
 
         [TestCase(true)]
@@ -52,11 +61,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var mockMetaraceRandomizer = new Mock<RaceRandomizer>();
 
             mockRandomizerRepository
-                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Any, null))
+                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Any, string.Empty))
                 .Returns(mockAlignmentRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.AnyPlayer, null))
+                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.AnyPlayer, string.Empty))
                 .Returns(mockClassNameRandomizer.Object);
 
             mockRandomizerRepository
@@ -64,11 +73,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                 .Returns(mockLevelRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.AnyBase, null))
+                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.AnyBase, string.Empty))
                 .Returns(mockBaseRaceRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.AnyMeta, false, null))
+                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.AnyMeta, false, string.Empty))
                 .Returns(mockMetaraceRandomizer.Object);
 
             mockRandomizerVerifier
@@ -80,11 +89,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                     mockMetaraceRandomizer.Object))
                 .Returns(validity);
 
-            var result = await function.Run(request, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var request = requestHelper.BuildRequest();
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(validity));
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var valid = StreamHelper.Read<bool>(response.Body);
+            Assert.That(valid, Is.EqualTo(validity));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
             mockLogger.AssertLog($"Randomizer Validity: {validity}");
@@ -94,13 +108,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         [TestCase(false)]
         public async Task Run_ReturnsTheRandomizerValidity(bool validity)
         {
-            var query = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
-            query += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.PhysicalCombat)}";
-            query += $"&levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Medium)}";
-            query += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
-            query += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}";
+            var query = $"?alignmentRandomizerType={AlignmentRandomizerTypeConstants.NonEvil}";
+            query += $"&classNameRandomizerType={ClassNameRandomizerTypeConstants.PhysicalCombat}";
+            query += $"&levelRandomizerType={LevelRandomizerTypeConstants.Medium}";
+            query += $"&baseRaceRandomizerType={RaceRandomizerTypeConstants.BaseRace.NonMonsterBase}";
+            query += $"&metaraceRandomizerType={RaceRandomizerTypeConstants.Metarace.GeneticMeta}";
 
-            request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
             var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
@@ -109,11 +123,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var mockMetaraceRandomizer = new Mock<RaceRandomizer>();
 
             mockRandomizerRepository
-                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.NonEvil, null))
+                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.NonEvil, string.Empty))
                 .Returns(mockAlignmentRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.PhysicalCombat, null))
+                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.PhysicalCombat, string.Empty))
                 .Returns(mockClassNameRandomizer.Object);
 
             mockRandomizerRepository
@@ -121,11 +135,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                 .Returns(mockLevelRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase, null))
+                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase, string.Empty))
                 .Returns(mockBaseRaceRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.GeneticMeta, false, null))
+                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.GeneticMeta, false, string.Empty))
                 .Returns(mockMetaraceRandomizer.Object);
 
             mockRandomizerVerifier
@@ -137,11 +151,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                     mockMetaraceRandomizer.Object))
                 .Returns(validity);
 
-            var result = await function.Run(request, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(validity));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var valid = StreamHelper.Read<bool>(response.Body);
+            Assert.That(valid, Is.EqualTo(validity));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
             mockLogger.AssertLog($"Randomizer Validity: {validity}");
@@ -151,14 +168,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         [TestCase(false)]
         public async Task Run_ReturnsTheRandomizerValidity_ForceMetarace(bool validity)
         {
-            var query = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
-            query += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.PhysicalCombat)}";
-            query += $"&levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Medium)}";
-            query += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
-            query += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}";
+            var query = $"?alignmentRandomizerType={AlignmentRandomizerTypeConstants.NonEvil}";
+            query += $"&classNameRandomizerType={ClassNameRandomizerTypeConstants.PhysicalCombat}";
+            query += $"&levelRandomizerType={LevelRandomizerTypeConstants.Medium}";
+            query += $"&baseRaceRandomizerType={RaceRandomizerTypeConstants.BaseRace.NonMonsterBase}";
+            query += $"&metaraceRandomizerType={RaceRandomizerTypeConstants.Metarace.GeneticMeta}";
             query += "&forceMetarace=true";
 
-            request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
             var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
@@ -167,11 +184,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var mockMetaraceRandomizer = new Mock<RaceRandomizer>();
 
             mockRandomizerRepository
-                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.NonEvil, null))
+                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.NonEvil, string.Empty))
                 .Returns(mockAlignmentRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.PhysicalCombat, null))
+                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.PhysicalCombat, string.Empty))
                 .Returns(mockClassNameRandomizer.Object);
 
             mockRandomizerRepository
@@ -179,11 +196,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                 .Returns(mockLevelRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase, null))
+                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase, string.Empty))
                 .Returns(mockBaseRaceRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.GeneticMeta, true, null))
+                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.GeneticMeta, true, string.Empty))
                 .Returns(mockMetaraceRandomizer.Object);
 
             mockRandomizerVerifier
@@ -195,11 +212,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                     mockMetaraceRandomizer.Object))
                 .Returns(validity);
 
-            var result = await function.Run(request, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(validity));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var valid = StreamHelper.Read<bool>(response.Body);
+            Assert.That(valid, Is.EqualTo(validity));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
             mockLogger.AssertLog($"Randomizer Validity: {validity}");
@@ -210,17 +230,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         public async Task Run_ReturnsTheRandomizerValidity_WithSetValues(bool validity)
         {
             var query = "?alignmentRandomizerType=set";
-            query += $"&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.ChaoticNeutral)}";
+            query += $"&setAlignment={AlignmentConstants.ChaoticNeutral}";
             query += "&classNameRandomizerType=set";
-            query += $"&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Cleric)}";
+            query += $"&setClassName={CharacterClassConstants.Cleric}";
             query += "&levelRandomizerType=set";
             query += "&setLevel=2";
             query += "&baseRaceRandomizerType=set";
-            query += $"&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.MountainDwarf)}";
+            query += $"&setBaseRace={RaceConstants.BaseRaces.MountainDwarf}";
             query += "&metaraceRandomizerType=set";
-            query += $"&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Wereboar)}";
+            query += $"&setMetarace={RaceConstants.Metaraces.Wereboar}";
 
-            request = RequestHelper.BuildRequest(query);
+            var request = requestHelper.BuildRequest(query);
 
             var mockAlignmentRandomizer = new Mock<IAlignmentRandomizer>();
             var mockClassNameRandomizer = new Mock<IClassNameRandomizer>();
@@ -257,11 +277,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
                     mockMetaraceRandomizer.Object))
                 .Returns(validity);
 
-            var result = await function.Run(request, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(validity));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var valid = StreamHelper.Read<bool>(response.Body);
+            Assert.That(valid, Is.EqualTo(validity));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
             mockLogger.AssertLog($"Randomizer Validity: {validity}");
@@ -270,13 +293,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
         [Test]
         public async Task Run_ReturnsTheRandomizerValidity_WhenParametersInvalid()
         {
-            request = RequestHelper.BuildRequest("?alignmentRandomizerType=set");
+            var request = requestHelper.BuildRequest("?alignmentRandomizerType=set");
 
-            var result = await function.Run(request, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.False);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var valid = StreamHelper.Read<bool>(response.Body);
+            Assert.That(valid, Is.False);
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
             mockLogger.AssertLog($"Parameters are not a valid combination. Error: SetAlignment is not valid. Should be one of: [Lawful Good, Lawful Neutral, Lawful Evil, Chaotic Good, Chaotic Neutral, Chaotic Evil, Neutral Good, True Neutral, Neutral Evil]", LogLevel.Error);
