@@ -5,7 +5,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit
 {
     public static class LoggerAssertionExtensions
     {
-        public static void AssertLog(this Mock<ILogger> mockLogger, string message, LogLevel logLevel = LogLevel.Information)
+        public static void AssertLog<T>(this Mock<ILogger<T>> mockLogger, string message, LogLevel logLevel = LogLevel.Information)
         {
             mockLogger.Verify(
                 x => x.Log(

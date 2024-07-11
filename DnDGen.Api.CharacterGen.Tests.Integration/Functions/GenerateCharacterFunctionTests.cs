@@ -10,8 +10,9 @@ using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
@@ -19,35 +20,42 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
     public class GenerateCharacterFunctionTests : IntegrationTests
     {
         private GenerateCharacterFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new GenerateCharacterFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new GenerateCharacterFunction(loggerFactory, dependencyFactory);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_AllDefaults()
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
             Assert.That(character.Class.Level, Is.AtLeast(1));
             Assert.That(character.Class.Summary, Is.Not.Empty);
             Assert.That(character.Race.Summary, Is.Not.Empty);
+        }
+
+        private string GetUrl(string query = "")
+        {
+            var url = "https://character.dndgen.com/api/v1/character/generate";
+            if (query.Any())
+                url += "?" + query;
+
+            return url;
         }
 
         [TestCase(AlignmentRandomizerTypeConstants.Any,
@@ -117,14 +125,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             AlignmentConstants.ChaoticEvil)]
         public async Task GenerateCharacter_ReturnsCharacter_AlignmentRandomizers(string alignmentRandomizerType, params string[] expectedAlignments)
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType={HttpUtility.UrlEncode(alignmentRandomizerType)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"alignmentRandomizerType={HttpUtility.UrlEncode(alignmentRandomizerType)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(expectedAlignments));
@@ -136,14 +145,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_AlignmentRandomizers_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Any.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Any.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.LawfulGood,
@@ -163,9 +172,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidAlignmentRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?alignmentRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("alignmentRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(AlignmentConstants.LawfulGood)]
@@ -179,14 +195,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(AlignmentConstants.ChaoticEvil)]
         public async Task GenerateCharacter_ReturnsCharacter_SetAlignment(string alignment)
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(alignment)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(alignment)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.EqualTo(alignment));
@@ -198,14 +215,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetAlignment_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulGood.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulGood.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.EqualTo(AlignmentConstants.LawfulGood));
@@ -217,17 +235,31 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetAlignment()
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("alignmentRandomizerType=Set");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetAlignment()
         {
-            var request = RequestHelper.BuildRequest($"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode("Invalid Alignment")}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl($"alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode("Invalid Alignment")}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(ClassNameRandomizerTypeConstants.AnyPlayer,
@@ -282,14 +314,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             CharacterClassConstants.Rogue)]
         public async Task GenerateCharacter_ReturnsCharacter_ClassNameRandomizers(string classNameRandomizerType, params string[] expectedClassNames)
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType={HttpUtility.UrlEncode(classNameRandomizerType)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"classNameRandomizerType={HttpUtility.UrlEncode(classNameRandomizerType)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -302,14 +335,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_ClassNameRandomizers_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -332,9 +366,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidClassNameRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?classNameRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("classNameRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(CharacterClassConstants.Barbarian)]
@@ -355,14 +396,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(CharacterClassConstants.Warrior)]
         public async Task GenerateCharacter_ReturnsCharacter_SetClassName(string className)
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(className)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(className)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -375,14 +417,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetClassName_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Druid.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Druid.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -395,17 +438,31 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetClassName()
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("classNameRandomizerType=Set");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetClassName()
         {
-            var request = RequestHelper.BuildRequest($"?classNameRandomizerType=Set&setClassName=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("classNameRandomizerType=Set&setClassName=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(LevelRandomizerTypeConstants.Any, 1, 20)]
@@ -415,14 +472,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(LevelRandomizerTypeConstants.VeryHigh, 16, 20)]
         public async Task GenerateCharacter_ReturnsCharacter_LevelRandomizers(string levelRandomizerType, int min, int max)
         {
-            var request = RequestHelper.BuildRequest($"?levelRandomizerType={HttpUtility.UrlEncode(levelRandomizerType)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"levelRandomizerType={HttpUtility.UrlEncode(levelRandomizerType)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -434,14 +492,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_LevelRandomizers_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Any.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Any.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -453,9 +512,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidLevelRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?levelRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("levelRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(1)]
@@ -480,14 +546,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(20)]
         public async Task GenerateCharacter_ReturnsCharacter_SetLevel(int level)
         {
-            var request = RequestHelper.BuildRequest($"?levelRandomizerType=Set&setLevel={level}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"levelRandomizerType=Set&setLevel={level}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -499,9 +566,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetLevel()
         {
-            var request = RequestHelper.BuildRequest($"?levelRandomizerType=Set");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("levelRandomizerType=Set");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -511,9 +585,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(22)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetLevel(int invalidLevel)
         {
-            var request = RequestHelper.BuildRequest($"?levelRandomizerType=Set&setLevel={invalidLevel}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl($"levelRandomizerType=Set&setLevel={invalidLevel}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(RaceRandomizerTypeConstants.BaseRace.AnyBase,
@@ -743,14 +824,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.BaseRaces.RockGnome)]
         public async Task GenerateCharacter_ReturnsCharacter_BaseRaceRandomizers(string baseRaceRandomizerType, params string[] expectedBaseRaces)
         {
-            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType={HttpUtility.UrlEncode(baseRaceRandomizerType)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"baseRaceRandomizerType={HttpUtility.UrlEncode(baseRaceRandomizerType)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -763,14 +845,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_BaseRaceRandomizers_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.StandardBase.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.StandardBase.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -789,9 +872,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidBaseRaceRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?baseRaceRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("baseRaceRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(RaceConstants.BaseRaces.Aasimar)]
@@ -866,14 +956,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.BaseRaces.YuanTiPureblood)]
         public async Task GenerateCharacter_ReturnsCharacter_SetBaseRace(string baseRace)
         {
-            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(baseRace)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(baseRace)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -886,14 +977,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetBaseRace_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Tiefling.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Tiefling.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -906,17 +998,31 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetBaseRace()
         {
-            var request = RequestHelper.BuildRequest($"?baseRaceRandomizerType=Set");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("baseRaceRandomizerType=Set");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetBaseRace()
         {
-            var request = RequestHelper.BuildRequest("?baseRaceRandomizerType=Set&setBaseRace=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("baseRaceRandomizerType=Set&setBaseRace=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta, true,
@@ -985,14 +1091,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.Metaraces.None)]
         public async Task GenerateCharacter_ReturnsCharacter_MetaraceRandomizers(string metaraceRandomizerType, bool force, params string[] expectedMetaraces)
         {
-            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType={HttpUtility.UrlEncode(metaraceRandomizerType)}&forceMetarace={force}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"metaraceRandomizerType={HttpUtility.UrlEncode(metaraceRandomizerType)}&forceMetarace={force}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1005,14 +1112,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_MetaraceRandomizers_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1028,9 +1136,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidMetaraceRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?metaraceRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("metaraceRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(RaceConstants.Metaraces.None)]
@@ -1048,14 +1163,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.Metaraces.Werewolf)]
         public async Task GenerateCharacter_ReturnsCharacter_SetMetarace(string metarace)
         {
-            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(metarace)}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(metarace)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1068,14 +1184,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetMetarace_CaseInsensitive()
         {
-            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Vampire.ToUpper())}");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl($"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Vampire.ToUpper())}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1085,20 +1202,41 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.Vampire));
         }
 
+        //INFO: This is because an empty metarace registers as None
         [Test]
-        public async Task GenerateCharacter_ReturnsBadRequest_NoSetMetarace()
+        public async Task GenerateCharacter_ReturnsCharacter_NoSetMetarace()
         {
-            var request = RequestHelper.BuildRequest($"?metaraceRandomizerType=Set");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("metaraceRandomizerType=Set");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var character = StreamHelper.Read<Character>(response.Body);
+            Assert.That(character, Is.Not.Null);
+            Assert.That(character.Summary, Is.Not.Empty);
+            Assert.That(character.Alignment.Full, Is.Not.Empty);
+            Assert.That(character.Class.Level, Is.AtLeast(1));
+            Assert.That(character.Class.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Summary, Is.Not.Empty);
+            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.None));
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetMetarace()
         {
-            var request = RequestHelper.BuildRequest("?metaraceRandomizerType=Set&setMetarace=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("metaraceRandomizerType=Set&setMetarace=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(AbilitiesRandomizerTypeConstants.Average, 10, 13)]
@@ -1111,19 +1249,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(AbilitiesRandomizerTypeConstants.TwoTenSidedDice, 2, 20)]
         public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers(string abilitiesRandomizerType, int min, int max)
         {
-            var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(abilitiesRandomizerType)}";
+            var queryString = $"abilitiesRandomizerType={HttpUtility.UrlEncode(abilitiesRandomizerType)}";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1148,19 +1287,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers_CaseInsensitive()
         {
-            var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.OnesAsSixes.ToUpper())}";
+            var queryString = $"abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.OnesAsSixes.ToUpper())}";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1185,15 +1325,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidAbilitiesRandomizer()
         {
-            var request = RequestHelper.BuildRequest("?abilitiesRandomizerType=Invalid");
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl("abilitiesRandomizerType=Invalid");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetAbilities()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1205,14 +1352,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setCharisma=1336";
             queryString += "&allowAbilityAdjustments=false";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1237,7 +1385,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetAbilities_AllowAbilityAdjustments()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=20";
             queryString += $"&baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
             queryString += $"&metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.HalfDragon)}";
@@ -1249,14 +1397,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setCharisma=96";
             queryString += "&allowAbilityAdjustments=true";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty, character.Summary);
@@ -1285,7 +1434,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_SetAbilities_DoNotAllowAbilityAdjustments()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=20";
             queryString += $"&baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
             queryString += $"&metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.HalfDragon)}";
@@ -1297,14 +1446,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setCharisma=1336";
             queryString += "&allowAbilityAdjustments=false";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1329,7 +1479,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetStrength()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1340,9 +1490,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1350,7 +1507,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetStrength(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1361,15 +1518,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetConstitution()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1380,9 +1544,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1390,7 +1561,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetConstitution(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1401,15 +1572,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetDexterity()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1420,9 +1598,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1430,7 +1615,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetDexterity(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1441,15 +1626,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetIntelligence()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1460,9 +1652,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1470,7 +1669,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetIntelligence(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1481,15 +1680,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetWisdom()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1500,9 +1706,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             //queryString += "&setWisdom=1337";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1510,7 +1723,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetWisdom(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1521,15 +1734,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += $"&setWisdom={invalidAbility}";
             queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_NoSetCharisma()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1540,9 +1760,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             //queryString += "&setCharisma=1336";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase(-2)]
@@ -1550,7 +1777,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(0)]
         public async Task GenerateCharacter_ReturnsBadRequest_InvalidSetCharisma(int invalidAbility)
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += "&levelRandomizerType=Set&setLevel=1";
             queryString += "&baseRaceRandomizerType=Set&setBaseRace=Human";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.NoMeta)}";
@@ -1561,29 +1788,37 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setWisdom=1337";
             queryString += $"&setCharisma={invalidAbility}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_AllVariables()
         {
-            var queryString = $"?abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.TwoTenSidedDice)}";
+            var queryString = $"abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.TwoTenSidedDice)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonLawful)}";
             queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.PhysicalCombat)}";
             queryString += $"&levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Medium)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonStandardBase)}";
             queryString += $"&metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta)}&forceMetarace=true";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.NeutralGood,
@@ -1686,28 +1921,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleAlignmentRandomizer()
         {
-            var queryString = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Lawful)}";
+            var queryString = $"alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Lawful)}";
             queryString += "&classNameRandomizerType=Set&setClassName=Bard";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleAlignmentRandomizer()
         {
-            var queryString = $"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonLawful)}";
+            var queryString = $"alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonLawful)}";
             queryString += "&classNameRandomizerType=Set&setClassName=Bard";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1719,28 +1962,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleClassNameRandomizer()
         {
-            var queryString = $"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
+            var queryString = $"classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleClassNameRandomizer()
         {
-            var queryString = $"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer)}";
+            var queryString = $"classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyPlayer)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1752,28 +2003,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleBaseRaceRandomizer()
         {
-            var queryString = $"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
+            var queryString = $"baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
             queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleBaseRaceRandomizer()
         {
-            var queryString = $"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
+            var queryString = $"baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.NonMonsterBase)}";
             queryString += $"&classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.AnyNPC)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1785,28 +2044,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test, Ignore("No non-set metarace randomizer can be incompatible with non-set alignment, class name, or non-set base race")]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleMetaraceRandomizer()
         {
-            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=true";
+            var queryString = $"metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=true";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleMetaraceRandomizer()
         {
-            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}&forceMetarace=true";
+            var queryString = $"metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}&forceMetarace=true";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1818,17 +2085,18 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleMetaraceRandomizer_AllowNone()
         {
-            var queryString = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=false";
+            var queryString = $"metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.UndeadMeta)}&forceMetarace=false";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1840,7 +2108,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_AllSetVariables()
         {
-            var queryString = "?abilitiesRandomizerType=Set";
+            var queryString = "abilitiesRandomizerType=Set";
             queryString += $"&alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralEvil)}";
             queryString += "&classNameRandomizerType=Set&setClassName=Barbarian";
             queryString += "&levelRandomizerType=Set&setLevel=9";
@@ -1854,14 +2122,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&setCharisma=1336";
             queryString += "&allowAbilityAdjustments=false";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty.And.EqualTo(AlignmentConstants.NeutralEvil));
@@ -1889,28 +2158,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetAlignment()
         {
-            var queryString = $"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulNeutral)}";
+            var queryString = $"alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulNeutral)}";
             queryString += "&classNameRandomizerType=Set&setClassName=Bard";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetAlignment()
         {
-            var queryString = $"?alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
+            var queryString = $"alignmentRandomizerType=Set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.TrueNeutral)}";
             queryString += "&classNameRandomizerType=Set&setClassName=Bard";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1922,28 +2199,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetClassName()
         {
-            var queryString = $"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Warrior)}";
+            var queryString = $"classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Warrior)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetClassName()
         {
-            var queryString = $"?classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Wizard)}";
+            var queryString = $"classNameRandomizerType=Set&setClassName={HttpUtility.UrlEncode(CharacterClassConstants.Wizard)}";
             queryString += $"&baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.MonsterBase)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1955,28 +2240,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetBaseRace()
         {
-            var queryString = $"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
+            var queryString = $"baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.OgreMage)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Good)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetBaseRace()
         {
-            var queryString = $"?baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Orc)}";
+            var queryString = $"baseRaceRandomizerType=Set&setBaseRace={HttpUtility.UrlEncode(RaceConstants.BaseRaces.Orc)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.Good)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1988,28 +2281,36 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsBadRequest_IncompatibleSetMetarace()
         {
-            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Lich)}";
+            var queryString = $"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Lich)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetMetarace()
         {
-            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Weretiger)}";
+            var queryString = $"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.Weretiger)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -2021,17 +2322,18 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCharacter_ReturnsCharacter_CompatibleSetRandomizer_None()
         {
-            var queryString = $"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.None)}";
+            var queryString = $"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(RaceConstants.Metaraces.None)}";
             queryString += $"&alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}";
 
-            var request = RequestHelper.BuildRequest(queryString);
-            var response = await function.Run(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Character>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var character = okResult.Value as Character;
+            var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
             Assert.That(character.Summary, Is.Not.Empty);
             Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -2043,7 +2345,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task BUG_GenerateCharacter_ReturnsCharacter_WithoutMetarace()
         {
-            var queryString = "?abilitiesRandomizerType=Raw";
+            var queryString = "abilitiesRandomizerType=Raw";
             queryString += "&alignmentRandomizerType=Any";
             queryString += "&classNameRandomizerType=Any+Player";
             queryString += "&levelRandomizerType=Low";
@@ -2053,21 +2355,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&allowAbilityAdjustments=true";
             queryString += "&allowLevelAdjustments=true";
 
-            var request = RequestHelper.BuildRequest(queryString);
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
 
-            //INFO: will try 2 times to see if we get a character without metarace. Should happen at least once, if not more than once
+            //INFO: will try multiple times to see if we get a character without metarace. Should happen at least once, if not more than once
             var hasMeta = true;
-            var attempts = 2;
+            var attempts = 3;
 
             while (attempts-- > 0 && hasMeta)
             {
-                var response = await function.Run(request, logger);
-                Assert.That(response, Is.InstanceOf<OkObjectResult>());
+                var response = await function.Run(request);
+                Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-                var okResult = response as OkObjectResult;
-                Assert.That(okResult.Value, Is.InstanceOf<Character>());
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
 
-                var character = okResult.Value as Character;
+                var character = StreamHelper.Read<Character>(response.Body);
                 Assert.That(character, Is.Not.Null);
                 Assert.That(character.Summary, Is.Not.Empty);
                 Assert.That(character.Alignment.Full, Is.Not.Empty);

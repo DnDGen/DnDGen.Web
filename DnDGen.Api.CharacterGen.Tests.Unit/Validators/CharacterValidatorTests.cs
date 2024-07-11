@@ -8,20 +8,27 @@ using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
-using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 {
     public class CharacterValidatorTests
     {
+        private RequestHelper _requestHelper;
+
+        [SetUp]
+        public void Setup()
+        {
+            _requestHelper = new RequestHelper();
+        }
+
         [Test]
         public void GetValid_ReturnsValid_WithDefaults()
         {
-            var req = RequestHelper.BuildRequest();
+            var req = _requestHelper.BuildRequest();
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -35,11 +42,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithAlignmentRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?alignmentRandomizerType={HttpUtility.UrlEncode(AlignmentRandomizerTypeConstants.NonEvil)}");
+            var req = _requestHelper.BuildRequest($"?alignmentRandomizerType={AlignmentRandomizerTypeConstants.NonEvil}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.NonEvil));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -53,11 +60,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetAlignment()
         {
-            var req = RequestHelper.BuildRequest($"?alignmentRandomizerType=set&setAlignment={HttpUtility.UrlEncode(AlignmentConstants.ChaoticGood)}");
+            var req = _requestHelper.BuildRequest($"?alignmentRandomizerType=set&setAlignment={AlignmentConstants.ChaoticGood}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
             Assert.That(result.CharacterSpecifications.SetAlignment, Is.EqualTo(AlignmentConstants.ChaoticGood));
@@ -72,7 +79,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithAlignmentRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?alignmentRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?alignmentRandomizerType=invalid");
 
             var alignmentRandomizers = new[]
             {
@@ -94,7 +101,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Valid, Is.False);
             Assert.That(result.Error, Is.EqualTo($"AlignmentRandomizerType is not valid. Should be one of: [{string.Join(", ", alignmentRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
-            Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.Empty);
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
@@ -106,7 +113,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetAlignment()
         {
-            var req = RequestHelper.BuildRequest($"?alignmentRandomizerType=set&setAlignment={HttpUtility.UrlEncode("invalid alignment")}");
+            var req = _requestHelper.BuildRequest("?alignmentRandomizerType=set&setAlignment=invalid alignment");
 
             var alignments = new[]
             {
@@ -126,7 +133,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"SetAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetAlignment, Is.Null);
+            Assert.That(result.CharacterSpecifications.SetAlignment, Is.Empty);
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
@@ -138,11 +145,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithClassNameRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?classNameRandomizerType={HttpUtility.UrlEncode(ClassNameRandomizerTypeConstants.PhysicalCombat)}");
+            var req = _requestHelper.BuildRequest($"?classNameRandomizerType={ClassNameRandomizerTypeConstants.PhysicalCombat}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.PhysicalCombat));
@@ -156,11 +163,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetClassName()
         {
-            var req = RequestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=paladin");
+            var req = _requestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=paladin");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
@@ -175,7 +182,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithClassNameRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?classNameRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?classNameRandomizerType=invalid");
 
             var classNameRandomizers = new[]
             {
@@ -195,7 +202,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"ClassNameRandomizerType is not valid. Should be one of: [{string.Join(", ", classNameRandomizers)}]"));
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
-            Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.Empty);
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
@@ -206,7 +213,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetClassName()
         {
-            var req = RequestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=invalid");
+            var req = _requestHelper.BuildRequest($"?classNameRandomizerType=set&setClassName=invalid");
 
             var classNames = new[]
             {
@@ -234,7 +241,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetClassName, Is.Null);
+            Assert.That(result.CharacterSpecifications.SetClassName, Is.Empty);
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
@@ -245,11 +252,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithLevelRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?levelRandomizerType={HttpUtility.UrlEncode(LevelRandomizerTypeConstants.Medium)}");
+            var req = _requestHelper.BuildRequest($"?levelRandomizerType={LevelRandomizerTypeConstants.Medium}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -263,11 +270,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetLevel()
         {
-            var req = RequestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=9");
+            var req = _requestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=9");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -282,7 +289,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLevelRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?levelRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?levelRandomizerType=invalid");
 
             var levelRandomizers = new[]
             {
@@ -300,7 +307,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.Empty);
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
@@ -310,7 +317,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetLevel_NotANumber()
         {
-            var req = RequestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=invalid");
+            var req = _requestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=invalid");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -329,7 +336,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetLevel_OutOfRange()
         {
-            var req = RequestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=666");
+            var req = _requestHelper.BuildRequest($"?levelRandomizerType=set&setLevel=666");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -348,11 +355,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithBaseRaceRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.BaseRace.StandardBase)}");
+            var req = _requestHelper.BuildRequest($"?baseRaceRandomizerType={RaceRandomizerTypeConstants.BaseRace.StandardBase}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -366,11 +373,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetBaseRace()
         {
-            var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType=set&setBaseRace=human");
+            var req = _requestHelper.BuildRequest($"?baseRaceRandomizerType=set&setBaseRace=human");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -385,7 +392,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithBaseRaceRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?baseRaceRandomizerType=invalid");
 
             var baseRaceRandomizers = new[]
             {
@@ -405,7 +412,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
-            Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.Empty);
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
@@ -414,7 +421,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetBaseRace()
         {
-            var req = RequestHelper.BuildRequest($"?baseRaceRandomizerType=set&setBaseRace=invalid");
+            var req = _requestHelper.BuildRequest($"?baseRaceRandomizerType=set&setBaseRace=invalid");
 
             var baseRaces = new[]
             {
@@ -498,7 +505,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetBaseRace, Is.Null);
+            Assert.That(result.CharacterSpecifications.SetBaseRace, Is.Empty);
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
@@ -507,11 +514,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithMetaraceRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}");
+            var req = _requestHelper.BuildRequest($"?metaraceRandomizerType={RaceRandomizerTypeConstants.Metarace.GeneticMeta}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -532,14 +539,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [TestCase("invalid", false)]
         public void GetValid_ReturnsValid_WithForceMetarace(string value, bool expected)
         {
-            var query = $"?metaraceRandomizerType={HttpUtility.UrlEncode(RaceRandomizerTypeConstants.Metarace.GeneticMeta)}";
+            var query = $"?metaraceRandomizerType={RaceRandomizerTypeConstants.Metarace.GeneticMeta}";
             query += $"&forceMetarace={value}";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -553,11 +560,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetMetarace()
         {
-            var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace=lich");
+            var req = _requestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace=lich");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -572,11 +579,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithSetMetarace_None()
         {
-            var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace={RaceConstants.Metaraces.None}");
+            var req = _requestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace={RaceConstants.Metaraces.None}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -591,7 +598,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithMetaraceRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?metaraceRandomizerType=invalid");
 
             var metaraceRandomizers = new[]
             {
@@ -611,7 +618,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
-            Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.Empty);
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
         }
@@ -619,7 +626,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithSetMetarace()
         {
-            var req = RequestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace=invalid");
+            var req = _requestHelper.BuildRequest($"?metaraceRandomizerType=set&setMetarace=invalid");
 
             var metaraces = new[]
             {
@@ -647,7 +654,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(result.CharacterSpecifications.SetMetarace, Is.Null);
+            Assert.That(result.CharacterSpecifications.SetMetarace, Is.EqualTo(CharacterSpecifications.InvalidMetarace));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
             Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
         }
@@ -655,11 +662,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithAbilitiesRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?abilitiesRandomizerType={HttpUtility.UrlEncode(AbilitiesRandomizerTypeConstants.OnesAsSixes)}");
+            var req = _requestHelper.BuildRequest($"?abilitiesRandomizerType={AbilitiesRandomizerTypeConstants.OnesAsSixes}");
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -681,11 +688,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(result.CharacterSpecifications.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
@@ -722,10 +729,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setCharisma=1336";
             query += $"&allowAbilityAdjustments={value}";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.Valid, Is.True);
             Assert.That(result.CharacterSpecifications, Is.Not.Null);
             Assert.That(result.CharacterSpecifications.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
@@ -747,7 +754,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithAbilitiesRandomizer()
         {
-            var req = RequestHelper.BuildRequest($"?abilitiesRandomizerType=invalid");
+            var req = _requestHelper.BuildRequest($"?abilitiesRandomizerType=invalid");
 
             var abilitiesRandomizers = new[]
             {
@@ -772,7 +779,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.CharacterSpecifications.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
             Assert.That(result.CharacterSpecifications.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
             Assert.That(result.CharacterSpecifications.ForceMetarace, Is.False);
-            Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.Null);
+            Assert.That(result.CharacterSpecifications.AbilitiesRandomizerType, Is.Empty);
         }
 
         [Test]
@@ -786,7 +793,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -819,7 +826,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -852,7 +859,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -885,7 +892,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -918,7 +925,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -951,7 +958,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -984,7 +991,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -1017,7 +1024,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -1050,7 +1057,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=invalid";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -1083,7 +1090,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=-1";
             query += $"&setCharisma=1336";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -1116,7 +1123,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=invalid";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -1149,7 +1156,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             query += $"&setWisdom=1337";
             query += $"&setCharisma=-1";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CharacterValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);

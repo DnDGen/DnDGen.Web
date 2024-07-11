@@ -5,10 +5,8 @@ using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Generators.Characters;
 using DnDGen.CharacterGen.Verifiers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -19,18 +17,20 @@ namespace DnDGen.Api.CharacterGen.Functions
 {
     public class GenerateCharacterFunction
     {
-        private readonly IRandomizerRepository randomizerRepository;
-        private readonly ICharacterGenerator characterGenerator;
-        private readonly IRandomizerVerifier randomizerVerifier;
+        private readonly IRandomizerRepository _randomizerRepository;
+        private readonly ICharacterGenerator _characterGenerator;
+        private readonly IRandomizerVerifier _randomizerVerifier;
+        private readonly ILogger _logger;
 
-        public GenerateCharacterFunction(IDependencyFactory dependencyFactory)
+        public GenerateCharacterFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
-            characterGenerator = dependencyFactory.Get<ICharacterGenerator>();
-            randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
+            _logger = loggerFactory.CreateLogger<GenerateCharacterFunction>();
+            _randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
+            _characterGenerator = dependencyFactory.Get<ICharacterGenerator>();
+            _randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
         }
 
-        [FunctionName("GenerateCharacterFunction")]
+        [Function("GenerateCharacterFunction")]
         [OpenApiOperation(operationId: "GenerateCharacterFunctionRun", Summary = "Generate character",
             Description = "Generate a random character with the specified randomizers.")]
         [OpenApiParameter(name: "alignmentRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
@@ -73,30 +73,31 @@ namespace DnDGen.Api.CharacterGen.Functions
             Description = "The specific Charisma score. Required if using the 'Set' abilities randomizer")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated item")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/character/generate")] HttpRequest req, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/character/generate")] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
 
             var validatorResult = CharacterValidator.GetValid(req);
             if (!validatorResult.Valid)
             {
-                log.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var characterSpecifications = validatorResult.CharacterSpecifications;
 
-            var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
-            var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
-            var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
-            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(
+            var alignmentRandomizer = _randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
+            var classNameRandomizer = _randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
+            var levelRandomizer = _randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
+            var baseRaceRandomizer = _randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
+            var metaraceRandomizer = _randomizerRepository.GetMetaraceRandomizer(
                 characterSpecifications.MetaraceRandomizerType,
                 characterSpecifications.ForceMetarace,
                 characterSpecifications.SetMetarace);
-            var abilitiesRandomizer = randomizerRepository.GetAbilitiesRandomizer(
+            var abilitiesRandomizer = _randomizerRepository.GetAbilitiesRandomizer(
                 characterSpecifications.AbilitiesRandomizerType,
                 characterSpecifications.SetStrength,
                 characterSpecifications.SetConstitution,
@@ -106,15 +107,16 @@ namespace DnDGen.Api.CharacterGen.Functions
                 characterSpecifications.SetCharisma,
                 characterSpecifications.AllowAbilityAdjustments);
 
-            var compatible = randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
+            var compatible = _randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
             if (!compatible)
             {
-                log.LogError("Randomizers are not a valid combination.");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError("Randomizers are not a valid combination.");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
-            var character = characterGenerator.GenerateWith(
+            var character = _characterGenerator.GenerateWith(
                 alignmentRandomizer,
                 classNameRandomizer,
                 levelRandomizer,
@@ -124,10 +126,11 @@ namespace DnDGen.Api.CharacterGen.Functions
 
             character.Skills = CharacterHelper.SortSkills(character.Skills);
 
-            log.LogInformation($"Generated Character: {character.Summary}");
+            _logger.LogInformation($"Generated Character: {character.Summary}");
 
-            IActionResult result = new OkObjectResult(character);
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(character);
+            return response;
         }
     }
 }

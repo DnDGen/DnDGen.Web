@@ -1,11 +1,10 @@
 using DnDGen.Api.CharacterGen.Dependencies;
+using DnDGen.Api.CharacterGen.Helpers;
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Leaders;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -16,14 +15,16 @@ namespace DnDGen.Api.CharacterGen.Functions
 {
     public class GenerateFollowerFunction
     {
-        private readonly ILeadershipGenerator leadershipGenerator;
+        private readonly ILeadershipGenerator _leadershipGenerator;
+        private readonly ILogger _logger;
 
-        public GenerateFollowerFunction(IDependencyFactory dependencyFactory)
+        public GenerateFollowerFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
+            _logger = loggerFactory.CreateLogger<GenerateFollowerFunction>();
+            _leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
         }
 
-        [FunctionName("GenerateFollowerFunction")]
+        [Function("GenerateFollowerFunction")]
         [OpenApiOperation(operationId: "GenerateFollowerFunctionRun", Summary = "Generate cohort",
             Description = "Generate a follower at the given level.")]
         [OpenApiParameter(name: "followerLevel", In = ParameterLocation.Path, Required = true, Type = typeof(int),
@@ -34,27 +35,31 @@ namespace DnDGen.Api.CharacterGen.Functions
             Description = "The class name of the leader.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated cohort character")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/follower/level/{followerLevel}/generate")] HttpRequest req,
-            int followerLevel, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/follower/level/{followerLevel}/generate")] HttpRequestData req,
+            int followerLevel)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateFollowerFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateFollowerFunction.Run) processed a request.");
 
             var validatorResult = FollowerValidator.GetValid(followerLevel, req);
             if (!validatorResult.Valid)
             {
-                log.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var followerSpec = validatorResult.FollowerSpecifications;
-            var follower = leadershipGenerator.GenerateFollower(followerLevel, followerSpec.LeaderAlignment, followerSpec.LeaderClassName);
+            var follower = _leadershipGenerator.GenerateFollower(followerLevel, followerSpec.LeaderAlignment, followerSpec.LeaderClassName);
 
-            log.LogInformation($"Generated Follower: {follower.Summary}");
+            follower.Skills = CharacterHelper.SortSkills(follower.Skills);
 
-            IActionResult result = new OkObjectResult(follower);
-            return Task.FromResult(result);
+            _logger.LogInformation($"Generated Follower: {follower.Summary}");
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(follower);
+            return response;
         }
     }
 }

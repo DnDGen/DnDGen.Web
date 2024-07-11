@@ -2,10 +2,8 @@ using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Repositories;
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Verifiers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -16,16 +14,18 @@ namespace DnDGen.Api.CharacterGen.Functions
 {
     public class ValidateRandomizersFunction
     {
-        private readonly IRandomizerRepository randomizerRepository;
-        private readonly IRandomizerVerifier randomizerVerifier;
+        private readonly IRandomizerRepository _randomizerRepository;
+        private readonly IRandomizerVerifier _randomizerVerifier;
+        private readonly ILogger _logger;
 
-        public ValidateRandomizersFunction(IDependencyFactory dependencyFactory)
+        public ValidateRandomizersFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
-            randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
+            _logger = loggerFactory.CreateLogger<ValidateRandomizersFunction>();
+            _randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
+            _randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
         }
 
-        [FunctionName("ValidateRandomizersFunction")]
+        [Function("ValidateRandomizersFunction")]
         [OpenApiOperation(operationId: "ValidateRandomizersFunctionRun", Summary = "Validate randomizers",
             Description = "Validate the randomizer combination for character generation.")]
         [OpenApiParameter(name: "alignmentRandomizerType", In = ParameterLocation.Query, Required = false, Type = typeof(string),
@@ -52,36 +52,38 @@ namespace DnDGen.Api.CharacterGen.Functions
             Description = "The specific metarace. Required if using the 'Set' metarace randomizer")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the randomizer combination")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/character/validate")] HttpRequest req, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/character/validate")] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateRandomizersFunction.Run) processed a request.");
 
             var validatorResult = CharacterValidator.GetValid(req);
             if (!validatorResult.Valid)
             {
-                log.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
 
-                IActionResult invalidResult = new OkObjectResult(validatorResult.Valid);
-                return Task.FromResult(invalidResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
+                await invalidResponse.WriteAsJsonAsync(validatorResult.Valid);
+                return invalidResponse;
             }
 
             var characterSpecifications = validatorResult.CharacterSpecifications;
 
-            var alignmentRandomizer = randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
-            var classNameRandomizer = randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
-            var levelRandomizer = randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
-            var baseRaceRandomizer = randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
-            var metaraceRandomizer = randomizerRepository.GetMetaraceRandomizer(
+            var alignmentRandomizer = _randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
+            var classNameRandomizer = _randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);
+            var levelRandomizer = _randomizerRepository.GetLevelRandomizer(characterSpecifications.LevelRandomizerType, characterSpecifications.SetLevel);
+            var baseRaceRandomizer = _randomizerRepository.GetBaseRaceRandomizer(characterSpecifications.BaseRaceRandomizerType, characterSpecifications.SetBaseRace);
+            var metaraceRandomizer = _randomizerRepository.GetMetaraceRandomizer(
                 characterSpecifications.MetaraceRandomizerType,
                 characterSpecifications.ForceMetarace,
                 characterSpecifications.SetMetarace);
 
-            var compatible = randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
-            log.LogInformation($"Randomizer Validity: {compatible}");
+            var compatible = _randomizerVerifier.VerifyCompatibility(alignmentRandomizer, classNameRandomizer, levelRandomizer, baseRaceRandomizer, metaraceRandomizer);
+            _logger.LogInformation($"Randomizer Validity: {compatible}");
 
-            IActionResult result = new OkObjectResult(compatible);
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(compatible);
+            return response;
         }
     }
 }

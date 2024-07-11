@@ -2,24 +2,31 @@
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
-using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 {
     public class CohortValidatorTests
     {
+        private RequestHelper _requestHelper;
+
+        [SetUp]
+        public void Setup()
+        {
+            _requestHelper = new RequestHelper();
+        }
+
         [Test]
         public void GetValid_ReturnsValid()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.LawfulGood}";
             query += "&leaderClassName=Paladin";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
@@ -29,15 +36,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithLeaderAlignment()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.ChaoticGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.ChaoticGood}";
             query += "&leaderClassName=Paladin";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.ChaoticGood));
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
@@ -47,11 +54,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderAlignment()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode("invalid alignment")}";
+            var query = "?leaderAlignment=invalid alignment";
             query += "&leaderClassName=Paladin";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var alignments = new[]
             {
@@ -70,7 +77,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Valid, Is.False);
             Assert.That(result.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.CohortSpecifications, Is.Not.Null);
-            Assert.That(result.CohortSpecifications.LeaderAlignment, Is.Null);
+            Assert.That(result.CohortSpecifications.LeaderAlignment, Is.Empty);
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
             Assert.That(result.CohortSpecifications.LeaderLevel, Is.EqualTo(10));
         }
@@ -81,7 +88,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             var query = $"?leaderClassName=Paladin";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var alignments = new[]
             {
@@ -100,7 +107,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Valid, Is.False);
             Assert.That(result.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.CohortSpecifications, Is.Not.Null);
-            Assert.That(result.CohortSpecifications.LeaderAlignment, Is.Null);
+            Assert.That(result.CohortSpecifications.LeaderAlignment, Is.Empty);
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
             Assert.That(result.CohortSpecifications.LeaderLevel, Is.EqualTo(10));
         }
@@ -108,15 +115,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
@@ -126,11 +133,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=invalid";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var classNames = new[]
             {
@@ -157,17 +164,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
-            Assert.That(result.CohortSpecifications.LeaderClassName, Is.Null);
+            Assert.That(result.CohortSpecifications.LeaderClassName, Is.Empty);
             Assert.That(result.CohortSpecifications.LeaderLevel, Is.EqualTo(10));
         }
 
         [Test]
         public void GetValid_ReturnsInvalid_WithoutLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderLevel=10";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var classNames = new[]
             {
@@ -194,22 +201,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
-            Assert.That(result.CohortSpecifications.LeaderClassName, Is.Null);
+            Assert.That(result.CohortSpecifications.LeaderClassName, Is.Empty);
             Assert.That(result.CohortSpecifications.LeaderLevel, Is.EqualTo(10));
         }
 
         [Test]
         public void GetValid_ReturnsValid_WithLeaderLevel()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
             query += "&leaderLevel=9";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.CohortSpecifications, Is.Not.Null);
             Assert.That(result.CohortSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
             Assert.That(result.CohortSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
@@ -219,11 +226,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderLevel_NotANumber()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
             query += "&leaderLevel=invalid";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -237,11 +244,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderLevel_OutOfRange()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
             query += "&leaderLevel=3";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);
@@ -255,10 +262,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithoutLeaderLevel()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = CohortValidator.GetValid(req);
             Assert.That(result.Valid, Is.False);

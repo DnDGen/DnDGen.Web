@@ -3,28 +3,28 @@ using DnDGen.CharacterGen.Randomizers.Abilities;
 using DnDGen.CharacterGen.Randomizers.Alignments;
 using DnDGen.CharacterGen.Randomizers.CharacterClasses;
 using DnDGen.CharacterGen.Randomizers.Races;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace DnDGen.Api.CharacterGen.Validators
 {
     public static class CharacterValidator
     {
-        public static (bool Valid, string Error, CharacterSpecifications CharacterSpecifications) GetValid(HttpRequest request)
+        public static (bool Valid, string Error, CharacterSpecifications CharacterSpecifications) GetValid(HttpRequestData request)
         {
             var spec = new CharacterSpecifications();
 
-            var alignmentRandomizerType = (string)request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
-            var classNameRandomizerType = (string)request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
-            var levelRandomizerType = (string)request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
-            var baseRaceRandomizerType = (string)request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
-            var metaraceRandomizerType = (string)request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
-            var abilitiesRandomizerType = (string)request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
+            var alignmentRandomizerType = request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
+            var classNameRandomizerType = request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
+            var levelRandomizerType = request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
+            var baseRaceRandomizerType = request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
+            var metaraceRandomizerType = request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
+            var abilitiesRandomizerType = request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
 
-            var setAlignment = (string)request.Query["setAlignment"];
-            var setClassName = (string)request.Query["setClassName"];
+            var setAlignment = request.Query["setAlignment"] ?? string.Empty;
+            var setClassName = request.Query["setClassName"] ?? string.Empty;
             var validSetLevel = int.TryParse(request.Query["setLevel"], out var setLevel);
-            var setBaseRace = (string)request.Query["setBaseRace"];
-            var setMetarace = (string)request.Query["setMetarace"];
+            var setBaseRace = request.Query["setBaseRace"] ?? string.Empty;
+            var setMetarace = request.Query["setMetarace"] ?? string.Empty;
             var validForceMetarace = bool.TryParse(request.Query["forceMetarace"], out var forceMetarace);
             var validSetStrength = int.TryParse(request.Query["setStrength"], out var setStrength);
             var validSetConstitution = int.TryParse(request.Query["setConstitution"], out var setConstitution);

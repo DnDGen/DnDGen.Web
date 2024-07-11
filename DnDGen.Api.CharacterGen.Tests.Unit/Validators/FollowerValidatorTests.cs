@@ -2,23 +2,30 @@
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
-using System.Web;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
 {
     public class FollowerValidatorTests
     {
+        private RequestHelper _requestHelper;
+
+        [SetUp]
+        public void Setup()
+        {
+            _requestHelper = new RequestHelper();
+        }
+
         [Test]
         public void GetValid_ReturnsValid()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.LawfulGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.LawfulGood}";
             query += "&leaderClassName=Paladin";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = FollowerValidator.GetValid(1, req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
@@ -28,14 +35,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithLeaderAlignment()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.ChaoticGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.ChaoticGood}";
             query += "&leaderClassName=Paladin";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = FollowerValidator.GetValid(2, req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.ChaoticGood));
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
@@ -45,10 +52,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderAlignment()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode("invalid alignment")}";
+            var query = "?leaderAlignment=invalid alignment";
             query += "&leaderClassName=Paladin";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var alignments = new[]
             {
@@ -67,7 +74,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Valid, Is.False);
             Assert.That(result.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
-            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.Null);
+            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.Empty);
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
             Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(3));
         }
@@ -77,7 +84,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         {
             var query = $"?leaderClassName=Paladin";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var alignments = new[]
             {
@@ -96,7 +103,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Valid, Is.False);
             Assert.That(result.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
-            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.Null);
+            Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.Empty);
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Paladin));
             Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(3));
         }
@@ -104,14 +111,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsValid_WithLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = FollowerValidator.GetValid(4, req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
@@ -121,10 +128,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=invalid";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var classNames = new[]
             {
@@ -151,16 +158,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
-            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.Null);
+            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.Empty);
             Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(5));
         }
 
         [Test]
         public void GetValid_ReturnsInvalid_WithoutLeaderClassName()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var classNames = new[]
             {
@@ -187,21 +194,21 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
             Assert.That(result.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classNames)}]"));
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
-            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.Null);
+            Assert.That(result.FollowerSpecifications.LeaderClassName, Is.Empty);
             Assert.That(result.FollowerSpecifications.FollowerLevel, Is.EqualTo(5));
         }
 
         [Test]
         public void GetValid_ReturnsValid_WithFollowerLevel()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = FollowerValidator.GetValid(6, req);
             Assert.That(result.Valid, Is.True);
-            Assert.That(result.Error, Is.Null);
+            Assert.That(result.Error, Is.Empty);
             Assert.That(result.FollowerSpecifications, Is.Not.Null);
             Assert.That(result.FollowerSpecifications.LeaderAlignment, Is.EqualTo(AlignmentConstants.NeutralGood));
             Assert.That(result.FollowerSpecifications.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
@@ -211,10 +218,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithFollowerLevel_OutOfRange()
         {
-            var query = $"?leaderAlignment={HttpUtility.UrlEncode(AlignmentConstants.NeutralGood)}";
+            var query = $"?leaderAlignment={AlignmentConstants.NeutralGood}";
             query += "&leaderClassName=barbarian";
 
-            var req = RequestHelper.BuildRequest(query);
+            var req = _requestHelper.BuildRequest(query);
 
             var result = FollowerValidator.GetValid(7, req);
             Assert.That(result.Valid, Is.False);

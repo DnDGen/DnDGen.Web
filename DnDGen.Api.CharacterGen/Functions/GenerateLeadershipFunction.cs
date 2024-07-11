@@ -1,9 +1,7 @@
 using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.CharacterGen.Leaders;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -14,14 +12,16 @@ namespace DnDGen.Api.CharacterGen.Functions
 {
     public class GenerateLeadershipFunction
     {
-        private readonly ILeadershipGenerator leadershipGenerator;
+        private readonly ILeadershipGenerator _leadershipGenerator;
+        private readonly ILogger _logger;
 
-        public GenerateLeadershipFunction(IDependencyFactory dependencyFactory)
+        public GenerateLeadershipFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
+            _logger = loggerFactory.CreateLogger<GenerateLeadershipFunction>();
+            _leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
         }
 
-        [FunctionName("GenerateLeadershipFunction")]
+        [Function("GenerateLeadershipFunction")]
         [OpenApiOperation(operationId: "GenerateLeadershipFunctionRun", Summary = "Generate leadership",
             Description = "Generate leadership characteristics for a leader at the given level.")]
         [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
@@ -32,31 +32,33 @@ namespace DnDGen.Api.CharacterGen.Functions
             Description = "The animal companion or familiar of the leader. Defaults to none (empty).")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Leadership),
             Description = "The OK response containing the generated leadership")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/leadership/level/{level}/generate")] HttpRequest req,
-            int level, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/leadership/level/{level}/generate")] HttpRequestData req,
+            int level)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateLeadershipFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateLeadershipFunction.Run) processed a request.");
 
             if (level < 6 || level > 20)
             {
-                log.LogError($"Level {level} is not in the valid range. Valid: 6 <= level <= 20");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError($"Level {level} is not in the valid range. Valid: 6 <= level <= 20");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
-            var animal = (string)req.Query["leaderAnimal"] ?? string.Empty;
+            var animal = req.Query["leaderAnimal"] ?? string.Empty;
             var validCharismaBonus = int.TryParse(req.Query["leaderCharismaBonus"], out var charismaBonus);
 
             if (!validCharismaBonus)
                 charismaBonus = 0;
 
-            var leadership = leadershipGenerator.GenerateLeadership(level, charismaBonus, animal);
+            var leadership = _leadershipGenerator.GenerateLeadership(level, charismaBonus, animal);
 
-            log.LogInformation($"Generated Leadership: Score - {leadership.Score}; Modifiers - {string.Join(", ", leadership.LeadershipModifiers)}");
+            _logger.LogInformation($"Generated Leadership: Score - {leadership.Score}; Modifiers - {string.Join(", ", leadership.LeadershipModifiers)}");
 
-            IActionResult result = new OkObjectResult(leadership);
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(leadership);
+            return response;
         }
     }
 }

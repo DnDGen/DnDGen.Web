@@ -1,11 +1,10 @@
 using DnDGen.Api.CharacterGen.Dependencies;
+using DnDGen.Api.CharacterGen.Helpers;
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Leaders;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -16,14 +15,16 @@ namespace DnDGen.Api.CharacterGen.Functions
 {
     public class GenerateCohortFunction
     {
-        private readonly ILeadershipGenerator leadershipGenerator;
+        private readonly ILeadershipGenerator _leadershipGenerator;
+        private readonly ILogger _logger;
 
-        public GenerateCohortFunction(IDependencyFactory dependencyFactory)
+        public GenerateCohortFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
+            _logger = loggerFactory.CreateLogger<GenerateCohortFunction>();
+            _leadershipGenerator = dependencyFactory.Get<ILeadershipGenerator>();
         }
 
-        [FunctionName("GenerateCohortFunction")]
+        [Function("GenerateCohortFunction")]
         [OpenApiOperation(operationId: "GenerateCohortFunctionRun", Summary = "Generate cohort",
             Description = "Generate a cohort with the given cohort score.")]
         [OpenApiParameter(name: "cohortScore", In = ParameterLocation.Path, Required = true, Type = typeof(int),
@@ -36,27 +37,38 @@ namespace DnDGen.Api.CharacterGen.Functions
             Description = "The class name of the leader.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated cohort character")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/cohort/score/{cohortScore}/generate")] HttpRequest req,
-            int cohortScore, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/cohort/score/{cohortScore}/generate")] HttpRequestData req,
+            int cohortScore)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateCohortFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateCohortFunction.Run) processed a request.");
 
             var validatorResult = CohortValidator.GetValid(req);
             if (!validatorResult.Valid)
             {
-                log.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var cohortSpec = validatorResult.CohortSpecifications;
-            var cohort = leadershipGenerator.GenerateCohort(cohortScore, cohortSpec.LeaderLevel, cohortSpec.LeaderAlignment, cohortSpec.LeaderClassName);
+            var cohort = _leadershipGenerator.GenerateCohort(cohortScore, cohortSpec.LeaderLevel, cohortSpec.LeaderAlignment, cohortSpec.LeaderClassName);
 
-            log.LogInformation($"Generated Cohort: {cohort?.Summary ?? "(None)"}");
+            var response = req.CreateResponse(HttpStatusCode.OK);
 
-            IActionResult result = new OkObjectResult(cohort);
-            return Task.FromResult(result);
+            if (cohort != null)
+            {
+                cohort.Skills = CharacterHelper.SortSkills(cohort.Skills);
+                _logger.LogInformation($"Generated Cohort: {cohort.Summary}");
+            }
+            else
+            {
+                _logger.LogInformation("Generated Cohort: (None)");
+            }
+
+            await response.WriteAsJsonAsync(cohort);
+            return response;
         }
     }
 }

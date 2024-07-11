@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DnDGen.Api.CharacterGen.Tests.Integration.Fakes;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace DnDGen.Api.CharacterGen.Tests.Integration.Helpers
 {
     public static class RequestHelper
     {
-        public static HttpRequest BuildRequest(string queryString = null)
+        public static HttpRequestData BuildRequest(string url, IServiceProvider serviceProvider)
         {
-            var httpContext = new DefaultHttpContext();
-            httpContext.Request.Method = "GET";
-            httpContext.Request.Scheme = "http";
-            httpContext.Request.Host = new HostString("localhost");
+            var context = new FakeFunctionContext { InstanceServices = serviceProvider };
+            var request = new FakeHttpRequestData(context, new Uri(url));
 
-            if (queryString != null)
-                httpContext.Request.QueryString = new QueryString(queryString);
-
-            return httpContext.Request;
+            return request;
         }
     }
 }

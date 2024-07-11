@@ -46,17 +46,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         [TestCase(AlignmentConstants.ChaoticEvil, AlignmentConstants.ChaoticEvil)]
         [TestCase("chaotic evil", AlignmentConstants.ChaoticEvil)]
         [TestCase("CHAOTIC EVIL", AlignmentConstants.ChaoticEvil)]
-        [TestCase(AlignmentRandomizerTypeConstants.Any, null)]
-        [TestCase("any", null)]
-        [TestCase("ANY", null)]
-        [TestCase(CharacterClassConstants.Fighter, null)]
-        [TestCase("fighter", null)]
-        [TestCase("FIGHTER", null)]
-        [TestCase("Invalid", null)]
-        [TestCase("invalid", null)]
-        [TestCase("INVALID", null)]
-        [TestCase("", null)]
-        [TestCase(null, null)]
+        [TestCase(AlignmentRandomizerTypeConstants.Any, "")]
+        [TestCase("any", "")]
+        [TestCase("ANY", "")]
+        [TestCase(CharacterClassConstants.Fighter, "")]
+        [TestCase("fighter", "")]
+        [TestCase("FIGHTER", "")]
+        [TestCase("Invalid", "")]
+        [TestCase("invalid", "")]
+        [TestCase("INVALID", "")]
+        [TestCase("", "")]
         public void SetAlignment_SetsLeaderAlignment(string input, string expected)
         {
             spec.SetAlignment(input);
@@ -111,18 +110,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         [TestCase(CharacterClassConstants.Wizard, CharacterClassConstants.Wizard)]
         [TestCase("wizard", CharacterClassConstants.Wizard)]
         [TestCase("WIZARD", CharacterClassConstants.Wizard)]
-        [TestCase(ClassNameRandomizerTypeConstants.AnyPlayer, null)]
-        [TestCase("any player", null)]
-        [TestCase("ANY PLAYER", null)]
-        [TestCase(AlignmentConstants.TrueNeutral, null)]
-        [TestCase("true neutral", null)]
-        [TestCase("TRUE NEUTRAL", null)]
-        [TestCase("Invalid", null)]
-        [TestCase("invalid", null)]
-        [TestCase("INVALID", null)]
-        [TestCase("", null)]
-        [TestCase(null, null)]
-        public void SetCLassName_SetsLeaderClassName(string input, string expected)
+        [TestCase(ClassNameRandomizerTypeConstants.AnyPlayer, "")]
+        [TestCase("any player", "")]
+        [TestCase("ANY PLAYER", "")]
+        [TestCase(AlignmentConstants.TrueNeutral, "")]
+        [TestCase("true neutral", "")]
+        [TestCase("TRUE NEUTRAL", "")]
+        [TestCase("Invalid", "")]
+        [TestCase("invalid", "")]
+        [TestCase("INVALID", "")]
+        [TestCase("", "")]
+        public void SetClassName_SetsLeaderClassName(string input, string expected)
         {
             spec.SetClassName(input);
             Assert.That(spec.LeaderClassName, Is.EqualTo(expected));
@@ -136,7 +134,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             var valid = spec.IsValid();
 
             Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Null);
+            Assert.That(valid.Error, Is.Empty);
         }
 
         private void SetSpecDefaults()
@@ -156,7 +154,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             var valid = spec.IsValid();
 
             Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Null);
+            Assert.That(valid.Error, Is.Empty);
             Assert.That(spec.LeaderAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
         }
 
@@ -183,7 +181,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             Assert.That(valid.Valid, Is.False);
             Assert.That(valid.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
-            Assert.That(spec.LeaderAlignment, Is.Null);
+            Assert.That(spec.LeaderAlignment, Is.Empty);
         }
 
         [Test]
@@ -196,7 +194,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             var valid = spec.IsValid();
 
             Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Null);
+            Assert.That(valid.Error, Is.Empty);
             Assert.That(spec.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
         }
 
@@ -230,7 +228,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             Assert.That(valid.Valid, Is.False);
             Assert.That(valid.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
-            Assert.That(spec.LeaderClassName, Is.Null);
+            Assert.That(spec.LeaderClassName, Is.Empty);
         }
 
         [TestCase(1)]
@@ -248,7 +246,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             var valid = spec.IsValid();
 
             Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Null);
+            Assert.That(valid.Error, Is.Empty);
             Assert.That(spec.FollowerLevel, Is.EqualTo(level));
         }
 
