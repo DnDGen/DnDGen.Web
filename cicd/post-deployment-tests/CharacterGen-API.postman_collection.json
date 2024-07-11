@@ -4692,7 +4692,7 @@
 											"    pm.expect(character.class.level).to.be.at.least(1);\r",
 											"\r",
 											"    pm.expect(character.alignment.full).to.not.contain(\"Evil\");\r",
-											"    pm.expect(character.class.name).to.be.oneOf([\"Fighter\", \"Monk\", \"Paladin\", \"Ranger\"]);\r",
+											"    pm.expect(character.class.name).to.be.oneOf([\"Barbarian\", \"Fighter\", \"Monk\", \"Paladin\", \"Ranger\"]);\r",
 											"    pm.expect(character.class.level).to.be.at.least(11).and.at.most(15);\r",
 											"    pm.expect(character.race.baseRace).to.be.oneOf([\"Human\", \"High Elf\", \"Half-Elf\", \"Half-Orc\", \"Lightfoot Halfling\", \"Rock Gnome\", \"Hill Dwarf\"]);\r",
 											"    pm.expect(character.race.metarace).to.be.oneOf([\"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\"]);\r",
@@ -4710,7 +4710,8 @@
 											"    pm.expect(character.abilities.Charisma.value).to.be.at.least(6);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
