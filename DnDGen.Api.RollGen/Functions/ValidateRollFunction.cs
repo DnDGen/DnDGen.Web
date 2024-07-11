@@ -1,10 +1,8 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Helpers;
 using DnDGen.RollGen;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -16,14 +14,16 @@ namespace DnDGen.Api.RollGen.Functions
 {
     public class ValidateRollFunction
     {
-        private readonly Dice dice;
+        private readonly Dice _dice;
+        private readonly ILogger _logger;
 
-        public ValidateRollFunction(IDependencyFactory dependencyFactory)
+        public ValidateRollFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            dice = dependencyFactory.Get<Dice>();
+            _logger = loggerFactory.CreateLogger<ValidateRollFunction>();
+            _dice = dependencyFactory.Get<Dice>();
         }
 
-        [FunctionName("ValidateRollFunction")]
+        [Function("ValidateRollFunction")]
         [OpenApiOperation(operationId: "ValidateRollFunctionRun", Summary = "Validate XdY",
             Description = "Validates that XdY is a valid roll")]
         [OpenApiParameter(name: "quantity", In = ParameterLocation.Query, Required = true, Type = typeof(int),
@@ -32,31 +32,30 @@ namespace DnDGen.Api.RollGen.Functions
             Description = "The Die to roll. Should be 1 <= D <= 10,000")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing whether the provided roll is valid")]
-        public Task<IActionResult> RunV1(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/roll/validate")] HttpRequest req,
-            ILogger log)
+        public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/roll/validate")] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function (ValidateRollFunction.RunV1) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateRollFunction.RunV1) processed a request.");
 
-            var validParameters = QueryHelper.CheckParameters(req, log, "quantity", "die");
+            var validParameters = QueryHelper.CheckParameters(req, _logger, "quantity", "die");
             if (!validParameters)
             {
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var quantity = Convert.ToInt32(req.Query["quantity"]);
             var die = Convert.ToInt32(req.Query["die"]);
 
-            var valid = dice.Roll(quantity).d(die).IsValid();
-            IActionResult result = new OkObjectResult(valid);
+            var valid = _dice.Roll(quantity).d(die).IsValid();
 
-            log.LogInformation($"Validated {quantity}d{die} = {valid}");
+            _logger.LogInformation($"Validated {quantity}d{die} = {valid}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(valid);
+            return response;
         }
 
-        [FunctionName("ValidateRollFunctionV2")]
+        [Function("ValidateRollFunctionV2")]
         [OpenApiOperation(operationId: "ValidateRollFunctionV2Run", Summary = "Validate XdY",
             Description = "Validates that XdY is a valid roll")]
         [OpenApiParameter(name: "quantity", In = ParameterLocation.Path, Required = true, Type = typeof(int),
@@ -65,18 +64,19 @@ namespace DnDGen.Api.RollGen.Functions
             Description = "The Die to roll. Should be 1 <= D <= 10,000")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
-        public Task<IActionResult> RunV2(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{quantity:int}/d/{die:int}/validate")] HttpRequest req,
-            int quantity, int die, ILogger log)
+        public async Task<HttpResponseData> RunV2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{quantity:int}/d/{die:int}/validate")] HttpRequestData req,
+            int quantity, int die)
         {
-            log.LogInformation("C# HTTP trigger function (ValidateRollFunction.RunV2) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateRollFunction.RunV2) processed a request.");
 
-            var valid = dice.Roll(quantity).d(die).IsValid();
-            IActionResult result = new OkObjectResult(valid);
+            var valid = _dice.Roll(quantity).d(die).IsValid();
 
-            log.LogInformation($"Validated {quantity}d{die} = {valid}");
+            _logger.LogInformation($"Validated {quantity}d{die} = {valid}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(valid);
+            return response;
         }
     }
 }

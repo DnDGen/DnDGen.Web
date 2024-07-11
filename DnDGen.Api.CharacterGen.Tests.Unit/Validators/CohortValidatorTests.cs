@@ -1,5 +1,5 @@
-﻿using DnDGen.Api.CharacterGen.Tests.Unit.Helpers;
-using DnDGen.Api.CharacterGen.Validators;
+﻿using DnDGen.Api.CharacterGen.Validators;
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Alignments;
 using DnDGen.CharacterGen.CharacterClasses;
 

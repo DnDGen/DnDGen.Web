@@ -1,12 +1,13 @@
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
-using DnDGen.Api.TreasureGen.Tests.Integration.Helpers;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections;
+using System.Net;
 using System.Web;
 
 namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
@@ -14,26 +15,36 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
     public class ValidateRandomItemFunctionTests : IntegrationTests
     {
         private ValidateRandomItemFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            function = new ValidateRandomItemFunction();
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            function = new ValidateRandomItemFunction(loggerFactory);
         }
 
         [TestCaseSource(nameof(RandomItemGenerationData))]
         public async Task ValidateRandomItem_ReturnsValidity(string itemType, string power, bool valid)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, itemType, power, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(itemType, power);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, itemType, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
+        }
+
+        private string GetUrl(string itemType, string power, string query = "")
+        {
+            var url = $"https://treasure.dndgen.com/api/v1/item/{itemType}/power/{power}/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         public static IEnumerable RandomItemGenerationData
@@ -384,12 +395,16 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(ItemGenerationData))]
         public async Task ValidateItem_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
         {
-            var request = RequestHelper.BuildRequest($"?name={HttpUtility.UrlEncode(name)}");
-            var response = await function.Run(request, itemTypeInput, power, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, itemTypeInput, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
 
         public static IEnumerable ItemGenerationData

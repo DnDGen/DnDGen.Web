@@ -1,5 +1,5 @@
-﻿using DnDGen.Api.EncounterGen.Tests.Integration.Helpers;
-using DnDGen.Api.EncounterGen.Validators;
+﻿using DnDGen.Api.EncounterGen.Validators;
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.EncounterGen.Models;
 
 namespace DnDGen.Api.EncounterGen.Tests.Integration.Validators

@@ -1,7 +1,7 @@
-﻿using DnDGen.Api.DungeonGen.Tests.Integration.Fakes;
+﻿using DnDGen.Api.Tests.Integration.Fakes;
 using Microsoft.Azure.Functions.Worker.Http;
 
-namespace DnDGen.Api.DungeonGen.Tests.Integration.Helpers
+namespace DnDGen.Api.Tests.Integration.Helpers
 {
     public static class RequestHelper
     {

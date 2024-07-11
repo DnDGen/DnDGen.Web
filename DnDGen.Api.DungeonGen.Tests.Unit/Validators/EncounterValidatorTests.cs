@@ -1,5 +1,5 @@
-﻿using DnDGen.Api.DungeonGen.Tests.Unit.Helpers;
-using DnDGen.Api.DungeonGen.Validators;
+﻿using DnDGen.Api.DungeonGen.Validators;
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;
 using System.Collections.Specialized;

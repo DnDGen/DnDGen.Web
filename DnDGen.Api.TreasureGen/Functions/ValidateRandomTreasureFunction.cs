@@ -1,9 +1,7 @@
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.TreasureGen;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -15,7 +13,14 @@ namespace DnDGen.Api.TreasureGen.Functions
 {
     public class ValidateRandomTreasureFunction
     {
-        [FunctionName("ValidateRandomTreasureFunction")]
+        private readonly ILogger _logger;
+
+        public ValidateRandomTreasureFunction(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<ValidateRandomTreasureFunction>();
+        }
+
+        [Function("ValidateRandomTreasureFunction")]
         [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", Summary = "Validate parameters for random treasure generation",
             Description = "Validates the parameters for random treasure generation")]
         [OpenApiParameter(name: "treasureType", In = ParameterLocation.Path, Required = true, Type = typeof(TreasureTypes),
@@ -24,19 +29,20 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The level at which to generate the treasure. Should be 1 <= L <= 100")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated treasure")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/validate")] HttpRequest req,
-            string treasureType, int level, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/validate")] HttpRequestData req,
+            string treasureType, int level)
         {
-            log.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
 
             var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
             var valid = validTreasureType && LevelLimits.Minimum <= level && level <= LevelLimits.Maximum;
-            IActionResult result = new OkObjectResult(valid);
 
-            log.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {valid}");
+            _logger.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {valid}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(valid);
+            return response;
         }
     }
 }

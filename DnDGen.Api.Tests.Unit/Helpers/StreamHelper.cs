@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace DnDGen.Api.EncounterGen.Tests.Integration.Helpers
+namespace DnDGen.Api.Tests.Unit.Helpers
 {
-    internal static class StreamHelper
+    public static class StreamHelper
     {
         public static string Read(Stream stream)
         {

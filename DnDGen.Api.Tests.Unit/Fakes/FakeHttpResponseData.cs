@@ -2,9 +2,9 @@
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Net;
 
-namespace DnDGen.Api.CharacterGen.Tests.Integration.Fakes
+namespace DnDGen.Api.Tests.Unit.Fakes
 {
-    internal class FakeHttpResponseData : HttpResponseData
+    public class FakeHttpResponseData : HttpResponseData
     {
         public FakeHttpResponseData(FunctionContext functionContext) : base(functionContext)
         {

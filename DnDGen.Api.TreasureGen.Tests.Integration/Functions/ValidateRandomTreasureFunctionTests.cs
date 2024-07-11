@@ -1,36 +1,47 @@
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
-using DnDGen.Api.TreasureGen.Tests.Integration.Helpers;
 using DnDGen.TreasureGen;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections;
+using System.Net;
 
 namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
 {
     public class ValidateRandomTreasureFunctionTests : IntegrationTests
     {
         private ValidateRandomTreasureFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            function = new ValidateRandomTreasureFunction();
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            function = new ValidateRandomTreasureFunction(loggerFactory);
         }
 
         [TestCaseSource(nameof(TreasureValidationData))]
         public async Task ValidateRandom_ReturnsValidity(string treasureType, int level, bool valid)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, treasureType, level, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(treasureType, level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
+        }
+
+        private string GetUrl(string treasureType, int level, string query = "")
+        {
+            var url = $"https://treasure.dndgen.com/api/v1/{treasureType}/level/{level}/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         public static IEnumerable TreasureValidationData

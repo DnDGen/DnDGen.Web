@@ -1,9 +1,7 @@
 using DnDGen.Api.TreasureGen.Models;
 using DnDGen.Api.TreasureGen.Validators;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -14,7 +12,14 @@ namespace DnDGen.Api.TreasureGen.Functions
 {
     public class ValidateRandomItemFunction
     {
-        [FunctionName("ValidateRandomItemFunction")]
+        private readonly ILogger _logger;
+
+        public ValidateRandomItemFunction(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<ValidateRandomItemFunction>();
+        }
+
+        [Function("ValidateRandomItemFunction")]
         [OpenApiOperation(operationId: "ValidateRandomItemFunctionRun", Summary = "Validate parameters for random item generation",
             Description = "Validates the parameters for random item generation")]
         [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
@@ -25,23 +30,23 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated item")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/validate")] HttpRequest req,
-            string itemType, string power, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/validate")] HttpRequestData req,
+            string itemType, string power)
         {
-            log.LogInformation("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
 
-            var name = (string)req.Query["name"];
+            var name = req.Query["name"];
             var validatorResult = ItemValidator.GetValid(itemType, power, name);
 
-            IActionResult result = new OkObjectResult(validatorResult.Valid);
-
             if (name == null)
-                log.LogInformation($"Validated Item ({itemType}) at power '{power}' = {validatorResult.Valid}");
+                _logger.LogInformation($"Validated Item ({itemType}) at power '{power}' = {validatorResult.Valid}");
             else
-                log.LogInformation($"Validated Item {name} ({itemType}) at power '{power}' = {validatorResult.Valid}");
+                _logger.LogInformation($"Validated Item {name} ({itemType}) at power '{power}' = {validatorResult.Valid}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(validatorResult.Valid);
+            return response;
         }
     }
 }

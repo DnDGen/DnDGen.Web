@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DnDGen.Api.DungeonGen\DnDGen.Api.DungeonGen.csproj" />
+    <ProjectReference Include="..\DnDGen.Api.Tests.Unit\DnDGen.Api.Tests.Unit.csproj" />
   </ItemGroup>
 
   <ItemGroup>

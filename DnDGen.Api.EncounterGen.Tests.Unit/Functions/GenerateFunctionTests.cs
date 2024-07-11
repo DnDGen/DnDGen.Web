@@ -1,6 +1,6 @@
 ﻿using DnDGen.Api.EncounterGen.Dependencies;
 using DnDGen.Api.EncounterGen.Functions;
-using DnDGen.Api.EncounterGen.Tests.Unit.Helpers;
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Abilities;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Skills;

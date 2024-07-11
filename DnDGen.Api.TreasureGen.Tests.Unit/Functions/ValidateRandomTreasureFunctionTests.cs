@@ -1,25 +1,36 @@
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.TreasureGen;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Net;
 
 namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 {
     public class ValidateRandomTreasureFunctionTests
     {
         private ValidateRandomTreasureFunction function;
-        private Mock<ILogger> mockLogger;
-        private Mock<HttpRequest> mockRequest;
+        private Mock<ILogger<ValidateRandomTreasureFunction>> mockLogger;
+        private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
         {
-            mockLogger = new Mock<ILogger>();
-            mockRequest = new Mock<HttpRequest>();
+            mockLogger = new Mock<ILogger<ValidateRandomTreasureFunction>>();
 
-            function = new ValidateRandomTreasureFunction();
+            var mockLoggerFactory = new Mock<ILoggerFactory>();
+            mockLogger.Setup(l => l.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+
+            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.TreasureGen.Functions.ValidateRandomTreasureFunction")).Returns(mockLogger.Object);
+
+            function = new ValidateRandomTreasureFunction(mockLoggerFactory.Object);
+            requestHelper = new RequestHelper();
         }
 
         [TestCase("Goodies", LevelLimits.Minimum - 1, false)]
@@ -171,11 +182,16 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [TestCase("3", LevelLimits.Maximum + 1, false)]
         public async Task Run_ReturnsValidity(string treasureType, int level, bool valid)
         {
-            var result = await function.Run(mockRequest.Object, treasureType, level, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var request = requestHelper.BuildRequest();
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            var response = await function.Run(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
             mockLogger.AssertLog($"Validated Treasure ({treasureType}) at level {level} = {valid}");

@@ -1,10 +1,8 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Helpers;
 using DnDGen.RollGen;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -15,91 +13,91 @@ namespace DnDGen.Api.RollGen.Functions
 {
     public class RollExpressionFunction
     {
-        private readonly Dice dice;
+        private readonly Dice _dice;
+        private readonly ILogger _logger;
 
-        public RollExpressionFunction(IDependencyFactory dependencyFactory)
+        public RollExpressionFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            dice = dependencyFactory.Get<Dice>();
+            _logger = loggerFactory.CreateLogger<RollExpressionFunction>();
+            _dice = dependencyFactory.Get<Dice>();
         }
 
-        [FunctionName("RollExpressionFunction")]
+        [Function("RollExpressionFunction")]
         [OpenApiOperation(operationId: "RollExpressionFunctionRun", Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
         [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),
             Description = "The expression to compute")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
-        public Task<IActionResult> RunV1(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/expression/roll")] HttpRequest req,
-            ILogger log)
+        public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/expression/roll")] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV1) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV1) processed a request.");
 
-            var valid = QueryHelper.CheckParameters(req, log, "expression");
+            var valid = QueryHelper.CheckParameters(req, _logger, "expression");
             if (!valid)
             {
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var expression = req.Query["expression"];
 
-            var validRoll = dice.Roll(expression).IsValid();
+            var validRoll = _dice.Roll(expression).IsValid();
             if (!validRoll)
             {
-                log.LogError($"Roll {expression} is not a valid roll expression.");
+                _logger.LogError($"Roll {expression} is not a valid roll expression.");
 
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
-            var roll = dice.Roll(expression).AsSum();
-            IActionResult result = new OkObjectResult(roll);
+            var roll = _dice.Roll(expression).AsSum();
 
-            log.LogInformation($"Rolled {expression} = {roll}");
+            _logger.LogInformation($"Rolled {expression} = {roll}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(roll);
+            return response;
         }
 
         //HACK: Have to put the expression in the query, instead of the path, as the expression may contain invalid path characters such as slashes.
         //URL encoding does not fix the issue. It is a known issue: https://github.com/Azure/azure-functions-host/issues/9290
-        [FunctionName("RollExpressionFunctionV2")]
+        [Function("RollExpressionFunctionV2")]
         [OpenApiOperation(operationId: "RollExpressionFunctionV2Run", Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
         [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),
             Description = "The expression to compute")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
-        public Task<IActionResult> RunV2(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/expression/roll")] HttpRequest req,
-            ILogger log)
+        public async Task<HttpResponseData> RunV2([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/expression/roll")] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV2) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (RollExpressionFunction.RunV2) processed a request.");
 
-            var valid = QueryHelper.CheckParameters(req, log, "expression");
+            var valid = QueryHelper.CheckParameters(req, _logger, "expression");
             if (!valid)
             {
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var expression = req.Query["expression"];
 
-            var validRoll = dice.Roll(expression).IsValid();
+            var validRoll = _dice.Roll(expression).IsValid();
             if (!validRoll)
             {
-                log.LogError($"Roll {expression} is not a valid roll expression.");
+                _logger.LogError($"Roll {expression} is not a valid roll expression.");
 
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
-            var roll = dice.Roll(expression).AsSum();
-            IActionResult result = new OkObjectResult(roll);
+            var roll = _dice.Roll(expression).AsSum();
 
-            log.LogInformation($"Rolled {expression} = {roll}");
+            _logger.LogInformation($"Rolled {expression} = {roll}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(roll);
+            return response;
         }
     }
 }

@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DnDGen.Api.RollGen\DnDGen.Api.RollGen.csproj" />
+    <ProjectReference Include="..\DnDGen.Api.Tests.Integration\DnDGen.Api.Tests.Integration.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

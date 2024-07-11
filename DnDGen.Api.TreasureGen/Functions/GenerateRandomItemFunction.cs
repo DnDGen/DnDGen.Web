@@ -5,10 +5,8 @@ using DnDGen.Infrastructure.Generators;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -19,14 +17,16 @@ namespace DnDGen.Api.TreasureGen.Functions
 {
     public class GenerateRandomItemFunction
     {
-        private readonly JustInTimeFactory justInTimeFactory;
+        private readonly JustInTimeFactory _justInTimeFactory;
+        private readonly ILogger _logger;
 
-        public GenerateRandomItemFunction(IDependencyFactory dependencyFactory)
+        public GenerateRandomItemFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
         {
-            justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
+            _logger = loggerFactory.CreateLogger<GenerateRandomItemFunction>();
+            _justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
         }
 
-        [FunctionName("GenerateRandomItemFunction")]
+        [Function("GenerateRandomItemFunction")]
         [OpenApiOperation(operationId: "GenerateRandomItemFunctionRun", Summary = "Generate random item",
             Description = "Generate a random item of the specified item type at the specified power.")]
         [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
@@ -37,45 +37,47 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
-        public Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/generate")] HttpRequest req,
-            string itemType, string power, ILogger log)
+        public async Task<HttpResponseData> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/generate")] HttpRequestData req,
+            string itemType, string power)
         {
-            log.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
 
             var name = (string)req.Query["name"];
             var validatorResult = ItemValidator.GetValid(itemType, power, name);
 
             if (!validatorResult.Valid)
             {
-                log.LogError($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: {name ?? "(None)"}");
-                IActionResult badResult = new BadRequestResult();
-                return Task.FromResult(badResult);
+                _logger.LogError($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: {name ?? "(None)"}");
+
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
+                return invalidResponse;
             }
 
             var item = GetItem(validatorResult.ItemType, validatorResult.Power, validatorResult.Name);
-            IActionResult result = new OkObjectResult(item);
 
             if (validatorResult.Name == null)
-                log.LogInformation($"Generated Item ({validatorResult.ItemType}) at power {validatorResult.Power}");
+                _logger.LogInformation($"Generated Item ({validatorResult.ItemType}) at power {validatorResult.Power}");
             else
-                log.LogInformation($"Generated Item {validatorResult.Name} ({validatorResult.ItemType}) at power {validatorResult.Power}");
+                _logger.LogInformation($"Generated Item {validatorResult.Name} ({validatorResult.ItemType}) at power {validatorResult.Power}");
 
-            return Task.FromResult(result);
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(item);
+            return response;
         }
 
         private Item GetItem(string itemType, string power, string name)
         {
             if (power == PowerConstants.Mundane)
             {
-                var mundaneGenerator = justInTimeFactory.Build<MundaneItemGenerator>(itemType);
+                var mundaneGenerator = _justInTimeFactory.Build<MundaneItemGenerator>(itemType);
                 if (name != null)
                     return mundaneGenerator.Generate(name);
 
                 return mundaneGenerator.GenerateRandom();
             }
 
-            var magicalGenerator = justInTimeFactory.Build<MagicalItemGenerator>(itemType);
+            var magicalGenerator = _justInTimeFactory.Build<MagicalItemGenerator>(itemType);
 
             if (name != null)
                 return magicalGenerator.Generate(power, name);
