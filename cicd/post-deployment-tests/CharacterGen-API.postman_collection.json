@@ -2505,10 +2505,9 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
 													"pm.test(\"Returns generated character with no metarace\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"\r",
 													"    var character = pm.response.json();\r",
 													"    pm.expect(character.summary).to.not.be.empty;\r",
 													"    pm.expect(character.class.summary).to.not.be.empty;\r",
@@ -2518,7 +2517,8 @@
 													"    pm.expect(character.race.metarace).to.equal(\"\");\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2743,17 +2743,26 @@
 									"response": []
 								},
 								{
-									"name": "Missing Set Metarace returns Bad Request",
+									"name": "Missing Set Metarace returns Character",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
+													"pm.test(\"Returns generated character with no metarace\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"\r",
+													"    var character = pm.response.json();\r",
+													"    pm.expect(character.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.summary).to.not.be.empty;\r",
+													"    pm.expect(character.class.level).to.be.at.least(1);\r",
+													"    pm.expect(character.race.summary).to.not.be.empty;\r",
+													"\r",
+													"    pm.expect(character.race.metarace).to.equal(\"\");\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -8798,21 +8807,21 @@
 									"response": []
 								},
 								{
-									"name": "Missing Set Metarace returns Invalid",
+									"name": "Missing Set Metarace returns Valid",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
+													"pm.test(\"Returns that randomizers with missing set metarace are valid\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Returns that randomizers with missing set metarace are invalid\", function () {\r",
+													"\r",
 													"    var valid = pm.response.json();\r",
-													"    pm.expect(valid).to.be.false;\r",
+													"    pm.expect(valid).to.be.true;\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -9509,11 +9518,15 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 204\", function () {\r",
-											"    pm.response.to.have.status(204);\r",
+											"pm.test(\"Generates no cohort\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    \r",
+											"    var cohort = pm.response.json();\r",
+											"    pm.expect(cohort).to.be.null;\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
