@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using System.Collections.Specialized;
 
-namespace DnDGen.Api.DungeonGen.Tests.Unit.Helpers
+namespace DnDGen.Api.Tests.Unit.Helpers
 {
     public class RequestHelper
     {
@@ -21,14 +21,31 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Helpers
             mockContext.SetupProperty(c => c.InstanceServices, mockServiceProvider.Object);
         }
 
-        public HttpRequestData BuildRequest(NameValueCollection? query = null)
+        public HttpRequestData BuildRequest(string query = "")
+        {
+            var queryCollection = new NameValueCollection();
+
+            if (query == "")
+                return BuildRequest(queryCollection);
+
+            foreach (var queryItem in query.TrimStart('?').Split('&').Select(i => i.Split('=')))
+            {
+                var name = queryItem[0];
+                var value = queryItem[1];
+                queryCollection[name] = value;
+            }
+
+            return BuildRequest(queryCollection);
+        }
+
+        public HttpRequestData BuildRequest(NameValueCollection query)
         {
             var request = new Mock<HttpRequestData>(mockContext.Object);
             request.SetupGet(r => r.Query).Returns([]);
 
-            if (query?.Count > 0)
+            if (query.Count > 0)
             {
-                request.SetupGet(r => r.Query).Returns(query!);
+                request.SetupGet(r => r.Query).Returns(query);
             }
 
             request.Setup(r => r.CreateResponse()).Returns(BuildResponse);

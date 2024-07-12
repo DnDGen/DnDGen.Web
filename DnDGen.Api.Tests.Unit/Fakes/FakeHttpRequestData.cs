@@ -2,9 +2,9 @@
 using Microsoft.Azure.Functions.Worker.Http;
 using System.Security.Claims;
 
-namespace DnDGen.Api.CharacterGen.Tests.Integration.Fakes
+namespace DnDGen.Api.Tests.Unit.Fakes
 {
-    internal class FakeHttpRequestData : HttpRequestData
+    public class FakeHttpRequestData : HttpRequestData
     {
         public FakeHttpRequestData(FunctionContext functionContext, Uri url, Stream body = null) : base(functionContext)
         {

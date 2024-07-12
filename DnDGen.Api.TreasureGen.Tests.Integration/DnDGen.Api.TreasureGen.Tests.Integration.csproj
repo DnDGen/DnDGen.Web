@@ -21,6 +21,7 @@
     <PackageReference Include="Polly" Version="8.4.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DnDGen.Api.Tests.Integration\DnDGen.Api.Tests.Integration.csproj" />
     <ProjectReference Include="..\DnDGen.Api.TreasureGen\DnDGen.Api.TreasureGen.csproj" />
   </ItemGroup>
   <ItemGroup>

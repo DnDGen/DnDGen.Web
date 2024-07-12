@@ -1,6 +1,6 @@
 using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Functions;
-using DnDGen.Api.CharacterGen.Tests.Unit.Helpers;
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Leaders;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;

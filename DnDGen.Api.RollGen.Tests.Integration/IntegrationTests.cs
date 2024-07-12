@@ -4,24 +4,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace DnDGen.Api.RollGen.Tests.Integration
 {
     [TestFixture]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Structure",
-    "NUnit1032:An IDisposable field/property should be Disposed in a TearDown method",
-    Justification = "The serviceProvider is not actually disposable")]
     public abstract class IntegrationTests
     {
         private IDependencyFactory dependencyFactory;
-        private IServiceProvider serviceProvider;
-        private IServiceCollection services;
+        protected IServiceProvider serviceProvider;
 
         [OneTimeSetUp]
         public void IntegrationSetup()
         {
             dependencyFactory = new NinjectDependencyFactory();
 
-            services = new ServiceCollection();
-            Startup.ConfigureServices(services);
-
-            serviceProvider = services.BuildServiceProvider();
+            var host = Startup.GetHost();
+            serviceProvider = host.Services;
         }
 
         protected T GetDependency<T>()

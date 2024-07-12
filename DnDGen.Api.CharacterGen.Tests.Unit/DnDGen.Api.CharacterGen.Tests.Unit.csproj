@@ -23,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DnDGen.Api.CharacterGen\DnDGen.Api.CharacterGen.csproj" />
+    <ProjectReference Include="..\DnDGen.Api.Tests.Unit\DnDGen.Api.Tests.Unit.csproj" />
   </ItemGroup>
 </Project>

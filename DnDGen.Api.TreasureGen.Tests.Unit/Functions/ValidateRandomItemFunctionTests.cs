@@ -1,29 +1,40 @@
+using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Moq;
+using System.Collections.Specialized;
+using System.Net;
 
 namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 {
     public class ValidateRandomItemFunctionTests
     {
         private ValidateRandomItemFunction function;
-        private Mock<ILogger> mockLogger;
-        private Mock<HttpRequest> mockRequest;
+        private Mock<ILogger<ValidateRandomItemFunction>> mockLogger;
+        private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
         {
-            mockLogger = new Mock<ILogger>();
-            mockRequest = new Mock<HttpRequest>();
+            mockLogger = new Mock<ILogger<ValidateRandomItemFunction>>();
 
-            function = new ValidateRandomItemFunction();
+            var mockLoggerFactory = new Mock<ILoggerFactory>();
+            mockLogger.Setup(l => l.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
+
+            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.TreasureGen.Functions.ValidateRandomItemFunction")).Returns(mockLogger.Object);
+
+            function = new ValidateRandomItemFunction(mockLoggerFactory.Object);
+            requestHelper = new RequestHelper();
         }
 
         [TestCase("bad item type", PowerConstants.Mundane, false)]
@@ -56,14 +67,16 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [TestCase("10", "bad power", false)]
         public async Task Run_ReturnsTheParameterValidity(string itemType, string power, bool valid)
         {
-            var query = new QueryCollection();
-            mockRequest.Setup(x => x.Query).Returns(query);
+            var request = requestHelper.BuildRequest();
 
-            var result = await function.Run(mockRequest.Object, itemType, power, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var response = await function.Run(request, itemType, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog($"Validated Item ({itemType}) at power '{power}' = {valid}");
@@ -122,17 +135,21 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [TestCase("10", "bad power", WondrousItemConstants.AmuletOfHealth, false)]
         public async Task Run_ReturnsTheParameterValidity_WithName(string itemType, string power, string name, bool valid)
         {
-            var query = new QueryCollection(new Dictionary<string, StringValues>
+            var query = new NameValueCollection
             {
                 { "name", new StringValues(name) },
-            });
-            mockRequest.Setup(x => x.Query).Returns(query);
+            };
 
-            var result = await function.Run(mockRequest.Object, itemType, power, mockLogger.Object);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var request = requestHelper.BuildRequest(query);
 
-            var okResult = result as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            var response = await function.Run(request, itemType, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog($"Validated Item {name} ({itemType}) at power '{power}' = {valid}");

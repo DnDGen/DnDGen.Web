@@ -1,25 +1,23 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Functions;
-using DnDGen.Api.RollGen.Tests.Integration.Helpers;
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.RollGen;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
 {
     public class ValidateRollFunctionTests : IntegrationTests
     {
         private ValidateRollFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new ValidateRollFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new ValidateRollFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCase(-1, -1, false)]
@@ -150,12 +148,34 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase(Limits.Quantity + 1, Limits.Die + 1, false)]
         public async Task ValidateRoll_ReturnsValidity(int quantity, int die, bool valid)
         {
-            var request = RequestHelper.BuildRequest($"?quantity={quantity}&die={die}");
-            var response = await function.RunV1(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV1($"?quantity={quantity}&die={die}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
+        }
+
+        private string GetUrlV1(string query = "")
+        {
+            var url = "https://roll.dndgen.com/api/v1/roll/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
+        }
+
+        private string GetUrlV2(int quantity, int die, string query = "")
+        {
+            var url = $"https://roll.dndgen.com/api/v2/{quantity}/d/{die}/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         [TestCase(-1, -1, false)]
@@ -286,12 +306,16 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase(Limits.Quantity + 1, Limits.Die + 1, false)]
         public async Task ValidateRollV2_ReturnsValidity(int quantity, int die, bool valid)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.RunV2(request, quantity, die, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV2(quantity, die);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, quantity, die);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
     }
 }

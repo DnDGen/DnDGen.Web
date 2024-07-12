@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 
-namespace DnDGen.Api.EncounterGen.Tests.Integration.Fakes
+namespace DnDGen.Api.Tests.Integration.Fakes
 {
-    internal class FakeFunctionContext : FunctionContext
+    public class FakeFunctionContext : FunctionContext
     {
         public override string InvocationId { get; }
         public override string FunctionId { get; }

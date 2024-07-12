@@ -1,8 +1,9 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Functions;
-using DnDGen.Api.RollGen.Tests.Integration.Helpers;
-using Microsoft.AspNetCore.Mvc;
+using DnDGen.Api.Tests.Integration.Helpers;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Web;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
@@ -10,16 +11,13 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
     public class RollExpressionFunctionTests : IntegrationTests
     {
         private RollExpressionFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new RollExpressionFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new RollExpressionFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCase("3d6+2", 5, 20)]
@@ -37,12 +35,34 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpression_ReturnsRoll(string expression, int min, int max)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV1(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV1($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InRange(min, max));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var roll = StreamHelper.Read<int>(response.Body);
+            Assert.That(roll, Is.InRange(min, max));
+        }
+
+        private string GetUrlV1(string query = "")
+        {
+            var url = "https://roll.dndgen.com/api/v1/expression/roll";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
+        }
+
+        private string GetUrlV2(string query = "")
+        {
+            var url = "https://roll.dndgen.com/api/v2/expression/roll";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         [TestCase("1dd20")]
@@ -51,9 +71,16 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("not a valid roll")]
         public async Task RollExpressionV1_ReturnsBadRequest(string expression)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV1(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrlV1($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [TestCase("9266", 9266, 9266)]
@@ -72,12 +99,16 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("100d20/12d10/8d6/4d3", 100 / 120 / 48 / 12, 2000 / 12 / 8 / 4)]
         public async Task RollExpressionV2_ReturnsRoll(string expression, int min, int max)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV2(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV2($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InRange(min, max));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var roll = StreamHelper.Read<int>(response.Body);
+            Assert.That(roll, Is.InRange(min, max));
         }
 
         [TestCase("1dd20")]
@@ -86,17 +117,31 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("not a valid roll")]
         public async Task RollExpressionV2_ReturnsBadRequest(string expression)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV2(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrlV2($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
 
         [Test]
         public async Task RollExpressionV2_ReturnsBadRequest_WhenExpressionMissing()
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.RunV2(request, logger);
-            Assert.That(response, Is.InstanceOf<BadRequestResult>());
+            var url = GetUrlV2();
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
         }
     }
 }

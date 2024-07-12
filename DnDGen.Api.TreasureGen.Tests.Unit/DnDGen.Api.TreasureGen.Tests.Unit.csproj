@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DnDGen.Api.Tests.Unit\DnDGen.Api.Tests.Unit.csproj" />
     <ProjectReference Include="..\DnDGen.Api.TreasureGen\DnDGen.Api.TreasureGen.csproj" />
   </ItemGroup>
 </Project>

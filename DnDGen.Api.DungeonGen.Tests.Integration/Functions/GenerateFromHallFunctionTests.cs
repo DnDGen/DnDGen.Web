@@ -1,6 +1,6 @@
 using DnDGen.Api.DungeonGen.Dependencies;
 using DnDGen.Api.DungeonGen.Functions;
-using DnDGen.Api.DungeonGen.Tests.Integration.Helpers;
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.DungeonGen.Models;
 using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;

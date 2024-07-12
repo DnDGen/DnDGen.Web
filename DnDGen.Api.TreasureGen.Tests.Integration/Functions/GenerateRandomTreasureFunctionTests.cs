@@ -1,40 +1,39 @@
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
-using DnDGen.Api.TreasureGen.Tests.Integration.Helpers;
 using DnDGen.TreasureGen;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections;
+using System.Net;
 
 namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
 {
     public class GenerateRandomTreasureFunctionTests : IntegrationTests
     {
         private GenerateRandomTreasureFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new GenerateRandomTreasureFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new GenerateRandomTreasureFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task GenerateRandom_ReturnsTreasure(string treasureType, int level)
         {
-            var request = RequestHelper.BuildRequest();
-            var response = await function.Run(request, treasureType, level, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrl(treasureType, level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.InstanceOf<Treasure>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
 
-            var treasure = okResult.Value as Treasure;
+            var treasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(treasure, Is.Not.Null);
             //HACK: Generating treasure does not guarantee you would get treasure, so IsAny can be True or False
             Assert.That(treasure.IsAny, Is.True.Or.False);
@@ -46,6 +45,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 Assert.That(item.ItemType, Is.Not.Empty, item.Name);
                 Assert.That(item.Quantity, Is.Positive, item.Name);
             }
+        }
+
+        private string GetUrl(string treasureType, int level, string query = "")
+        {
+            var url = $"https://treasure.dndgen.com/api/v1/{treasureType}/level/{level}/generate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         public static IEnumerable TreasureGenerationData

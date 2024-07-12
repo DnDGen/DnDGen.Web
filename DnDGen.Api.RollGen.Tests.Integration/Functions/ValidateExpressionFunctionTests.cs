@@ -1,8 +1,9 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Functions;
-using DnDGen.Api.RollGen.Tests.Integration.Helpers;
-using Microsoft.AspNetCore.Mvc;
+using DnDGen.Api.Tests.Integration.Helpers;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Web;
 
 namespace DnDGen.Api.RollGen.Tests.Integration.Functions
@@ -10,16 +11,13 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
     public class ValidateExpressionFunctionTests : IntegrationTests
     {
         private ValidateExpressionFunction function;
-        private ILogger logger;
 
         [SetUp]
         public void Setup()
         {
-            var dependencyFactory = GetService<IDependencyFactory>();
-            function = new ValidateExpressionFunction(dependencyFactory);
-
             var loggerFactory = new LoggerFactory();
-            logger = loggerFactory.CreateLogger("Integration Test");
+            var dependencyFactory = GetService<IDependencyFactory>();
+            function = new ValidateExpressionFunction(loggerFactory, dependencyFactory);
         }
 
         [TestCase("3d6+2", true)]
@@ -67,12 +65,34 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("1d2+*3d4", false)]
         public async Task ValidateExpression_ReturnsValidity(string expression, bool valid)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV1(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV1($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
+        }
+
+        private string GetUrlV1(string query = "")
+        {
+            var url = "https://roll.dndgen.com/api/v1/expression/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
+        }
+
+        private string GetUrlV2(string query = "")
+        {
+            var url = "https://roll.dndgen.com/api/v2/expression/validate";
+            if (query.Any())
+                url += "?" + query.TrimStart('?');
+
+            return url;
         }
 
         [TestCase("3d6+2", true)]
@@ -120,12 +140,16 @@ namespace DnDGen.Api.RollGen.Tests.Integration.Functions
         [TestCase("1d2+*3d4", false)]
         public async Task ValidateExpressionV2_ReturnsValidity(string expression, bool valid)
         {
-            var request = RequestHelper.BuildRequest($"?expression={HttpUtility.UrlEncode(expression)}");
-            var response = await function.RunV2(request, logger);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var url = GetUrlV2($"?expression={HttpUtility.UrlEncode(expression)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            var okResult = response as OkObjectResult;
-            Assert.That(okResult.Value, Is.EqualTo(valid));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
     }
 }

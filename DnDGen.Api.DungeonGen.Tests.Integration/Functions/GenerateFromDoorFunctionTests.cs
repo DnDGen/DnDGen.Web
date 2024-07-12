@@ -1,6 +1,6 @@
 using DnDGen.Api.DungeonGen.Dependencies;
 using DnDGen.Api.DungeonGen.Functions;
-using DnDGen.Api.DungeonGen.Tests.Integration.Helpers;
+using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.DungeonGen.Models;
 using DnDGen.EncounterGen.Generators;
 using DnDGen.EncounterGen.Models;
@@ -466,6 +466,24 @@ namespace DnDGen.Api.DungeonGen.Tests.Integration.Functions
 
             var json = StreamHelper.Read(response.Body);
             Assert.That(json, Contains.Substring("\"type\""));
+        }
+
+        //INFO: This failure happened in a post-deployment test. However, after repeating 1M times, I could not reproduce it
+        [Test]
+        //[Repeat(1_000_000)]
+        public async Task BUG_Run_ReturnsAreas_Mountain_UnexpectedTokenT()
+        {
+            var url = GetUrl(environment: EnvironmentConstants.Mountain);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.Run(request, 1, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Mountain, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var areas = StreamHelper.Read<Area[]>(response.Body);
+            Assert.That(areas, Is.Not.Null.And.Not.Empty);
+            Assert.That(areas[0].Type, Is.Not.Empty);
         }
     }
 }

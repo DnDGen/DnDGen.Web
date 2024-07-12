@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace DnDGen.Api.RollGen.Helpers
 {
     public static class QueryHelper
     {
-        public static bool CheckParameters(HttpRequest request, ILogger logger, params string[] parameters)
+        public static bool CheckParameters(HttpRequestData request, ILogger logger, params string[] parameters)
         {
             foreach (var parameter in parameters)
             {
