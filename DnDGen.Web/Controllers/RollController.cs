@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DnDGen.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DnDGen.Web.Controllers
 {
@@ -8,9 +9,8 @@ namespace DnDGen.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //TODO: Create a view model detailing the limits for rolls, 1 - 10K
-            //Can't actually do it until the web is using the current RollGen package
-            return View();
+            var model = new RollViewModel();
+            return View(model);
         }
     }
 }

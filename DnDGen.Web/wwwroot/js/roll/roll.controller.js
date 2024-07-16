@@ -5,10 +5,11 @@
         .module('app.roll')
         .controller('Roll', Roll);
 
-    Roll.$inject = ['$scope', 'rollService', 'sweetAlertService'];
+    Roll.$inject = ['$scope', 'model', 'rollService', 'sweetAlertService'];
 
-    function Roll($scope, rollService, sweetAlertService) {
+    function Roll($scope, model, rollService, sweetAlertService) {
         var vm = this;
+        vm.rollModel = model;
 
         vm.standardQuantity = 1;
         vm.customQuantity = 1;
