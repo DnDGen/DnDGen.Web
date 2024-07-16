@@ -4,12 +4,20 @@ describe('Roll Controller', function () {
     var vm;
     var rollServiceMock;
     var q;
+    var model;
     var scope;
     var sweetAlertServiceMock;
 
     beforeEach(module('app.roll'));
 
     beforeEach(function () {
+        model = {
+            quantityLimit_Lower: 1337,
+            quantityLimit_Upper: 90210,
+            dieLimit_Lower: 96,
+            dieLimit_Upper: 1336,
+        };
+
         rollServiceMock = {
             getRoll: function (quantity, die) {
                 var shouldFail = die === 666 || quantity === 666;
@@ -54,10 +62,15 @@ describe('Roll Controller', function () {
 
         vm = $controller('Roll as vm', {
             $scope: scope,
+            model: model,
             rollService: rollServiceMock,
             sweetAlertService: sweetAlertServiceMock
         });
     }));
+
+    it('has a model', function () {
+        expect(vm.rollModel).toBe(model);
+    });
 
     it('has quantities of 1 at beginning', function () {
         expect(vm.standardQuantity).toBe(1);

@@ -1,4 +1,6 @@
-﻿@section ngApp {
+﻿@model DnDGen.Web.Models.RollViewModel
+
+@section ngApp {
     ng-app='app.roll'
 }
 
@@ -32,14 +34,28 @@
                     <form name="standardRollForm" class="form-horizontal top-buffer" role="form">
                         <div class="form-group row">
                             <div class="col-sm-3">
-                                <input dndgen-no-decimals class="form-control" type="number" min="1" ng-model="vm.standardQuantity" required />
+                                <input dndgen-no-decimals 
+                                    class="form-control"
+                                    type="number" 
+                                    min="{{vm.rollModel.quantityLimit_Lower}}" 
+                                    max="{{vm.rollModel.quantityLimit_Upper}}" 
+                                    ng-model="vm.standardQuantity"
+                                    required />
                             </div>
                             <label for="standardRolls" class="col-sm-1 col-form-label px-0 text-end">d</label>
                             <div class="col-sm-2 px-0">
-                                <select id="standardRolls" class="form-control" ng-model="vm.standardDie" ng-options="standardDie.name for standardDie in vm.standardDice" required></select>
+                                <select id="standardRolls" 
+                                    class="form-control" 
+                                    ng-model="vm.standardDie" 
+                                    ng-options="standardDie.name for standardDie in vm.standardDice" 
+                                    required></select>
                             </div>
                             <div class="col-sm-2">
-                                <button id="standardRollButton" type="button" class="btn btn-success" ng-click="vm.rollStandard()" ng-disabled="standardRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
+                                <button id="standardRollButton" 
+                                    type="button"
+                                    class="btn btn-success" 
+                                    ng-click="vm.rollStandard()" 
+                                    ng-disabled="standardRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
                             </div>
                         </div>
                     </form>
@@ -48,14 +64,31 @@
                     <form name="customRollForm" class="form-horizontal top-buffer" role="form">
                         <div class="form-group row">
                             <div class="col-sm-3">
-                                <input dndgen-no-decimals class="form-control" type="number" min="1" ng-model="vm.customQuantity" required />
+                                <input dndgen-no-decimals 
+                                    class="form-control"
+                                    type="number"
+                                    min="{{vm.rollModel.quantityLimit_Lower}}"
+                                    max="{{vm.rollModel.quantityLimit_Upper}}" 
+                                    ng-model="vm.customQuantity" 
+                                    required />
                             </div>
                             <label for="customDie" class="col-sm-1 col-form-label px-0 text-end">d</label>
                             <div class="col-sm-2 px-0">
-                                <input dndgen-no-decimals id="customDie" class="form-control" type="number" min="1" ng-model="vm.customDie" required />
+                                <input dndgen-no-decimals 
+                                    id="customDie" 
+                                    class="form-control" 
+                                    type="number" 
+                                    min="{{vm.rollModel.dieLimit_Lower}}"
+                                    max="{{vm.rollModel.dieLimit_Upper}}"
+                                    ng-model="vm.customDie" 
+                                    required />
                             </div>
                             <div class="col-sm-2">
-                                <button id="customRollButton" type="button" class="btn btn-success" ng-click="vm.rollCustom()" ng-disabled="customRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
+                                <button id="customRollButton" 
+                                    type="button" 
+                                    class="btn btn-success" 
+                                    ng-click="vm.rollCustom()"
+                                    ng-disabled="customRollForm.$invalid || vm.rolling || !vm.rollIsValid">Roll</button>
                             </div>
                         </div>
                     </form>
@@ -68,7 +101,10 @@
                                 <input id="rollExpression" class="form-control" type="text" ng-model="vm.expression" required />
                             </div>
                             <div class="col-sm-2">
-                                <button type="button" class="btn btn-success" ng-click="vm.rollExpression()" ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || !vm.rollIsValid">Roll</button>
+                                <button type="button" 
+                                    class="btn btn-success"
+                                    ng-click="vm.rollExpression()" 
+                                    ng-disabled="expressionRollForm.$invalid || vm.rolling || vm.validating || !vm.rollIsValid">Roll</button>
                             </div>
                         </div>
                     </form>
@@ -83,3 +119,11 @@
         </div>
     </div>
 </div>
+
+@section PostBodyScripts {
+    <script type="text/javascript">
+        angular.module('app.roll').factory('model', function () {
+            return @Html.Raw(Json.Serialize(Model));
+        });
+    </script>
+}

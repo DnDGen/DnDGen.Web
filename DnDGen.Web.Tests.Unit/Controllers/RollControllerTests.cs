@@ -1,4 +1,5 @@
 ﻿using DnDGen.Web.Controllers;
+using DnDGen.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
@@ -27,6 +28,13 @@ namespace DnDGen.Web.Tests.Unit.Controllers
         {
             var result = controller.Index();
             Assert.That(result, Is.InstanceOf<ViewResult>());
+        }
+
+        [Test]
+        public void IndexContainsModel()
+        {
+            var result = controller.Index() as ViewResult;
+            Assert.That(result.Model, Is.InstanceOf<RollViewModel>());
         }
     }
 }
