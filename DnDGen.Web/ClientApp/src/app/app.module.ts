@@ -18,7 +18,7 @@ import { TreasureComponent } from './treasure/treasure.component';
 import { ItemComponent } from './treasure/item.component';
 
 import { CharacterGenComponent } from './character/charactergen.component';
-import { LeaderComponent } from './character/leader.component';
+import { LeaderComponent } from './character/leadership.component';
 import { CharacterComponent } from './character/character.component';
 
 @NgModule({

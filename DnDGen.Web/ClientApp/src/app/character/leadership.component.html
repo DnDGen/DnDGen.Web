@@ -1,0 +1,25 @@
+<dndgen-collapsible-list [hidden]="leadership!.score == 0" heading="Leadership" [hasList]="leadership!.score > 0">
+  <ul>
+    <li>Score: {{leadership!.score | number}}</li>
+    <li [hidden]="leadership!.leadershipModifiers.length == 0">
+      <dndgen-collapsible-list heading="Leadership Modifiers" [hasList]="leadership!.leadershipModifiers.length > 0">
+        <ul>
+          <li *ngFor="let modifier of leadership!.leadershipModifiers">{{modifier}}</li>
+        </ul>
+      </dndgen-collapsible-list>
+    </li>
+    <li *ngIf="cohort">
+      <span>Cohort:</span>
+      <dndgen-character [character]="cohort!"></dndgen-character>
+    </li>
+    <li [hidden]="followers.length == 0">
+      <dndgen-collapsible-list heading="Followers" [hasList]="followers.length > 0">
+        <ul>
+          <li *ngFor="let follower of followers">
+            <dndgen-character [character]="follower"></dndgen-character>
+          </li>
+        </ul>
+      </dndgen-collapsible-list>
+    </li>
+  </ul>
+</dndgen-collapsible-list>

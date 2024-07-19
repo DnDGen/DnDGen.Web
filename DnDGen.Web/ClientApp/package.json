@@ -10,7 +10,8 @@
     "build": "ng build",
     "build:ssr": "ng run DnDGen.Web:server:dev",
     "watch": "ng build --watch --configuration development",
-    "test": "jasmine"
+    "test": "jasmine",
+    "local": "ng serve"
   },
   "private": true,
   "dependencies": {

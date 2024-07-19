@@ -12,5 +12,12 @@ namespace DnDGen.Web.Controllers
             var model = new RollViewModel();
             return View(model);
         }
+
+        [Route("roll/viewmodel")]
+        [HttpGet]
+        public RollViewModel ViewModel()
+        {
+            return new RollViewModel();
+        }
     }
 }
