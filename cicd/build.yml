@@ -51,18 +51,17 @@ jobs:
   #   displayName: 'Install Node.js 16.x'
 
   - script: |
-      cd AngularWithAzure/
+      cd DnDGen.Web/ClientApp/
       npm install -g @angular/cli
       npm install
       npm run build:ci
     displayName: 'Build Client-Side Code'
     workingDirectory: '$(Build.SourcesDirectory)'
-  - task: CmdLine@2
+  - script: |
+      cd DnDGen.Web/ClientApp/
+      npm run test:ci
     displayName: "Run Client-Side Unit Tests"
-    inputs:
-      script: |
-        cd AngularWithAzure/
-        npm run test:ci
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 #TODO: Make sure test results output to file
 #TODO: Publish test results

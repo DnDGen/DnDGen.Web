@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { RollGenViewModel } from './rollgenViewModel.model';
+import { type HttpClient, HttpParams } from '@angular/common/http';
+import type { Observable } from 'rxjs';
+import type { RollGenViewModel } from './rollgenViewModel.model';
 
 @Injectable({
   providedIn: 'root',

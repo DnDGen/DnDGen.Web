@@ -1,12 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { TreasureGenViewModel } from './treasuregenViewModel.model';
+import { type HttpClient, HttpParams } from '@angular/common/http';
+import type { Observable } from 'rxjs';
+import type { TreasureGenViewModel } from './treasuregenViewModel.model';
+import type { Treasure } from './treasure.model';
+import type { Item } from './item.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RollService {
+export class TreasureService {
   private webBaseUrl: string;
   constructor(private http: HttpClient, @Inject('WEB_BASE_URL') baseUrl: string) {
     this.webBaseUrl = baseUrl;
@@ -16,30 +18,36 @@ export class RollService {
     var url = this.webBaseUrl + "treasure/viewmodel";
     return this.http.get<TreasureGenViewModel>(url);
   }
-
-  public getRoll(quantity: number, die: number): Observable<number> {
-    var url = "https://roll.dndgen.com/api/v2/" + quantity + "/d/" + die + "/roll";
-
-    return this.http.get<number>(url);
+  
+  public getTreasure(treasureType: string, level: number): Observable<Treasure> {
+    var url = "https://treasure.dndgen.com/api/v1/" + treasureType + "/level/" + level + "/generate";
+    return this.http.get<Treasure>(url);
   }
-
-  public validateRoll(quantity: number, die: number): Observable<boolean> {
-    var url = "https://roll.dndgen.com/api/v2/" + quantity + "/d/" + die + "/validate";
-
+  
+  public validateTreasure(treasureType: string, level: number): Observable<boolean> {
+    var url = "https://treasure.dndgen.com/api/v1/" + treasureType + "/level/" + level + "/validate";
     return this.http.get<boolean>(url);
   }
 
-  public getExpressionRoll(expression: string): Observable<number> {
-    var url = 'https://roll.dndgen.com/api/v2/expression/roll';
-    let params = new HttpParams().set('expression', expression);
+  public getItem(itemType: string, power: string, name: string | null): Observable<Item> {
+    var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
 
-    return this.http.get<number>(url, { params: params });
+    if (!name) {
+      return this.http.get<Item>(url);
+    }
+
+    let params = new HttpParams().set('name', name);
+    return this.http.get<Item>(url, { params: params });
   }
 
-  public validateExpression(expression: string): Observable<boolean> {
-    var url = 'https://roll.dndgen.com/api/v2/expression/validate';
-    let params = new HttpParams().set('expression', expression);
+  public validateItem(itemType: string, power: string, name: string | null): Observable<boolean> {
+    var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
 
+    if (!name) {
+      return this.http.get<boolean>(url);
+    }
+
+    let params = new HttpParams().set('name', name);
     return this.http.get<boolean>(url, { params: params });
   }
 }

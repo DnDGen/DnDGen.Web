@@ -1,8 +1,11 @@
+import type { ItemTypeViewModel } from './itemTypeViewModel.model';
+
 export class TreasureGenViewModel {
   constructor(
-    public quantityLimit_Lower: number,
-    public quantityLimit_Upper: number,
-    public dieLimit_Lower: number,
-    public dieLimit_Upper: number
+    public treasureTypes: string[],
+    public maxTreasureLevel: number,
+    public itemTypeViewModels: ItemTypeViewModel[],
+    public powers: string[],
+    public itemNames: Map<string, string[]>
   ) { }
 }
