@@ -14,6 +14,7 @@ import { InchesToFeetPipe } from './shared/inchesToFeet.pipe';
 
 import { RollGenComponent } from './roll/rollgen.component';
 
+import { TreasureGenComponent } from './treasure/treasuregen.component';
 import { TreasureComponent } from './treasure/treasure.component';
 import { ItemComponent } from './treasure/item.component';
 
@@ -36,6 +37,7 @@ import { CharacterComponent } from './character/character.component';
         RollGenComponent,
 
         //TreasureGen
+        TreasureGenComponent,
         TreasureComponent,
         ItemComponent,
 
@@ -49,14 +51,14 @@ import { CharacterComponent } from './character/character.component';
         HttpClientModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'home', redirectTo: "/", pathMatch: 'full' },
-            { path: 'roll', component: RollGenComponent, pathMatch: 'full' },
-            //TODO: TreasureGen
-            { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
-            //TODO: EncounterGen
-            //TODO: DungeonGen
-            { path: '**', component: ErrorComponent, pathMatch: 'full' }
+          { path: '', component: HomeComponent, pathMatch: 'full' },
+          { path: 'home', redirectTo: "/", pathMatch: 'full' },
+          { path: 'roll', component: RollGenComponent, pathMatch: 'full' },
+          { path: 'treasure', component: TreasureGenComponent, pathMatch: 'full' },
+          { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
+          //TODO: EncounterGen
+          //TODO: DungeonGen
+          { path: '**', component: ErrorComponent, pathMatch: 'full' }
         ])
     ],
     providers: [
