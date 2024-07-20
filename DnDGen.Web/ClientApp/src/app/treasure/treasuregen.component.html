@@ -15,13 +15,7 @@
           <div class="form-group row">
             <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
             <div class="col-sm-6">
-              <!--<select id="treasureTypes"
-                      class="form-select"
-                      ng-model="vm.treasureType"
-                      ng-options="treasureType for treasureType in vm.treasureModel.treasureTypes"
-                      required></select>-->
-
-              <select id="treasureTypes" class="form-select" (input)="validate(standardQuantity, standardDie.die)" [(ngModel)]="treasureType" name="treasureType" required>
+              <select id="treasureTypes" class="form-select" (input)="validateTreasure(treasureType, level)" [(ngModel)]="treasureType" name="treasureType" required>
                 <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
               </select>
             </div>
@@ -29,13 +23,14 @@
           <div class="form-group row">
             <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
             <div class="col-sm-6">
-              <input dndgen-no-decimals
+              <input pattern="^[0-9]+$"
                      id="treasureLevel"
                      class="form-control"
                      type="number"
                      min="1"
-                     max="{{vm.treasureModel.maxTreasureLevel}}"
-                     ng-model="vm.level"
+                     max="{{treasureModel.maxTreasureLevel}}"
+                     [(ngModel)]="level"
+                     (input)="validateTreasure(treasureType, level)"
                      required />
             </div>
           </div>
@@ -47,113 +42,62 @@
             Generate
           </button>
         </form>
-
-
-        <form name="standardRollForm" #standardRollForm="ngForm" class="form-horizontal top-buffer" role="form">
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="item">
+        <form name="itemForm" class="form-horizontal top-buffer" role="form">
           <div class="form-group row">
-            <div class="col-sm-3">
-              <input pattern="^[0-9]+$"
-                     class="form-control"
-                     type="number"
-                     min="{{rollModel.quantityLimit_Lower}}"
-                     max="{{rollModel.quantityLimit_Upper}}"
-                     (input)="validateRoll(standardQuantity, standardDie.die)"
-                     [(ngModel)]="standardQuantity"
-                     name="standardQuantity"
-                     required />
-            </div>
-            <label for="standardRolls" class="col-sm-1 col-form-label px-0 text-center">d</label>
-            <div class="col-sm-2 px-0">
-              <select id="standardRolls" class="form-control" (input)="validateRoll(standardQuantity, standardDie.die)" [(ngModel)]="standardDie" name="standardDie" required>
-                <option *ngFor="let standardDieOption of standardDice" [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
+            <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
+            <div class="col-sm-4">
+              <select id="itemTypes" class="form-select" (input)="updateItemNames(itemType)" [(ngModel)]="itemType" name="itemType" required>
+                <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
               </select>
             </div>
-            <div class="col-sm-2">
-              <button id="standardRollButton"
-                      type="button"
-                      class="btn btn-success"
-                      (click)="rollStandard()"
-                      [disabled]="!standardRollForm.form.valid || rolling || validating || !rollIsValid">
-                Roll
-              </button>
-            </div>
-            <div class="col-sm-2">
-              <span [hidden]="!validating">
-                <img style="width: 50px; height: auto;" src="/assets/loading-dice.svg" />
-              </span>
-            </div>
           </div>
-        </form>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="custom">
-        <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
           <div class="form-group row">
+            <label for="powers" class="col-sm-3 col-form-label">Power:</label>
             <div class="col-sm-3">
-              <input pattern="^[0-9]+$"
+              <select id="powers" class="form-select" (input)="validateItem(itemType.itemType, power, itemName)" [(ngModel)]="power" name="power" required>
+                <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <select id="itemNames"
+                      class="form-select"
+                      ng-model="vm.itemName"
+                      ng-options="name for name in vm.itemNames"
+                      ng-hide="vm.itemType.itemType == 'Wand' || vm.itemType.itemType == 'Scroll'"></select>
+              <input id="anyItemName"
                      class="form-control"
-                     type="number"
-                     min="{{rollModel.quantityLimit_Lower}}" 
-                     max="{{rollModel.quantityLimit_Upper}}" 
-                     (input)="validateRoll(customQuantity, customDie)"
-                     [(ngModel)]="customQuantity"
-                     name="customQuantity"
-                     required />
-            </div>
-            <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
-            <div class="col-sm-2 px-0">
-              <input pattern="^[0-9]+$"
-                     id="customDie"
-                     class="form-control"
-                     type="number"
-                     min="{{rollModel.dieLimit_Lower}}" 
-                     max="{{rollModel.dieLimit_Upper}}" 
-                     (input)="validateRoll(customQuantity, customDie)"
-                     [(ngModel)]="customDie"
-                     name="customDie"
-                     required />
-            </div>
-            <div class="col-sm-2">
-              <button id="customRollButton"
-                      type="button"
-                      class="btn btn-success"
-                      (click)="rollCustom()"
-                      [disabled]="!customRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
-            </div>
-            <div class="col-sm-2">
-              <span [hidden]="!validating">
-                <img style="width: 50px; height: auto;" src="/assets/loading-dice.svg" />
-              </span>
+                     type="text"
+                     ng-model="vm.itemName"
+                     ng-show="vm.itemType.itemType == 'Wand' || vm.itemType.itemType == 'Scroll'"></input>
             </div>
           </div>
-        </form>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="expression">
-        <form name="expressionRollForm" #expressionRollForm="ngForm" class="form-horizontal top-buffer" role="form">
-          <div class="form-group row">
-            <label for="rollExpression" class="col-sm-2 col-form-label">Expression</label>
-            <div class="col-sm-3 col-sm-offset-1">
-              <input id="rollExpression" class="form-control" type="text" (input)="validateExpression(expression)" [(ngModel)]="expression" name="expression" required />
-            </div>
-            <div class="col-sm-2">
-              <button type="button"
-                      class="btn btn-success"
-                      (click)="rollExpression()"
-                      [disabled]="!expressionRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
-            </div>
-            <div class="col-sm-2">
-              <span [hidden]="!validating">
-                <img style="width: 50px; height: auto;" src="/assets/loading-dice.svg" />
-              </span>
-            </div>
-          </div>
+          <button id="itemButton"
+                  type="button"
+                  class="btn btn-success d-flex justify-content-center"
+                  ng-click="vm.generateItem()"
+                  ng-disabled="itemForm.$invalid || vm.generating || vm.validating || !vm.validItem">
+            Generate
+          </button>
+          <span id="validatingSection" ng-show="vm.validating">
+            <img style="width: 50px; height: auto;" src="~/loading-dice.svg" />
+          </span>
         </form>
       </div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <span [hidden]="rolling" class="font-green font-big">{{roll | number}}</span>
-    <span id="rollingSection" [hidden]="!rolling">
-      <img style="width: 300px; height: auto;" src="/assets/loading-dice.svg" />
+  <div class="col-sm-6 clearfix">
+    <button class="btn btn-light btn-lg float-end" ng-show="!vm.generating && !vm.validating && vm.treasure.isAny" ng-click="vm.downloadTreasure()">Download</button>
+    <button class="btn btn-light btn-lg float-end" ng-show="!vm.generating && !vm.validating && vm.item" ng-click="vm.downloadItem()">Download</button>
+    <div ng-hide="vm.generating">
+      <span id="noTreasure" class="italicize" ng-hide="vm.treasure.isAny || vm.item">No treasure was generated</span>
+      <dndgen-treasure treasure="vm.treasure" ng-show="vm.treasure.isAny"></dndgen-treasure>
+      <dndgen-item item="vm.item" ng-show="vm.item"></dndgen-item>
+    </div>
+    <span id="generatingSection" ng-show="vm.generating">
+      <img style="width: 300px; height: auto;" src="~/loading-dice.svg" />
     </span>
   </div>
+</div>
 </div>

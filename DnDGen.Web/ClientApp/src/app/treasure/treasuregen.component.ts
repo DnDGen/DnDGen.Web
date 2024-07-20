@@ -29,13 +29,8 @@ export class TreasureGenComponent implements OnInit {
   ngOnInit(): void {
     this.treasureService.getViewModel()
       .subscribe({
-        next: data => {
-          this.setViewModel(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
+        next: this.setViewModel,
+        error: this.handleError
       });
   }
 
@@ -45,18 +40,17 @@ export class TreasureGenComponent implements OnInit {
     this.treasureType = this.treasureModel.treasureTypes[0];
     this.itemType = this.treasureModel.itemTypeViewModels[0];
     this.power = this.treasureModel.powers[0];
-    this.itemNames = this.treasureModel.itemNames.get(this.itemType.itemType);
+    this.itemNames = this.treasureModel.itemNames.get(this.itemType.itemType)!;
 
-    this.validateRoll(this.standardQuantity, this.standardDie.die);
-    this.validateRoll(this.customQuantity, this.customDie);
-    this.validateExpression(this.expression);
+    this.validateTreasure(this.treasureType, this.level);
+    this.validateItem(this.itemType.itemType, this.power, this.itemName);
   }
 
   public treasureModel!: TreasureGenViewModel;
-  public itemNames!: string[] | undefined;
+  public itemNames!: string[];
   @Input() level = 1;
   @Input() treasureType = '';
-  @Input() itemType: ItemTypeViewModel = this.treasureModel.itemTypeViewModels[0];;
+  @Input() itemType: ItemTypeViewModel = this.treasureModel.itemTypeViewModels[0];
   @Input() power = '';
   @Input() itemName = null;
 
@@ -73,13 +67,8 @@ export class TreasureGenComponent implements OnInit {
 
     this.treasureService.getTreasure(this.treasureType, this.level)
       .subscribe({
-        next: data => {
-          this.setTreasure(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
+        next: this.setTreasure,
+        error: this.handleError
       });
   };
 
@@ -90,13 +79,15 @@ export class TreasureGenComponent implements OnInit {
     this.item = null;
   }
 
-  private handleError() {
-    this.sweetAlertService.showError();
+  private handleError(error: any) {
+    this.logger.logError(error.message);
 
     this.generating = false;
     this.validating = false;
     this.treasure = null;
     this.item = null;
+
+    this.sweetAlertService.showError();
   }
 
   public generateItem() {
@@ -104,13 +95,8 @@ export class TreasureGenComponent implements OnInit {
 
     this.treasureService.getItem(this.itemType.itemType, this.power, this.itemName)
       .subscribe({
-        next: data => {
-          this.setItem(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
+        next: this.setItem,
+        error: this.handleError
       });
   };
 
@@ -120,47 +106,56 @@ export class TreasureGenComponent implements OnInit {
 
     this.treasure = null;
   }
-
-  function validateTreasure() {
+  
+  public validateTreasure(treasureType: string, level: number) {
     this.validating = true;
 
-    treasureService.validateTreasure(this.treasureType, this.level)
-      .then(setTreasureValidity, handleValidationError);
+    if (!treasureType || !level) {
+      this.validTreasure = false;
+      this.validating = false;
+      return;
+    }
+
+    this.treasureService.validateTreasure(treasureType, level)
+      .subscribe({
+        next: this.setTreasureValidity,
+        error: this.handleValidationError
+      });
   }
 
-  function setTreasureValidity(response) {
-    this.validTreasure = response.data;
+  private setTreasureValidity(data: boolean) {
+    this.validTreasure = data;
     this.validating = false;
   }
 
-  function handleValidationError() {
-    this.generating = false;
-    this.validating = false;
+  private handleValidationError(error: any) {
     this.validItem = false;
     this.validTreasure = false;
+
+    this.handleError(error);
   }
 
-  function validateItem() {
+  public validateItem(itemType: string, power: string, itemName: string | null) {
     this.validating = true;
 
-    treasureService.validateItem(this.itemType.itemType, this.power, this.itemName)
-      .then(setItemValidity, handleValidationError);
+    this.treasureService.validateItem(itemType, power, itemName)
+      .subscribe({
+        next: this.setItemValidity,
+        error: this.handleValidationError
+      });
   }
 
-  function setItemValidity(response) {
-    this.validItem = response.data;
+  private setItemValidity(data: boolean) {
+    this.validItem = data;
     this.validating = false;
   }
-
-  $scope.$watch('this.treasureType', validateTreasure, true);
-  $scope.$watch('this.level', validateTreasure, true);
-
-  $scope.$watch('this.itemType', function (newValue, oldValue) {
-    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType];
+  
+  public updateItemNames(itemType: ItemTypeViewModel) {
+    this.itemNames = this.treasureModel.itemNames.get(itemType.itemType)!;
     this.itemName = null;
 
-    validateItem();
-  }, true);
+    this.validateItem(this.itemType.itemType, this.power, this.itemName);
+  }
 
   $scope.$watch('this.power', validateItem, true);
   $scope.$watch('this.itemName', validateItem, true);
@@ -236,33 +231,6 @@ export class TreasureGenComponent implements OnInit {
         }
       });
   };
-
-  public validateTreasure(treasureType: string, level: number) {
-    this.validating = true;
-
-    if (!treasureType || !level) {
-      this.validTreasure = false;
-      this.validating = false;
-      return;
-    }
-
-    this.treasureService.validateTreasure(treasureType, level)
-      .subscribe({
-        next: data => {
-          this.validTreasure = data;
-          this.validating = false;
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-
-          this.generating = false;
-          this.validating = false;
-          this.validItem = false;
-          this.validTreasure = false;
-        }
-      });
-  }
   
   public validateRoll(quantity: number, die: number) {
     this.validating = true;
