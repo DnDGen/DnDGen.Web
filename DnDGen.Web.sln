@@ -51,9 +51,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.DungeonGen.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.DungeonGen.Tests.Integration", "DnDGen.Api.DungeonGen.Tests.Integration\DnDGen.Api.DungeonGen.Tests.Integration.csproj", "{4143ABE6-F3F7-4F42-ADBC-14DDA054737E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.Tests.Integration", "DnDGen.Api.Tests.Integration\DnDGen.Api.Tests.Integration.csproj", "{8BD756EA-12D9-451A-823F-D2AF7510E881}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.Tests.Integration", "DnDGen.Api.Tests.Integration\DnDGen.Api.Tests.Integration.csproj", "{8BD756EA-12D9-451A-823F-D2AF7510E881}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.Tests.Unit", "DnDGen.Api.Tests.Unit\DnDGen.Api.Tests.Unit.csproj", "{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDGen.Api.Tests.Unit", "DnDGen.Api.Tests.Unit\DnDGen.Api.Tests.Unit.csproj", "{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{223BAF44-A297-4DE3-9774-AC25BDB55558}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDGen.Api.Web", "DnDGen.Api.Web\DnDGen.Api.Web.csproj", "{D418128D-A93C-4FA2-A1B5-3568634C0E38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +145,10 @@ Global
 		{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D418128D-A93C-4FA2-A1B5-3568634C0E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D418128D-A93C-4FA2-A1B5-3568634C0E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D418128D-A93C-4FA2-A1B5-3568634C0E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D418128D-A93C-4FA2-A1B5-3568634C0E38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +176,8 @@ Global
 		{4143ABE6-F3F7-4F42-ADBC-14DDA054737E} = {B2FC8550-ABAB-47D0-B9AF-047D8AE2A546}
 		{8BD756EA-12D9-451A-823F-D2AF7510E881} = {97900026-B031-4C26-9142-8D1FB5DA6245}
 		{95A3FEC4-F530-44F7-BE1A-9D969F1BB79A} = {97900026-B031-4C26-9142-8D1FB5DA6245}
+		{223BAF44-A297-4DE3-9774-AC25BDB55558} = {97900026-B031-4C26-9142-8D1FB5DA6245}
+		{D418128D-A93C-4FA2-A1B5-3568634C0E38} = {223BAF44-A297-4DE3-9774-AC25BDB55558}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E70C8EC6-3C20-46DB-9F87-BF7B5CCB9807}
