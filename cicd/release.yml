@@ -94,6 +94,22 @@ jobs:
             appName: 'dungeongen-api'
             package: '$(Pipeline.Workspace)/**/dungeongen-api/*.zip'
 
+# The Web API
+- deployment: Web_Api
+  displayName: Deploy Web API
+  environment: Prod
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureFunctionApp@2
+          displayName: 'Deploy Azure Function App'
+          inputs:
+            connectedServiceNameARM: 'Azure - DnDGen'
+            appType: 'functionApp'
+            appName: 'dndgen-web-api'
+            package: '$(Pipeline.Workspace)/**/dndgen-web-api/*.zip'
+     
 # The DnDGen Website
 - deployment: Website
   displayName: Deploy Website
@@ -104,6 +120,7 @@ jobs:
   - CharacterGen_Api
   - EncounterGen_Api
   - DungeonGen_Api
+  - Web_Api
   strategy:
     runOnce:
       deploy:
@@ -128,6 +145,7 @@ jobs:
   - CharacterGen_Api
   - EncounterGen_Api
   - DungeonGen_Api
+  - Web_Api
   - Website
   strategy:
     runOnce:
@@ -150,6 +168,9 @@ jobs:
           condition: always()
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
           displayName: 'Run DungeonGen API Tests'
+          condition: always()
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
+          displayName: 'Run Web API Tests'
           condition: always()
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'

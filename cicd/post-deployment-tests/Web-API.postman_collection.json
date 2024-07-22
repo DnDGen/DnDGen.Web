@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "228b23e5-a7fc-48c1-9704-4c28afec4b1f",
+		"name": "Web API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "RollGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns RollGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.quantityLimit_Lower).to.be(1);\r",
+							"    pm.expect(model.quantityLimit_Upper).to.be(10000);\r",
+							"    pm.expect(model.dieLimit_Lower).to.be(1);\r",
+							"    pm.expect(model.dieLimit_Upper).to.be(10000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/v1/roll/viewmodel",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"roll",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TreasureGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns TreasureGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.treasureTypes).to.be(['Treasure', 'Coin', 'Goods', 'Items']);\r",
+							"    pm.expect(model.maxTreasureLevel).to.be(100);\r",
+							"    pm.expect(model.itemTypeViewModels.length).to.be(11);\r",
+							"    pm.expect(model.powers).to.be(['Mundane', 'Minor', 'Medium', 'Major']);\r",
+							"    pm.expect(model.itemNames['AlchemicalItem'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Armor'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Potion'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Ring'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Rod'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Scroll'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Staff'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Tool'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Wand'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['Weapon'].length).to.be(666);\r",
+							"    pm.expect(model.itemNames['WondrousItem'].length).to.be(666);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/v1/treasure/viewmodel",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"treasure",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CharacterGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns CharacterGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    \r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.alignmentRandomizerTypes.length).to.be(12);\r",
+							"    pm.expect(model.alignments.length).to.be(9);\r",
+							"    pm.expect(model.classNameRandomizerTypes.length).to.be(666);\r",
+							"    pm.expect(model.classNames.length).to.be(666);\r",
+							"    pm.expect(model.levelRandomizerTypes.length).to.be(666);\r",
+							"    pm.expect(model.baseRaceRandomizerTypes.length).to.be(666);\r",
+							"    pm.expect(model.baseRaces.length).to.be(666);\r",
+							"    pm.expect(model.metaraceRandomizerTypes.length).to.be(666);\r",
+							"    pm.expect(model.metaraces.length).to.be(666);\r",
+							"    pm.expect(model.abilitiesRandomizerTypes.length).to.be(666);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/v1/character/viewmodel",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"character",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EncounterGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns EncounterGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.environments.length).to.be(666);\r",
+							"    pm.expect(model.timesOfDay.length).to.be(666);\r",
+							"    pm.expect(model.temperatures.length).to.be(666);\r",
+							"    pm.expect(model.creatureTypes.length).to.be(666);\r",
+							"    pm.expect(model.defaults.temperature).to.be('Temperate');\r",
+							"    pm.expect(model.defaults.environment).to.be('Plains');\r",
+							"    pm.expect(model.defaults.timeOfDay).to.be('Day');\r",
+							"    pm.expect(model.defaults.level).to.be(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/v1/encounter/viewmodel",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"encounter",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DungeonGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns DungeonGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.environments.length).to.be(666);\r",
+							"    pm.expect(model.timesOfDay.length).to.be(666);\r",
+							"    pm.expect(model.temperatures.length).to.be(666);\r",
+							"    pm.expect(model.creatureTypes.length).to.be(666);\r",
+							"    pm.expect(model.defaults.temperature).to.be('Temperate');\r",
+							"    pm.expect(model.defaults.environment).to.be('Plains');\r",
+							"    pm.expect(model.defaults.timeOfDay).to.be('Day');\r",
+							"    pm.expect(model.defaults.level).to.be(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/v1/dungeon/viewmodel",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dungeon",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

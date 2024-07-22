@@ -271,6 +271,48 @@ jobs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Api/DungeonGen' 
       artifactName: 'dungeongen-api'
 
+# The Web API
+- job: Web_Api
+  displayName: Web API
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: 'DnDGen.Api.Web/DnDGen.Api.Web.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    displayName: Run Unit Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Api.Web.Tests.Unit/DnDGen.Api.Web.Tests.Unit.csproj'
+      arguments: '-v normal'
+  - task: DotNetCoreCLI@2
+    displayName: Run Integration Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Api.Web.Tests.Integration/DnDGen.Api.Web.Tests.Integration.csproj'
+      arguments: '-v normal'
+
+  - task: DotNetCoreCLI@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish API
+    inputs:
+      command: 'publish'
+      projects: 'DnDGen.Api.Web/DnDGen.Api.Web.csproj'
+      publishWebProjects: false
+      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/Web'
+      zipAfterPublish: true
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Artifacts
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/Api/Web' 
+      artifactName: 'dndgen-web-api'
+
 # The Post-Deployment Tests
 - job: deployTests
   displayName: Package Post-Deployment Tests
