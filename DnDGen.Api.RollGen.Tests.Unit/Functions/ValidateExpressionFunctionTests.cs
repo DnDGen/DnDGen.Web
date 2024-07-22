@@ -1,5 +1,6 @@
 using DnDGen.Api.RollGen.Dependencies;
 using DnDGen.Api.RollGen.Functions;
+using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.RollGen;
 using Microsoft.Azure.Functions.Worker.Http;

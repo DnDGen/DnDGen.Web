@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace DnDGen.Api.CharacterGen.Tests.Unit
+namespace DnDGen.Api.Tests.Unit
 {
     public static class LoggerAssertionExtensions
     {
