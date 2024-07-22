@@ -1,3 +1,4 @@
+using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.TreasureGen.Items;

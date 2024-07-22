@@ -196,7 +196,7 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 RaceConstants.BaseRaces.TallfellowHalfling,
                 RaceConstants.BaseRaces.Tiefling,
                 RaceConstants.BaseRaces.Troglodyte,
-                //RaceConstants.BaseRaces.Troll,
+                RaceConstants.BaseRaces.Troll,
                 RaceConstants.BaseRaces.WildElf,
                 RaceConstants.BaseRaces.WoodElf,
                 RaceConstants.BaseRaces.YuanTiAbomination,

@@ -1,5 +1,6 @@
 using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Functions;
+using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Abilities;
 using DnDGen.CharacterGen.Alignments;
