@@ -2,12 +2,12 @@ import { Input, Component, OnInit } from '@angular/core';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
 import { FileSaverService } from '../shared/fileSaver.service';
-import { TreasureService } from './treasure.service';
-import { TreasureGenViewModel } from './treasuregenViewModel.model';
-import { ItemTypeViewModel } from './itemTypeViewModel.model';
-import { Treasure } from './treasure.model';
-import { Item } from './item.model';
-import { TreasureFormatterService } from './treasureFormatter.service';
+import { TreasureService } from './services/treasure.service';
+import { TreasureGenViewModel } from './models/treasuregenViewModel.model';
+import { ItemTypeViewModel } from './models/itemTypeViewModel.model';
+import { Treasure } from './models/treasure.model';
+import { Item } from './models/item.model';
+import { TreasureFormatterService } from './services/treasureFormatter.service';
 
 @Component({
   selector: 'dndgen-treasuregen',
@@ -157,124 +157,23 @@ export class TreasureGenComponent implements OnInit {
     this.validateItem(this.itemType.itemType, this.power, this.itemName);
   }
 
-  $scope.$watch('this.power', validateItem, true);
-  $scope.$watch('this.itemName', validateItem, true);
+  public downloadTreasure() {
+    if (!this.treasure)
+      return;
 
-  this.downloadTreasure = function () {
-    var formattedTreasure = treasureFormatterService.formatTreasure(this.treasure);
+    var formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
     var fileName = 'Treasure ' + new Date().toString();
 
-    fileSaverService.save(formattedTreasure, fileName);
-  };
+    this.fileSaverService.save(formattedTreasure, fileName);
+  }
 
-  this.downloadItem = function () {
-    var formattedItem = treasureFormatterService.formatItem(this.item);
+  public downloadItem() {
+    if (!this.item)
+      return;
+
+    var formattedItem = this.treasureFormatterService.formatItem(this.item);
     var fileName = 'Item (' + this.item.name + ') ' + new Date().toString();
 
-    fileSaverService.save(formattedItem, fileName);
-  };
-
-  public rollStandard() {
-    this.rolling = true;
-
-    this.rollService.getRoll(this.standardQuantity, this.standardDie.die)
-      .subscribe({
-        next: data => {
-          this.setRoll(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
-      });
-  };
-
-  private setRoll(rollResult: number) {
-    this.roll = rollResult;
-    this.rolling = false;
-  }
-
-  private handleError() {
-    this.sweetAlertService.showError();
-    this.treasure = null;
-    this.item = null;
-    this.generating = false;
-    this.validating = false;
-  }
-
-  public rollCustom() {
-    this.rolling = true;
-
-    this.rollService.getRoll(this.customQuantity, this.customDie)
-      .subscribe({
-        next: data => {
-          this.setRoll(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
-      });
-  };
-
-  public rollExpression() {
-    this.rolling = true;
-
-    this.rollService.getExpressionRoll(this.expression)
-      .subscribe({
-        next: data => {
-          this.setRoll(data);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
-      });
-  };
-  
-  public validateRoll(quantity: number, die: number) {
-    this.validating = true;
-
-    if (!quantity || !die) {
-      this.rollIsValid = false;
-      this.validating = false;
-      return;
-    }
-
-    this.rollService.validateRoll(quantity, die)
-      .subscribe({
-        next: data => {
-          this.rollIsValid = data;
-          this.validating = false;
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-          this.rollIsValid = false;
-        }
-      });
-  }
-
-  public validateExpression(expression: string) {
-    this.validating = true;
-
-    if (!expression || expression === '') {
-      this.rollIsValid = false;
-      this.validating = false;
-      return;
-    }
-
-    this.rollService.validateExpression(expression)
-      .subscribe({
-        next: data => {
-          this.rollIsValid = data;
-          this.validating = false;
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-          this.rollIsValid = false;
-        }
-      });
+    this.fileSaverService.save(formattedItem, fileName);
   }
 }

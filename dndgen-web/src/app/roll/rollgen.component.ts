@@ -1,9 +1,10 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { RollService } from './roll.service';
-import { StandardDie } from './standardDie.model';
+import { RollService } from './services/roll.service';
+import { StandardDie } from './models/standardDie.model';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
-import { RollGenViewModel } from './rollgenViewModel.model';
+import { RollGenViewModel } from './models/rollgenViewModel.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dndgen-rollgen',
@@ -20,25 +21,8 @@ export class RollGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  ngOnInit(): void {
-    this.rollService.getViewModel()
-      .subscribe({
-        next: this.setViewModel,
-        error: this.handleError
-      });
-  }
-
-  private setViewModel(data: RollGenViewModel): void {
-    this.rollModel = data;
-
-    this.standardDie = this.standardDice[7];
-
-    this.validateRoll(this.standardQuantity, this.standardDie.die);
-    this.validateRoll(this.customQuantity, this.customDie);
-    this.validateExpression(this.expression);
-  }
-
   public rollModel!: RollGenViewModel;
+
   @Input() standardQuantity = 1;
   @Input() customQuantity = 1;
   @Input() customDie = 1;
@@ -64,13 +48,25 @@ export class RollGenComponent implements OnInit {
 
   @Input() standardDie = this.standardDice[7];
 
+  ngOnInit(): void {
+    this.rollService.getViewModel()
+      .subscribe({
+        next: data => this.setViewModel(data),
+        error: error => this.handleError(error)
+      });
+  }
+
+  private setViewModel(data: RollGenViewModel): void {
+    this.rollModel = data;
+  }
+
   public rollStandard() {
     this.rolling = true;
 
     this.rollService.getRoll(this.standardQuantity, this.standardDie.die)
       .subscribe({
-        next: this.setRoll,
-        error: this.handleError
+        next: data => this.setRoll(data),
+        error: error => this.handleError(error)
       });
   };
 
@@ -94,8 +90,8 @@ export class RollGenComponent implements OnInit {
 
     this.rollService.getRoll(this.customQuantity, this.customDie)
       .subscribe({
-        next: this.setRoll,
-        error: this.handleError
+        next: data => this.setRoll(data),
+        error: error => this.handleError(error)
       });
   };
 
@@ -104,8 +100,8 @@ export class RollGenComponent implements OnInit {
 
     this.rollService.getExpressionRoll(this.expression)
       .subscribe({
-        next: this.setRoll,
-        error: this.handleError
+        next: data => this.setRoll(data),
+        error: error => this.handleError(error)
       });
   };
   
@@ -120,8 +116,8 @@ export class RollGenComponent implements OnInit {
 
     this.rollService.validateRoll(quantity, die)
       .subscribe({
-        next: this.setRollValidity,
-        error: this.handleValidationError
+        next: data => this.setRollValidity(data),
+        error: error => this.handleValidationError(error)
       });
   }
 
@@ -147,8 +143,8 @@ export class RollGenComponent implements OnInit {
 
     this.rollService.validateExpression(expression)
       .subscribe({
-        next: this.setRollValidity,
-        error: this.handleValidationError
+        next: data => this.setRollValidity(data),
+        error: error => this.handleValidationError(error)
       });
   }
 }

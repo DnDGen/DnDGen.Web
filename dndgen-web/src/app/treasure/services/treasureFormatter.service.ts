@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Treasure } from './treasure.model';
-import { Item } from './item.model';
-import { Armor } from './armor.model';
-import { Weapon } from './weapon.model';
-import { SpecialAbility } from './specialAbility.model';
-import { Intelligence } from './intelligence.model';
+import { Treasure } from '../models/treasure.model';
+import { Item } from '../models/item.model';
+import { Armor } from '../models/armor.model';
+import { Weapon } from '../models/weapon.model';
+import { SpecialAbility } from '../models/specialAbility.model';
+import { Intelligence } from '../models/intelligence.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,7 @@ export class TreasureFormatterService {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  public formatItem(item: Item, prefix: string): string {
+  public formatItem(item: Item, prefix?: string): string {
       if (!prefix)
           prefix = '';
 

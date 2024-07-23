@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TreasureFormatterService } from "../treasure/treasureFormatter.service";
+import { TreasureFormatterService } from "../treasure/services/treasureFormatter.service";
 import { Character } from './character.model';
 import { Leadership } from './leadership.model';
 import { Measurement } from './measurement.model';
@@ -9,9 +9,9 @@ import { Feat } from './feat.model';
 import { FeatCollection } from './featCollection.model';
 import { SpellQuantity } from './spellQuantity.model';
 import { Spell } from './spell.model';
-import { Item } from '../treasure/item.model';
+import { Item } from '../treasure/models/item.model';
 import { Equipment } from './equipment.model';
-import { Treasure } from '../treasure/treasure.model';
+import { Treasure } from '../treasure/models/treasure.model';
 import { ArmorClass } from './armorClass.model';
 import { BaseAttack } from './baseAttack.model';
 import { Abilities } from './abilities.model';

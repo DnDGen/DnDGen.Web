@@ -1,19 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
-import { type HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Observable } from 'rxjs';
-import type { RollGenViewModel } from './rollgenViewModel.model';
+import type { RollGenViewModel } from '../models/rollgenViewModel.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RollService {
-  private webBaseUrl: string;
-  constructor(private http: HttpClient, @Inject('WEB_BASE_URL') baseUrl: string) {
-    this.webBaseUrl = baseUrl;
-  }
+  constructor(private http: HttpClient) { }
   
   public getViewModel(): Observable<RollGenViewModel> {
-    var url = this.webBaseUrl + "roll/viewmodel";
+    var url = "https://web.dndgen.com/api/v1/roll/viewmodel";
     return this.http.get<RollGenViewModel>(url);
   }
 

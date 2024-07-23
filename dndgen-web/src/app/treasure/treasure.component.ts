@@ -1,5 +1,5 @@
 import { Input, Component } from '@angular/core';
-import { Treasure } from './treasure.model';
+import { Treasure } from './models/treasure.model';
 
 @Component({
   selector: 'dndgen-treasure',
