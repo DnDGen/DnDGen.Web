@@ -19,7 +19,7 @@ namespace DnDGen.Api.Web.Functions
 
         [Function("GetTreasureViewModelFunction")]
         [OpenApiOperation(operationId: "GetTreasureViewModelFunctionRun", Summary = "Get the TreasureGen View Model",
-            Description = "Gets the initial view data for the RollGen view")]
+            Description = "Gets the initial view data for the TreasureGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TreasureViewModel),
             Description = "The OK response containing the treasuregen view model")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/treasure/viewmodel")] HttpRequestData req)

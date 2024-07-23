@@ -22,7 +22,7 @@ namespace DnDGen.Api.Web.Functions
             Description = "Gets the initial view data for the EncounterGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(EncounterViewModel),
             Description = "The OK response containing the encountergen view model")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/enounter/viewmodel")] HttpRequestData req)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/encounter/viewmodel")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function (GetEncounterViewModelFunction.Run) processed a request.");
 

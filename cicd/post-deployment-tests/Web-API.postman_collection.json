@@ -17,10 +17,10 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var model = pm.response.json();\r",
-							"    pm.expect(model.quantityLimit_Lower).to.be(1);\r",
-							"    pm.expect(model.quantityLimit_Upper).to.be(10000);\r",
-							"    pm.expect(model.dieLimit_Lower).to.be(1);\r",
-							"    pm.expect(model.dieLimit_Upper).to.be(10000);\r",
+							"    pm.expect(model.quantityLimit_Lower).to.equal(1);\r",
+							"    pm.expect(model.quantityLimit_Upper).to.equal(10000);\r",
+							"    pm.expect(model.dieLimit_Lower).to.equal(1);\r",
+							"    pm.expect(model.dieLimit_Upper).to.equal(10000);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -59,21 +59,21 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var model = pm.response.json();\r",
-							"    pm.expect(model.treasureTypes).to.be(['Treasure', 'Coin', 'Goods', 'Items']);\r",
-							"    pm.expect(model.maxTreasureLevel).to.be(100);\r",
-							"    pm.expect(model.itemTypeViewModels.length).to.be(11);\r",
-							"    pm.expect(model.powers).to.be(['Mundane', 'Minor', 'Medium', 'Major']);\r",
-							"    pm.expect(model.itemNames['AlchemicalItem'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Armor'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Potion'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Ring'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Rod'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Scroll'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Staff'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Tool'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Wand'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['Weapon'].length).to.be(666);\r",
-							"    pm.expect(model.itemNames['WondrousItem'].length).to.be(666);\r",
+							"    pm.expect(model.treasureTypes).to.eql(['Treasure', 'Coin', 'Goods', 'Items']);\r",
+							"    pm.expect(model.maxTreasureLevel).to.equal(100);\r",
+							"    pm.expect(model.itemTypeViewModels.length).to.equal(11);\r",
+							"    pm.expect(model.powers).to.eql(['Mundane', 'Minor', 'Medium', 'Major']);\r",
+							"    pm.expect(model.itemNames['AlchemicalItem'].length).to.equal(8);\r",
+							"    pm.expect(model.itemNames['Armor'].length).to.equal(23);\r",
+							"    pm.expect(model.itemNames['Potion'].length).to.equal(92);\r",
+							"    pm.expect(model.itemNames['Ring'].length).to.equal(55);\r",
+							"    pm.expect(model.itemNames['Rod'].length).to.equal(36);\r",
+							"    pm.expect(model.itemNames['Scroll'].length).to.equal(1);\r",
+							"    pm.expect(model.itemNames['Staff'].length).to.equal(21);\r",
+							"    pm.expect(model.itemNames['Tool'].length).to.equal(20);\r",
+							"    pm.expect(model.itemNames['Wand'].length).to.equal(1);\r",
+							"    pm.expect(model.itemNames['Weapon'].length).to.equal(103);\r",
+							"    pm.expect(model.itemNames['WondrousItem'].length).to.equal(246);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -112,16 +112,16 @@
 							"    pm.response.to.have.status(200);\r",
 							"    \r",
 							"    var model = pm.response.json();\r",
-							"    pm.expect(model.alignmentRandomizerTypes.length).to.be(12);\r",
-							"    pm.expect(model.alignments.length).to.be(9);\r",
-							"    pm.expect(model.classNameRandomizerTypes.length).to.be(666);\r",
-							"    pm.expect(model.classNames.length).to.be(666);\r",
-							"    pm.expect(model.levelRandomizerTypes.length).to.be(666);\r",
-							"    pm.expect(model.baseRaceRandomizerTypes.length).to.be(666);\r",
-							"    pm.expect(model.baseRaces.length).to.be(666);\r",
-							"    pm.expect(model.metaraceRandomizerTypes.length).to.be(666);\r",
-							"    pm.expect(model.metaraces.length).to.be(666);\r",
-							"    pm.expect(model.abilitiesRandomizerTypes.length).to.be(666);\r",
+							"    pm.expect(model.alignmentRandomizerTypes.length).to.equal(12);\r",
+							"    pm.expect(model.alignments.length).to.equal(9);\r",
+							"    pm.expect(model.classNameRandomizerTypes.length).to.equal(9);\r",
+							"    pm.expect(model.classNames.length).to.equal(16);\r",
+							"    pm.expect(model.levelRandomizerTypes.length).to.equal(6);\r",
+							"    pm.expect(model.baseRaceRandomizerTypes.length).to.equal(7);\r",
+							"    pm.expect(model.baseRaces.length).to.equal(70);\r",
+							"    pm.expect(model.metaraceRandomizerTypes.length).to.equal(6);\r",
+							"    pm.expect(model.metaraces.length).to.equal(12);\r",
+							"    pm.expect(model.abilitiesRandomizerTypes.length).to.equal(9);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -160,14 +160,17 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var model = pm.response.json();\r",
-							"    pm.expect(model.environments.length).to.be(666);\r",
-							"    pm.expect(model.timesOfDay.length).to.be(666);\r",
-							"    pm.expect(model.temperatures.length).to.be(666);\r",
-							"    pm.expect(model.creatureTypes.length).to.be(666);\r",
-							"    pm.expect(model.defaults.temperature).to.be('Temperate');\r",
-							"    pm.expect(model.defaults.environment).to.be('Plains');\r",
-							"    pm.expect(model.defaults.timeOfDay).to.be('Day');\r",
-							"    pm.expect(model.defaults.level).to.be(1);\r",
+							"    pm.expect(model.environments.length).to.equal(9);\r",
+							"    pm.expect(model.timesOfDay.length).to.equal(2);\r",
+							"    pm.expect(model.temperatures.length).to.equal(3);\r",
+							"    pm.expect(model.creatureTypes.length).to.equal(15);\r",
+							"    pm.expect(model.defaults.temperature).to.equal('Temperate');\r",
+							"    pm.expect(model.defaults.environment).to.equal('Plains');\r",
+							"    pm.expect(model.defaults.timeOfDay).to.equal('Day');\r",
+							"    pm.expect(model.defaults.level).to.equal(1);\r",
+							"    pm.expect(model.defaults.allowAquatic).to.equal(false);\r",
+							"    pm.expect(model.defaults.allowUnderground).to.equal(false);\r",
+							"    pm.expect(model.defaults.creatureTypeFilters).to.eql([]);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -206,14 +209,17 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var model = pm.response.json();\r",
-							"    pm.expect(model.environments.length).to.be(666);\r",
-							"    pm.expect(model.timesOfDay.length).to.be(666);\r",
-							"    pm.expect(model.temperatures.length).to.be(666);\r",
-							"    pm.expect(model.creatureTypes.length).to.be(666);\r",
-							"    pm.expect(model.defaults.temperature).to.be('Temperate');\r",
-							"    pm.expect(model.defaults.environment).to.be('Plains');\r",
-							"    pm.expect(model.defaults.timeOfDay).to.be('Day');\r",
-							"    pm.expect(model.defaults.level).to.be(1);\r",
+							"    pm.expect(model.environments.length).to.equal(9);\r",
+							"    pm.expect(model.timesOfDay.length).to.equal(2);\r",
+							"    pm.expect(model.temperatures.length).to.equal(3);\r",
+							"    pm.expect(model.creatureTypes.length).to.equal(15);\r",
+							"    pm.expect(model.defaults.temperature).to.equal('Temperate');\r",
+							"    pm.expect(model.defaults.environment).to.equal('Underground');\r",
+							"    pm.expect(model.defaults.timeOfDay).to.equal('Day');\r",
+							"    pm.expect(model.defaults.level).to.equal(1);\r",
+							"    pm.expect(model.defaults.allowAquatic).to.equal(false);\r",
+							"    pm.expect(model.defaults.allowUnderground).to.equal(true);\r",
+							"    pm.expect(model.defaults.creatureTypeFilters).to.eql([]);\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -236,6 +242,133 @@
 						"v1",
 						"dungeon",
 						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns Swagger UI\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+							"    pm.expect(text).to.include('url: \"https://web.dndgen.com/api/swagger.json\"');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/swagger/ui",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger",
+						"ui"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns Swagger data\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"host\": \"web.dndgen.com\"');\r",
+							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
+							"\r",
+							"    pm.expect(text).to.include(\"/v1/roll/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/treasure/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/character/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/encounter/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/viewmodel\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/swagger.json",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OpenAPI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns Open API documentation\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"url\": \"https://web.dndgen.com/api\"');\r",
+							"\r",
+							"    pm.expect(text).to.include(\"/v1/roll/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/treasure/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/character/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/encounter/viewmodel\");\r",
+							"    pm.expect(text).to.include(\"/v1/dungeon/viewmodel\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "web.dndgen.com/api/openapi/1.0",
+					"host": [
+						"web",
+						"dndgen",
+						"com"
+					],
+					"path": [
+						"api",
+						"openapi",
+						"1.0"
 					]
 				}
 			},
