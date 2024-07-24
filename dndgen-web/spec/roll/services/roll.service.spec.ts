@@ -1,9 +1,10 @@
-import { RollService } from '../../../src/app/roll/services/roll.service.js'
+import { RollService } from '../../../src/app/roll/services/roll.service'
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
+import { describe, it, beforeEach, expect } from '@jest/globals';
 
-describe('Roll Service', function () {
+describe('Roll Service', () => {
     let rollService: RollService;
     let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
@@ -13,7 +14,7 @@ describe('Roll Service', function () {
         rollService = new RollService(httpClientSpy);
     });
 
-    it('gets a roll', (done: DoneFn) => {
+    it('gets a roll', done => {
         httpClientSpy.get.and.returnValue(of(42));
 
         rollService.getRoll(9266, 90210).subscribe((roll) => {
@@ -23,7 +24,7 @@ describe('Roll Service', function () {
         });
     });
 
-    it('validates a valid roll', (done: DoneFn) => {
+    it('validates a valid roll', done => {
         httpClientSpy.get.and.returnValue(of(true));
 
         rollService.validateRoll(9266, 90210).subscribe((validity) => {
@@ -33,7 +34,7 @@ describe('Roll Service', function () {
         });
     });
 
-    it('validates an invalid roll', (done: DoneFn) => {
+    it('validates an invalid roll', done => {
         httpClientSpy.get.and.returnValue(of(false));
 
         rollService.validateRoll(9266, 90210).subscribe((validity) => {
@@ -43,7 +44,7 @@ describe('Roll Service', function () {
         });
     });
 
-    it('gets an expression roll', (done: DoneFn) => {
+    it('gets an expression roll', done => {
         httpClientSpy.get.and.returnValue(of(42));
 
         rollService.getExpressionRoll("my expression").subscribe((roll) => {
@@ -53,7 +54,7 @@ describe('Roll Service', function () {
         });
     });
 
-    it('validates a valid expression', (done: DoneFn) => {
+    it('validates a valid expression', done => {
         httpClientSpy.get.and.returnValue(of(true));
 
         rollService.validateExpression("my expression").subscribe((validity) => {
@@ -63,7 +64,7 @@ describe('Roll Service', function () {
         });
     });
 
-    it('validates an invalid expression', (done: DoneFn) => {
+    it('validates an invalid expression', done => {
         httpClientSpy.get.and.returnValue(of(false));
 
         rollService.validateExpression("my expression").subscribe((validity) => {

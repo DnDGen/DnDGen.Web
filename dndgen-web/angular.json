@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "DnDGen.Web.New": {
+    "dndgen-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -71,16 +71,16 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "DnDGen.Web.New:build:production"
+              "browserTarget": "dndgen-web:build:production"
             },
             "development": {
-              "browserTarget": "DnDGen.Web.New:build:development",
+              "browserTarget": "dndgen-web:build:development",
               "proxyConfig": "proxy.conf.js"
             }
           },
@@ -89,13 +89,13 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "DnDGen.Web.New:build"
+            "browserTarget": "dndgen-web:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
+            "main": "spec/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
@@ -137,7 +137,7 @@
       }
     }
   },
-  "defaultProject": "DnDGen.Web.New",
+  "defaultProject": "dndgen-web",
   "cli": {
     "analytics": "cc565f02-2fd1-4f5d-97a1-ea79e8ad16ce"
   }
