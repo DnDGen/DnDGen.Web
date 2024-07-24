@@ -1,6 +1,7 @@
 {
   "name": "dndgen-web",
   "version": "2.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "prestart": "node aspnetcore-https",
@@ -11,8 +12,8 @@
     "build:ci": "ng build --prod",
     "build:ssr": "ng run DnDGen.Web:server:dev",
     "watch": "ng build --watch --configuration development",
-    "test": "jasmine",
-    "test:ci": "jasmine",
+    "test": "tsc && jasmine",
+    "test:ci": "tsc && jasmine",
     "local": "ng serve"
   },
   "private": true,
@@ -46,9 +47,12 @@
     "@types/jasmine": "~4.3.1",
     "@types/jasminewd2": "~2.0.10",
     "@types/node": "^18.16.3",
+    "jasmine": "^5.2.0",
     "jasmine-core": "~4.6.0",
+    "jasmine-spec-reporter": "~4.6.0",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",
+    "karma-cli": "~2.0.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",

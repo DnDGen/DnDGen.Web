@@ -1,0 +1,6 @@
+{
+  "spec_dir": "dist/out-tsc",
+  "spec_files": [
+    "**/*[sS]pec.?(m)js"
+  ]
+}
