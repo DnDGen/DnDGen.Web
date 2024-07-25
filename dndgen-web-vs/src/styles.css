@@ -27,14 +27,14 @@ html, body {
   border-color: black;
 }
 
-.nav-tabs > li > a {
-  color: black;
-}
+  .nav-tabs > li > a {
+    color: black;
+  }
 
-.nav-tabs > li > a:hover {
-  background-color: #dec9a2 !important;
-  border-color: black;
-}
+    .nav-tabs > li > a:hover {
+      background-color: #dec9a2 !important;
+      border-color: black;
+    }
 
 .console {
   font-family: Courier;
