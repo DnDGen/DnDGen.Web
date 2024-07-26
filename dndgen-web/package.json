@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:ci": "ng build --prod",
+    "build": "ng build --configuration development",
+    "build:ci": "ng build --configuration production",
     "test": "ng test --watch=false",
     "test:ci": "ng test --watch=false --karma-config karma.conf.ci.js"
   },
