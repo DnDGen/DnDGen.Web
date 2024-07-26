@@ -19,14 +19,14 @@ jobs:
     inputs:
       version: '20.x'
   - script: |
-      cd DnDGen.Web/dndgen-web/
+      cd dndgen-web/
       npm install -g @angular/cli
       npm install
       npm run build:ci
     displayName: 'Build Code'
     workingDirectory: '$(Build.SourcesDirectory)'
   - script: |
-      cd DnDGen.Web/dndgen-web/
+      cd dndgen-web/
       npm run test:ci
     displayName: "Run Unit Tests"
     workingDirectory: '$(Build.SourcesDirectory)'
@@ -40,7 +40,7 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Archive files'
     inputs:
-      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/dndgen-web/'
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dndgen-web/dist/dndgen-web/'
       includeRootFolder: false
       archiveType: zip
       archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
