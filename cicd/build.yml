@@ -18,18 +18,32 @@ jobs:
     displayName: 'Install node.js'
     inputs:
       version: '20.x'
-  - script: |
-      cd dndgen-web/
-      npm install -g @angular/cli
-      npm install
-      npm run build:ci
-    displayName: 'Build Code'
-    workingDirectory: '$(Build.SourcesDirectory)'
-  - script: |
-      cd dndgen-web/
-      npm run test:ci
-    displayName: "Run Unit Tests"
-    workingDirectory: '$(Build.SourcesDirectory)'
+  - task: Npm@1  
+    displayName: 'Install Angular CLI'  
+    inputs:  
+      command: custom  
+      verbose: true  
+      customCommand: 'install -g @angular/cli'
+  - task: Npm@1  
+    displayName: 'npm install'  
+    inputs:
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      command: install
+  - task: Npm@1  
+    displayName: Build  
+    inputs: 
+      command: custom
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      customCommand: 'run build:ci'
+  - task: Npm@1  
+    displayName: Run Tests  
+    inputs: 
+      command: custom
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      customCommand: 'run test:ci'
   - task: PublishTestResults@2
     displayName: 'Publish Test Results'
     condition: always()
