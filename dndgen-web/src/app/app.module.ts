@@ -13,7 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { CollapsibleListComponent } from './shared/collapsibleList.component';
 // import { InchesToFeetPipe } from './shared/inchesToFeet.pipe';
 
-// import { RollGenComponent } from './roll/rollgen.component';
+import { RollGenComponent } from './roll/rollgen.component';
 
 // import { TreasureGenComponent } from './treasure/treasuregen.component';
 // import { TreasureComponent } from './treasure/treasure.component';
@@ -35,7 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         // InchesToFeetPipe,
 
         //RollGen
-        // RollGenComponent,
+        RollGenComponent,
 
         //TreasureGen
         // TreasureGenComponent,
