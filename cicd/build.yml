@@ -14,106 +14,40 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build Server-Side Code
-    inputs:
-      command: build
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Server-Side Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
-      arguments: '-v normal'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
-      arguments: '-v normal'
-  # - task: NuGetCommand@2
-  #   displayName: Install Chutzpah
-  #   retryCountOnTaskFailure: 3
-  #   inputs:
-  #     command: custom
-  #     arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
-  # - task: VSTest@2
-  #   displayName: Run Client-side Unit Tests
-  #   inputs:
-  #     pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
-  #     testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
-  #     failOnMinTestsNotRun: true
-
-  # - task: NodeTool@0
-  #   inputs:
-  #     versionSpec: '16.x'
-  #   displayName: 'Install Node.js 16.x'
-
+  - task: NodeTool@0
+    displayName: 'Install node.js'
   - script: |
-      cd DnDGen.Web/ClientApp/
+      cd DnDGen.Web/dndgen-web/
       npm install -g @angular/cli
       npm install
       npm run build:ci
-    displayName: 'Build Client-Side Code'
+    displayName: 'Build Code'
     workingDirectory: '$(Build.SourcesDirectory)'
   - script: |
-      cd DnDGen.Web/ClientApp/
+      cd DnDGen.Web/dndgen-web/
       npm run test:ci
-    displayName: "Run Client-Side Unit Tests"
+    displayName: "Run Unit Tests"
     workingDirectory: '$(Build.SourcesDirectory)'
-
-#TODO: Make sure test results output to file
-#TODO: Publish test results
-#TODO: Publish the Angular app to Azure
-
-  # - task: ArchiveFiles@2
-  #   displayName: 'Archive files'
-  #   inputs:
-  #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/angular-with-azure/'
-  #     includeRootFolder: false
-  #     archiveType: zip
-  #     archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-  #     replaceExistingArchive: true
-# - task: Npm@1  
-#   displayName: 'Angular CLI 13.2.5'  
-#   inputs:  
-#     command: custom  
-#     verbose: false  
-#     customCommand: 'install -g @angular/cli@13.2.5'
-
-# - task: Npm@1  
-#   displayName: 'npm install'  
-#   inputs:
-#     command: custom  
-#     customCommand: 'install file:custom-angular-lib.tgz --legacy-peer-deps'  
-
-# - task: Npm@1  
-#   displayName: Build  
-#   inputs: 
-#     command: custom  
-#     verbose: false  
-#     customCommand: 'run build'
-  # - task: PublishBuildArtifacts@1
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-  #     ArtifactName: 'drop'
-  #     publishLocation: 'Container'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    condition: always()
     inputs:
-      command: publish
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      publishWebProjects: False
-      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/Website'
-      zipAfterPublish: True
+      testResultsFiles: '**/TESTS-*.xml'
+      failTaskOnFailedTests: true
+  - task: ArchiveFiles@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: 'Archive files'
+    inputs:
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/dndgen-web/'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      replaceExistingArchive: true
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Website Artifacts
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Website' 
+      targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       artifactName: 'dndgen-web'
       
 # The RollGen API

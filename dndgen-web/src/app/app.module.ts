@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { routes } from './app.routes';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // import { CollapsibleListComponent } from './shared/collapsibleList.component';
 // import { InchesToFeetPipe } from './shared/inchesToFeet.pipe';
@@ -50,7 +51,8 @@ import { BrowserModule } from '@angular/platform-browser';
         BrowserModule,
         FormsModule,
         RouterOutlet,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        NgbModule
     ],
     providers: [
         // InchesToFeetPipe
