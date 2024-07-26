@@ -126,11 +126,11 @@ jobs:
       deploy:
         steps:
         - task: AzureWebApp@1
-          displayName: 'Azure Web App Deploy: dndgen'
+          displayName: 'Azure Web App Deploy: dndgen-web-static'
           inputs:
             azureSubscription: 'Azure - DnDGen'
             appType: webApp
-            appName: dndgen
+            appName: dndgen-web-static
             deployToSlotOrASE: true
             resourceGroupName: 'Default-Web-NorthCentralUS'
             package: '$(Pipeline.Workspace)/**/dndgen-web/*.zip'
