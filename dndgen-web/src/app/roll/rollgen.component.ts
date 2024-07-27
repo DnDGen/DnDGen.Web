@@ -48,6 +48,8 @@ export class RollGenComponent implements OnInit {
   @Input() standardDie = this.standardDice[7];
 
   ngOnInit(): void {
+    this.validating = true;
+
     this.rollService.getViewModel()
       .subscribe({
         next: data => this.setViewModel(data),
@@ -57,6 +59,7 @@ export class RollGenComponent implements OnInit {
 
   private setViewModel(data: RollGenViewModel): void {
     this.rollModel = data;
+    this.validating = false;
   }
 
   public rollStandard() {

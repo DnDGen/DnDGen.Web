@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { InchesToFeetPipe } from './shared/inchesToFeet.pipe';
 
 import { RollGenComponent } from './roll/rollgen.component';
+import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // import { TreasureGenComponent } from './treasure/treasuregen.component';
 // import { TreasureComponent } from './treasure/treasure.component';
@@ -56,6 +57,7 @@ import { RollGenComponent } from './roll/rollgen.component';
     ],
     providers: [
         // InchesToFeetPipe
+        provideHttpClient(withInterceptorsFromDi()),
     ],
     bootstrap: [AppComponent]
 })

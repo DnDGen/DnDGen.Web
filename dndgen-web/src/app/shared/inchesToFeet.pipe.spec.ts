@@ -53,9 +53,9 @@ describe('InchesToFeetPipe', () => {
         expect(feet).toEqual('2\'');
     });
 
-    it('should return 5 feet 6 inches', () => {
-        var feet = pipe.transform(66);
-        expect(feet).toEqual('5\' 6"');
+    it('should return 5 feet 11 inches', () => {
+        var feet = pipe.transform(71);
+        expect(feet).toEqual('5\' 11"');
     });
 
     it('should return 772 feet 2 inches', () => {
