@@ -1,6 +1,6 @@
 import { LoggerService } from './logger.service';
 
-describe('SweetAlertService', () => {
+describe('LoggerService', () => {
   describe('unit', () => {
     let service: LoggerService;
     let spy: jasmine.Spy;

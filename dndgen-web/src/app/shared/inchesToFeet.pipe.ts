@@ -11,7 +11,7 @@ export class InchesToFeetPipe implements PipeTransform {
     if (feet > 0)
         output += feet + "'";
 
-    if (inches == 0 || feet > 0)
+    if (inches == 0)
       return output;
 
     if (output.length > 0)
