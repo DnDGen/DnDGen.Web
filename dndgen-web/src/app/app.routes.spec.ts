@@ -1,12 +1,12 @@
 import { routes } from './app.routes';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
-import { RollComponent } from './roll/roll.component';
+import { RollGenComponent } from './roll/rollgen.component';
 
 describe('routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(3);
+      expect(routes.length).toEqual(4);
     });
     
     it('should contain default route', () => {
@@ -29,7 +29,7 @@ describe('routes', () => {
       let route = routes.find(r => r.path == 'roll');
       expect(route).toBeDefined();
       expect(route?.path).toEqual('roll');
-      expect(route?.component).toEqual(RollComponent);
+      expect(route?.component).toEqual(RollGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     
