@@ -8,6 +8,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-firefox-launcher'),
+      require('karma-chrome-launcher'),
       require('karma-junit-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
@@ -31,12 +32,18 @@ module.exports = function (config) {
       xmlVersion: null // use '1' if reporting to be per SonarQube 6.2 XML format
     },
     reporters: ['progress', 'junit'],
-    browsers: ['FirefoxHeadless'],
+    browsers: ['FirefoxHeadless', "ChromeHeadless"],
     customLaunchers: {
       'FirefoxHeadless': {
           base: 'Firefox',
           flags: [
               '-headless',
+          ],
+      },
+      'ChromeHeadless': {
+          base: 'Chrome',
+          flags: [
+              '--headless',
           ],
       }
     },
