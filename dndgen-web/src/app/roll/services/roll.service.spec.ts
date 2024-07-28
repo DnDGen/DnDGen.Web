@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
+import { RollGenViewModel } from '../models/rollgenViewModel.model';
 
 describe('Roll Service', () => {
     describe('unit', () => {
@@ -17,7 +18,14 @@ describe('Roll Service', () => {
         });
 
         it('gets the roll view model', done => {
-            expect('').toEqual('not yet written');
+            let model = new RollGenViewModel(9266, 90210, 42, 600);
+            httpClientSpy.get.and.returnValue(of(model));
+    
+            rollService.getViewModel().subscribe((viewmodel) => {
+                expect(viewmodel).toBe(model);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/roll/viewmodel');
+                done();
+            });
         });
     
         it('gets a roll', done => {
@@ -104,7 +112,14 @@ describe('Roll Service', () => {
         });
 
         it('gets the roll view model', done => {
-            expect('').toEqual('not yet written');
+            rollService.getViewModel().subscribe((viewmodel) => {
+                expect(viewmodel).toBeDefined();
+                expect(viewmodel.quantityLimit_Lower).toBe(1);
+                expect(viewmodel.quantityLimit_Upper).toBe(10000);
+                expect(viewmodel.dieLimit_Lower).toBe(1);
+                expect(viewmodel.dieLimit_Upper).toBe(10000);
+                done();
+            });
         });
     
         it('gets a roll', done => {
