@@ -18,6 +18,9 @@
     <PackageReference Include="Ninject" Version="3.3.6" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DnDGen.Api\DnDGen.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
