@@ -1,9 +1,6 @@
 ﻿using DnDGen.Api.RollGen.Dependencies;
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace DnDGen.Api.RollGen
 {
@@ -21,17 +18,8 @@ namespace DnDGen.Api.RollGen
 
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetryWorkerService();
-            services.ConfigureFunctionsApplicationInsights();
-
+            services.ConfigureDndgenServices();
             services.AddSingleton<IDependencyFactory, NinjectDependencyFactory>();
-
-            services.Configure<JsonSerializerOptions>(options =>
-            {
-                options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-                options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                options.PropertyNameCaseInsensitive = true;
-            });
         }
     }
 }

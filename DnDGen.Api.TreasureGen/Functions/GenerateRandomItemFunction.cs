@@ -43,7 +43,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             _logger.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
 
-            var name = (string)req.Query["name"];
+            var name = req.Query["name"];
             var validatorResult = ItemValidator.GetValid(itemType, power, name);
 
             if (!validatorResult.Valid)
@@ -62,7 +62,9 @@ namespace DnDGen.Api.TreasureGen.Functions
                 _logger.LogInformation($"Generated Item {validatorResult.Name} ({validatorResult.ItemType}) at power {validatorResult.Power}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
+
             await response.WriteAsJsonAsync(item);
+
             return response;
         }
 
