@@ -99,142 +99,162 @@ describe('RollGenComponent', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should render the tabs`, () => {
+    it(`should render the tabs`, done => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+      fixture.whenStable().then(() => {
+        const compiled = fixture.nativeElement as HTMLElement;
+  
+        const tabLinks = compiled.querySelectorAll('ul.nav-tabs > a.nav-link');
+        expect(tabLinks).toBeDefined();
+        expect(tabLinks?.length).toEqual(3);
+        expect(tabLinks?.item(0).textContent).toEqual('Standard');
+        expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
+        expect(tabLinks?.item(0).getAttribute('href')).toEqual('standard');
+        expect(tabLinks?.item(1).textContent).toEqual('Custom');
+        expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
+        expect(tabLinks?.item(1).getAttribute('href')).toEqual('custom');
+        expect(tabLinks?.item(2).textContent).toEqual('Expression');
+        expect(tabLinks?.item(2).getAttribute('class')).not.toContain('active');
+        expect(tabLinks?.item(2).getAttribute('href')).toEqual('expression');
 
-      const tabLinks = compiled.querySelectorAll('ul.nav-tabs > a.nav-link');
-      expect(tabLinks).toBeDefined();
-      expect(tabLinks?.length).toEqual(3);
-      expect(tabLinks?.item(0).textContent).toEqual('Standard');
-      expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks?.item(0).getAttribute('href')).toEqual('standard');
-      expect(tabLinks?.item(1).textContent).toEqual('Custom');
-      expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(1).getAttribute('href')).toEqual('custom');
-      expect(tabLinks?.item(2).textContent).toEqual('Expression');
-      expect(tabLinks?.item(2).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(2).getAttribute('href')).toEqual('expression');
+        done();
+      });
     });
   
-    it(`should render the standard tab`, () => {
+    it(`should render the standard tab`, done => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+      fixture.whenStable().then(() => {
+        const compiled = fixture.nativeElement as HTMLElement;
+  
+        const standardTab = compiled.querySelector('#standard');
+        expect(standardTab).toBeDefined();
+        
+        const standardQuantityInput = standardTab!.querySelector('#standardQuantity');
+        expect(standardQuantityInput).toBeDefined();
+        expect(standardQuantityInput?.textContent).toEqual('1');
+        expect(standardQuantityInput?.getAttribute('required')).toBeDefined();
+        expect(standardQuantityInput?.getAttribute('min')).toEqual('1');
+        expect(standardQuantityInput?.getAttribute('max')).toEqual('10000');
+        expect(standardQuantityInput?.getAttribute('type')).toEqual('number');
+        expect(standardQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
+  
+        const standardRolls = standardTab!.querySelectorAll('#standard > #standardRolls > option');
+        expect(standardRolls).toBeDefined();
+        expect(standardRolls?.length).toEqual(9);
+        expect(standardRolls?.item(0).getAttribute('value')).toEqual('2');
+        expect(standardRolls?.item(0).textContent).toEqual('2');
+        expect(standardRolls?.item(0).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(1).getAttribute('value')).toEqual('3');
+        expect(standardRolls?.item(1).textContent).toEqual('3');
+        expect(standardRolls?.item(1).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(2).getAttribute('value')).toEqual('4');
+        expect(standardRolls?.item(2).textContent).toEqual('4');
+        expect(standardRolls?.item(2).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(3).getAttribute('value')).toEqual('6');
+        expect(standardRolls?.item(3).textContent).toEqual('6');
+        expect(standardRolls?.item(3).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(4).getAttribute('value')).toEqual('8');
+        expect(standardRolls?.item(4).textContent).toEqual('8');
+        expect(standardRolls?.item(4).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(5).getAttribute('value')).toEqual('10');
+        expect(standardRolls?.item(5).textContent).toEqual('10');
+        expect(standardRolls?.item(5).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(6).getAttribute('value')).toEqual('12');
+        expect(standardRolls?.item(6).textContent).toEqual('12');
+        expect(standardRolls?.item(6).getAttribute('selected')).not.toBeDefined();
+        expect(standardRolls?.item(7).getAttribute('value')).toEqual('20');
+        expect(standardRolls?.item(7).textContent).toEqual('20');
+        expect(standardRolls?.item(7).getAttribute('selected')).toBeDefined();
+        expect(standardRolls?.item(8).getAttribute('value')).toEqual('100');
+        expect(standardRolls?.item(8).textContent).toEqual('Percentile');
+        expect(standardRolls?.item(8).getAttribute('selected')).not.toBeDefined();
+  
+        const standardRollButton = standardTab!.querySelector('#standard > #standardRollButton');
+        expect(standardRollButton).toBeDefined();
+        expect(standardRollButton?.textContent).toEqual('Roll');
+        expect(standardRollButton?.getAttribute('disabled')).not.toBeDefined();
+  
+        const standardValidatingSection = standardTab!.querySelector('#standard > #standardValidating');
+        expect(standardValidatingSection).toBeDefined();
+        expect(standardValidatingSection?.getAttribute('hidden')).toBeDefined();
 
-      const standardTab = compiled.querySelector('#standard');
-      expect(standardTab).toBeDefined();
-      
-      const standardQuantityInput = standardTab!.querySelector('#standardQuantity');
-      expect(standardQuantityInput).toBeDefined();
-      expect(standardQuantityInput?.textContent).toEqual('1');
-      expect(standardQuantityInput?.getAttribute('required')).toBeDefined();
-      expect(standardQuantityInput?.getAttribute('min')).toEqual('1');
-      expect(standardQuantityInput?.getAttribute('max')).toEqual('10000');
-      expect(standardQuantityInput?.getAttribute('type')).toEqual('number');
-      expect(standardQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-
-      const standardRolls = standardTab!.querySelectorAll('#standard > #standardRolls > option');
-      expect(standardRolls).toBeDefined();
-      expect(standardRolls?.length).toEqual(9);
-      expect(standardRolls?.item(0).getAttribute('value')).toEqual('2');
-      expect(standardRolls?.item(0).textContent).toEqual('2');
-      expect(standardRolls?.item(0).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(1).getAttribute('value')).toEqual('3');
-      expect(standardRolls?.item(1).textContent).toEqual('3');
-      expect(standardRolls?.item(1).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(2).getAttribute('value')).toEqual('4');
-      expect(standardRolls?.item(2).textContent).toEqual('4');
-      expect(standardRolls?.item(2).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(3).getAttribute('value')).toEqual('6');
-      expect(standardRolls?.item(3).textContent).toEqual('6');
-      expect(standardRolls?.item(3).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(4).getAttribute('value')).toEqual('8');
-      expect(standardRolls?.item(4).textContent).toEqual('8');
-      expect(standardRolls?.item(4).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(5).getAttribute('value')).toEqual('10');
-      expect(standardRolls?.item(5).textContent).toEqual('10');
-      expect(standardRolls?.item(5).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(6).getAttribute('value')).toEqual('12');
-      expect(standardRolls?.item(6).textContent).toEqual('12');
-      expect(standardRolls?.item(6).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(7).getAttribute('value')).toEqual('20');
-      expect(standardRolls?.item(7).textContent).toEqual('20');
-      expect(standardRolls?.item(7).getAttribute('selected')).toBeDefined();
-      expect(standardRolls?.item(8).getAttribute('value')).toEqual('100');
-      expect(standardRolls?.item(8).textContent).toEqual('Percentile');
-      expect(standardRolls?.item(8).getAttribute('selected')).not.toBeDefined();
-
-      const standardRollButton = standardTab!.querySelector('#standard > #standardRollButton');
-      expect(standardRollButton).toBeDefined();
-      expect(standardRollButton?.textContent).toEqual('Roll');
-      expect(standardRollButton?.getAttribute('disabled')).not.toBeDefined();
-
-      const standardValidatingSection = standardTab!.querySelector('#standard > #standardValidating');
-      expect(standardValidatingSection).toBeDefined();
-      expect(standardValidatingSection?.getAttribute('hidden')).toBeDefined();
+        done();
+      });
     });
   
-    it(`should render the custom tab`, () => {
+    it(`should render the custom tab`, done => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+      fixture.whenStable().then(() => {
+        const compiled = fixture.nativeElement as HTMLElement;
+  
+        const customTab = compiled.querySelector('#custom');
+        expect(customTab).toBeDefined();
+  
+        const customQuantityInput = customTab!.querySelector('#customQuantity');
+        expect(customQuantityInput).toBeDefined();
+        expect(customQuantityInput?.textContent).toEqual('1');
+        expect(customQuantityInput?.getAttribute('required')).toBeDefined();
+        expect(customQuantityInput?.getAttribute('min')).toEqual('1');
+        expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
+        expect(customQuantityInput?.getAttribute('type')).toEqual('number');
+        expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
+  
+        //expect(component.customDie).toEqual(1);
+        expect('custom die input assertions').toEqual('');
+  
+        const customRollButton = customTab!.querySelector('#customRollButton');
+        expect(customRollButton).toBeDefined();
+        expect(customRollButton?.textContent).toEqual('Roll');
+        expect(customRollButton?.getAttribute('disabled')).not.toBeDefined();
+        
+        const customValidatingSection = customTab!.querySelector('#customValidating');
+        expect(customValidatingSection).toBeDefined();
+        expect(customValidatingSection?.getAttribute('hidden')).toBeDefined();
 
-      const customTab = compiled.querySelector('#custom');
-      expect(customTab).toBeDefined();
-
-      const customQuantityInput = customTab!.querySelector('#customQuantity');
-      expect(customQuantityInput).toBeDefined();
-      expect(customQuantityInput?.textContent).toEqual('1');
-      expect(customQuantityInput?.getAttribute('required')).toBeDefined();
-      expect(customQuantityInput?.getAttribute('min')).toEqual('1');
-      expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
-      expect(customQuantityInput?.getAttribute('type')).toEqual('number');
-      expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-
-      //expect(component.customDie).toEqual(1);
-      expect('custom die input assertions').toEqual('');
-
-      const customRollButton = customTab!.querySelector('#customRollButton');
-      expect(customRollButton).toBeDefined();
-      expect(customRollButton?.textContent).toEqual('Roll');
-      expect(customRollButton?.getAttribute('disabled')).not.toBeDefined();
-      
-      const customValidatingSection = customTab!.querySelector('#customValidating');
-      expect(customValidatingSection).toBeDefined();
-      expect(customValidatingSection?.getAttribute('hidden')).toBeDefined();
+        done();
+      });
     });
   
-    it(`should render the expression tab`, () => {
+    it(`should render the expression tab`, done => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+      fixture.whenStable().then(() => {
+        const compiled = fixture.nativeElement as HTMLElement;
+  
+        const expressionTab = compiled.querySelector('#expression');
+        expect(expressionTab).toBeDefined();
+  
+        //expect(component.expression).toEqual('3d6+2');
+        expect('expression input assertions').toEqual('');
+  
+        const expressionRollButton = expressionTab!.querySelector('#expressionRollButton');
+        expect(expressionRollButton).toBeDefined();
+        expect(expressionRollButton?.textContent).toEqual('Roll');
+        expect(expressionRollButton?.getAttribute('disabled')).not.toBeDefined();
+        
+        const expressionValidatingSection = expressionTab!.querySelector('#expressionValidating');
+        expect(expressionValidatingSection).toBeDefined();
+        expect(expressionValidatingSection?.getAttribute('hidden')).toBeDefined();
 
-      const expressionTab = compiled.querySelector('#expression');
-      expect(expressionTab).toBeDefined();
-
-      //expect(component.expression).toEqual('3d6+2');
-      expect('expression input assertions').toEqual('');
-
-      const expressionRollButton = expressionTab!.querySelector('#expressionRollButton');
-      expect(expressionRollButton).toBeDefined();
-      expect(expressionRollButton?.textContent).toEqual('Roll');
-      expect(expressionRollButton?.getAttribute('disabled')).not.toBeDefined();
-      
-      const expressionValidatingSection = expressionTab!.querySelector('#expressionValidating');
-      expect(expressionValidatingSection).toBeDefined();
-      expect(expressionValidatingSection?.getAttribute('hidden')).toBeDefined();
+        done();
+      });
     });
   
-    it(`should render the initial roll`, () => {
+    it(`should render the initial roll`, done => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
+      fixture.whenStable().then(() => {
+        const compiled = fixture.nativeElement as HTMLElement;
+  
+        const rollSection = compiled.querySelector('#rollSection');
+        expect(rollSection).toBeDefined();
+        expect(rollSection?.textContent).toEqual('0');
+        expect(rollSection?.getAttribute('hidden')).not.toBeDefined();
+  
+        const rollingSection = compiled.querySelector('#rollingSection');
+        expect(rollingSection).toBeDefined();
+        expect(rollingSection?.getAttribute('hidden')).toBeDefined();
 
-      const rollSection = compiled.querySelector('#rollSection');
-      expect(rollSection).toBeDefined();
-      expect(rollSection?.textContent).toEqual('0');
-      expect(rollSection?.getAttribute('hidden')).not.toBeDefined();
-
-      const rollingSection = compiled.querySelector('#rollingSection');
-      expect(rollingSection).toBeDefined();
-      expect(rollingSection?.getAttribute('hidden')).toBeDefined();
+        done();
+      });
     });
   
     it('TODO - MORE TESTS TO WRITE', () => {
