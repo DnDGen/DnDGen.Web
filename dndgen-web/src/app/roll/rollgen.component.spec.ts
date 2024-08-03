@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
 import { AppModule } from '../app.module';
 import { RollService } from './services/roll.service';
+import { SweetAlertService } from '../shared/sweetAlert.service';
+import { LoggerService } from '../shared/logger.service';
 
 describe('RollGenComponent', () => {
   describe('unit', () => {
@@ -52,20 +54,30 @@ describe('RollGenComponent', () => {
       expect(component.expression).toEqual('3d6+2');
     });
   
-    it('should render the navigation bar', () => {
-      fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
-  
-      const navbarBrand = compiled.querySelector('a.navbar-brand');
-      expect(navbarBrand).toBeDefined();
-      expect(navbarBrand?.textContent).toEqual('DnDGen');
-      expect(navbarBrand?.getAttribute('href')).toEqual('/');
-    });
-  
-    it('should render the router outlet', () => {
-      fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('router-outlet')).toBeDefined();
+    it('TODO - MORE TESTS TO WRITE', () => {
+      expect('rollStandard - is rolling while getting result').toEqual('');
+      expect('rollStandard - sets result').toEqual('');
+      expect('rollStandard - handles error').toEqual('');
+      
+      expect('rollCustom - is rolling while getting result').toEqual('');
+      expect('rollCustom - sets result').toEqual('');
+      expect('rollCustom - handles error').toEqual('');
+      
+      expect('rollExpression - is rolling while getting result').toEqual('');
+      expect('rollExpression - sets result').toEqual('');
+      expect('rollExpression - handles error').toEqual('');
+      
+      expect('validateRoll - invalid if no quantity').toEqual('');
+      expect('validateRoll - invalid if no die').toEqual('');
+      expect('validateRoll - is validating while getting result').toEqual('');
+      expect('validateRoll - sets result').toEqual('');
+      expect('validateRoll - handles error').toEqual('');
+      
+      expect('validateExpression - invalid if no expression').toEqual('');
+      expect('validateExpression - invalid if empty expression').toEqual('');
+      expect('validateExpression - is validating while getting result').toEqual('');
+      expect('validateExpression - sets result').toEqual('');
+      expect('validateExpression - handles error').toEqual('');
     });
   });
 
@@ -116,39 +128,39 @@ describe('RollGenComponent', () => {
       expect(standardQuantityInput).toBeDefined();
       expect(standardQuantityInput?.textContent).toEqual('1');
       expect(standardQuantityInput?.getAttribute('required')).toBeDefined();
-      expect(standardQuantityInput?.getAttribute('min')).toEqual(1);
-      expect(standardQuantityInput?.getAttribute('max')).toEqual(10000);
+      expect(standardQuantityInput?.getAttribute('min')).toEqual('1');
+      expect(standardQuantityInput?.getAttribute('max')).toEqual('10000');
       expect(standardQuantityInput?.getAttribute('type')).toEqual('number');
       expect(standardQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
 
       const standardRolls = standardTab!.querySelectorAll('#standard > #standardRolls > option');
       expect(standardRolls).toBeDefined();
       expect(standardRolls?.length).toEqual(9);
-      expect(standardRolls?.item(0).getAttribute('value')).toEqual(2);
+      expect(standardRolls?.item(0).getAttribute('value')).toEqual('2');
       expect(standardRolls?.item(0).textContent).toEqual('2');
       expect(standardRolls?.item(0).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(1).getAttribute('value')).toEqual(3);
+      expect(standardRolls?.item(1).getAttribute('value')).toEqual('3');
       expect(standardRolls?.item(1).textContent).toEqual('3');
       expect(standardRolls?.item(1).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(2).getAttribute('value')).toEqual(4);
+      expect(standardRolls?.item(2).getAttribute('value')).toEqual('4');
       expect(standardRolls?.item(2).textContent).toEqual('4');
       expect(standardRolls?.item(2).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(3).getAttribute('value')).toEqual(6);
+      expect(standardRolls?.item(3).getAttribute('value')).toEqual('6');
       expect(standardRolls?.item(3).textContent).toEqual('6');
       expect(standardRolls?.item(3).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(4).getAttribute('value')).toEqual(8);
+      expect(standardRolls?.item(4).getAttribute('value')).toEqual('8');
       expect(standardRolls?.item(4).textContent).toEqual('8');
       expect(standardRolls?.item(4).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(5).getAttribute('value')).toEqual(10);
+      expect(standardRolls?.item(5).getAttribute('value')).toEqual('10');
       expect(standardRolls?.item(5).textContent).toEqual('10');
       expect(standardRolls?.item(5).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(6).getAttribute('value')).toEqual(12);
+      expect(standardRolls?.item(6).getAttribute('value')).toEqual('12');
       expect(standardRolls?.item(6).textContent).toEqual('12');
       expect(standardRolls?.item(6).getAttribute('selected')).not.toBeDefined();
-      expect(standardRolls?.item(7).getAttribute('value')).toEqual(20);
+      expect(standardRolls?.item(7).getAttribute('value')).toEqual('20');
       expect(standardRolls?.item(7).textContent).toEqual('20');
       expect(standardRolls?.item(7).getAttribute('selected')).toBeDefined();
-      expect(standardRolls?.item(8).getAttribute('value')).toEqual(100);
+      expect(standardRolls?.item(8).getAttribute('value')).toEqual('100');
       expect(standardRolls?.item(8).textContent).toEqual('Percentile');
       expect(standardRolls?.item(8).getAttribute('selected')).not.toBeDefined();
 
@@ -173,12 +185,13 @@ describe('RollGenComponent', () => {
       expect(customQuantityInput).toBeDefined();
       expect(customQuantityInput?.textContent).toEqual('1');
       expect(customQuantityInput?.getAttribute('required')).toBeDefined();
-      expect(customQuantityInput?.getAttribute('min')).toEqual(1);
-      expect(customQuantityInput?.getAttribute('max')).toEqual(10000);
+      expect(customQuantityInput?.getAttribute('min')).toEqual('1');
+      expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
       expect(customQuantityInput?.getAttribute('type')).toEqual('number');
       expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
 
-      expect(component.customDie).toEqual(1);
+      //expect(component.customDie).toEqual(1);
+      expect('custom die input assertions').toEqual('');
 
       const customRollButton = customTab!.querySelector('#customRollButton');
       expect(customRollButton).toBeDefined();
@@ -197,7 +210,8 @@ describe('RollGenComponent', () => {
       const expressionTab = compiled.querySelector('#expression');
       expect(expressionTab).toBeDefined();
 
-      expect(component.expression).toEqual('3d6+2');
+      //expect(component.expression).toEqual('3d6+2');
+      expect('expression input assertions').toEqual('');
 
       const expressionRollButton = expressionTab!.querySelector('#expressionRollButton');
       expect(expressionRollButton).toBeDefined();
