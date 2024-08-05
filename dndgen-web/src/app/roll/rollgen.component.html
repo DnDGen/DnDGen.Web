@@ -18,6 +18,7 @@
           <div class="form-group row">
             <div class="col-sm-3">
               <input id="standardQuantity"
+                     *ngIf="rollModel"
                      pattern="^[0-9]+$"
                      class="form-control"
                      type="number"
@@ -28,9 +29,9 @@
                      name="standardQuantity"
                      required />
             </div>
-            <label for="standardRolls" class="col-sm-1 col-form-label px-0 text-center">d</label>
+            <label for="standardDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
             <div class="col-sm-2 px-0">
-              <select id="standardRolls" 
+              <select id="standardDie" 
                       class="form-control" 
                       (input)="validateRoll(standardQuantity, standardDie.die)"
                       [(ngModel)]="standardDie"
@@ -58,7 +59,9 @@
         <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
           <div class="form-group row">
             <div class="col-sm-3">
-              <input pattern="^[0-9]+$"
+              <input id="customQuantity"
+                     pattern="^[0-9]+$"
+                     *ngIf="rollModel"
                      class="form-control"
                      type="number"
                      min="{{rollModel.quantityLimit_Lower}}" 
@@ -70,8 +73,9 @@
             </div>
             <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
             <div class="col-sm-2 px-0">
-              <input pattern="^[0-9]+$"
-                     id="customDie"
+              <input id="customDie"
+                     pattern="^[0-9]+$"
+                     *ngIf="rollModel"
                      class="form-control"
                      type="number"
                      min="{{rollModel.dieLimit_Lower}}" 

@@ -24,7 +24,7 @@ export class RollGenComponent implements OnInit {
 
   @Input() standardQuantity = 1;
   @Input() customQuantity = 1;
-  @Input() customDie = 1;
+  @Input() customDie = 5;
   @Input() expression = '3d6+2';
 
   public rolling = false;
