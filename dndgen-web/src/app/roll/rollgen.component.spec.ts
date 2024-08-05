@@ -102,7 +102,7 @@ describe('RollGenComponent', () => {
     it(`should render the tabs`, done => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const compiled = fixture.nativeElement as HTMLElement;
+        const compiled = fixture.debugElement.nativeElement as HTMLElement;
   
         const tabLinks = compiled.querySelectorAll('ul.nav-tabs > a.nav-link');
         expect(tabLinks).toBeDefined();
@@ -122,9 +122,11 @@ describe('RollGenComponent', () => {
     });
   
     it(`should render the standard tab`, done => {
+      fixture.componentInstance.ngOnInit();
+
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const compiled = fixture.nativeElement as HTMLElement;
+        const compiled = fixture.debugElement.nativeElement as HTMLElement;
   
         const standardTab = compiled.querySelector('#standard');
         expect(standardTab).toBeDefined();
@@ -185,7 +187,7 @@ describe('RollGenComponent', () => {
     it(`should render the custom tab`, done => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const compiled = fixture.nativeElement as HTMLElement;
+        const compiled = fixture.debugElement.nativeElement as HTMLElement;
   
         const customTab = compiled.querySelector('#custom');
         expect(customTab).toBeDefined();
@@ -218,7 +220,7 @@ describe('RollGenComponent', () => {
     it(`should render the expression tab`, done => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const compiled = fixture.nativeElement as HTMLElement;
+        const compiled = fixture.debugElement.nativeElement as HTMLElement;
   
         const expressionTab = compiled.querySelector('#expression');
         expect(expressionTab).toBeDefined();
@@ -242,7 +244,7 @@ describe('RollGenComponent', () => {
     it(`should render the initial roll`, done => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        const compiled = fixture.nativeElement as HTMLElement;
+        const compiled = fixture.debugElement.nativeElement as HTMLElement;
   
         const rollSection = compiled.querySelector('#rollSection');
         expect(rollSection).toBeDefined();
