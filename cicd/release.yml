@@ -134,6 +134,30 @@ jobs:
             deployToSlotOrASE: true
             resourceGroupName: 'Default-Web-NorthCentralUS'
             package: '$(Pipeline.Workspace)/**/dndgen-web/*.zip'
+            
+# The DnDGen Website Static
+- deployment: Website_Static
+  displayName: Deploy Website
+  environment: Prod
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - CharacterGen_Api
+  - EncounterGen_Api
+  - DungeonGen_Api
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureWebApp@1
+          displayName: 'Azure Web App Deploy: dndgen-web-static'
+          inputs:
+            azureSubscription: 'Azure - DnDGen'
+            appType: webApp
+            appName: dndgen-web-static
+            deployToSlotOrASE: true
+            resourceGroupName: 'Default-Web-NorthCentralUS'
+            package: '$(Pipeline.Workspace)/**/dndgen-web-static/*.zip'
 
 # Post-Deployment Tests
 - deployment: Tests
@@ -147,6 +171,7 @@ jobs:
   - DungeonGen_Api
   - Web_Api
   - Website
+  - Website_Static
   strategy:
     runOnce:
       deploy:
