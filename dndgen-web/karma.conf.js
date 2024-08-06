@@ -18,9 +18,9 @@ module.exports = function (config) {
     },
     client: {
       jasmine: {
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
         oneFailurePerSpec: true,
-        stopSpecOnExpectationFailure: true
+        stopSpecOnExpectationFailure: true,
+        failFast: true,
       },
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
