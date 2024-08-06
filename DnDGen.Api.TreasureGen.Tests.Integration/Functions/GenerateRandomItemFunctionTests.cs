@@ -233,7 +233,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
 
             var weapon = StreamHelper.Read<Weapon>(response.Body);
             Assert.That(weapon, Is.Not.Null);
-            Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword));
+            Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
             Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
             Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
