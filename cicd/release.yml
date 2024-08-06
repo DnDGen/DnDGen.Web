@@ -149,16 +149,11 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: DownloadPipelineArtifact@2
-          displayName: "Download artifacts"
-          inputs:
-            artifactName: dndgen-web-static
-            targetPath: '$(Pipeline.Workspace)/dndgen-web/dist'
         - task: AzureStaticWebApp@0
           displayName: 'Azure Static Web App Deploy: dndgen-web-static'
           inputs:
             cwd: '$(Pipeline.Workspace)'
-            app_location: 'dndgen-web/dist'
+            app_location: 'dndgen-web-static'
             output_location: 'dist'
             skip_app_build: true
             skip_api_build: true
