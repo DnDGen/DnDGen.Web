@@ -49,7 +49,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(level).Within(sigma));
-            Assert.That(leadership.CohortScore, Is.EqualTo(level).Within(sigma));
+            Assert.That(leadership.CohortScore, Is.EqualTo(leadership.Score).Within(sigma));
             Assert.That(leadership.LeadershipModifiers, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities.Level1, Is.Not.Negative);
@@ -123,7 +123,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(9 + charismaBonus).Within(sigma));
-            Assert.That(leadership.CohortScore, Is.EqualTo(9 + charismaBonus).Within(sigma));
+            Assert.That(leadership.CohortScore, Is.EqualTo(leadership.Score).Within(sigma));
             Assert.That(leadership.LeadershipModifiers, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities.Level1, Is.Not.Negative);
@@ -148,7 +148,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(9).Within(sigma));
-            Assert.That(leadership.CohortScore, Is.EqualTo(9).Within(sigma));
+            Assert.That(leadership.CohortScore, Is.EqualTo(leadership.Score).Within(sigma));
             Assert.That(leadership.LeadershipModifiers, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities.Level1, Is.Not.Negative);
@@ -173,7 +173,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var leadership = StreamHelper.Read<Leadership>(response.Body);
             Assert.That(leadership, Is.Not.Null);
             Assert.That(leadership.Score, Is.EqualTo(24).Within(sigma));
-            Assert.That(leadership.CohortScore, Is.EqualTo(24).Within(sigma));
+            Assert.That(leadership.CohortScore, Is.EqualTo(leadership.Score).Within(sigma));
             Assert.That(leadership.LeadershipModifiers, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities, Is.Not.Null);
             Assert.That(leadership.FollowerQuantities.Level1, Is.Not.Negative);
