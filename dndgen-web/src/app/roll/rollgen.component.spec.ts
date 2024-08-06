@@ -198,13 +198,12 @@ describe('RollGenComponent', () => {
     }
 
     function clickButton(selector: string) {
+      expectHasAttribute(selector, 'disabled', false);
+
       const compiled = fixture.nativeElement as HTMLElement;
+      const button = compiled!.querySelector(selector) as HTMLButtonElement;
 
-      const button = compiled!.querySelector(selector);
-      expect(button).toBeDefined();
-      expect(button?.hasAttribute('disabled')).toBeFalse();
-
-      (button as HTMLButtonElement).click();
+      button.click();
     }
 
     describe('the standard tab', () => {
@@ -217,15 +216,15 @@ describe('RollGenComponent', () => {
         const standardQuantityInput = standardTab!.querySelector('#standardQuantity') as HTMLInputElement;
         expect(standardQuantityInput).toBeDefined();
         expect(standardQuantityInput?.value).toEqual('1');
-        expect(standardQuantityInput?.hasAttribute('required')).toBeTrue();
         expect(standardQuantityInput?.getAttribute('type')).toEqual('number');
         expect(standardQuantityInput?.getAttribute('min')).toEqual('1');
         expect(standardQuantityInput?.getAttribute('max')).toEqual('10000');
         expect(standardQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-  
+        expectHasAttribute('#standardQuantity', 'required', true);
+
         const standardDieSelect = standardTab!.querySelector('#standardDie');
         expect(standardDieSelect).toBeDefined();
-        expect(standardDieSelect?.hasAttribute('required')).toBeTrue();
+        expectHasAttribute('#standardDie', 'required', true);
   
         const selectedStandardRoll = standardTab!.querySelector('#standardDie > option:checked');
         expect(selectedStandardRoll).toBeDefined();
@@ -244,14 +243,8 @@ describe('RollGenComponent', () => {
         expect(standardDieOptions?.item(7).textContent).toEqual('20');
         expect(standardDieOptions?.item(8).textContent).toEqual('Percentile');
   
-        const standardRollButton = standardTab!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-  
-        const standardValidatingSection = standardTab!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectHasAttribute('#standardRollButton', 'disabled', false);
+        expectHasAttribute('#standardValidating', 'hidden', true);
       });
     
       it(`should show when validating a standard roll`, () => {
@@ -268,6 +261,16 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
   
+        expect(fixture.componentInstance.standardQuantity).toBeNull();
+        expectInvalid('#standardRollButton', '#standardValidating');
+      });
+    
+      it(`should show that a standard roll is invalid - standard quantity invalid`, () => {
+        setInput('#standardQuantity', 'wrong');
+  
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.standardQuantity).toBeNull();
         expectInvalid('#standardRollButton', '#standardValidating');
       });
     
@@ -276,6 +279,7 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
   
+        expect(fixture.componentInstance.standardQuantity).toEqual(0);
         expectInvalid('#standardRollButton', '#standardValidating');
       });
     
@@ -284,12 +288,31 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
 
+        expect(fixture.componentInstance.standardQuantity).toEqual(10001);
         expectValidating('#standardRollButton', '#standardValidating');
   
         //run roll validation
         await waitForService();
   
         expectInvalid('#standardRollButton', '#standardValidating');
+      });
+    
+      const standardQuantityTestCases = [1, 2, 10, 20, 100, 1000, 10000];
+
+      standardQuantityTestCases.forEach(test => {
+        it(`should show that a standard roll is valid - standard quantity ${test}`, async () => {
+          setInput('#standardQuantity', test.toString());
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.standardQuantity).toEqual(test);
+          expectValidating('#standardRollButton', '#standardValidating');
+    
+          //run roll validation
+          await waitForService();
+    
+          expectValid('#standardRollButton', '#standardValidating');
+        });
       });
     
       it(`should show that a standard roll is invalid - missing standard die`, async () => {
@@ -300,15 +323,19 @@ describe('RollGenComponent', () => {
         expectInvalid('#standardRollButton', '#standardValidating');
       });
     
-      it(`should show that a standard roll is valid - non-default standard die`, async () => {
-        setSelectByIndex('#standardDie', 3);
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[3]);
-        expectValid('#standardRollButton', '#standardValidating');
-      });
+      const standardDieIndicesTestCases = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+      standardDieIndicesTestCases.forEach(test => {
+        it(`should show that a standard roll is valid - non-default standard die index ${test}`, async () => {
+          setSelectByIndex('#standardDie', test);
     
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[test]);
+          expectValid('#standardRollButton', '#standardValidating');
+        });
+      });
+
       it(`should show that a standard roll is invalid - validation fails`, async () => {
         setInput('#standardQuantity', '66666');
         setSelectByIndex('#standardDie', 4);
@@ -339,6 +366,15 @@ describe('RollGenComponent', () => {
         expectValid('#standardRollButton', '#standardValidating');
       });
     
+      it(`should show when rolling a standard roll`, () => {
+        const component = fixture.componentInstance;
+        component.rolling = true;
+  
+        fixture.detectChanges();
+
+        expectRolling('#standardRollButton', '#standardValidating');
+      });
+    
       it(`should roll the default standard roll`, async () => {
         clickButton('#standardRollButton');
   
@@ -363,6 +399,9 @@ describe('RollGenComponent', () => {
         setSelectByIndex('#standardDie', 2);
   
         fixture.detectChanges();
+
+        expect(fixture.componentInstance.standardQuantity).toEqual(42);
+        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[2]);
 
         //run validation
         await waitForService();
@@ -396,372 +435,238 @@ describe('RollGenComponent', () => {
         const customQuantityInput = customTab!.querySelector('#customQuantity') as HTMLInputElement;
         expect(customQuantityInput).toBeDefined();
         expect(customQuantityInput?.value).toEqual('1');
-        expect(customQuantityInput?.hasAttribute('required')).toBeTrue();
         expect(customQuantityInput?.getAttribute('type')).toEqual('number');
         expect(customQuantityInput?.getAttribute('min')).toEqual('1');
         expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
         expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
+        expectHasAttribute('#customQuantity', 'required', true);
   
         const customDieInput = customTab!.querySelector('#customDie') as HTMLInputElement;
         expect(customDieInput).toBeDefined();
         expect(customDieInput?.value).toEqual('5');
-        expect(customDieInput?.hasAttribute('required')).toBeTrue();
         expect(customDieInput?.getAttribute('type')).toEqual('number');
         expect(customDieInput?.getAttribute('min')).toEqual('1');
         expect(customDieInput?.getAttribute('max')).toEqual('10000');
         expect(customDieInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
+        expectHasAttribute('#customDie', 'required', true);
   
-        const customRollButton = customTab!.querySelector('#customRollButton');
-        expect(customRollButton).toBeDefined();
-        expect(customRollButton?.textContent).toEqual('Roll');
-        expect(customRollButton?.hasAttribute('disabled')).toBeFalse();
-        
-        const customValidatingSection = customTab!.querySelector('#customValidating');
-        expect(customValidatingSection).toBeDefined();
-        expect(customValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectHasAttribute('#customRollButton', 'disabled', false);
+        expectHasAttribute('#customValidating', 'hidden', true);
       });
     
       it(`should show when validating a custom roll`, () => {
-        expect('need to update from standard to custom').toBe('');
-        
         const component = fixture.componentInstance;
         component.validating = true;
   
         fixture.detectChanges();
-  
-        const compiled = fixture.nativeElement as HTMLElement;
-  
-        const customRollButton = compiled!.querySelector('#customRollButton');
-        expect(customRollButton).toBeDefined();
-        expect(customRollButton?.textContent).toEqual('Roll');
-        expect(customRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        const customValidatingSection = compiled!.querySelector('#customValidating');
-        expect(customValidatingSection).toBeDefined();
-        expect(customValidatingSection?.hasAttribute('hidden')).toBeFalse();
+
+        expectValidating('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is invalid - missing standard quantity`, () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
+      it(`should show that a custom roll is invalid - missing custom quantity`, () => {
+        setInput('#customQuantity', '');
   
         fixture.detectChanges();
   
-        const standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        const standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expect(fixture.componentInstance.customQuantity).toBeNull();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is invalid - standard quantity too low`, () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '0';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
+      it(`should show that a custom roll is invalid - custom quantity invalid`, () => {
+        setInput('#customQuantity', 'wrong');
   
         fixture.detectChanges();
   
-        const standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        const standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expect(fixture.componentInstance.customQuantity).toBeNull();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is invalid - standard quantity too high`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '10001';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
+      it(`should show that a custom roll is invalid - custom quantity too low`, () => {
+        setInput('#customQuantity', '0');
   
         fixture.detectChanges();
   
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
+        expect(fixture.componentInstance.customQuantity).toEqual(0);
+        expectInvalid('#customRollButton', '#customValidating');
+      });
+    
+      it(`should show that a custom roll is invalid - custom quantity too high`, async () => {
+        setInput('#customQuantity', '10001');
   
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeFalse();
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.customQuantity).toEqual(10001);
+        expectValidating('#customRollButton', '#customValidating');
   
         //run roll validation
         await waitForService();
   
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is invalid - missing standard die`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardDieSelect = compiled!.querySelector('#standardDie') as HTMLSelectElement;
-        standardDieSelect.value = '';
-  
-        standardDieSelect.dispatchEvent(new Event('change'));
+      const customQuantityTestCases = [1, 2, 10, 20, 100, 1000, 10000];
+
+      customQuantityTestCases.forEach(test => {
+        it(`should show that a custom roll is valid - custom quantity ${test}`, async () => {
+          setInput('#customQuantity', test.toString());
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.customQuantity).toEqual(test);
+          expectValidating('#customRollButton', '#customValidating');
+    
+          //run roll validation
+          await waitForService();
+    
+          expectValid('#customRollButton', '#customValidating');
+        });
+      });
+    
+      it(`should show that a custom roll is invalid - missing custom die`, () => {
+        setInput('#customDie', '');
   
         fixture.detectChanges();
   
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expect(fixture.componentInstance.customDie).toBeNull();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is valid - non-default standard die`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardDieSelect = compiled!.querySelector('#standardDie') as HTMLSelectElement;
-        standardDieSelect.value = standardDieSelect.options[3].value;
-  
-        standardDieSelect.dispatchEvent(new Event('change'));
+      it(`should show that a custom roll is invalid - custom die invalid`, () => {
+        setInput('#customDie', 'wrong');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[3]);
-  
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-  
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expect(fixture.componentInstance.customDie).toBeNull();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is invalid - validation fails`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '66666';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
-  
-        const standardDieSelect = compiled!.querySelector('#standardDie') as HTMLSelectElement;
-        standardDieSelect.value = standardDieSelect.options[4].value;
-  
-        standardDieSelect.dispatchEvent(new Event('change'));
+      it(`should show that a custom roll is invalid - custom die too low`, () => {
+        setInput('#customDie', '0');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[4]);
+        expect(fixture.componentInstance.customDie).toEqual(0);
+        expectInvalid('#customRollButton', '#customValidating');
+      });
+    
+      it(`should show that a custom roll is invalid - custom die too high`, async () => {
+        setInput('#customDie', '10001');
   
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeFalse();
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.customDie).toEqual(10001);
+        expectValidating('#customRollButton', '#customValidating');
   
         //run roll validation
         await waitForService();
   
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectInvalid('#customRollButton', '#customValidating');
       });
     
-      it(`should show that a standard roll is valid - validation succeeds`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '9266';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
-  
-        const standardDieSelect = compiled!.querySelector('#standardDie') as HTMLSelectElement;
-        standardDieSelect.value = standardDieSelect.options[5].value;
-  
-        standardDieSelect.dispatchEvent(new Event('change'));
+      customQuantityTestCases.forEach(test => {
+        it(`should show that a custom roll is valid - custom die ${test}`, async () => {
+          setInput('#customDie', test.toString());
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.customDie).toEqual(test);
+          expectValidating('#customRollButton', '#customValidating');
+    
+          //run roll validation
+          await waitForService();
+    
+          expectValid('#customRollButton', '#customValidating');
+        });
+      });
+
+      it(`should show that a custom roll is invalid - validation fails`, async () => {
+        setInput('#customQuantity', '66666');
+        setInput('#customDie', '666666');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[5]);
+        expect(fixture.componentInstance.customQuantity).toEqual(66666);
+        expect(fixture.componentInstance.customDie).toEqual(666666);
+        expectValidating('#customRollButton', '#customValidating');
   
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
+        //run roll validation
+        await waitForService();
+
+        expectInvalid('#customRollButton', '#customValidating');
+      });
+    
+      it(`should show that a custom roll is valid - validation succeeds`, async () => {
+        setInput('#customQuantity', '9266');
+        setInput('#customDie', '42');
   
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeFalse();
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.customQuantity).toEqual(9266);
+        expect(fixture.componentInstance.customDie).toEqual(42);
+        expectValidating('#customRollButton', '#customValidating');
   
         //run roll validation
         await waitForService();
   
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-  
-        standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectValid('#customRollButton', '#customValidating');
       });
     
-      it(`should roll the default standard roll`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
+      it(`should show when rolling a custom roll`, () => {
+        const component = fixture.componentInstance;
+        component.rolling = true;
+  
+        fixture.detectChanges();
 
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-
-        (standardRollButton as HTMLButtonElement).click();
+        expectRolling('#customRollButton', '#customValidating');
+      });
+    
+      it(`should roll the default custom roll`, async () => {
+        clickButton('#customRollButton');
   
         fixture.detectChanges();
         
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectRolling('#customRollButton', '#customValidating');
 
-        let rollSection = compiled.querySelector('#rollSection');
-        expect(rollSection).toBeDefined();
-        expect(rollSection?.textContent).toEqual('0');
-        expect(rollSection?.hasAttribute('hidden')).toBeTrue();
-  
-        let rollingSection = compiled.querySelector('#rollingSection');
-        expect(rollingSection).toBeDefined();
-        expect(rollingSection?.hasAttribute('hidden')).toBeFalse();
-  
         //run roll
         await waitForService();
   
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-  
-        standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectRolled('#customRollButton', '#customValidating');
 
-        rollSection = compiled.querySelector('#rollSection');
-        expect(rollSection).toBeDefined();
-        expect(rollSection?.hasAttribute('hidden')).toBeFalse();
-
+        const compiled = fixture.nativeElement as HTMLElement;
+        const rollSection = compiled.querySelector('#rollSection');
         const rolledNumber = new Number(rollSection?.textContent);
         expect(rolledNumber).toBeGreaterThanOrEqual(1);
         expect(rolledNumber).toBeLessThanOrEqual(20);
-  
-        rollingSection = compiled.querySelector('#rollingSection');
-        expect(rollingSection).toBeDefined();
-        expect(rollingSection?.hasAttribute('hidden')).toBeTrue();
       });
     
-      it(`should roll a non-default standard roll`, async () => {
-        expect('need to update from standard to custom').toBe('');
-        
-        const compiled = fixture.nativeElement as HTMLElement;
-        const standardQuantityInput = compiled!.querySelector('#standardQuantity') as HTMLInputElement;
-        standardQuantityInput.value = '42';
-  
-        standardQuantityInput.dispatchEvent(new Event('input'));
-  
-        const standardDieSelect = compiled!.querySelector('#standardDie') as HTMLSelectElement;
-        standardDieSelect.value = standardDieSelect.options[2].value;
-  
-        standardDieSelect.dispatchEvent(new Event('change'));
+      it(`should roll a non-default custom roll`, async () => {
+        setInput('#customQuantity', '42');
+        setInput('#customDie', '7');
   
         fixture.detectChanges();
+
+        expect(fixture.componentInstance.customQuantity).toEqual(42);
+        expect(fixture.componentInstance.customDie).toEqual(7);
 
         //run validation
         await waitForService();
-  
-        let standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
 
-        (standardRollButton as HTMLButtonElement).click();
+        clickButton('#customRollButton');
   
         fixture.detectChanges();
         
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.hasAttribute('disabled')).toBeTrue();
-  
-        let standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectRolling('#customRollButton', '#customValidating');
 
-        let rollSection = compiled.querySelector('#rollSection');
-        expect(rollSection).toBeDefined();
-        expect(rollSection?.textContent).toEqual('0');
-        expect(rollSection?.hasAttribute('hidden')).toBeTrue();
-  
-        let rollingSection = compiled.querySelector('#rollingSection');
-        expect(rollingSection).toBeDefined();
-        expect(rollingSection?.hasAttribute('hidden')).toBeFalse();
-  
         //run roll
         await waitForService();
   
-        standardRollButton = compiled!.querySelector('#standardRollButton');
-        expect(standardRollButton).toBeDefined();
-        expect(standardRollButton?.textContent).toEqual('Roll');
-        expect(standardRollButton?.hasAttribute('disabled')).toBeFalse();
-  
-        standardValidatingSection = compiled!.querySelector('#standardValidating');
-        expect(standardValidatingSection).toBeDefined();
-        expect(standardValidatingSection?.hasAttribute('hidden')).toBeTrue();
+        expectRolled('#customRollButton', '#customValidating');
 
-        rollSection = compiled.querySelector('#rollSection');
-        expect(rollSection).toBeDefined();
-        expect(rollSection?.hasAttribute('hidden')).toBeFalse();
-
+        const compiled = fixture.nativeElement as HTMLElement;
+        const rollSection = compiled.querySelector('#rollSection');
         const rolledNumber = new Number(rollSection?.textContent);
         expect(rolledNumber).toBeGreaterThanOrEqual(42);
-        expect(rolledNumber).toBeLessThanOrEqual(42 * 4);
-  
-        rollingSection = compiled.querySelector('#rollingSection');
-        expect(rollingSection).toBeDefined();
-        expect(rollingSection?.hasAttribute('hidden')).toBeTrue();
+        expect(rolledNumber).toBeLessThanOrEqual(42 * 7);
       });
     });
   
