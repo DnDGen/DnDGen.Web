@@ -16,7 +16,7 @@ describe('RollGenComponent', () => {
 
     const delay = 10;
   
-    beforeEach(async () => {
+    beforeEach(() => {
       rollServiceSpy = jasmine.createSpyObj('RollService', ['getViewModel', 'getRoll', 'validateRoll', 'getExpressionRoll', 'validateExpression']);
       sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
       loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
@@ -680,7 +680,7 @@ describe('RollGenComponent', () => {
         });
       });
     
-      it(`should show that a standard roll is invalid - missing standard die`, async () => {
+      it(`should show that a standard roll is invalid - missing standard die`, () => {
         setSelectByValue('#standardDie', '');
   
         fixture.detectChanges();
@@ -691,7 +691,7 @@ describe('RollGenComponent', () => {
       const standardDieIndicesTestCases = Array.from(Array(9).keys());
 
       standardDieIndicesTestCases.forEach(test => {
-        it(`should show that a standard roll is valid - non-default standard die index ${test}`, async () => {
+        it(`should show that a standard roll is valid - non-default standard die index ${test}`, () => {
           setSelectByIndex('#standardDie', test);
     
           fixture.detectChanges();
@@ -1061,7 +1061,7 @@ describe('RollGenComponent', () => {
         expectValidating('#expressionRollButton', '#expressionValidating');
       });
     
-      it(`should show that an expression is invalid - empty`, async () => {
+      it(`should show that an expression is invalid - empty`, () => {
         setInput('#rollExpression', '');
   
         fixture.detectChanges();
@@ -1210,7 +1210,7 @@ describe('RollGenComponent', () => {
       expect(rollingSection?.hasAttribute('hidden')).toBeTrue();
     });
     
-    it(`should format a large roll`, async () => {
+    it(`should format a large roll`, () => {
       fixture.componentInstance.roll = 9266;
 
       fixture.detectChanges();
