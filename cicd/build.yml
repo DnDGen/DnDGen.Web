@@ -104,7 +104,7 @@ jobs:
     inputs:
       testResultsFiles: '**/TESTS-*.xml'
       failTaskOnFailedTests: true
-  - task: PublishPipelineArtifacts@1
+  - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Website Artifacts
     inputs:
