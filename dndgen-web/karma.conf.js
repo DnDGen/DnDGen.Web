@@ -10,6 +10,12 @@ module.exports = function (config) {
       require('karma-firefox-launcher'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
+    files: [
+      { pattern: './src/assets/**', watched: false, included:false, nocache:false, served:true }
+    ],
+    proxies: {
+      '/assets/': '/base/src/assets/'
+    },
     client: {
       jasmine: {
         // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
