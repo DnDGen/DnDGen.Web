@@ -104,21 +104,13 @@ jobs:
     inputs:
       testResultsFiles: '**/TESTS-*.xml'
       failTaskOnFailedTests: true
-  - task: ArchiveFiles@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: 'Archive files'
-    inputs:
-      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dndgen-web/dist/dndgen-web/'
-      includeRootFolder: false
-      archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      replaceExistingArchive: true
-  - task: PublishPipelineArtifact@1
+  - task: PublishPipelineArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Website Artifacts
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      artifactName: 'dndgen-web-static'
+      ArtifactName: 'dndgen-web-static'
+      PathtoPublish: '$(Build.SourcesDirectory)/dndgen-web/dist'
+      publishLocation: 'Container'
       
 # The RollGen API
 - job: RollGen_Api

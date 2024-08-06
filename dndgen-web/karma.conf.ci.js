@@ -21,7 +21,7 @@ module.exports = function (config) {
     client: {
       jasmine: {
         // Setting a longer timeout, as build pipeline sometimes as async errors
-        timeoutInterval: 10000
+        timeoutInterval: 10000,
       },
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
