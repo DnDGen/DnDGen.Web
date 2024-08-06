@@ -148,6 +148,8 @@ jobs:
   strategy:
     runOnce:
       deploy:
+        pool:
+          vmImage: 'ubuntu-latest'
         steps:
         - task: AzureStaticWebApp@0
           displayName: 'Azure Static Web App Deploy: dndgen-web-static'
