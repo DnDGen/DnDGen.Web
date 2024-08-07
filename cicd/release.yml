@@ -165,13 +165,12 @@ jobs:
         - task: AzureStaticWebApp@0
           displayName: 'Azure Static Web App Deploy: dndgen-web-static'
           inputs:
-            cwd: '$(Pipeline.Workspace)'
-            app_location: 'dndgen-web-static'
-            output_location: 'dist'
+            cwd: '$(Pipeline.Workspace)/DnDGen.Web'
+            app_location: '/dndgen-web-static'
+            output_location: ''
             skip_app_build: true
             skip_api_build: true
             verbose: true
-          env:
             azure_static_web_apps_api_token: '$(deployment_token)'
 
 # Post-Deployment Tests
