@@ -3,16 +3,16 @@ import { Magic } from "./magic.model";
 
 export class Weapon extends Item {
   constructor(
-    public name: string,
-    public baseNames: string[],
-    public itemType: string,
-    public traits: string[],
-    public attributes: string[],
-    public magic: Magic,
-    public quantity: number,
-    public contents: string[],
-    public isMagical: boolean,
-    public canBeUsedAsWeaponOrArmor: boolean,
+    public override name: string,
+    public override baseNames: string[],
+    public override itemType: string,
+    public override traits: string[],
+    public override attributes: string[],
+    public override magic: Magic,
+    public override quantity: number,
+    public override contents: string[],
+    public override isMagical: boolean,
+    public override canBeUsedAsWeaponOrArmor: boolean,
 
     public ammunition: string,
     public criticalMultiplier: string,

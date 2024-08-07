@@ -9,13 +9,11 @@ import type { Item } from '../models/item.model';
   providedIn: 'root',
 })
 export class TreasureService {
-  private webBaseUrl: string;
-  constructor(private http: HttpClient, @Inject('WEB_BASE_URL') baseUrl: string) {
-    this.webBaseUrl = baseUrl;
+  constructor(private http: HttpClient) {
   }
 
   public getViewModel(): Observable<TreasureGenViewModel> {
-    var url = this.webBaseUrl + "treasure/viewmodel";
+    var url = "https://web.dndgen.com/api/v1/treasure/viewmodel";
     return this.http.get<TreasureGenViewModel>(url);
   }
   
