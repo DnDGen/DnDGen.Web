@@ -1,7 +1,7 @@
-<div [hidden]="!hasList">
+<div id="listSection" [hidden]="!hasList">
     <a href="#{{id}}" role="button" data-bs-toggle="collapse">{{heading}}</a>
     <div class="collapse" id="{{id}}">
         <ng-content></ng-content>
     </div>
 </div>
-<span [hidden]="hasList">{{heading}}</span>
+<span id="noListSection" [hidden]="hasList">{{heading}}</span>

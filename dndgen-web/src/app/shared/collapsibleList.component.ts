@@ -1,4 +1,5 @@
 import { Input, Component } from '@angular/core';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'dndgen-collapsible-list',
@@ -11,5 +12,5 @@ export class CollapsibleListComponent {
   @Input() heading: string = '';
   @Input() hasList: boolean = false;
 
-  public id: string = 'list-' + crypto.randomUUID();
+  public id: string = 'list-' + uuid.v4();
 }
