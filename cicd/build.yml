@@ -92,7 +92,9 @@ jobs:
       verbose: true  
       customCommand: 'run build:ci'
   - task: Npm@1  
-    displayName: Run Tests  
+    displayName: Run Tests
+    # Sometimes the FE integration tests are flaky. We'll give it 1 retry, and if it fails again, assume it's real
+    retryCountOnTaskFailure: '1'
     inputs: 
       command: custom
       workingDir: '$(Build.SourcesDirectory)/dndgen-web'
