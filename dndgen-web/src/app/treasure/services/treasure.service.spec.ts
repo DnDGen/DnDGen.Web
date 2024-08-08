@@ -10,8 +10,10 @@ import { Treasure } from '../models/treasure.model';
 import { Coin } from '../models/coin.model';
 import { Good } from '../models/good.model';
 import { Item } from '../models/item.model';
+import { Weapon } from '../models/weapon.model';
+import { Armor } from '../models/armor.model';
 
-describe('Roll Service', () => {
+describe('Treasure Service', () => {
     describe('unit', () => {
         let treasureService: TreasureService;
         let httpClientSpy: jasmine.SpyObj<HttpClient>;
@@ -46,81 +48,114 @@ describe('Roll Service', () => {
         });
     
         it('gets treasure', done => {
-            const treasure = new Treasure(
+            const expected = new Treasure(
                 new Coin('munny', 42),
                 [
                     new Good('good 1', 600),
                     new Good('good 2', 1337),
                 ],
                 [
-                    new Item('item 1'),
-                    new Item('item 2'),
+                    new Item('item 1', 'item type 1'),
+                    new Item('item 2', 'item type 2'),
                 ],
                 true
             );
-            httpClientSpy.get.and.returnValue(of(treasure));
+            httpClientSpy.get.and.returnValue(of(expected));
     
             treasureService.getTreasure('myTreasureType', 90210).subscribe((treasure) => {
-                expect(treasure).toBe(42);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/roll');
+                expect(treasure).toBe(expected);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/generate');
                 done();
             });
         });
     
-        it('validates a valid roll', done => {
+        it('validates a valid treasure', done => {
             httpClientSpy.get.and.returnValue(of(true));
     
-            treasureService.validateRoll(9266, 90210).subscribe((validity) => {
+            treasureService.validateTreasure('myTreasureType', 90210).subscribe((validity) => {
                 expect(validity).toBe(true);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/validate');
                 done();
             });
         });
     
-        it('validates an invalid roll', done => {
+        it('validates an invalid treasure', done => {
             httpClientSpy.get.and.returnValue(of(false));
     
-            treasureService.validateRoll(9266, 90210).subscribe((validity) => {
+            treasureService.validateTreasure('myTreasureType', 90210).subscribe((validity) => {
                 expect(validity).toBe(false);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/validate');
                 done();
             });
         });
     
-        it('gets an expression roll', done => {
-            httpClientSpy.get.and.returnValue(of(42));
-            let params = new HttpParams().set('expression', "my expression");
+        it('gets an item', done => {
+            const expected = new Item('my super item', 'my item type');
+            httpClientSpy.get.and.returnValue(of(expected));
     
-            treasureService.getExpressionRoll("my expression").subscribe((roll) => {
-                expect(roll).toBe(42);
+            treasureService.getItem("myItemType", "super", null).subscribe((item) => {
+                expect(item).toBe(expected);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/generate');
+                done();
+            });
+        });
+    
+        it('gets an item with a name', done => {
+            const expected = new Item('my super name', 'my item type');
+            httpClientSpy.get.and.returnValue(of(expected));
+            let params = new HttpParams().set('name', 'my name');
+    
+            treasureService.getItem("myItemType", "super", 'my name').subscribe((item) => {
+                expect(item).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/roll',
+                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/generate',
+                    { params: params }
+                );
+                done();
+            });
+        });
+    
+        it('validates a valid item', done => {
+            httpClientSpy.get.and.returnValue(of(true));
+    
+            treasureService.validateItem("myItemType", "super", null).subscribe((validity) => {
+                expect(validity).toBe(true);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
+                done();
+            });
+        });
+    
+        it('validates a valid item with name', done => {
+            httpClientSpy.get.and.returnValue(of(true));
+            let params = new HttpParams().set('name', 'my name');
+    
+            treasureService.validateItem("myItemType", "super", 'my name').subscribe((validity) => {
+                expect(validity).toBe(true);
+                expect(httpClientSpy.get).toHaveBeenCalledWith(
+                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate',
                     { params: params });
                 done();
             });
         });
     
-        it('validates a valid expression', done => {
-            httpClientSpy.get.and.returnValue(of(true));
-            let params = new HttpParams().set('expression', "my expression");
+        it('validates an invalid item', done => {
+            httpClientSpy.get.and.returnValue(of(false));
     
-            treasureService.validateExpression("my expression").subscribe((validity) => {
-                expect(validity).toBe(true);
-                expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/validate',
-                    { params: params });
+            treasureService.validateItem("myItemType", "super", null).subscribe((validity) => {
+                expect(validity).toBeFalse();
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
                 done();
             });
         });
     
-        it('validates an invalid expression', done => {
+        it('validates an invalid item with name', done => {
             httpClientSpy.get.and.returnValue(of(false));
-            let params = new HttpParams().set('expression', "my expression");
+            let params = new HttpParams().set('name', 'my name');
     
-            treasureService.validateExpression("my expression").subscribe((validity) => {
-                expect(validity).toBe(false);
+            treasureService.validateItem("myItemType", "super", 'my name').subscribe((validity) => {
+                expect(validity).toBeTrue();
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/validate',
+                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate',
                     { params: params });
                 done();
             });
@@ -128,7 +163,7 @@ describe('Roll Service', () => {
     });
     
     describe('integration', () => {
-        let rollService: RollService;
+        let treasureService: TreasureService;
     
         beforeEach(async () => {
             await TestBed.configureTestingModule({
@@ -137,59 +172,155 @@ describe('Roll Service', () => {
               ],
             }).compileComponents();
         
-            rollService = TestBed.inject(RollService);
+            treasureService = TestBed.inject(TreasureService);
         });
 
-        it('gets the roll view model', done => {
-            rollService.getViewModel().subscribe((viewmodel) => {
+        it('gets the treasure view model', done => {
+            treasureService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeDefined();
-                expect(viewmodel.quantityLimit_Lower).toBe(1);
-                expect(viewmodel.quantityLimit_Upper).toBe(10000);
-                expect(viewmodel.dieLimit_Lower).toBe(1);
-                expect(viewmodel.dieLimit_Upper).toBe(10000);
+                expect(viewmodel.treasureTypes.length).toBe(4);
+                expect(viewmodel.powers.length).toBe(4);
+                expect(viewmodel.maxTreasureLevel).toBe(30);
+                expect(viewmodel.itemTypeViewModels.length).toBe(11);
+                expect(viewmodel.itemNames.size).toBe(11);
+
+                for(var i = 0; i < viewmodel.itemTypeViewModels.length; i++) {
+                    const itemType = viewmodel.itemTypeViewModels[i].itemType;
+                    const names = viewmodel.itemNames.get(itemType);
+                    expect(names).toBeDefined();
+                    expect(names?.length).toBeGreaterThanOrEqual(1);
+                }
+
                 done();
             });
         });
     
-        it('gets a roll', done => {
-            rollService.getRoll(9266, 42).subscribe((roll) => {
-                expect(roll).toBeGreaterThanOrEqual(9266);
-                expect(roll).toBeLessThanOrEqual(9266 * 42);
+        it('gets treasure', done => {
+            treasureService.getTreasure('treasure', 21).subscribe((treasure) => {
+                expect(treasure).toBeDefined();
+                expect(treasure).not.toBeNull();
+                expect(treasure.isAny).toBeTrue();
+                expect(treasure.items.length).toBeGreaterThanOrEqual(1);
                 done();
             });
         });
     
-        it('validates a valid roll', done => {
-            rollService.validateRoll(9266, 42).subscribe((validity) => {
+        it('validates a valid treasure', done => {
+            treasureService.validateTreasure('coin', 9).subscribe((validity) => {
                 expect(validity).toBe(true);
                 done();
             });
         });
     
-        it('validates an invalid roll', done => {
-            rollService.validateRoll(9266, 90210).subscribe((validity) => {
+        it('validates an invalid treasure - treasure type', done => {
+            treasureService.validateTreasure('stuff', 2).subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });
         });
     
-        it('gets an expression roll', done => {
-            rollService.getExpressionRoll("3d6t1").subscribe((roll) => {
-                expect(roll).toBeGreaterThanOrEqual(6);
-                expect(roll).toBeLessThanOrEqual(18);
+        it('validates an invalid treasure - level', done => {
+            treasureService.validateTreasure('treasure', 101).subscribe((validity) => {
+                expect(validity).toBe(false);
                 done();
             });
         });
     
-        it('validates a valid expression', done => {
-            rollService.validateExpression("3d6t1").subscribe((validity) => {
+        it('gets an item', done => {
+            treasureService.getItem('ring', 'minor', null).subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('gets an item with name', done => {
+            treasureService.getItem('wondrousitem', 'medium', 'bracers of armor').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+                expect(item.name).toEqual('Bracers of Armor');
+                
+                done();
+            });
+        });
+    
+        it('BUG - gets armor', done => {
+            treasureService.getItem('armor', 'major', null).subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+
+                const armor = item as Armor;
+                expect(armor.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(armor.size).toBeTruthy();
+                expect(armor.totalArmorBonus).toBeGreaterThanOrEqual(1);
+
+                done();
+            });
+        });
+    
+        it('BUG - gets weapon', done => {
+            treasureService.getItem('weapon', 'mundane', null).subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toBeTruthy();
+                expect(weapon.damage).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('validates a valid item', done => {
+            treasureService.validateItem('potion', 'medium', null).subscribe((validity) => {
                 expect(validity).toBe(true);
                 done();
             });
         });
     
-        it('validates an invalid expression', done => {
-            rollService.validateExpression("invalid expression").subscribe((validity) => {
+        it('validates a valid item with name', done => {
+            treasureService.validateItem('tool', 'mundane', 'spyglass').subscribe((validity) => {
+                expect(validity).toBe(true);
+                done();
+            });
+        });
+    
+        it('validates an invalid item - item type', done => {
+            treasureService.validateItem('vehicle', 'minor', null).subscribe((validity) => {
+                expect(validity).toBe(false);
+                done();
+            });
+        });
+    
+        it('validates an invalid item - power', done => {
+            treasureService.validateItem('weapon', 'super', null).subscribe((validity) => {
+                expect(validity).toBe(false);
+                done();
+            });
+        });
+    
+        it('validates an invalid item - name', done => {
+            treasureService.validateItem('tool', 'mundane', 'hammer').subscribe((validity) => {
+                expect(validity).toBe(false);
+                done();
+            });
+        });
+    
+        it('validates an invalid item - bad combo', done => {
+            treasureService.validateItem('alchemicalitem', 'minor', null).subscribe((validity) => {
+                expect(validity).toBe(false);
+                done();
+            });
+        });
+    
+        it('validates an invalid item - bad name combo', done => {
+            treasureService.validateItem('alchemicalitem', 'mundane', 'longsword').subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });

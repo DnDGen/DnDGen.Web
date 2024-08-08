@@ -22,6 +22,6 @@ export class Weapon extends Item {
     public threatRange: string,
     public combatTypes: string[]
   ) {
-    super(name, baseNames, itemType, traits, attributes, magic, quantity, contents, isMagical, canBeUsedAsWeaponOrArmor);
+    super(name, itemType, baseNames, traits, attributes, magic, quantity, contents, isMagical, canBeUsedAsWeaponOrArmor);
   }
 }
