@@ -4,6 +4,8 @@ import type { Observable } from 'rxjs';
 import type { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
 import type { Treasure } from '../models/treasure.model';
 import type { Item } from '../models/item.model';
+import { Weapon } from '../models/weapon.model';
+import { Armor } from '../models/armor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +33,11 @@ export class TreasureService {
     var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
 
     if (!name) {
-      return this.http.get<Item>(url);
+      return this.http.get<Item | Weapon | Armor>(url);
     }
 
     let params = new HttpParams().set('name', name);
-    return this.http.get<Item>(url, { params: params });
+    return this.http.get<Item | Weapon | Armor>(url, { params: params });
   }
 
   public validateItem(itemType: string, power: string, name: string | null): Observable<boolean> {

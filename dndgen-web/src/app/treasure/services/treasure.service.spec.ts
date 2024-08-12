@@ -12,6 +12,7 @@ import { Good } from '../models/good.model';
 import { Item } from '../models/item.model';
 import { Weapon } from '../models/weapon.model';
 import { Armor } from '../models/armor.model';
+import { Magic } from '../models/magic.model';
 
 describe('Treasure Service', () => {
     describe('unit', () => {
@@ -115,6 +116,40 @@ describe('Treasure Service', () => {
             });
         });
     
+        it('BUG - gets armor', done => {
+            const expected = new Armor('my super armor', 'armor', [], [], [], new Magic(), 1, [], false, 'my size', 9266);
+            httpClientSpy.get.and.returnValue(of(expected));
+    
+            treasureService.getItem("armor", "super", null).subscribe((item) => {
+                expect(item).toBe(expected);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/armor/power/super/generate');
+                
+                const armor = item as Armor;
+                expect(armor.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(armor.size).toEqual('my size');
+                expect(armor.totalArmorBonus).toEqual(9266);
+
+                done();
+            });
+        });
+    
+        it('BUG - gets weapon', done => {
+            const expected = new Weapon('my super weapon', 'weapon', [], [], [], new Magic(), 1, [], false, 'my size', 'my damage description');
+            httpClientSpy.get.and.returnValue(of(expected));
+    
+            treasureService.getItem("weapon", "super", null).subscribe((item) => {
+                expect(item).toBe(expected);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/weapon/power/super/generate');
+                
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toEqual('my size');
+                expect(weapon.damageDescription).toEqual('my damage description');
+
+                done();
+            });
+        });
+    
         it('validates a valid item', done => {
             httpClientSpy.get.and.returnValue(of(true));
     
@@ -153,7 +188,7 @@ describe('Treasure Service', () => {
             let params = new HttpParams().set('name', 'my name');
     
             treasureService.validateItem("myItemType", "super", 'my name').subscribe((validity) => {
-                expect(validity).toBeTrue();
+                expect(validity).toBeFalse();
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate',
                     { params: params });
@@ -180,7 +215,7 @@ describe('Treasure Service', () => {
                 expect(viewmodel).toBeDefined();
                 expect(viewmodel.treasureTypes.length).toBe(4);
                 expect(viewmodel.powers.length).toBe(4);
-                expect(viewmodel.maxTreasureLevel).toBe(30);
+                expect(viewmodel.maxTreasureLevel).toBe(100);
                 expect(viewmodel.itemTypeViewModels.length).toBe(11);
                 expect(viewmodel.itemNames.size).toBe(11);
 
@@ -271,7 +306,7 @@ describe('Treasure Service', () => {
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
                 expect(weapon.size).toBeTruthy();
-                expect(weapon.damage).toBeTruthy();
+                expect(weapon.damageDescription).toBeTruthy();
 
                 done();
             });

@@ -6,6 +6,10 @@ export class TreasureGenViewModel {
     public maxTreasureLevel: number,
     public itemTypeViewModels: ItemTypeViewModel[],
     public powers: string[],
-    public itemNames: Map<string, string[]>
-  ) { }
+    itemNames: object
+  ) { 
+    this.itemNames = new Map<string, string[]>(Object.entries(itemNames));
+  }
+
+  public itemNames: Map<string, string[]>;
 }
