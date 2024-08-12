@@ -2,7 +2,7 @@ import { TreasureService } from './treasure.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
 import { ItemTypeViewModel } from '../models/itemTypeViewModel.model';
@@ -34,10 +34,10 @@ describe('Treasure Service', () => {
                     new ItemTypeViewModel('myOtherItemType', 'My Other Item Type'),
                 ],
                 ['power 1', 'power 2'],
-                new Map<string, string[]>([
-                    ["myItemType", ['item 1', 'item 2']],
-                    ["myOtherItemType", ['item 3', 'item 4']]
-                ])
+                {
+                    "myItemType": ['item 1', 'item 2'],
+                    "myOtherItemType": ['item 3', 'item 4']
+                }
             );
             httpClientSpy.get.and.returnValue(of(model));
     
@@ -210,35 +210,49 @@ describe('Treasure Service', () => {
             treasureService = TestBed.inject(TreasureService);
         });
 
-        it('gets the treasure view model', done => {
+        it('gets the treasure view model', waitForAsync(() => {
             treasureService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeDefined();
                 expect(viewmodel.treasureTypes.length).toBe(4);
                 expect(viewmodel.powers.length).toBe(4);
                 expect(viewmodel.maxTreasureLevel).toBe(100);
                 expect(viewmodel.itemTypeViewModels.length).toBe(11);
-                expect(viewmodel.itemNames.size).toBe(11);
+                expect(viewmodel.itemNames).toBeDefined();
+                expect(Object.keys(viewmodel.itemNames).length).toBe(11);
+                expect(Object.keys(viewmodel.itemNames)).toEqual([
+                    'AlchemicalItem',
+                    'Armor',
+                    'Potion',
+                    'Ring',
+                    'Rod',
+                    'Scroll',
+                    'Staff',
+                    'Tool',
+                    'Wand',
+                    'Weapon',
+                    'WondrousItem',
+                ]);
+
+                // expect(viewmodel.itemNamesMap).toBeDefined();
+                // expect(viewmodel.itemNamesMap.size).toBe(11);
 
                 for(var i = 0; i < viewmodel.itemTypeViewModels.length; i++) {
                     const itemType = viewmodel.itemTypeViewModels[i].itemType;
-                    const names = viewmodel.itemNames.get(itemType);
+                    const names = viewmodel.getNames(itemType);
                     expect(names).toBeDefined();
                     expect(names?.length).toBeGreaterThanOrEqual(1);
                 }
-
-                done();
             });
-        });
+        }));
     
-        it('gets treasure', done => {
+        it('gets treasure', waitForAsync(() => {
             treasureService.getTreasure('treasure', 21).subscribe((treasure) => {
                 expect(treasure).toBeDefined();
                 expect(treasure).not.toBeNull();
                 expect(treasure.isAny).toBeTrue();
                 expect(treasure.items.length).toBeGreaterThanOrEqual(1);
-                done();
             });
-        });
+        }));
     
         it('validates a valid treasure', done => {
             treasureService.validateTreasure('coin', 9).subscribe((validity) => {
@@ -291,7 +305,8 @@ describe('Treasure Service', () => {
                 const armor = item as Armor;
                 expect(armor.canBeUsedAsWeaponOrArmor).toBeTruthy();
                 expect(armor.size).toBeTruthy();
-                expect(armor.totalArmorBonus).toBeGreaterThanOrEqual(1);
+                //Can't assert positive, because some cursed armors will be negative
+                expect(armor.totalArmorBonus).not.toBe(0);
 
                 done();
             });

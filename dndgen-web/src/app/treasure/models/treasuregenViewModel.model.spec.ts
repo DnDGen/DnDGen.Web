@@ -26,11 +26,10 @@ describe('TreasureGenViewModel', () => {
             new ItemTypeViewModel('MyOtherItemType', 'My Other Item Type'),
           ]);
           expect(viewmodel.powers).toEqual(['power 1', 'power 2']);
-          expect(viewmodel.itemNames.size).toEqual(2);
-          expect(viewmodel.itemNames.get('MyItemType')).toBeDefined();
-          expect(viewmodel.itemNames.get('MyItemType')).toEqual(['item 1', 'item 2']);
-          expect(viewmodel.itemNames.get('MyOtherItemType')).toBeDefined();
-          expect(viewmodel.itemNames.get('MyOtherItemType')).toEqual(['item 3', 'item 4']);
+          expect(viewmodel.getNames('MyItemType')).toBeDefined();
+          expect(viewmodel.getNames('MyItemType')).toEqual(['item 1', 'item 2']);
+          expect(viewmodel.getNames('MyOtherItemType')).toBeDefined();
+          expect(viewmodel.getNames('MyOtherItemType')).toEqual(['item 3', 'item 4']);
       });
   });
   
@@ -722,25 +721,25 @@ describe('TreasureGenViewModel', () => {
           "Medium",
           "Major"
         ]);
-        expect(viewmodel.itemNames.size).toEqual(viewmodel.itemTypeViewModels.length);
+        // expect(viewmodel.itemNamesMap.size).toEqual(viewmodel.itemTypeViewModels.length);
         
         for(var i = 0; i < viewmodel.itemTypeViewModels.length; i++) {
           const itemType = viewmodel.itemTypeViewModels[i].itemType;
-          const names = viewmodel.itemNames.get(itemType);
+          const names = viewmodel.getNames(itemType);
           expect(names).toBeDefined();
           expect(names?.length).toBeGreaterThanOrEqual(1);
         }
-        expect(viewmodel.itemNames.get('AlchemicalItem')?.length).toEqual(8);
-        expect(viewmodel.itemNames.get('Armor')?.length).toEqual(23);
-        expect(viewmodel.itemNames.get('Potion')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Ring')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Rod')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Scroll')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Staff')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Tool')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Wand')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('Weapon')?.length).toEqual(-1);
-        expect(viewmodel.itemNames.get('WondrousItem')?.length).toEqual(-1);
+        expect(viewmodel.getNames('AlchemicalItem')?.length).toEqual(8);
+        expect(viewmodel.getNames('Armor')?.length).toEqual(23);
+        expect(viewmodel.getNames('Potion')?.length).toEqual(92);
+        expect(viewmodel.getNames('Ring')?.length).toEqual(55);
+        expect(viewmodel.getNames('Rod')?.length).toEqual(36);
+        expect(viewmodel.getNames('Scroll')?.length).toEqual(1);
+        expect(viewmodel.getNames('Staff')?.length).toEqual(21);
+        expect(viewmodel.getNames('Tool')?.length).toEqual(20);
+        expect(viewmodel.getNames('Wand')?.length).toEqual(1);
+        expect(viewmodel.getNames('Weapon')?.length).toEqual(103);
+        expect(viewmodel.getNames('WondrousItem')?.length).toEqual(246);
     });
   });
 });
