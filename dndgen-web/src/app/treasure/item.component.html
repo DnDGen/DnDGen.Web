@@ -1,31 +1,31 @@
 <div>
-  <dndgen-collapsible-list heading="{{item.name}} (x{{item.quantity}})" [hasList]="hasList()">
+  <dndgen-collapsible-list class="item-header" heading="{{item.name}} (x{{item.quantity}})" [hasList]="hasList()">
     <ul>
-      <li [hidden]="item.contents.length == 0">
+      <li class="item-contents" [hidden]="item.contents.length == 0">
         <dndgen-collapsible-list heading="Contents" [hasList]="true">
           <ul>
-            <li *ngFor="let content of item.contents">{{content}}</li>
+            <li class="item-content" *ngFor="let content of item.contents">{{content}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="item.traits.length == 0">
+      <li class="item-traits" [hidden]="item.traits.length == 0">
         <dndgen-collapsible-list heading="Traits" [hasList]="true">
           <ul>
-            <li *ngFor="let trait of item.traits">{{trait}}</li>
+            <li class="item-trait" *ngFor="let trait of item.traits">{{trait}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="item.magic.bonus == 0">Bonus: +{{item.magic.bonus}}</li>
-      <li [hidden]="item.magic.specialAbilities.length == 0">
+      <li class="item-magic-bonus" [hidden]="item.magic.bonus == 0">Bonus: {{item.magic.bonus > 0 ? '+' : ''}}{{item.magic.bonus}}</li>
+      <li class="item-magic-special-abilities" [hidden]="item.magic.specialAbilities.length == 0">
         <dndgen-collapsible-list heading="Special Abilities" [hasList]="true">
           <ul>
-            <li *ngFor="let ability of item.magic.specialAbilities">{{ability.name}}</li>
+            <li class="item-magic-special-ability" *ngFor="let ability of item.magic.specialAbilities">{{ability.name}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li [hidden]="item.attributes.indexOf('Charged') == -1">Charges: {{item.magic.charges}}</li>
-      <li [hidden]="item.magic.curse.length == 0">Curse: {{item.magic.curse}}</li>
-      <li [hidden]="item.magic.intelligence.ego == 0">
+      <li class="item-magic-charges" [hidden]="item.attributes.indexOf('Charged') == -1">Charges: {{item.magic.charges}}</li>
+      <li class="item-magic-curse" [hidden]="item.magic.curse.length == 0">Curse: {{item.magic.curse}}</li>
+      <li class="item-magic-intelligence" [hidden]="item.magic.intelligence.ego == 0">
         <dndgen-collapsible-list heading="Intelligence" [hasList]="true">
           <ul>
             <li>Ego: {{item.magic.intelligence.ego}}</li>
@@ -63,7 +63,7 @@
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li *ngIf="isArmor()">
+      <li class="item-armor" *ngIf="isArmor()">
         <dndgen-collapsible-list heading="Armor" [hasList]="true">
           <ul>
             <li>Size: {{armor.size}}</li>
@@ -73,7 +73,7 @@
           </ul>
         </dndgen-collapsible-list>
       </li>
-      <li *ngIf="isWeapon()">
+      <li class="item-weapon" *ngIf="isWeapon()">
         <dndgen-collapsible-list heading="Weapon" [hasList]="true">
           <ul>
             <li>Size: {{weapon.size}}</li>
