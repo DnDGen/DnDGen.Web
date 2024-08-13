@@ -115,11 +115,17 @@ export class TreasureFormatterService {
 
       formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
       formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.damageType + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRange + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.criticalMultiplier + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
 
+      if (weapon.isDoubleWeapon)
+          formattedWeapon += prefix + '\t' + 'Secondary Damage: ' + weapon.secondaryDamageDescription + '\r\n';
+
+      formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRangeDescription + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Critical Damage: ' + weapon.criticalDamageDescription + '\r\n';
+
+      if (weapon.isDoubleWeapon)
+          formattedWeapon += prefix + '\t' + 'Secondary Critical Damage: ' + weapon.secondaryCriticalDamageDescription + '\r\n';
+        
       if (weapon.ammunition) {
           formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';
       }

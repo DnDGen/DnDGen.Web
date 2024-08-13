@@ -233,12 +233,9 @@ describe('Treasure Service', () => {
                     'WondrousItem',
                 ]);
 
-                // expect(viewmodel.itemNamesMap).toBeDefined();
-                // expect(viewmodel.itemNamesMap.size).toBe(11);
-
                 for(var i = 0; i < viewmodel.itemTypeViewModels.length; i++) {
                     const itemType = viewmodel.itemTypeViewModels[i].itemType;
-                    const names = viewmodel.getNames(itemType);
+                    const names = viewmodel.itemNames[itemType];
                     expect(names).toBeDefined();
                     expect(names?.length).toBeGreaterThanOrEqual(1);
                 }

@@ -78,10 +78,11 @@
           <ul>
             <li>Size: {{weapon.size}}</li>
             <li>Combat Types: {{weapon.combatTypes.join(", ")}}</li>
-            <li>Damage: {{weapon.damage}}</li>
-            <li>Damage Type: {{weapon.damageType}}</li>
-            <li>Threat Range: {{weapon.threatRange}}</li>
-            <li>Critical Multiplier: {{weapon.criticalMultiplier}}</li>
+            <li>Damage: {{weapon.damageDescription}}</li>
+            <li [hidden]="!weapon.isDoubleWeapon">Secondary Damage: {{weapon.secondaryDamageDescription}}</li>
+            <li>Threat Range: {{weapon.threatRangeDescription}}</li>
+            <li>Critical Damage: {{weapon.criticalDamageDescription}}</li>
+            <li [hidden]="!weapon.isDoubleWeapon">Secondary Critical Damage: {{weapon.secondaryCriticalDamageDescription}}</li>
             <li [hidden]="!weapon.ammunition">Ammunition Used: {{weapon.ammunition}}</li>
           </ul>
         </dndgen-collapsible-list>

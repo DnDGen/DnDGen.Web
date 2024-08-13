@@ -9,10 +9,4 @@ export class TreasureGenViewModel {
     public itemNames: { [key: string]: any }
   ) {
   }
-
-  public getNames(name: string): string[] {
-    let names = this.itemNames[name] as string[];
-
-    return names || [];
-  }
 }

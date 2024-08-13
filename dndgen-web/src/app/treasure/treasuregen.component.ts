@@ -40,7 +40,7 @@ export class TreasureGenComponent implements OnInit {
     this.treasureType = this.treasureModel.treasureTypes[0];
     this.itemType = this.treasureModel.itemTypeViewModels[0];
     this.power = this.treasureModel.powers[0];
-    this.itemNames = this.treasureModel.itemNames.get(this.itemType.itemType)!;
+    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
 
     this.validateTreasure(this.treasureType, this.level);
     this.validateItem(this.itemType.itemType, this.power, this.itemName);
@@ -151,7 +151,7 @@ export class TreasureGenComponent implements OnInit {
   }
   
   public updateItemNames(itemType: ItemTypeViewModel) {
-    this.itemNames = this.treasureModel.itemNames.get(itemType.itemType)!;
+    this.itemNames = this.treasureModel.itemNames[itemType.itemType]!;
     this.itemName = null;
 
     this.validateItem(this.itemType.itemType, this.power, this.itemName);
