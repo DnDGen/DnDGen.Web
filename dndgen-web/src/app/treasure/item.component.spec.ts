@@ -516,7 +516,7 @@ describe('ItemComponent', () => {
   
     it(`should render a boring item`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
+      component.item = getItem();
 
       fixture.detectChanges();
   
@@ -525,7 +525,8 @@ describe('ItemComponent', () => {
   
     it(`should render a boring item with quantity of 2`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType', [], [], [], new Magic(), 2);
+      component.item = getItem();
+      component.item.quantity = 2;
 
       fixture.detectChanges();
   
@@ -534,7 +535,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with contents`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
+      component.item = getItem();
       component.item.contents = ['my contents', 'my other contents'];
 
       fixture.detectChanges();
@@ -596,8 +597,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with traits`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.traits = ['my trait', 'my other trait'];
 
       fixture.detectChanges();
@@ -616,8 +616,8 @@ describe('ItemComponent', () => {
     function getAll(selector: string, within: string[]): NodeListOf<Element> {
       const compiled = fixture.nativeElement as HTMLElement;
 
-      let parent = compiled.querySelector(within[0]) as HTMLElement;
-      for(var i = 1; i < within.length; i++) {
+      let parent = compiled;
+      for(var i = 0; i < within.length; i++) {
         parent = parent.querySelector(within[i]) as HTMLElement;
       }
 
@@ -627,8 +627,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic bonus of 1`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.bonus = 1;
 
       fixture.detectChanges();
@@ -644,8 +643,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic bonus of 2`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.bonus = 2;
 
       fixture.detectChanges();
@@ -661,8 +659,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic bonus of -1`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.bonus = -1;
 
       fixture.detectChanges();
@@ -678,8 +675,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic bonus of -2`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.bonus = -2;
 
       fixture.detectChanges();
@@ -717,7 +713,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic charges`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
+      component.item = getItem();
       component.item.attributes = ['My Attribute', 'Charged', 'My Other Attribute'];
       component.item.magic.charges = 9266;
 
@@ -734,7 +730,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic charges, but uncharged`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
+      component.item = getItem();
       component.item.attributes = ['My Attribute', 'Charged', 'My Other Attribute'];
       component.item.magic.charges = 0;
 
@@ -751,8 +747,7 @@ describe('ItemComponent', () => {
   
     it(`should render an item with magic curse`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.curse = 'my curse';
 
       fixture.detectChanges();
@@ -765,23 +760,396 @@ describe('ItemComponent', () => {
       expect(curse).toBeDefined();
       expect(curse?.textContent).toEqual('Curse: my curse');
     });
+
+    function getItem(): Item {
+      let item = new Item('my item', 'MyItemType');
+      item.attributes = ['My Attribute', 'My Other Attribute'];
+
+      return item;
+    }
   
     it(`should render an item with magic intelligence`, () => {
       const component = fixture.componentInstance;
-      component.item = new Item('my item', 'MyItemType');
-      component.item.attributes = ['My Attribute', 'Charged', 'My Other Attribute'];
+      component.item = getItem();
       component.item.magic.intelligence.ego = 9266;
+      component.item.magic.intelligence.intelligenceStat = 90210;
+      component.item.magic.intelligence.wisdomStat = 42;
+      component.item.magic.intelligence.charismaStat = 600;
+      component.item.magic.intelligence.alignment = 'intelligence alignment';
+      component.item.magic.intelligence.communication = ['interpretive dance', 'miming'];
+      component.item.magic.intelligence.senses = 'spidey-sense';
+      component.item.magic.intelligence.powers = ['flight', 'super strength'];
+      component.item.magic.intelligence.personality = 'gregarious';
 
       fixture.detectChanges();
   
       expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
+      expectCollapsibleList('li.item-magic-intelligence > dndgen-collapsible-list', 'Intelligence', true);
+
+      const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-collapsible-list']);
+      expect(listItems).toBeDefined();
+      expect(listItems?.length).toBe(11);
+      expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
+      expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
+      expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
+      expect(listItems?.item(3).textContent).toEqual('Charisma: 600');
+      expect(listItems?.item(4).textContent).toEqual('Alignment: intelligence alignment');
+
+      const communication = listItems?.item(5) as HTMLElement;
+      expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
+
+      let span = communication.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Communication:');
+
+      const communicationListItems = getAll('li', ['li.item-magic-intelligence-communication', 'ul']);
+      expect(communicationListItems).toBeDefined();
+      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
+      expect(communicationListItems?.item(1).textContent).toEqual('miming');
+      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
+
+      expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
+      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-collapsible-list', 'Languages', false);
+
+      expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
+
+      const powers = listItems?.item(7) as HTMLElement;
+      expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
+
+      span = powers.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Powers:');
+
+      const powersListItems = getAll('li', ['li.item-magic-intelligence-powers', 'ul']);
+      expect(powersListItems).toBeDefined();
+      expect(powersListItems?.length).toBe(2);
+      expect(powersListItems?.item(0).textContent).toEqual('flight');
+      expect(powersListItems?.item(1).textContent).toEqual('super strength');
+
+      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
+      expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+
+      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
+      expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
+
+      expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
+    });
+  
+    it(`should render an item with magic intelligence with languages`, () => {
+      const component = fixture.componentInstance;
+      component.item = getItem();
+      component.item.magic.intelligence.ego = 9266;
+      component.item.magic.intelligence.intelligenceStat = 90210;
+      component.item.magic.intelligence.wisdomStat = 42;
+      component.item.magic.intelligence.charismaStat = 600;
+      component.item.magic.intelligence.alignment = 'intelligence alignment';
+      component.item.magic.intelligence.communication = ['interpretive dance', 'miming'];
+      component.item.magic.intelligence.languages = ['English', 'German'];
+      component.item.magic.intelligence.senses = 'spidey-sense';
+      component.item.magic.intelligence.powers = ['flight', 'super strength'];
+      component.item.magic.intelligence.personality = 'gregarious';
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-magic-intelligence');
+      expectCollapsibleList('li.item-magic-intelligence > dndgen-collapsible-list', 'Intelligence', true);
+
+      const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-collapsible-list']);
+      expect(listItems).toBeDefined();
+      expect(listItems?.length).toBe(11);
+      expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
+      expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
+      expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
+      expect(listItems?.item(3).textContent).toEqual('Charisma: 600');
+      expect(listItems?.item(4).textContent).toEqual('Alignment: intelligence alignment');
+
+      const communication = listItems?.item(5) as HTMLElement;
+      expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
+
+      let span = communication.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Communication:');
+
+      const communicationListItems = getAll('ul.item-magic-intelligence-communication-details > li', ['li.item-magic-intelligence-communication']);
+      expect(communicationListItems).toBeDefined();
+      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
+      expect(communicationListItems?.item(1).textContent).toEqual('miming');
+      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
+
+      expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
+      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-collapsible-list', 'Languages', true);
+      
+      const languages = getAll('li', ['li.item-magic-intelligence-languages', 'dndgen-collapsible-list', 'ul']);
+      expect(languages).toBeDefined();
+      expect(languages?.length).toBe(2);
+      expect(languages?.item(0).textContent).toEqual('English');
+      expect(languages?.item(1).textContent).toEqual('German');
+      
+      expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
+
+      const powers = listItems?.item(7) as HTMLElement;
+      expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
+
+      span = powers.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Powers:');
+
+      const powersListItems = getAll('li', ['li.item-magic-intelligence-powers', 'ul']);
+      expect(powersListItems).toBeDefined();
+      expect(powersListItems?.length).toBe(2);
+      expect(powersListItems?.item(0).textContent).toEqual('flight');
+      expect(powersListItems?.item(1).textContent).toEqual('super strength');
+
+      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
+      expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+
+      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
+      expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
+
+      expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
+    });
+  
+    it(`should render an item with magic intelligence with special purpose`, () => {
+      const component = fixture.componentInstance;
+      component.item = getItem();
+      component.item.magic.intelligence.ego = 9266;
+      component.item.magic.intelligence.intelligenceStat = 90210;
+      component.item.magic.intelligence.wisdomStat = 42;
+      component.item.magic.intelligence.charismaStat = 600;
+      component.item.magic.intelligence.alignment = 'intelligence alignment';
+      component.item.magic.intelligence.communication = ['interpretive dance', 'miming'];
+      component.item.magic.intelligence.senses = 'spidey-sense';
+      component.item.magic.intelligence.powers = ['flight', 'super strength'];
+      component.item.magic.intelligence.specialPurpose = 'to fight crime';
+      component.item.magic.intelligence.dedicatedPower = 'get really, really mad';
+      component.item.magic.intelligence.personality = 'gregarious';
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-magic-intelligence');
+      expectCollapsibleList('li.item-magic-intelligence > dndgen-collapsible-list', 'Intelligence', true);
+
+      const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-collapsible-list']);
+      expect(listItems).toBeDefined();
+      expect(listItems?.length).toBe(11);
+      expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
+      expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
+      expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
+      expect(listItems?.item(3).textContent).toEqual('Charisma: 600');
+      expect(listItems?.item(4).textContent).toEqual('Alignment: intelligence alignment');
+
+      const communication = listItems?.item(5) as HTMLElement;
+      expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
+
+      let span = communication.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Communication:');
+
+      const communicationListItems = getAll('li', ['li.item-magic-intelligence-communication', 'ul']);
+      expect(communicationListItems).toBeDefined();
+      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
+      expect(communicationListItems?.item(1).textContent).toEqual('miming');
+      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
+
+      expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
+      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-collapsible-list', 'Languages', false);
+
+      expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
+
+      const powers = listItems?.item(7) as HTMLElement;
+      expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
+
+      span = powers.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Powers:');
+
+      const powersListItems = getAll('li', ['li.item-magic-intelligence-powers', 'ul']);
+      expect(powersListItems).toBeDefined();
+      expect(powersListItems?.length).toBe(2);
+      expect(powersListItems?.item(0).textContent).toEqual('flight');
+      expect(powersListItems?.item(1).textContent).toEqual('super strength');
+
+      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
+      expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
-      const intelligence = compiled.querySelector('li.item-magic-intelligence');
-      expect(intelligence).toBeDefined();
+      span = compiled.querySelector('li.item-magic-intelligence-special-purpose > span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Special Purpose: to fight crime');
 
-      expect('get the list underneath').toBe('');
+      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
+      expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
+
+      span = compiled.querySelector('li.item-magic-intelligence-dedicated-power > span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Dedicated Power: get really, really mad');
+
+      expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
+    });
+  
+    it(`should render an item with magic intelligence with no personality`, () => {
+      const component = fixture.componentInstance;
+      component.item = getItem();
+      component.item.magic.intelligence.ego = 9266;
+      component.item.magic.intelligence.intelligenceStat = 90210;
+      component.item.magic.intelligence.wisdomStat = 42;
+      component.item.magic.intelligence.charismaStat = 600;
+      component.item.magic.intelligence.alignment = 'intelligence alignment';
+      component.item.magic.intelligence.communication = ['interpretive dance', 'miming'];
+      component.item.magic.intelligence.senses = 'spidey-sense';
+      component.item.magic.intelligence.powers = ['flight', 'super strength'];
+      component.item.magic.intelligence.personality = '';
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-magic-intelligence');
+      expectCollapsibleList('li.item-magic-intelligence > dndgen-collapsible-list', 'Intelligence', true);
+
+      const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-collapsible-list']);
+      expect(listItems).toBeDefined();
+      expect(listItems?.length).toBe(11);
+      expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
+      expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
+      expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
+      expect(listItems?.item(3).textContent).toEqual('Charisma: 600');
+      expect(listItems?.item(4).textContent).toEqual('Alignment: intelligence alignment');
+
+      const communication = listItems?.item(5) as HTMLElement;
+      expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
+
+      let span = communication.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Communication:');
+
+      const communicationListItems = getAll('li', ['li.item-magic-intelligence-communication', 'ul']);
+      expect(communicationListItems).toBeDefined();
+      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
+      expect(communicationListItems?.item(1).textContent).toEqual('miming');
+      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
+
+      expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
+      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-collapsible-list', 'Languages', false);
+
+      expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
+
+      const powers = listItems?.item(7) as HTMLElement;
+      expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
+
+      span = powers.querySelector('span');
+      expect(span).toBeDefined();
+      expect(span?.textContent).toEqual('Powers:');
+
+      const powersListItems = getAll('li', ['li.item-magic-intelligence-powers', 'ul']);
+      expect(powersListItems).toBeDefined();
+      expect(powersListItems?.length).toBe(2);
+      expect(powersListItems?.item(0).textContent).toEqual('flight');
+      expect(powersListItems?.item(1).textContent).toEqual('super strength');
+
+      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
+      expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+
+      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
+      expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
+
+      expect(listItems?.item(10).textContent).toEqual('Personality: None');
+    });
+  
+    it(`should render armor`, () => {
+      const component = fixture.componentInstance;
+      expect('not yet written').toBe('');
+
+      component.item = getItem();
+      component.item.magic.bonus = 2;
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-armor');
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const magicBonus = compiled.querySelector('li.item-magic-bonus');
+      expect(magicBonus).toBeDefined();
+      expect(magicBonus?.textContent).toEqual('Bonus: +2');
+    });
+  
+    it(`should render armor without max dexterity bonus`, () => {
+      const component = fixture.componentInstance;
+      expect('not yet written').toBe('');
+
+      component.item = getItem();
+      component.item.magic.bonus = 2;
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-armor');
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const magicBonus = compiled.querySelector('li.item-magic-bonus');
+      expect(magicBonus).toBeDefined();
+      expect(magicBonus?.textContent).toEqual('Bonus: +2');
+    });
+  
+    it(`should render weapon`, () => {
+      const component = fixture.componentInstance;
+      expect('not yet written').toBe('');
+
+      component.item = getItem();
+      component.item.magic.bonus = 2;
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-weapon');
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const magicBonus = compiled.querySelector('li.item-magic-bonus');
+      expect(magicBonus).toBeDefined();
+      expect(magicBonus?.textContent).toEqual('Bonus: +2');
+    });
+  
+    it(`should render double weapon`, () => {
+      const component = fixture.componentInstance;
+      expect('not yet written').toBe('');
+
+      component.item = getItem();
+      component.item.magic.bonus = 2;
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-weapon');
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const magicBonus = compiled.querySelector('li.item-magic-bonus');
+      expect(magicBonus).toBeDefined();
+      expect(magicBonus?.textContent).toEqual('Bonus: +2');
+    });
+  
+    it(`should render weapon requiring ammunition`, () => {
+      const component = fixture.componentInstance;
+      expect('not yet written').toBe('');
+
+      component.item = getItem();
+      component.item.magic.bonus = 2;
+
+      fixture.detectChanges();
+  
+      expectCollapsibleList('dndgen-collapsible-list.item-header', 'my item (x1)', true);
+      expectOnlyToShow('li.item-weapon');
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const magicBonus = compiled.querySelector('li.item-magic-bonus');
+      expect(magicBonus).toBeDefined();
+      expect(magicBonus?.textContent).toEqual('Bonus: +2');
     });
   });
 });
