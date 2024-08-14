@@ -65,25 +65,25 @@
       </li>
       <li class="item-armor" *ngIf="isArmor()">
         <dndgen-collapsible-list heading="Armor" [hasList]="true">
-          <ul>
+          <ul class="item-armor-details">
             <li>Size: {{armor.size}}</li>
             <li>Armor Bonus: {{armor.totalArmorBonus}}</li>
             <li>Armor Check Penalty: {{armor.totalArmorCheckPenalty}}</li>
-            <li [hidden]="armor.totalMaxDexterityBonus >= 100">Max Dexterity Bonus: {{armor.totalMaxDexterityBonus}}</li>
+            <li class="item-armor-max-dex" [hidden]="armor.totalMaxDexterityBonus >= 100">Max Dexterity Bonus: {{armor.totalMaxDexterityBonus}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
       <li class="item-weapon" *ngIf="isWeapon()">
         <dndgen-collapsible-list heading="Weapon" [hasList]="true">
-          <ul>
+          <ul class="item-weapon-details">
             <li>Size: {{weapon.size}}</li>
             <li>Combat Types: {{weapon.combatTypes.join(", ")}}</li>
             <li>Damage: {{weapon.damageDescription}}</li>
-            <li [hidden]="!weapon.isDoubleWeapon">Secondary Damage: {{weapon.secondaryDamageDescription}}</li>
+            <li class="item-weapon-2nd-damage" [hidden]="!weapon.isDoubleWeapon">Secondary Damage: {{weapon.secondaryDamageDescription}}</li>
             <li>Threat Range: {{weapon.threatRangeDescription}}</li>
             <li>Critical Damage: {{weapon.criticalDamageDescription}}</li>
-            <li [hidden]="!weapon.isDoubleWeapon">Secondary Critical Damage: {{weapon.secondaryCriticalDamageDescription}}</li>
-            <li [hidden]="!weapon.ammunition">Ammunition Used: {{weapon.ammunition}}</li>
+            <li class="item-weapon-2nd-crit" [hidden]="!weapon.isDoubleWeapon">Secondary Critical Damage: {{weapon.secondaryCriticalDamageDescription}}</li>
+            <li class="item-weapon-ammo" [hidden]="!weapon.ammunition">Ammunition Used: {{weapon.ammunition}}</li>
           </ul>
         </dndgen-collapsible-list>
       </li>
