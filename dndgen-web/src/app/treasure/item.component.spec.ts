@@ -89,11 +89,11 @@ describe('ItemComponent', () => {
       expect(component.isWeapon()).toBeTrue();
     });
   
-    it(`should say it has no list when no item`, () => {
+    it(`should say it has no details when no item`, () => {
       expect(component.hasDetails()).toBeFalse();
     });
   
-    it(`should say it has no list when item is boring`, () => {
+    it(`should say it has no details when item is boring`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -106,7 +106,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeFalse();
     });
   
-    it(`should say it has list when item has contents`, () => {
+    it(`should say it has details when item has contents`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = ['my content'];
       component.item.traits = [];
@@ -119,7 +119,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has traits`, () => {
+    it(`should say it has details when item has traits`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = ['my trait'];
@@ -132,7 +132,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has magic bonus`, () => {
+    it(`should say it has details when item has magic bonus`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -145,7 +145,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has negative magic bonus`, () => {
+    it(`should say it has details when item has negative magic bonus`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -158,7 +158,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has Charged attribute`, () => {
+    it(`should say it has details when item has Charged attribute`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -171,7 +171,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has a special ability`, () => {
+    it(`should say it has details when item has a special ability`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -184,7 +184,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has a curse`, () => {
+    it(`should say it has details when item has a curse`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -197,7 +197,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when item has intelligence`, () => {
+    it(`should say it has details when item has intelligence`, () => {
       component.item = new Item('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -210,7 +210,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has no list when armor is boring`, () => {
+    it(`should say it has no details when armor is boring`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -223,7 +223,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeFalse();
     });
   
-    it(`should say it has list when armor has contents`, () => {
+    it(`should say it has details when armor has contents`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = ['my content'];
       component.item.traits = [];
@@ -236,7 +236,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has traits`, () => {
+    it(`should say it has details when armor has traits`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = ['my trait'];
@@ -249,7 +249,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has magic bonus`, () => {
+    it(`should say it has details when armor has magic bonus`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -262,7 +262,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has negative magic bonus`, () => {
+    it(`should say it has details when armor has negative magic bonus`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -275,7 +275,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has Charged attribute`, () => {
+    it(`should say it has details when armor has Charged attribute`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -288,7 +288,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has a special ability`, () => {
+    it(`should say it has details when armor has a special ability`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -301,7 +301,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has a curse`, () => {
+    it(`should say it has details when armor has a curse`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -314,7 +314,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has intelligence`, () => {
+    it(`should say it has details when armor has intelligence`, () => {
       component.item = new Armor('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -327,7 +327,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when armor has armor bonus`, () => {
+    it(`should say it has details when armor has armor bonus`, () => {
       let armor = new Armor('my item', 'MyItemType');
       armor.contents = [];
       armor.traits = [];
@@ -343,7 +343,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`BUG - should say it has list when armor has cursed armor bonus`, () => {
+    it(`BUG - should say it has details when armor has cursed armor bonus`, () => {
       let armor = new Armor('my item', 'MyItemType');
       armor.contents = [];
       armor.traits = [];
@@ -359,7 +359,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has no list weapon item is boring`, () => {
+    it(`should say it has no details weapon item is boring`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -372,7 +372,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeFalse();
     });
   
-    it(`should say it has list when weapon has contents`, () => {
+    it(`should say it has details when weapon has contents`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = ['my content'];
       component.item.traits = [];
@@ -385,7 +385,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has traits`, () => {
+    it(`should say it has details when weapon has traits`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = ['my trait'];
@@ -398,7 +398,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has magic bonus`, () => {
+    it(`should say it has details when weapon has magic bonus`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -411,7 +411,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has negative magic bonus`, () => {
+    it(`should say it has details when weapon has negative magic bonus`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -424,7 +424,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has Charged attribute`, () => {
+    it(`should say it has details when weapon has Charged attribute`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -437,7 +437,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has a special ability`, () => {
+    it(`should say it has details when weapon has a special ability`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -450,7 +450,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has a curse`, () => {
+    it(`should say it has details when weapon has a curse`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -463,7 +463,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has intelligence`, () => {
+    it(`should say it has details when weapon has intelligence`, () => {
       component.item = new Weapon('my item', 'MyItemType');
       component.item.contents = [];
       component.item.traits = [];
@@ -476,7 +476,7 @@ describe('ItemComponent', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has list when weapon has damage description`, () => {
+    it(`should say it has details when weapon has damage description`, () => {
       let weapon = new Weapon('my item', 'MyItemType');
       weapon.contents = [];
       weapon.traits = [];
@@ -518,7 +518,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', false);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', false);
     });
   
     it(`should render a boring item with quantity of 2`, () => {
@@ -528,7 +528,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x2)', false);
+      expectDetails('dndgen-details.item-header', 'my item (x2)', false);
     });
   
     it(`should render an item with contents`, () => {
@@ -538,9 +538,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-contents');
-      expectCollapsibleList('li.item-contents > dndgen-details', 'Contents', true);
+      expectDetails('li.item-contents > dndgen-details', 'Contents', true);
 
       const itemContentsListItems = getAll('li.item-content', ['li.item-contents', 'dndgen-details', 'ul']);
       expect(itemContentsListItems).toBeDefined();
@@ -596,15 +596,15 @@ describe('ItemComponent', () => {
       expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
     }
 
-    function expectCollapsibleList(selector: string, heading: string, hasDetails: boolean) {
+    function expectDetails(selector: string, heading: string, hasDetails: boolean) {
       const element = fixture.debugElement.query(By.css(selector));
       expect(element).toBeDefined();
       expect(element.componentInstance).toBeDefined();
       expect(element.componentInstance).toBeInstanceOf(DetailsComponent);
 
-      const list = element.componentInstance as DetailsComponent;
-      expect(list.heading).toEqual(heading);
-      expect(list.hasDetails).toBe(hasDetails);
+      const details = element.componentInstance as DetailsComponent;
+      expect(details.heading).toEqual(heading);
+      expect(details.hasDetails).toBe(hasDetails);
     }
   
     it(`should render an item with traits`, () => {
@@ -614,9 +614,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-traits');
-      expectCollapsibleList('li.item-traits > dndgen-details', 'Traits', true);
+      expectDetails('li.item-traits > dndgen-details', 'Traits', true);
 
       const itemTraitsListItems = getAll('li.item-trait', ['li.item-traits', 'dndgen-details', 'ul']);
       expect(itemTraitsListItems).toBeDefined();
@@ -644,7 +644,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -660,7 +660,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -676,7 +676,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -692,7 +692,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -711,9 +711,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-special-abilities');
-      expectCollapsibleList('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
+      expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
 
       const listItems = getAll('li.item-magic-special-ability', ['li.item-magic-special-abilities', 'dndgen-details', 'ul']);
       expect(listItems).toBeDefined();
@@ -730,7 +730,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -747,7 +747,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -763,7 +763,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-curse');
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -794,9 +794,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -822,7 +822,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -864,9 +864,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -892,7 +892,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       
       const languages = getAll('li', ['li.item-magic-intelligence-languages', 'dndgen-details', 'ul']);
       expect(languages).toBeDefined();
@@ -941,9 +941,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -969,7 +969,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -1019,9 +1019,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       const listItems = getAll('ul.item-magic-intelligence-details > li', ['li.item-magic-intelligence', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1047,7 +1047,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -1079,9 +1079,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-armor');
-      expectCollapsibleList('li.item-armor > dndgen-details', 'Armor', true);
+      expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
       const listItems = getAll('ul.item-armor-details > li', ['li.item-armor', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1114,9 +1114,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-armor');
-      expectCollapsibleList('li.item-armor > dndgen-details', 'Armor', true);
+      expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
       const listItems = getAll('ul.item-armor-details > li', ['li.item-armor', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1134,9 +1134,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-weapon');
-      expectCollapsibleList('li.item-weapon > dndgen-details', 'Weapon', true);
+      expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
       const listItems = getAll('ul.item-weapon-details > li', ['li.item-weapon', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1177,9 +1177,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-weapon');
-      expectCollapsibleList('li.item-weapon > dndgen-details', 'Weapon', true);
+      expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
       const listItems = getAll('ul.item-weapon-details > li', ['li.item-weapon', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1208,9 +1208,9 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x1)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x1)', true);
       expectOnlyToShow('li.item-weapon');
-      expectCollapsibleList('li.item-weapon > dndgen-details', 'Weapon', true);
+      expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
       const listItems = getAll('ul.item-weapon-details > li', ['li.item-weapon', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1258,7 +1258,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x9266)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x9266)', true);
       expectHasAttribute('li.item-contents', 'hidden', false);
       expectHasAttribute('li.item-traits', 'hidden', false);
       expectHasAttribute('li.item-magic-bonus', 'hidden', false);
@@ -1266,10 +1266,10 @@ describe('ItemComponent', () => {
       expectHasAttribute('li.item-magic-charges', 'hidden', false);
       expectHasAttribute('li.item-magic-curse', 'hidden', false);
       expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
-      expectCollapsibleList('li.item-contents > dndgen-details', 'Contents', true);
-      expectCollapsibleList('li.item-traits > dndgen-details', 'Traits', true);
-      expectCollapsibleList('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-contents > dndgen-details', 'Contents', true);
+      expectDetails('li.item-traits > dndgen-details', 'Traits', true);
+      expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       let listItems = getAll('li.item-content', ['li.item-contents', 'dndgen-details', 'ul']);
       expect(listItems).toBeDefined();
@@ -1326,7 +1326,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       
       const languages = getAll('li', ['li.item-magic-intelligence-languages', 'dndgen-details', 'ul']);
       expect(languages).toBeDefined();
@@ -1406,7 +1406,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x9266)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x9266)', true);
       expectHasAttribute('li.item-contents', 'hidden', false);
       expectHasAttribute('li.item-traits', 'hidden', false);
       expectHasAttribute('li.item-magic-bonus', 'hidden', false);
@@ -1414,10 +1414,10 @@ describe('ItemComponent', () => {
       expectHasAttribute('li.item-magic-charges', 'hidden', false);
       expectHasAttribute('li.item-magic-curse', 'hidden', false);
       expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
-      expectCollapsibleList('li.item-contents > dndgen-details', 'Contents', true);
-      expectCollapsibleList('li.item-traits > dndgen-details', 'Traits', true);
-      expectCollapsibleList('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-contents > dndgen-details', 'Contents', true);
+      expectDetails('li.item-traits > dndgen-details', 'Traits', true);
+      expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       let listItems = getAll('li.item-content', ['li.item-contents', 'dndgen-details', 'ul']);
       expect(listItems).toBeDefined();
@@ -1474,7 +1474,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       
       const languages = getAll('li', ['li.item-magic-intelligence-languages', 'dndgen-details', 'ul']);
       expect(languages).toBeDefined();
@@ -1518,7 +1518,7 @@ describe('ItemComponent', () => {
       expect(armorElement).toBeDefined();
       expectHasAttribute('li.item-armor', 'hidden', false);
       
-      expectCollapsibleList('li.item-armor > dndgen-details', 'Armor', true);
+      expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
       listItems = getAll('ul.item-armor-details > li', ['li.item-armor', 'dndgen-details']);
       expect(listItems).toBeDefined();
@@ -1569,7 +1569,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      expectCollapsibleList('dndgen-details.item-header', 'my item (x9266)', true);
+      expectDetails('dndgen-details.item-header', 'my item (x9266)', true);
       expectHasAttribute('li.item-contents', 'hidden', false);
       expectHasAttribute('li.item-traits', 'hidden', false);
       expectHasAttribute('li.item-magic-bonus', 'hidden', false);
@@ -1577,10 +1577,10 @@ describe('ItemComponent', () => {
       expectHasAttribute('li.item-magic-charges', 'hidden', false);
       expectHasAttribute('li.item-magic-curse', 'hidden', false);
       expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
-      expectCollapsibleList('li.item-contents > dndgen-details', 'Contents', true);
-      expectCollapsibleList('li.item-traits > dndgen-details', 'Traits', true);
-      expectCollapsibleList('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
-      expectCollapsibleList('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
+      expectDetails('li.item-contents > dndgen-details', 'Contents', true);
+      expectDetails('li.item-traits > dndgen-details', 'Traits', true);
+      expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
+      expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
       let listItems = getAll('li.item-content', ['li.item-contents', 'dndgen-details', 'ul']);
       expect(listItems).toBeDefined();
@@ -1637,7 +1637,7 @@ describe('ItemComponent', () => {
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
       expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
-      expectCollapsibleList('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
+      expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       
       const languages = getAll('li', ['li.item-magic-intelligence-languages', 'dndgen-details', 'ul']);
       expect(languages).toBeDefined();
@@ -1684,7 +1684,7 @@ describe('ItemComponent', () => {
       expect(weaponElement).toBeDefined();
       expectHasAttribute('li.item-weapon', 'hidden', false);
       
-      expectCollapsibleList('li.item-weapon > dndgen-details', 'Weapon', true);
+      expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
       listItems = getAll('ul.item-weapon-details > li', ['li.item-weapon', 'dndgen-details']);
       expect(listItems).toBeDefined();

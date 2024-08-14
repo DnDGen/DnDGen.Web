@@ -15,6 +15,7 @@ import { TreasureFormatterService } from './services/treasureFormatter.service';
   styleUrls: ['./treasuregen.component.css'],
   providers: [
     TreasureService,
+    // TreasureFormatterService,
   ]
 })
 
@@ -42,15 +43,15 @@ export class TreasureGenComponent implements OnInit {
     this.power = this.treasureModel.powers[0];
     this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
 
-    this.validateTreasure(this.treasureType, this.level);
-    this.validateItem(this.itemType.itemType, this.power, this.itemName);
+    // this.validateTreasure(this.treasureType, this.level);
+    // this.validateItem(this.itemType.itemType, this.power, this.itemName);
   }
 
   public treasureModel!: TreasureGenViewModel;
   public itemNames!: string[];
   @Input() level = 1;
   @Input() treasureType = '';
-  @Input() itemType: ItemTypeViewModel = this.treasureModel.itemTypeViewModels[0];
+  @Input() itemType: ItemTypeViewModel = new ItemTypeViewModel();
   @Input() power = '';
   @Input() itemName = null;
 
