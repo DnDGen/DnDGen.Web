@@ -22,7 +22,7 @@ export class ItemComponent {
     return this.item instanceof Weapon;
   }
 
-  public hasList(): boolean {
+  public hasDetails(): boolean {
     if (!this.item)
       return false;
 

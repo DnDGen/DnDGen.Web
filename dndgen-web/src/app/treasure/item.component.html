@@ -1,32 +1,32 @@
 <div>
-  <dndgen-collapsible-list class="item-header" heading="{{item.name}} (x{{item.quantity}})" [hasList]="hasList()">
+  <dndgen-details class="item-header" heading="{{item.name}} (x{{item.quantity}})" [hasDetails]="hasDetails()">
     <ul>
       <li class="item-contents" [hidden]="item.contents.length == 0">
-        <dndgen-collapsible-list heading="Contents" [hasList]="true">
+        <dndgen-details heading="Contents" [hasDetails]="true">
           <ul>
             <li class="item-content" *ngFor="let content of item.contents">{{content}}</li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
       <li class="item-traits" [hidden]="item.traits.length == 0">
-        <dndgen-collapsible-list heading="Traits" [hasList]="true">
+        <dndgen-details heading="Traits" [hasDetails]="true">
           <ul>
             <li class="item-trait" *ngFor="let trait of item.traits">{{trait}}</li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
       <li class="item-magic-bonus" [hidden]="item.magic.bonus == 0">Bonus: {{item.magic.bonus > 0 ? '+' : ''}}{{item.magic.bonus}}</li>
       <li class="item-magic-special-abilities" [hidden]="item.magic.specialAbilities.length == 0">
-        <dndgen-collapsible-list heading="Special Abilities" [hasList]="true">
+        <dndgen-details heading="Special Abilities" [hasDetails]="true">
           <ul>
             <li class="item-magic-special-ability" *ngFor="let ability of item.magic.specialAbilities">{{ability.name}}</li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
       <li class="item-magic-charges" [hidden]="item.attributes.indexOf('Charged') == -1">Charges: {{item.magic.charges}}</li>
       <li class="item-magic-curse" [hidden]="item.magic.curse.length == 0">Curse: {{item.magic.curse}}</li>
       <li class="item-magic-intelligence" [hidden]="item.magic.intelligence.ego == 0">
-        <dndgen-collapsible-list heading="Intelligence" [hasList]="true">
+        <dndgen-details heading="Intelligence" [hasDetails]="true">
           <ul class="item-magic-intelligence-details">
             <li>Ego: {{item.magic.intelligence.ego}}</li>
             <li>Intelligence: {{item.magic.intelligence.intelligenceStat}}</li>
@@ -38,11 +38,11 @@
               <ul class="item-magic-intelligence-communication-details">
                 <li *ngFor="let method of item.magic.intelligence.communication">{{method}}</li>
                 <li class="item-magic-intelligence-languages" [hidden]="item.magic.intelligence.languages.length == 0">
-                  <dndgen-collapsible-list heading="Languages" [hasList]="item.magic.intelligence.languages.length > 0">
+                  <dndgen-details heading="Languages" [hasDetails]="item.magic.intelligence.languages.length > 0">
                     <ul>
                       <li *ngFor="let language of item.magic.intelligence.languages">{{language}}</li>
                     </ul>
-                  </dndgen-collapsible-list>
+                  </dndgen-details>
                 </li>
               </ul>
             </li>
@@ -61,20 +61,20 @@
             </li>
             <li class="item-magic-intelligence-personality">Personality: <span *ngIf="item.magic.intelligence.personality.length > 0">{{item.magic.intelligence.personality}}</span><span *ngIf="item.magic.intelligence.personality.length == 0">None</span></li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
       <li class="item-armor" *ngIf="isArmor()">
-        <dndgen-collapsible-list heading="Armor" [hasList]="true">
+        <dndgen-details heading="Armor" [hasDetails]="true">
           <ul class="item-armor-details">
             <li>Size: {{armor.size}}</li>
             <li>Armor Bonus: {{armor.totalArmorBonus}}</li>
             <li>Armor Check Penalty: {{armor.totalArmorCheckPenalty}}</li>
             <li class="item-armor-max-dex" [hidden]="armor.totalMaxDexterityBonus >= 100">Max Dexterity Bonus: {{armor.totalMaxDexterityBonus}}</li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
       <li class="item-weapon" *ngIf="isWeapon()">
-        <dndgen-collapsible-list heading="Weapon" [hasList]="true">
+        <dndgen-details heading="Weapon" [hasDetails]="true">
           <ul class="item-weapon-details">
             <li>Size: {{weapon.size}}</li>
             <li>Combat Types: {{weapon.combatTypes.join(", ")}}</li>
@@ -85,8 +85,8 @@
             <li class="item-weapon-2nd-crit" [hidden]="!weapon.isDoubleWeapon">Secondary Critical Damage: {{weapon.secondaryCriticalDamageDescription}}</li>
             <li class="item-weapon-ammo" [hidden]="!weapon.ammunition">Ammunition Used: {{weapon.ammunition}}</li>
           </ul>
-        </dndgen-collapsible-list>
+        </dndgen-details>
       </li>
     </ul>
-  </dndgen-collapsible-list>
+  </dndgen-details>
 </div>

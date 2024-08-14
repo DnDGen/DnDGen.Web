@@ -10,7 +10,7 @@ import { routes } from './app.routes';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { CollapsibleListComponent } from './shared/collapsibleList.component';
+import { DetailsComponent } from './shared/details.component';
 import { InchesToFeetPipe } from './shared/inchesToFeet.pipe';
 
 import { RollGenComponent } from './roll/rollgen.component';
@@ -32,7 +32,7 @@ import { ItemComponent } from './treasure/item.component';
         ErrorComponent,
 
         //Shared
-        CollapsibleListComponent,
+        DetailsComponent,
         InchesToFeetPipe,
 
         //RollGen
