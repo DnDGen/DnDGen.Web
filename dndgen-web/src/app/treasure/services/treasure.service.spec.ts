@@ -94,7 +94,7 @@ describe('Treasure Service', () => {
             const expected = new Item('my super item', 'my item type');
             httpClientSpy.get.and.returnValue(of(expected));
     
-            treasureService.getItem("myItemType", "super", null).subscribe((item) => {
+            treasureService.getItem("myItemType", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/generate');
                 done();
@@ -120,7 +120,7 @@ describe('Treasure Service', () => {
             const expected = new Armor('my super armor', 'armor', [], [], [], new Magic(), 1, [], false, 'my size', 9266);
             httpClientSpy.get.and.returnValue(of(expected));
     
-            treasureService.getItem("armor", "super", null).subscribe((item) => {
+            treasureService.getItem("armor", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/armor/power/super/generate');
                 
@@ -137,7 +137,7 @@ describe('Treasure Service', () => {
             const expected = new Weapon('my super weapon', 'weapon', [], [], [], new Magic(), 1, [], false, 'my size', 'my damage description');
             httpClientSpy.get.and.returnValue(of(expected));
     
-            treasureService.getItem("weapon", "super", null).subscribe((item) => {
+            treasureService.getItem("weapon", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/weapon/power/super/generate');
                 
@@ -153,7 +153,7 @@ describe('Treasure Service', () => {
         it('validates a valid item', done => {
             httpClientSpy.get.and.returnValue(of(true));
     
-            treasureService.validateItem("myItemType", "super", null).subscribe((validity) => {
+            treasureService.validateItem("myItemType", "super", '').subscribe((validity) => {
                 expect(validity).toBe(true);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
                 done();
@@ -176,7 +176,7 @@ describe('Treasure Service', () => {
         it('validates an invalid item', done => {
             httpClientSpy.get.and.returnValue(of(false));
     
-            treasureService.validateItem("myItemType", "super", null).subscribe((validity) => {
+            treasureService.validateItem("myItemType", "super", '').subscribe((validity) => {
                 expect(validity).toBeFalse();
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
                 done();
@@ -273,7 +273,7 @@ describe('Treasure Service', () => {
         });
     
         it('gets an item', done => {
-            treasureService.getItem('ring', 'minor', null).subscribe((item) => {
+            treasureService.getItem('ring', 'minor', '').subscribe((item) => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
@@ -294,7 +294,7 @@ describe('Treasure Service', () => {
         });
     
         it('BUG - gets armor', done => {
-            treasureService.getItem('armor', 'major', null).subscribe((item) => {
+            treasureService.getItem('armor', 'major', '').subscribe((item) => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
@@ -310,7 +310,7 @@ describe('Treasure Service', () => {
         });
     
         it('BUG - gets weapon', done => {
-            treasureService.getItem('weapon', 'mundane', null).subscribe((item) => {
+            treasureService.getItem('weapon', 'mundane', '').subscribe((item) => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
@@ -325,7 +325,7 @@ describe('Treasure Service', () => {
         });
     
         it('validates a valid item', done => {
-            treasureService.validateItem('potion', 'medium', null).subscribe((validity) => {
+            treasureService.validateItem('potion', 'medium', '').subscribe((validity) => {
                 expect(validity).toBe(true);
                 done();
             });
@@ -339,14 +339,14 @@ describe('Treasure Service', () => {
         });
     
         it('validates an invalid item - item type', done => {
-            treasureService.validateItem('vehicle', 'minor', null).subscribe((validity) => {
+            treasureService.validateItem('vehicle', 'minor', '').subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });
         });
     
         it('validates an invalid item - power', done => {
-            treasureService.validateItem('weapon', 'super', null).subscribe((validity) => {
+            treasureService.validateItem('weapon', 'super', '').subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });
@@ -360,7 +360,7 @@ describe('Treasure Service', () => {
         });
     
         it('validates an invalid item - bad combo', done => {
-            treasureService.validateItem('alchemicalitem', 'minor', null).subscribe((validity) => {
+            treasureService.validateItem('alchemicalitem', 'minor', '').subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });

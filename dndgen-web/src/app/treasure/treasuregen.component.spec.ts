@@ -5,10 +5,16 @@ import { TreasureService } from './services/treasure.service';
 import { TreasureFormatterService } from './services/treasureFormatter.service';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TreasureGenViewModel } from './models/treasuregenViewModel.model';
 import { FileSaverService } from '../shared/fileSaver.service';
 import { ItemTypeViewModel } from './models/itemTypeViewModel.model';
+import { Treasure } from './models/treasure.model';
+import { Coin } from './models/coin.model';
+import { Item } from './models/item.model';
+import { UuidService } from '../shared/uuid.service';
+import { By } from '@angular/platform-browser';
+import { TreasureComponent } from './treasure.component';
 
 describe('TreasureGenComponent', () => {
   describe('unit', () => {
@@ -18,6 +24,7 @@ describe('TreasureGenComponent', () => {
     let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
     let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
     let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
+    let idServiceSpy: jasmine.SpyObj<UuidService>;
 
     const delay = 10;
   
@@ -27,8 +34,9 @@ describe('TreasureGenComponent', () => {
       sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
       loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
       fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
+      idServiceSpy = jasmine.createSpyObj('UuidService', ['generate']);
 
-      component = new TreasureGenComponent(treasureServiceSpy, sweetAlertServiceSpy, fileSaverServiceSpy, treasureFormatterServiceSpy, loggerServiceSpy);
+      component = new TreasureGenComponent(treasureServiceSpy, sweetAlertServiceSpy, fileSaverServiceSpy, treasureFormatterServiceSpy, idServiceSpy, loggerServiceSpy);
     });
   
     it(`should initialize the public properties`, () => {
@@ -45,11 +53,12 @@ describe('TreasureGenComponent', () => {
       expect(component.level).toEqual(1);
       expect(component.treasureType).toEqual('');
       expect(component.power).toEqual('');
+      expect(component.itemType).toBeNull();
       expect(component.itemName).toBeNull();
     });
 
-    it('should be validating while fetching the treasure model', fakeAsync(() => {
-      const model = new TreasureGenViewModel(
+    function getViewModel(): TreasureGenViewModel {
+      return new TreasureGenViewModel(
         ['treasure type 1', 'treasure type 2'],
         9266,
         [
@@ -62,6 +71,10 @@ describe('TreasureGenComponent', () => {
           'it2': ['item 3', 'item 4'],
         }
       );
+    }
+
+    it('should be validating while fetching the treasure model', fakeAsync(() => {
+      const model = getViewModel();
       treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
 
       component.ngOnInit();
@@ -87,19 +100,7 @@ describe('TreasureGenComponent', () => {
     }
 
     it('should set the treasure model on init', fakeAsync(() => {
-      const model = new TreasureGenViewModel(
-        ['treasure type 1', 'treasure type 2'],
-        9266,
-        [
-          new ItemTypeViewModel('it1', 'Item Type 1'),
-          new ItemTypeViewModel('it2', 'Item Type 2'),
-        ],
-        ['power 1', 'power 2'],
-        {
-          'it1': ['item 1', 'item 2'],
-          'it2': ['item 3', 'item 4'],
-        }
-      );
+      const model = getViewModel();
       treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
 
       component.ngOnInit();
@@ -113,7 +114,11 @@ describe('TreasureGenComponent', () => {
       expect(component.treasureModel).toEqual(model);
       expect(component.validating).toBeFalse();
 
-      expect('TODO check inputs set from model').toBe('');
+      expect(component.level).toEqual(1);
+      expect(component.treasureType).toEqual('treasure type 1');
+      expect(component.power).toEqual('power 1');
+      expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
+      expect(component.itemNames).toEqual(['item 1', 'item 2']);
     }));
 
     it('should display error from getting treasure model', fakeAsync(() => {
@@ -140,24 +145,24 @@ describe('TreasureGenComponent', () => {
       });
     }
 
-    it('should validate a roll - invalid if no quantity', () => {
-      component.validateRoll(0, 90210);
+    it('should validate treasure - invalid if no treasure type', () => {
+      component.validateTreasure('', 9266);
       expect(component.validating).toBeFalse();
-      expect(component.rollIsValid).toBeFalse();
+      expect(component.validTreasure).toBeFalse();
     });
 
-    it('should validate a roll - invalid if no die', () => {
-      component.validateRoll(9266, 0);
+    it('should validate treasure - invalid if no level', () => {
+      component.validateTreasure('my treasure type', 0);
       expect(component.validating).toBeFalse();
-      expect(component.rollIsValid).toBeFalse();
+      expect(component.validTreasure).toBeFalse();
     });
 
-    it('should be validating while validating the roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(true));
+    it('should be validating while validating the treasure', fakeAsync(() => {
+      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
 
-      component.validateRoll(9266, 90210);
+      component.validateTreasure('my treasure type', 9266);
 
-      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
+      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
       expect(component.validating).toBeTrue();
       
       tick(delay / 2);
@@ -167,188 +172,168 @@ describe('TreasureGenComponent', () => {
       flush();
     }));
 
-    it('should validate a valid roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(true));
+    it('should validate valid treasure', fakeAsync(() => {
+      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
 
-      component.validateRoll(9266, 90210);
+      component.validateTreasure('my treasure type', 9266);
 
-      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
+      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
       expect(component.validating).toBeTrue();
 
       tick(delay);
 
-      expect(component.rollIsValid).toBeTrue();
+      expect(component.validTreasure).toBeTrue();
       expect(component.validating).toBeFalse();
     }));
 
-    it('should validate an invalid roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(false));
+    it('should validate invalid treasure', fakeAsync(() => {
+      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(false));
 
-      component.validateRoll(9266, 90210);
+      component.validateTreasure('my treasure type', 9266);
 
-      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
+      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
       expect(component.validating).toBeTrue();
 
       tick(delay);
 
-      expect(component.rollIsValid).toBeFalse();
+      expect(component.validTreasure).toBeFalse();
       expect(component.validating).toBeFalse();
     }));
 
-    it('should display error from validating roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeError('I failed'));
+    it('should display error from validating treasure', fakeAsync(() => {
+      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeError('I failed'));
 
-      component.validateRoll(9266, 90210);
+      component.validateTreasure('my treasure type', 9266);
       tick(delay);
 
-      expect(component.rollIsValid).toBeFalse();
-      expect(component.roll).toEqual(0);
-      expect(component.rolling).toBeFalse();
+      expect(component.validTreasure).toBeFalse();
+      expect(component.validItem).toBeFalse();
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
       expect(component.validating).toBeFalse();
       
-      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
+      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
     }));
 
-    it('should be rolling while rolling a standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
+    it('should be generating while generating treasure', fakeAsync(() => {
+      setupOnInit();
 
-      component.rollStandard();
+      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(new Treasure(new Coin('munny', 9266))));
 
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling).toBeTrue();
+      component.generateTreasure();
+
+      expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
+      expect(component.generating).toBeTrue();
       
       tick(delay / 2);
 
-      expect(component.rolling).toBeTrue();
+      expect(component.generating).toBeTrue();
 
       flush();
     }));
 
-    it('should roll the default standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
+    function setupOnInit() {
+      const model = getViewModel();
+      treasureServiceSpy.getViewModel.and.returnValue(of(model));
 
-      component.rollStandard();
+      component.ngOnInit();
 
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling).toBeTrue();
+      tick();
+
+      expect(component.treasureModel).toBeDefined();
+      expect(component.treasureModel).toEqual(model);
+
+      expect(component.level).toEqual(1);
+      expect(component.treasureType).toEqual(model.treasureTypes[0]);
+      expect(component.power).toEqual(model.powers[0]);
+      expect(component.itemType).toEqual(model.itemTypeViewModels[0]);
+      expect(component.itemNames).toEqual(model.itemNames[model.itemTypeViewModels[0].itemType]);
+    }
+
+    it('should generate the default treasure', fakeAsync(() => {
+      setupOnInit();
+
+      let treasure = new Treasure(new Coin('munny', 9266));
+      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+
+      component.generateTreasure();
+
+      expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
+      expect(component.generating).toBeTrue();
 
       tick(delay);
 
-      expect(component.roll).toBe(90210);
-      expect(component.rolling).toBeFalse();
+      expect(component.treasure).toBe(treasure);
+      expect(component.generating).toBeFalse();
     }));
 
-    const standardDieIndicesTestCases = Array.from(Array(9).keys());
+    it(`should generate a non-default treasure`, fakeAsync(() => {
+      setupOnInit();
 
-    standardDieIndicesTestCases.forEach(test => {
-      it(`should roll a non-default standard roll - standard die index ${test}`, fakeAsync(() => {
-        rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-  
-        component.standardQuantity = 9266;
-        component.standardDie = component.standardDice[test];
-  
-        component.rollStandard();
-  
-        expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(9266, component.standardDice[test].die);
-        expect(component.rolling).toBeTrue();
-  
-        tick(delay);
-  
-        expect(component.roll).toBe(90210);
-        expect(component.rolling).toBeFalse();
-      }));
+      let treasure = new Treasure(new Coin('munny', 9266));
+      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+
+      component.treasureType = component.treasureModel.treasureTypes[1];
+      component.level = 90210;
+
+      component.generateTreasure();
+
+      expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 2', 9266);
+      expect(component.generating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.treasure).toBe(treasure);
+      expect(component.generating).toBeFalse();
+    }));
+
+    it('should display error from generating treasure', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.getTreasure.and.callFake(() => getFakeError('I failed'));
+
+      component.generateTreasure();
+      tick(delay);
+
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      expect(component.validTreasure).toBeTrue();
+      expect(component.validItem).toBeTrue();
+      
+      expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should validate an item - invalid if no item type', () => {
+      setupOnInit();
+
+      component.validateItem('', 'my power', '');
+      expect(component.validating).toBeFalse();
+      expect(component.validItem).toBeFalse();
     });
 
-    it('should display error from rolling a standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeError('I failed'));
+    it('should validate an item - invalid if no power', () => {
+      setupOnInit();
 
-      component.rollStandard();
-      tick(delay);
-
-      expect(component.roll).toEqual(0);
-      expect(component.rolling).toBeFalse();
+      component.validateItem('my item type', '', '');
       expect(component.validating).toBeFalse();
-      
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should be rolling while rolling a custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.rollCustom();
-
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
-      expect(component.rolling).toBeTrue();
-      
-      tick(delay / 2);
-
-      expect(component.rolling).toBeTrue();
-
-      flush();
-    }));
-
-    it('should roll the default custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.rollCustom();
-
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
-      expect(component.rolling).toBeTrue();
-
-      tick(delay);
-
-      expect(component.roll).toBe(90210);
-      expect(component.rolling).toBeFalse();
-    }));
-
-    it(`should roll a non-default custom roll`, fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.customQuantity = 9266;
-      component.customDie = 42;
-
-      component.rollCustom();
-
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(9266, 42);
-      expect(component.rolling).toBeTrue();
-
-      tick(delay);
-
-      expect(component.roll).toBe(90210);
-      expect(component.rolling).toBeFalse();
-    }));
-
-    it('should display error from rolling a custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeError('I failed'));
-
-      component.rollCustom();
-      tick(delay);
-
-      expect(component.roll).toEqual(0);
-      expect(component.rolling).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should validate a expression - invalid if empty', () => {
-      component.validateExpression('');
-      expect(component.validating).toBeFalse();
-      expect(component.rollIsValid).toBeFalse();
+      expect(component.validItem).toBeFalse();
     });
 
-    it('should be validating while validating the expression', fakeAsync(() => {
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
+    it('should be validating while validating an item', fakeAsync(() => {
+      setupOnInit();
 
-      component.validateExpression('my expression');
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
+      component.validateItem('my item type', 'my power', '');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
       expect(component.validating).toBeTrue();
       
       tick(delay / 2);
@@ -358,113 +343,381 @@ describe('TreasureGenComponent', () => {
       flush();
     }));
 
-    it('should validate a valid expression', fakeAsync(() => {
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
+    it('should be validating while validating an item with name', fakeAsync(() => {
+      setupOnInit();
 
-      component.validateExpression('my expression');
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
+      component.validateItem('my item type', 'my power', 'my name');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
       expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.rollIsValid).toBeTrue();
-      expect(component.validating).toBeFalse();
-    }));
-
-    it('should validate an invalid expression', fakeAsync(() => {
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(false));
-
-      component.validateExpression('my expression');
-
-      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.rollIsValid).toBeFalse();
-      expect(component.validating).toBeFalse();
-    }));
-
-    it('should display error from validating expression', fakeAsync(() => {
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeError('I failed'));
-
-      component.validateExpression('my expression');
-      tick(delay);
-
-      expect(component.rollIsValid).toBeFalse();
-      expect(component.roll).toEqual(0);
-      expect(component.rolling).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should be rolling while rolling an expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.rollExpression();
-
-      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
-      expect(component.rolling).toBeTrue();
       
       tick(delay / 2);
 
-      expect(component.rolling).toBeTrue();
+      expect(component.validating).toBeTrue();
 
       flush();
     }));
 
-    it('should roll the default expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
+    it('should validate a valid item', fakeAsync(() => {
+      setupOnInit();
 
-      component.rollExpression();
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
-      expect(component.rolling).toBeTrue();
+      component.validateItem('my item type', 'my power', '');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
+      expect(component.validating).toBeTrue();
 
       tick(delay);
 
-      expect(component.roll).toBe(90210);
-      expect(component.rolling).toBeFalse();
+      expect(component.validItem).toBeTrue();
+      expect(component.validating).toBeFalse();
     }));
 
-    it(`should roll a non-default expression`, fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
+    it('should validate a valid item with name', fakeAsync(() => {
+      setupOnInit();
 
-      component.expression = 'my custom expression';
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      component.rollExpression();
+      component.validateItem('my item type', 'my power', 'my name');
 
-      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('my custom expression');
-      expect(component.rolling).toBeTrue();
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
+      expect(component.validating).toBeTrue();
 
       tick(delay);
 
-      expect(component.roll).toBe(90210);
-      expect(component.rolling).toBeFalse();
+      expect(component.validItem).toBeTrue();
+      expect(component.validating).toBeFalse();
     }));
 
-    it('should display error from rolling an expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeError('I failed'));
+    it('should validate an invalid item', fakeAsync(() => {
+      setupOnInit();
 
-      component.rollExpression();
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+
+      component.validateItem('my item type', 'my power', '');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
+      expect(component.validating).toBeTrue();
+
       tick(delay);
 
-      expect(component.roll).toEqual(0);
-      expect(component.rolling).toBeFalse();
+      expect(component.validItem).toBeFalse();
+      expect(component.validating).toBeFalse();
+    }));
+
+    it('should validate an invalid item with name', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+
+      component.validateItem('my item type', 'my power', 'my name');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
+      expect(component.validating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.validItem).toBeFalse();
+      expect(component.validating).toBeFalse();
+    }));
+
+    it('should display error from validating item', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
+
+      component.validateItem('my item type', 'my power', '');
+      tick(delay);
+
+      expect(component.validTreasure).toBeFalse();
+      expect(component.validItem).toBeFalse();
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
       expect(component.validating).toBeFalse();
       
-      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
     }));
+
+    it('should display error from validating item with name', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
+
+      component.validateItem('my item type', 'my power', 'my name');
+      tick(delay);
+
+      expect(component.validTreasure).toBeFalse();
+      expect(component.validItem).toBeFalse();
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should be generating while generating an item', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
+      expect(component.generating).toBeTrue();
+      
+      tick(delay / 2);
+
+      expect(component.generating).toBeTrue();
+
+      flush();
+    }));
+
+    it('should be generating while generating an item with name', fakeAsync(() => {
+      setupOnInit();
+      
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+
+      component.itemName = component.itemNames[0];
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
+      expect(component.generating).toBeTrue();
+      
+      tick(delay / 2);
+
+      expect(component.generating).toBeTrue();
+
+      flush();
+    }));
+
+    it('should generate the default item', fakeAsync(() => {
+      setupOnInit();
+
+      let item = new Item('my item', 'my item type');
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
+      expect(component.generating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.item).toBe(item);
+      expect(component.generating).toBeFalse();
+    }));
+
+    it('should generate the default item with name', fakeAsync(() => {
+      setupOnInit();
+
+      let item = new Item('my item', 'my item type');
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+
+      component.itemName = component.itemNames[0];
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
+      expect(component.generating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.item).toBe(item);
+      expect(component.generating).toBeFalse();
+    }));
+
+    it(`should generate a non-default item`, fakeAsync(() => {
+      setupOnInit();
+
+      let item = new Item('my item', 'my item type');
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+
+      component.itemType = component.treasureModel.itemTypeViewModels[1];
+      component.power = component.treasureModel.powers[1];
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', '');
+      expect(component.generating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.item).toBe(item);
+      expect(component.generating).toBeFalse();
+    }));
+
+    it(`should generate a non-default item with name`, fakeAsync(() => {
+      setupOnInit();
+
+      let item = new Item('my item', 'my item type');
+      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+
+      component.itemType = component.treasureModel.itemTypeViewModels[1];
+      component.power = component.treasureModel.powers[1];
+
+      component.updateItemNames(component.itemType);
+      component.itemName = component.itemNames[1];
+
+      component.generateItem();
+
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', 'item 4');
+      expect(component.generating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.item).toBe(item);
+      expect(component.generating).toBeFalse();
+    }));
+
+    it('should display error from generating an item', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
+
+      component.generateItem();
+      tick(delay);
+
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      expect(component.validTreasure).toBeTrue();
+      expect(component.validItem).toBeTrue();
+      
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should display error from generating an item with name', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
+
+      component.itemName = component.itemNames[1];
+
+      component.generateItem();
+      tick(delay);
+
+      expect(component.treasure).toBeNull();
+      expect(component.item).toBeNull();
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      expect(component.validTreasure).toBeTrue();
+      expect(component.validItem).toBeTrue();
+      
+      expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 2');
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should update item names to valid name', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+
+      component.updateItemNames(component.treasureModel.itemTypeViewModels[1]);
+
+      expect(component.itemNames).toEqual(component.treasureModel.itemNames['it2']);
+      expect(component.itemName).toEqual('');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
+      expect(component.validating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.validItem).toBeTrue();
+      expect(component.validating).toBeFalse();
+    }));
+
+    it('should update item names to invalid name', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+
+      component.updateItemNames(component.treasureModel.itemTypeViewModels[1]);
+
+      expect(component.itemNames).toEqual(component.treasureModel.itemNames['it2']);
+      expect(component.itemName).toEqual('');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
+      expect(component.validating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.validItem).toBeFalse();
+      expect(component.validating).toBeFalse();
+    }));
+
+    it('should download treasure', () => {
+      let treasure = new Treasure(new Coin('munny', 9266));
+      component.treasure = treasure;
+
+      treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
+      idServiceSpy.generate.and.returnValue('abc');
+
+      component.downloadTreasure();
+
+      expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure abc');
+    });
+
+    it('should not download missing treasure', () => {
+      component.treasure = null;
+
+      component.downloadTreasure();
+      
+      expect(treasureFormatterServiceSpy.formatTreasure).not.toHaveBeenCalled();
+      expect(idServiceSpy.generate).not.toHaveBeenCalled();
+      expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
+    });
+
+    it('should not download empty treasure', () => {
+      component.treasure = new Treasure(new Coin(), [], []);
+
+      component.downloadTreasure();
+      
+      expect(treasureFormatterServiceSpy.formatTreasure).not.toHaveBeenCalled();
+      expect(idServiceSpy.generate).not.toHaveBeenCalled();
+      expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
+    });
+
+    it('should download item', () => {
+      let item = new Item('my item', 'my item type');
+      component.item = item;
+
+      treasureFormatterServiceSpy.formatItem.and.returnValue('my formatted item');
+      idServiceSpy.generate.and.returnValue('123');
+
+      component.downloadTreasure();
+
+      expect(treasureFormatterServiceSpy.formatItem).toHaveBeenCalledWith(item);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item) 123');
+    });
+
+    it('should not download missing item', () => {
+      component.item = null;
+
+      component.downloadItem();
+      
+      expect(treasureFormatterServiceSpy.formatItem).not.toHaveBeenCalled();
+      expect(idServiceSpy.generate).not.toHaveBeenCalled();
+      expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
+    });
   });
 
   describe('integration', () => {
-    let fixture: ComponentFixture<RollGenComponent>;
+    let fixture: ComponentFixture<TreasureGenComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -473,7 +726,7 @@ describe('TreasureGenComponent', () => {
         ],
       }).compileComponents();
   
-      fixture = TestBed.createComponent(RollGenComponent);
+      fixture = TestBed.createComponent(TreasureGenComponent);
       
       //run ngOnInit
       await waitForService();
@@ -492,13 +745,19 @@ describe('TreasureGenComponent', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should set the roll model on init`, () => {
+    it(`should set the treasure model on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.rollModel).toBeDefined();
-      expect(component.rollModel.quantityLimit_Lower).toEqual(1);
-      expect(component.rollModel.quantityLimit_Upper).toEqual(10000);
-      expect(component.rollModel.dieLimit_Lower).toEqual(1);
-      expect(component.rollModel.dieLimit_Upper).toEqual(10000);
+      expect(component.treasureModel).toBeDefined();
+      expect(component.treasureModel.treasureTypes).toEqual(['Treasure', 'Coin', 'Goods', 'Items']);
+      expect(component.treasureModel.maxTreasureLevel).toEqual(100);
+      expect(component.treasureModel.powers).toEqual(['Mundane', 'Minor', 'Medium', 'Major']);
+      expect(component.treasureModel.itemTypeViewModels.length).toEqual(11);
+
+      for(var i = 0; i < component.treasureModel.itemTypeViewModels.length; i++) {
+        let itemType = component.treasureModel.itemTypeViewModels[i].itemType;
+        expect(component.treasureModel.itemNames[itemType]).toBeDefined();
+        expect(component.treasureModel.itemNames[itemType].length).toBeGreaterThan(0);
+      }
     });
   
     it(`should render the tabs`, () => {
@@ -506,16 +765,13 @@ describe('TreasureGenComponent', () => {
   
       const tabLinks = compiled.querySelectorAll('ul.nav-tabs > li > a.nav-link');
       expect(tabLinks).toBeDefined();
-      expect(tabLinks?.length).toEqual(3);
-      expect(tabLinks?.item(0).textContent).toEqual('Standard');
+      expect(tabLinks?.length).toEqual(2);
+      expect(tabLinks?.item(0).textContent).toEqual('Treasure');
       expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#standard');
-      expect(tabLinks?.item(1).textContent).toEqual('Custom');
+      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#treasure');
+      expect(tabLinks?.item(1).textContent).toEqual('Item');
       expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#custom');
-      expect(tabLinks?.item(2).textContent).toEqual('Expression');
-      expect(tabLinks?.item(2).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(2).getAttribute('href')).toEqual('#expression');
+      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#item');
     });
 
     function expectValidating(buttonSelector: string, validatingSelector: string) {
@@ -523,26 +779,26 @@ describe('TreasureGenComponent', () => {
       expectHasAttribute(validatingSelector, 'hidden', false);
     }
 
-    function expectRolling(buttonSelector: string, validatingSelector: string) {
+    function expectGenerating(buttonSelector: string, validatingSelector: string) {
       expectHasAttribute(buttonSelector, 'disabled', true);
       expectHasAttribute(validatingSelector, 'hidden', true);
-      expectHasAttribute('#rollSection', 'hidden', true);
-      expectHasAttribute('#rollingSection', 'hidden', false);
+      expectHasAttribute('#treasureSection', 'hidden', true);
+      expectHasAttribute('#generatingSection', 'hidden', false);
     }
 
     function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
       const compiled = fixture.nativeElement as HTMLElement;
 
-      const validatingSection = compiled!.querySelector(selector);
-      expect(validatingSection).toBeDefined();
-      expect(validatingSection?.hasAttribute(attribute)).toBe(hasAttribute);
+      const element = compiled!.querySelector(selector);
+      expect(element).toBeDefined();
+      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
     }
 
-    function expectRolled(buttonSelector: string, validatingSelector: string) {
+    function expectGenerated(buttonSelector: string, validatingSelector: string) {
       expectHasAttribute(buttonSelector, 'disabled', false);
       expectHasAttribute(validatingSelector, 'hidden', true);
-      expectHasAttribute('#rollSection', 'hidden', false);
-      expectHasAttribute('#rollingSection', 'hidden', true);
+      expectHasAttribute('#treasureSection', 'hidden', false);
+      expectHasAttribute('#generatingSection', 'hidden', true);
     }
 
     function expectInvalid(buttonSelector: string, validatingSelector: string) {
@@ -588,471 +844,222 @@ describe('TreasureGenComponent', () => {
       button.click();
     }
 
-    describe('the standard tab', () => {
-      it(`should render the standard tab`, () => {
+    describe('the treasure tab', () => {
+      it(`should render the treasure tab`, () => {
         const compiled = fixture.nativeElement as HTMLElement;
   
-        const standardTab = compiled.querySelector('#standard');
-        expect(standardTab).toBeDefined();
+        const treasureTab = compiled.querySelector('#treasure');
+        expect(treasureTab).toBeDefined();
         
-        const standardQuantityInput = standardTab!.querySelector('#standardQuantity') as HTMLInputElement;
-        expect(standardQuantityInput).toBeDefined();
-        expect(standardQuantityInput?.value).toEqual('1');
-        expect(standardQuantityInput?.getAttribute('type')).toEqual('number');
-        expect(standardQuantityInput?.getAttribute('min')).toEqual('1');
-        expect(standardQuantityInput?.getAttribute('max')).toEqual('10000');
-        expect(standardQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        expectHasAttribute('#standardQuantity', 'required', true);
+        const treasureTypesSelect = treasureTab!.querySelector('#treasureTypes');
+        expect(treasureTypesSelect).toBeDefined();
+        expectHasAttribute('#treasureTypes', 'required', true);
+  
+        const selectedTreasureType = treasureTab!.querySelector('#treasureTypes > option:checked');
+        expect(selectedTreasureType).toBeDefined();
+        expect(selectedTreasureType?.textContent).toEqual('Treasure');
+  
+        const TreasureTypeOptions = treasureTab!.querySelectorAll('#treasureTypes > option');
+        expect(TreasureTypeOptions).toBeDefined();
+        expect(TreasureTypeOptions?.length).toEqual(4);
+        expect(TreasureTypeOptions?.item(0).textContent).toEqual('Treasure');
+        expect(TreasureTypeOptions?.item(1).textContent).toEqual('Coin');
+        expect(TreasureTypeOptions?.item(2).textContent).toEqual('Goods');
+        expect(TreasureTypeOptions?.item(3).textContent).toEqual('Items');
+  
+        const levelInput = treasureTab!.querySelector('#treasureLevel') as HTMLInputElement;
+        expect(levelInput).toBeDefined();
+        expect(levelInput?.value).toEqual('1');
+        expect(levelInput?.getAttribute('type')).toEqual('number');
+        expect(levelInput?.getAttribute('min')).toEqual('1');
+        expect(levelInput?.getAttribute('max')).toEqual('100');
+        expect(levelInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
+        expectHasAttribute('#treasureLevel', 'required', true);
 
-        const standardDieSelect = standardTab!.querySelector('#standardDie');
-        expect(standardDieSelect).toBeDefined();
-        expectHasAttribute('#standardDie', 'required', true);
-  
-        const selectedStandardRoll = standardTab!.querySelector('#standardDie > option:checked');
-        expect(selectedStandardRoll).toBeDefined();
-        expect(selectedStandardRoll?.textContent).toEqual('20');
-  
-        const standardDieOptions = standardTab!.querySelectorAll('#standardDie > option');
-        expect(standardDieOptions).toBeDefined();
-        expect(standardDieOptions?.length).toEqual(9);
-        expect(standardDieOptions?.item(0).textContent).toEqual('2');
-        expect(standardDieOptions?.item(1).textContent).toEqual('3');
-        expect(standardDieOptions?.item(2).textContent).toEqual('4');
-        expect(standardDieOptions?.item(3).textContent).toEqual('6');
-        expect(standardDieOptions?.item(4).textContent).toEqual('8');
-        expect(standardDieOptions?.item(5).textContent).toEqual('10');
-        expect(standardDieOptions?.item(6).textContent).toEqual('12');
-        expect(standardDieOptions?.item(7).textContent).toEqual('20');
-        expect(standardDieOptions?.item(8).textContent).toEqual('Percentile');
-  
-        expectHasAttribute('#standardRollButton', 'disabled', false);
-        expectHasAttribute('#standardValidating', 'hidden', true);
+        expectHasAttribute('#treasureButton', 'disabled', false);
+        expectHasAttribute('#treasureValidating', 'hidden', true);
       });
     
-      it(`should show when validating a standard roll`, () => {
+      it(`should show when validating treasure`, () => {
         const component = fixture.componentInstance;
         component.validating = true;
   
         fixture.detectChanges();
 
-        expectValidating('#standardRollButton', '#standardValidating');
+        expectValidating('#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that a standard roll is invalid - missing standard quantity`, () => {
-        setInput('#standardQuantity', '');
+      it(`should show that treasure is invalid - missing level`, () => {
+        setInput('#treasureLevel', '');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardQuantity).toBeNull();
-        expectInvalid('#standardRollButton', '#standardValidating');
+        expect(fixture.componentInstance.level).toBeNull();
+        expectInvalid('#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that a standard roll is invalid - standard quantity invalid`, () => {
-        setInput('#standardQuantity', 'wrong');
+      it(`should show that treasure is invalid - level invalid`, () => {
+        setInput('#treasureLevel', 'wrong');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardQuantity).toBeNull();
-        expectInvalid('#standardRollButton', '#standardValidating');
+        expect(fixture.componentInstance.level).toBeNull();
+        expectInvalid('#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that a standard roll is invalid - standard quantity too low`, () => {
-        setInput('#standardQuantity', '0');
+      it(`should show that treasure is invalid - level too low`, () => {
+        setInput('#treasureLevel', '0');
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardQuantity).toEqual(0);
-        expectInvalid('#standardRollButton', '#standardValidating');
+        expect(fixture.componentInstance.level).toEqual(0);
+        expectInvalid('#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that a standard roll is invalid - standard quantity too high`, async () => {
-        setInput('#standardQuantity', '10001');
+      it(`should show that treasure is invalid - level too high`, async () => {
+        setInput('#treasureLevel', '101');
   
         fixture.detectChanges();
 
-        expect(fixture.componentInstance.standardQuantity).toEqual(10001);
-        expectValidating('#standardRollButton', '#standardValidating');
+        expect(fixture.componentInstance.level).toEqual(101);
+        expectValidating('#treasureButton', '#treasureValidating');
   
-        //run roll validation
+        //run validation
         await waitForService();
   
-        expectInvalid('#standardRollButton', '#standardValidating');
+        expectInvalid('#treasureButton', '#treasureValidating');
       });
     
-      const standardQuantityTestCases = [1, 2, 10, 20, 100, 1000, 10000];
+      const levelTestCases = [1, 2, 10, 20, 100];
 
-      standardQuantityTestCases.forEach(test => {
-        it(`should show that a standard roll is valid - standard quantity ${test}`, async () => {
-          setInput('#standardQuantity', test.toString());
+      levelTestCases.forEach(test => {
+        it(`should show that treasure is valid - level ${test}`, async () => {
+          setInput('#treasureLevel', test.toString());
     
           fixture.detectChanges();
     
-          expect(fixture.componentInstance.standardQuantity).toEqual(test);
-          expectValidating('#standardRollButton', '#standardValidating');
+          expect(fixture.componentInstance.level).toEqual(test);
+          expectValidating('#treasureButton', '#treasureValidating');
     
-          //run roll validation
+          //run validation
           await waitForService();
     
-          expectValid('#standardRollButton', '#standardValidating');
+          expectValid('#treasureButton', '#treasureValidating');
         });
       });
     
-      it(`should show that a standard roll is invalid - missing standard die`, () => {
-        setSelectByValue('#standardDie', '');
+      it(`should show that treasure is invalid - missing treasure type`, () => {
+        setSelectByValue('#treasureTypes', '');
   
         fixture.detectChanges();
   
-        expectInvalid('#standardRollButton', '#standardValidating');
+        expectInvalid('#treasureButton', '#treasureValidating');
       });
     
-      const standardDieIndicesTestCases = Array.from(Array(9).keys());
+      const treasureTypesIndicesTestCases = Array.from(Array(4).keys());
 
-      standardDieIndicesTestCases.forEach(test => {
-        it(`should show that a standard roll is valid - non-default standard die index ${test}`, () => {
-          setSelectByIndex('#standardDie', test);
+      treasureTypesIndicesTestCases.forEach(test => {
+        it(`should show that treasure is valid - non-default treasure type index ${test}`, () => {
+          setSelectByIndex('#treasureTypes', test);
     
           fixture.detectChanges();
     
-          expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[test]);
-          expectValid('#standardRollButton', '#standardValidating');
+          expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[test]);
+          expectValid('#treasureButton', '#treasureValidating');
         });
       });
 
-      it(`should show that a standard roll is invalid - validation fails`, async () => {
-        setInput('#standardQuantity', '66666');
-        setSelectByIndex('#standardDie', 4);
+      xit(`should show that treasure is invalid - validation fails`, () => {
+        expect('there are no invalid treasure combinations').toBe('');
+      });
+    
+      it(`should show that treasure is valid - validation succeeds`, async () => {
+        setInput('#treasureLevel', '42');
+        setSelectByIndex('#treasureTypes', 3);
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[4]);
-        expectValidating('#standardRollButton', '#standardValidating');
+        expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[5]);
+        expectValidating('#treasureButton', '#treasureValidating');
   
-        //run roll validation
-        await waitForService();
-
-        expectInvalid('#standardRollButton', '#standardValidating');
-      });
-    
-      it(`should show that a standard roll is valid - validation succeeds`, async () => {
-        setInput('#standardQuantity', '9266');
-        setSelectByIndex('#standardDie', 5);
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[5]);
-        expectValidating('#standardRollButton', '#standardValidating');
-  
-        //run roll validation
+        //run validation
         await waitForService();
   
-        expectValid('#standardRollButton', '#standardValidating');
+        expectValid('#treasureButton', '#treasureValidating');
       });
     
-      it(`should show when rolling a standard roll`, () => {
+      it(`should show when generating treasure`, () => {
         const component = fixture.componentInstance;
-        component.rolling = true;
+        component.generating = true;
   
         fixture.detectChanges();
 
-        expectRolling('#standardRollButton', '#standardValidating');
+        expectGenerating('#treasureButton', '#treasureValidating');
       });
     
-      it(`should roll the default standard roll`, async () => {
-        clickButton('#standardRollButton');
+      it(`should roll the default treasure`, async () => {
+        clickButton('#treasureButton');
   
         fixture.detectChanges();
         
-        expectRolling('#standardRollButton', '#standardValidating');
+        expectGenerating('#treasureButton', '#treasureValidating');
 
-        //run roll
+        //run generate treasure
         await waitForService();
   
-        expectRolled('#standardRollButton', '#standardValidating');
+        expectGenerated('#treasureButton', '#treasureValidating');
 
-        const compiled = fixture.nativeElement as HTMLElement;
-        const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
-        expect(rolledNumber).toBeGreaterThanOrEqual(1);
-        expect(rolledNumber).toBeLessThanOrEqual(20);
+        const element = fixture.debugElement.query(By.css('#treasureSection dndgen-treasure'));
+        expect(element).toBeDefined();
+        expect(element.componentInstance).toBeDefined();
+        expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
+  
+        const treasureComponent = element.componentInstance as TreasureComponent;
+        expect(treasureComponent.treasure).toBeDefined();
+        expect(treasureComponent.treasure).not.toBeNull();
       });
     
-      it(`should roll a non-default standard roll`, async () => {
-        setInput('#standardQuantity', '42');
-        setSelectByIndex('#standardDie', 2);
+      it(`should generate non-default treasure`, async () => {
+        setInput('#treasureLevel', '42');
+        setSelectByIndex('#treasureTypes', 2);
   
         fixture.detectChanges();
 
-        expect(fixture.componentInstance.standardQuantity).toEqual(42);
-        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[2]);
+        expect(fixture.componentInstance.level).toEqual(42);
+        expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[2]);
 
         //run validation
         await waitForService();
 
-        clickButton('#standardRollButton');
+        clickButton('#treasureButton');
   
         fixture.detectChanges();
         
-        expectRolling('#standardRollButton', '#standardValidating');
+        expectGenerating('#treasureButton', '#treasureValidating');
 
-        //run roll
+        //run generate treasure
         await waitForService();
   
-        expectRolled('#standardRollButton', '#standardValidating');
+        expectGenerated('#treasureButton', '#treasureValidating');
 
-        const compiled = fixture.nativeElement as HTMLElement;
-        const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
-        expect(rolledNumber).toBeGreaterThanOrEqual(42);
-        expect(rolledNumber).toBeLessThanOrEqual(42 * 4);
+        const element = fixture.debugElement.query(By.css('#treasureSection dndgen-treasure'));
+        expect(element).toBeDefined();
+        expect(element.componentInstance).toBeDefined();
+        expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
+  
+        const treasureComponent = element.componentInstance as TreasureComponent;
+        expect(treasureComponent.treasure).toBeDefined();
+        expect(treasureComponent.treasure).not.toBeNull();
+        expect(treasureComponent.treasure.isAny).toBeTrue();
+        expect(treasureComponent.treasure.coin).toBeDefined();
+        expect(treasureComponent.treasure.coin.currency).toBe('');
+        expect(treasureComponent.treasure.coin.quantity).toBe(0);
+        expect(treasureComponent.treasure.goods.length).toBeGreaterThan(0);
+        expect(treasureComponent.treasure.items).toEqual([]);
       });
     });
   
-    describe('the custom tab', () => {
-      it(`should render the custom tab`, () => {
-        const compiled = fixture.nativeElement as HTMLElement;
-  
-        const customTab = compiled.querySelector('#custom');
-        expect(customTab).toBeDefined();
-  
-        const customQuantityInput = customTab!.querySelector('#customQuantity') as HTMLInputElement;
-        expect(customQuantityInput).toBeDefined();
-        expect(customQuantityInput?.value).toEqual('1');
-        expect(customQuantityInput?.getAttribute('type')).toEqual('number');
-        expect(customQuantityInput?.getAttribute('min')).toEqual('1');
-        expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
-        expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        expectHasAttribute('#customQuantity', 'required', true);
-  
-        const customDieInput = customTab!.querySelector('#customDie') as HTMLInputElement;
-        expect(customDieInput).toBeDefined();
-        expect(customDieInput?.value).toEqual('5');
-        expect(customDieInput?.getAttribute('type')).toEqual('number');
-        expect(customDieInput?.getAttribute('min')).toEqual('1');
-        expect(customDieInput?.getAttribute('max')).toEqual('10000');
-        expect(customDieInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        expectHasAttribute('#customDie', 'required', true);
-  
-        expectHasAttribute('#customRollButton', 'disabled', false);
-        expectHasAttribute('#customValidating', 'hidden', true);
-      });
-    
-      it(`should show when validating a custom roll`, () => {
-        const component = fixture.componentInstance;
-        component.validating = true;
-  
-        fixture.detectChanges();
-
-        expectValidating('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - missing custom quantity`, () => {
-        setInput('#customQuantity', '');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customQuantity).toBeNull();
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom quantity invalid`, () => {
-        setInput('#customQuantity', 'wrong');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customQuantity).toBeNull();
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom quantity too low`, () => {
-        setInput('#customQuantity', '0');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customQuantity).toEqual(0);
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom quantity too high`, async () => {
-        setInput('#customQuantity', '10001');
-  
-        fixture.detectChanges();
-
-        expect(fixture.componentInstance.customQuantity).toEqual(10001);
-        expectValidating('#customRollButton', '#customValidating');
-  
-        //run roll validation
-        await waitForService();
-  
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      const validCustomInputTestCases = [1, 2, 10, 20, 100, 1000, 10000];
-
-      validCustomInputTestCases.forEach(test => {
-        it(`should show that a custom roll is valid - custom quantity ${test}`, async () => {
-          setInput('#customQuantity', test.toString());
-    
-          fixture.detectChanges();
-    
-          expect(fixture.componentInstance.customQuantity).toEqual(test);
-          expectValidating('#customRollButton', '#customValidating');
-    
-          //run roll validation
-          await waitForService();
-    
-          expectValid('#customRollButton', '#customValidating');
-        });
-      });
-    
-      it(`should show that a custom roll is invalid - missing custom die`, () => {
-        setInput('#customDie', '');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customDie).toBeNull();
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom die invalid`, () => {
-        setInput('#customDie', 'wrong');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customDie).toBeNull();
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom die too low`, () => {
-        setInput('#customDie', '0');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customDie).toEqual(0);
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is invalid - custom die too high`, async () => {
-        setInput('#customDie', '10001');
-  
-        fixture.detectChanges();
-
-        expect(fixture.componentInstance.customDie).toEqual(10001);
-        expectValidating('#customRollButton', '#customValidating');
-  
-        //run roll validation
-        await waitForService();
-  
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      validCustomInputTestCases.forEach(test => {
-        it(`should show that a custom roll is valid - custom die ${test}`, async () => {
-          setInput('#customDie', test.toString());
-    
-          fixture.detectChanges();
-    
-          expect(fixture.componentInstance.customDie).toEqual(test);
-          expectValidating('#customRollButton', '#customValidating');
-    
-          //run roll validation
-          await waitForService();
-    
-          expectValid('#customRollButton', '#customValidating');
-        });
-      });
-
-      it(`should show that a custom roll is invalid - validation fails`, async () => {
-        setInput('#customQuantity', '66666');
-        setInput('#customDie', '666666');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customQuantity).toEqual(66666);
-        expect(fixture.componentInstance.customDie).toEqual(666666);
-        expectValidating('#customRollButton', '#customValidating');
-  
-        //run roll validation
-        await waitForService();
-
-        expectInvalid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show that a custom roll is valid - validation succeeds`, async () => {
-        setInput('#customQuantity', '9266');
-        setInput('#customDie', '42');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.customQuantity).toEqual(9266);
-        expect(fixture.componentInstance.customDie).toEqual(42);
-        expectValidating('#customRollButton', '#customValidating');
-  
-        //run roll validation
-        await waitForService();
-  
-        expectValid('#customRollButton', '#customValidating');
-      });
-    
-      it(`should show when rolling a custom roll`, () => {
-        const component = fixture.componentInstance;
-        component.rolling = true;
-  
-        fixture.detectChanges();
-
-        expectRolling('#customRollButton', '#customValidating');
-      });
-    
-      it(`should roll the default custom roll`, async () => {
-        clickButton('#customRollButton');
-  
-        fixture.detectChanges();
-        
-        expectRolling('#customRollButton', '#customValidating');
-
-        //run roll
-        await waitForService();
-  
-        expectRolled('#customRollButton', '#customValidating');
-
-        const compiled = fixture.nativeElement as HTMLElement;
-        const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
-        expect(rolledNumber).toBeGreaterThanOrEqual(1);
-        expect(rolledNumber).toBeLessThanOrEqual(5);
-      });
-    
-      it(`should roll a non-default custom roll`, async () => {
-        setInput('#customQuantity', '42');
-        setInput('#customDie', '7');
-  
-        fixture.detectChanges();
-
-        expect(fixture.componentInstance.customQuantity).toEqual(42);
-        expect(fixture.componentInstance.customDie).toEqual(7);
-
-        //run validation
-        await waitForService();
-
-        clickButton('#customRollButton');
-  
-        fixture.detectChanges();
-        
-        expectRolling('#customRollButton', '#customValidating');
-
-        //run roll
-        await waitForService();
-  
-        expectRolled('#customRollButton', '#customValidating');
-
-        const compiled = fixture.nativeElement as HTMLElement;
-        const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
-        expect(rolledNumber).toBeGreaterThanOrEqual(42);
-        expect(rolledNumber).toBeLessThanOrEqual(42 * 7);
-      });
-    });
-  
-    describe('the expression tab', () => {
+    describe('the item tab', () => {
       it(`should render the expression tab`, () => {
         const compiled = fixture.nativeElement as HTMLElement;
   
@@ -1163,7 +1170,7 @@ describe('TreasureGenComponent', () => {
   
         fixture.detectChanges();
 
-        expectRolling('#expressionRollButton', '#expressionValidating');
+        expectGenerating('#expressionRollButton', '#expressionValidating');
       });
     
       it(`should roll the default expression`, async () => {
@@ -1171,12 +1178,12 @@ describe('TreasureGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectRolling('#expressionRollButton', '#expressionValidating');
+        expectGenerating('#expressionRollButton', '#expressionValidating');
 
         //run roll
         await waitForService();
   
-        expectRolled('#expressionRollButton', '#expressionValidating');
+        expectGenerated('#expressionRollButton', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -1199,12 +1206,12 @@ describe('TreasureGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectRolling('#expressionRollButton', '#expressionValidating');
+        expectGenerating('#expressionRollButton', '#expressionValidating');
 
         //run roll
         await waitForService();
   
-        expectRolled('#expressionRollButton', '#expressionValidating');
+        expectGenerated('#expressionRollButton', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');

@@ -23,8 +23,8 @@
           <div class="form-group row">
             <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
             <div class="col-sm-6">
-              <input pattern="^[0-9]+$"
-                     id="treasureLevel"
+              <input id="treasureLevel"
+                     pattern="^[0-9]+$"
                      class="form-control"
                      type="number"
                      min="1"
@@ -48,7 +48,7 @@
           <div class="form-group row">
             <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
             <div class="col-sm-4">
-              <select id="itemTypes" class="form-select" (input)="updateItemNames(itemType)" [(ngModel)]="itemType" name="itemType" required>
+              <select id="itemTypes" class="form-select" (input)="updateItemNames(itemType!)" [(ngModel)]="itemType" name="itemType" required>
                 <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
               </select>
             </div>
@@ -56,17 +56,17 @@
           <div class="form-group row">
             <label for="powers" class="col-sm-3 col-form-label">Power:</label>
             <div class="col-sm-3">
-              <select id="powers" class="form-select" (input)="validateItem(itemType.itemType, power, itemName)" [(ngModel)]="power" name="power" required>
+              <select id="powers" class="form-select" (input)="validateItem(itemType!.itemType, power, itemName)" [(ngModel)]="power" name="power" required>
                 <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
               </select>
             </div>
             <div class="col-sm-6">
               <select id="itemNames" 
                       class="form-select"
-                      (input)="validateItem(itemType.itemType, power, itemName)" 
+                      (input)="validateItem(itemType!.itemType, power, itemName)" 
                       [(ngModel)]="itemName" 
                       name="itemName" 
-                      [hidden]="itemType.itemType == 'Wand' || itemType.itemType == 'Scroll'" 
+                      [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'" 
                       required>
                 <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
               </select>
@@ -74,7 +74,7 @@
                      class="form-control"
                      type="text"
                      [(ngModel)]="itemName"
-                     [hidden]="itemType.itemType != 'Wand' && itemType.itemType != 'Scroll'" />
+                     [hidden]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
             </div>
           </div>
           <button id="itemButton"
@@ -94,7 +94,7 @@
   <div class="col-sm-6 clearfix">
     <button class="btn btn-light btn-lg float-end" [hidden]="generating || validating || !treasure || !treasure.isAny" (click)="downloadTreasure()">Download</button>
     <button class="btn btn-light btn-lg float-end" [hidden]="generating || validating || !item" (click)="downloadItem()">Download</button>
-    <div [hidden]="generating">
+    <div id="treasureSection" [hidden]="generating">
       <span id="noTreasure" class="italicize" [hidden]="(treasure && treasure.isAny) || item">No treasure was generated</span>
       <dndgen-treasure [treasure]="treasure!" [hidden]="!treasure || !treasure.isAny"></dndgen-treasure>
       <dndgen-item [item]="item!" [hidden]="!item"></dndgen-item>

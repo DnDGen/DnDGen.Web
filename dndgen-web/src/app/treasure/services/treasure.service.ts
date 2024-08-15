@@ -29,7 +29,7 @@ export class TreasureService {
     return this.http.get<boolean>(url);
   }
 
-  public getItem(itemType: string, power: string, name: string | null): Observable<Item> {
+  public getItem(itemType: string, power: string, name: string): Observable<Item> {
     var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
 
     if (!name) {
@@ -40,7 +40,7 @@ export class TreasureService {
     return this.http.get<Item | Weapon | Armor>(url, { params: params });
   }
 
-  public validateItem(itemType: string, power: string, name: string | null): Observable<boolean> {
+  public validateItem(itemType: string, power: string, name: string): Observable<boolean> {
     var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
 
     if (!name) {

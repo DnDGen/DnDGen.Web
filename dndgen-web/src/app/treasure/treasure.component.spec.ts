@@ -116,14 +116,6 @@ describe('TreasureComponent', () => {
       expect(listItems?.item(1).textContent).toEqual('my other good (42gp)');
     });
 
-    function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const element = compiled!.querySelector(selector);
-      expect(element).toBeDefined();
-      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
-    }
-
     function expectDetails(selector: string, heading: string, hasDetails: boolean) {
       const element = fixture.debugElement.query(By.css(selector));
       expect(element).toBeDefined();
