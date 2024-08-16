@@ -18,21 +18,24 @@ export class TreasureFormatterService {
 
     var formattedTreasure = '';
 
-    if (!treasure.isAny)
-        return formattedTreasure;
-
     if (treasure.coin.quantity > 0)
         formattedTreasure += prefix + this.formatNumber(treasure.coin.quantity) + ' ' + treasure.coin.currency + '\r\n';
+    else
+        formattedTreasure += prefix + 'No coins\r\n';
 
     if (treasure.goods.length > 0)
-        formattedTreasure += prefix + 'Goods:\r\n';
+        formattedTreasure += prefix + `Goods (x${treasure.goods.length}):\r\n`;
+    else
+        formattedTreasure += prefix + 'Goods (x0)\r\n';
 
     for (var i = 0; i < treasure.goods.length; i++) {
       formattedTreasure += prefix + '\t' + treasure.goods[i].description + ' (' + this.formatNumber(treasure.goods[i].valueInGold) + 'gp)\r\n';
     }
 
     if (treasure.items.length > 0)
-        formattedTreasure += prefix + 'Items:\r\n';
+        formattedTreasure += prefix + `Items (x${treasure.items.length}):\r\n`;
+    else
+        formattedTreasure += prefix + 'Items (x0)\r\n';
 
     for (var j = 0; j < treasure.items.length; j++) {
         formattedTreasure += this.formatItem(treasure.items[j], prefix + '\t');

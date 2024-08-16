@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
 import { FileSaverService } from '../shared/fileSaver.service';
@@ -9,6 +9,7 @@ import { Treasure } from './models/treasure.model';
 import { Item } from './models/item.model';
 import { TreasureFormatterService } from './services/treasureFormatter.service';
 import { UuidService } from '../shared/uuid.service';
+import { concatMap, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'dndgen-treasuregen',
@@ -16,11 +17,11 @@ import { UuidService } from '../shared/uuid.service';
   styleUrls: ['./treasuregen.component.css'],
   providers: [
     TreasureService,
-    // TreasureFormatterService,
+    TreasureFormatterService,
   ]
 })
 
-export class TreasureGenComponent implements OnInit {
+export class TreasureGenComponent implements OnInit, OnChanges {
   constructor(
     private treasureService: TreasureService,
     private sweetAlertService: SweetAlertService,
@@ -29,28 +30,9 @@ export class TreasureGenComponent implements OnInit {
     private idService: UuidService,
     private logger: LoggerService) { }
 
-  ngOnInit(): void {
-    this.treasureService.getViewModel()
-      .subscribe({
-        next: this.setViewModel,
-        error: this.handleError
-      });
-  }
-
-  private setViewModel(data: TreasureGenViewModel): void {
-    this.treasureModel = data;
-
-    this.treasureType = this.treasureModel.treasureTypes[0];
-    this.itemType = this.treasureModel.itemTypeViewModels[0];
-    this.power = this.treasureModel.powers[0];
-    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
-
-    // this.validateTreasure(this.treasureType, this.level);
-    // this.validateItem(this.itemType.itemType, this.power, this.itemName);
-  }
-
   public treasureModel!: TreasureGenViewModel;
-  public itemNames!: string[];
+  public itemNames: string[] = [];
+  
   @Input() level = 1;
   @Input() treasureType = '';
   @Input() itemType: ItemTypeViewModel | null = null;
@@ -60,18 +42,50 @@ export class TreasureGenComponent implements OnInit {
   public generating = false;
   public validating = false;
   public validTreasure = false;
-  public validItem = true;
+  public validItem = false;
 
   public treasure: Treasure | null = null;
   public item: Item | null = null;
-  
+    
+  ngOnInit(): void {
+    this.validating = true;
+
+    this.treasureService.getViewModel()
+      .subscribe({
+        next: data => this.setViewModel(data),
+        error: error => this.handleError(error)
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['treasureType'] || changes['level']) {
+      this.validateTreasure(this.treasureType, this.level);
+    }
+    else if (changes['itemType'] || changes['power'] || changes['itemName']) {
+      this.validateItem(this.itemType!.itemType, this.power, this.itemName);
+    }
+  }
+
+  private setViewModel(data: TreasureGenViewModel): void {
+    this.treasureModel = data;
+    this.validating = false;
+
+    this.treasureType = this.treasureModel.treasureTypes[0];
+    this.power = this.treasureModel.powers[0];
+
+    //INFO: Doing this instead of calling updateItemType to avoid validation observable
+    this.itemType = this.treasureModel.itemTypeViewModels[0];
+    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
+    this.itemName = '';
+  }
+
   public generateTreasure() {
     this.generating = true;
 
     this.treasureService.getTreasure(this.treasureType, this.level)
       .subscribe({
-        next: this.setTreasure,
-        error: this.handleError
+        next: data => this.setTreasure(data),
+        error: error => this.handleError(error)
       });
   };
 
@@ -98,8 +112,8 @@ export class TreasureGenComponent implements OnInit {
 
     this.treasureService.getItem(this.itemType!.itemType, this.power, this.itemName)
       .subscribe({
-        next: this.setItem,
-        error: this.handleError
+        next: data => this.setItem(data),
+        error: error => this.handleError(error)
       });
   };
 
@@ -114,15 +128,14 @@ export class TreasureGenComponent implements OnInit {
     this.validating = true;
 
     if (!treasureType || !level) {
-      this.validTreasure = false;
-      this.validating = false;
+      this.setTreasureValidity(false);
       return;
     }
 
     this.treasureService.validateTreasure(treasureType, level)
       .subscribe({
-        next: this.setTreasureValidity,
-        error: this.handleValidationError
+        next: data => this.setTreasureValidity(data),
+        error: error => this.handleValidationError(error)
       });
   }
 
@@ -142,15 +155,14 @@ export class TreasureGenComponent implements OnInit {
     this.validating = true;
 
     if (!itemType || !power) {
-      this.validItem = false;
-      this.validating = false;
+      this.setItemValidity(false);
       return;
     }
 
     this.treasureService.validateItem(itemType, power, itemName)
       .subscribe({
-        next: this.setItemValidity,
-        error: this.handleValidationError
+        next: data => this.setItemValidity(data),
+        error: error => this.handleValidationError(error)
       });
   }
 
@@ -159,8 +171,9 @@ export class TreasureGenComponent implements OnInit {
     this.validating = false;
   }
   
-  public updateItemNames(itemType: ItemTypeViewModel) {
-    this.itemNames = this.treasureModel.itemNames[itemType.itemType]!;
+  public updateItemType(itemType: ItemTypeViewModel) {
+    this.itemType = itemType;
+    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
     this.itemName = '';
 
     this.validateItem(this.itemType!.itemType, this.power, this.itemName);
@@ -170,8 +183,8 @@ export class TreasureGenComponent implements OnInit {
     if (!this.treasure)
       return;
 
-    var formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
-    var fileName = 'Treasure ' + this.idService.generate();
+    let formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
+    let fileName = 'Treasure ' + this.idService.generate();
 
     this.fileSaverService.save(formattedTreasure, fileName);
   }
@@ -180,8 +193,8 @@ export class TreasureGenComponent implements OnInit {
     if (!this.item)
       return;
 
-    var formattedItem = this.treasureFormatterService.formatItem(this.item);
-    var fileName = 'Item (' + this.item.name + ') ' + this.idService.generate();
+    let formattedItem = this.treasureFormatterService.formatItem(this.item);
+    let fileName = `Item (${this.item.name}) ` + this.idService.generate();
 
     this.fileSaverService.save(formattedItem, fileName);
   }
