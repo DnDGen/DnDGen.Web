@@ -100,12 +100,12 @@
     </div>
   </div>
   <div class="col-sm-6 clearfix">
-    <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || validating || !treasure" (click)="downloadTreasure()">Download</button>
-    <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || validating || !item" (click)="downloadItem()">Download</button>
+    <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !treasure" (click)="downloadTreasure()">Download</button>
+    <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !item" (click)="downloadItem()">Download</button>
     <div id="treasureSection" [hidden]="generating">
       <span id="noTreasure" class="italicize" [hidden]="treasure || item">No treasure was generated</span>
-      <dndgen-treasure *ngIf="treasure" [treasure]="treasure!" [hidden]="!treasure"></dndgen-treasure>
-      <dndgen-item *ngIf="item" [item]="item!" [hidden]="!item"></dndgen-item>
+      <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
+      <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
     </div>
     <span id="generatingSection" [hidden]="!generating">
       <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />

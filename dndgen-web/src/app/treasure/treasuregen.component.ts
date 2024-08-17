@@ -1,4 +1,4 @@
-import { Input, Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Input, Component, OnInit } from '@angular/core';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
 import { FileSaverService } from '../shared/fileSaver.service';
@@ -9,7 +9,7 @@ import { Treasure } from './models/treasure.model';
 import { Item } from './models/item.model';
 import { TreasureFormatterService } from './services/treasureFormatter.service';
 import { UuidService } from '../shared/uuid.service';
-import { concatMap, map, Observable, switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'dndgen-treasuregen',
@@ -21,7 +21,7 @@ import { concatMap, map, Observable, switchMap } from 'rxjs';
   ]
 })
 
-export class TreasureGenComponent implements OnInit, OnChanges {
+export class TreasureGenComponent implements OnInit {
   constructor(
     private treasureService: TreasureService,
     private sweetAlertService: SweetAlertService,
@@ -51,29 +51,27 @@ export class TreasureGenComponent implements OnInit, OnChanges {
     this.validating = true;
 
     this.treasureService.getViewModel()
+      .pipe(
+        tap(data => this.treasureModel = data),
+        tap(() => this.setInitialValues()),
+        switchMap(() => this.treasureService.validateTreasure(this.treasureType, this.level)),
+        tap(data => this.validTreasure = data),
+        switchMap(() => this.treasureService.validateItem(this.itemType!.itemType, this.power, this.itemName)),
+        tap(data => this.validItem = data),
+      )
       .subscribe({
-        next: data => this.setViewModel(data),
+        next: () => this.finishInit(),
         error: error => this.handleError(error)
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['treasureType'] || changes['level']) {
-      this.validateTreasure(this.treasureType, this.level);
-    }
-    else if (changes['itemType'] || changes['power'] || changes['itemName']) {
-      this.validateItem(this.itemType!.itemType, this.power, this.itemName);
-    }
+  private finishInit(): void {
+    this.validating = false;
   }
 
-  private setViewModel(data: TreasureGenViewModel): void {
-    this.treasureModel = data;
-    this.validating = false;
-
+  private setInitialValues(): void {
     this.treasureType = this.treasureModel.treasureTypes[0];
     this.power = this.treasureModel.powers[0];
-
-    //INFO: Doing this instead of calling updateItemType to avoid validation observable
     this.itemType = this.treasureModel.itemTypeViewModels[0];
     this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
     this.itemName = '';
