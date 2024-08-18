@@ -31,7 +31,18 @@ export class TreasureGenComponent implements OnInit {
     private logger: LoggerService) { }
 
   public treasureModel!: TreasureGenViewModel;
-  public itemNames: string[] = [];
+
+  public get itemNames() {
+    if (!(this.itemType))
+      return [];
+
+    let names = this.treasureModel.itemNames[this.itemType.itemType];
+
+    if (!names)
+      return [];
+
+    return names;
+  }
   
   @Input() level = 1;
   @Input() treasureType = '';
@@ -73,7 +84,6 @@ export class TreasureGenComponent implements OnInit {
     this.treasureType = this.treasureModel.treasureTypes[0];
     this.power = this.treasureModel.powers[0];
     this.itemType = this.treasureModel.itemTypeViewModels[0];
-    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
     this.itemName = '';
   }
 
@@ -169,12 +179,10 @@ export class TreasureGenComponent implements OnInit {
     this.validating = false;
   }
   
-  public updateItemType(itemType: ItemTypeViewModel) {
-    this.itemType = itemType;
-    this.itemNames = this.treasureModel.itemNames[this.itemType.itemType]!;
+  public validateItemAndResetName(itemType: ItemTypeViewModel) {
     this.itemName = '';
 
-    this.validateItem(this.itemType!.itemType, this.power, this.itemName);
+    this.validateItem(itemType.itemType, this.power, this.itemName);
   }
 
   public downloadTreasure() {

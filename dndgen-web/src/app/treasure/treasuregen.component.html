@@ -15,7 +15,12 @@
           <div class="form-group row">
             <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
             <div class="col-sm-6">
-              <select id="treasureTypes" *ngIf="treasureModel" class="form-select" (input)="validateTreasure(treasureType, level)" [(ngModel)]="treasureType" name="treasureType" required>
+              <select id="treasureTypes" 
+                      *ngIf="treasureModel" 
+                      class="form-select" 
+                      (input)="validateTreasure(treasureType, level)" 
+                      [(ngModel)]="treasureType" 
+                      name="treasureType" required>
                 <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
               </select>
             </div>
@@ -53,7 +58,13 @@
           <div class="form-group row">
             <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
             <div class="col-sm-4">
-              <select id="itemTypes" *ngIf="treasureModel" class="form-select" (input)="updateItemType(itemType!)" [(ngModel)]="itemType" name="itemType" required>
+              <select id="itemTypes" 
+                      *ngIf="treasureModel" 
+                      class="form-select" 
+                      (input)="validateItemAndResetName(itemType!)" 
+                      [(ngModel)]="itemType" 
+                      name="itemType" 
+                      required>
                 <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
               </select>
             </div>
@@ -61,7 +72,13 @@
           <div class="form-group row">
             <label for="powers" class="col-sm-3 col-form-label">Power:</label>
             <div class="col-sm-3">
-              <select id="powers" *ngIf="treasureModel" class="form-select" (input)="validateItem(itemType!.itemType, power, itemName)" [(ngModel)]="power" name="power" required>
+              <select id="powers" 
+                      *ngIf="treasureModel"
+                      class="form-select" 
+                      (input)="validateItem(itemType!.itemType, power, itemName)" 
+                      [(ngModel)]="power" 
+                      name="power" 
+                      required>
                 <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
               </select>
             </div>
@@ -72,8 +89,7 @@
                       (input)="validateItem(itemType!.itemType, power, itemName)" 
                       [(ngModel)]="itemName" 
                       name="itemName" 
-                      [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'" 
-                      required>
+                      [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
                 <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
               </select>
               <input id="anyItemName"
