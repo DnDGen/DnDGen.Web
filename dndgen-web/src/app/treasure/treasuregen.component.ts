@@ -179,10 +179,10 @@ export class TreasureGenComponent implements OnInit {
     this.validating = false;
   }
   
-  public validateItemAndResetName(itemType: ItemTypeViewModel) {
-    this.itemName = '';
+  public validateItemAndResetName(itemType: string, power: string, itemName: string) {
+    this.itemName = itemName;
 
-    this.validateItem(itemType.itemType, this.power, this.itemName);
+    this.validateItem(itemType, power, itemName);
   }
 
   public downloadTreasure() {

@@ -763,11 +763,11 @@ describe('TreasureGenComponent', () => {
 
       treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1]);
+      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1].itemType, 'my power', '');
 
       expect(component.itemName).toEqual('');
 
-      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
       expect(component.validating).toBeTrue();
 
       tick(delay);
@@ -781,11 +781,11 @@ describe('TreasureGenComponent', () => {
 
       treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
 
-      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1]);
+      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1].itemType, 'my power', '');
 
       expect(component.itemName).toEqual('');
 
-      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
       expect(component.validating).toBeTrue();
 
       tick(delay);
@@ -852,6 +852,43 @@ describe('TreasureGenComponent', () => {
       expect(idServiceSpy.generate).not.toHaveBeenCalled();
       expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
+
+    it('BUG - should show an item is invalid - not a valid matching power', fakeAsync(() => {
+      setupOnInit();
+
+      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+
+      const itemType = component.treasureModel.itemTypeViewModels[1];
+      let power = component.treasureModel.powers[0];
+      
+      component.validateItemAndResetName(itemType.itemType, power, '');
+      component.itemType = itemType;
+      
+      expect(component.itemType?.itemType).toEqual('it2');
+      expect(component.itemName).toEqual('');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
+      expect(component.validating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.validItem).toBeFalse();
+      expect(component.validating).toBeFalse();
+  
+      power = component.treasureModel.powers[1];
+      component.validateItemAndResetName(itemType.itemType, power, '');
+      component.power = power;
+      
+      expect(component.power).toEqual('power 2');
+
+      expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 2', '');
+      expect(component.validating).toBeTrue();
+
+      tick(delay);
+
+      expect(component.validItem).toBeFalse();
+      expect(component.validating).toBeFalse();
+    }));
   });
 
   describe('integration', () => {
@@ -921,11 +958,13 @@ describe('TreasureGenComponent', () => {
     });
 
     function expectValidating(buttonSelector: string, validatingSelector: string) {
+      expect(fixture.componentInstance.validating).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', true);
       expectHasAttribute(validatingSelector, 'hidden', false);
     }
 
     function expectGenerating(buttonSelector: string, validatingSelector: string) {
+      expect(fixture.componentInstance.generating).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', true);
       expectHasAttribute(validatingSelector, 'hidden', true);
       expectHasAttribute('#treasureSection', 'hidden', true);
@@ -954,6 +993,7 @@ describe('TreasureGenComponent', () => {
     }
 
     function expectGenerated(buttonSelector: string, validatingSelector: string, downloadSelector: string) {
+      expect(fixture.componentInstance.generating).toBeFalse();
       expectHasAttribute(buttonSelector, 'disabled', false);
       expectHasAttribute(validatingSelector, 'hidden', true);
       expectHasAttribute('#treasureSection', 'hidden', false);
@@ -962,17 +1002,24 @@ describe('TreasureGenComponent', () => {
       expectHasAttribute('#downloadItemButton', 'hidden', downloadSelector != '#downloadItemButton');
     }
 
-    function expectInvalid(buttonSelector: string, validatingSelector: string) {
+    function expectInvalid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
+      expect(fixture.componentInstance.validating).toBeFalse();
+      expect(validProperty).toBeFalse();
       expectHasAttribute(buttonSelector, 'disabled', true);
       expectHasAttribute(validatingSelector, 'hidden', true);
     }
 
-    function expectValid(buttonSelector: string, validatingSelector: string) {
+    function expectValid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
+      expect(fixture.componentInstance.validating).toBeFalse();
+      expect(validProperty).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', false);
       expectHasAttribute(validatingSelector, 'hidden', true);
     }
 
     function setInput(selector: string, value: string) {
+      expectHasAttribute(selector, 'hidden', false);
+      expectHasAttribute(selector, 'disabled', false);
+      
       const compiled = fixture.nativeElement as HTMLElement;
       const input = compiled!.querySelector(selector) as HTMLInputElement;
       input.value = value;
@@ -981,6 +1028,9 @@ describe('TreasureGenComponent', () => {
     }
 
     function setSelectByValue(selector: string, value: string) {
+      expectHasAttribute(selector, 'hidden', false);
+      expectHasAttribute(selector, 'disabled', false);
+
       const compiled = fixture.nativeElement as HTMLElement;
       const select = compiled!.querySelector(selector) as HTMLSelectElement;
       select.value = value;
@@ -989,6 +1039,9 @@ describe('TreasureGenComponent', () => {
     }
 
     function setSelectByIndex(selector: string, index: number) {
+      expectHasAttribute(selector, 'hidden', false);
+      expectHasAttribute(selector, 'disabled', false);
+
       const compiled = fixture.nativeElement as HTMLElement;
       const select = compiled!.querySelector(selector) as HTMLSelectElement;
       select.value = select.options[index].value;
@@ -997,6 +1050,7 @@ describe('TreasureGenComponent', () => {
     }
 
     function clickButton(selector: string) {
+      expectHasAttribute(selector, 'hidden', false);
       expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
@@ -1056,7 +1110,7 @@ describe('TreasureGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.level).toBeNull();
-        expectInvalid('#treasureButton', '#treasureValidating');
+        expectInvalid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       it(`should show that treasure is invalid - level invalid`, () => {
@@ -1065,7 +1119,7 @@ describe('TreasureGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.level).toBeNull();
-        expectInvalid('#treasureButton', '#treasureValidating');
+        expectInvalid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       it(`should show that treasure is invalid - level too low`, () => {
@@ -1074,7 +1128,7 @@ describe('TreasureGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.level).toEqual(0);
-        expectInvalid('#treasureButton', '#treasureValidating');
+        expectInvalid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       it(`should show that treasure is invalid - level too high`, async () => {
@@ -1088,7 +1142,7 @@ describe('TreasureGenComponent', () => {
         //run validation
         await waitForService();
   
-        expectInvalid('#treasureButton', '#treasureValidating');
+        expectInvalid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       const levelTestCases = [1, 2, 10, 20, 100];
@@ -1105,7 +1159,7 @@ describe('TreasureGenComponent', () => {
           //run validation
           await waitForService();
     
-          expectValid('#treasureButton', '#treasureValidating');
+          expectValid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
         });
       });
     
@@ -1114,19 +1168,24 @@ describe('TreasureGenComponent', () => {
   
         fixture.detectChanges();
   
-        expectInvalid('#treasureButton', '#treasureValidating');
+        expectInvalid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       const treasureTypesIndicesTestCases = Array.from(Array(4).keys());
 
       treasureTypesIndicesTestCases.forEach(test => {
-        it(`should show that treasure is valid - non-default treasure type index ${test}`, () => {
+        it(`should show that treasure is valid - non-default treasure type index ${test}`, async () => {
           setSelectByIndex('#treasureTypes', test);
     
           fixture.detectChanges();
-    
+          
           expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[test]);
-          expectValid('#treasureButton', '#treasureValidating');
+          expectValidating('#treasureButton', '#treasureValidating');
+
+          //run validation
+          await waitForService();
+    
+          expectValid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
         });
       });
 
@@ -1146,7 +1205,7 @@ describe('TreasureGenComponent', () => {
         //run validation
         await waitForService();
   
-        expectValid('#treasureButton', '#treasureValidating');
+        expectValid(fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
       it(`should show when generating treasure`, () => {
@@ -1260,12 +1319,11 @@ describe('TreasureGenComponent', () => {
         expect(itemTypeOptions?.item(10).textContent).toEqual('Wondrous Item');
   
         //power
-        const powersSelect = itemTab!.querySelector('#powers');
-        expect(powersSelect).toBeDefined();
+        expectExists('#powers', true);
         expectHasAttribute('#powers', 'required', true);
   
         const selectedPower = itemTab!.querySelector('#powers > option:checked');
-        expect(selectedPower).toBeDefined();
+        expectExists('#powers > option:checked', true);
         expect(selectedPower?.textContent).toEqual('Mundane');
   
         const powerOptions = itemTab!.querySelectorAll('#powers > option');
@@ -1331,6 +1389,35 @@ describe('TreasureGenComponent', () => {
         }
       });
     
+      it(`should un-set an item name back to empty`, async () => {
+        expect('not yet written').toBe('');
+        setSelectByIndex('#itemTypes', 4);
+  
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
+
+        //run validation
+        await waitForService();
+
+        expect(fixture.componentInstance.itemNames).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod']);
+        
+        //item name
+        expectExists('#itemNames', true);
+        expectHasAttribute('#itemNames', 'required', false);
+        expectHasAttribute('#itemNames', 'hidden', false);
+        expectExists('#itemNames > option:checked', false);
+        expectExists('#itemNames > option', true);
+
+        const compiled = fixture.nativeElement as HTMLElement;
+        const itemNameOptions = compiled.querySelectorAll('#itemNames > option');
+        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'].length);
+
+        for(var i = 0; i < itemNameOptions?.length; i++) {
+          expect(itemNameOptions?.item(i).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'][i]);
+        }
+      });
+    
       it(`should show when validating an item`, () => {
         const component = fixture.componentInstance;
         component.validating = true;
@@ -1346,234 +1433,262 @@ describe('TreasureGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.itemType).toBeFalsy();
-        expectInvalid('#itemButton', '#itemValidating');
+        expectInvalid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
       });
 
-      // const itemTypeIndicesTestCases = Array.from(Array(11).keys());
+      const itemTypeIndicesTestCases = Array.from(Array(11).keys());
 
-      // itemTypeIndicesTestCases.forEach(itemTypeIndex => {
-      //   it(`should show that item is valid - non-default item type index ${itemTypeIndex}`, async () => {
-      //     let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
-      //     let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
+      itemTypeIndicesTestCases.forEach(itemTypeIndex => {
+        it(`should show that item is valid - item type index ${itemTypeIndex}`, async () => {
+          let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
+          let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
 
-      //     setSelectByIndex('#itemTypes', itemTypeIndex);
+          let powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Medium');
+          if (itemTypeViewModel.itemType == 'AlchemicalItem' || itemTypeViewModel.itemType == 'Tool')
+            powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
+
+          setSelectByIndex('#powers', powerIndex);
+          setSelectByIndex('#itemTypes', itemTypeIndex);
     
-      //     fixture.detectChanges();
+          fixture.detectChanges();
     
-      //     expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
-      //     expect(fixture.componentInstance.itemName).toEqual('');
+          expect(fixture.componentInstance.power).toEqual(fixture.componentInstance.treasureModel.powers[powerIndex]);
+          expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
+          expect(fixture.componentInstance.itemName).toEqual('');
           
-      //     const compiled = fixture.nativeElement as HTMLElement;
-      //     const itemNameOptions = compiled!.querySelectorAll('#itemNames > option');
-      //     expect(itemNameOptions).toBeDefined();
-      //     expect(itemNameOptions?.length).toEqual(itemNames.length);
+          const compiled = fixture.nativeElement as HTMLElement;
+          const itemNameOptions = compiled!.querySelectorAll('#itemNames > option');
+          expect(itemNameOptions).toBeDefined();
+          expect(itemNameOptions?.length).toEqual(itemNames.length);
 
-      //     for(var i = 0; i < itemNameOptions?.length; i++) {
-      //       expect(itemNameOptions?.item(i).textContent).toEqual(itemNames[itemTypeViewModel.itemType][i]);
-      //     }
+          for(var i = 0; i < itemNameOptions?.length; i++) {
+            expect(itemNameOptions?.item(i).textContent).toEqual(itemNames[i]);
+          }
 
-      //     expectValidating('#itemButton', '#itemValidating');
+          expectValidating('#itemButton', '#itemValidating');
   
-      //     //run validation
-      //     await waitForService();
+          //run validation
+          await waitForService();
     
-      //     expectInvalid('#itemButton', '#itemValidating');
-      //   });
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+        });
 
-      //   it(`should show that item with any name is valid - non-default item type index ${itemTypeIndex}`, async () => {
-      //     let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
-      //     let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
+        it(`should show that item with any name is valid - item type index ${itemTypeIndex}`, async () => {
+          let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
+          let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
           
-      //     setSelectByIndex('#itemTypes', itemTypeIndex);
+          let powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Medium');
+          if (itemTypeViewModel.itemType == 'AlchemicalItem' || itemTypeViewModel.itemType == 'Tool')
+            powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
+
+          setSelectByIndex('#powers', powerIndex);
+          setSelectByIndex('#itemTypes', itemTypeIndex);
           
-      //     fixture.detectChanges();
+          fixture.detectChanges();
   
-      //     expect(fixture.componentInstance.itemNames).toEqual(itemNames);
+          expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
+          expect(fixture.componentInstance.itemNames).toEqual(itemNames);
             
-      //     //run validation
-      //     await waitForService();
+          //run validation
+          await waitForService();
     
-      //     if (itemTypeViewModel.itemType != 'Wand' && itemTypeViewModel.itemType != 'Scroll') {
-      //       expectHasAttribute('#itemNames', 'hidden', false);
-      //       expectHasAttribute('#anyItemName', 'hidden', true);
-      //       return;
-      //     }
+          if (itemTypeViewModel.itemType != 'Wand' && itemTypeViewModel.itemType != 'Scroll') {
+            expectHasAttribute('#itemNames', 'hidden', false);
+            expectHasAttribute('#anyItemName', 'hidden', true);
+            return;
+          }
 
-      //     expectHasAttribute('#itemNames', 'hidden', true);
-      //     expectHasAttribute('#anyItemName', 'hidden', false);
+          expectHasAttribute('#itemNames', 'hidden', true);
+          expectHasAttribute('#anyItemName', 'hidden', false);
 
-      //     setInput('#anyItemName', `My ${itemTypeViewModel.displayName}`);
+          setInput('#anyItemName', `My ${itemTypeViewModel.displayName}`);
     
-      //     fixture.detectChanges();
+          fixture.detectChanges();
     
-      //     expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
-      //     expect(fixture.componentInstance.itemName).toEqual(`My ${itemTypeViewModel.displayName}`);
-      //     expectValidating('#itemButton', '#itemValidating');
+          expect(fixture.componentInstance.itemName).toEqual(`My ${itemTypeViewModel.displayName}`);
+          expectValidating('#itemButton', '#itemValidating');
   
-      //     //run validation
-      //     await waitForService();
+          //run validation
+          await waitForService();
     
-      //     expectInvalid('#itemButton', '#itemValidating');
-      //   });
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+        });
 
-      //   const itemNameIndicesTestCases = Array.from(Array(300).keys());
+        it(`should show that item with non-default name is valid - item type index ${itemTypeIndex}`, async () => {
+          let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
+          let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
 
-      //   itemNameIndicesTestCases.forEach(nameIndex => {
-      //     it(`should show that item with name is valid - item type index ${itemTypeIndex}, name index ${nameIndex}`, async () => {
-      //       let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
-      //       let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
+          let powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Medium');
+          if (itemTypeViewModel.itemType == 'AlchemicalItem' || itemTypeViewModel.itemType == 'Tool')
+            powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
 
-      //       if (nameIndex >= itemNames.length) {
-      //         return;
-      //       }
-
-      //       setSelectByIndex('#itemTypes', itemTypeIndex);
-            
-      //       fixture.detectChanges();
-
-      //       expect(fixture.componentInstance.itemNames).toEqual(itemNames);
-            
-      //       //run validation
-      //       await waitForService();
-      
-      //       if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
-      //         expectHasAttribute('#itemNames', 'hidden', true);
-      //         expectHasAttribute('#anyItemName', 'hidden', false);
-      //         return;
-      //       }
-  
-      //       expectHasAttribute('#itemNames', 'hidden', false);
-      //       expectHasAttribute('#anyItemName', 'hidden', true);
-
-      //       setSelectByIndex('#itemNames', nameIndex);
-      
-      //       fixture.detectChanges();
-      
-      //       expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
-      //       expect(fixture.componentInstance.itemName).toEqual(itemNames[nameIndex]);
-      //       expectValidating('#itemButton', '#itemValidating');
-    
-      //       //run validation
-      //       await waitForService();
-      
-      //       expectValid('#itemButton', '#itemValidating');
-      //     });
-      //   });
-
-      //   it(`should show an item is invalid - not a valid name - item type index ${itemTypeIndex}`, async () => {
-      //     let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
-      //     let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
-  
-      //     setSelectByIndex('#itemTypes', itemTypeIndex);
-            
-      //     fixture.detectChanges();
-  
-      //     expect(fixture.componentInstance.itemNames).toEqual(itemNames);
+          setSelectByIndex('#powers', powerIndex);
+          setSelectByIndex('#itemTypes', itemTypeIndex);
           
-      //     //run validation
-      //     await waitForService();
-    
-      //     if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
-      //       expectHasAttribute('#itemNames', 'hidden', true);
-      //       expectHasAttribute('#anyItemName', 'hidden', false);
-      //       return;
-      //     }
+          fixture.detectChanges();
 
-      //     expectHasAttribute('#itemNames', 'hidden', false);
-      //     expectHasAttribute('#anyItemName', 'hidden', true);
-  
-      //     setSelectByValue('#itemNames', 'not a name');
-    
-      //     fixture.detectChanges();
-    
-      //     expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
-      //     expect(fixture.componentInstance.itemName).toEqual('not a name');
-      //     expectValidating('#itemButton', '#itemValidating');
-  
-      //     //run validation
-      //     await waitForService();
-    
-      //     expectInvalid('#itemButton', '#itemValidating');
-      //   });
-  
-      //   it(`should show an item is invalid - not a valid matching name - item type index ${itemTypeIndex}`, async () => {
-      //     let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
-      //     let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
-  
-      //     setSelectByIndex('#itemTypes', itemTypeIndex);
-            
-      //     fixture.detectChanges();
-  
-      //     expect(fixture.componentInstance.itemNames).toEqual(itemNames);
+          expect(fixture.componentInstance.itemNames).toEqual(itemNames);
           
-      //     //run validation
-      //     await waitForService();
+          //run validation
+          await waitForService();
     
-      //     if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
-      //       expectHasAttribute('#itemNames', 'hidden', true);
-      //       expectHasAttribute('#anyItemName', 'hidden', false);
-      //       return;
-      //     }
+          if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
+            expectHasAttribute('#itemNames', 'hidden', true);
+            expectHasAttribute('#anyItemName', 'hidden', false);
+            return;
+          }
 
-      //     expectHasAttribute('#itemNames', 'hidden', false);
-      //     expectHasAttribute('#anyItemName', 'hidden', true);
-  
-      //     let wrongIndex = itemTypeIndex - 1 >= 0 ? itemTypeIndex - 1 : 10;
-      //     let wrongItemType = fixture.componentInstance.treasureModel.itemTypeViewModels[wrongIndex];
-      //     let wrongName = fixture.componentInstance.treasureModel.itemNames[wrongItemType.itemType][0];
-      //     setSelectByValue('#itemNames', wrongName);
-    
-      //     fixture.detectChanges();
-    
-      //     expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
-      //     expect(fixture.componentInstance.itemName).toEqual(wrongName);
-      //     expectValidating('#itemButton', '#itemValidating');
-  
-      //     //run validation
-      //     await waitForService();
-    
-      //     expectInvalid('#itemButton', '#itemValidating');
-      //   });
-      // });
+          expectHasAttribute('#itemNames', 'hidden', false);
+          expectHasAttribute('#anyItemName', 'hidden', true);
 
-      it('should show an item is invalid - missing power', async () => {
+          setSelectByIndex('#itemNames', 1);
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
+          expect(fixture.componentInstance.itemName).toEqual(itemNames[1]);
+          expectValidating('#itemButton', '#itemValidating');
+  
+          //run validation
+          await waitForService();
+    
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+        });
+
+        it(`should show an item is invalid - not a valid name - item type index ${itemTypeIndex}`, async () => {
+          let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
+          let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
+  
+          let powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Medium');
+          if (itemTypeViewModel.itemType == 'AlchemicalItem' || itemTypeViewModel.itemType == 'Tool')
+            powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
+
+          setSelectByIndex('#powers', powerIndex);
+          setSelectByIndex('#itemTypes', itemTypeIndex);
+            
+          fixture.detectChanges();
+  
+          expect(fixture.componentInstance.itemNames).toEqual(itemNames);
+          
+          //run validation
+          await waitForService();
+    
+          if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
+            expectHasAttribute('#itemNames', 'hidden', true);
+            expectHasAttribute('#anyItemName', 'hidden', false);
+            return;
+          }
+
+          expectHasAttribute('#itemNames', 'hidden', false);
+          expectHasAttribute('#anyItemName', 'hidden', true);
+  
+          setSelectByValue('#itemNames', 'not a name');
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
+          expect(fixture.componentInstance.itemName).toEqual('');
+          expectValidating('#itemButton', '#itemValidating');
+  
+          //run validation
+          await waitForService();
+    
+          //Since we are emptying out the invalid name, it ends up valid
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+        });
+  
+        it(`should show an item is invalid - not a valid matching name - item type index ${itemTypeIndex}`, async () => {
+          let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
+          let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
+  
+          let powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Medium');
+          if (itemTypeViewModel.itemType == 'AlchemicalItem' || itemTypeViewModel.itemType == 'Tool')
+            powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
+
+          setSelectByIndex('#powers', powerIndex);
+          setSelectByIndex('#itemTypes', itemTypeIndex);
+            
+          fixture.detectChanges();
+  
+          expect(fixture.componentInstance.itemNames).toEqual(itemNames);
+          
+          //run validation
+          await waitForService();
+    
+          if (itemTypeViewModel.itemType == 'Wand' || itemTypeViewModel.itemType == 'Scroll') {
+            expectHasAttribute('#itemNames', 'hidden', true);
+            expectHasAttribute('#anyItemName', 'hidden', false);
+            return;
+          }
+
+          expectHasAttribute('#itemNames', 'hidden', false);
+          expectHasAttribute('#anyItemName', 'hidden', true);
+  
+          let wrongIndex = itemTypeIndex - 1 >= 0 ? itemTypeIndex - 1 : 10;
+          let wrongItemType = fixture.componentInstance.treasureModel.itemTypeViewModels[wrongIndex];
+          let wrongName = fixture.componentInstance.treasureModel.itemNames[wrongItemType.itemType][0];
+          setSelectByValue('#itemNames', wrongName);
+    
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex]);
+          expect(fixture.componentInstance.itemName).toEqual('');
+          expectValidating('#itemButton', '#itemValidating');
+  
+          //run validation
+          await waitForService();
+    
+          //Because we empty out the wrong name, it ends up being valid
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+        });
+      });
+
+      it('should show an item is invalid - missing power', () => {
         setSelectByValue('#powers', '');
           
         fixture.detectChanges();
     
         expect(fixture.componentInstance.power).toEqual('');
-        expectValidating('#itemButton', '#itemValidating');
-
-        //run validation
-        await waitForService();
-  
-        expectInvalid('#itemButton', '#itemValidating');
+        expectInvalid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
       });
 
-      it('should show an item is invalid - not a valid power', async () => {
+      it('should show an item is invalid - not a valid power', () => {
         setSelectByValue('#powers', 'Omnipotent');
           
         fixture.detectChanges();
     
         expect(fixture.componentInstance.power).toEqual('');
-        expectValidating('#itemButton', '#itemValidating');
-
-        //run validation
-        await waitForService();
-  
-        expectInvalid('#itemButton', '#itemValidating');
+        expectInvalid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
       });
 
       it('should show an item is invalid - not a valid matching power', async () => {
         const rodIndex = fixture.componentInstance.treasureModel.itemTypeViewModels.findIndex(itvm => itvm.itemType == 'Rod');
         const minorIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Minor');
   
+        expect(rodIndex).toBe(4);
+        expect(minorIndex).toBe(1);
         setSelectByIndex('#itemTypes', rodIndex);
+        
+        fixture.detectChanges();
+    
+        const compiled = fixture.nativeElement as HTMLElement;
+        const selectedPower = compiled!.querySelector('#itemTypes > option:checked');
+        expectExists('#itemTypes > option:checked', true);
+        expect(selectedPower?.textContent).toEqual('Rod');
+
+        expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
+        expect(fixture.componentInstance.validating).toBeTrue();
+        expectValidating('#itemButton', '#itemValidating');
+
+        //run validation
+        await waitForService();
+  
+        expect(fixture.componentInstance.validating).toBeFalse();
+
         setSelectByIndex('#powers', minorIndex);
           
         fixture.detectChanges();
     
-        expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
         expect(fixture.componentInstance.power).toEqual('Minor');
         expect(fixture.componentInstance.validating).toBeTrue();
         expectValidating('#itemButton', '#itemValidating');
@@ -1581,7 +1696,9 @@ describe('TreasureGenComponent', () => {
         //run validation
         await waitForService();
   
-        expectInvalid('#itemButton', '#itemValidating');
+        expect(fixture.componentInstance.validating).toBeFalse();
+        expect(fixture.componentInstance.validItem).toBeFalse();
+        expectInvalid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
       });
 
       const powerIndicesTestCases = Array.from(Array(4).keys());
@@ -1603,7 +1720,9 @@ describe('TreasureGenComponent', () => {
           //run validation
           await waitForService();
     
-          expectValid('#itemButton', '#itemValidating');
+          expect(fixture.componentInstance.validating).toBeFalse();
+          expect(fixture.componentInstance.validItem).toBeTrue();
+          expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
         });
       });
     
@@ -1648,10 +1767,15 @@ describe('TreasureGenComponent', () => {
         fixture.detectChanges();
 
         expect(fixture.componentInstance.itemName).toEqual("Alchemist's Fire");
+        expect(fixture.componentInstance.validating).toBeTrue();
+        
 
         //run validation
         await waitForService();
   
+        expect(fixture.componentInstance.validating).toBeFalse();
+        expect(fixture.componentInstance.validItem).toBeTrue();
+
         clickButton('#itemButton');
   
         fixture.detectChanges();

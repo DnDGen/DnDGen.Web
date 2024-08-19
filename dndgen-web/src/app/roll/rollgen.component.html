@@ -33,7 +33,7 @@
             <div class="col-sm-2 px-0">
               <select id="standardDie" 
                       class="form-control" 
-                      (input)="validateRoll(standardQuantity, standardDie.die)"
+                      (change)="validateRoll(standardQuantity, standardDie.die)"
                       [(ngModel)]="standardDie"
                       name="standardDie"
                       required>
