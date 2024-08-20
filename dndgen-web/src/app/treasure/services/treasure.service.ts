@@ -1,21 +1,21 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Observable } from 'rxjs';
 import type { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
 import type { Treasure } from '../models/treasure.model';
 import type { Item } from '../models/item.model';
+import { Weapon } from '../models/weapon.model';
+import { Armor } from '../models/armor.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TreasureService {
-  private webBaseUrl: string;
-  constructor(private http: HttpClient, @Inject('WEB_BASE_URL') baseUrl: string) {
-    this.webBaseUrl = baseUrl;
+  constructor(private http: HttpClient) {
   }
 
   public getViewModel(): Observable<TreasureGenViewModel> {
-    var url = this.webBaseUrl + "treasure/viewmodel";
+    var url = "https://web.dndgen.com/api/v1/treasure/viewmodel";
     return this.http.get<TreasureGenViewModel>(url);
   }
   
@@ -29,18 +29,18 @@ export class TreasureService {
     return this.http.get<boolean>(url);
   }
 
-  public getItem(itemType: string, power: string, name: string | null): Observable<Item> {
+  public getItem(itemType: string, power: string, name: string): Observable<Item> {
     var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
 
     if (!name) {
-      return this.http.get<Item>(url);
+      return this.http.get<Item | Weapon | Armor>(url);
     }
 
     let params = new HttpParams().set('name', name);
-    return this.http.get<Item>(url, { params: params });
+    return this.http.get<Item | Weapon | Armor>(url, { params: params });
   }
 
-  public validateItem(itemType: string, power: string, name: string | null): Observable<boolean> {
+  public validateItem(itemType: string, power: string, name: string): Observable<boolean> {
     var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
 
     if (!name) {

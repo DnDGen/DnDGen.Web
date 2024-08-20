@@ -4,9 +4,9 @@ import { Item } from "./item.model";
 
 export class Treasure {
   constructor(
-    public coin: Coin,
-    public goods: Good[],
-    public items: Item[],
-    public isAny: boolean
+    public coin: Coin = new Coin(),
+    public goods: Good[] = [],
+    public items: Item[] = [],
+    public isAny: boolean = false
   ) { }
 }

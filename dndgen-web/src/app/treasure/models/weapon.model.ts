@@ -1,27 +1,42 @@
+import { Damage } from "./damage.model";
 import { Item } from "./item.model";
 import { Magic } from "./magic.model";
 
 export class Weapon extends Item {
   constructor(
-    public name: string,
-    public baseNames: string[],
-    public itemType: string,
-    public traits: string[],
-    public attributes: string[],
-    public magic: Magic,
-    public quantity: number,
-    public contents: string[],
-    public isMagical: boolean,
-    public canBeUsedAsWeaponOrArmor: boolean,
+    public override name: string,
+    public override itemType: string,
+    public override baseNames: string[] = [],
+    public override traits: string[] = [],
+    public override attributes: string[] = [],
+    public override magic: Magic = new Magic(),
+    public override quantity: number = 1,
+    public override contents: string[] = [],
+    public override isMagical: boolean = false,
 
-    public ammunition: string,
-    public criticalMultiplier: string,
-    public damage: string,
-    public damageType: string,
-    public size: string,
-    public threatRange: string,
-    public combatTypes: string[]
+    public size: string = '',
+    public damageDescription: string = '',
+    public ammunition: string = '',
+    public damages: Damage[] = [],
+    public damageRoll: string = '',
+    public secondaryDamages: Damage[] = [],
+    public secondaryDamageRoll: string = '',
+    public secondaryDamageDescription: string = '',
+    public criticalDamages: Damage[] = [],
+    public criticalDamageRoll: string = '',
+    public criticalDamageDescription: string = '',
+    public criticalMultiplier: string = '',
+    public secondaryCriticalDamages: Damage[] = [],
+    public secondaryCriticalDamageRoll: string = '',
+    public secondaryCriticalDamageDescription: string = '',
+    public secondaryCriticalMultiplier: string = '',
+    public threatRange: number = 0,
+    public threatRangeDescription: string = '',
+    public isDoubleWeapon: boolean = false,
+    public secondaryMagicBonus: number = 0,
+    public secondaryHasAbilities: boolean = false,
+    public combatTypes: string[] = [],
   ) {
-    super(name, baseNames, itemType, traits, attributes, magic, quantity, contents, isMagical, canBeUsedAsWeaponOrArmor);
+    super(name, itemType, baseNames, traits, attributes, magic, quantity, contents, isMagical, true);
   }
 }

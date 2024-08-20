@@ -18,6 +18,7 @@ module.exports = function (config) {
     },
     client: {
       jasmine: {
+        timeoutInterval: 10000,
         oneFailurePerSpec: true,
         stopSpecOnExpectationFailure: true,
         failFast: true,

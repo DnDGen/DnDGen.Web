@@ -3,10 +3,10 @@ import { SpecialAbility } from "./specialAbility.model";
 
 export class Magic {
   constructor(
-    public bonus: number,
-    public charges: number,
-    public specialAbilities: SpecialAbility[],
-    public curse: string,
-    public intelligence: Intelligence
+    public bonus: number = 0,
+    public charges: number = 0,
+    public specialAbilities: SpecialAbility[] = [],
+    public curse: string = '',
+    public intelligence: Intelligence = new Intelligence()
   ) { }
 }

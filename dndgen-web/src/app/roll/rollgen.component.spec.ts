@@ -688,15 +688,32 @@ describe('RollGenComponent', () => {
         expectInvalid('#standardRollButton', '#standardValidating');
       });
     
+      it('should validate a standard roll when standard die changes', async () => {
+        setSelectByIndex('#standardDie', 1);
+  
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[1]);
+        expectValidating('#standardRollButton', '#standardValidating');
+
+        await waitForService();
+        
+        expectValid('#standardRollButton', '#standardValidating');
+      });
+
       const standardDieIndicesTestCases = Array.from(Array(9).keys());
 
       standardDieIndicesTestCases.forEach(test => {
-        it(`should show that a standard roll is valid - non-default standard die index ${test}`, () => {
+        it(`should show that a standard roll is valid - non-default standard die index ${test}`, async () => {
           setSelectByIndex('#standardDie', test);
     
           fixture.detectChanges();
     
           expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[test]);
+          expectValidating('#standardRollButton', '#standardValidating');
+
+          await waitForService();
+
           expectValid('#standardRollButton', '#standardValidating');
         });
       });

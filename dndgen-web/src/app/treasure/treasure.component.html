@@ -1,17 +1,18 @@
 <div>
-  <span [hidden]="treasure.coin.quantity == 0">{{treasure.coin.quantity | number}} {{treasure.coin.currency}}</span>
-  <dndgen-collapsible-list [hidden]="treasure.goods.length == 0" heading="Goods" [hasList]="treasure.goods.length > 0">
+  <span class="treasure-coin" *ngIf="treasure.coin.quantity != 0">{{treasure.coin.quantity | number}} {{treasure.coin.currency}}</span>
+  <span class="treasure-no-coin" *ngIf="treasure.coin.quantity == 0">No coins</span>
+  <br />
+  <dndgen-details class="treasure-goods" heading="Goods (x{{treasure.goods.length}})" [hasDetails]="treasure.goods.length > 0">
     <ul>
-      <li *ngFor="let good of treasure.goods">
-        {{good.description}} ({{good.valueInGold | number}}gp)
-      </li>
+      <li class="treasure-good" *ngFor="let good of treasure.goods">{{good.description}} ({{good.valueInGold | number}}gp)</li>
     </ul>
-  </dndgen-collapsible-list>
-  <dndgen-collapsible-list [hidden]="treasure.items.length == 0" heading="Items" [hasList]="treasure.items.length > 0">
+  </dndgen-details>
+  <br />
+  <dndgen-details class="treasure-items" heading="Items (x{{treasure.items.length}})" [hasDetails]="treasure.items.length > 0">
     <ul>
-      <li *ngFor="let item of treasure.items">
+      <li class="treasure-item" *ngFor="let item of treasure.items">
         <dndgen-item [item]="item"></dndgen-item>
       </li>
     </ul>
-  </dndgen-collapsible-list>
+  </dndgen-details>
 </div>

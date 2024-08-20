@@ -2,11 +2,12 @@ import { routes } from './app.routes';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { RollGenComponent } from './roll/rollgen.component';
+import { TreasureGenComponent } from './treasure/treasuregen.component';
 
 describe('routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(4);
+      expect(routes.length).toEqual(5);
     });
     
     it('should contain default route', () => {
@@ -30,6 +31,14 @@ describe('routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('roll');
       expect(route?.component).toEqual(RollGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain treasure route', () => {
+      let route = routes.find(r => r.path == 'treasure');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('treasure');
+      expect(route?.component).toEqual(TreasureGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     

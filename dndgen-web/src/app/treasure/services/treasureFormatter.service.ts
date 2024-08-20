@@ -18,21 +18,24 @@ export class TreasureFormatterService {
 
     var formattedTreasure = '';
 
-    if (!treasure.isAny)
-        return formattedTreasure;
-
     if (treasure.coin.quantity > 0)
         formattedTreasure += prefix + this.formatNumber(treasure.coin.quantity) + ' ' + treasure.coin.currency + '\r\n';
+    else
+        formattedTreasure += prefix + 'No coins\r\n';
 
     if (treasure.goods.length > 0)
-        formattedTreasure += prefix + 'Goods:\r\n';
+        formattedTreasure += prefix + `Goods (x${treasure.goods.length}):\r\n`;
+    else
+        formattedTreasure += prefix + 'Goods (x0)\r\n';
 
     for (var i = 0; i < treasure.goods.length; i++) {
       formattedTreasure += prefix + '\t' + treasure.goods[i].description + ' (' + this.formatNumber(treasure.goods[i].valueInGold) + 'gp)\r\n';
     }
 
     if (treasure.items.length > 0)
-        formattedTreasure += prefix + 'Items:\r\n';
+        formattedTreasure += prefix + `Items (x${treasure.items.length}):\r\n`;
+    else
+        formattedTreasure += prefix + 'Items (x0)\r\n';
 
     for (var j = 0; j < treasure.items.length; j++) {
         formattedTreasure += this.formatItem(treasure.items[j], prefix + '\t');
@@ -115,11 +118,17 @@ export class TreasureFormatterService {
 
       formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
       formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damage + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Damage Type: ' + weapon.damageType + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRange + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Critical Multiplier: ' + weapon.criticalMultiplier + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
 
+      if (weapon.isDoubleWeapon)
+          formattedWeapon += prefix + '\t' + 'Secondary Damage: ' + weapon.secondaryDamageDescription + '\r\n';
+
+      formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRangeDescription + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Critical Damage: ' + weapon.criticalDamageDescription + '\r\n';
+
+      if (weapon.isDoubleWeapon)
+          formattedWeapon += prefix + '\t' + 'Secondary Critical Damage: ' + weapon.secondaryCriticalDamageDescription + '\r\n';
+        
       if (weapon.ammunition) {
           formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';
       }
