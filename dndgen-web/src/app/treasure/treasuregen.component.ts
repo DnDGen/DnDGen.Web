@@ -189,8 +189,9 @@ export class TreasureGenComponent implements OnInit {
     if (!this.treasure)
       return;
 
-    let formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
-    let fileName = 'Treasure ' + this.idService.generate();
+    const formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
+    const coins = this.treasure.coin.quantity == 0 ? '0 coins' : `${this.treasure.coin.quantity} ${this.treasure.coin.currency}`;
+    const fileName = `Treasure (${coins}, ${this.treasure.goods.length} goods, ${this.treasure.items.length} items) ` + this.idService.generate();
 
     this.fileSaverService.save(formattedTreasure, fileName);
   }

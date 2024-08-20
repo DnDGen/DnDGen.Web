@@ -86,6 +86,7 @@ describe('DetailsComponent', () => {
       expect(heading?.textContent).toEqual('my heading');
       expectHasAttribute('span.no-details-section', 'hidden', false);
       
+      expectHasAttribute('a.details-header', 'hidden', true);
       expectHasAttribute('div.details-section', 'hidden', true);
     });
 
@@ -105,17 +106,18 @@ describe('DetailsComponent', () => {
       const compiled = fixture.nativeElement as HTMLElement;
   
       expectHasAttribute('span.no-details-section', 'hidden', true);
+      expectHasAttribute('a.details-header', 'hidden', false);
       expectHasAttribute('div.details-section', 'hidden', false);
       
-      const detailsLink = compiled.querySelector('div.details-section > a');
+      const detailsLink = compiled.querySelector('a.details-header');
       expect(detailsLink).toBeDefined();
       expect(detailsLink?.textContent).toEqual('my heading');
       expect(detailsLink?.getAttribute('href')).toEqual('#' + fixture.componentInstance.id);
       expect(detailsLink?.getAttribute('data-bs-toggle')).toEqual('collapse');
 
-      const details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
+      const details = compiled.querySelector('#' + fixture.componentInstance.id);
       expect(details).toBeDefined();
-      expect(details?.classList[0]).toEqual('collapse');
+      expect(details?.getAttribute('class')).toContain('collapse');
       
       expect(compiled.querySelector('#' + fixture.componentInstance.id + ' > ng-content')).toBeDefined();
     });
@@ -137,18 +139,19 @@ describe('DetailsComponent', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       
       expectHasAttribute('span.no-details-section', 'hidden', true);
+      expectHasAttribute('a.details-header', 'hidden', false);
       expectHasAttribute('div.details-section', 'hidden', false);
       
-      let details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
+      let details = compiled.querySelector('#' + fixture.componentInstance.id);
       expect(details).toBeDefined();
-      expect(details?.getAttribute('class')).toEqual('collapse');
+      expect(details?.getAttribute('class')).toEqual('details-section collapse');
       
-      clickLink('div.details-section > a');
+      clickLink('a.details-header');
       fixture.detectChanges();
       
-      details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
+      details = compiled.querySelector('#' + fixture.componentInstance.id);
       expect(details).toBeDefined();
-      expect(details?.getAttribute('class')).toEqual('collapsing');
+      expect(details?.getAttribute('class')).toEqual('details-section collapsing');
       
       //TODO: Figure out how to get collapsing to finish, so we can test 'show;
       // await waitForService();

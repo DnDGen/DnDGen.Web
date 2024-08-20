@@ -1,11 +1,13 @@
 <div>
   <span class="treasure-coin" *ngIf="treasure.coin.quantity != 0">{{treasure.coin.quantity | number}} {{treasure.coin.currency}}</span>
   <span class="treasure-no-coin" *ngIf="treasure.coin.quantity == 0">No coins</span>
+  <br />
   <dndgen-details class="treasure-goods" heading="Goods (x{{treasure.goods.length}})" [hasDetails]="treasure.goods.length > 0">
     <ul>
       <li class="treasure-good" *ngFor="let good of treasure.goods">{{good.description}} ({{good.valueInGold | number}}gp)</li>
     </ul>
   </dndgen-details>
+  <br />
   <dndgen-details class="treasure-items" heading="Items (x{{treasure.items.length}})" [hasDetails]="treasure.items.length > 0">
     <ul>
       <li class="treasure-item" *ngFor="let item of treasure.items">

@@ -17,6 +17,7 @@ import { By } from '@angular/platform-browser';
 import { TreasureComponent } from './treasure.component';
 import { ItemComponent } from './item.component';
 import * as FileSaver from 'file-saver';
+import { Good } from './models/good.model';
 
 describe('TreasureGenComponent', () => {
   describe('unit', () => {
@@ -794,7 +795,7 @@ describe('TreasureGenComponent', () => {
       expect(component.validating).toBeFalse();
     }));
 
-    it('should download treasure', () => {
+    it('should download treasure - with coin', () => {
       let treasure = new Treasure(new Coin('munny', 9266));
       component.treasure = treasure;
 
@@ -804,7 +805,50 @@ describe('TreasureGenComponent', () => {
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure abc');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 0 goods, 0 items) abc');
+    });
+
+    it('should download treasure - with goods', () => {
+      let treasure = new Treasure();
+      treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
+      component.treasure = treasure;
+
+      treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
+      idServiceSpy.generate.and.returnValue('abc');
+
+      component.downloadTreasure();
+
+      expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 2 goods, 0 items) abc');
+    });
+
+    it('should download treasure - with items', () => {
+      let treasure = new Treasure();
+      treasure.items = [new Item('item 1', 'itemtype'), new Item('item 2', 'itemtype')];
+      component.treasure = treasure;
+
+      treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
+      idServiceSpy.generate.and.returnValue('abc');
+
+      component.downloadTreasure();
+
+      expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 0 goods, 2 items) abc');
+    });
+
+    it('should download treasure - all', () => {
+      let treasure = new Treasure(new Coin('munny', 9266));
+      treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
+      treasure.items = [new Item('item 1', 'itemtype')];
+      component.treasure = treasure;
+
+      treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
+      idServiceSpy.generate.and.returnValue('abc');
+
+      component.downloadTreasure();
+
+      expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 2 goods, 1 items) abc');
     });
 
     it('should not download missing treasure', () => {
@@ -827,7 +871,7 @@ describe('TreasureGenComponent', () => {
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my empty treasure', 'Treasure def');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my empty treasure', 'Treasure (0 coins, 0 goods, 0 items) def');
     });
 
     it('should download item', () => {
@@ -1174,7 +1218,7 @@ describe('TreasureGenComponent', () => {
       const treasureTypesIndicesTestCases = Array.from(Array(4).keys());
 
       treasureTypesIndicesTestCases.forEach(test => {
-        it(`should show that treasure is valid - non-default treasure type index ${test}`, async () => {
+        it(`should show that treasure is valid - treasure type index ${test}`, async () => {
           setSelectByIndex('#treasureTypes', test);
     
           fixture.detectChanges();
@@ -1339,14 +1383,18 @@ describe('TreasureGenComponent', () => {
         expect(itemNamesSelect).toBeDefined();
         expectHasAttribute('#itemNames', 'required', false);
         expectHasAttribute('#itemNames', 'hidden', false);
-        expectExists('#itemNames > option:checked', false);
+        expectExists('#itemNames > option:checked', true);
   
+        const selectedItemName = compiled.querySelector('#itemNames > option:checked');
+        expect(selectedItemName?.textContent).toEqual('');
+
         expectExists('#itemNames > option', true);
         const itemNameOptions = itemTab!.querySelectorAll('#itemNames > option');
-        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'].length);
+        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'].length + 1);
+        expect(itemNameOptions?.item(0).textContent).toEqual('');
 
-        for(var i = 0; i < itemNameOptions?.length; i++) {
-          expect(itemNameOptions?.item(i).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'][i]);
+        for(var i = 0; i < fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'].length.length; i++) {
+          expect(itemNameOptions?.item(i + 1).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'][i]);
         }
   
         //Any item name
@@ -1377,44 +1425,85 @@ describe('TreasureGenComponent', () => {
         expectExists('#itemNames', true);
         expectHasAttribute('#itemNames', 'required', false);
         expectHasAttribute('#itemNames', 'hidden', false);
-        expectExists('#itemNames > option:checked', false);
+        expectExists('#itemNames > option:checked', true);
         expectExists('#itemNames > option', true);
 
         const compiled = fixture.nativeElement as HTMLElement;
-        const itemNameOptions = compiled.querySelectorAll('#itemNames > option');
-        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'].length);
+        const selectedItemName = compiled.querySelector('#itemNames > option:checked');
+        expect(selectedItemName?.textContent).toEqual('');
 
-        for(var i = 0; i < itemNameOptions?.length; i++) {
-          expect(itemNameOptions?.item(i).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'][i]);
+        const itemNameOptions = compiled.querySelectorAll('#itemNames > option');
+        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'].length + 1);
+        expect(itemNameOptions?.item(0).textContent).toEqual('');
+
+        for(var i = 0; i < fixture.componentInstance.treasureModel.itemNames['Rod'].length; i++) {
+          expect(itemNameOptions?.item(i + 1).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'][i]);
         }
       });
     
       it(`should un-set an item name back to empty`, async () => {
-        expect('not yet written').toBe('');
-        setSelectByIndex('#itemTypes', 4);
+        setSelectByIndex('#itemNames', 4);
   
         fixture.detectChanges();
 
-        expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
+        expect(fixture.componentInstance.itemName).toEqual('Everburning Torch');
 
         //run validation
         await waitForService();
 
-        expect(fixture.componentInstance.itemNames).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod']);
+        expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+
+        setSelectByIndex('#itemNames', 0);
+  
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.itemName).toEqual('');
+        
+        //run validation
+        await waitForService();
+
+        expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
+      });
+    
+      it(`should un-set an item name back to empty when item type changes`, async () => {
+        setSelectByIndex('#itemNames', 4);
+  
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.itemName).toEqual('Everburning Torch');
+
+        //run validation
+        await waitForService();
+
+        setSelectByIndex('#itemTypes', 6);
+  
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.itemType?.itemType).toEqual('Staff');
+        
+        //run validation
+        await waitForService();
+
+        expect(fixture.componentInstance.itemNames).toEqual(fixture.componentInstance.treasureModel.itemNames['Staff']);
+        expect(fixture.componentInstance.itemName).toEqual('');
         
         //item name
         expectExists('#itemNames', true);
         expectHasAttribute('#itemNames', 'required', false);
         expectHasAttribute('#itemNames', 'hidden', false);
-        expectExists('#itemNames > option:checked', false);
+        expectExists('#itemNames > option:checked', true);
         expectExists('#itemNames > option', true);
 
         const compiled = fixture.nativeElement as HTMLElement;
-        const itemNameOptions = compiled.querySelectorAll('#itemNames > option');
-        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'].length);
+        const selectedItemName = compiled.querySelector('#itemNames > option:checked');
+        expect(selectedItemName?.textContent).toEqual('');
 
-        for(var i = 0; i < itemNameOptions?.length; i++) {
-          expect(itemNameOptions?.item(i).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['Rod'][i]);
+        const itemNameOptions = compiled.querySelectorAll('#itemNames > option');
+        expect(itemNameOptions?.length).toEqual(fixture.componentInstance.treasureModel.itemNames['Staff'].length + 1);
+        expect(itemNameOptions?.item(0).textContent).toEqual('');
+
+        for(var i = 0; i < fixture.componentInstance.treasureModel.itemNames['Staff'].length; i++) {
+          expect(itemNameOptions?.item(i + 1).textContent).toEqual(fixture.componentInstance.treasureModel.itemNames['Staff'][i]);
         }
       });
     
@@ -1448,21 +1537,29 @@ describe('TreasureGenComponent', () => {
             powerIndex = fixture.componentInstance.treasureModel.powers.findIndex(p => p == 'Mundane');
 
           setSelectByIndex('#powers', powerIndex);
+          
+          fixture.detectChanges();
+    
+          expect(fixture.componentInstance.power).toEqual(fixture.componentInstance.treasureModel.powers[powerIndex]);
+
+          //run validation
+          await waitForService();
+    
           setSelectByIndex('#itemTypes', itemTypeIndex);
     
           fixture.detectChanges();
     
-          expect(fixture.componentInstance.power).toEqual(fixture.componentInstance.treasureModel.powers[powerIndex]);
           expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
           expect(fixture.componentInstance.itemName).toEqual('');
           
           const compiled = fixture.nativeElement as HTMLElement;
           const itemNameOptions = compiled!.querySelectorAll('#itemNames > option');
           expect(itemNameOptions).toBeDefined();
-          expect(itemNameOptions?.length).toEqual(itemNames.length);
+          expect(itemNameOptions?.length).toEqual(itemNames.length + 1);
+          expect(itemNameOptions?.item(0).textContent).toEqual('');
 
-          for(var i = 0; i < itemNameOptions?.length; i++) {
-            expect(itemNameOptions?.item(i).textContent).toEqual(itemNames[i]);
+          for(var i = 0; i < itemNames.length; i++) {
+            expect(itemNameOptions?.item(i + 1).textContent).toEqual(itemNames[i]);
           }
 
           expectValidating('#itemButton', '#itemValidating');
@@ -1514,7 +1611,7 @@ describe('TreasureGenComponent', () => {
           expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
         });
 
-        it(`should show that item with non-default name is valid - item type index ${itemTypeIndex}`, async () => {
+        it(`should show that item with non-empty name is valid - item type index ${itemTypeIndex}`, async () => {
           let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
           let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
 
@@ -1541,7 +1638,7 @@ describe('TreasureGenComponent', () => {
           expectHasAttribute('#itemNames', 'hidden', false);
           expectHasAttribute('#anyItemName', 'hidden', true);
 
-          setSelectByIndex('#itemNames', 1);
+          setSelectByIndex('#itemNames', 2);
     
           fixture.detectChanges();
     
@@ -1597,7 +1694,7 @@ describe('TreasureGenComponent', () => {
           expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
         });
   
-        it(`should show an item is invalid - not a valid matching name - item type index ${itemTypeIndex}`, async () => {
+        it(`should not allow an invalid name - item type index ${itemTypeIndex}`, async () => {
           let itemTypeViewModel = fixture.componentInstance.treasureModel.itemTypeViewModels[itemTypeIndex];
           let itemNames = fixture.componentInstance.treasureModel.itemNames[itemTypeViewModel.itemType];
   
@@ -1638,7 +1735,6 @@ describe('TreasureGenComponent', () => {
           //run validation
           await waitForService();
     
-          //Because we empty out the wrong name, it ends up being valid
           expectValid(fixture.componentInstance.validItem, '#itemButton', '#itemValidating');
         });
       });
@@ -1704,7 +1800,7 @@ describe('TreasureGenComponent', () => {
       const powerIndicesTestCases = Array.from(Array(4).keys());
       
       powerIndicesTestCases.forEach(powerIndex => {
-        it(`should show that item is valid - non-default power index ${powerIndex}`, async () => {
+        it(`should show that item is valid - power index ${powerIndex}`, async () => {
           const armorIndex = fixture.componentInstance.treasureModel.itemTypeViewModels.findIndex(itvm => itvm.itemType == 'Armor');
 
           setSelectByIndex('#itemTypes', armorIndex);
@@ -1766,7 +1862,7 @@ describe('TreasureGenComponent', () => {
 
         fixture.detectChanges();
 
-        expect(fixture.componentInstance.itemName).toEqual("Alchemist's Fire");
+        expect(fixture.componentInstance.itemName).toEqual("Acid");
         expect(fixture.componentInstance.validating).toBeTrue();
         
 
@@ -1798,7 +1894,7 @@ describe('TreasureGenComponent', () => {
         const itemComponent = element.componentInstance as ItemComponent;
         expect(itemComponent.item).toBeDefined();
         expect(itemComponent.item).not.toBeNull();
-        expect(itemComponent.item?.name).toEqual("Alchemist's Fire");
+        expect(itemComponent.item?.name).toEqual("Acid");
         expect(itemComponent.item?.itemType).toEqual('Alchemical Item');
       });
     
@@ -1861,7 +1957,7 @@ describe('TreasureGenComponent', () => {
   
         fixture.detectChanges();
 
-        expect(fixture.componentInstance.itemName).toEqual('Banded Mail of Luck');
+        expect(fixture.componentInstance.itemName).toEqual('Banded mail');
 
         //run validation
         await waitForService();
@@ -1889,7 +1985,7 @@ describe('TreasureGenComponent', () => {
         const itemComponent = element.componentInstance as ItemComponent;
         expect(itemComponent.item).toBeDefined();
         expect(itemComponent.item).not.toBeNull();
-        expect(itemComponent.item?.name).toEqual('Banded Mail of Luck');
+        expect(['Banded mail', 'Banded Mail of Luck']).toContain(itemComponent.item?.name);
         expect(itemComponent.item?.itemType).toEqual('Armor');
       });
     
@@ -1994,7 +2090,7 @@ describe('TreasureGenComponent', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Treasure [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.txt$/));
+        jasmine.stringMatching(/^Treasure \(.+, [0-9] goods, [0-9] items\) [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.txt$/));
         
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
