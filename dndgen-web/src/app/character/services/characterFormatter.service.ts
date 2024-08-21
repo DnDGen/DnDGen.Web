@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { TreasureFormatterService } from "../treasure/services/treasureFormatter.service";
-import { Character } from './character.model';
-import { Leadership } from './leadership.model';
-import { Measurement } from './measurement.model';
-import { InchesToFeetPipe } from '../shared/inchesToFeet.pipe'
-import { Skill } from './skill.model';
-import { Feat } from './feat.model';
-import { FeatCollection } from './featCollection.model';
-import { SpellQuantity } from './spellQuantity.model';
-import { Spell } from './spell.model';
-import { Item } from '../treasure/models/item.model';
-import { Equipment } from './equipment.model';
-import { Treasure } from '../treasure/models/treasure.model';
-import { ArmorClass } from './armorClass.model';
-import { BaseAttack } from './baseAttack.model';
-import { Abilities } from './abilities.model';
+import { TreasureFormatterService } from "../../treasure/services/treasureFormatter.service";
+import { Character } from '../models/character.model';
+import { Leadership } from '../models/leadership.model';
+import { Measurement } from '../models/measurement.model';
+import { InchesToFeetPipe } from '../../shared/inchesToFeet.pipe'
+import { Skill } from '../models/skill.model';
+import { Feat } from '../models/feat.model';
+import { FeatCollection } from '../models/featCollection.model';
+import { SpellQuantity } from '../models/spellQuantity.model';
+import { Spell } from '../models/spell.model';
+import { Item } from '../../treasure/models/item.model';
+import { Equipment } from '../models/equipment.model';
+import { Treasure } from '../../treasure/models/treasure.model';
+import { ArmorClass } from '../models/armorClass.model';
+import { BaseAttack } from '../models/baseAttack.model';
+import { Abilities } from '../models/abilities.model';
 
 @Injectable({
   providedIn: 'root',

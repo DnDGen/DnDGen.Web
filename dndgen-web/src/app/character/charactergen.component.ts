@@ -1,14 +1,14 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { CharacterService } from './character.service';
 import { LeadershipService } from './leadership.service';
-import { RandomizerService } from './randomizer.service';
-import { CharacterFormatterService } from './characterFormatter.service';
+import { RandomizerService } from './services/randomizer.service';
+import { CharacterFormatterService } from './services/characterFormatter.service';
 import { FileSaverService } from '../shared/fileSaver.service';
 import { SweetAlertService } from '../shared/sweetAlert.service';
 import { LoggerService } from '../shared/logger.service';
-import { Character } from './character.model';
-import { Leadership } from './leadership.model';
-import { CharacterGenViewModel } from './charactergenViewModel.model';
+import { Character } from './models/character.model';
+import { Leadership } from './models/leadership.model';
+import { CharacterGenViewModel } from './models/charactergenViewModel.model';
 
 @Component({
   selector: 'dndgen-charactergen',

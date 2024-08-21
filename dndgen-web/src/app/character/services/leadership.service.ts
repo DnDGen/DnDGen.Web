@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Character } from './character.model';
-import { Leadership } from './leadership.model';
+import { Character } from '../models/character.model';
+import { Leadership } from '../models/leadership.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LeadershipService {
-
   constructor(private http: HttpClient) {
   }
 

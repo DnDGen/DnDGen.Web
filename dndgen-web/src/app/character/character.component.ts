@@ -1,5 +1,5 @@
 import { Input, Component } from '@angular/core';
-import { Character } from './character.model';
+import { Character } from './models/character.model';
 
 @Component({
   selector: 'dndgen-character',
