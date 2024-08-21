@@ -15,6 +15,8 @@ import { Treasure } from '../../treasure/models/treasure.model';
 import { ArmorClass } from '../models/armorClass.model';
 import { BaseAttack } from '../models/baseAttack.model';
 import { Abilities } from '../models/abilities.model';
+import { Armor } from '../../treasure/models/armor.model';
+import { Weapon } from '../../treasure/models/weapon.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,37 +24,48 @@ import { Abilities } from '../models/abilities.model';
 export class CharacterFormatterService {
   constructor(private treasureFormatterService: TreasureFormatterService, private inchesToFeetPipe: InchesToFeetPipe) { }
 
-  public formatCharacter(character: Character, leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
+  public formatLeadership(leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
     if (!prefix)
       prefix = '';
 
-    var formattedCharacter = this.formatCharacterWithoutLeadership(character, prefix);
+    if (!leadership)
+        return '';
 
-    if (leadership) {
-      formattedCharacter += '\r\n';
-      formattedCharacter += this.formatLeadership(leadership, prefix);
-    }
+    let formattedLeadership = prefix + "Leadership:\r\n";
+    formattedLeadership += prefix + "\t" + "Score: " + leadership.score + "\r\n";
+    formattedLeadership += this.formatList(leadership.leadershipModifiers, 'Leadership Modifiers', prefix + "\t");
 
     if (cohort) {
-      formattedCharacter += '\r\n';
-      formattedCharacter += prefix + 'Cohort:\r\n';
-      formattedCharacter += this.formatCharacterWithoutLeadership(cohort, prefix + '\t');
+        formattedLeadership += '\r\n';
+        formattedLeadership += prefix + 'Cohort:\r\n';
+        formattedLeadership += this.formatCharacter(cohort, prefix + '\t');
     }
 
     if (followers && followers.length > 0) {
-      formattedCharacter += '\r\n';
-      formattedCharacter += prefix + 'Followers:\r\n';
+        formattedLeadership += '\r\n';
+      formattedLeadership += prefix + 'Followers:\r\n';
 
       for (var i = 0; i < followers.length; i++) {
-        formattedCharacter += '\r\n';
-        formattedCharacter += this.formatCharacterWithoutLeadership(followers[i], prefix + '\t');
+        formattedLeadership += '\r\n';
+        formattedLeadership += this.formatCharacter(followers[i], prefix + '\t');
       }
     }
 
-    return formattedCharacter;
+    return formattedLeadership;
   }
 
-  private formatCharacterWithoutLeadership(character: Character, prefix: string): string {
+  public formatLeader(character: Character, leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
+    if (!prefix)
+      prefix = '';
+
+    let formattedLeader = this.formatCharacter(character, prefix);
+    formattedLeader += '\r\n';
+    formattedLeader += this.formatLeadership(leadership, cohort, followers, prefix);
+
+    return formattedLeader;
+  }
+
+  public formatCharacter(character: Character, prefix: string): string {
       if (!character)
           return '';
 
@@ -326,7 +339,7 @@ export class CharacterFormatterService {
       return formattedSpells;
   }
 
-  private formatItem(title: string, item: Item, prefix: string): string {
+  private formatItem(title: string, item: Item | Armor | Weapon | null, prefix: string): string {
       if (!prefix)
           prefix = '';
 
@@ -418,19 +431,5 @@ export class CharacterFormatterService {
       }
 
       return formattedBonuses;
-  }
-
-  private formatLeadership(leadership: Leadership, prefix: string): string {
-      if (!leadership)
-          return '';
-
-      if (!prefix)
-          prefix = '';
-
-      var formattedLeadership = prefix + "Leadership:\r\n";
-      formattedLeadership += prefix + "\t" + "Score: " + leadership.score + "\r\n";
-      formattedLeadership += this.formatList(leadership.leadershipModifiers, 'Leadership Modifiers', prefix + "\t");
-
-      return formattedLeadership;
   }
 }
