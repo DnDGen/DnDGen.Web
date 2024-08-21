@@ -5,6 +5,7 @@ export class Armor extends Item {
   constructor(
     public override name: string,
     public override itemType: string,
+    public override description: string = '',
     public override baseNames: string[] = [],
     public override traits: string[] = [],
     public override attributes: string[] = [],
@@ -21,6 +22,6 @@ export class Armor extends Item {
     public totalArmorCheckPenalty: number = 0,
     public totalMaxDexterityBonus: number = 0
   ) {
-    super(name, itemType, baseNames, traits, attributes, magic, quantity, contents, isMagical, true);
+    super(name, itemType, description, baseNames, traits, attributes, magic, quantity, contents, isMagical, true);
   }
 }

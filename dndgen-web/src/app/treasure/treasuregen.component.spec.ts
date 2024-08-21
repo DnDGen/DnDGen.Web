@@ -27,7 +27,6 @@ describe('TreasureGenComponent', () => {
     let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
     let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
     let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
-    let idServiceSpy: jasmine.SpyObj<UuidService>;
 
     const delay = 10;
   
@@ -37,9 +36,8 @@ describe('TreasureGenComponent', () => {
       sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
       loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
       fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
-      idServiceSpy = jasmine.createSpyObj('UuidService', ['generate']);
 
-      component = new TreasureGenComponent(treasureServiceSpy, sweetAlertServiceSpy, fileSaverServiceSpy, treasureFormatterServiceSpy, idServiceSpy, loggerServiceSpy);
+      component = new TreasureGenComponent(treasureServiceSpy, sweetAlertServiceSpy, fileSaverServiceSpy, treasureFormatterServiceSpy, loggerServiceSpy);
     });
   
     it(`should initialize the public properties`, () => {
@@ -800,12 +798,11 @@ describe('TreasureGenComponent', () => {
       component.treasure = treasure;
 
       treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
-      idServiceSpy.generate.and.returnValue('abc');
 
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 0 goods, 0 items) abc');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 0 goods, 0 items)');
     });
 
     it('should download treasure - with goods', () => {
@@ -814,12 +811,11 @@ describe('TreasureGenComponent', () => {
       component.treasure = treasure;
 
       treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
-      idServiceSpy.generate.and.returnValue('abc');
 
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 2 goods, 0 items) abc');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 2 goods, 0 items)');
     });
 
     it('should download treasure - with items', () => {
@@ -828,12 +824,11 @@ describe('TreasureGenComponent', () => {
       component.treasure = treasure;
 
       treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
-      idServiceSpy.generate.and.returnValue('abc');
 
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 0 goods, 2 items) abc');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 0 goods, 2 items)');
     });
 
     it('should download treasure - all', () => {
@@ -843,12 +838,11 @@ describe('TreasureGenComponent', () => {
       component.treasure = treasure;
 
       treasureFormatterServiceSpy.formatTreasure.and.returnValue('my formatted treasure');
-      idServiceSpy.generate.and.returnValue('abc');
 
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 2 goods, 1 items) abc');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 2 goods, 1 items)');
     });
 
     it('should not download missing treasure', () => {
@@ -857,7 +851,6 @@ describe('TreasureGenComponent', () => {
       component.downloadTreasure();
       
       expect(treasureFormatterServiceSpy.formatTreasure).not.toHaveBeenCalled();
-      expect(idServiceSpy.generate).not.toHaveBeenCalled();
       expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
 
@@ -866,25 +859,25 @@ describe('TreasureGenComponent', () => {
       component.treasure = treasure;
 
       treasureFormatterServiceSpy.formatTreasure.and.returnValue('my empty treasure');
-      idServiceSpy.generate.and.returnValue('def');
 
       component.downloadTreasure();
 
       expect(treasureFormatterServiceSpy.formatTreasure).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my empty treasure', 'Treasure (0 coins, 0 goods, 0 items) def');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my empty treasure', 'Treasure (0 coins, 0 goods, 0 items)');
     });
 
     it('should download item', () => {
       let item = new Item('my item', 'my item type');
+      item.description = 'my item description'
+
       component.item = item;
 
       treasureFormatterServiceSpy.formatItem.and.returnValue('my formatted item');
-      idServiceSpy.generate.and.returnValue('123');
 
       component.downloadItem();
 
       expect(treasureFormatterServiceSpy.formatItem).toHaveBeenCalledWith(item);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item) 123');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item description)');
     });
 
     it('should not download missing item', () => {
@@ -893,7 +886,6 @@ describe('TreasureGenComponent', () => {
       component.downloadItem();
       
       expect(treasureFormatterServiceSpy.formatItem).not.toHaveBeenCalled();
-      expect(idServiceSpy.generate).not.toHaveBeenCalled();
       expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
 
@@ -2090,7 +2082,7 @@ describe('TreasureGenComponent', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Treasure \(.+, [0-9] goods, [0-9] items\) [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.txt$/));
+        jasmine.stringMatching(/^Treasure \(.+, [0-9] goods, [0-9] items\)\.txt$/));
         
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
@@ -2104,6 +2096,7 @@ describe('TreasureGenComponent', () => {
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
       fixture.componentInstance.item = new Item('my item', 'my item type');
+      fixture.componentInstance.item.description = 'my item description';
 
       fixture.detectChanges();
 
@@ -2111,7 +2104,7 @@ describe('TreasureGenComponent', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my item\) [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.txt$/));
+        jasmine.stringMatching(/^Item \(my item description\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();

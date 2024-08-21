@@ -8,7 +8,6 @@ import { ItemTypeViewModel } from './models/itemTypeViewModel.model';
 import { Treasure } from './models/treasure.model';
 import { Item } from './models/item.model';
 import { TreasureFormatterService } from './services/treasureFormatter.service';
-import { UuidService } from '../shared/uuid.service';
 import { switchMap, tap } from 'rxjs';
 
 @Component({
@@ -27,7 +26,6 @@ export class TreasureGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private fileSaverService: FileSaverService,
     private treasureFormatterService: TreasureFormatterService,
-    private idService: UuidService,
     private logger: LoggerService) { }
 
   public treasureModel!: TreasureGenViewModel;
@@ -191,7 +189,7 @@ export class TreasureGenComponent implements OnInit {
 
     const formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
     const coins = this.treasure.coin.quantity == 0 ? '0 coins' : `${this.treasure.coin.quantity} ${this.treasure.coin.currency}`;
-    const fileName = `Treasure (${coins}, ${this.treasure.goods.length} goods, ${this.treasure.items.length} items) ` + this.idService.generate();
+    const fileName = `Treasure (${coins}, ${this.treasure.goods.length} goods, ${this.treasure.items.length} items)`;
 
     this.fileSaverService.save(formattedTreasure, fileName);
   }
@@ -201,7 +199,7 @@ export class TreasureGenComponent implements OnInit {
       return;
 
     let formattedItem = this.treasureFormatterService.formatItem(this.item);
-    let fileName = `Item (${this.item.name}) ` + this.idService.generate();
+    let fileName = `Item (${this.item.description})`;
 
     this.fileSaverService.save(formattedItem, fileName);
   }

@@ -117,7 +117,7 @@ describe('Treasure Service', () => {
         });
     
         it('BUG - gets armor', done => {
-            const expected = new Armor('my super armor', 'armor', [], [], [], new Magic(), 1, [], false, 'my size', 9266);
+            const expected = new Armor('my super armor', 'armor', 'my armor description', [], [], [], new Magic(), 1, [], false, 'my size', 9266);
             httpClientSpy.get.and.returnValue(of(expected));
     
             treasureService.getItem("armor", "super", '').subscribe((item) => {
@@ -134,7 +134,7 @@ describe('Treasure Service', () => {
         });
     
         it('BUG - gets weapon', done => {
-            const expected = new Weapon('my super weapon', 'weapon', [], [], [], new Magic(), 1, [], false, 'my size', 'my damage description');
+            const expected = new Weapon('my super weapon', 'weapon', 'my weapon description', [], [], [], new Magic(), 1, [], false, 'my size', 'my damage description');
             httpClientSpy.get.and.returnValue(of(expected));
     
             treasureService.getItem("weapon", "super", '').subscribe((item) => {
@@ -212,12 +212,12 @@ describe('Treasure Service', () => {
 
         it('gets the treasure view model', waitForAsync(() => {
             treasureService.getViewModel().subscribe((viewmodel) => {
-                expect(viewmodel).toBeDefined();
+                expect(viewmodel).toBeTruthy();
                 expect(viewmodel.treasureTypes.length).toBe(4);
                 expect(viewmodel.powers.length).toBe(4);
                 expect(viewmodel.maxTreasureLevel).toBe(100);
                 expect(viewmodel.itemTypeViewModels.length).toBe(11);
-                expect(viewmodel.itemNames).toBeDefined();
+                expect(viewmodel.itemNames).toBeTruthy();
                 expect(Object.keys(viewmodel.itemNames).length).toBe(11);
                 expect(Object.keys(viewmodel.itemNames)).toEqual([
                     'AlchemicalItem',
@@ -244,8 +244,7 @@ describe('Treasure Service', () => {
     
         it('gets treasure', waitForAsync(() => {
             treasureService.getTreasure('treasure', 21).subscribe((treasure) => {
-                expect(treasure).toBeDefined();
-                expect(treasure).not.toBeNull();
+                expect(treasure).toBeTruthy();
                 expect(treasure.isAny).toBeTrue();
                 expect(treasure.items.length).toBeGreaterThanOrEqual(1);
             });
@@ -274,8 +273,7 @@ describe('Treasure Service', () => {
     
         it('gets an item', done => {
             treasureService.getItem('ring', 'minor', '').subscribe((item) => {
-                expect(item).toBeDefined();
-                expect(item).not.toBeNull();
+                expect(item).toBeTruthy();
                 expect(item.name).toBeTruthy();
 
                 done();
@@ -284,10 +282,18 @@ describe('Treasure Service', () => {
     
         it('gets an item with name', done => {
             treasureService.getItem('wondrousitem', 'medium', 'bracers of armor').subscribe((item) => {
-                expect(item).toBeDefined();
-                expect(item).not.toBeNull();
+                expect(item).toBeTruthy();
                 expect(item.name).toBeTruthy();
                 expect(item.name).toEqual('Bracers of Armor');
+                
+                done();
+            });
+        });
+    
+        it('BUG - gets an item description', done => {
+            treasureService.getItem('staff', 'major', '').subscribe((item) => {
+                expect(item).toBeTruthy();
+                expect(item.description).toBeTruthy();
                 
                 done();
             });
