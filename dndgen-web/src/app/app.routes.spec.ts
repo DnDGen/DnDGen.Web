@@ -1,4 +1,5 @@
 import { routes } from './app.routes';
+import { CharacterGenComponent } from './character/charactergen.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { RollGenComponent } from './roll/rollgen.component';
@@ -39,6 +40,14 @@ describe('routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('treasure');
       expect(route?.component).toEqual(TreasureGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain character route', () => {
+      let route = routes.find(r => r.path == 'character');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('character');
+      expect(route?.component).toEqual(CharacterGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     
