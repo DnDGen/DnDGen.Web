@@ -1,20 +1,17 @@
 ﻿import { InchesToFeetPipe } from "../../shared/inchesToFeet.pipe";
 import { TreasureFormatterService } from "../../treasure/services/treasureFormatter.service";
 import { Ability } from "../models/ability.model";
-import { Armor } from "../models/armor.model";
+import { Armor } from "../../treasure/models/armor.model";
 import { Character } from "../models/character.model";
-import { Coin } from "../models/coin.model";
 import { Feat } from "../models/feat.model";
-import { Frequency } from "../models/frequency.model";
-import { Good } from "../models/good.model";
-import { Item } from "../models/item.model";
+import { Good } from "../../treasure/models/good.model";
+import { Item } from "../../treasure/models/item.model";
 import { Leadership } from "../models/leadership.model";
 import { Skill } from "../models/skill.model";
-import { SpecialAbility } from "../models/specialAbility.model";
 import { Spell } from "../models/spell.model";
 import { SpellQuantity } from "../models/spellQuantity.model";
-import { Treasure } from "../models/treasure.model";
-import { Weapon } from "../models/weapon.model";
+import { Treasure } from "../../treasure/models/treasure.model";
+import { Weapon } from "../../treasure/models/weapon.model";
 import { CharacterFormatterService } from "./characterFormatter.service";
 
 describe('Character Formatter Service', () => {
@@ -27,8 +24,6 @@ describe('Character Formatter Service', () => {
         let leadership: Leadership | null;
         let cohort: Character | null;
         let followers: Character[];
-        let treasure: Treasure;
-        let item: Item;
         let characterCount: number;
     
         beforeEach(() => {
@@ -40,8 +35,6 @@ describe('Character Formatter Service', () => {
             cohort = null;
             followers = [];
 
-            treasure = new Treasure();
-            item = createItem('item name');
             characterCount = 0;
 
             characterFormatterService = new CharacterFormatterService(treasureFormatterServiceSpy, inchesToFeetPipeSpy);
@@ -65,14 +58,10 @@ describe('Character Formatter Service', () => {
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.name + '\r\n';
+            var formattedItem = prefix + item.description + '\r\n';
             formattedItem += prefix + '\tformatted\r\n';
 
             return formattedItem;
-        }
-
-        function createGood(description: string, value: number): Good {
-            return new Good(description, value);
         }
 
         function createCharacter(): Character {
@@ -164,15 +153,112 @@ describe('Character Formatter Service', () => {
             return new Feat(name);
         }
     
-        function createItem(itemName: string): Item {
-            var item = new Item(itemName, 'MyItemType');
-    
+        function createItem(name: string): Item {
+            const item = new Item(name, 'MyItemType');
+            item.description = `${name} description`;
             return item;
         }
+    
+        function createWeapon(name: string): Weapon {
+            const weapon = new Weapon(name, 'Weapon');
+            weapon.description = `${name} description`;
+            weapon.damageDescription = '9d2 damage';
+    
+            return weapon;
+        }
+    
+        function createArmor(name: string): Armor {
+            const armor = new Armor(name, 'Armor');
+            armor.description = `${name} description`;
+            armor.totalArmorBonus = 92;
+    
+            return armor;
+        }
 
-        it('formats leader basics', function () {
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+        it('formats character basics', function () {
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
+    
+            var expected = [
+                'character summary 1:',
+                '\tChallenge Rating: 90',
+                '\tAlignment: alignment 1',
+                '\tclass summary 1',
+                '\trace summary 1',
+                '\t\tLand Speed: 31 feet per round (fast 1)',
+                '\t\tSize: size 1',
+                '\t\tAge: 19 Years (adult 1)',
+                '\t\tMaximum Age: 1801 Years (natural causes 1)',
+                '\t\tHeight: 4.08 feet filtered (tall 1)',
+                '\t\tWeight: 101 Pounds (heavy 1)',
+                '\tAbilities:',
+                '\t\tStrength: 3 (-3)',
+                '\t\tConstitution: 27 (14)',
+                '\t\tDexterity: 7 (-1)',
+                '\t\tIntelligence: 91 (46)',
+                '\t\tWisdom: 11 (1)',
+                '\t\tCharisma: 10 (0)',
+                '\tLanguages:',
+                '\t\tEnglish 1',
+                '\t\tGerman 1',
+                '\tSkills:',
+                '\t\tskill 2',
+                '\t\t\tTotal Bonus: 136',
+                '\t\t\tRanks: 5',
+                '\t\t\tAbility Bonus: 14',
+                '\t\t\tOther Bonus: 0',
+                '\t\t\tArmor Check Penalty: -7',
+                '\t\t\tClass Skill',
+                '\t\tskill 3 (focus)',
+                '\t\t\t' + 'Total Bonus: 247 *',
+                '\t\t\t' + 'Ranks: 2.5',
+                '\t\t\t' + 'Ability Bonus: -1',
+                '\t\t\t' + 'Other Bonus: 4',
+                '\t\t\t' + 'Armor Check Penalty: 0',
+                '\tFeats:',
+                '\t\tRacial:',
+                '\t\t\tracial feat 2',
+                '\t\t\tracial feat 3',
+                '\t\tClass:',
+                '\t\t\tclass feat 2',
+                '\t\t\tclass feat 3',
+                '\t\tAdditional:',
+                '\t\t\tadditional feat 2',
+                '\t\t\tadditional feat 3',
+                '\tInteresting Trait: None',
+                '\tEquipment:',
+                '\t\tPrimary Hand: None',
+                '\t\tOff Hand: None',
+                '\t\tArmor: None',
+                '\t\tTreasure: None',
+                '\tCombat:',
+                '\t\tAdjusted Dexterity Bonus: 4',
+                '\t\tArmor Class: 8',
+                '\t\t\tFlat-Footed: 13',
+                '\t\t\tTouch: 35',
+                '\t\tBase Attack:',
+                '\t\t\tMelee: +22/+17/+12/+7/+2',
+                '\t\t\tRanged: +23/+18/+13/+8/+3',
+                '\t\tHit Points: 3457',
+                '\t\tInitiative Bonus: 4568',
+                '\t\tSaving Throws:',
+                '\t\t\tFortitude: 57',
+                '\t\t\tReflex: 79',
+                '\t\t\tWill: 68',
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+        
+
+        it('formats leader basics - no leadership', function () {
+            var formattedLeader = characterFormatterService.formatLeader(character, null, null, []);
+            var lines = formattedLeader.split('\r\n');
     
             var expected = [
                 'character summary 1:',
@@ -257,7 +343,7 @@ describe('Character Formatter Service', () => {
             character.race.height.description = '';
             character.race.weight.description = '';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -339,7 +425,7 @@ describe('Character Formatter Service', () => {
         it('formats class specialization', function () {
             character.class.specialistFields = ["specialist field 1", "specialist field 2"];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -425,7 +511,7 @@ describe('Character Formatter Service', () => {
             character.class.specialistFields = ["specialist field 1", "specialist field 2"];
             character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -513,7 +599,7 @@ describe('Character Formatter Service', () => {
         it('formats metarace species', function () {
             character.race.metaraceSpecies = 'metarace species';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -596,7 +682,7 @@ describe('Character Formatter Service', () => {
         it('formats wings', function () {
             character.race.hasWings = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -680,7 +766,7 @@ describe('Character Formatter Service', () => {
             character.race.aerialSpeed.value = 9876;
             character.race.aerialSpeed.description = "swift";
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -764,7 +850,7 @@ describe('Character Formatter Service', () => {
             character.race.swimSpeed.value = 9876;
             character.race.swimSpeed.description = "alacrid";
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -848,7 +934,7 @@ describe('Character Formatter Service', () => {
         it('formats no racial feats', function () {
             character.feats.racial = [];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -927,7 +1013,7 @@ describe('Character Formatter Service', () => {
         it('formats no class feats', function () {
             character.feats.class = [];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1008,7 +1094,7 @@ describe('Character Formatter Service', () => {
             character.feats.class[0].foci = ['focus 3', 'focus 4'];
             character.feats.additional[0].foci = ['focus 5', 'focus 6'];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1101,7 +1187,7 @@ describe('Character Formatter Service', () => {
             character.feats.class[0].power = 8765;
             character.feats.additional[0].power = 7654;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1191,7 +1277,7 @@ describe('Character Formatter Service', () => {
             character.feats.additional[0].frequency.quantity = 7654;
             character.feats.additional[0].frequency.timePeriod = 'turn of the wheel';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1281,7 +1367,7 @@ describe('Character Formatter Service', () => {
             character.feats.additional[0].frequency.quantity = 0;
             character.feats.additional[0].frequency.timePeriod = 'when pigs fly';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1366,7 +1452,7 @@ describe('Character Formatter Service', () => {
         it('formats interesting trait', function () {
             character.interestingTrait = 'is interesting';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1451,7 +1537,7 @@ describe('Character Formatter Service', () => {
                 new SpellQuantity('my source', 1, 8, true),
             ];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1552,7 +1638,7 @@ describe('Character Formatter Service', () => {
                 new Spell('my other source', 2, 'spell 3.2', []),
             ];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1683,7 +1769,7 @@ describe('Character Formatter Service', () => {
                 new Spell('my other source', 2, 'prepared spell 3.2', []),
             ];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1800,7 +1886,7 @@ describe('Character Formatter Service', () => {
         it('formats arcane spell failure', function () {
             character.magic.arcaneSpellFailure = 98;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1883,7 +1969,7 @@ describe('Character Formatter Service', () => {
         it('formats animal', function () {
             character.magic.animal = 'familiar';
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -1964,9 +2050,9 @@ describe('Character Formatter Service', () => {
         });
     
         it('formats primary hand', function () {
-            character.equipment.primaryHand = createItem('primary weapon');
+            character.equipment.primaryHand = createWeapon('primary weapon');
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2048,10 +2134,10 @@ describe('Character Formatter Service', () => {
         });
     
         it('formats two-handed weapon', function () {
-            character.equipment.primaryHand = createItem('primary weapon');
+            character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.primaryHand.attributes.push('Two-Handed');
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2133,10 +2219,10 @@ describe('Character Formatter Service', () => {
         });
     
         it('formats off-hand item', function () {
-            character.equipment.primaryHand = createItem('primary weapon');
+            character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2220,9 +2306,9 @@ describe('Character Formatter Service', () => {
         });
     
         it('formats armor', function () {
-            character.equipment.armor = createItem('armor');
+            character.equipment.armor = createArmor('armor');
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2306,7 +2392,7 @@ describe('Character Formatter Service', () => {
         it('formats treasure if there is any', function () {
             character.equipment.treasure.isAny = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2387,7 +2473,7 @@ describe('Character Formatter Service', () => {
         it('formats circumstantial armor bonus', function () {
             character.combat.armorClass.circumstantialBonus = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2469,7 +2555,7 @@ describe('Character Formatter Service', () => {
         it('formats circumstantial base attack bonus', function () {
             character.combat.baseAttack.circumstantialBonus = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2552,7 +2638,7 @@ describe('Character Formatter Service', () => {
             character.combat.baseAttack.allMeleeBonuses = [-2]
             character.combat.baseAttack.allRangedBonuses = [-1];
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2634,7 +2720,7 @@ describe('Character Formatter Service', () => {
         it('formats circumstantial save bonus', function () {
             character.combat.savingThrows.circumstantialBonus = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2714,7 +2800,7 @@ describe('Character Formatter Service', () => {
             expect(lines.length).toBe(expected.length);
         });
     
-        it('formats full leader', function () {
+        it('formats full character', function () {
             character.class.specialistFields = ["specialist field 1", "specialist field 2" ];
             character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2" ];
             character.race.metarace = "metarace";
@@ -2741,32 +2827,49 @@ describe('Character Formatter Service', () => {
             character.interestingTrait = "interesting trait";
     
             character.magic.spellsPerDay = [
-                { level: 0, quantity: 45678 },
-                { level: 1, quantity: 56789  , hasDomainSpell: true }
+                new SpellQuantity('my source', 0, 9, false),
+                new SpellQuantity('my source', 1, 8, true),
+                new SpellQuantity('my other source', 2, 7, false),
+                new SpellQuantity('my other source', 3, 6, true),
             ];
     
             character.magic.knownSpells = [
-                { name: 'first spell', level: 0 },
-                { name: 'second spell', level: 1 }
+                new Spell('my source', 0, 'spell 0.1', []),
+                new Spell('my source', 0, 'spell 0.2', []),
+                new Spell('my source', 1, 'spell 1.1', []),
+                new Spell('my source', 1, 'spell 1.2', []),
+                new Spell('my other source', 1, 'spell 2.1', []),
+                new Spell('my other source', 1, 'spell 2.2', []),
+                new Spell('my other source', 2, 'spell 3.1', []),
+                new Spell('my other source', 2, 'spell 3.2', []),
             ];
     
             character.magic.preparedSpells = [
-                { name: 'first prepared spell', level: 0 },
-                { name: 'first prepared spell', level: 0 },
-                { name: 'second prepared spell', level: 1 }
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.2', []),
+                new Spell('my source', 1, 'prepared spell 1.1', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.1', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.2', []),
             ];
     
             character.magic.arcaneSpellFailure = 12;
             character.magic.animal = "animal";
-            character.equipment.primaryHand = createItem('primary weapon');
+            character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
-            character.equipment.armor = createItem('armor');
+            character.equipment.armor = createArmor('armor');
             character.equipment.treasure.isAny = true;
             character.combat.armorClass.circumstantialBonus = true;
             character.combat.baseAttack.circumstantialBonus = true;
             character.combat.savingThrows.circumstantialBonus = true;
     
-            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
+            var formattedCharacter = characterFormatterService.formatCharacter(character);
             var lines = formattedCharacter.split('\r\n');
     
             var expected = [
@@ -2890,182 +2993,6 @@ describe('Character Formatter Service', () => {
             expect(lines.length).toBe(expected.length);
         });
     
-        it('formats full leader with prefix', function () {
-            character.class.specialistFields = ["specialist field 1", "specialist field 2"];
-            character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
-            character.race.metarace = "metarace";
-            character.race.metaraceSpecies = "metarace species";
-            character.race.hasWings = true;
-            character.race.aerialSpeed.value = 12345;
-            character.race.aerialSpeed.description = 'supafly';
-            character.race.swimSpeed.value = 579;
-            character.race.swimSpeed.description = 'watery';
-    
-            character.feats.racial[0].foci = ["focus 1", "focus 2"];
-            character.feats.racial[0].frequency.quantity = 34567;
-            character.feats.racial[0].frequency.timePeriod = "sometimes";
-            character.feats.racial[0].power = 23456;
-            character.feats.class[0].foci = ["focus 3", "focus 4"];
-            character.feats.class[0].frequency.quantity = 135;
-            character.feats.class[0].frequency.timePeriod = "all the time";
-            character.feats.class[0].power = 246;
-            character.feats.additional[0].foci = ["focus 5", "focus 6"];
-            character.feats.additional[0].frequency.quantity = 357;
-            character.feats.additional[0].frequency.timePeriod = "when the sun rises";
-            character.feats.additional[0].power = 468;
-    
-            character.interestingTrait = "interesting trait";
-    
-            character.magic.spellsPerDay = [
-                { level: 0, quantity: 45678 },
-                { level: 1, quantity: 56789, hasDomainSpell: true }
-            ];
-    
-            character.magic.knownSpells = [
-                { name: 'first spell', level: 0 },
-                { name: 'second spell', level: 1 }
-            ];
-    
-            character.magic.preparedSpells = [
-                { name: 'first prepared spell', level: 0 },
-                { name: 'first prepared spell', level: 0 },
-                { name: 'second prepared spell', level: 1 }
-            ];
-    
-            character.magic.arcaneSpellFailure = 12;
-            character.magic.animal = "animal";
-            character.equipment.primaryHand = createItem('primary weapon');
-            character.equipment.offHand = createItem('off-hand item');
-            character.equipment.armor = createItem('armor');
-            character.equipment.treasure.isAny = true;
-            character.combat.armorClass.circumstantialBonus = true;
-            character.combat.baseAttack.circumstantialBonus = true;
-            character.combat.savingThrows.circumstantialBonus = true;
-    
-            var formattedCharacter = characterFormatterService.formatLeader(character, null, null, null, '\t');
-            var lines = formattedCharacter.split('\r\n');
-    
-            var expected = [
-                '\t' + 'character summary 1:',
-                '\t\t' + 'Challenge Rating: 90',
-                '\t\t' + 'Alignment: alignment 1',
-                '\t\t' + 'class summary 1',
-                '\t\t\t' + 'Specialist:',
-                '\t\t\t\t' + 'specialist field 1',
-                '\t\t\t\t' + 'specialist field 2',
-                '\t\t\t' + 'Prohibited:',
-                '\t\t\t\t' + 'prohibited field 1',
-                '\t\t\t\t' + 'prohibited field 2',
-                '\t\t' + 'race summary 1',
-                '\t\t\t' + 'Metarace Species: metarace species',
-                '\t\t\t' + 'Land Speed: 31 feet per round (fast 1)',
-                '\t\t\t' + 'Aerial Speed: 12345 feet per round (supafly)',
-                '\t\t\t' + 'Swim Speed: 579 feet per round (watery)',
-                '\t\t\t' + 'Size: size 1',
-                '\t\t\t' + 'Age: 19 Years (adult 1)',
-                '\t\t\t' + 'Maximum Age: 1801 Years (natural causes 1)',
-                '\t\t\t' + 'Height: 4.08 feet filtered (tall 1)',
-                '\t\t\t' + 'Weight: 101 Pounds (heavy 1)',
-                '\t\t\t' + 'Has Wings',
-                '\t\t' + 'Abilities:',
-                '\t\t\t' + 'Strength: 3 (-3)',
-                '\t\t\t' + 'Constitution: 27 (14)',
-                '\t\t\t' + 'Dexterity: 7 (-1)',
-                '\t\t\t' + 'Intelligence: 91 (46)',
-                '\t\t\t' + 'Wisdom: 11 (1)',
-                '\t\t\t' + 'Charisma: 10 (0)',
-                '\t\t' + 'Languages:',
-                '\t\t\t' + 'English 1',
-                '\t\t\t' + 'German 1',
-                '\t\tSkills:',
-                '\t\t\tskill 2',
-                '\t\t\t\tTotal Bonus: 136',
-                '\t\t\t\tRanks: 5',
-                '\t\t\t\tAbility Bonus: 14',
-                '\t\t\t\tOther Bonus: 0',
-                '\t\t\t\tArmor Check Penalty: -7',
-                '\t\t\t\tClass Skill',
-                '\t\t\tskill 3 (focus)',
-                '\t\t\t\t' + 'Total Bonus: 247 *',
-                '\t\t\t\t' + 'Ranks: 2.5',
-                '\t\t\t\t' + 'Ability Bonus: -1',
-                '\t\t\t\t' + 'Other Bonus: 4',
-                '\t\t\t\t' + 'Armor Check Penalty: 0',
-                '\t\t' + 'Feats:',
-                '\t\t\t' + 'Racial:',
-                '\t\t\t\t' + 'racial feat 2',
-                '\t\t\t\t\t' + 'Foci:',
-                '\t\t\t\t\t\t' + 'focus 1',
-                '\t\t\t\t\t\t' + 'focus 2',
-                '\t\t\t\t\t' + 'Frequency: 34567/sometimes',
-                '\t\t\t\t\t' + 'Power: 23456',
-                '\t\t\t\t' + 'racial feat 3',
-                '\t\t\t' + 'Class:',
-                '\t\t\t\t' + 'class feat 2',
-                '\t\t\t\t\t' + 'Foci:',
-                '\t\t\t\t\t\t' + 'focus 3',
-                '\t\t\t\t\t\t' + 'focus 4',
-                '\t\t\t\t\t' + 'Frequency: 135/all the time',
-                '\t\t\t\t\t' + 'Power: 246',
-                '\t\t\t\t' + 'class feat 3',
-                '\t\t\t' + 'Additional:',
-                '\t\t\t\t' + 'additional feat 2',
-                '\t\t\t\t\t' + 'Foci:',
-                '\t\t\t\t\t\t' + 'focus 5',
-                '\t\t\t\t\t\t' + 'focus 6',
-                '\t\t\t\t\t' + 'Frequency: 357/when the sun rises',
-                '\t\t\t\t\t' + 'Power: 468',
-                '\t\t\t\t' + 'additional feat 3',
-                '\t\t' + 'Interesting Trait: interesting trait',
-                '\t\t' + 'Spells Per Day:',
-                '\t\t\t' + 'Level 0: 45678',
-                '\t\t\t' + 'Level 1: 56789 + 1',
-                '\t\t' + 'Known Spells:',
-                '\t\t\t' + 'first spell (0)',
-                '\t\t\t' + 'second spell (1)',
-                '\t\t' + 'Prepared Spells:',
-                '\t\t\t' + 'first prepared spell (0)',
-                '\t\t\t' + 'first prepared spell (0)',
-                '\t\t\t' + 'second prepared spell (1)',
-                '\t\t' + 'Arcane Spell Failure: 12%',
-                '\t\t' + 'Animal: animal',
-                '\t\t' + 'Equipment:',
-                '\t\t\t' + 'Primary Hand:',
-                '\t\t\t\t' + 'primary weapon',
-                '\t\t\t\t\t' + 'formatted',
-                '\t\t\t' + 'Off Hand:',
-                '\t\t\t\t' + 'off-hand item',
-                '\t\t\t\t\t' + 'formatted',
-                '\t\t\t' + 'Armor:',
-                '\t\t\t\t' + 'armor',
-                '\t\t\t\t\t' + 'formatted',
-                '\t\t\t' + 'Treasure:',
-                '\t\t\t\t' + 'formatted treasure',
-                '\t\t' + 'Combat:',
-                '\t\t\t' + 'Adjusted Dexterity Bonus: 4',
-                '\t\t\t' + 'Armor Class: 8 *',
-                '\t\t\t\t' + 'Flat-Footed: 13',
-                '\t\t\t\t' + 'Touch: 35',
-                '\t\t\t' + 'Base Attack:',
-                '\t\t\t\t' + 'Melee: +22/+17/+12/+7/+2 *',
-                '\t\t\t\t' + 'Ranged: +23/+18/+13/+8/+3 *',
-                '\t\t\t' + 'Hit Points: 3457',
-                '\t\t\t' + 'Initiative Bonus: 4568',
-                '\t\t\t' + 'Saving Throws:',
-                '\t\t\t\t' + 'Fortitude: 57',
-                '\t\t\t\t' + 'Reflex: 79',
-                '\t\t\t\t' + 'Will: 68',
-                '\t\t\t\t' + 'Circumstantial Bonus',
-                '',
-            ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
-        });
-    
         it('formats full character with prefix', function () {
             character.class.specialistFields = ["specialist field 1", "specialist field 2"];
             character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
@@ -3093,26 +3020,43 @@ describe('Character Formatter Service', () => {
             character.interestingTrait = "interesting trait";
     
             character.magic.spellsPerDay = [
-                { level: 0, quantity: 45678 },
-                { level: 1, quantity: 56789, hasDomainSpell: true }
+                new SpellQuantity('my source', 0, 9, false),
+                new SpellQuantity('my source', 1, 8, true),
+                new SpellQuantity('my other source', 2, 7, false),
+                new SpellQuantity('my other source', 3, 6, true),
             ];
     
             character.magic.knownSpells = [
-                { name: 'first spell', level: 0 },
-                { name: 'second spell', level: 1 }
+                new Spell('my source', 0, 'spell 0.1', []),
+                new Spell('my source', 0, 'spell 0.2', []),
+                new Spell('my source', 1, 'spell 1.1', []),
+                new Spell('my source', 1, 'spell 1.2', []),
+                new Spell('my other source', 1, 'spell 2.1', []),
+                new Spell('my other source', 1, 'spell 2.2', []),
+                new Spell('my other source', 2, 'spell 3.1', []),
+                new Spell('my other source', 2, 'spell 3.2', []),
             ];
     
             character.magic.preparedSpells = [
-                { name: 'first prepared spell', level: 0 },
-                { name: 'first prepared spell', level: 0 },
-                { name: 'second prepared spell', level: 1 }
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.2', []),
+                new Spell('my source', 1, 'prepared spell 1.1', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.1', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.2', []),
             ];
     
             character.magic.arcaneSpellFailure = 12;
             character.magic.animal = "animal";
-            character.equipment.primaryHand = createItem('primary weapon');
+            character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
-            character.equipment.armor = createItem('armor');
+            character.equipment.armor = createArmor('armor');
             character.equipment.treasure.isAny = true;
             character.combat.armorClass.circumstantialBonus = true;
             character.combat.baseAttack.circumstantialBonus = true;
@@ -3242,12 +3186,309 @@ describe('Character Formatter Service', () => {
             expect(lines.length).toBe(expected.length);
         });
     
-        it('formats leader with full leadership', function () {
-            leadership = {
-                score: 9876,
-                leadershipModifiers: ['killed a man', 'with this thumb']
-            };
+        it('formats full leader with prefix', function () {
+            character.class.specialistFields = ["specialist field 1", "specialist field 2"];
+            character.class.prohibitedFields = ["prohibited field 1", "prohibited field 2"];
+            character.race.metarace = "metarace";
+            character.race.metaraceSpecies = "metarace species";
+            character.race.hasWings = true;
+            character.race.aerialSpeed.value = 12345;
+            character.race.aerialSpeed.description = 'supafly';
+            character.race.swimSpeed.value = 579;
+            character.race.swimSpeed.description = 'watery';
     
+            character.feats.racial[0].foci = ["focus 1", "focus 2"];
+            character.feats.racial[0].frequency.quantity = 34567;
+            character.feats.racial[0].frequency.timePeriod = "sometimes";
+            character.feats.racial[0].power = 23456;
+            character.feats.class[0].foci = ["focus 3", "focus 4"];
+            character.feats.class[0].frequency.quantity = 135;
+            character.feats.class[0].frequency.timePeriod = "all the time";
+            character.feats.class[0].power = 246;
+            character.feats.additional[0].foci = ["focus 5", "focus 6"];
+            character.feats.additional[0].frequency.quantity = 357;
+            character.feats.additional[0].frequency.timePeriod = "when the sun rises";
+            character.feats.additional[0].power = 468;
+    
+            character.interestingTrait = "interesting trait";
+    
+            character.magic.spellsPerDay = [
+                new SpellQuantity('my source', 0, 9, false),
+                new SpellQuantity('my source', 1, 8, true),
+                new SpellQuantity('my other source', 2, 7, false),
+                new SpellQuantity('my other source', 3, 6, true),
+            ];
+    
+            character.magic.knownSpells = [
+                new Spell('my source', 0, 'spell 0.1', []),
+                new Spell('my source', 0, 'spell 0.2', []),
+                new Spell('my source', 1, 'spell 1.1', []),
+                new Spell('my source', 1, 'spell 1.2', []),
+                new Spell('my other source', 1, 'spell 2.1', []),
+                new Spell('my other source', 1, 'spell 2.2', []),
+                new Spell('my other source', 2, 'spell 3.1', []),
+                new Spell('my other source', 2, 'spell 3.2', []),
+            ];
+    
+            character.magic.preparedSpells = [
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.1', []),
+                new Spell('my source', 0, 'prepared spell 0.2', []),
+                new Spell('my source', 1, 'prepared spell 1.1', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my source', 1, 'prepared spell 1.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.1', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 1, 'prepared spell 2.2', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.1', []),
+                new Spell('my other source', 2, 'prepared spell 3.2', []),
+            ];
+    
+            character.magic.arcaneSpellFailure = 12;
+            character.magic.animal = "animal";
+            character.equipment.primaryHand = createWeapon('primary weapon');
+            character.equipment.offHand = createItem('off-hand item');
+            character.equipment.armor = createArmor('armor');
+            character.equipment.treasure.isAny = true;
+            character.combat.armorClass.circumstantialBonus = true;
+            character.combat.baseAttack.circumstantialBonus = true;
+            character.combat.savingThrows.circumstantialBonus = true;
+    
+            expect('set up leadership, cohort, and followers').toBe('');
+
+            var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers, '\t');
+            var lines = formattedCharacter.split('\r\n');
+    
+            var expected = [
+                '\t' + 'character summary 1:',
+                '\t\t' + 'Challenge Rating: 90',
+                '\t\t' + 'Alignment: alignment 1',
+                '\t\t' + 'class summary 1',
+                '\t\t\t' + 'Specialist:',
+                '\t\t\t\t' + 'specialist field 1',
+                '\t\t\t\t' + 'specialist field 2',
+                '\t\t\t' + 'Prohibited:',
+                '\t\t\t\t' + 'prohibited field 1',
+                '\t\t\t\t' + 'prohibited field 2',
+                '\t\t' + 'race summary 1',
+                '\t\t\t' + 'Metarace Species: metarace species',
+                '\t\t\t' + 'Land Speed: 31 feet per round (fast 1)',
+                '\t\t\t' + 'Aerial Speed: 12345 feet per round (supafly)',
+                '\t\t\t' + 'Swim Speed: 579 feet per round (watery)',
+                '\t\t\t' + 'Size: size 1',
+                '\t\t\t' + 'Age: 19 Years (adult 1)',
+                '\t\t\t' + 'Maximum Age: 1801 Years (natural causes 1)',
+                '\t\t\t' + 'Height: 4.08 feet filtered (tall 1)',
+                '\t\t\t' + 'Weight: 101 Pounds (heavy 1)',
+                '\t\t\t' + 'Has Wings',
+                '\t\t' + 'Abilities:',
+                '\t\t\t' + 'Strength: 3 (-3)',
+                '\t\t\t' + 'Constitution: 27 (14)',
+                '\t\t\t' + 'Dexterity: 7 (-1)',
+                '\t\t\t' + 'Intelligence: 91 (46)',
+                '\t\t\t' + 'Wisdom: 11 (1)',
+                '\t\t\t' + 'Charisma: 10 (0)',
+                '\t\t' + 'Languages:',
+                '\t\t\t' + 'English 1',
+                '\t\t\t' + 'German 1',
+                '\t\tSkills:',
+                '\t\t\tskill 2',
+                '\t\t\t\tTotal Bonus: 136',
+                '\t\t\t\tRanks: 5',
+                '\t\t\t\tAbility Bonus: 14',
+                '\t\t\t\tOther Bonus: 0',
+                '\t\t\t\tArmor Check Penalty: -7',
+                '\t\t\t\tClass Skill',
+                '\t\t\tskill 3 (focus)',
+                '\t\t\t\t' + 'Total Bonus: 247 *',
+                '\t\t\t\t' + 'Ranks: 2.5',
+                '\t\t\t\t' + 'Ability Bonus: -1',
+                '\t\t\t\t' + 'Other Bonus: 4',
+                '\t\t\t\t' + 'Armor Check Penalty: 0',
+                '\t\t' + 'Feats:',
+                '\t\t\t' + 'Racial:',
+                '\t\t\t\t' + 'racial feat 2',
+                '\t\t\t\t\t' + 'Foci:',
+                '\t\t\t\t\t\t' + 'focus 1',
+                '\t\t\t\t\t\t' + 'focus 2',
+                '\t\t\t\t\t' + 'Frequency: 34567/sometimes',
+                '\t\t\t\t\t' + 'Power: 23456',
+                '\t\t\t\t' + 'racial feat 3',
+                '\t\t\t' + 'Class:',
+                '\t\t\t\t' + 'class feat 2',
+                '\t\t\t\t\t' + 'Foci:',
+                '\t\t\t\t\t\t' + 'focus 3',
+                '\t\t\t\t\t\t' + 'focus 4',
+                '\t\t\t\t\t' + 'Frequency: 135/all the time',
+                '\t\t\t\t\t' + 'Power: 246',
+                '\t\t\t\t' + 'class feat 3',
+                '\t\t\t' + 'Additional:',
+                '\t\t\t\t' + 'additional feat 2',
+                '\t\t\t\t\t' + 'Foci:',
+                '\t\t\t\t\t\t' + 'focus 5',
+                '\t\t\t\t\t\t' + 'focus 6',
+                '\t\t\t\t\t' + 'Frequency: 357/when the sun rises',
+                '\t\t\t\t\t' + 'Power: 468',
+                '\t\t\t\t' + 'additional feat 3',
+                '\t\t' + 'Interesting Trait: interesting trait',
+                '\t\t' + 'Spells Per Day:',
+                '\t\t\t' + 'Level 0: 45678',
+                '\t\t\t' + 'Level 1: 56789 + 1',
+                '\t\t' + 'Known Spells:',
+                '\t\t\t' + 'first spell (0)',
+                '\t\t\t' + 'second spell (1)',
+                '\t\t' + 'Prepared Spells:',
+                '\t\t\t' + 'first prepared spell (0)',
+                '\t\t\t' + 'first prepared spell (0)',
+                '\t\t\t' + 'second prepared spell (1)',
+                '\t\t' + 'Arcane Spell Failure: 12%',
+                '\t\t' + 'Animal: animal',
+                '\t\t' + 'Equipment:',
+                '\t\t\t' + 'Primary Hand:',
+                '\t\t\t\t' + 'primary weapon',
+                '\t\t\t\t\t' + 'formatted',
+                '\t\t\t' + 'Off Hand:',
+                '\t\t\t\t' + 'off-hand item',
+                '\t\t\t\t\t' + 'formatted',
+                '\t\t\t' + 'Armor:',
+                '\t\t\t\t' + 'armor',
+                '\t\t\t\t\t' + 'formatted',
+                '\t\t\t' + 'Treasure:',
+                '\t\t\t\t' + 'formatted treasure',
+                '\t\t' + 'Combat:',
+                '\t\t\t' + 'Adjusted Dexterity Bonus: 4',
+                '\t\t\t' + 'Armor Class: 8 *',
+                '\t\t\t\t' + 'Flat-Footed: 13',
+                '\t\t\t\t' + 'Touch: 35',
+                '\t\t\t' + 'Base Attack:',
+                '\t\t\t\t' + 'Melee: +22/+17/+12/+7/+2 *',
+                '\t\t\t\t' + 'Ranged: +23/+18/+13/+8/+3 *',
+                '\t\t\t' + 'Hit Points: 3457',
+                '\t\t\t' + 'Initiative Bonus: 4568',
+                '\t\t\t' + 'Saving Throws:',
+                '\t\t\t\t' + 'Fortitude: 57',
+                '\t\t\t\t' + 'Reflex: 79',
+                '\t\t\t\t' + 'Will: 68',
+                '\t\t\t\t' + 'Circumstantial Bonus',
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats missing leadership', () => {
+            var formattedLeadership = characterFormatterService.formatLeadership(null, null, []);
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats leadership', () => {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
+    
+            var formattedLeadership = characterFormatterService.formatLeadership(leadership, cohort, followers);
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats leadership with cohort', () => {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
+            cohort = createCharacter();
+    
+            var formattedLeadership = characterFormatterService.formatLeadership(leadership, cohort, followers);
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats leadership with followers', () => {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
+            followers = [createCharacter(), createCharacter()];
+    
+            var formattedLeadership = characterFormatterService.formatLeadership(leadership, cohort, followers);
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats full leadership', () => {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
+            cohort = createCharacter();
+            followers = [createCharacter(), createCharacter()];
+    
+            var formattedLeadership = characterFormatterService.formatLeadership(leadership, cohort, followers);
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+
+        it('formats full leadership with prefix', () => {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
+            cohort = createCharacter();
+            followers = [createCharacter(), createCharacter()];
+    
+            var formattedLeadership = characterFormatterService.formatLeadership(leadership, cohort, followers, '\t');
+            var lines = formattedLeadership.split('\r\n');
+
+            var expected = [
+                '',
+            ];
+    
+            for (var i = 0; i < lines.length; i++) {
+                expect(lines[i]).toBe(expected[i]);
+            }
+    
+            expect(lines.length).toBe(expected.length);
+        });
+    
+        it('formats full leader', function () {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
             cohort = createCharacter();
             followers = [createCharacter(), createCharacter()];
     
@@ -3537,11 +3778,8 @@ describe('Character Formatter Service', () => {
             expect(lines.length).toBe(expected.length);
         });
     
-        it('formats leader with full leadership and prefix', function () {
-            leadership = {
-                score: 9876,
-                leadershipModifiers: ['killed a man', 'with this thumb']
-            };
+        it('formats leader with prefix', function () {
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
     
             cohort = createCharacter();
             followers = [createCharacter(), createCharacter()];
@@ -3834,7 +4072,7 @@ describe('Character Formatter Service', () => {
     
         it('formats undead', function () {
             character.race.metarace = "undead";
-            character.abilities.Constitution = undefined;
+            character.abilities.Constitution = null;
             character.combat.savingThrows.hasFortitudeSave = false;
     
             var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);
@@ -3915,25 +4153,22 @@ describe('Character Formatter Service', () => {
         });
     
         it('formats undead as part of full leadership', function () {
-            leadership = {
-                score: 9876,
-                leadershipModifiers: ['killed a man', 'with this thumb']
-            };
+            leadership = new Leadership(9876, ['killed a man', 'with this thumb']);
     
             cohort = createCharacter();
             followers = [createCharacter(), createCharacter()];
     
             character.race.metarace = "undead";
-            character.abilities.Constitution = undefined;
+            character.abilities.Constitution = null;
             character.combat.savingThrows.hasFortitudeSave = false;
             cohort.race.metarace = "undead";
-            cohort.abilities.Constitution = undefined;
+            cohort.abilities.Constitution = null;
             cohort.combat.savingThrows.hasFortitudeSave = false;
             followers[0].race.metarace = "undead";
-            followers[0].abilities.Constitution = undefined;
+            followers[0].abilities.Constitution = null;
             followers[0].combat.savingThrows.hasFortitudeSave = false;
             followers[1].race.metarace = "undead";
-            followers[1].abilities.Constitution = undefined;
+            followers[1].abilities.Constitution = null;
             followers[1].combat.savingThrows.hasFortitudeSave = false;
     
             var formattedCharacter = characterFormatterService.formatLeader(character, leadership, cohort, followers);

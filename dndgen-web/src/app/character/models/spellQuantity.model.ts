@@ -3,6 +3,6 @@ export class SpellQuantity {
     public source: string,
     public level: number,
     public quantity: number,
-    public hasDomainSpell: boolean
+    public hasDomainSpell: boolean = false
   ) { }
 }

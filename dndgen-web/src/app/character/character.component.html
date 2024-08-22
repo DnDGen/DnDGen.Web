@@ -1,29 +1,29 @@
-<dndgen-collapsible-list [heading]="character.summary" [hasList]="true">
+<dndgen-details [heading]="character.summary" [hasDetails]="true">
   <ul>
     <li>Challenge Rating: {{character.challengeRating}}</li>
     <li>Alignment: {{character.alignment.full}}</li>
     <li>
-      <dndgen-collapsible-list [heading]="character['class'].summary" [hasList]="character['class'].specialistFields.length > 0 || character['class'].prohibitedFields.length > 0">
+      <dndgen-details [heading]="character['class'].summary" [hasDetails]="character['class'].specialistFields.length > 0 || character['class'].prohibitedFields.length > 0">
         <ul>
           <li [hidden]="character['class'].specialistFields.length == 0">
-            <dndgen-collapsible-list heading="Specialist Fields" [hasList]="character['class'].specialistFields.length > 0">
+            <dndgen-details heading="Specialist Fields" [hasDetails]="character['class'].specialistFields.length > 0">
               <ul>
                 <li *ngFor="let field of character['class'].specialistFields">{{field}}</li>
               </ul>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li [hidden]="character['class'].prohibitedFields.length == 0">
-            <dndgen-collapsible-list heading="Prohibited Fields" [hasList]="character['class'].prohibitedFields.length > 0">
+            <dndgen-details heading="Prohibited Fields" [hasDetails]="character['class'].prohibitedFields.length > 0">
               <ul>
                 <li *ngFor="let field of character['class'].prohibitedFields">{{field}}</li>
               </ul>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list [heading]="character.race.summary" [hasList]="true">
+      <dndgen-details [heading]="character.race.summary" [hasDetails]="true">
         <ul>
           <li [hidden]="character.race.metaraceSpecies.length == 0">Metarace Species: {{character.race.metaraceSpecies}}</li>
           <li>Land Speed: {{character.race.landSpeed.value}} {{character.race.landSpeed.unit}} <span [hidden]="!character.race.landSpeed.description">({{character.race.landSpeed.description}})</span></li>
@@ -36,10 +36,10 @@
           <li>Height: {{character.race.height.value | inchesToFeet}} <span [hidden]="!character.race.height.description">({{character.race.height.description}})</span></li>
           <li>Weight: {{character.race.weight.value}} {{character.race.weight.unit}} <span [hidden]="!character.race.weight.description">({{character.race.weight.description}})</span></li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list heading="Abilities" [hasList]="true">
+      <dndgen-details heading="Abilities" [hasDetails]="true">
         <ul>
           <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus}})</li>
           <li *ngIf="character.abilities.Constitution">Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus}})</li>
@@ -48,17 +48,17 @@
           <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus}})</li>
           <li>Charisma: {{character.abilities.Charisma.value}} ({{character.abilities.Charisma.bonus}})</li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list heading="Languages" [hasList]="true">
+      <dndgen-details heading="Languages" [hasDetails]="true">
         <ul>
           <li *ngFor="let language of character.languages">{{language}}</li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list heading="Skills" [hasList]="true">
+      <dndgen-details heading="Skills" [hasDetails]="true">
         <table class="table table-striped">
           <thead>
           <th scope="col">Class Skill</th>
@@ -81,131 +81,131 @@
             </tr>
           </tbody>
         </table>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list heading="Feats" [hasList]="true">
+      <dndgen-details heading="Feats" [hasDetails]="true">
         <ul>
           <li [hidden]="character.feats.racial.length == 0">
-            <dndgen-collapsible-list heading="Racial" [hasList]="character.feats.racial.length > 0">
+            <dndgen-details heading="Racial" [hasDetails]="character.feats.racial.length > 0">
               <ul>
                 <li *ngFor="let feat of character.feats.racial">
-                  <dndgen-collapsible-list [heading]="feat.name" [hasList]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
                     <ul>
                       <li [hidden]="feat.foci.length == 0">
-                        <dndgen-collapsible-list heading="Foci" [hasList]="feat.foci.length > 0">
+                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
                           <ul>
                             <li *ngFor="let focus of feat.foci">{{focus}}</li>
                           </ul>
-                        </dndgen-collapsible-list>
+                        </dndgen-details>
                       </li>
                       <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
                       <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
                     </ul>
-                  </dndgen-collapsible-list>
+                  </dndgen-details>
                 </li>
               </ul>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li [hidden]="character.feats['class'].length == 0">
-            <dndgen-collapsible-list heading="Class" [hasList]="character.feats['class'].length > 0">
+            <dndgen-details heading="Class" [hasDetails]="character.feats['class'].length > 0">
               <ul>
                 <li *ngFor="let feat of character.feats['class']">
-                  <dndgen-collapsible-list [heading]="feat.name" [hasList]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
                     <ul>
                       <li [hidden]="feat.foci.length == 0">
-                        <dndgen-collapsible-list heading="Foci" [hasList]="feat.foci.length > 0">
+                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
                           <ul>
                             <li *ngFor="let focus of feat.foci">{{focus}}</li>
                           </ul>
-                        </dndgen-collapsible-list>
+                        </dndgen-details>
                       </li>
                       <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
                       <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
                     </ul>
-                  </dndgen-collapsible-list>
+                  </dndgen-details>
                 </li>
               </ul>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li [hidden]="character.feats.additional.length == 0">
-            <dndgen-collapsible-list heading="Additional" [hasList]="character.feats.additional.length > 0">
+            <dndgen-details heading="Additional" [hasDetails]="character.feats.additional.length > 0">
               <ul>
                 <li *ngFor="let feat of character.feats.additional">
-                  <dndgen-collapsible-list [heading]="feat.name" [hasList]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
+                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
                     <ul>
                       <li [hidden]="feat.foci.length == 0">
-                        <dndgen-collapsible-list heading="Foci" [hasList]="feat.foci.length > 0">
+                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
                           <ul>
                             <li *ngFor="let focus of feat.foci">{{focus}}</li>
                           </ul>
-                        </dndgen-collapsible-list>
+                        </dndgen-details>
                       </li>
                       <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
                       <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
                     </ul>
-                  </dndgen-collapsible-list>
+                  </dndgen-details>
                 </li>
               </ul>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>Interesting Trait: {{character.interestingTrait.length > 0 ? character.interestingTrait : 'None'}}</li>
     <li [hidden]="character.magic.spellsPerDay.length == 0">
-      <dndgen-collapsible-list heading="Spells Per Day" [hasList]="character.magic.spellsPerDay.length > 0">
+      <dndgen-details heading="Spells Per Day" [hasDetails]="character.magic.spellsPerDay.length > 0">
         <ul>
           <li *ngFor="let spellLevel of character.magic.spellsPerDay">Level {{spellLevel.level}} {{spellLevel.source}}: {{spellLevel.quantity}} {{spellLevel.hasDomainSpell ? '+ 1' : ''}}</li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li [hidden]="character.magic.knownSpells.length == 0">
-      <dndgen-collapsible-list heading="Known Spells" [hasList]="character.magic.knownSpells.length > 0">
+      <dndgen-details heading="Known Spells" [hasDetails]="character.magic.knownSpells.length > 0">
         <ul>
           <li *ngFor="let spell of character.magic.knownSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li [hidden]="character.magic.preparedSpells.length == 0">
-      <dndgen-collapsible-list heading="Prepared Spells" [hasList]="character.magic.preparedSpells.length > 0">
+      <dndgen-details heading="Prepared Spells" [hasDetails]="character.magic.preparedSpells.length > 0">
         <ul>
           <li *ngFor="let spell of character.magic.preparedSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li [hidden]="character.magic.arcaneSpellFailure == 0">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
     <li [hidden]="character.magic.animal.length == 0">Animal: {{character.magic.animal}}</li>
     <li>
-      <dndgen-collapsible-list heading="Equipment" [hasList]="true">
+      <dndgen-details heading="Equipment" [hasDetails]="true">
         <ul>
           <li>
-            <dndgen-collapsible-list heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" [hasList]="character.equipment.primaryHand != null">
+            <dndgen-details heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" [hasDetails]="character.equipment.primaryHand != null">
               <dndgen-item *ngIf="character.equipment.primaryHand" [item]="character.equipment.primaryHand"></dndgen-item>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li>
             <span [hidden]="character.equipment.offHand">Off Hand: None</span>
             <span [hidden]="character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1">Off Hand: (Two-Handed)</span>
-            <dndgen-collapsible-list heading="Off Hand" [hasList]="character.equipment.offHand && character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1" [hidden]="!character.equipment.offHand || character.equipment.primaryHand.attributes.indexOf('Two-Handed') > -1">
+            <dndgen-details heading="Off Hand" [hasDetails]="character.equipment.offHand != null && character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1" [hidden]="!character.equipment.offHand || character.equipment.primaryHand.attributes.indexOf('Two-Handed') > -1">
               <dndgen-item *ngIf="character.equipment.offHand" [item]="character.equipment.offHand"></dndgen-item>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li>
-            <dndgen-collapsible-list heading="Armor{{character.equipment.armor ? '' : ': None'}}" [hasList]="character.equipment.armor != null">
+            <dndgen-details heading="Armor{{character.equipment.armor ? '' : ': None'}}" [hasDetails]="character.equipment.armor != null">
               <dndgen-item *ngIf="character.equipment.armor" [item]="character.equipment.armor"></dndgen-item>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
           <li>
-            <dndgen-collapsible-list heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" [hasList]="character.equipment.treasure.isAny">
+            <dndgen-details heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" [hasDetails]="character.equipment.treasure.isAny">
               <dndgen-treasure *ngIf="character.equipment.treasure.isAny" [treasure]="character.equipment.treasure"></dndgen-treasure>
-            </dndgen-collapsible-list>
+            </dndgen-details>
           </li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
     <li>
-      <dndgen-collapsible-list heading="Combat" [hasList]="true">
+      <dndgen-details heading="Combat" [hasDetails]="true">
         <ul>
           <li>Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus}}</li>
           <li>
@@ -234,7 +234,7 @@
             </ul>
           </li>
         </ul>
-      </dndgen-collapsible-list>
+      </dndgen-details>
     </li>
   </ul>
-</dndgen-collapsible-list>
+</dndgen-details>

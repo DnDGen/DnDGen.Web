@@ -8,7 +8,7 @@ import { TreasureGenComponent } from './treasure/treasuregen.component';
 describe('routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(5);
+      expect(routes.length).toEqual(6);
     });
     
     it('should contain default route', () => {

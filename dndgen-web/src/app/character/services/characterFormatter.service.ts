@@ -65,56 +65,56 @@ export class CharacterFormatterService {
     return formattedLeader;
   }
 
-  public formatCharacter(character: Character, prefix: string): string {
-      if (!character)
-          return '';
+  public formatCharacter(character: Character, prefix?: string): string {
+    if (!character)
+        return '';
 
-      if (!prefix)
-          prefix = '';
+    if (!prefix)
+        prefix = '';
 
-      var formattedCharacter = prefix + character.summary + ':\r\n';
+    var formattedCharacter = prefix + character.summary + ':\r\n';
 
-      //Challenge Rating
-      formattedCharacter += prefix + '\t' + 'Challenge Rating: ' + character.challengeRating + '\r\n';
+    //Challenge Rating
+    formattedCharacter += prefix + '\t' + 'Challenge Rating: ' + character.challengeRating + '\r\n';
 
-      //Alignment
-      formattedCharacter += prefix + '\t' + 'Alignment: ' + character.alignment.full + '\r\n';
+    //Alignment
+    formattedCharacter += prefix + '\t' + 'Alignment: ' + character.alignment.full + '\r\n';
 
-      //Class
-      formattedCharacter += prefix + '\t' + character['class'].summary + '\r\n';
+    //Class
+    formattedCharacter += prefix + '\t' + character['class'].summary + '\r\n';
     formattedCharacter += this.formatList(character['class'].specialistFields, 'Specialist', prefix + '\t\t');
     formattedCharacter += this.formatList(character['class'].prohibitedFields, 'Prohibited', prefix + '\t\t');
 
-      //Race
-      formattedCharacter += prefix + '\t' + character.race.summary + '\r\n';
+    //Race
+    formattedCharacter += prefix + '\t' + character.race.summary + '\r\n';
 
-      if (character.race.metaraceSpecies.length > 0)
-          formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.race.metaraceSpecies + '\r\n';
+    if (character.race.metaraceSpecies.length > 0)
+        formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.race.metaraceSpecies + '\r\n';
 
-      formattedCharacter += prefix + "\t\t" + "Land Speed: " + this.formatMeasurement(character.race.landSpeed) + "\r\n";
+    formattedCharacter += prefix + "\t\t" + "Land Speed: " + this.formatMeasurement(character.race.landSpeed) + "\r\n";
 
-      if (character.race.aerialSpeed.value > 0)
-        formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + this.formatMeasurement(character.race.aerialSpeed) + "\r\n";
+    if (character.race.aerialSpeed.value > 0)
+    formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + this.formatMeasurement(character.race.aerialSpeed) + "\r\n";
 
-      if (character.race.swimSpeed.value > 0)
-        formattedCharacter += prefix + "\t\t" + "Swim Speed: " + this.formatMeasurement(character.race.swimSpeed) + "\r\n";
+    if (character.race.swimSpeed.value > 0)
+    formattedCharacter += prefix + "\t\t" + "Swim Speed: " + this.formatMeasurement(character.race.swimSpeed) + "\r\n";
 
-      formattedCharacter += prefix + "\t\t" + "Size: " + character.race.size + "\r\n";
+    formattedCharacter += prefix + "\t\t" + "Size: " + character.race.size + "\r\n";
     formattedCharacter += prefix + "\t\t" + "Age: " + this.formatMeasurement(character.race.age) + "\r\n";
     formattedCharacter += prefix + "\t\t" + "Maximum Age: " + this.formatMeasurement(character.race.maximumAge) + "\r\n";
     formattedCharacter += prefix + "\t\t" + "Height: " + this.inchesToFeetPipe.transform(character.race.height.value);
 
-      if (character.race.height.description)
-          formattedCharacter += " (" + character.race.height.description + ")";
+    if (character.race.height.description)
+        formattedCharacter += " (" + character.race.height.description + ")";
 
-      formattedCharacter += "\r\n";
+    formattedCharacter += "\r\n";
     formattedCharacter += prefix + "\t\t" + "Weight: " + this.formatMeasurement(character.race.weight) + "\r\n";
 
-      if (character.race.hasWings)
-          formattedCharacter += prefix + "\t\t" + "Has Wings\r\n";
+    if (character.race.hasWings)
+        formattedCharacter += prefix + "\t\t" + "Has Wings\r\n";
 
-      //Abilities
-      formattedCharacter += this.formatAbilities(character.abilities, prefix + "\t");
+    //Abilities
+    formattedCharacter += this.formatAbilities(character.abilities, prefix + "\t");
 
       //Languages
     formattedCharacter += this.formatList(character.languages, 'Languages', prefix + "\t");
@@ -125,11 +125,11 @@ export class CharacterFormatterService {
       //Feats
     formattedCharacter += this.formatFeats(character.feats, prefix + "\t");
 
-      //Interesting Trait
-      if (character.interestingTrait.length > 0)
-          formattedCharacter += prefix + "\t" + 'Interesting Trait: ' + character.interestingTrait + '\r\n';
-      else
-          formattedCharacter += prefix + "\t" + 'Interesting Trait: None\r\n';
+    //Interesting Trait
+    if (character.interestingTrait.length > 0)
+        formattedCharacter += prefix + "\t" + 'Interesting Trait: ' + character.interestingTrait + '\r\n';
+    else
+        formattedCharacter += prefix + "\t" + 'Interesting Trait: None\r\n';
 
       //Magic
     formattedCharacter += this.formatSpellsPerDay(character.magic.spellsPerDay, prefix + "\t");
@@ -330,9 +330,27 @@ export class CharacterFormatterService {
       if (spells.length === 0)
           return '';
 
-      var formattedSpells = prefix + title + ':\r\n';
+      let formattedSpells = prefix + title + ':\r\n';
 
-      for (var i = 0; i < spells.length; i++) {
+      let spellGroups = spells.reduce(
+        (result:{key:string, spells:Spell[]}[], currentValue:Spell) => {
+            const key = `Level ${currentValue.level} ${currentValue.source}`
+
+            let existing = result.find(r => r.key == key);
+            if (!existing) {
+                existing = {
+                    key: key,
+                    spells: []
+                };
+                result.push(existing);
+            }
+
+            existing.spells.push(currentValue);
+            
+            return result;
+        }, {});
+
+      for (var i = 0; i < spellGroups.length; i++) {
           formattedSpells += prefix + '\t' + spells[i].name + " (" + spells[i].level + ")\r\n";
       }
 

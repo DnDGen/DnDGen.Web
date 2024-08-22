@@ -1,7 +1,6 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { CharacterService } from './character.service';
-import { LeadershipService } from './leadership.service';
-import { RandomizerService } from './services/randomizer.service';
+import { CharacterService } from './services/character.service';
+import { LeadershipService } from './services/leadership.service';
 import { CharacterFormatterService } from './services/characterFormatter.service';
 import { FileSaverService } from '../shared/fileSaver.service';
 import { SweetAlertService } from '../shared/sweetAlert.service';
@@ -16,7 +15,6 @@ import { CharacterGenViewModel } from './models/charactergenViewModel.model';
   providers: [
     CharacterService,
     LeadershipService,
-    RandomizerService,
     CharacterFormatterService,
   ]
 })
@@ -25,7 +23,6 @@ export class CharacterGenComponent implements OnInit {
   constructor(
     private characterService: CharacterService,
     private leadershipService: LeadershipService,
-    private randomizerService: RandomizerService,
     private characterFormatterService: CharacterFormatterService,
     private fileSaverService: FileSaverService,
     private sweetAlertService: SweetAlertService,
@@ -162,7 +159,7 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private getRandomizerValidity(): void {
-    this.randomizerService
+    this.characterService
       .validate(
         this.alignmentRandomizerType,
         this.setAlignment,
@@ -347,7 +344,7 @@ export class CharacterGenComponent implements OnInit {
       return;
     }
 
-    var formattedCharacter = this.characterFormatterService.formatCharacter(this.character, this.leadership, this.cohort, this.followers);
+    var formattedCharacter = this.characterFormatterService.formatLeader(this.character, this.leadership, this.cohort, this.followers);
     this.fileSaverService.save(formattedCharacter, this.character.summary);
   }
 }

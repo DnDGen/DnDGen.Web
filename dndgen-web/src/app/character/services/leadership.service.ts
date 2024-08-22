@@ -15,7 +15,6 @@ export class LeadershipService {
     var url = "https://character.dndgen.com/api/v1/leadership/level/" + leaderLevel + "/generate";
 
     let params = new HttpParams()
-      .set('leaderLevel', leaderLevel)
       .set('leaderCharismaBonus', leaderCharismaBonus)
       .set('leaderAnimal', leaderAnimal);
 
@@ -27,7 +26,6 @@ export class LeadershipService {
 
     let params = new HttpParams()
       .set('leaderLevel', leaderLevel)
-      .set('cohortScore', cohortScore)
       .set('leaderAlignment', leaderAlignment)
       .set('leaderClass', leaderClass);
 

@@ -1,10 +1,10 @@
 export class FollowerQuantities {
   constructor(
-    public level1: number,
-    public level2: number,
-    public level3: number,
-    public level4: number,
-    public level5: number,
-    public level6: number
+    public level1: number = 0,
+    public level2: number = 0,
+    public level3: number = 0,
+    public level4: number = 0,
+    public level5: number = 0,
+    public level6: number = 0
   ) { }
 }
