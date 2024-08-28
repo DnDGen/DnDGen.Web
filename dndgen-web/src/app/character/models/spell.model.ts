@@ -3,6 +3,6 @@ export class Spell {
     public source: string,
     public level: number,
     public name: string,
-    public metamagic: string[]
+    public metamagic: string[] = []
   ) { }
 }

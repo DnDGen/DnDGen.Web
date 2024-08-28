@@ -5,7 +5,7 @@ import { Weapon } from "../../treasure/models/weapon.model";
 
 export class Equipment {
   constructor(
-    public primaryHand: Weapon = new Weapon('', ''),
+    public primaryHand: Weapon | null = null,
     public offHand: Item | null = null,
     public armor: Armor | null = null,
     public treasure: Treasure = new Treasure()
