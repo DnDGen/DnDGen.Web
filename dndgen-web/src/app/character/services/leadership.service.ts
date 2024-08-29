@@ -36,7 +36,6 @@ export class LeadershipService {
     var url = "https://character.dndgen.com/api/v1/follower/level/" + followerLevel + "/generate";
 
     let params = new HttpParams()
-      .set('followerLevel', followerLevel)
       .set('leaderAlignment', leaderAlignment)
       .set('leaderClass', leaderClass);
 

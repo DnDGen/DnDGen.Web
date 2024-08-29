@@ -14,6 +14,7 @@ import { CharacterFormatterService } from "./characterFormatter.service";
 import { Good } from "../../treasure/models/good.model";
 import { SpellGroupService } from "./spellGroup.service";
 import { SpellGroup } from "../models/spellGroup.model";
+import { Treasure } from "../../treasure/models/treasure.model";
 
 describe('Character Formatter Service', () => {
     describe('unit', () => {
@@ -201,6 +202,21 @@ describe('Character Formatter Service', () => {
             armor.totalArmorBonus = 92;
     
             return armor;
+        }
+    
+        function createTreasure(): Treasure {
+            const treasure = new Treasure();
+            treasure.isAny = true;
+            treasure.coin.currency = 'my currency';
+            treasure.coin.quantity = 9;
+            treasure.goods = [
+                new Good('good 1', 22), new Good('good 2', 2022)
+            ];
+            treasure.items = [
+                new Item('item 1', 'item type 1'), new Item('item 2', 'item type 2'), new Item('item 3', 'item type 3')
+            ];
+
+            return treasure;
         }
 
         it('formats character basics', () => {
@@ -2799,7 +2815,7 @@ describe('Character Formatter Service', () => {
             character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
             character.equipment.armor = createArmor('armor');
-            character.equipment.treasure.isAny = true;
+            character.equipment.treasure = createTreasure();
             character.combat.armorClass.circumstantialBonus = true;
             character.combat.baseAttack.circumstantialBonus = true;
             character.combat.savingThrows.circumstantialBonus = true;
@@ -2914,16 +2930,19 @@ describe('Character Formatter Service', () => {
                 '\t' + 'Animal: animal',
                 '\tEquipment:',
                 '\t\t' + 'Primary Hand:',
-                '\t\t\t' + 'primary weapon',
+                '\t\t\t' + 'primary weapon description',
                 '\t\t\t\t' + 'formatted',
                 '\t\t' + 'Off Hand:',
-                '\t\t\t' + 'off-hand item',
+                '\t\t\t' + 'off-hand item description',
                 '\t\t\t\t' + 'formatted',
                 '\t\t' + 'Armor:',
-                '\t\t\t' + 'armor',
+                '\t\t\t' + 'armor description',
                 '\t\t\t\t' + 'formatted',
                 '\t\t' + 'Treasure:',
-                '\t\t\t' + 'formatted treasure',
+                '\t\t\t' + 'formatted treasure:',
+                '\t\t\t\t' + 'coins: 9',
+                '\t\t\t\t' + 'goods: 2',
+                '\t\t\t\t' + 'items: 3',
                 '\t' + 'Combat:',
                 '\t\t' + 'Adjusted Dexterity Bonus: 4',
                 '\t\t' + 'Armor Class: 8 *',
@@ -3011,7 +3030,7 @@ describe('Character Formatter Service', () => {
             character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
             character.equipment.armor = createArmor('armor');
-            character.equipment.treasure.isAny = true;
+            character.equipment.treasure = createTreasure();
             character.combat.armorClass.circumstantialBonus = true;
             character.combat.baseAttack.circumstantialBonus = true;
             character.combat.savingThrows.circumstantialBonus = true;
@@ -3135,7 +3154,10 @@ describe('Character Formatter Service', () => {
                 '\t\t\t\t' + 'armor description',
                 '\t\t\t\t\t' + 'formatted',
                 '\t\t\t' + 'Treasure:',
-                '\t\t\t\t' + 'formatted treasure',
+                '\t\t\t\t' + 'formatted treasure:',
+                '\t\t\t\t\t' + 'coins: 9',
+                '\t\t\t\t\t' + 'goods: 2',
+                '\t\t\t\t\t' + 'items: 3',
                 '\t\t' + 'Combat:',
                 '\t\t\t' + 'Adjusted Dexterity Bonus: 4',
                 '\t\t\t' + 'Armor Class: 8 *',
@@ -3223,7 +3245,7 @@ describe('Character Formatter Service', () => {
             character.equipment.primaryHand = createWeapon('primary weapon');
             character.equipment.offHand = createItem('off-hand item');
             character.equipment.armor = createArmor('armor');
-            character.equipment.treasure.isAny = true;
+            character.equipment.treasure = createTreasure();
             character.combat.armorClass.circumstantialBonus = true;
             character.combat.baseAttack.circumstantialBonus = true;
             character.combat.savingThrows.circumstantialBonus = true;
@@ -3351,7 +3373,10 @@ describe('Character Formatter Service', () => {
                 '\t\t\t\t' + 'armor description',
                 '\t\t\t\t\t' + 'formatted',
                 '\t\t\t' + 'Treasure:',
-                '\t\t\t\t' + 'formatted treasure',
+                '\t\t\t\t' + 'formatted treasure:',
+                '\t\t\t\t\t' + 'coins: 9',
+                '\t\t\t\t\t' + 'goods: 2',
+                '\t\t\t\t\t' + 'items: 3',
                 '\t\t' + 'Combat:',
                 '\t\t\t' + 'Adjusted Dexterity Bonus: 4',
                 '\t\t\t' + 'Armor Class: 8 *',
