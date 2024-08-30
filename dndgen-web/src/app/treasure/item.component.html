@@ -14,7 +14,7 @@
         </ul>
       </dndgen-details>
     </li>
-    <li class="item-magic-bonus" [hidden]="item.magic.bonus == 0">Bonus: {{item.magic.bonus > 0 ? '+' : ''}}{{item.magic.bonus}}</li>
+    <li class="item-magic-bonus" [hidden]="item.magic.bonus == 0">Bonus: {{item.magic.bonus | bonus}}</li>
     <li class="item-magic-special-abilities" [hidden]="item.magic.specialAbilities.length == 0">
       <dndgen-details heading="Special Abilities" [hasDetails]="true">
         <ul>

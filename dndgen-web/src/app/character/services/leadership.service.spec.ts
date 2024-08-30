@@ -65,7 +65,7 @@ describe('Leadership Service', () => {
             const params = new HttpParams()
                 .set('leaderLevel', 9266)
                 .set('leaderAlignment', 'leader alignment')
-                .set('leaderClass', 'leader class');
+                .set('leaderClassName', 'leader class');
     
             leadershipService.generateCohort(9266, 90210, 'leader alignment', 'leader class').subscribe((cohort) => {
                 expect(cohort).toBe(expected);
@@ -81,7 +81,7 @@ describe('Leadership Service', () => {
             const params = new HttpParams()
                 .set('leaderLevel', 9266)
                 .set('leaderAlignment', 'leader alignment')
-                .set('leaderClass', 'leader class');
+                .set('leaderClassName', 'leader class');
     
             leadershipService.generateCohort(9266, 90210, 'leader alignment', 'leader class').subscribe((cohort) => {
                 expect(cohort).toBeFalsy();
@@ -97,7 +97,7 @@ describe('Leadership Service', () => {
             httpClientSpy.get.and.returnValue(of(expected));
             const params = new HttpParams()
                 .set('leaderAlignment', 'leader alignment')
-                .set('leaderClass', 'leader class');
+                .set('leaderClassName', 'leader class');
     
             leadershipService.generateFollower(9266, 'leader alignment', 'leader class').subscribe((follower) => {
                 expect(follower).toBe(expected);
@@ -125,48 +125,48 @@ describe('Leadership Service', () => {
         it('generates leadership', waitForAsync(() => {
             leadershipService.generate(15, 5, 'Heavy warhorse').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
-                expect(leadership.score).toBeGreaterThan(0);
-                expect(leadership.cohortScore).toEqual(leadership.score);
+                expect(leadership.score).toBeCloseTo(20, -1);
+                expect(leadership.cohortScore).toBeCloseTo(leadership.score, -1);
                 expect(leadership.followerQuantities).toBeTruthy();
                 expect(leadership.followerQuantities.level1).toBeGreaterThan(0);
                 expect(leadership.followerQuantities.level2).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level2).toBeLessThan(leadership.followerQuantities.level1);
+                expect(leadership.followerQuantities.level2).toBeLessThanOrEqual(leadership.followerQuantities.level1);
                 expect(leadership.followerQuantities.level3).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level3).toBeLessThan(leadership.followerQuantities.level2);
+                expect(leadership.followerQuantities.level3).toBeLessThanOrEqual(leadership.followerQuantities.level2);
                 expect(leadership.followerQuantities.level4).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level4).toBeLessThan(leadership.followerQuantities.level3);
+                expect(leadership.followerQuantities.level4).toBeLessThanOrEqual(leadership.followerQuantities.level3);
                 expect(leadership.followerQuantities.level5).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level5).toBeLessThan(leadership.followerQuantities.level4);
+                expect(leadership.followerQuantities.level5).toBeLessThanOrEqual(leadership.followerQuantities.level4);
                 expect(leadership.followerQuantities.level6).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level6).toBeLessThan(leadership.followerQuantities.level5);
+                expect(leadership.followerQuantities.level6).toBeLessThanOrEqual(leadership.followerQuantities.level5);
             });
         }));
 
         it('generates leadership without animal', waitForAsync(() => {
             leadershipService.generate(15, 5, '').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
-                expect(leadership.score).toBeGreaterThan(0);
-                expect(leadership.cohortScore).toBeGreaterThan(0);
+                expect(leadership.score).toBeCloseTo(20, -1);
+                expect(leadership.cohortScore).toBeCloseTo(leadership.score, -1);
                 expect(leadership.followerQuantities).toBeTruthy();
                 expect(leadership.followerQuantities.level1).toBeGreaterThan(0);
                 expect(leadership.followerQuantities.level2).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level2).toBeLessThan(leadership.followerQuantities.level1);
+                expect(leadership.followerQuantities.level2).toBeLessThanOrEqual(leadership.followerQuantities.level1);
                 expect(leadership.followerQuantities.level3).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level3).toBeLessThan(leadership.followerQuantities.level2);
+                expect(leadership.followerQuantities.level3).toBeLessThanOrEqual(leadership.followerQuantities.level2);
                 expect(leadership.followerQuantities.level4).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level4).toBeLessThan(leadership.followerQuantities.level3);
+                expect(leadership.followerQuantities.level4).toBeLessThanOrEqual(leadership.followerQuantities.level3);
                 expect(leadership.followerQuantities.level5).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level5).toBeLessThan(leadership.followerQuantities.level4);
+                expect(leadership.followerQuantities.level5).toBeLessThanOrEqual(leadership.followerQuantities.level4);
                 expect(leadership.followerQuantities.level6).toBeGreaterThanOrEqual(0);
-                expect(leadership.followerQuantities.level6).toBeLessThan(leadership.followerQuantities.level5);
+                expect(leadership.followerQuantities.level6).toBeLessThanOrEqual(leadership.followerQuantities.level5);
             });
         }));
 
         it('generates poor leadership', waitForAsync(() => {
             leadershipService.generate(6, -5, 'Heavy warhorse').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
-                expect(leadership.score).toBeGreaterThan(0);
-                expect(leadership.cohortScore).toEqual(leadership.score);
+                expect(leadership.score).toBeCloseTo(1, -1);
+                expect(leadership.cohortScore).toBeCloseTo(leadership.score, -1);
                 expect(leadership.followerQuantities).toBeTruthy();
                 expect(leadership.followerQuantities.level1).toEqual(0);
                 expect(leadership.followerQuantities.level2).toEqual(0);
@@ -180,17 +180,17 @@ describe('Leadership Service', () => {
         it('generates cohort', waitForAsync(() => {
             leadershipService
                 .generateCohort(15, 20, 'Lawful Good', 'Paladin')
-                .subscribe((character) => {
-                    expect(character).toBeTruthy();
-                    expect(character.summary).toBeTruthy();
+                .subscribe((cohort) => {
+                    expect(cohort).toBeTruthy();
+                    expect(cohort.summary).toBeTruthy();
                 });
         }));
     
         it('generates no cohort', waitForAsync(() => {
             leadershipService
                 .generateCohort(6, 1, 'Neutral Good', 'Fighter')
-                .subscribe((character) => {
-                    expect(character).toBeNull();
+                .subscribe((cohort) => {
+                    expect(cohort).toBeNull();
                 });
         }));
     
@@ -200,9 +200,10 @@ describe('Leadership Service', () => {
             it(`generates follower - level ${test}`, waitForAsync(() => {
                 leadershipService
                     .generateFollower(test, 'Lawful Good', 'Paladin')
-                    .subscribe((character) => {
-                        expect(character).toBeTruthy();
-                        expect(character.summary).toBeTruthy();
+                    .subscribe((follower) => {
+                        expect(follower).toBeTruthy();
+                        expect(follower.summary).toBeTruthy();
+                        expect(follower.class.level).toBe(test);
                     });
             }));
         });

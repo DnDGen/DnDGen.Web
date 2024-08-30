@@ -27,7 +27,7 @@ export class LeadershipService {
     let params = new HttpParams()
       .set('leaderLevel', leaderLevel)
       .set('leaderAlignment', leaderAlignment)
-      .set('leaderClass', leaderClass);
+      .set('leaderClassName', leaderClass);
 
     return this.http.get<Character>(url, { params: params });
   }
@@ -37,7 +37,7 @@ export class LeadershipService {
 
     let params = new HttpParams()
       .set('leaderAlignment', leaderAlignment)
-      .set('leaderClass', leaderClass);
+      .set('leaderClassName', leaderClass);
 
     return this.http.get<Character>(url, { params: params });
   }

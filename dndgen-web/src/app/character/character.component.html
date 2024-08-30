@@ -1,5 +1,37 @@
-<dndgen-details [heading]="character.summary" [hasDetails]="true">
+<dndgen-details class="character-header" [heading]="character.summary" [hasDetails]="true">
   <ul>
+    <li class="character-combat">
+      <dndgen-details heading="Combat" [hasDetails]="true">
+        <ul>
+          <li class="character-combat-hitpoints">Hit Points: {{character.combat.hitPoints | number}}</li>
+          <li class="character-combat-ac">
+            <span>Armor Class: {{character.combat.armorClass.full}} {{character.combat.armorClass.circumstantialBonus ? '*' : ''}}</span>
+            <ul>
+              <li>Flat-Footed: {{character.combat.armorClass.flatFooted}}</li>
+              <li>Touch: {{character.combat.armorClass.touch}}</li>
+            </ul>
+          </li>
+          <li class="character-combat-ba">
+            <span>Base Attack: {{character.combat.baseAttack.baseBonus}}</span>
+            <ul>
+              <li>Melee: {{character.combat.baseAttack.allMeleeBonuses[0] | bonus}}<span *ngFor="let bonus of character.combat.baseAttack.allMeleeBonuses | slice:1">/{{bonus | bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
+              <li>Ranged: {{character.combat.baseAttack.allRangedBonuses[0] | bonus}}<span *ngFor="let bonus of character.combat.baseAttack.allRangedBonuses | slice:1">/{{bonus | bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
+            </ul>
+          </li>
+          <li>Initiative Bonus: {{character.combat.initiativeBonus | bonus}}</li>
+          <li>
+            <span>Saving Throws:</span>
+            <ul>
+              <li [hidden]="!character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude | bonus}}</li>
+              <li>Reflex: {{character.combat.savingThrows.reflex | bonus}}</li>
+              <li>Will: {{character.combat.savingThrows.will | bonus}}</li>
+              <li [hidden]="!character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
+            </ul>
+          </li>
+          <li>Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus | bonus}}</li>
+        </ul>
+      </dndgen-details>
+    </li>
     <li>Challenge Rating: {{character.challengeRating}}</li>
     <li>Alignment: {{character.alignment.full}}</li>
     <li>
@@ -31,22 +63,22 @@
           <li [hidden]="!character.race.aerialSpeed.value">Aerial Speed: {{character.race.aerialSpeed.value}} {{character.race.aerialSpeed.unit}} <span [hidden]="!character.race.aerialSpeed.description">({{character.race.aerialSpeed.description}})</span></li>
           <li [hidden]="!character.race.swimSpeed.value">Swim Speed: {{character.race.swimSpeed.value}} {{character.race.swimSpeed.unit}} <span [hidden]="!character.race.swimSpeed.description">({{character.race.swimSpeed.description}})</span></li>
           <li>Size: {{character.race.size}}</li>
-          <li>Age: {{character.race.age.value}} {{character.race.age.unit}} <span [hidden]="!character.race.age.description">({{character.race.age.description}})</span></li>
-          <li>Maximum Age: <span [hidden]="character.race.maximumAge.value == 0">{{character.race.maximumAge.value}} {{character.race.maximumAge.unit}}</span> <span [hidden]="!character.race.maximumAge.description">({{character.race.maximumAge.description}})</span></li>
+          <li>Age: {{character.race.age.value | number}} {{character.race.age.unit}} <span [hidden]="!character.race.age.description">({{character.race.age.description}})</span></li>
+          <li>Maximum Age: <span [hidden]="character.race.maximumAge.value == 0">{{character.race.maximumAge.value | number}} {{character.race.maximumAge.unit}}</span> <span [hidden]="!character.race.maximumAge.description">({{character.race.maximumAge.description}})</span></li>
           <li>Height: {{character.race.height.value | inchesToFeet}} <span [hidden]="!character.race.height.description">({{character.race.height.description}})</span></li>
-          <li>Weight: {{character.race.weight.value}} {{character.race.weight.unit}} <span [hidden]="!character.race.weight.description">({{character.race.weight.description}})</span></li>
+          <li>Weight: {{character.race.weight.value | number}} {{character.race.weight.unit}} <span [hidden]="!character.race.weight.description">({{character.race.weight.description}})</span></li>
         </ul>
       </dndgen-details>
     </li>
     <li>
       <dndgen-details heading="Abilities" [hasDetails]="true">
         <ul>
-          <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus}})</li>
-          <li *ngIf="character.abilities.Constitution">Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus}})</li>
-          <li>Dexterity: {{character.abilities.Dexterity.value}} ({{character.abilities.Dexterity.bonus}})</li>
-          <li>Intelligence: {{character.abilities.Intelligence.value}} ({{character.abilities.Intelligence.bonus}})</li>
-          <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus}})</li>
-          <li>Charisma: {{character.abilities.Charisma.value}} ({{character.abilities.Charisma.bonus}})</li>
+          <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus | bonus}})</li>
+          <li *ngIf="character.abilities.Constitution">Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus | bonus}})</li>
+          <li>Dexterity: {{character.abilities.Dexterity.value}} ({{character.abilities.Dexterity.bonus | bonus}})</li>
+          <li>Intelligence: {{character.abilities.Intelligence.value}} ({{character.abilities.Intelligence.bonus | bonus}})</li>
+          <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus | bonus}})</li>
+          <li>Charisma: {{character.abilities.Charisma.value}} ({{character.abilities.Charisma.bonus | bonus}})</li>
         </ul>
       </dndgen-details>
     </li>
@@ -73,7 +105,7 @@
             <tr *ngFor="let skill of character.skills">
               <td><i [hidden]="!skill.classSkill" class="bi bi-check-lg"></i></td>
               <td>{{skill.name}} <span [hidden]="!skill.focus">({{skill.focus}})</span></td>
-              <td><b>{{skill.totalBonus}} <span [hidden]="!skill.circumstantialBonus">*</span></b></td>
+              <td><b>{{skill.totalBonus | bonus}} <span [hidden]="!skill.circumstantialBonus">*</span></b></td>
               <td>{{skill.effectiveRanks}}</td>
               <td>{{skill.baseAbility.bonus}}</td>
               <td>{{skill.bonus}}</td>
@@ -200,38 +232,6 @@
             <dndgen-details heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" [hasDetails]="character.equipment.treasure.isAny">
               <dndgen-treasure *ngIf="character.equipment.treasure.isAny" [treasure]="character.equipment.treasure"></dndgen-treasure>
             </dndgen-details>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li>
-      <dndgen-details heading="Combat" [hasDetails]="true">
-        <ul>
-          <li>Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus}}</li>
-          <li>
-            <span>Armor Class: {{character.combat.armorClass.full}} <span [hidden]="!character.combat.armorClass.circumstantialBonus">*</span></span>
-            <ul>
-              <li>Flat-Footed: {{character.combat.armorClass.flatFooted}}</li>
-              <li>Touch: {{character.combat.armorClass.touch}}</li>
-            </ul>
-          </li>
-          <li>
-            <span>Base Attack:</span>
-            <ul>
-              <li>Melee: <span *ngIf="character.combat.baseAttack.allMeleeBonuses[0] > -1">+</span>{{character.combat.baseAttack.allMeleeBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allMeleeBonuses | slice:1">/<span *ngIf="bonus > -1">+</span>{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
-              <li>Ranged: <span *ngIf="character.combat.baseAttack.allRangedBonuses[0] > -1">+</span>{{character.combat.baseAttack.allRangedBonuses[0]}}<span *ngFor="let bonus of character.combat.baseAttack.allRangedBonuses | slice:1">/<span *ngIf="bonus > -1">+</span>{{bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
-            </ul>
-          </li>
-          <li>Hit Points: {{character.combat.hitPoints}}</li>
-          <li>Initiative Bonus: {{character.combat.initiativeBonus}}</li>
-          <li>
-            <span>Saving Throws:</span>
-            <ul>
-              <li [hidden]="!character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude}}</li>
-              <li>Reflex: {{character.combat.savingThrows.reflex}}</li>
-              <li>Will: {{character.combat.savingThrows.will}}</li>
-              <li [hidden]="!character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
-            </ul>
           </li>
         </ul>
       </dndgen-details>
