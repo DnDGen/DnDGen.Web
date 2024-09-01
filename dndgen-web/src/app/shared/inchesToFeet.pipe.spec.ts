@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { InchesToFeetPipe } from './inchesToFeet.pipe';
 
 describe('InchesToFeetPipe', () => {
@@ -5,7 +6,8 @@ describe('InchesToFeetPipe', () => {
     let pipe: InchesToFeetPipe;
 
     beforeEach(() => {
-      pipe = new InchesToFeetPipe();
+        const numberPipe = new DecimalPipe('en-US');
+        pipe = new InchesToFeetPipe(numberPipe);
     });
 
     it('should return empty', () => {
@@ -61,6 +63,11 @@ describe('InchesToFeetPipe', () => {
     it('should return 772 feet 2 inches', () => {
         var feet = pipe.transform(9266);
         expect(feet).toEqual('772\' 2"');
+    });
+
+    it('should return 7,517 feet 6 inches', () => {
+      const result = pipe.transform(90210);
+      expect(result).toEqual('7,517\' 6"');
     });
   });
 });

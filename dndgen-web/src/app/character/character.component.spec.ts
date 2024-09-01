@@ -12,6 +12,7 @@ import { Skill } from './models/skill.model';
 import { Feat } from './models/feat.model';
 import { Treasure } from '../treasure/models/treasure.model';
 import { Good } from '../treasure/models/good.model';
+import { Measurement } from './models/measurement.model';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {
@@ -162,7 +163,7 @@ describe('CharacterComponent', () => {
     }
 
     function createSkill(name: string, focus: string, effectiveRanks: number, baseAbility: Ability, bonus: number, acPenalty: number, classSkill: boolean, circumstantialBonus: boolean, totalBonus: number): Skill {
-        return new Skill(name, baseAbility, focus, bonus, classSkill, acPenalty, circumstantialBonus, 0, false, effectiveRanks, false, 0, false, totalBonus);
+        return new Skill(name, focus, totalBonus, circumstantialBonus, effectiveRanks, baseAbility, bonus, acPenalty, classSkill);
     }
 
     function createFeat(name: string) {
@@ -780,18 +781,340 @@ describe('CharacterComponent', () => {
     });
   
     it(`should render the character race land speed`, () => {
-      expect('not yet written').toBe('');
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.race.summary = 'my race summary';
-      component.character.race.metaraceSpecies = '';
+      component.character.race.landSpeed = new Measurement(9266, 'm/s');
 
       fixture.detectChanges();
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      expectHasAttribute('li.character-race-metarace-species', 'hidden', true);
+      expectHasAttribute('li.character-race-speed-land', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-speed-land');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Land Speed: 9,266 m/s');
     });
+  
+    it(`should render the character race with wings`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.hasWings = true;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-wings', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-wings');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Has Wings');
+    });
+  
+    it(`should render the character race without wings`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.hasWings = false;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-wings', 'hidden', true);
+    });
+  
+    it(`should render the character race with aerial speed`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.aerialSpeed = new Measurement(9266, 'm/s', 'graceful');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-speed-air', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-speed-air');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Aerial Speed: 9,266 m/s (graceful)');
+    });
+  
+    it(`should render the character race without aerial speed`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.aerialSpeed = new Measurement(0, 'm/s');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-speed-air', 'hidden', true);
+    });
+  
+    it(`should render the character race with swim speed`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.swimSpeed = new Measurement(9266, 'm/s');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-speed-swim', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-speed-swim');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Swim Speed: 9,266 m/s');
+    });
+  
+    it(`should render the character race without swim speed`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.swimSpeed = new Measurement(0, 'm/s');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-speed-swim', 'hidden', true);
+    });
+  
+    it(`should render the character race size`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.size = 'my size';
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-size', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-size');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Size: my size');
+    });
+  
+    it(`should render the character race age`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.age = new Measurement(9266, 'years', 'decrepit');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-age', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-age');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Age: 9,266 years (decrepit)');
+    });
+  
+    it(`should render the character race max age`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.maximumAge = new Measurement(9266, 'years', 'will die of natural causes');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-age-max', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-age-max');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Maximum Age: 9,266 years (will die of natural causes)');
+    });
+  
+    it(`should render the character race max age - immortal`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.maximumAge = new Measurement(0, 'years', 'Will not die of old age');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-age-max', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-age-max');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Maximum Age: Will not die of old age');
+    });
+  
+    it(`should render the character race height`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.height = new Measurement(9266, 'inches', 'lanky');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-height', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-height');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Height: 772\' 2" (lanky)');
+    });
+  
+    it(`should render the character race weight`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.race.summary = 'my race summary';
+      component.character.race.weight = new Measurement(9266, 'kgs', 'like a linebacker');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
+      expectHasAttribute('li.character-race-weight', 'hidden', false);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector('li.character-race li.character-race-weight');
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual('Weight: 9,266 kgs (like a linebacker)');
+    });
+  
+    it(`should render the character abilities`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.abilities.Strength = new Ability('Strength', 92, 66);
+      component.character.abilities.Constitution = new Ability('Constitution', 902, -10);
+      component.character.abilities.Dexterity = new Ability('Dexterity', 42, 600);
+      component.character.abilities.Intelligence = new Ability('Intelligence', 13, -37);
+      component.character.abilities.Wisdom = new Ability('Wisdom', 13, 36);
+      component.character.abilities.Charisma = new Ability('Charisma', 96, 783);
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-abilities > dndgen-details', 'Abilities', true);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll('li.character-abilities dndgen-details li');
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(6);
+      expect(listItems?.item(0).textContent).toEqual('Strength: 92 (+66)');
+      expect(listItems?.item(1).textContent).toEqual('Constitution: 902 (-10)');
+      expect(listItems?.item(2).textContent).toEqual('Dexterity: 42 (+600)');
+      expect(listItems?.item(3).textContent).toEqual('Intelligence: 13 (-37)');
+      expect(listItems?.item(4).textContent).toEqual('Wisdom: 13 (+36)');
+      expect(listItems?.item(5).textContent).toEqual('Charisma: 96 (+783)');
+    });
+  
+    it(`should render the character abilities - without constitution`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.abilities.Strength = new Ability('Strength', 92, 66);
+      component.character.abilities.Constitution = null;
+      component.character.abilities.Dexterity = new Ability('Dexterity', 42, 600);
+      component.character.abilities.Intelligence = new Ability('Intelligence', 13, -37);
+      component.character.abilities.Wisdom = new Ability('Wisdom', 13, 36);
+      component.character.abilities.Charisma = new Ability('Charisma', 96, 783);
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-abilities > dndgen-details', 'Abilities', true);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll('li.character-abilities dndgen-details li');
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(5);
+      expect(listItems?.item(0).textContent).toEqual('Strength: 92 (+66)');
+      expect(listItems?.item(1).textContent).toEqual('Dexterity: 42 (+600)');
+      expect(listItems?.item(2).textContent).toEqual('Intelligence: 13 (-37)');
+      expect(listItems?.item(3).textContent).toEqual('Wisdom: 13 (+36)');
+      expect(listItems?.item(4).textContent).toEqual('Charisma: 96 (+783)');
+    });
+  
+    it(`should render the character languages`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.languages = ['English', 'German'];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-languages > dndgen-details', 'Languages', true);
+      
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll('li.character-languages dndgen-details li');
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(2);
+      expect(listItems?.item(0).textContent).toEqual('English');
+      expect(listItems?.item(1).textContent).toEqual('German');
+    });
+  
+    it(`should render the character skills`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('skill 1', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+        new Skill('skill 2', '', 13, false, 3.7, new Ability('ability 2', 13, 36), 96, 0),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table');
+    });
+
+    function expectTable(selector: string) {
+      const compiled = fixture.nativeElement as HTMLElement;
+      const table = compiled.querySelector(selector);
+      expect(table).toBeTruthy();
+      expect(table?.getAttribute('class')).toEqual('table table-striped');
+
+      const columnHeaders = compiled.querySelectorAll(`${selector} th`);
+      expect(columnHeaders).toBeTruthy();
+      expect(columnHeaders?.length).toEqual(7);
+      expect(columnHeaders?.item(0).textContent).toEqual('Class Skill');
+      expect(columnHeaders?.item(0).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(1).textContent).toEqual('Skill');
+      expect(columnHeaders?.item(1).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(2).textContent).toEqual('Total Bonus');
+      expect(columnHeaders?.item(2).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(3).textContent).toEqual('Ranks');
+      expect(columnHeaders?.item(3).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(4).textContent).toEqual('Ability Bonus');
+      expect(columnHeaders?.item(4).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(5).textContent).toEqual('Other Bonus');
+      expect(columnHeaders?.item(5).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(6).textContent).toEqual('Armor Check Penalty');
+      expect(columnHeaders?.item(6).getAttribute('scope')).toEqual('col');
+
+      const rows = compiled.querySelectorAll(`${selector} tr`);
+      expect(rows).toBeTruthy();
+      expect(rows?.length).toEqual(2);
+      expect(rows?.item(0).textContent).toEqual('English');
+      expect(rows?.item(1).textContent).toEqual('German');
+    }
 
     function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
       const compiled = fixture.nativeElement as HTMLElement;

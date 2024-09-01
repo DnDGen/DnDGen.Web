@@ -3,18 +3,18 @@ import { Ability } from "./ability.model";
 export class Skill {
   constructor(
     public name: string,
-    public baseAbility: Ability,
     public focus: string,
-    public bonus: number,
-    public classSkill: boolean,
-    public armorCheckPenalty: number,
+    public totalBonus: number,
     public circumstantialBonus: boolean,
-    public rankCap: number,
-    public hasArmorCheckPenalty: boolean,
     public effectiveRanks: number,
-    public ranksMaxedOut: boolean,
-    public ranks: number,
-    public qualifiesForSkillSynergy: boolean,
-    public totalBonus: number
+    public baseAbility: Ability,
+    public bonus: number,
+    public armorCheckPenalty: number,
+    public classSkill: boolean = false,
+    public rankCap: number = 0,
+    public hasArmorCheckPenalty: boolean = false,
+    public ranksMaxedOut: boolean = false,
+    public ranks: number = 0,
+    public qualifiesForSkillSynergy: boolean = false,
   ) { }
 }

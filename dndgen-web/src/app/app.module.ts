@@ -20,6 +20,7 @@ import { LeaderComponent } from './character/leadership.component';
 import { CharacterComponent } from './character/character.component';
 import { BonusPipe } from './shared/bonus.pipe';
 import { BonusesPipe } from './shared/bonuses.pipe';
+import { MeasurementPipe } from './shared/measurement.pipe';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { BonusesPipe } from './shared/bonuses.pipe';
         InchesToFeetPipe,
         BonusPipe,
         BonusesPipe,
+        MeasurementPipe,
 
         //RollGen
         RollGenComponent,
@@ -58,6 +60,7 @@ import { BonusesPipe } from './shared/bonuses.pipe';
         InchesToFeetPipe,
         BonusPipe,
         BonusesPipe,
+        MeasurementPipe,
         provideHttpClient(withInterceptorsFromDi()),
     ],
     bootstrap: [AppComponent]
