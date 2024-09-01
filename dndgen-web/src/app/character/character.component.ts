@@ -8,4 +8,11 @@ import { Character } from './models/character.model';
 
 export class CharacterComponent {
   @Input() character!: Character;
+
+  public isTwoHanded(): boolean {
+    if (!this.character.equipment.primaryHand)
+      return false;
+
+    return this.character.equipment.primaryHand!.attributes.indexOf('Two-Handed') > -1;
+  }
 }

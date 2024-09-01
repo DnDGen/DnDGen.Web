@@ -5,46 +5,47 @@
         <ul>
           <li class="character-combat-hitpoints">Hit Points: {{character.combat.hitPoints | number}}</li>
           <li class="character-combat-ac">
-            <span>Armor Class: {{character.combat.armorClass.full}} {{character.combat.armorClass.circumstantialBonus ? '*' : ''}}</span>
+            <span>Armor Class: {{character.combat.armorClass.full | bonus: character.combat.armorClass.circumstantialBonus: false}}</span>
             <ul>
               <li>Flat-Footed: {{character.combat.armorClass.flatFooted}}</li>
               <li>Touch: {{character.combat.armorClass.touch}}</li>
             </ul>
           </li>
           <li class="character-combat-ba">
-            <span>Base Attack: {{character.combat.baseAttack.baseBonus}}</span>
+            <span>Base Attack: {{character.combat.baseAttack.baseBonus | bonus}}</span>
             <ul>
-              <li>Melee: {{character.combat.baseAttack.allMeleeBonuses[0] | bonus}}<span *ngFor="let bonus of character.combat.baseAttack.allMeleeBonuses | slice:1">/{{bonus | bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
-              <li>Ranged: {{character.combat.baseAttack.allRangedBonuses[0] | bonus}}<span *ngFor="let bonus of character.combat.baseAttack.allRangedBonuses | slice:1">/{{bonus | bonus}}</span> <span [hidden]="!character.combat.baseAttack.circumstantialBonus">*</span></li>
+              <li>Melee: {{character.combat.baseAttack.allMeleeBonuses | bonuses: character.combat.baseAttack.circumstantialBonus}}</li>
+              <li>Ranged: {{character.combat.baseAttack.allRangedBonuses | bonuses: character.combat.baseAttack.circumstantialBonus}}</li>
             </ul>
           </li>
-          <li>Initiative Bonus: {{character.combat.initiativeBonus | bonus}}</li>
-          <li>
+          <li class="character-combat-initiative">Initiative Bonus: {{character.combat.initiativeBonus | bonus}}</li>
+          <li class="character-combat-saves">
             <span>Saving Throws:</span>
             <ul>
-              <li [hidden]="!character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude | bonus}}</li>
-              <li>Reflex: {{character.combat.savingThrows.reflex | bonus}}</li>
-              <li>Will: {{character.combat.savingThrows.will | bonus}}</li>
-              <li [hidden]="!character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
+              <li class="character-combat-saves-fort" 
+                  [hidden]="!character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude | bonus}}</li>
+              <li class="character-combat-saves-ref">Reflex: {{character.combat.savingThrows.reflex | bonus}}</li>
+              <li class="character-combat-saves-will">Will: {{character.combat.savingThrows.will | bonus}}</li>
+              <li class="character-combat-saves-condition" [hidden]="!character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
             </ul>
           </li>
-          <li>Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus | bonus}}</li>
+          <li class="character-combat-adj-dex">Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus | bonus}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li>Challenge Rating: {{character.challengeRating}}</li>
-    <li>Alignment: {{character.alignment.full}}</li>
-    <li>
+    <li class="character-cr">Challenge Rating: {{character.challengeRating}}</li>
+    <li class="character-alignment">Alignment: {{character.alignment.full}}</li>
+    <li class="character-class">
       <dndgen-details [heading]="character['class'].summary" [hasDetails]="character['class'].specialistFields.length > 0 || character['class'].prohibitedFields.length > 0">
         <ul>
-          <li [hidden]="character['class'].specialistFields.length == 0">
+          <li class="character-class-specialist" [hidden]="character['class'].specialistFields.length == 0">
             <dndgen-details heading="Specialist Fields" [hasDetails]="character['class'].specialistFields.length > 0">
               <ul>
                 <li *ngFor="let field of character['class'].specialistFields">{{field}}</li>
               </ul>
             </dndgen-details>
           </li>
-          <li [hidden]="character['class'].prohibitedFields.length == 0">
+          <li class="character-class-prohibited" [hidden]="character['class'].prohibitedFields.length == 0">
             <dndgen-details heading="Prohibited Fields" [hasDetails]="character['class'].prohibitedFields.length > 0">
               <ul>
                 <li *ngFor="let field of character['class'].prohibitedFields">{{field}}</li>
@@ -54,10 +55,10 @@
         </ul>
       </dndgen-details>
     </li>
-    <li>
+    <li class="character-race">
       <dndgen-details [heading]="character.race.summary" [hasDetails]="true">
         <ul>
-          <li [hidden]="character.race.metaraceSpecies.length == 0">Metarace Species: {{character.race.metaraceSpecies}}</li>
+          <li class="character-race-metarace-species" [hidden]="character.race.metaraceSpecies.length == 0">Metarace Species: {{character.race.metaraceSpecies}}</li>
           <li>Land Speed: {{character.race.landSpeed.value}} {{character.race.landSpeed.unit}} <span [hidden]="!character.race.landSpeed.description">({{character.race.landSpeed.description}})</span></li>
           <li [hidden]="!character.race.hasWings">Has Wings</li>
           <li [hidden]="!character.race.aerialSpeed.value">Aerial Speed: {{character.race.aerialSpeed.value}} {{character.race.aerialSpeed.unit}} <span [hidden]="!character.race.aerialSpeed.description">({{character.race.aerialSpeed.description}})</span></li>
@@ -218,8 +219,8 @@
           </li>
           <li>
             <span [hidden]="character.equipment.offHand">Off Hand: None</span>
-            <span [hidden]="character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1">Off Hand: (Two-Handed)</span>
-            <dndgen-details heading="Off Hand" [hasDetails]="character.equipment.offHand != null && character.equipment.primaryHand.attributes.indexOf('Two-Handed') == -1" [hidden]="!character.equipment.offHand || character.equipment.primaryHand.attributes.indexOf('Two-Handed') > -1">
+            <span [hidden]="!isTwoHanded()">Off Hand: (Two-Handed)</span>
+            <dndgen-details heading="Off Hand" [hasDetails]="character.equipment.offHand != null && !isTwoHanded()" [hidden]="!character.equipment.offHand || isTwoHanded()">
               <dndgen-item *ngIf="character.equipment.offHand" [item]="character.equipment.offHand"></dndgen-item>
             </dndgen-details>
           </li>
