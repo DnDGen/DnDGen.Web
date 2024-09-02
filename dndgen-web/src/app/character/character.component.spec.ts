@@ -1070,50 +1070,133 @@ describe('CharacterComponent', () => {
       expect(listItems?.item(1).textContent).toEqual('German');
     });
   
-    it(`should render the character skills`, () => {
+    it(`should render the character skill`, () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.skills = [
-        new Skill('skill 1', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
-        new Skill('skill 2', '', 13, false, 3.7, new Ability('ability 2', 13, 36), 96, 0),
+        new Skill('my skill', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
       ];
 
       fixture.detectChanges();
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
-      expectTable('li.character-skills dndgen-details table');
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
+    });
+  
+    it(`should render the character skill with focus`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('my skill', 'my focus', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
+    });
+  
+    it(`should render the character skill with conditional bonus`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('my skill', '', 90, true, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
+    });
+  
+    it(`should render the character skill as class skill`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('my skill', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6, true),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
+    });
+  
+    it(`should render the character skills`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('skill 1', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+        new Skill('skill 2', '', 13, false, 3.7, new Ability('ability 2', 13, 36), 96, -7, true),
+        new Skill('skill 3', '', 83, true, 8.2, new Ability('ability 3', 4, -5), 9, 0),
+        new Skill('skill 4', '', 22, true, 2, new Ability('ability 4', 2, -2), 7, -12, true),
+        new Skill('skill 5', 'focus 1', 34, false, 2.3, new Ability('ability 5', 45, 34), 56, 0),
+        new Skill('skill 5', 'focus 2', 456, false, 7, new Ability('ability 5', 45, 34), 78, 0, true),
+        new Skill('skill 6', 'focus 3', 678, true, 9, new Ability('ability 6', 5, -6), 789, 0),
+        new Skill('skill 6', 'focus 4', 0, true, 8.9, new Ability('ability 6', 5, -6), 91, -2, true),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
     });
 
-    function expectTable(selector: string) {
+    function expectTable(selector: string, skills: Skill[]) {
       const compiled = fixture.nativeElement as HTMLElement;
       const table = compiled.querySelector(selector);
       expect(table).toBeTruthy();
       expect(table?.getAttribute('class')).toEqual('table table-striped');
 
+      const classIndex = 0;
+      const nameIndex = 1;
+      const totalIndex = 2;
+      const ranksIndex = 3;
+      const abilityIndex = 4;
+      const otherIndex = 5;
+      const acIndex = 6;
+
       const columnHeaders = compiled.querySelectorAll(`${selector} th`);
       expect(columnHeaders).toBeTruthy();
       expect(columnHeaders?.length).toEqual(7);
-      expect(columnHeaders?.item(0).textContent).toEqual('Class Skill');
-      expect(columnHeaders?.item(0).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(1).textContent).toEqual('Skill');
-      expect(columnHeaders?.item(1).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(2).textContent).toEqual('Total Bonus');
-      expect(columnHeaders?.item(2).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(3).textContent).toEqual('Ranks');
-      expect(columnHeaders?.item(3).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(4).textContent).toEqual('Ability Bonus');
-      expect(columnHeaders?.item(4).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(5).textContent).toEqual('Other Bonus');
-      expect(columnHeaders?.item(5).getAttribute('scope')).toEqual('col');
-      expect(columnHeaders?.item(6).textContent).toEqual('Armor Check Penalty');
-      expect(columnHeaders?.item(6).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(classIndex).textContent).toEqual('Class Skill');
+      expect(columnHeaders?.item(classIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(nameIndex).textContent).toEqual('Skill');
+      expect(columnHeaders?.item(nameIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(totalIndex).textContent).toEqual('Total Bonus');
+      expect(columnHeaders?.item(totalIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(ranksIndex).textContent).toEqual('Ranks');
+      expect(columnHeaders?.item(ranksIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(abilityIndex).textContent).toEqual('Ability Bonus');
+      expect(columnHeaders?.item(abilityIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(otherIndex).textContent).toEqual('Other Bonus');
+      expect(columnHeaders?.item(otherIndex).getAttribute('scope')).toEqual('col');
+      expect(columnHeaders?.item(acIndex).textContent).toEqual('Armor Check Penalty');
+      expect(columnHeaders?.item(acIndex).getAttribute('scope')).toEqual('col');
 
       const rows = compiled.querySelectorAll(`${selector} tr`);
       expect(rows).toBeTruthy();
-      expect(rows?.length).toEqual(2);
-      expect(rows?.item(0).textContent).toEqual('English');
-      expect(rows?.item(1).textContent).toEqual('German');
+      expect(rows?.length).toEqual(skills.length);
+
+      for(var i = 0; i < rows.length; i++) {
+        let row = rows.item(i);
+
+        const values = row.querySelectorAll('td');
+        expect(values).toBeTruthy();
+        expect(values?.length).toEqual(7);
+        expect(values?.item(classIndex).textContent).toEqual(skills[i].classSkill);
+        expect(values?.item(nameIndex).textContent).toEqual(skills[i].name);
+        expect(values?.item(totalIndex).textContent).toEqual(skills[i].totalBonus);
+        expect(values?.item(ranksIndex).textContent).toEqual(skills[i].effectiveRanks);
+        expect(values?.item(abilityIndex).textContent).toEqual(skills[i].baseAbility.bonus);
+        expect(values?.item(otherIndex).textContent).toEqual(skills[i].bonus);
+        expect(values?.item(acIndex).textContent).toEqual(skills[i].armorCheckPenalty);
+      }
     }
 
     function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
