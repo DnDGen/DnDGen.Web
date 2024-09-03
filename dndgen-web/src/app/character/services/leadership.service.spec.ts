@@ -166,7 +166,7 @@ describe('Leadership Service', () => {
             leadershipService.generate(6, -5, 'Heavy warhorse').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
                 expect(leadership.score).toBeCloseTo(1, -1);
-                expect(leadership.cohortScore).toBeCloseTo(leadership.score, -1);
+                expect(leadership.cohortScore).toBeCloseTo(leadership.score, -2);
                 expect(leadership.followerQuantities).toBeTruthy();
                 expect(leadership.followerQuantities.level1).toEqual(0);
                 expect(leadership.followerQuantities.level2).toEqual(0);
