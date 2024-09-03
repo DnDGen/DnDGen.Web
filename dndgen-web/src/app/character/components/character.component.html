@@ -106,7 +106,7 @@
             <tr *ngFor="let skill of character.skills">
               <td><i [hidden]="!skill.classSkill" class="bi bi-check-lg"></i></td>
               <td>{{skill.displayName}}</td>
-              <td><b>{{skill.totalBonus | bonus: skill.circumstantialBonus}}</b></td>
+              <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
               <td>{{skill.effectiveRanks}}</td>
               <td>{{skill.baseAbility.bonus}}</td>
               <td>{{skill.bonus}}</td>

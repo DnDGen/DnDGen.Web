@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Character } from '../models/character.model';
-import { Leadership } from '../models/leadership.model';
-import { Measurement } from '../models/measurement.model';
-import { InchesToFeetPipe } from '../../shared/pipes/inchesToFeet.pipe'
 import { Skill } from '../models/skill.model';
 import { Feat } from '../models/feat.model';
 import { FeatCollection } from '../models/featCollection.model';
@@ -78,15 +75,15 @@ export class CharacterPipe implements PipeTransform {
         //Race
         formattedCharacter += prefix + '\t' + character.race.summary + '\r\n';
 
-        if (character.race.metaraceSpecies.length > 0)
+        if (character.race.metaraceSpecies.length)
             formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.race.metaraceSpecies + '\r\n';
 
         formattedCharacter += prefix + "\t\t" + "Land Speed: " + this.measurementPipe.transform(character.race.landSpeed) + "\r\n";
 
-        if (character.race.aerialSpeed.value > 0)
+        if (character.race.aerialSpeed.value)
             formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + this.measurementPipe.transform(character.race.aerialSpeed) + "\r\n";
 
-        if (character.race.swimSpeed.value > 0)
+        if (character.race.swimSpeed.value)
             formattedCharacter += prefix + "\t\t" + "Swim Speed: " + this.measurementPipe.transform(character.race.swimSpeed) + "\r\n";
 
         formattedCharacter += prefix + "\t\t" + "Size: " + character.race.size + "\r\n";
@@ -159,15 +156,15 @@ export class CharacterPipe implements PipeTransform {
 
         var formattedAbilities = prefix + 'Abilities:\r\n';
 
-        formattedAbilities += prefix + "\t" + "Strength: " + abilities.Strength.value + " (" + abilities.Strength.bonus + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Strength: " + abilities.Strength.value + " (" + this.bonusPipe.transform(abilities.Strength.bonus) + ")\r\n";
 
         if (abilities.Constitution)
-        formattedAbilities += prefix + "\t" + "Constitution: " + abilities.Constitution.value + " (" + abilities.Constitution.bonus + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Constitution: " + abilities.Constitution.value + " (" + this.bonusPipe.transform(abilities.Constitution.bonus) + ")\r\n";
 
-        formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.Dexterity.value + " (" + abilities.Dexterity.bonus + ")\r\n";
-        formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.Intelligence.value + " (" + abilities.Intelligence.bonus + ")\r\n";
-        formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.Wisdom.value + " (" + abilities.Wisdom.bonus + ")\r\n";
-        formattedAbilities += prefix + "\t" + "Charisma: " + abilities.Charisma.value + " (" + abilities.Charisma.bonus + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Dexterity: " + abilities.Dexterity.value + " (" + this.bonusPipe.transform(abilities.Dexterity.bonus) + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Intelligence: " + abilities.Intelligence.value + " (" + this.bonusPipe.transform(abilities.Intelligence.bonus) + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Wisdom: " + abilities.Wisdom.value + " (" + this.bonusPipe.transform(abilities.Wisdom.bonus) + ")\r\n";
+        formattedAbilities += prefix + "\t" + "Charisma: " + abilities.Charisma.value + " (" + this.bonusPipe.transform(abilities.Charisma.bonus) + ")\r\n";
 
         return formattedAbilities;
     }

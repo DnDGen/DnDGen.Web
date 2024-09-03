@@ -10,6 +10,7 @@ import { Item } from '../models/item.model';
 import { ItemPipe } from '../pipes/item.pipe';
 import { TreasurePipe } from '../pipes/treasure.pipe';
 import { switchMap, tap } from 'rxjs';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'dndgen-treasuregen',
@@ -19,6 +20,7 @@ import { switchMap, tap } from 'rxjs';
     TreasureService,
     ItemPipe,
     TreasurePipe,
+    DecimalPipe,
   ]
 })
 

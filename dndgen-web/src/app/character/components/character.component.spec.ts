@@ -1216,7 +1216,9 @@ describe('CharacterComponent', () => {
         expect(values?.item(nameIndex).textContent).toEqual(skills[i].displayName);
 
         let total = bonusPipe.transform(skills[i].totalBonus, skills[i].circumstantialBonus);
-        expect(values?.item(totalIndex).textContent).toEqual(`<b>${total}</b>`);
+        expect(values?.item(totalIndex).textContent).toEqual(total);
+        expect(values?.item(totalIndex).getAttribute('style')).toEqual('font-weight: bold;');
+
         expect(values?.item(ranksIndex).textContent).toEqual(`${skills[i].effectiveRanks}`);
         expect(values?.item(abilityIndex).textContent).toEqual(`${skills[i].baseAbility.bonus}`);
         expect(values?.item(otherIndex).textContent).toEqual(`${skills[i].bonus}`);
