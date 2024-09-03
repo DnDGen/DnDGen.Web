@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { UuidService } from './uuid.service';
+import { UuidService } from '../services/uuid.service';
 
 @Component({
   selector: 'dndgen-details',

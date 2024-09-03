@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Measurement } from "../character/models/measurement.model";
+import { Measurement } from "../../character/models/measurement.model";
 import { InchesToFeetPipe } from "./inchesToFeet.pipe";
 import { DecimalPipe } from "@angular/common";
 

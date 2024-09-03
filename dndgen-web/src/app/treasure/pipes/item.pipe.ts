@@ -1,54 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Treasure } from '../models/treasure.model';
+import { Pipe, PipeTransform } from '@angular/core';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
 import { Intelligence } from '../models/intelligence.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class TreasureFormatterService {
-  constructor() { }
-
-  public formatTreasure(treasure: Treasure, prefix?: string): string {
-    if (!prefix)
-        prefix = '';
-
-    var formattedTreasure = '';
-
-    if (treasure.coin.quantity > 0)
-        formattedTreasure += prefix + this.formatNumber(treasure.coin.quantity) + ' ' + treasure.coin.currency + '\r\n';
-    else
-        formattedTreasure += prefix + 'No coins\r\n';
-
-    if (treasure.goods.length > 0)
-        formattedTreasure += prefix + `Goods (x${treasure.goods.length}):\r\n`;
-    else
-        formattedTreasure += prefix + 'Goods (x0)\r\n';
-
-    for (var i = 0; i < treasure.goods.length; i++) {
-      formattedTreasure += prefix + '\t' + treasure.goods[i].description + ' (' + this.formatNumber(treasure.goods[i].valueInGold) + 'gp)\r\n';
-    }
-
-    if (treasure.items.length > 0)
-        formattedTreasure += prefix + `Items (x${treasure.items.length}):\r\n`;
-    else
-        formattedTreasure += prefix + 'Items (x0)\r\n';
-
-    for (var j = 0; j < treasure.items.length; j++) {
-        formattedTreasure += this.formatItem(treasure.items[j], prefix + '\t');
-    }
-
-    return formattedTreasure;
+@Pipe({ name: 'item' })
+export class ItemPipe implements PipeTransform {
+  transform(value: Item, prefix?: string): string {
+    return this.formatItem(value, prefix);
   }
 
-  private formatNumber(number: number): string {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
-  public formatItem(item: Item, prefix?: string): string {
+  private formatItem(item: Item, prefix?: string): string {
       if (!prefix)
           prefix = '';
 

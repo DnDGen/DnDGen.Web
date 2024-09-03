@@ -1,7 +1,7 @@
 import { Input, Component } from '@angular/core';
-import { Item } from './models/item.model';
-import { Armor } from './models/armor.model';
-import { Weapon } from './models/weapon.model';
+import { Item } from '../models/item.model';
+import { Armor } from '../models/armor.model';
+import { Weapon } from '../models/weapon.model';
 
 @Component({
   selector: 'dndgen-item',

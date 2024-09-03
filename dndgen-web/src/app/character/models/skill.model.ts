@@ -17,4 +17,11 @@ export class Skill {
     public ranks: number = 0,
     public qualifiesForSkillSynergy: boolean = false,
   ) { }
+
+  public get displayName(): string {
+    if (!this.focus)
+      return this.name;
+
+    return `${this.name} (${this.focus})`;
+  }
 }

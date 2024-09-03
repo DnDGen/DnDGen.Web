@@ -1,5 +1,5 @@
 import { Input, Component } from '@angular/core';
-import { Character } from './models/character.model';
+import { Character } from '../models/character.model';
 import { DecimalPipe } from '@angular/common';
 
 @Component({

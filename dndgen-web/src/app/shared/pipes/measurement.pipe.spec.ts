@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { MeasurementPipe } from './measurement.pipe';
 import { InchesToFeetPipe } from './inchesToFeet.pipe';
-import { Measurement } from '../character/models/measurement.model';
+import { Measurement } from '../../character/models/measurement.model';
 
 describe('MeasurementPipe', () => {
   describe('unit', () => {

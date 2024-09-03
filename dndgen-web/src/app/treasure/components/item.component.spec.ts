@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemComponent } from './item.component';
-import { AppModule } from '../app.module';
-import { Item } from './models/item.model';
-import { Armor } from './models/armor.model';
-import { Weapon } from './models/weapon.model';
-import { SpecialAbility } from './models/specialAbility.model';
-import { DetailsComponent } from '../shared/details.component';
+import { AppModule } from '../../app.module';
+import { Item } from '../models/item.model';
+import { Armor } from '../models/armor.model';
+import { Weapon } from '../models/weapon.model';
+import { SpecialAbility } from '../models/specialAbility.model';
+import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
 
 describe('ItemComponent', () => {

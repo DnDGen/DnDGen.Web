@@ -1,9 +1,9 @@
 import { routes } from './app.routes';
-import { CharacterGenComponent } from './character/charactergen.component';
+import { CharacterGenComponent } from './character/components/charactergen.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
-import { RollGenComponent } from './roll/rollgen.component';
-import { TreasureGenComponent } from './treasure/treasuregen.component';
+import { RollGenComponent } from './roll/components/rollgen.component';
+import { TreasureGenComponent } from './treasure/components/treasuregen.component';
 
 describe('routes', () => {
   describe('unit', () => {
@@ -57,6 +57,8 @@ describe('routes', () => {
       expect(route?.path).toEqual('**');
       expect(route?.component).toEqual(ErrorComponent);
       expect(route?.pathMatch).toEqual('full');
+
+      expect(route).toBe(routes[routes.length - 1]);
     });
   });
 });

@@ -1,27 +1,18 @@
 ﻿import { Armor } from "../models/armor.model";
-import { Coin } from "../models/coin.model";
-import { Good } from "../models/good.model";
 import { Item } from "../models/item.model";
 import { SpecialAbility } from "../models/specialAbility.model";
-import { Treasure } from "../models/treasure.model";
 import { Weapon } from "../models/weapon.model";
-import { TreasureFormatterService } from "./treasureFormatter.service";
+import { ItemPipe } from "./item.pipe";
 
-describe('Treasure Formatter Service', () => {
+describe('Item Pipe', () => {
     describe('unit', () => {
-        let treasureFormatterService: TreasureFormatterService;
-        let treasure: Treasure;
+        let pipe: ItemPipe;
         let item: Item;
     
         beforeEach(() => {
-            treasure = new Treasure();
             item = createItem('item name');
-            treasureFormatterService = new TreasureFormatterService();
+            pipe = new ItemPipe();
         });
-    
-        function createGood(description: string, value: number): Good {
-            return new Good(description, value);
-        }
     
         function createItem(itemName: string): Item {
             var item = new Item(itemName, 'MyItemType');
@@ -29,297 +20,8 @@ describe('Treasure Formatter Service', () => {
             return item;
         }
     
-        it('formats empty treaure', () => {    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('No coins');
-            expect(lines[1]).toBe('Goods (x0)');
-            expect(lines[2]).toBe('Items (x0)');
-            expect(lines[3]).toBe('');
-            expect(lines.length).toBe(4);
-        });
-    
-        it('formats coin', () => {
-            treasure.isAny = true;
-            treasure.coin.quantity = 9266;
-            treasure.coin.currency = 'munny';
-    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('9,266 munny');
-            expect(lines[1]).toBe('Goods (x0)');
-            expect(lines[2]).toBe('Items (x0)');
-            expect(lines[3]).toBe('');
-            expect(lines.length).toBe(4);
-        });
-    
-        it('formats goods', () => {
-            treasure.isAny = true;
-            treasure.goods.push(createGood('description 1', 90210));
-            treasure.goods.push(createGood('description 2', 42));
-    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('No coins');
-            expect(lines[1]).toBe('Goods (x2):');
-            expect(lines[2]).toBe('\tdescription 1 (90,210gp)');
-            expect(lines[3]).toBe('\tdescription 2 (42gp)');
-            expect(lines[4]).toBe('Items (x0)');
-            expect(lines[5]).toBe('');
-            expect(lines.length).toBe(6);
-        });
-    
-        it('formats items', () => {
-            treasure.isAny = true;
-    
-            item.quantity = 2;
-            item.contents.push('first contents');
-            item.contents.push('second contents');
-            item.traits.push('first trait');
-            item.traits.push('second trait');
-            item.attributes.push('first attribute');
-            item.attributes.push('Charged');
-            item.attributes.push('second attribute');
-            item.magic.bonus = 3;
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 1'));
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 2'));
-            item.magic.charges = 4;
-            item.magic.curse = 'curse';
-            item.magic.intelligence.ego = 5;
-            item.magic.intelligence.intelligenceStat = 6;
-            item.magic.intelligence.wisdomStat = 7;
-            item.magic.intelligence.charismaStat = 8;
-            item.magic.intelligence.alignment = 'alignment';
-            item.magic.intelligence.communication.push('empathy');
-            item.magic.intelligence.communication.push('telepathy');
-            item.magic.intelligence.languages.push('English');
-            item.magic.intelligence.languages.push('German');
-            item.magic.intelligence.senses = 'senses';
-            item.magic.intelligence.powers.push('first power');
-            item.magic.intelligence.powers.push('second power');
-            item.magic.intelligence.specialPurpose = 'special purpose';
-            item.magic.intelligence.dedicatedPower = 'dedicated power';
-            item.magic.intelligence.personality = 'personality';
-    
-            treasure.items.push(item);
-            treasure.items.push(createItem('other item name'));
-    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('No coins');
-            expect(lines[1]).toBe('Goods (x0)');
-            expect(lines[2]).toBe('Items (x2):');
-            expect(lines[3]).toBe('\titem name (x2)');
-            expect(lines[4]).toBe('\t\tContents:');
-            expect(lines[5]).toBe('\t\t\tfirst contents');
-            expect(lines[6]).toBe('\t\t\tsecond contents');
-            expect(lines[7]).toBe('\t\tTraits:');
-            expect(lines[8]).toBe('\t\t\tfirst trait');
-            expect(lines[9]).toBe('\t\t\tsecond trait');
-            expect(lines[10]).toBe('\t\tBonus: +3');
-            expect(lines[11]).toBe('\t\tSpecial Abilities:');
-            expect(lines[12]).toBe('\t\t\tspecial ability 1');
-            expect(lines[13]).toBe('\t\t\tspecial ability 2');
-            expect(lines[14]).toBe('\t\tCharges: 4');
-            expect(lines[15]).toBe('\t\tCurse: curse');
-            expect(lines[16]).toBe('\t\tIntelligent:');
-            expect(lines[17]).toBe('\t\t\tEgo: 5');
-            expect(lines[18]).toBe('\t\t\tIntelligence: 6');
-            expect(lines[19]).toBe('\t\t\tWisdom: 7');
-            expect(lines[20]).toBe('\t\t\tCharisma: 8');
-            expect(lines[21]).toBe('\t\t\tAlignment: alignment');
-            expect(lines[22]).toBe('\t\t\tCommunication:');
-            expect(lines[23]).toBe('\t\t\t\tempathy');
-            expect(lines[24]).toBe('\t\t\t\ttelepathy');
-            expect(lines[25]).toBe('\t\t\t\tLanguages:');
-            expect(lines[26]).toBe('\t\t\t\t\tEnglish');
-            expect(lines[27]).toBe('\t\t\t\t\tGerman');
-            expect(lines[28]).toBe('\t\t\tSenses: senses');
-            expect(lines[29]).toBe('\t\t\tPowers:');
-            expect(lines[30]).toBe('\t\t\t\tfirst power');
-            expect(lines[31]).toBe('\t\t\t\tsecond power');
-            expect(lines[32]).toBe('\t\t\tSpecial Purpose: special purpose');
-            expect(lines[33]).toBe('\t\t\tDedicated Power: dedicated power');
-            expect(lines[34]).toBe('\t\t\tPersonality: personality');
-            expect(lines[35]).toBe('\tother item name');
-            expect(lines[36]).toBe('');
-            expect(lines.length).toBe(37);
-        });
-    
-        it('formats all treasure', () => {
-            treasure.isAny = true;
-    
-            item.quantity = 2;
-            item.contents.push('first contents');
-            item.contents.push('second contents');
-            item.traits.push('first trait');
-            item.traits.push('second trait');
-            item.attributes.push('first attribute');
-            item.attributes.push('Charged');
-            item.attributes.push('second attribute');
-            item.magic.bonus = 3;
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 1'));
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 2'));
-            item.magic.charges = 4;
-            item.magic.curse = 'curse';
-            item.magic.intelligence.ego = 5;
-            item.magic.intelligence.intelligenceStat = 6;
-            item.magic.intelligence.wisdomStat = 7;
-            item.magic.intelligence.charismaStat = 8;
-            item.magic.intelligence.alignment = 'alignment';
-            item.magic.intelligence.communication.push('empathy');
-            item.magic.intelligence.communication.push('telepathy');
-            item.magic.intelligence.languages.push('English');
-            item.magic.intelligence.languages.push('German');
-            item.magic.intelligence.senses = 'senses';
-            item.magic.intelligence.powers.push('first power');
-            item.magic.intelligence.powers.push('second power');
-            item.magic.intelligence.specialPurpose = 'special purpose';
-            item.magic.intelligence.dedicatedPower = 'dedicated power';
-            item.magic.intelligence.personality = 'personality';
-    
-            treasure.coin.quantity = 9266;
-            treasure.coin.currency = 'munny';
-            treasure.goods.push(createGood('description 1', 90210));
-            treasure.goods.push(createGood('description 2', 42));
-            treasure.items.push(item);
-            treasure.items.push(createItem('other item name'));
-    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure);
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('9,266 munny');
-            expect(lines[1]).toBe('Goods (x2):');
-            expect(lines[2]).toBe('\tdescription 1 (90,210gp)');
-            expect(lines[3]).toBe('\tdescription 2 (42gp)');
-            expect(lines[4]).toBe('Items (x2):');
-            expect(lines[5]).toBe('\titem name (x2)');
-            expect(lines[6]).toBe('\t\tContents:');
-            expect(lines[7]).toBe('\t\t\tfirst contents');
-            expect(lines[8]).toBe('\t\t\tsecond contents');
-            expect(lines[9]).toBe('\t\tTraits:');
-            expect(lines[10]).toBe('\t\t\tfirst trait');
-            expect(lines[11]).toBe('\t\t\tsecond trait');
-            expect(lines[12]).toBe('\t\tBonus: +3');
-            expect(lines[13]).toBe('\t\tSpecial Abilities:');
-            expect(lines[14]).toBe('\t\t\tspecial ability 1');
-            expect(lines[15]).toBe('\t\t\tspecial ability 2');
-            expect(lines[16]).toBe('\t\tCharges: 4');
-            expect(lines[17]).toBe('\t\tCurse: curse');
-            expect(lines[18]).toBe('\t\tIntelligent:');
-            expect(lines[19]).toBe('\t\t\tEgo: 5');
-            expect(lines[20]).toBe('\t\t\tIntelligence: 6');
-            expect(lines[21]).toBe('\t\t\tWisdom: 7');
-            expect(lines[22]).toBe('\t\t\tCharisma: 8');
-            expect(lines[23]).toBe('\t\t\tAlignment: alignment');
-            expect(lines[24]).toBe('\t\t\tCommunication:');
-            expect(lines[25]).toBe('\t\t\t\tempathy');
-            expect(lines[26]).toBe('\t\t\t\ttelepathy');
-            expect(lines[27]).toBe('\t\t\t\tLanguages:');
-            expect(lines[28]).toBe('\t\t\t\t\tEnglish');
-            expect(lines[29]).toBe('\t\t\t\t\tGerman');
-            expect(lines[30]).toBe('\t\t\tSenses: senses');
-            expect(lines[31]).toBe('\t\t\tPowers:');
-            expect(lines[32]).toBe('\t\t\t\tfirst power');
-            expect(lines[33]).toBe('\t\t\t\tsecond power');
-            expect(lines[34]).toBe('\t\t\tSpecial Purpose: special purpose');
-            expect(lines[35]).toBe('\t\t\tDedicated Power: dedicated power');
-            expect(lines[36]).toBe('\t\t\tPersonality: personality');
-            expect(lines[37]).toBe('\tother item name');
-            expect(lines[38]).toBe('');
-            expect(lines.length).toBe(39);
-        });
-    
-        it('formats all treasure with prefix', () => {
-            treasure.isAny = true;
-    
-            item.quantity = 2;
-            item.contents.push('first contents');
-            item.contents.push('second contents');
-            item.traits.push('first trait');
-            item.traits.push('second trait');
-            item.attributes.push('first attribute');
-            item.attributes.push('Charged');
-            item.attributes.push('second attribute');
-            item.magic.bonus = 3;
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 1'));
-            item.magic.specialAbilities.push(new SpecialAbility('special ability 2'));
-            item.magic.charges = 4;
-            item.magic.curse = 'curse';
-            item.magic.intelligence.ego = 5;
-            item.magic.intelligence.intelligenceStat = 6;
-            item.magic.intelligence.wisdomStat = 7;
-            item.magic.intelligence.charismaStat = 8;
-            item.magic.intelligence.alignment = 'alignment';
-            item.magic.intelligence.communication.push('empathy');
-            item.magic.intelligence.communication.push('telepathy');
-            item.magic.intelligence.languages.push('English');
-            item.magic.intelligence.languages.push('German');
-            item.magic.intelligence.senses = 'senses';
-            item.magic.intelligence.powers.push('first power');
-            item.magic.intelligence.powers.push('second power');
-            item.magic.intelligence.specialPurpose = 'special purpose';
-            item.magic.intelligence.dedicatedPower = 'dedicated power';
-            item.magic.intelligence.personality = 'personality';
-    
-            treasure.coin.quantity = 9266;
-            treasure.coin.currency = 'munny';
-            treasure.goods.push(createGood('description 1', 90210));
-            treasure.goods.push(createGood('description 2', 42));
-            treasure.items.push(item);
-            treasure.items.push(createItem('other item name'));
-    
-            var formattedTreasure = treasureFormatterService.formatTreasure(treasure, '\t');
-            var lines = formattedTreasure.split('\r\n');
-    
-            expect(lines[0]).toBe('\t9,266 munny');
-            expect(lines[1]).toBe('\tGoods (x2):');
-            expect(lines[2]).toBe('\t\tdescription 1 (90,210gp)');
-            expect(lines[3]).toBe('\t\tdescription 2 (42gp)');
-            expect(lines[4]).toBe('\tItems (x2):');
-            expect(lines[5]).toBe('\t\titem name (x2)');
-            expect(lines[6]).toBe('\t\t\tContents:');
-            expect(lines[7]).toBe('\t\t\t\tfirst contents');
-            expect(lines[8]).toBe('\t\t\t\tsecond contents');
-            expect(lines[9]).toBe('\t\t\tTraits:');
-            expect(lines[10]).toBe('\t\t\t\tfirst trait');
-            expect(lines[11]).toBe('\t\t\t\tsecond trait');
-            expect(lines[12]).toBe('\t\t\tBonus: +3');
-            expect(lines[13]).toBe('\t\t\tSpecial Abilities:');
-            expect(lines[14]).toBe('\t\t\t\tspecial ability 1');
-            expect(lines[15]).toBe('\t\t\t\tspecial ability 2');
-            expect(lines[16]).toBe('\t\t\tCharges: 4');
-            expect(lines[17]).toBe('\t\t\tCurse: curse');
-            expect(lines[18]).toBe('\t\t\tIntelligent:');
-            expect(lines[19]).toBe('\t\t\t\tEgo: 5');
-            expect(lines[20]).toBe('\t\t\t\tIntelligence: 6');
-            expect(lines[21]).toBe('\t\t\t\tWisdom: 7');
-            expect(lines[22]).toBe('\t\t\t\tCharisma: 8');
-            expect(lines[23]).toBe('\t\t\t\tAlignment: alignment');
-            expect(lines[24]).toBe('\t\t\t\tCommunication:');
-            expect(lines[25]).toBe('\t\t\t\t\tempathy');
-            expect(lines[26]).toBe('\t\t\t\t\ttelepathy');
-            expect(lines[27]).toBe('\t\t\t\t\tLanguages:');
-            expect(lines[28]).toBe('\t\t\t\t\t\tEnglish');
-            expect(lines[29]).toBe('\t\t\t\t\t\tGerman');
-            expect(lines[30]).toBe('\t\t\t\tSenses: senses');
-            expect(lines[31]).toBe('\t\t\t\tPowers:');
-            expect(lines[32]).toBe('\t\t\t\t\tfirst power');
-            expect(lines[33]).toBe('\t\t\t\t\tsecond power');
-            expect(lines[34]).toBe('\t\t\t\tSpecial Purpose: special purpose');
-            expect(lines[35]).toBe('\t\t\t\tDedicated Power: dedicated power');
-            expect(lines[36]).toBe('\t\t\t\tPersonality: personality');
-            expect(lines[37]).toBe('\t\tother item name');
-            expect(lines[38]).toBe('');
-            expect(lines.length).toBe(39);
-        });
-    
         it('formats item', () => {
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -330,7 +32,7 @@ describe('Treasure Formatter Service', () => {
         it('formats item with quantity greater than 1', () => {
             item.quantity = 2;
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name (x2)');
@@ -342,7 +44,7 @@ describe('Treasure Formatter Service', () => {
             item.contents.push('first contents');
             item.contents.push('second contents');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -357,7 +59,7 @@ describe('Treasure Formatter Service', () => {
             item.traits.push('first trait');
             item.traits.push('second trait');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -371,7 +73,7 @@ describe('Treasure Formatter Service', () => {
         it('formats item magic bonus', () => {
             item.magic.bonus = 3;
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -385,7 +87,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.specialAbilities.push(new SpecialAbility('special ability 1'));
             item.magic.specialAbilities.push(new SpecialAbility('special ability 2'));
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -401,7 +103,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.charges = 4;
             item.attributes.push('Charged');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -413,7 +115,7 @@ describe('Treasure Formatter Service', () => {
         it('formats item charges of 0', () => {
             item.attributes.push('Charged');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -425,7 +127,7 @@ describe('Treasure Formatter Service', () => {
         it('formats item curse', () => {
             item.magic.curse = 'curse';
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -441,7 +143,7 @@ describe('Treasure Formatter Service', () => {
             armor.totalMaxDexterityBonus = 42;
             armor.size = "armor size";
     
-            var formattedItem = treasureFormatterService.formatItem(armor);
+            var formattedItem = pipe.transform(armor);
             var lines = formattedItem.split('\r\n');
     
             var expected = [
@@ -468,7 +170,7 @@ describe('Treasure Formatter Service', () => {
             armor.totalMaxDexterityBonus = 9000;
             armor.size = "armor size";
     
-            var formattedItem = treasureFormatterService.formatItem(armor);
+            var formattedItem = pipe.transform(armor);
             var lines = formattedItem.split('\r\n');
     
             var expected = [
@@ -495,7 +197,7 @@ describe('Treasure Formatter Service', () => {
             weapon.threatRangeDescription = "threat range description";
             weapon.criticalDamageDescription = "over 9000";
     
-            var formattedItem = treasureFormatterService.formatItem(weapon);
+            var formattedItem = pipe.transform(weapon);
             var lines = formattedItem.split('\r\n');
     
             var expected = [
@@ -527,7 +229,7 @@ describe('Treasure Formatter Service', () => {
             weapon.secondaryDamageDescription = 'secondary damage description';
             weapon.secondaryCriticalDamageDescription = 'finish him';
     
-            var formattedItem = treasureFormatterService.formatItem(weapon);
+            var formattedItem = pipe.transform(weapon);
             var lines = formattedItem.split('\r\n');
     
             var expected = [
@@ -559,7 +261,7 @@ describe('Treasure Formatter Service', () => {
             weapon.criticalDamageDescription = "over 9000";
             weapon.ammunition = "needed ammo";
     
-            var formattedItem = treasureFormatterService.formatItem(weapon);
+            var formattedItem = pipe.transform(weapon);
             var lines = formattedItem.split('\r\n');
     
             var expected = [
@@ -593,7 +295,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.powers.push('first power');
             item.magic.intelligence.powers.push('second power');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -629,7 +331,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.powers.push('first power');
             item.magic.intelligence.powers.push('second power');
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -668,7 +370,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.specialPurpose = 'special purpose';
             item.magic.intelligence.dedicatedPower = 'dedicated power';
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -705,7 +407,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.powers.push('second power');
             item.magic.intelligence.personality = 'personality';
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name');
@@ -757,7 +459,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.dedicatedPower = 'dedicated power';
             item.magic.intelligence.personality = 'personality';
     
-            var formattedItem = treasureFormatterService.formatItem(item);
+            var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('item name (x2)');
@@ -826,7 +528,7 @@ describe('Treasure Formatter Service', () => {
             item.magic.intelligence.dedicatedPower = 'dedicated power';
             item.magic.intelligence.personality = 'personality';
     
-            var formattedItem = treasureFormatterService.formatItem(item, '\t');
+            var formattedItem = pipe.transform(item, '\t');
             var lines = formattedItem.split('\r\n');
     
             expect(lines[0]).toBe('\titem name (x2)');

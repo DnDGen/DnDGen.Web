@@ -1,13 +1,13 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { CharacterService } from './services/character.service';
-import { LeadershipService } from './services/leadership.service';
-import { CharacterFormatterService } from './services/characterFormatter.service';
-import { FileSaverService } from '../shared/fileSaver.service';
-import { SweetAlertService } from '../shared/sweetAlert.service';
-import { LoggerService } from '../shared/logger.service';
-import { Character } from './models/character.model';
-import { Leadership } from './models/leadership.model';
-import { CharacterGenViewModel } from './models/charactergenViewModel.model';
+import { CharacterService } from '../services/character.service';
+import { LeadershipService } from '../services/leadership.service';
+import { CharacterFormatterService } from '../pipes/character.pipe';
+import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { LoggerService } from '../../shared/services/logger.service';
+import { Character } from '../models/character.model';
+import { Leadership } from '../models/leadership.model';
+import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 
 @Component({
   selector: 'dndgen-charactergen',

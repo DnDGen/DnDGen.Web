@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { TreasureFormatterService } from "../../treasure/services/treasureFormatter.service";
+import { Pipe, PipeTransform } from '@angular/core';
+import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { Measurement } from '../models/measurement.model';
-import { InchesToFeetPipe } from '../../shared/inchesToFeet.pipe'
+import { InchesToFeetPipe } from '../../shared/pipes/inchesToFeet.pipe'
 import { Skill } from '../models/skill.model';
 import { Feat } from '../models/feat.model';
 import { FeatCollection } from '../models/featCollection.model';
@@ -17,63 +17,22 @@ import { BaseAttack } from '../models/baseAttack.model';
 import { Abilities } from '../models/abilities.model';
 import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
-import { SpellGroup } from '../models/spellGroup.model';
-import { SpellGroupService } from './spellGroup.service';
+import { SpellGroupService } from '../services/spellGroup.service';
+import { ItemPipe } from '../../treasure/pipes/item.pipe';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CharacterFormatterService {
-    constructor(private treasureFormatterService: TreasureFormatterService, private inchesToFeetPipe: InchesToFeetPipe, private spellGroupService: SpellGroupService) { }
+@Pipe({ name: 'character' })
+export class CharacterPipe implements PipeTransform {
+    constructor(
+        private itemPipe: ItemPipe,
+        private treasurePipe: TreasurePipe,
+        private inchesToFeetPipe: InchesToFeetPipe,
+        private spellGroupService: SpellGroupService) { }
 
-    public formatLeadership(leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
-        if (!prefix)
-        prefix = '';
-
-        if (!leadership)
-            return '';
-
-        let formattedLeadership = prefix + "Leadership:\r\n";
-        formattedLeadership += prefix + "\t" + "Score: " + leadership.score + "\r\n";
-        formattedLeadership += this.formatList(leadership.leadershipModifiers, 'Leadership Modifiers', prefix + "\t");
-
-        formattedLeadership += '\r\n';
-
-        if (cohort) {
-            formattedLeadership += prefix + 'Cohort:\r\n';
-            formattedLeadership += this.formatCharacter(cohort, prefix + '\t');
-        } else {
-            formattedLeadership += prefix + 'Cohort: None\r\n';
-        }
-
-        formattedLeadership += '\r\n';
-
-        if (followers && followers.length > 0) {
-        formattedLeadership += prefix + `Followers (x${followers.length}):\r\n`;
-
-        for (var i = 0; i < followers.length; i++) {
-            formattedLeadership += '\r\n';
-            formattedLeadership += this.formatCharacter(followers[i], prefix + '\t');
-        }
-        } else {
-        formattedLeadership += prefix + `Followers (x${followers.length}): None\r\n`;
-        }
-
-        return formattedLeadership;
+    transform(value: Character, prefix?: string): string {
+        return this.formatCharacter(value, prefix);
     }
 
-    public formatLeader(character: Character, leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
-        if (!prefix)
-        prefix = '';
-
-        let formattedLeader = this.formatCharacter(character, prefix);
-        formattedLeader += '\r\n';
-        formattedLeader += this.formatLeadership(leadership, cohort, followers, prefix);
-
-        return formattedLeader;
-    }
-
-    public formatCharacter(character: Character, prefix?: string): string {
+    private formatCharacter(character: Character, prefix?: string): string {
         if (!character)
             return '';
 
@@ -364,7 +323,7 @@ export class CharacterFormatterService {
             return prefix + title + ": None\r\n";
 
         var formattedItem = prefix + title + ":\r\n";
-        formattedItem += this.treasureFormatterService.formatItem(item, prefix + "\t");
+        formattedItem += this.itemPipe.transform(item, prefix + "\t");
 
         return formattedItem;
     }
@@ -390,7 +349,7 @@ export class CharacterFormatterService {
             return prefix + "Treasure: None\r\n";
 
         var formattedTreasure = prefix + "Treasure:\r\n";
-        formattedTreasure += this.treasureFormatterService.formatTreasure(treasure, prefix + "\t");
+        formattedTreasure += this.treasurePipe.transform(treasure, prefix + "\t");
 
         return formattedTreasure;
     }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
-import { AppModule } from '../app.module';
-import { UuidService } from './uuid.service';
+import { AppModule } from '../../app.module';
+import { UuidService } from '../services/uuid.service';
 
 describe('DetailsComponent', () => {
   describe('unit', () => {

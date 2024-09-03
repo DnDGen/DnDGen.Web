@@ -1,23 +1,22 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { TreasureGenComponent } from './treasuregen.component';
-import { AppModule } from '../app.module';
-import { TreasureService } from './services/treasure.service';
-import { TreasureFormatterService } from './services/treasureFormatter.service';
-import { SweetAlertService } from '../shared/sweetAlert.service';
-import { LoggerService } from '../shared/logger.service';
-import { Observable, of } from 'rxjs';
-import { TreasureGenViewModel } from './models/treasuregenViewModel.model';
-import { FileSaverService } from '../shared/fileSaver.service';
-import { ItemTypeViewModel } from './models/itemTypeViewModel.model';
-import { Treasure } from './models/treasure.model';
-import { Coin } from './models/coin.model';
-import { Item } from './models/item.model';
-import { UuidService } from '../shared/uuid.service';
+import { AppModule } from '../../app.module';
+import { TreasureService } from '../services/treasure.service';
+import { TreasureFormatterService } from '../pipes/treasure.pipe';
+import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { LoggerService } from '../../shared/services/logger.service';
+import { Observable } from 'rxjs';
+import { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
+import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { ItemTypeViewModel } from '../models/itemTypeViewModel.model';
+import { Treasure } from '../models/treasure.model';
+import { Coin } from '../models/coin.model';
+import { Item } from '../models/item.model';
 import { By } from '@angular/platform-browser';
 import { TreasureComponent } from './treasure.component';
 import { ItemComponent } from './item.component';
 import * as FileSaver from 'file-saver';
-import { Good } from './models/good.model';
+import { Good } from '../models/good.model';
 
 describe('TreasureGenComponent', () => {
   describe('unit', () => {

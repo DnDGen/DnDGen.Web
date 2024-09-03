@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
-import { RollGenComponent } from './roll/rollgen.component';
-import { TreasureGenComponent } from './treasure/treasuregen.component';
-import { CharacterGenComponent } from './character/charactergen.component';
+import { RollGenComponent } from './roll/components/rollgen.component';
+import { TreasureGenComponent } from './treasure/components/treasuregen.component';
+import { CharacterGenComponent } from './character/components/charactergen.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },

@@ -1,13 +1,14 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { SweetAlertService } from '../shared/sweetAlert.service';
-import { LoggerService } from '../shared/logger.service';
-import { FileSaverService } from '../shared/fileSaver.service';
-import { TreasureService } from './services/treasure.service';
-import { TreasureGenViewModel } from './models/treasuregenViewModel.model';
-import { ItemTypeViewModel } from './models/itemTypeViewModel.model';
-import { Treasure } from './models/treasure.model';
-import { Item } from './models/item.model';
-import { TreasureFormatterService } from './services/treasureFormatter.service';
+import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { LoggerService } from '../../shared/services/logger.service';
+import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { TreasureService } from '../services/treasure.service';
+import { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
+import { ItemTypeViewModel } from '../models/itemTypeViewModel.model';
+import { Treasure } from '../models/treasure.model';
+import { Item } from '../models/item.model';
+import { ItemPipe } from '../pipes/item.pipe';
+import { TreasurePipe } from '../pipes/treasure.pipe';
 import { switchMap, tap } from 'rxjs';
 
 @Component({
@@ -16,7 +17,8 @@ import { switchMap, tap } from 'rxjs';
   styleUrls: ['./treasuregen.component.css'],
   providers: [
     TreasureService,
-    TreasureFormatterService,
+    ItemPipe,
+    TreasurePipe,
   ]
 })
 
@@ -25,7 +27,8 @@ export class TreasureGenComponent implements OnInit {
     private treasureService: TreasureService,
     private sweetAlertService: SweetAlertService,
     private fileSaverService: FileSaverService,
-    private treasureFormatterService: TreasureFormatterService,
+    private itemPipe: ItemPipe,
+    private treasurePipe: TreasurePipe,
     private logger: LoggerService) { }
 
   public treasureModel!: TreasureGenViewModel;
@@ -187,7 +190,7 @@ export class TreasureGenComponent implements OnInit {
     if (!this.treasure)
       return;
 
-    const formattedTreasure = this.treasureFormatterService.formatTreasure(this.treasure);
+    const formattedTreasure = this.treasurePipe.transform(this.treasure);
     const coins = this.treasure.coin.quantity == 0 ? '0 coins' : `${this.treasure.coin.quantity} ${this.treasure.coin.currency}`;
     const fileName = `Treasure (${coins}, ${this.treasure.goods.length} goods, ${this.treasure.items.length} items)`;
 
@@ -198,7 +201,7 @@ export class TreasureGenComponent implements OnInit {
     if (!this.item)
       return;
 
-    let formattedItem = this.treasureFormatterService.formatItem(this.item);
+    let formattedItem = this.itemPipe.transform(this.item);
     let fileName = `Item (${this.item.description})`;
 
     this.fileSaverService.save(formattedItem, fileName);

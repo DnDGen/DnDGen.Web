@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterComponent } from './character.component';
-import { AppModule } from '../app.module';
-import { Item } from '../treasure/models/item.model';
-import { Armor } from '../treasure/models/armor.model';
-import { Weapon } from '../treasure/models/weapon.model';
-import { DetailsComponent } from '../shared/details.component';
+import { AppModule } from '../../app.module';
+import { Item } from '../../treasure/models/item.model';
+import { Armor } from '../../treasure/models/armor.model';
+import { Weapon } from '../../treasure/models/weapon.model';
+import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
-import { Character } from './models/character.model';
-import { Ability } from './models/ability.model';
-import { Skill } from './models/skill.model';
-import { Feat } from './models/feat.model';
-import { Treasure } from '../treasure/models/treasure.model';
-import { Good } from '../treasure/models/good.model';
-import { Measurement } from './models/measurement.model';
+import { Character } from '../models/character.model';
+import { Ability } from '../models/ability.model';
+import { Skill } from '../models/skill.model';
+import { Feat } from '../models/feat.model';
+import { Treasure } from '../../treasure/models/treasure.model';
+import { Good } from '../../treasure/models/good.model';
+import { Measurement } from '../models/measurement.model';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {
@@ -1084,6 +1085,20 @@ describe('CharacterComponent', () => {
       expectTable('li.character-skills dndgen-details table', component.character.skills);
     });
   
+    it(`should render the character skill with negative bonus`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('my skill', '', -90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
+    });
+  
     it(`should render the character skill with focus`, () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
@@ -1138,6 +1153,7 @@ describe('CharacterComponent', () => {
         new Skill('skill 5', 'focus 2', 456, false, 7, new Ability('ability 5', 45, 34), 78, 0, true),
         new Skill('skill 6', 'focus 3', 678, true, 9, new Ability('ability 6', 5, -6), 789, 0),
         new Skill('skill 6', 'focus 4', 0, true, 8.9, new Ability('ability 6', 5, -6), 91, -2, true),
+        new Skill('skill 7', '', -3, false, 4, new Ability('ability 1', 92, 66), 567, -8),
       ];
 
       fixture.detectChanges();
@@ -1183,19 +1199,28 @@ describe('CharacterComponent', () => {
       expect(rows).toBeTruthy();
       expect(rows?.length).toEqual(skills.length);
 
+      const bonusPipe = new BonusPipe();
+
       for(var i = 0; i < rows.length; i++) {
         let row = rows.item(i);
 
         const values = row.querySelectorAll('td');
         expect(values).toBeTruthy();
         expect(values?.length).toEqual(7);
-        expect(values?.item(classIndex).textContent).toEqual(skills[i].classSkill);
-        expect(values?.item(nameIndex).textContent).toEqual(skills[i].name);
-        expect(values?.item(totalIndex).textContent).toEqual(skills[i].totalBonus);
-        expect(values?.item(ranksIndex).textContent).toEqual(skills[i].effectiveRanks);
-        expect(values?.item(abilityIndex).textContent).toEqual(skills[i].baseAbility.bonus);
-        expect(values?.item(otherIndex).textContent).toEqual(skills[i].bonus);
-        expect(values?.item(acIndex).textContent).toEqual(skills[i].armorCheckPenalty);
+
+        const classIcon = values?.item(classIndex).querySelector('i');
+        expect(classIcon).toBeTruthy();
+        expect(classIcon?.hasAttribute('hidden')).toEqual(!skills[i].classSkill);
+        expect(classIcon?.getAttribute('class')).toEqual('bi bi-check-lg');
+
+        expect(values?.item(nameIndex).textContent).toEqual(skills[i].displayName);
+
+        let total = bonusPipe.transform(skills[i].totalBonus, skills[i].circumstantialBonus);
+        expect(values?.item(totalIndex).textContent).toEqual(`<b>${total}</b>`);
+        expect(values?.item(ranksIndex).textContent).toEqual(`${skills[i].effectiveRanks}`);
+        expect(values?.item(abilityIndex).textContent).toEqual(`${skills[i].baseAbility.bonus}`);
+        expect(values?.item(otherIndex).textContent).toEqual(`${skills[i].bonus}`);
+        expect(values?.item(acIndex).textContent).toEqual(`${skills[i].armorCheckPenalty}`);
       }
     }
 

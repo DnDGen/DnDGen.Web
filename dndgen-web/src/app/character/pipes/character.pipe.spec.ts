@@ -1,5 +1,6 @@
-﻿import { InchesToFeetPipe } from "../../shared/inchesToFeet.pipe";
-import { TreasureFormatterService } from "../../treasure/services/treasureFormatter.service";
+﻿import { InchesToFeetPipe } from "../../shared/pipes/inchesToFeet.pipe";
+import { ItemPipe } from "../../treasure/pipes/item.pipe";
+import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Ability } from "../models/ability.model";
 import { Armor } from "../../treasure/models/armor.model";
 import { Character } from "../models/character.model";
@@ -10,16 +11,17 @@ import { Skill } from "../models/skill.model";
 import { Spell } from "../models/spell.model";
 import { SpellQuantity } from "../models/spellQuantity.model";
 import { Weapon } from "../../treasure/models/weapon.model";
-import { CharacterFormatterService } from "./characterFormatter.service";
+import { CharacterFormatterService } from "./character.pipe";
 import { Good } from "../../treasure/models/good.model";
-import { SpellGroupService } from "./spellGroup.service";
+import { SpellGroupService } from "../services/spellGroup.service";
 import { SpellGroup } from "../models/spellGroup.model";
 import { Treasure } from "../../treasure/models/treasure.model";
 
 describe('Character Formatter Service', () => {
     describe('unit', () => {
         let characterFormatterService: CharacterFormatterService;
-        let treasureFormatterServiceSpy: jasmine.SpyObj<TreasureFormatterService>;
+        let itemPipeSpy: jasmine.SpyObj<ItemPipe>;
+        let treasurePipeSpy: jasmine.SpyObj<TreasurePipe>;
         let inchesToFeetPipeSpy: jasmine.SpyObj<InchesToFeetPipe>;
         let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
 
@@ -30,7 +32,8 @@ describe('Character Formatter Service', () => {
         let characterCount: number;
     
         beforeEach(() => {
-            treasureFormatterServiceSpy = jasmine.createSpyObj('TreasureFormatterService', ['formatTreasure', 'formatItem']);
+            itemPipeSpy = jasmine.createSpyObj('ItemPipe', ['transform']);
+            treasurePipeSpy = jasmine.createSpyObj('TreasurePipe', ['transform']);
             inchesToFeetPipeSpy = jasmine.createSpyObj('InchesToFeetPipe', ['transform']);
             spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups', 'getSpellGroupName']);
 
@@ -175,7 +178,7 @@ describe('Character Formatter Service', () => {
         }
     
         function createSkill(name: string, focus: string, effectiveRanks: number, baseAbility: Ability, bonus: number, acPenalty: number, classSkill: boolean, circumstantialBonus: boolean, totalBonus: number): Skill {
-            return new Skill(name, baseAbility, focus, bonus, classSkill, acPenalty, circumstantialBonus, 0, false, effectiveRanks, false, 0, false, totalBonus);
+            return new Skill(name, focus, totalBonus, circumstantialBonus, effectiveRanks, baseAbility, bonus, acPenalty, classSkill);
         }
     
         function createFeat(name: string) {

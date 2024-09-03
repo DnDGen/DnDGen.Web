@@ -1,6 +1,6 @@
 import { Input, Component } from '@angular/core';
-import { Character } from './models/character.model';
-import { Leadership } from './models/leadership.model';
+import { Character } from '../models/character.model';
+import { Leadership } from '../models/leadership.model';
 
 @Component({
   selector: 'dndgen-leadership',

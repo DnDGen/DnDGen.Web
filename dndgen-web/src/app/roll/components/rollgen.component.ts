@@ -1,9 +1,9 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { RollService } from './services/roll.service';
-import { StandardDie } from './models/standardDie.model';
-import { SweetAlertService } from '../shared/sweetAlert.service';
-import { LoggerService } from '../shared/logger.service';
-import { RollGenViewModel } from './models/rollgenViewModel.model';
+import { RollService } from '../services/roll.service';
+import { StandardDie } from '../models/standardDie.model';
+import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { LoggerService } from '../../shared/services/logger.service';
+import { RollGenViewModel } from '../models/rollgenViewModel.model';
 
 @Component({
   selector: 'dndgen-rollgen',

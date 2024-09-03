@@ -1,11 +1,11 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
-import { AppModule } from '../app.module';
-import { RollService } from './services/roll.service';
-import { SweetAlertService } from '../shared/sweetAlert.service';
-import { LoggerService } from '../shared/logger.service';
+import { AppModule } from '../../app.module';
+import { RollService } from '../services/roll.service';
+import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
-import { RollGenViewModel } from './models/rollgenViewModel.model';
+import { RollGenViewModel } from '../models/rollgenViewModel.model';
 
 describe('RollGenComponent', () => {
   describe('unit', () => {
