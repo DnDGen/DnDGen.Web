@@ -19,13 +19,18 @@ import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
+import { MeasurementPipe } from '../../shared/pipes/measurement.pipe';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 
 @Pipe({ name: 'character' })
 export class CharacterPipe implements PipeTransform {
     constructor(
         private itemPipe: ItemPipe,
         private treasurePipe: TreasurePipe,
-        private inchesToFeetPipe: InchesToFeetPipe,
+        private bonusPipe: BonusPipe,
+        private bonusesPipe: BonusesPipe,
+        private measurementPipe: MeasurementPipe,
         private spellGroupService: SpellGroupService) { }
 
     transform(value: Character, prefix?: string): string {
@@ -40,6 +45,24 @@ export class CharacterPipe implements PipeTransform {
             prefix = '';
 
         var formattedCharacter = prefix + character.summary + ':\r\n';
+
+        //Combat
+        formattedCharacter += prefix + "\t" + "Combat:\r\n";
+        formattedCharacter += prefix + "\t\t" + "Adjusted Dexterity Bonus: " + this.bonusPipe.transform(character.combat.adjustedDexterityBonus) + "\r\n";
+        formattedCharacter += this.formatArmorClass(character.combat.armorClass, prefix + "\t");
+        formattedCharacter += this.formatBaseAttack(character.combat.baseAttack, prefix + "\t");
+        formattedCharacter += prefix + "\t\t" + "Hit Points: " + character.combat.hitPoints + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Initiative Bonus: " + this.bonusPipe.transform(character.combat.initiativeBonus) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Saving Throws:\r\n";
+
+        if (character.combat.savingThrows.hasFortitudeSave)
+            formattedCharacter += prefix + "\t\t\t" + "Fortitude: " + this.bonusPipe.transform(character.combat.savingThrows.fortitude) + "\r\n";
+
+        formattedCharacter += prefix + "\t\t\t" + "Reflex: " + this.bonusPipe.transform(character.combat.savingThrows.reflex) + "\r\n";
+        formattedCharacter += prefix + "\t\t\t" + "Will: " + this.bonusPipe.transform(character.combat.savingThrows.will) + "\r\n";
+
+        if (character.combat.savingThrows.circumstantialBonus)
+            formattedCharacter += prefix + "\t\t\t" + "Circumstantial Bonus\r\n";
 
         //Challenge Rating
         formattedCharacter += prefix + '\t' + 'Challenge Rating: ' + character.challengeRating + '\r\n';
@@ -58,24 +81,19 @@ export class CharacterPipe implements PipeTransform {
         if (character.race.metaraceSpecies.length > 0)
             formattedCharacter += prefix + '\t\t' + 'Metarace Species: ' + character.race.metaraceSpecies + '\r\n';
 
-        formattedCharacter += prefix + "\t\t" + "Land Speed: " + this.formatMeasurement(character.race.landSpeed) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Land Speed: " + this.measurementPipe.transform(character.race.landSpeed) + "\r\n";
 
         if (character.race.aerialSpeed.value > 0)
-        formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + this.formatMeasurement(character.race.aerialSpeed) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Aerial Speed: " + this.measurementPipe.transform(character.race.aerialSpeed) + "\r\n";
 
         if (character.race.swimSpeed.value > 0)
-        formattedCharacter += prefix + "\t\t" + "Swim Speed: " + this.formatMeasurement(character.race.swimSpeed) + "\r\n";
+            formattedCharacter += prefix + "\t\t" + "Swim Speed: " + this.measurementPipe.transform(character.race.swimSpeed) + "\r\n";
 
         formattedCharacter += prefix + "\t\t" + "Size: " + character.race.size + "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Age: " + this.formatMeasurement(character.race.age) + "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Maximum Age: " + this.formatMeasurement(character.race.maximumAge) + "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Height: " + this.inchesToFeetPipe.transform(character.race.height.value);
-
-        if (character.race.height.description)
-            formattedCharacter += " (" + character.race.height.description + ")";
-
-        formattedCharacter += "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Weight: " + this.formatMeasurement(character.race.weight) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Age: " + this.measurementPipe.transform(character.race.age) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Maximum Age: " + this.measurementPipe.transform(character.race.maximumAge) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Height: " + this.measurementPipe.transform(character.race.height) + "\r\n";
+        formattedCharacter += prefix + "\t\t" + "Weight: " + this.measurementPipe.transform(character.race.weight) + "\r\n";
 
         if (character.race.hasWings)
             formattedCharacter += prefix + "\t\t" + "Has Wings\r\n";
@@ -116,34 +134,7 @@ export class CharacterPipe implements PipeTransform {
         formattedCharacter += this.formatItem("Armor", character.equipment.armor, prefix + '\t\t');
         formattedCharacter += this.formatTreasure(character.equipment.treasure, prefix + '\t\t');
 
-        //Combat
-        formattedCharacter += prefix + "\t" + "Combat:\r\n";
-        formattedCharacter += prefix + "\t\t" + "Adjusted Dexterity Bonus: " + character.combat.adjustedDexterityBonus + "\r\n";
-        formattedCharacter += this.formatArmorClass(character.combat.armorClass, prefix + "\t");
-        formattedCharacter += this.formatBaseAttack(character.combat.baseAttack, prefix + "\t");
-        formattedCharacter += prefix + "\t\t" + "Hit Points: " + character.combat.hitPoints + "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Initiative Bonus: " + character.combat.initiativeBonus + "\r\n";
-        formattedCharacter += prefix + "\t\t" + "Saving Throws:\r\n";
-
-        if (character.combat.savingThrows.hasFortitudeSave)
-            formattedCharacter += prefix + "\t\t\t" + "Fortitude: " + character.combat.savingThrows.fortitude + "\r\n";
-
-        formattedCharacter += prefix + "\t\t\t" + "Reflex: " + character.combat.savingThrows.reflex + "\r\n";
-        formattedCharacter += prefix + "\t\t\t" + "Will: " + character.combat.savingThrows.will + "\r\n";
-
-        if (character.combat.savingThrows.circumstantialBonus)
-            formattedCharacter += prefix + "\t\t\t" + "Circumstantial Bonus\r\n";
-
         return formattedCharacter;
-    }
-
-    private formatMeasurement(measurement: Measurement): string {
-        var formattedMeasurement = measurement.value + " " + measurement.unit;
-
-        if (measurement.description)
-            formattedMeasurement += " (" + measurement.description + ")";
-
-        return formattedMeasurement;
     }
 
     private formatList(list: string[], title: string, prefix: string): string {
@@ -190,19 +181,8 @@ export class CharacterPipe implements PipeTransform {
         for (var i = 0; i < skills.length; i++) {
             var skill = skills[i];
 
-            formattedSkills += prefix + '\t' + skill.name;
-
-            if (skill.focus) {
-                formattedSkills += " (" + skill.focus + ")";
-            }
-
-            formattedSkills += '\r\n';
-            formattedSkills += prefix + '\t\t' + 'Total Bonus: ' + skill.totalBonus;
-
-            if (skill.circumstantialBonus)
-                formattedSkills += " *";
-
-            formattedSkills += '\r\n';
+            formattedSkills += prefix + `\t${skill.displayName}\r\n`;
+            formattedSkills += prefix + '\t\t' + `Total Bonus: ${this.bonusPipe.transform(skill.totalBonus, skill.circumstantialBonus)}\r\n`;
 
             formattedSkills += prefix + '\t\t' + 'Ranks: ' + skill.effectiveRanks + '\r\n';
             formattedSkills += prefix + '\t\t' + 'Ability Bonus: ' + skill.baseAbility.bonus + '\r\n';
@@ -358,11 +338,7 @@ export class CharacterPipe implements PipeTransform {
         if (!prefix)
             prefix = '';
 
-        var formattedArmorClass = prefix + "\t" + "Armor Class: " + armorClass.full;
-
-        if (armorClass.circumstantialBonus)
-            formattedArmorClass += " *";
-
+        var formattedArmorClass = prefix + "\t" + "Armor Class: " + this.bonusPipe.transform(armorClass.full, armorClass.circumstantialBonus, false);
         formattedArmorClass += "\r\n";
         formattedArmorClass += prefix + "\t\t" + "Flat-Footed: " + armorClass.flatFooted + "\r\n";
         formattedArmorClass += prefix + "\t\t" + "Touch: " + armorClass.touch + "\r\n";
@@ -374,38 +350,15 @@ export class CharacterPipe implements PipeTransform {
         if (!prefix)
             prefix = '';
 
-        var formattedMeleeBonuses = this.formatBaseAttackBonuses(baseAttack.allMeleeBonuses);
-        var formattedRangedBonuses = this.formatBaseAttackBonuses(baseAttack.allRangedBonuses);
+        var formattedMeleeBonuses = this.bonusesPipe.transform(baseAttack.allMeleeBonuses, baseAttack.circumstantialBonus);
+        var formattedRangedBonuses = this.bonusesPipe.transform(baseAttack.allRangedBonuses, baseAttack.circumstantialBonus);
         var formattedBaseAttack = prefix + "\t" + "Base Attack:\r\n";
 
         formattedBaseAttack += prefix + "\t\t" + "Melee: " + formattedMeleeBonuses;
-        if (baseAttack.circumstantialBonus)
-            formattedBaseAttack += " *";
-
         formattedBaseAttack += '\r\n';
-
         formattedBaseAttack += prefix + "\t\t" + "Ranged: " + formattedRangedBonuses;
-        if (baseAttack.circumstantialBonus)
-            formattedBaseAttack += " *";
-
         formattedBaseAttack += '\r\n';
 
         return formattedBaseAttack;
-    }
-
-    private formatBaseAttackBonuses(bonuses: number[]): string {
-        var formattedBonuses = '';
-
-        for (var i = 0; i < bonuses.length; i++) {
-            if (bonuses[i] > -1)
-                formattedBonuses += '+';
-
-            formattedBonuses += bonuses[i];
-
-            if (i < bonuses.length - 1)
-                formattedBonuses += '/';
-        }
-
-        return formattedBonuses;
     }
 }

@@ -1,13 +1,13 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { CharacterService } from '../services/character.service';
 import { LeadershipService } from '../services/leadership.service';
-import { CharacterFormatterService } from '../pipes/character.pipe';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { LeaderPipe } from '../pipes/leader.pipe';
 
 @Component({
   selector: 'dndgen-charactergen',
@@ -15,7 +15,7 @@ import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
   providers: [
     CharacterService,
     LeadershipService,
-    CharacterFormatterService,
+    LeaderPipe,
   ]
 })
 
@@ -23,7 +23,7 @@ export class CharacterGenComponent implements OnInit {
   constructor(
     private characterService: CharacterService,
     private leadershipService: LeadershipService,
-    private characterFormatterService: CharacterFormatterService,
+    private leaderPipe: LeaderPipe,
     private fileSaverService: FileSaverService,
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
@@ -344,7 +344,7 @@ export class CharacterGenComponent implements OnInit {
       return;
     }
 
-    var formattedCharacter = this.characterFormatterService.formatLeader(this.character, this.leadership, this.cohort, this.followers);
+    var formattedCharacter = this.leaderPipe.transform(this.character, this.leadership, this.cohort, this.followers);
     this.fileSaverService.save(formattedCharacter, this.character.summary);
   }
 }
