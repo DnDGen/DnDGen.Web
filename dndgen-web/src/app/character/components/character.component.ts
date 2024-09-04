@@ -1,6 +1,7 @@
 import { Input, Component } from '@angular/core';
 import { Character } from '../models/character.model';
 import { DecimalPipe } from '@angular/common';
+import { FrequencyPipe } from '../pipes/frequency.pipe';
 
 @Component({
   selector: 'dndgen-character',

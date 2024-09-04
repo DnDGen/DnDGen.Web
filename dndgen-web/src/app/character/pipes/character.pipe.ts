@@ -19,6 +19,7 @@ import { ItemPipe } from '../../treasure/pipes/item.pipe';
 import { MeasurementPipe } from '../../shared/pipes/measurement.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
+import { FrequencyPipe } from './frequency.pipe';
 
 @Pipe({ name: 'character' })
 export class CharacterPipe implements PipeTransform {
@@ -28,6 +29,7 @@ export class CharacterPipe implements PipeTransform {
         private bonusPipe: BonusPipe,
         private bonusesPipe: BonusesPipe,
         private measurementPipe: MeasurementPipe,
+        private frequencyPipe: FrequencyPipe,
         private spellGroupService: SpellGroupService) { }
 
     transform(value: Character, prefix?: string): string {
@@ -230,17 +232,11 @@ export class CharacterPipe implements PipeTransform {
         formattedFeat += this.formatList(feat.foci, 'Foci', prefix + '\t');
 
         if (feat.frequency.timePeriod.length > 0) {
-            formattedFeat += prefix + '\t' + 'Frequency: ';
-
-            if (feat.frequency.quantity > 0) {
-                formattedFeat += feat.frequency.quantity + '/';
-            }
-
-            formattedFeat += feat.frequency.timePeriod + '\r\n';
+            formattedFeat += `${prefix}\tFrequency: ${this.frequencyPipe.transform(feat.frequency)}\r\n`;
         }
 
         if (feat.power > 0) {
-            formattedFeat += prefix + '\t' + 'Power: ' + feat.power + '\r\n';
+            formattedFeat += `${prefix}\tPower: ${feat.power}\r\n`;
         }
 
         return formattedFeat;

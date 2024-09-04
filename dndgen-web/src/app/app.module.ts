@@ -21,6 +21,8 @@ import { CharacterComponent } from './character/components/character.component';
 import { BonusPipe } from './shared/pipes/bonus.pipe';
 import { BonusesPipe } from './shared/pipes/bonuses.pipe';
 import { MeasurementPipe } from './shared/pipes/measurement.pipe';
+import { FeatComponent } from './character/components/feat.component';
+import { FrequencyPipe } from './character/pipes/frequency.pipe';
 
 @NgModule({
     declarations: [
@@ -47,7 +49,9 @@ import { MeasurementPipe } from './shared/pipes/measurement.pipe';
         //CharacterGen
         CharacterGenComponent,
         LeaderComponent,
-        CharacterComponent
+        CharacterComponent,
+        FeatComponent,
+        FrequencyPipe,
     ],
     imports: [
         BrowserModule,
@@ -61,6 +65,7 @@ import { MeasurementPipe } from './shared/pipes/measurement.pipe';
         BonusPipe,
         BonusesPipe,
         MeasurementPipe,
+        FrequencyPipe,
         provideHttpClient(withInterceptorsFromDi()),
     ],
     bootstrap: [AppComponent]

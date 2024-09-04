@@ -116,68 +116,32 @@
         </table>
       </dndgen-details>
     </li>
-    <li>
+    <li class="character-feats">
       <dndgen-details heading="Feats" [hasDetails]="true">
         <ul>
-          <li [hidden]="character.feats.racial.length == 0">
+          <li class="character-feats-racial" [hidden]="character.feats.racial.length == 0">
             <dndgen-details heading="Racial" [hasDetails]="character.feats.racial.length > 0">
               <ul>
-                <li *ngFor="let feat of character.feats.racial">
-                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
-                    <ul>
-                      <li [hidden]="feat.foci.length == 0">
-                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
-                          <ul>
-                            <li *ngFor="let focus of feat.foci">{{focus}}</li>
-                          </ul>
-                        </dndgen-details>
-                      </li>
-                      <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
-                      <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
-                    </ul>
-                  </dndgen-details>
+                <li class="character-feat-racial" *ngFor="let feat of character.feats.racial">
+                  <dndgen-feat [feat]="feat"></dndgen-feat>
                 </li>
               </ul>
             </dndgen-details>
           </li>
-          <li [hidden]="character.feats['class'].length == 0">
+          <li class="character-feats-class" [hidden]="character.feats['class'].length == 0">
             <dndgen-details heading="Class" [hasDetails]="character.feats['class'].length > 0">
               <ul>
-                <li *ngFor="let feat of character.feats['class']">
-                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
-                    <ul>
-                      <li [hidden]="feat.foci.length == 0">
-                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
-                          <ul>
-                            <li *ngFor="let focus of feat.foci">{{focus}}</li>
-                          </ul>
-                        </dndgen-details>
-                      </li>
-                      <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
-                      <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
-                    </ul>
-                  </dndgen-details>
+                <li class="character-feat-class" *ngFor="let feat of character.feats['class']">
+                  <dndgen-feat [feat]="feat"></dndgen-feat>
                 </li>
               </ul>
             </dndgen-details>
           </li>
-          <li [hidden]="character.feats.additional.length == 0">
+          <li class="character-feats-additional" [hidden]="character.feats.additional.length == 0">
             <dndgen-details heading="Additional" [hasDetails]="character.feats.additional.length > 0">
               <ul>
-                <li *ngFor="let feat of character.feats.additional">
-                  <dndgen-details [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
-                    <ul>
-                      <li [hidden]="feat.foci.length == 0">
-                        <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
-                          <ul>
-                            <li *ngFor="let focus of feat.foci">{{focus}}</li>
-                          </ul>
-                        </dndgen-details>
-                      </li>
-                      <li [hidden]="feat.power == 0">Power: {{feat.power}}</li>
-                      <li [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency.quantity > 0 ? feat.frequency.quantity + '/' : ''}}{{feat.frequency.timePeriod}}</li>
-                    </ul>
-                  </dndgen-details>
+                <li class="character-feat-additional" *ngFor="let feat of character.feats.additional">
+                  <dndgen-feat [feat]="feat"></dndgen-feat>
                 </li>
               </ul>
             </dndgen-details>
@@ -185,31 +149,31 @@
         </ul>
       </dndgen-details>
     </li>
-    <li>Interesting Trait: {{character.interestingTrait.length > 0 ? character.interestingTrait : 'None'}}</li>
-    <li [hidden]="character.magic.spellsPerDay.length == 0">
+    <li class="character-trait">Interesting Trait: {{character.interestingTrait.length > 0 ? character.interestingTrait : 'None'}}</li>
+    <li class="character-spells-per-day" [hidden]="character.magic.spellsPerDay.length == 0">
       <dndgen-details heading="Spells Per Day" [hasDetails]="character.magic.spellsPerDay.length > 0">
         <ul>
           <li *ngFor="let spellLevel of character.magic.spellsPerDay">Level {{spellLevel.level}} {{spellLevel.source}}: {{spellLevel.quantity}} {{spellLevel.hasDomainSpell ? '+ 1' : ''}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li [hidden]="character.magic.knownSpells.length == 0">
+    <li class="character-spells-known" [hidden]="character.magic.knownSpells.length == 0">
       <dndgen-details heading="Known Spells" [hasDetails]="character.magic.knownSpells.length > 0">
         <ul>
           <li *ngFor="let spell of character.magic.knownSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li [hidden]="character.magic.preparedSpells.length == 0">
+    <li class="character-spells-prepared" [hidden]="character.magic.preparedSpells.length == 0">
       <dndgen-details heading="Prepared Spells" [hasDetails]="character.magic.preparedSpells.length > 0">
         <ul>
           <li *ngFor="let spell of character.magic.preparedSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li [hidden]="character.magic.arcaneSpellFailure == 0">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
-    <li [hidden]="character.magic.animal.length == 0">Animal: {{character.magic.animal}}</li>
-    <li>
+    <li class="character-spells-failure" [hidden]="character.magic.arcaneSpellFailure == 0">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
+    <li class="character-animal" [hidden]="character.magic.animal.length == 0">Animal: {{character.magic.animal}}</li>
+    <li class="character-equipment">
       <dndgen-details heading="Equipment" [hasDetails]="true">
         <ul>
           <li>

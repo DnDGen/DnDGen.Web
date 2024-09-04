@@ -14,6 +14,8 @@ import { Treasure } from '../../treasure/models/treasure.model';
 import { Good } from '../../treasure/models/good.model';
 import { Measurement } from '../models/measurement.model';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { FeatComponent } from './feat.component';
+import { DebugElement } from '@angular/core';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {
@@ -118,10 +120,10 @@ describe('CharacterComponent', () => {
         expect(newCharacter.abilities.Strength).not.toBeNull();
         expect(newCharacter.abilities.Wisdom).not.toBeNull();
 
-        newCharacter.languages.push('English ');
-        newCharacter.languages.push('German ');
-        newCharacter.skills.push(createSkill('skill ' + (1), "", 4, newCharacter.abilities.Constitution, 0, -6, true, false, 135));
-        newCharacter.skills.push(createSkill('skill ' + (2), "focus", 1.5, newCharacter.abilities.Dexterity, 3, 0, false, true, 246));
+        newCharacter.languages.push('English');
+        newCharacter.languages.push('German');
+        newCharacter.skills.push(createSkill('skill 1', "", 4, newCharacter.abilities.Constitution, 0, -6, true, false, 135));
+        newCharacter.skills.push(createSkill('skill 2', "focus", 1.5, newCharacter.abilities.Dexterity, 3, 0, false, true, 246));
         newCharacter.feats.racial.push(createFeat('racial feat 1'));
         newCharacter.feats.racial.push(createFeat('racial feat 2'));
         newCharacter.feats.class.push(createFeat('class feat 1'));
@@ -133,19 +135,9 @@ describe('CharacterComponent', () => {
         newCharacter.combat.armorClass.touch = 34;
         newCharacter.combat.armorClass.flatFooted = 12;
 
-        newCharacter.combat.baseAttack.allMeleeBonuses.length = 0;
-        newCharacter.combat.baseAttack.allMeleeBonuses.push(21);
-        newCharacter.combat.baseAttack.allMeleeBonuses.push(16);
-        newCharacter.combat.baseAttack.allMeleeBonuses.push(11);
-        newCharacter.combat.baseAttack.allMeleeBonuses.push(6);
-        newCharacter.combat.baseAttack.allMeleeBonuses.push(1);
-
-        newCharacter.combat.baseAttack.allRangedBonuses.length = 0;
-        newCharacter.combat.baseAttack.allRangedBonuses.push(22);
-        newCharacter.combat.baseAttack.allRangedBonuses.push(17);
-        newCharacter.combat.baseAttack.allRangedBonuses.push(12);
-        newCharacter.combat.baseAttack.allRangedBonuses.push(7);
-        newCharacter.combat.baseAttack.allRangedBonuses.push(2);
+        newCharacter.combat.baseAttack.baseBonus = 2202;
+        newCharacter.combat.baseAttack.allMeleeBonuses = [21, 16, 11, 6, 1];
+        newCharacter.combat.baseAttack.allRangedBonuses = [22, 17, 12, 7, 2];
 
         newCharacter.combat.hitPoints = 3456;
         newCharacter.combat.initiativeBonus = 4567;
@@ -227,10 +219,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-hitpoints');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Hit Points: 9,266');
+      expectElement('li.character-combat li.character-combat-hitpoints', 'Hit Points: 9,266');
     });
   
     it(`should render the character armor class`, () => {
@@ -245,16 +234,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ac span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Armor Class: 42');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ac li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Flat-Footed: 600');
-      expect(listItems?.item(1).textContent).toEqual('Touch: 96');
+      expectElement('li.character-combat li.character-combat-ac span', 'Armor Class: 42');
+      expectListItems('li.character-combat li.character-combat-ac li', ['Flat-Footed: 600', 'Touch: 96']);
     });
   
     it(`should render the character armor class with circumstantial bonus`, () => {
@@ -270,16 +251,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ac span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Armor Class: 42 *');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ac li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Flat-Footed: 600');
-      expect(listItems?.item(1).textContent).toEqual('Touch: 96');
+      expectElement('li.character-combat li.character-combat-ac span', 'Armor Class: 42 *');
+      expectListItems('li.character-combat li.character-combat-ac li', ['Flat-Footed: 600', 'Touch: 96']);
     });
   
     it(`should render the character base attack`, () => {
@@ -294,16 +267,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: +2');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: +6');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +2', 'Ranged: +6']);
     });
   
     it(`should render the character base attack - negative`, () => {
@@ -318,16 +283,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: -2');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: -6');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: -2', 'Ranged: -6']);
     });
   
     it(`should render the character base attack - multiple attacks`, () => {
@@ -342,16 +299,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: +2/+6');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: +6/+9/+0');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +2/+6', 'Ranged: +6/+9/+0']);
     });
   
     it(`should render the character base attack - multiple attacks and negative`, () => {
@@ -366,16 +315,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: +2/-6');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: +6/+9/-2');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +2/-6', 'Ranged: +6/+9/-2']);
     });
   
     it(`should render the character base attack with circumstantial bonus`, () => {
@@ -391,16 +332,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: +2 *');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: +6 *');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +2 *', 'Ranged: +6 *']);
     });
   
     it(`should render the character base attack with multiple attacks and circumstantial bonus`, () => {
@@ -416,16 +349,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-ba span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Base Attack: +9');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-ba li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('Melee: +2/+6 *');
-      expect(listItems?.item(1).textContent).toEqual('Ranged: +6/+9/+0 *');
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +9');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +2/+6 *', 'Ranged: +6/+9/+0 *']);
     });
   
     it(`should render the character initiative bonus`, () => {
@@ -437,11 +362,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-initiative');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Initiative Bonus: +9');
+      expectElement('li.character-combat li.character-combat-initiative', 'Initiative Bonus: +9');
     });
   
     it(`should render the character initiative bonus - negative`, () => {
@@ -453,11 +374,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-initiative');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Initiative Bonus: -2');
+      expectElement('li.character-combat li.character-combat-initiative', 'Initiative Bonus: -2');
     });
   
     it(`should render the character saving throws`, () => {
@@ -473,18 +390,30 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-saves span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Saving Throws:');
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: +92', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
       
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-saves li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(4);
-      expect(listItems?.item(0).textContent).toEqual('Fortitude: +92');
-      expect(listItems?.item(1).textContent).toEqual('Reflex: +66');
-      expect(listItems?.item(2).textContent).toEqual('Will: +902');
-      expect(listItems?.item(3).textContent).toEqual('Circumstantial Bonus');
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+    });
+  
+    it(`should render the character saving throws - negative`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.combat.savingThrows.hasFortitudeSave = true;
+      component.character.combat.savingThrows.fortitude = -92;
+      component.character.combat.savingThrows.reflex = -66;
+      component.character.combat.savingThrows.will = -902;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
+
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: -92', 'Reflex: -66', 'Will: -902', 'Circumstantial Bonus']);
 
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
@@ -506,18 +435,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-saves span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Saving Throws:');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-saves li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(4);
-      expect(listItems?.item(0).textContent).toEqual('Fortitude: +92');
-      expect(listItems?.item(1).textContent).toEqual('Reflex: +66');
-      expect(listItems?.item(2).textContent).toEqual('Will: +902');
-      expect(listItems?.item(3).textContent).toEqual('Circumstantial Bonus');
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: +92', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
 
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
@@ -538,18 +457,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-saves span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Saving Throws:');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-saves li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(4);
-      expect(listItems?.item(0).textContent).toEqual('Fortitude: +0');
-      expect(listItems?.item(1).textContent).toEqual('Reflex: +66');
-      expect(listItems?.item(2).textContent).toEqual('Will: +902');
-      expect(listItems?.item(3).textContent).toEqual('Circumstantial Bonus');
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: +0', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
 
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', true);
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
@@ -571,18 +480,8 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-saves span');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Saving Throws:');
-      
-      const listItems = compiled.querySelectorAll('li.character-combat li.character-combat-saves li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(4);
-      expect(listItems?.item(0).textContent).toEqual('Fortitude: +0');
-      expect(listItems?.item(1).textContent).toEqual('Reflex: +66');
-      expect(listItems?.item(2).textContent).toEqual('Will: +902');
-      expect(listItems?.item(3).textContent).toEqual('Circumstantial Bonus');
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: +0', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
 
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', true);
       expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
@@ -600,10 +499,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-adj-dex');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Adjusted Dexterity Bonus: +9');
+      expectElement('li.character-combat li.character-combat-adj-dex', 'Adjusted Dexterity Bonus: +9');
     });
   
     it(`should render the character adjusted dexterity bonus - negative`, () => {
@@ -616,10 +512,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-combat li.character-combat-adj-dex');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Adjusted Dexterity Bonus: -2');
+      expectElement('li.character-combat li.character-combat-adj-dex', 'Adjusted Dexterity Bonus: -2');
     });
   
     it(`should render the character challenge rating`, () => {
@@ -630,11 +523,7 @@ describe('CharacterComponent', () => {
       fixture.detectChanges();
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('dndgen-details.character-header li.character-cr');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Challenge Rating: 92');
+      expectElement('dndgen-details.character-header li.character-cr', 'Challenge Rating: 92');
     });
   
     it(`should render the character alignment`, () => {
@@ -645,11 +534,7 @@ describe('CharacterComponent', () => {
       fixture.detectChanges();
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('dndgen-details.character-header li.character-alignment');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Alignment: my full alignment');
+      expectElement('dndgen-details.character-header li.character-alignment', 'Alignment: my full alignment');
     });
   
     it(`should render the character class`, () => {
@@ -677,13 +562,7 @@ describe('CharacterComponent', () => {
       expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', false);
       expectHasAttribute('li.character-class-specialist', 'hidden', false);
       expectHasAttribute('li.character-class-prohibited', 'hidden', true);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll('li.character-class-specialist li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('special field 1');
-      expect(listItems?.item(1).textContent).toEqual('special field 2');
+      expectListItems('li.character-class-specialist li', ['special field 1', 'special field 2']);
     });
   
     it(`should render the character class with prohibited fields`, () => {
@@ -700,13 +579,7 @@ describe('CharacterComponent', () => {
       expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', true);
       expectHasAttribute('li.character-class-specialist', 'hidden', true);
       expectHasAttribute('li.character-class-prohibited', 'hidden', false);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll('li.character-class-prohibited li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('forbidden field 1');
-      expect(listItems?.item(1).textContent).toEqual('forbidden field 2');
+      expectListItems('li.character-class-prohibited li', ['forbidden field 1', 'forbidden field 2']);
     });
   
     it(`should render the character class with specialist and prohibited fields`, () => {
@@ -724,19 +597,8 @@ describe('CharacterComponent', () => {
       expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', true);
       expectHasAttribute('li.character-class-specialist', 'hidden', false);
       expectHasAttribute('li.character-class-prohibited', 'hidden', false);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      let listItems = compiled.querySelectorAll('li.character-class-specialist li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('special field 1');
-      expect(listItems?.item(1).textContent).toEqual('special field 2');
-
-      listItems = compiled.querySelectorAll('li.character-class-prohibited li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('forbidden field 1');
-      expect(listItems?.item(1).textContent).toEqual('forbidden field 2');
+      expectListItems('li.character-class-specialist li', ['special field 1', 'special field 2']);
+      expectListItems('li.character-class-prohibited li', ['forbidden field 1', 'forbidden field 2']);
     });
   
     it(`should render the character race`, () => {
@@ -761,11 +623,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-metarace-species', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-metarace-species');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Metarace Species: my metarace species');
+      expectElement('li.character-race li.character-race-metarace-species', 'Metarace Species: my metarace species');
     });
   
     it(`should render the character race without metarace species`, () => {
@@ -792,11 +650,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-speed-land', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-speed-land');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Land Speed: 9,266 m/s');
+      expectElement('li.character-race li.character-race-speed-land', 'Land Speed: 9,266 m/s');
     });
   
     it(`should render the character race with wings`, () => {
@@ -810,11 +664,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-wings', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-wings');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Has Wings');
+      expectElement('li.character-race li.character-race-wings', 'Has Wings');
     });
   
     it(`should render the character race without wings`, () => {
@@ -841,11 +691,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-speed-air', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-speed-air');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Aerial Speed: 9,266 m/s (graceful)');
+      expectElement('li.character-race li.character-race-speed-air', 'Aerial Speed: 9,266 m/s (graceful)');
     });
   
     it(`should render the character race without aerial speed`, () => {
@@ -872,11 +718,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-speed-swim', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-speed-swim');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Swim Speed: 9,266 m/s');
+      expectElement('li.character-race li.character-race-speed-swim', 'Swim Speed: 9,266 m/s');
     });
   
     it(`should render the character race without swim speed`, () => {
@@ -903,11 +745,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-size', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-size');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Size: my size');
+      expectElement('li.character-race li.character-race-size', 'Size: my size');
     });
   
     it(`should render the character race age`, () => {
@@ -921,11 +759,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-age', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-age');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Age: 9,266 years (decrepit)');
+      expectElement('li.character-race li.character-race-age', 'Age: 9,266 years (decrepit)');
     });
   
     it(`should render the character race max age`, () => {
@@ -939,11 +773,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-age-max', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-age-max');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Maximum Age: 9,266 years (will die of natural causes)');
+      expectElement('li.character-race li.character-race-age-max', 'Maximum Age: 9,266 years (will die of natural causes)');
     });
   
     it(`should render the character race max age - immortal`, () => {
@@ -957,11 +787,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-age-max', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-age-max');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Maximum Age: Will not die of old age');
+      expectElement('li.character-race li.character-race-age-max', 'Maximum Age: Will not die of old age');
     });
   
     it(`should render the character race height`, () => {
@@ -975,11 +801,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-height', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-height');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Height: 772\' 2" (lanky)');
+      expectElement('li.character-race li.character-race-height', 'Height: 772\' 2" (lanky)');
     });
   
     it(`should render the character race weight`, () => {
@@ -993,11 +815,7 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
       expectHasAttribute('li.character-race-weight', 'hidden', false);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector('li.character-race li.character-race-weight');
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual('Weight: 9,266 kgs (like a linebacker)');
+      expectElement('li.character-race li.character-race-weight', 'Weight: 9,266 kgs (like a linebacker)');
     });
   
     it(`should render the character abilities`, () => {
@@ -1015,16 +833,14 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-abilities > dndgen-details', 'Abilities', true);
       
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll('li.character-abilities dndgen-details li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(6);
-      expect(listItems?.item(0).textContent).toEqual('Strength: 92 (+66)');
-      expect(listItems?.item(1).textContent).toEqual('Constitution: 902 (-10)');
-      expect(listItems?.item(2).textContent).toEqual('Dexterity: 42 (+600)');
-      expect(listItems?.item(3).textContent).toEqual('Intelligence: 13 (-37)');
-      expect(listItems?.item(4).textContent).toEqual('Wisdom: 13 (+36)');
-      expect(listItems?.item(5).textContent).toEqual('Charisma: 96 (+783)');
+      expectListItems('li.character-abilities dndgen-details li', [
+        'Strength: 92 (+66)',
+        'Constitution: 902 (-10)',
+        'Dexterity: 42 (+600)',
+        'Intelligence: 13 (-37)',
+        'Wisdom: 13 (+36)',
+        'Charisma: 96 (+783)',
+      ]);
     });
   
     it(`should render the character abilities - without constitution`, () => {
@@ -1042,15 +858,13 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-abilities > dndgen-details', 'Abilities', true);
       
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll('li.character-abilities dndgen-details li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(5);
-      expect(listItems?.item(0).textContent).toEqual('Strength: 92 (+66)');
-      expect(listItems?.item(1).textContent).toEqual('Dexterity: 42 (+600)');
-      expect(listItems?.item(2).textContent).toEqual('Intelligence: 13 (-37)');
-      expect(listItems?.item(3).textContent).toEqual('Wisdom: 13 (+36)');
-      expect(listItems?.item(4).textContent).toEqual('Charisma: 96 (+783)');
+      expectListItems('li.character-abilities dndgen-details li', [
+        'Strength: 92 (+66)',
+        'Dexterity: 42 (+600)',
+        'Intelligence: 13 (-37)',
+        'Wisdom: 13 (+36)',
+        'Charisma: 96 (+783)',
+      ]);
     });
   
     it(`should render the character languages`, () => {
@@ -1062,13 +876,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-languages > dndgen-details', 'Languages', true);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll('li.character-languages dndgen-details li');
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(2);
-      expect(listItems?.item(0).textContent).toEqual('English');
-      expect(listItems?.item(1).textContent).toEqual('German');
+      expectListItems('li.character-languages dndgen-details li', ['English', 'German']);
     });
   
     it(`should render the character skill`, () => {
@@ -1162,6 +970,115 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
       expectTable('li.character-skills dndgen-details table', component.character.skills);
     });
+  
+    it(`should render the character feats - no feats`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+    });
+  
+    it(`should render the character feats - racial feats`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.feats.racial = [
+        new Feat('racial feat 1'),
+        new Feat('racial feat 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+
+      expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
+      expectFeats('li.character-feats-racial li.character-feat-racial', component.character.feats.racial);
+    });
+  
+    it(`should render the character feats - class feats`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.feats.class = [
+        new Feat('class feat 1'),
+        new Feat('class feat 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+
+      expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
+      expectFeats('li.character-feats-class li.character-feat-class', component.character.feats.class);
+    });
+  
+    it(`should render the character feats - additional feats`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.feats.additional = [
+        new Feat('additional feat 1'),
+        new Feat('additional feat 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+
+      expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
+      expectFeats('li.character-feats-additional li.character-feat-additional', component.character.feats.additional);
+    });
+  
+    it(`should render the character feats - all feats`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.feats.racial = [
+        new Feat('racial feat 1'),
+        new Feat('racial feat 2'),
+      ];
+      component.character.feats.class = [
+        new Feat('class feat 1'),
+        new Feat('class feat 2'),
+      ];
+      component.character.feats.additional = [
+        new Feat('additional feat 1'),
+        new Feat('additional feat 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+
+      expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
+      expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial', component.character.feats.racial);
+      expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
+      expectFeats('li.character-feats-class > dndgen-details li.character-feat-class', component.character.feats.class);
+      expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
+      expectFeats('li.character-feats-additional > dndgen-details li.character-feat-additional', component.character.feats.additional);
+    });
+
+    it('needs more tests', () => {
+      expect('finish tests for HTML').toBe('');
+    });
 
     function expectTable(selector: string, skills: Skill[]) {
       const compiled = fixture.nativeElement as HTMLElement;
@@ -1244,6 +1161,43 @@ describe('CharacterComponent', () => {
       expect(details.heading).toEqual(heading);
       expect(details.hasDetails).toBe(hasDetails);
     }
+
+    function expectFeat(element: DebugElement, feat: Feat) {
+      expect(element).toBeTruthy();
+      expect(element.componentInstance).toBeTruthy();
+      expect(element.componentInstance).toBeInstanceOf(FeatComponent);
+
+      const featComponent = element.componentInstance as FeatComponent;
+      expect(featComponent.feat).toEqual(feat);
+    }
+
+    function expectElement(selector: string, text: string) {
+      const compiled = fixture.nativeElement as HTMLElement;
+      const element = compiled.querySelector(selector);
+      expect(element).toBeTruthy();
+      expect(element?.textContent).toEqual(text);
+    }
+
+    function expectListItems(selector: string, text: string[]) {
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll(selector);
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(text.length);
+
+      for(var i = 0; i < listItems.length; i++) {
+        expect(listItems?.item(i).textContent).toEqual(text[i]);
+      }
+    }
+
+    function expectFeats(selector: string, feats: Feat[]) {
+      const listItems = fixture.debugElement.queryAll(By.css(selector));
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(feats.length);
+
+      for(var i = 0; i < listItems.length; i++) {
+        expectFeat(listItems?.at(i)!, feats[i]);
+      }
+    }
   
     it(`should render a full character`, () => {
       const component = fixture.componentInstance;
@@ -1251,52 +1205,53 @@ describe('CharacterComponent', () => {
 
       fixture.detectChanges();
   
-      expect('need to add assertions').toBe('');
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
+
+      expectElement('li.character-combat li.character-combat-hitpoints', 'Hit Points: 3,456');
+      expectElement('li.character-combat li.character-combat-ac span', 'Armor Class: 7');
+      expectListItems('li.character-combat li.character-combat-ac li', ['Flat-Footed: 12', 'Touch: 34']);
+      expectElement('li.character-combat li.character-combat-ba span', 'Base Attack: +2202');
+      expectListItems('li.character-combat li.character-combat-ba li', ['Melee: +21/+16/+11/+6/+1', 'Ranged: +22/+17/+12/+7/+2']);
+      expectElement('li.character-combat li.character-combat-initiative', 'Initiative Bonus: +4567');
+      expectElement('li.character-combat li.character-combat-saves span', 'Saving Throws:');
+      expectListItems('li.character-combat li.character-combat-saves li', ['Fortitude: +56', 'Reflex: +78', 'Will: +67', 'Circumstantial Bonus']);
+
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
+      expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+      
+      expectElement('li.character-combat li.character-combat-adj-dex', 'Adjusted Dexterity Bonus: +3');
+      expectElement('dndgen-details.character-header li.character-cr', 'Challenge Rating: 89');
+      expectElement('dndgen-details.character-header li.character-alignment', 'Alignment: my alignment');
+      expectDetails('dndgen-details.character-header li.character-class > dndgen-details', 'my class summary', false);
+      expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'race summary', true);
+      expectHasAttribute('li.character-race-speed-land', 'hidden', false);
+      
+      expectElement('li.character-race li.character-race-speed-land', 'Land Speed: 90,210 feet per round (fast)');
+      expectElement('li.character-race li.character-race-size', 'Size: size');
+      expectElement('li.character-race li.character-race-age', 'Age: 42 Years (my age description)');
+      expectElement('li.character-race li.character-race-age-max', 'Maximum Age: 600 Years (natural causes)');
+      expectElement('li.character-race li.character-race-height', 'Height: 111\' 5" (tall)');
+      expectElement('li.character-race li.character-race-weight', 'Weight: 1,336 Pounds (heavy)');
+
+      expectDetails('dndgen-details.character-header li.character-abilities > dndgen-details', 'Abilities', true);
+      
+      expectListItems('li.character-abilities dndgen-details li', [
+        'Strength: 2022 (-2)',
+        'Constitution: 83 (+8)',
+        'Dexterity: 245 (-9)',
+        'Intelligence: 22 (+2)',
+        'Wisdom: 7 (+0)',
+        'Charisma: 96 (-7)',
+      ]);
+      
+      expectDetails('dndgen-details.character-header li.character-languages > dndgen-details', 'Languages', true);
+      expectListItems('li.character-languages dndgen-details li', ['English', 'German']);
+      
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', component.character.skills);
     });
-
-    function getAll(selector: string, within: string[]): NodeListOf<Element> {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      let parent = compiled;
-      for(var i = 0; i < within.length; i++) {
-        parent = parent.querySelector(within[i]) as HTMLElement;
-      }
-
-      const elements = parent.querySelectorAll(selector);
-      return elements;
-    }
-  
-    function getItem(): Item {
-      let item = new Item('my item', 'MyItemType');
-      item.description = 'my item description';
-      item.attributes = ['My Attribute', 'My Other Attribute'];
-
-      return item;
-    }
-  
-    function getArmor(): Armor {
-      let armor = new Armor('my armor', 'Armor');
-      armor.description = 'my armor description';
-      armor.attributes = ['My Attribute', 'My Other Attribute'];
-      armor.size = 'my size';
-      armor.totalArmorBonus = 1337;
-      armor.totalArmorCheckPenalty = -1336;
-      armor.totalMaxDexterityBonus = 96;
-
-      return armor;
-    }
-  
-    function getWeapon(): Weapon {
-      let weapon = new Weapon('my weapon', 'Weapon');
-      weapon.description = 'my weapon description';
-      weapon.attributes = ['My Attribute', 'My Other Attribute'];
-      weapon.size = 'my size';
-      weapon.combatTypes = ['stabbing', 'tickling'];
-      weapon.damageDescription = 'my damage description';
-      weapon.threatRangeDescription = 'my threat range';
-      weapon.criticalDamageDescription = 'my critical damage description';
-
-      return weapon;
-    }
   });
 });

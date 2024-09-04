@@ -18,6 +18,8 @@ import { BonusPipe } from "../../shared/pipes/bonus.pipe";
 import { BonusesPipe } from "../../shared/pipes/bonuses.pipe";
 import { MeasurementPipe } from "../../shared/pipes/measurement.pipe";
 import { Measurement } from "../models/measurement.model";
+import { Frequency } from "../models/frequency.model";
+import { FrequencyPipe } from "./frequency.pipe";
 
 describe('Character Pipe', () => {
     describe('unit', () => {
@@ -27,6 +29,7 @@ describe('Character Pipe', () => {
         let bonusPipeSpy: jasmine.SpyObj<BonusPipe>;
         let bonusesPipeSpy: jasmine.SpyObj<BonusesPipe>;
         let measurementPipeSpy: jasmine.SpyObj<MeasurementPipe>;
+        let frequencyPipeSpy: jasmine.SpyObj<FrequencyPipe>;
         let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
 
         let character: Character;
@@ -37,10 +40,11 @@ describe('Character Pipe', () => {
             bonusPipeSpy = jasmine.createSpyObj('BonusPipe', ['transform']);
             bonusesPipeSpy = jasmine.createSpyObj('BonusesPipe', ['transform']);
             measurementPipeSpy = jasmine.createSpyObj('MeasurementPipe', ['transform']);
+            frequencyPipeSpy = jasmine.createSpyObj('FrequencyPipe', ['transform']);
             spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups', 'getSpellGroupName']);
             character = createCharacter();
 
-            pipe = new CharacterPipe(itemPipeSpy, treasurePipeSpy, bonusPipeSpy, bonusesPipeSpy, measurementPipeSpy, spellGroupServiceSpy);
+            pipe = new CharacterPipe(itemPipeSpy, treasurePipeSpy, bonusPipeSpy, bonusesPipeSpy, measurementPipeSpy, frequencyPipeSpy, spellGroupServiceSpy);
 
             itemPipeSpy.transform.and.callFake(formatItem);
             treasurePipeSpy.transform.and.callFake((treasure, prefix) => {
@@ -62,6 +66,9 @@ describe('Character Pipe', () => {
             });
             measurementPipeSpy.transform.and.callFake((input: Measurement) => {
                 return `${input.value} ${input.unit} formatted`;
+            });
+            frequencyPipeSpy.transform.and.callFake((input: Frequency) => {
+                return `${input.quantity} per ${input.timePeriod} formatted`;
             });
             spellGroupServiceSpy.getSpellGroupName.and.callFake((level, source) => {
                 return `${source} lvl ${level}`;
@@ -1188,15 +1195,15 @@ describe('Character Pipe', () => {
                 '\tFeats:',
                 '\t\tRacial:',
                 '\t\t\tracial feat 1',
-                '\t\t\t\tFrequency: 9876/fortnight',
+                '\t\t\t\tFrequency: 9876 per fortnight formatted',
                 '\t\t\tracial feat 2',
                 '\t\tClass:',
                 '\t\t\tclass feat 1',
-                '\t\t\t\tFrequency: 8765/moon cycle',
+                '\t\t\t\tFrequency: 8765 per moon cycle formatted',
                 '\t\t\tclass feat 2',
                 '\t\tAdditional:',
                 '\t\t\tadditional feat 1',
-                '\t\t\t\tFrequency: 7654/turn of the wheel',
+                '\t\t\t\tFrequency: 7654 per turn of the wheel formatted',
                 '\t\t\tadditional feat 2',
                 '\tInteresting Trait: None',
                 '\tEquipment:',
@@ -1274,15 +1281,15 @@ describe('Character Pipe', () => {
                 '\tFeats:',
                 '\t\tRacial:',
                 '\t\t\tracial feat 1',
-                '\t\t\t\tFrequency: all day erry day',
+                '\t\t\t\tFrequency: 0 per all day erry day formatted',
                 '\t\t\tracial feat 2',
                 '\t\tClass:',
                 '\t\t\tclass feat 1',
-                '\t\t\t\tFrequency: whenever I want',
+                '\t\t\t\tFrequency: 0 per whenever I want formatted',
                 '\t\t\tclass feat 2',
                 '\t\tAdditional:',
                 '\t\t\tadditional feat 1',
-                '\t\t\t\tFrequency: when pigs fly',
+                '\t\t\t\tFrequency: 0 per when pigs fly formatted',
                 '\t\t\tadditional feat 2',
                 '\tInteresting Trait: None',
                 '\tEquipment:',
@@ -2420,7 +2427,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t' + 'focus 1',
                 '\t\t\t\t\t' + 'focus 2',
-                '\t\t\t\t' + 'Frequency: 34567/sometimes',
+                '\t\t\t\t' + 'Frequency: 34567 per sometimes formatted',
                 '\t\t\t\t' + 'Power: 23456',
                 '\t\t\t' + 'racial feat 2',
                 '\t\t' + 'Class:',
@@ -2428,7 +2435,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t' + 'focus 3',
                 '\t\t\t\t\t' + 'focus 4',
-                '\t\t\t\t' + 'Frequency: 135/all the time',
+                '\t\t\t\t' + 'Frequency: 135 per all the time formatted',
                 '\t\t\t\t' + 'Power: 246',
                 '\t\t\t' + 'class feat 2',
                 '\t\t' + 'Additional:',
@@ -2436,7 +2443,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t' + 'focus 5',
                 '\t\t\t\t\t' + 'focus 6',
-                '\t\t\t\t' + 'Frequency: 357/when the sun rises',
+                '\t\t\t\t' + 'Frequency: 357 per when the sun rises formatted',
                 '\t\t\t\t' + 'Power: 468',
                 '\t\t\t' + 'additional feat 2',
                 '\t' + 'Interesting Trait: interesting trait',
@@ -2635,7 +2642,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t\t' + 'focus 1',
                 '\t\t\t\t\t\t' + 'focus 2',
-                '\t\t\t\t\t' + 'Frequency: 34567/sometimes',
+                '\t\t\t\t\t' + 'Frequency: 34567 per sometimes formatted',
                 '\t\t\t\t\t' + 'Power: 23456',
                 '\t\t\t\t' + 'racial feat 2',
                 '\t\t\t' + 'Class:',
@@ -2643,7 +2650,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t\t' + 'focus 3',
                 '\t\t\t\t\t\t' + 'focus 4',
-                '\t\t\t\t\t' + 'Frequency: 135/all the time',
+                '\t\t\t\t\t' + 'Frequency: 135 per all the time formatted',
                 '\t\t\t\t\t' + 'Power: 246',
                 '\t\t\t\t' + 'class feat 2',
                 '\t\t\t' + 'Additional:',
@@ -2651,7 +2658,7 @@ describe('Character Pipe', () => {
                 '\t\t\t\t\t' + 'Foci:',
                 '\t\t\t\t\t\t' + 'focus 5',
                 '\t\t\t\t\t\t' + 'focus 6',
-                '\t\t\t\t\t' + 'Frequency: 357/when the sun rises',
+                '\t\t\t\t\t' + 'Frequency: 357 per when the sun rises formatted',
                 '\t\t\t\t\t' + 'Power: 468',
                 '\t\t\t\t' + 'additional feat 2',
                 '\t\t' + 'Interesting Trait: interesting trait',
