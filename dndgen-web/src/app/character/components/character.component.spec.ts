@@ -147,6 +147,7 @@ describe('CharacterComponent', () => {
         newCharacter.combat.savingThrows.hasFortitudeSave = true;
 
         newCharacter.challengeRating = 89;
+        newCharacter.interestingTrait = 'my interesting trait';
 
         return newCharacter;
     }
@@ -1001,7 +1002,7 @@ describe('CharacterComponent', () => {
       expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
 
       expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
-      expectFeats('li.character-feats-racial li.character-feat-racial', component.character.feats.racial);
+      expectFeats('li.character-feats-racial li.character-feat-racial > dndgen-feat', component.character.feats.racial);
     });
   
     it(`should render the character feats - class feats`, () => {
@@ -1021,7 +1022,7 @@ describe('CharacterComponent', () => {
       expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
 
       expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
-      expectFeats('li.character-feats-class li.character-feat-class', component.character.feats.class);
+      expectFeats('li.character-feats-class li.character-feat-class > dndgen-feat', component.character.feats.class);
     });
   
     it(`should render the character feats - additional feats`, () => {
@@ -1041,7 +1042,7 @@ describe('CharacterComponent', () => {
       expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
 
       expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
-      expectFeats('li.character-feats-additional li.character-feat-additional', component.character.feats.additional);
+      expectFeats('li.character-feats-additional li.character-feat-additional > dndgen-feat', component.character.feats.additional);
     });
   
     it(`should render the character feats - all feats`, () => {
@@ -1069,11 +1070,33 @@ describe('CharacterComponent', () => {
       expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
 
       expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
-      expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial', component.character.feats.racial);
+      expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial > dndgen-feat', component.character.feats.racial);
       expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
-      expectFeats('li.character-feats-class > dndgen-details li.character-feat-class', component.character.feats.class);
+      expectFeats('li.character-feats-class > dndgen-details li.character-feat-class > dndgen-feat', component.character.feats.class);
       expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
-      expectFeats('li.character-feats-additional > dndgen-details li.character-feat-additional', component.character.feats.additional);
+      expectFeats('li.character-feats-additional > dndgen-details li.character-feat-additional > dndgen-feat', component.character.feats.additional);
+    });
+  
+    it(`should render the character interesting trait`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.interestingTrait = 'the most interesting character in the world';
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectElement('dndgen-details.character-header li.character-trait', 'Interesting Trait: the most interesting character in the world');
+    });
+  
+    it(`should render the character interesting trait - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.interestingTrait = '';
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectElement('dndgen-details.character-header li.character-trait', 'Interesting Trait: None');
     });
 
     it('needs more tests', () => {
@@ -1252,6 +1275,20 @@ describe('CharacterComponent', () => {
       
       expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
       expectTable('li.character-skills dndgen-details table', component.character.skills);
+      
+      expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
+      expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+
+      expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
+      expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial > dndgen-feat', component.character.feats.racial);
+      expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
+      expectFeats('li.character-feats-class > dndgen-details li.character-feat-class > dndgen-feat', component.character.feats.class);
+      expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
+      expectFeats('li.character-feats-additional > dndgen-details li.character-feat-additional > dndgen-feat', component.character.feats.additional);
+      
+      expectElement('dndgen-details.character-header li.character-trait', 'Interesting Trait: my interesting trait');
     });
   });
 });

@@ -153,7 +153,7 @@
     <li class="character-spells-per-day" [hidden]="character.magic.spellsPerDay.length == 0">
       <dndgen-details heading="Spells Per Day" [hasDetails]="character.magic.spellsPerDay.length > 0">
         <ul>
-          <li *ngFor="let spellLevel of character.magic.spellsPerDay">Level {{spellLevel.level}} {{spellLevel.source}}: {{spellLevel.quantity}} {{spellLevel.hasDomainSpell ? '+ 1' : ''}}</li>
+          <li *ngFor="let spellLevel of character.magic.spellsPerDay">{{spellLevel | spellQuantity}}</li>
         </ul>
       </dndgen-details>
     </li>
