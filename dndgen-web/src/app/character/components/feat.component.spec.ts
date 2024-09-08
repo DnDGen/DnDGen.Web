@@ -1,19 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CharacterComponent } from './character.component';
 import { AppModule } from '../../app.module';
-import { Item } from '../../treasure/models/item.model';
-import { Armor } from '../../treasure/models/armor.model';
-import { Weapon } from '../../treasure/models/weapon.model';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
-import { Character } from '../models/character.model';
-import { Ability } from '../models/ability.model';
-import { Skill } from '../models/skill.model';
 import { Feat } from '../models/feat.model';
-import { Treasure } from '../../treasure/models/treasure.model';
-import { Good } from '../../treasure/models/good.model';
-import { Measurement } from '../models/measurement.model';
-import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { FeatComponent } from './feat.component';
 import { Frequency } from '../models/frequency.model';
 
@@ -26,7 +15,7 @@ describe('FeatComponent', () => {
     });
   
     it(`should set the feat `, () => {
-      const feat = new Feat('my character summary');
+      const feat = new Feat('my feat');
       component.feat = feat;
 
       expect(component.feat).toBe(feat);

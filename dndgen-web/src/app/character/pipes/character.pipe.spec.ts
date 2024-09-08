@@ -16,10 +16,11 @@ import { SpellGroup } from "../models/spellGroup.model";
 import { Treasure } from "../../treasure/models/treasure.model";
 import { BonusPipe } from "../../shared/pipes/bonus.pipe";
 import { BonusesPipe } from "../../shared/pipes/bonuses.pipe";
-import { MeasurementPipe } from "../../shared/pipes/measurement.pipe";
+import { MeasurementPipe } from "./measurement.pipe";
 import { Measurement } from "../models/measurement.model";
 import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
+import { SpellQuantityPipe } from "./spellQuantity.pipe";
 
 describe('Character Pipe', () => {
     describe('unit', () => {
@@ -30,6 +31,7 @@ describe('Character Pipe', () => {
         let bonusesPipeSpy: jasmine.SpyObj<BonusesPipe>;
         let measurementPipeSpy: jasmine.SpyObj<MeasurementPipe>;
         let frequencyPipeSpy: jasmine.SpyObj<FrequencyPipe>;
+        let spellQuantityPipeSpy: jasmine.SpyObj<SpellQuantityPipe>;
         let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
 
         let character: Character;
@@ -41,10 +43,19 @@ describe('Character Pipe', () => {
             bonusesPipeSpy = jasmine.createSpyObj('BonusesPipe', ['transform']);
             measurementPipeSpy = jasmine.createSpyObj('MeasurementPipe', ['transform']);
             frequencyPipeSpy = jasmine.createSpyObj('FrequencyPipe', ['transform']);
+            spellQuantityPipeSpy = jasmine.createSpyObj('SpellQuantityPipe', ['transform']);
             spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups', 'getSpellGroupName']);
             character = createCharacter();
 
-            pipe = new CharacterPipe(itemPipeSpy, treasurePipeSpy, bonusPipeSpy, bonusesPipeSpy, measurementPipeSpy, frequencyPipeSpy, spellGroupServiceSpy);
+            pipe = new CharacterPipe(
+                itemPipeSpy, 
+                treasurePipeSpy, 
+                bonusPipeSpy, 
+                bonusesPipeSpy, 
+                measurementPipeSpy,
+                frequencyPipeSpy,
+                spellQuantityPipeSpy, 
+                spellGroupServiceSpy);
 
             itemPipeSpy.transform.and.callFake(formatItem);
             treasurePipeSpy.transform.and.callFake((treasure, prefix) => {
@@ -69,6 +80,9 @@ describe('Character Pipe', () => {
             });
             frequencyPipeSpy.transform.and.callFake((input: Frequency) => {
                 return `${input.quantity} per ${input.timePeriod} formatted`;
+            });
+            spellQuantityPipeSpy.transform.and.callFake((input: SpellQuantity) => {
+                return `${spellGroupServiceSpy.getSpellGroupName(input.level, input.source)}: ${input.quantity} formatted`;
             });
             spellGroupServiceSpy.getSpellGroupName.and.callFake((level, source) => {
                 return `${source} lvl ${level}`;
@@ -1454,10 +1468,10 @@ describe('Character Pipe', () => {
                 '\t\t\tadditional feat 2',
                 '\tInteresting Trait: None',
                 '\t' + 'Spells Per Day:',
-                '\t\t' + 'my source lvl 0: 9',
-                '\t\t' + 'my source lvl 1: 8 + 1',
-                '\t\t' + 'my other source lvl 1: 7',
-                '\t\t' + 'my other source lvl 2: 6 + 1',
+                '\t\t' + 'my source lvl 0: 9 formatted',
+                '\t\t' + 'my source lvl 1: 8 formatted',
+                '\t\t' + 'my other source lvl 1: 7 formatted',
+                '\t\t' + 'my other source lvl 2: 6 formatted',
                 '\tEquipment:',
                 '\t\tPrimary Hand: None',
                 '\t\tOff Hand: None',
@@ -1553,10 +1567,10 @@ describe('Character Pipe', () => {
                 '\t\t\tadditional feat 2',
                 '\t' + 'Interesting Trait: None',
                 '\t' + 'Spells Per Day:',
-                '\t\t' + 'my source lvl 0: 9',
-                '\t\t' + 'my source lvl 1: 8 + 1',
-                '\t\t' + 'my other source lvl 1: 7',
-                '\t\t' + 'my other source lvl 2: 6 + 1',
+                '\t\t' + 'my source lvl 0: 9 formatted',
+                '\t\t' + 'my source lvl 1: 8 formatted',
+                '\t\t' + 'my other source lvl 1: 7 formatted',
+                '\t\t' + 'my other source lvl 2: 6 formatted',
                 '\t' + 'Known Spells:',
                 '\t\t' + 'first spell group:',
                 '\t\t\t' + 'spell 0.1',
@@ -1678,10 +1692,10 @@ describe('Character Pipe', () => {
                 '\t\t\tadditional feat 2',
                 '\tInteresting Trait: None',
                 '\t' + 'Spells Per Day:',
-                '\t\t' + 'my source lvl 0: 9',
-                '\t\t' + 'my source lvl 1: 8 + 1',
-                '\t\t' + 'my other source lvl 1: 7',
-                '\t\t' + 'my other source lvl 2: 6 + 1',
+                '\t\t' + 'my source lvl 0: 9 formatted',
+                '\t\t' + 'my source lvl 1: 8 formatted',
+                '\t\t' + 'my other source lvl 1: 7 formatted',
+                '\t\t' + 'my other source lvl 2: 6 formatted',
                 '\t' + 'Known Spells:',
                 '\t\t' + 'first spell group:',
                 '\t\t\t' + 'spell 0.1',
@@ -2448,10 +2462,10 @@ describe('Character Pipe', () => {
                 '\t\t\t' + 'additional feat 2',
                 '\t' + 'Interesting Trait: interesting trait',
                 '\t' + 'Spells Per Day:',
-                '\t\t' + 'my source lvl 0: 9',
-                '\t\t' + 'my source lvl 1: 8 + 1',
-                '\t\t' + 'my other source lvl 1: 7',
-                '\t\t' + 'my other source lvl 2: 6 + 1',
+                '\t\t' + 'my source lvl 0: 9 formatted',
+                '\t\t' + 'my source lvl 1: 8 formatted',
+                '\t\t' + 'my other source lvl 1: 7 formatted',
+                '\t\t' + 'my other source lvl 2: 6 formatted',
                 '\t' + 'Known Spells:',
                 '\t\t' + 'first spell group:',
                 '\t\t\t' + 'spell 0.1',
@@ -2663,10 +2677,10 @@ describe('Character Pipe', () => {
                 '\t\t\t\t' + 'additional feat 2',
                 '\t\t' + 'Interesting Trait: interesting trait',
                 '\t\t' + 'Spells Per Day:',
-                '\t\t\t' + 'my source lvl 0: 9',
-                '\t\t\t' + 'my source lvl 1: 8 + 1',
-                '\t\t\t' + 'my other source lvl 1: 7',
-                '\t\t\t' + 'my other source lvl 2: 6 + 1',
+                '\t\t\t' + 'my source lvl 0: 9 formatted',
+                '\t\t\t' + 'my source lvl 1: 8 formatted',
+                '\t\t\t' + 'my other source lvl 1: 7 formatted',
+                '\t\t\t' + 'my other source lvl 2: 6 formatted',
                 '\t\t' + 'Known Spells:',
                 '\t\t\t' + 'first spell group:',
                 '\t\t\t\t' + 'spell 0.1',

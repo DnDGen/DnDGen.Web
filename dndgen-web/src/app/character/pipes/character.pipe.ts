@@ -16,10 +16,11 @@ import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
-import { MeasurementPipe } from '../../shared/pipes/measurement.pipe';
+import { MeasurementPipe } from './measurement.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { FrequencyPipe } from './frequency.pipe';
+import { SpellQuantityPipe } from './spellQuantity.pipe';
 
 @Pipe({ name: 'character' })
 export class CharacterPipe implements PipeTransform {
@@ -30,6 +31,7 @@ export class CharacterPipe implements PipeTransform {
         private bonusesPipe: BonusesPipe,
         private measurementPipe: MeasurementPipe,
         private frequencyPipe: FrequencyPipe,
+        private spellQuantityPipe: SpellQuantityPipe,
         private spellGroupService: SpellGroupService) { }
 
     transform(value: Character, prefix?: string): string {
@@ -252,13 +254,8 @@ export class CharacterPipe implements PipeTransform {
         var formattedSpellsPerDay = prefix + 'Spells Per Day:\r\n';
 
         for (var i = 0; i < spellsPerDay.length; i++) {
-            const groupName = this.spellGroupService.getSpellGroupName(spellsPerDay[i].level, spellsPerDay[i].source);
-            formattedSpellsPerDay += prefix + '\t' + groupName + ": " + spellsPerDay[i].quantity;
-
-            if (spellsPerDay[i].hasDomainSpell)
-                formattedSpellsPerDay += " + 1";
-
-            formattedSpellsPerDay += "\r\n";
+            const formattedQuantity = this.spellQuantityPipe.transform(spellsPerDay[i]);
+            formattedSpellsPerDay += `${prefix}\t${formattedQuantity}\r\n`;
         }
 
         return formattedSpellsPerDay;

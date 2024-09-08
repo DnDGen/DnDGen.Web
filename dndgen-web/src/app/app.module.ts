@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { routes } from './app.routes';
 import { DetailsComponent } from './shared/components/details.component';
-import { InchesToFeetPipe } from './shared/pipes/inchesToFeet.pipe';
+import { InchesToFeetPipe } from './character/pipes/inchesToFeet.pipe';
 import { RollGenComponent } from './roll/components/rollgen.component';
 import { TreasureGenComponent } from './treasure/components/treasuregen.component';
 import { TreasureComponent } from './treasure/components/treasure.component';
@@ -20,9 +20,11 @@ import { LeaderComponent } from './character/components/leadership.component';
 import { CharacterComponent } from './character/components/character.component';
 import { BonusPipe } from './shared/pipes/bonus.pipe';
 import { BonusesPipe } from './shared/pipes/bonuses.pipe';
-import { MeasurementPipe } from './shared/pipes/measurement.pipe';
+import { MeasurementPipe } from './character/pipes/measurement.pipe';
 import { FeatComponent } from './character/components/feat.component';
 import { FrequencyPipe } from './character/pipes/frequency.pipe';
+import { SpellQuantityPipe } from './character/pipes/spellQuantity.pipe';
+import { SpellGroupComponent } from './character/components/spellGroup.component';
 
 @NgModule({
     declarations: [
@@ -33,10 +35,8 @@ import { FrequencyPipe } from './character/pipes/frequency.pipe';
 
         //Shared
         DetailsComponent,
-        InchesToFeetPipe,
         BonusPipe,
         BonusesPipe,
-        MeasurementPipe,
 
         //RollGen
         RollGenComponent,
@@ -51,7 +51,11 @@ import { FrequencyPipe } from './character/pipes/frequency.pipe';
         LeaderComponent,
         CharacterComponent,
         FeatComponent,
+        SpellGroupComponent,
+        InchesToFeetPipe,
+        MeasurementPipe,
         FrequencyPipe,
+        SpellQuantityPipe,
     ],
     imports: [
         BrowserModule,
@@ -61,12 +65,9 @@ import { FrequencyPipe } from './character/pipes/frequency.pipe';
         NgbModule
     ],
     providers: [
-        InchesToFeetPipe,
+        provideHttpClient(withInterceptorsFromDi()),
         BonusPipe,
         BonusesPipe,
-        MeasurementPipe,
-        FrequencyPipe,
-        provideHttpClient(withInterceptorsFromDi()),
     ],
     bootstrap: [AppComponent]
 })

@@ -16,13 +16,37 @@ import { Measurement } from '../models/measurement.model';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { FeatComponent } from './feat.component';
 import { DebugElement } from '@angular/core';
+import { SpellQuantity } from '../models/spellQuantity.model';
+import { Spell } from '../models/spell.model';
+import { SpellGroupService } from '../services/spellGroup.service';
+import { SpellGroup } from '../models/spellGroup.model';
+import { SpellGroupComponent } from './spellGroup.component';
+import { ItemComponent } from '../../treasure/components/item.component';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {
     let component: CharacterComponent;
+    let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
 
     beforeEach(() => {
-      component = new CharacterComponent();
+      spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups']);
+      component = new CharacterComponent(spellGroupServiceSpy);
+      
+      spellGroupServiceSpy.sortIntoGroups.and.callFake((spells) => {
+        if (!spells || spells.length == 0)
+            return [];
+
+        if (spells.length == 1) {
+            return [
+                new SpellGroup('first spell group', spells),
+            ];
+        }
+
+        return [
+            new SpellGroup('first spell group', spells.slice(0, 1)),
+            new SpellGroup('other spell group', spells.slice(1)),
+        ];
+    });
     });
   
     it(`should set the character `, () => {
@@ -59,6 +83,24 @@ describe('CharacterComponent', () => {
       component.character = character;
 
       expect(component.isTwoHanded()).toBeFalse();
+    });
+
+    it('should sort spells into groups', () => {
+      let spells = [
+        new Spell('my source', 9, 'my spell'),
+        new Spell('my other source', 2, 'my other spell'),
+        new Spell('my other source', 3, 'another spell'),
+      ];
+
+      let groups = component.getSpellGroups(spells);
+      expect(groups).toBeTruthy();
+      expect(groups.length).toBe(2);
+      expect(groups[0]).toBeTruthy();
+      expect(groups[0].name).toEqual('first spell group');
+      expect(groups[0].spells).toEqual([spells[0]]);
+      expect(groups[1]).toBeTruthy();
+      expect(groups[1].name).toEqual('other spell group');
+      expect(groups[1].spells).toEqual([spells[1], spells[2]]);
     });
   });
 
@@ -148,6 +190,37 @@ describe('CharacterComponent', () => {
 
         newCharacter.challengeRating = 89;
         newCharacter.interestingTrait = 'my interesting trait';
+
+        newCharacter.magic.spellsPerDay = [
+          new SpellQuantity('source 1', 0, 5),
+          new SpellQuantity('source 1', 1, 4, true),
+          new SpellQuantity('source 2', 1, 3, true),
+          new SpellQuantity('source 2', 2, 2, false),
+        ];
+        newCharacter.magic.knownSpells = [
+          new Spell('source 1', 0, 'spell 1.0.1'),
+          new Spell('source 1', 0, 'spell 1.0.2'),
+          new Spell('source 1', 1, 'spell 1.1.1'),
+          new Spell('source 1', 1, 'spell 1.1.2'),
+          new Spell('source 2', 1, 'spell 2.1.1'),
+          new Spell('source 2', 1, 'spell 2.1.2'),
+          new Spell('source 2', 2, 'spell 2.2.1'),
+          new Spell('source 2', 2, 'spell 2.2.2'),
+        ];
+        newCharacter.magic.preparedSpells = [
+          new Spell('source 1', 0, 'spell 1.0.1'),
+          new Spell('source 1', 0, 'spell 1.0.2'),
+          new Spell('source 1', 1, 'spell 1.1.1'),
+          new Spell('source 1', 1, 'spell 1.1.2'),
+          new Spell('source 1', 1, 'spell 1.1.2'),
+          new Spell('source 2', 1, 'spell 2.1.1'),
+          new Spell('source 2', 1, 'spell 2.1.1'),
+          new Spell('source 2', 1, 'spell 2.1.2'),
+          new Spell('source 2', 2, 'spell 2.2.1'),
+          new Spell('source 2', 2, 'spell 2.2.2'),
+        ];
+        newCharacter.magic.arcaneSpellFailure = 36;
+        newCharacter.magic.animal = 'American shorthair cat';
 
         return newCharacter;
     }
@@ -1098,6 +1171,233 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectElement('dndgen-details.character-header li.character-trait', 'Interesting Trait: None');
     });
+  
+    it(`should render the character spells per day`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.spellsPerDay = [
+        new SpellQuantity('source 1', 9, 2),
+        new SpellQuantity('source 2', 6, 1, true),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', false);
+      expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', true);
+      expectListItems('li.character-spells-per-day dndgen-details li', ['source 1 Level 9: 2', 'source 2 Level 6: 1 + 1']);
+    });
+  
+    it(`should render the character spells per day - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.spellsPerDay = [];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', true);
+      expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', false);
+    });
+  
+    it(`BUG - should render the character spells known - one`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.knownSpells = [
+        new Spell('my source', 9, 'spell 1'),
+        new Spell('my source', 9, 'spell 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
+      expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('my source Level 9', [
+          component.character.magic.knownSpells[0],
+          component.character.magic.knownSpells[1],
+        ])
+      ]);
+    });
+  
+    it(`should render the character spells known`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.knownSpells = [
+        new Spell('my source', 9, 'spell 1'),
+        new Spell('my source', 9, 'spell 2'),
+        new Spell('my source', 2, 'spell 3'),
+        new Spell('my source', 2, 'spell 4'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
+      expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('my source Level 2', [
+          component.character.magic.knownSpells[2],
+          component.character.magic.knownSpells[3],
+        ]),
+        new SpellGroup('my source Level 9', [
+          component.character.magic.knownSpells[0],
+          component.character.magic.knownSpells[1],
+        ]),
+      ]);
+    });
+  
+    it(`should render the character spells known - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.knownSpells = [];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', true);
+      expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', false);
+    });
+  
+    it(`BUG - should render the character spells prepared - one`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.preparedSpells = [
+        new Spell('my source', 9, 'spell 1'),
+        new Spell('my source', 9, 'spell 2'),
+        new Spell('my source', 9, 'spell 2'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
+      expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('my source Level 9', [
+          component.character.magic.preparedSpells[0],
+          component.character.magic.preparedSpells[1],
+          component.character.magic.preparedSpells[2],
+        ])
+      ]);
+    });
+  
+    it(`should render the character spells prepared`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.preparedSpells = [
+        new Spell('my source', 9, 'spell 1'),
+        new Spell('my source', 9, 'spell 2'),
+        new Spell('my source', 9, 'spell 2'),
+        new Spell('my source', 2, 'spell 3'),
+        new Spell('my source', 2, 'spell 3'),
+        new Spell('my source', 2, 'spell 4'),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
+      expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('my source Level 2', [
+          component.character.magic.preparedSpells[3],
+          component.character.magic.preparedSpells[4],
+          component.character.magic.preparedSpells[5],
+        ]),
+        new SpellGroup('my source Level 9', [
+          component.character.magic.preparedSpells[0],
+          component.character.magic.preparedSpells[1],
+          component.character.magic.preparedSpells[2],
+        ]),
+      ]);
+    });
+  
+    it(`should render the character spells prepared - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.preparedSpells = [];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', true);
+      expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', false);
+    });
+  
+    it(`should render the character spell failure`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.arcaneSpellFailure = 92;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', false);
+      expectElement('dndgen-details.character-header li.character-spells-failure', 'Arcane Spell Failure: 92%');
+    });
+  
+    it(`should render the character spell failure - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.arcaneSpellFailure = 0;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', true);
+    });
+  
+    it(`should render the character animal`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.animal = 'Bernese mountain dog';
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', false);
+      expectElement('dndgen-details.character-header li.character-animal', 'Animal: Bernese mountain dog');
+    });
+  
+    it(`should render the character animal - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.magic.animal = '';
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', true);
+    });
+  
+    it(`should render the character primary weapon`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const weapon = createWeapon('my primary weapon');
+      component.character.equipment.primaryHand = weapon;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand:', true);
+      expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
+    });
+  
+    it(`should render the character primary weapon - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.equipment.primaryHand = null;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand: None', false);
+    });
 
     it('needs more tests', () => {
       expect('finish tests for HTML').toBe('');
@@ -1185,6 +1485,16 @@ describe('CharacterComponent', () => {
       expect(details.hasDetails).toBe(hasDetails);
     }
 
+    function expectFeats(selector: string, feats: Feat[]) {
+      const listItems = fixture.debugElement.queryAll(By.css(selector));
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(feats.length);
+
+      for(var i = 0; i < listItems.length; i++) {
+        expectFeat(listItems?.at(i)!, feats[i]);
+      }
+    }
+
     function expectFeat(element: DebugElement, feat: Feat) {
       expect(element).toBeTruthy();
       expect(element.componentInstance).toBeTruthy();
@@ -1192,6 +1502,26 @@ describe('CharacterComponent', () => {
 
       const featComponent = element.componentInstance as FeatComponent;
       expect(featComponent.feat).toEqual(feat);
+    }
+
+    function expectSpellGroups(selector: string, groups: SpellGroup[]) {
+      const listItems = fixture.debugElement.queryAll(By.css(selector));
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(groups.length);
+
+      for(var i = 0; i < listItems.length; i++) {
+        expectSpellGroup(listItems?.at(i)!, groups[i]);
+      }
+    }
+
+    function expectSpellGroup(element: DebugElement, group: SpellGroup) {
+      expect(element).toBeTruthy();
+      expect(element.componentInstance).toBeTruthy();
+      expect(element.componentInstance).toBeInstanceOf(SpellGroupComponent);
+
+      const spellGroupComponent = element.componentInstance as SpellGroupComponent;
+      expect(spellGroupComponent.group.name).toEqual(group.name);
+      expect(spellGroupComponent.group.spells).toEqual(group.spells);
     }
 
     function expectElement(selector: string, text: string) {
@@ -1212,14 +1542,14 @@ describe('CharacterComponent', () => {
       }
     }
 
-    function expectFeats(selector: string, feats: Feat[]) {
-      const listItems = fixture.debugElement.queryAll(By.css(selector));
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(feats.length);
+    function expectItem(selector: string, item: Item | Armor | Weapon) {
+      const element = fixture.debugElement.query(By.css(selector));
+      expect(element).toBeTruthy();
+      expect(element.componentInstance).toBeTruthy();
+      expect(element.componentInstance).toBeInstanceOf(ItemComponent);
 
-      for(var i = 0; i < listItems.length; i++) {
-        expectFeat(listItems?.at(i)!, feats[i]);
-      }
+      const featComponent = element.componentInstance as ItemComponent;
+      expect(featComponent.item).toEqual(item);
     }
   
     it(`should render a full character`, () => {
@@ -1289,6 +1619,69 @@ describe('CharacterComponent', () => {
       expectFeats('li.character-feats-additional > dndgen-details li.character-feat-additional > dndgen-feat', component.character.feats.additional);
       
       expectElement('dndgen-details.character-header li.character-trait', 'Interesting Trait: my interesting trait');
+      
+      expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', false);
+      expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', true);
+      expectListItems('li.character-spells-per-day dndgen-details li', [
+        'source 1 Level 0: 5', 
+        'source 1 Level 1: 4 + 1',
+        'source 2 Level 1: 3 + 1',
+        'source 2 Level 2: 2',
+      ]);
+      
+      expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
+      expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('source 1 Level 0', [
+          component.character.magic.knownSpells[0],
+          component.character.magic.knownSpells[1],
+        ]),
+        new SpellGroup('source 1 Level 1', [
+          component.character.magic.knownSpells[2],
+          component.character.magic.knownSpells[3],
+        ]),
+        new SpellGroup('source 2 Level 1', [
+          component.character.magic.knownSpells[4],
+          component.character.magic.knownSpells[5],
+        ]),
+        new SpellGroup('source 2 Level 2', [
+          component.character.magic.knownSpells[6],
+          component.character.magic.knownSpells[7],
+        ])
+      ]);
+      
+      expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
+      expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
+        new SpellGroup('source 1 Level 0', [
+          component.character.magic.preparedSpells[0],
+          component.character.magic.preparedSpells[1],
+        ]),
+        new SpellGroup('source 1 Level 1', [
+          component.character.magic.preparedSpells[2],
+          component.character.magic.preparedSpells[3],
+          component.character.magic.preparedSpells[4],
+        ]),
+        new SpellGroup('source 2 Level 1', [
+          component.character.magic.preparedSpells[5],
+          component.character.magic.preparedSpells[6],
+          component.character.magic.preparedSpells[7],
+        ]),
+        new SpellGroup('source 2 Level 2', [
+          component.character.magic.preparedSpells[8],
+          component.character.magic.preparedSpells[9],
+        ])
+      ]);
+      
+      expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', false);
+      expectElement('dndgen-details.character-header li.character-spells-failure', 'Arcane Spell Failure: 36%');
+      
+      expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', false);
+      expectElement('dndgen-details.character-header li.character-animal', 'Animal: American shorthair cat');
+      
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand:', true);
+      expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
     });
   });
 });

@@ -160,14 +160,18 @@
     <li class="character-spells-known" [hidden]="character.magic.knownSpells.length == 0">
       <dndgen-details heading="Known Spells" [hasDetails]="character.magic.knownSpells.length > 0">
         <ul>
-          <li *ngFor="let spell of character.magic.knownSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
+          <li *ngFor="let spellGroup of getSpellGroups(character.magic.knownSpells)">
+            <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
+          </li>
         </ul>
       </dndgen-details>
     </li>
     <li class="character-spells-prepared" [hidden]="character.magic.preparedSpells.length == 0">
       <dndgen-details heading="Prepared Spells" [hasDetails]="character.magic.preparedSpells.length > 0">
         <ul>
-          <li *ngFor="let spell of character.magic.preparedSpells">Level {{spell.level}} {{spell.source}}: {{spell.name}}</li>
+          <li *ngFor="let spellGroup of getSpellGroups(character.magic.preparedSpells)">
+            <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
+          </li>
         </ul>
       </dndgen-details>
     </li>
@@ -176,24 +180,24 @@
     <li class="character-equipment">
       <dndgen-details heading="Equipment" [hasDetails]="true">
         <ul>
-          <li>
+          <li class="character-equipment-primary-hand">
             <dndgen-details heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" [hasDetails]="character.equipment.primaryHand != null">
               <dndgen-item *ngIf="character.equipment.primaryHand" [item]="character.equipment.primaryHand"></dndgen-item>
             </dndgen-details>
           </li>
-          <li>
+          <li class="character-equipment-off-hand">
             <span [hidden]="character.equipment.offHand">Off Hand: None</span>
             <span [hidden]="!isTwoHanded()">Off Hand: (Two-Handed)</span>
             <dndgen-details heading="Off Hand" [hasDetails]="character.equipment.offHand != null && !isTwoHanded()" [hidden]="!character.equipment.offHand || isTwoHanded()">
               <dndgen-item *ngIf="character.equipment.offHand" [item]="character.equipment.offHand"></dndgen-item>
             </dndgen-details>
           </li>
-          <li>
+          <li class="character-equipment-armor">
             <dndgen-details heading="Armor{{character.equipment.armor ? '' : ': None'}}" [hasDetails]="character.equipment.armor != null">
               <dndgen-item *ngIf="character.equipment.armor" [item]="character.equipment.armor"></dndgen-item>
             </dndgen-details>
           </li>
-          <li>
+          <li class="character-equipment-treasure">
             <dndgen-details heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" [hasDetails]="character.equipment.treasure.isAny">
               <dndgen-treasure *ngIf="character.equipment.treasure.isAny" [treasure]="character.equipment.treasure"></dndgen-treasure>
             </dndgen-details>
