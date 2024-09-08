@@ -5,6 +5,7 @@ import { Spell } from '../models/spell.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
 import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
+import { Skill } from '../models/skill.model';
 
 @Component({
   selector: 'dndgen-character',
@@ -29,5 +30,33 @@ export class CharacterComponent {
 
   public getSpellGroups(spells: Spell[]): SpellGroup[] {
     return this.spellGroupService.sortIntoGroups(spells);
+  }
+  
+  public get sortedSkills(): Skill[] {
+    return this.character.skills.sort((a, b) => this.compare(a.displayName, b.displayName));
+  }
+
+  public get offHandHeading(): string {
+    if (!this.character.equipment.offHand)
+      return 'Off Hand: None';
+
+    if (this.isTwoHanded())
+      return 'Off Hand: (Two-Handed)';
+
+    return 'Off Hand';
+  }
+
+  public get offHandDetails(): boolean {
+    return this.character.equipment.offHand != null && !this.isTwoHanded();
+  }
+
+  private compare(a: string, b: string) {
+    if ( a.toLowerCase() < b.toLowerCase() ){
+      return -1;
+    }
+    if ( a.toLowerCase() > b.toLowerCase() ){
+      return 1;
+    }
+    return 0;
   }
 }

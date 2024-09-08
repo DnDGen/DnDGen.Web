@@ -103,7 +103,7 @@
           <th scope="col">Armor Check Penalty</th>
           </thead>
           <tbody>
-            <tr *ngFor="let skill of character.skills">
+            <tr *ngFor="let skill of sortedSkills">
               <td><i [hidden]="!skill.classSkill" class="bi bi-check-lg"></i></td>
               <td>{{skill.displayName}}</td>
               <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
@@ -186,9 +186,7 @@
             </dndgen-details>
           </li>
           <li class="character-equipment-off-hand">
-            <span [hidden]="character.equipment.offHand">Off Hand: None</span>
-            <span [hidden]="!isTwoHanded()">Off Hand: (Two-Handed)</span>
-            <dndgen-details heading="Off Hand" [hasDetails]="character.equipment.offHand != null && !isTwoHanded()" [hidden]="!character.equipment.offHand || isTwoHanded()">
+            <dndgen-details [heading]="offHandHeading" [hasDetails]="offHandDetails" [hidden]="!offHandDetails">
               <dndgen-item *ngIf="character.equipment.offHand" [item]="character.equipment.offHand"></dndgen-item>
             </dndgen-details>
           </li>

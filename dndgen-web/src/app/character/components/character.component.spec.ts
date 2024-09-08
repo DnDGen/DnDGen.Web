@@ -102,6 +102,66 @@ describe('CharacterComponent', () => {
       expect(groups[1].name).toEqual('other spell group');
       expect(groups[1].spells).toEqual([spells[1], spells[2]]);
     });
+
+    it('should sort skills by display names', () => {
+      const character = new Character('my character summary');
+      character.skills = [
+        new Skill('skill ee', 'focus 1', 1, false, 2, new Ability('ability 1', 37, 38), 3, 4),
+        new Skill('skill CCC', '', 5, true, 6, new Ability('ability 2', 39, 40), 7, 8),
+        new Skill('skill ff', 'focus 2', 9, false, 10, new Ability('ability 3', 41, 42), 11, 12),
+        new Skill('skill dd', '', 13, true, 14, new Ability('ability 4', 43, 44), 15, 16),
+        new Skill('skill aaa', '', 17, false, 18, new Ability('ability 5', 45, 46), 19, 20),
+        new Skill('skill ee', 'focus 3', 21, true, 22, new Ability('ability 6', 47, 48), 23, 24),
+        new Skill('skill ff', 'focus 4', 25, false, 26, new Ability('ability 1', 37, 38), 27, 28),
+        new Skill('skill BBB', '', 29, true, 30, new Ability('ability 2', 39, 40), 31, 32),
+        new Skill('skill ddd', '', 33, false, 34, new Ability('ability 3', 41, 42), 35, 36),
+      ];
+
+      const expectedSkills = [
+        new Skill('skill aaa', '', 17, false, 18, new Ability('ability 5', 45, 46), 19, 20),
+        new Skill('skill BBB', '', 29, true, 30, new Ability('ability 2', 39, 40), 31, 32),
+        new Skill('skill CCC', '', 5, true, 6, new Ability('ability 2', 39, 40), 7, 8),
+        new Skill('skill dd', '', 13, true, 14, new Ability('ability 4', 43, 44), 15, 16),
+        new Skill('skill ddd', '', 33, false, 34, new Ability('ability 3', 41, 42), 35, 36),
+        new Skill('skill ee', 'focus 1', 1, false, 2, new Ability('ability 1', 37, 38), 3, 4),
+        new Skill('skill ee', 'focus 3', 21, true, 22, new Ability('ability 6', 47, 48), 23, 24),
+        new Skill('skill ff', 'focus 2', 9, false, 10, new Ability('ability 3', 41, 42), 11, 12),
+        new Skill('skill ff', 'focus 4', 25, false, 26, new Ability('ability 1', 37, 38), 27, 28),
+      ];
+
+      component.character = character;
+
+      expect(component.sortedSkills).toBeTruthy();
+      expect(component.sortedSkills.length).toBe(expectedSkills.length);
+
+      for(var i = 0; i < expectedSkills.length; i++) {
+        expect(component.sortedSkills[i]).toEqual(expectedSkills[i]);
+      }
+    });
+
+    it('should return off-hand heading', () => {
+      expect('not yet written').toBe('');
+    });
+
+    it('should return off-hand heading - two-handed', () => {
+      expect('not yet written').toBe('');
+    });
+
+    it('should return off-hand heading - none', () => {
+      expect('not yet written').toBe('');
+    });
+
+    it('should return off-hand details', () => {
+      expect('not yet written').toBe('');
+    });
+
+    it('should return off-hand details - two-handed', () => {
+      expect('not yet written').toBe('');
+    });
+
+    it('should return off-hand details - none', () => {
+      expect('not yet written').toBe('');
+    });
   });
 
   describe('integration', () => {
@@ -126,9 +186,11 @@ describe('CharacterComponent', () => {
     function createCharacter(): Character {
         var newCharacter = new Character(`my character summary`);
         newCharacter.alignment.full = 'my alignment';
+
         newCharacter.class.name = 'my class name';
         newCharacter.class.level = 9266;
         newCharacter.class.summary = "my class summary";
+
         newCharacter.race.baseRace = 'my base race';
         newCharacter.race.landSpeed.value = 90210;
         newCharacter.race.landSpeed.description = 'fast';
@@ -148,6 +210,7 @@ describe('CharacterComponent', () => {
         newCharacter.race.weight.description = 'heavy';
         newCharacter.race.gender = "gender fluid";
         newCharacter.race.summary = 'race summary';
+
         newCharacter.abilities.Charisma = createAbility("Strength", 96, -7);
         newCharacter.abilities.Constitution = createAbility("Constitution", 83, 8);
         newCharacter.abilities.Dexterity = createAbility("Dexterity", 245, -9);
@@ -164,23 +227,24 @@ describe('CharacterComponent', () => {
 
         newCharacter.languages.push('English');
         newCharacter.languages.push('German');
+
         newCharacter.skills.push(createSkill('skill 1', "", 4, newCharacter.abilities.Constitution, 0, -6, true, false, 135));
         newCharacter.skills.push(createSkill('skill 2', "focus", 1.5, newCharacter.abilities.Dexterity, 3, 0, false, true, 246));
+
         newCharacter.feats.racial.push(createFeat('racial feat 1'));
         newCharacter.feats.racial.push(createFeat('racial feat 2'));
         newCharacter.feats.class.push(createFeat('class feat 1'));
         newCharacter.feats.class.push(createFeat('class feat 2'));
         newCharacter.feats.additional.push(createFeat('additional feat 1'));
         newCharacter.feats.additional.push(createFeat('additional feat 2'));
+
         newCharacter.combat.adjustedDexterityBonus = 3;
         newCharacter.combat.armorClass.full = 7;
         newCharacter.combat.armorClass.touch = 34;
         newCharacter.combat.armorClass.flatFooted = 12;
-
         newCharacter.combat.baseAttack.baseBonus = 2202;
         newCharacter.combat.baseAttack.allMeleeBonuses = [21, 16, 11, 6, 1];
         newCharacter.combat.baseAttack.allRangedBonuses = [22, 17, 12, 7, 2];
-
         newCharacter.combat.hitPoints = 3456;
         newCharacter.combat.initiativeBonus = 4567;
         newCharacter.combat.savingThrows.fortitude = 56;
@@ -221,6 +285,8 @@ describe('CharacterComponent', () => {
         ];
         newCharacter.magic.arcaneSpellFailure = 36;
         newCharacter.magic.animal = 'American shorthair cat';
+
+        newCharacter.equipment.primaryHand = createWeapon('my weapon');
 
         return newCharacter;
     }
@@ -1045,6 +1111,40 @@ describe('CharacterComponent', () => {
       expectTable('li.character-skills dndgen-details table', component.character.skills);
     });
   
+    it(`should render the character skills - sorted`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.skills = [
+        new Skill('skill 5', 'focus 1', 34, false, 2.3, new Ability('ability 5', 45, 34), 56, 0),
+        new Skill('skill 1', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+        new Skill('skill 3', '', 83, true, 8.2, new Ability('ability 3', 4, -5), 9, 0),
+        new Skill('skill 2', '', 13, false, 3.7, new Ability('ability 2', 13, 36), 96, -7, true),
+        new Skill('skill 5', 'focus 2', 456, false, 7, new Ability('ability 5', 45, 34), 78, 0, true),
+        new Skill('skill 6', 'focus 3', 678, true, 9, new Ability('ability 6', 5, -6), 789, 0),
+        new Skill('skill 7', '', -3, false, 4, new Ability('ability 1', 92, 66), 567, -8),
+        new Skill('skill 6', 'focus 4', 0, true, 8.9, new Ability('ability 6', 5, -6), 91, -2, true),
+        new Skill('skill 4', '', 22, true, 2, new Ability('ability 4', 2, -2), 7, -12, true),
+      ];
+
+      const expectedSkills = [
+        new Skill('skill 1', '', 90, false, 2.1, new Ability('ability 1', 92, 66), 42, -6),
+        new Skill('skill 2', '', 13, false, 3.7, new Ability('ability 2', 13, 36), 96, -7, true),
+        new Skill('skill 3', '', 83, true, 8.2, new Ability('ability 3', 4, -5), 9, 0),
+        new Skill('skill 4', '', 22, true, 2, new Ability('ability 4', 2, -2), 7, -12, true),
+        new Skill('skill 5', 'focus 1', 34, false, 2.3, new Ability('ability 5', 45, 34), 56, 0),
+        new Skill('skill 5', 'focus 2', 456, false, 7, new Ability('ability 5', 45, 34), 78, 0, true),
+        new Skill('skill 6', 'focus 3', 678, true, 9, new Ability('ability 6', 5, -6), 789, 0),
+        new Skill('skill 6', 'focus 4', 0, true, 8.9, new Ability('ability 6', 5, -6), 91, -2, true),
+        new Skill('skill 7', '', -3, false, 4, new Ability('ability 1', 92, 66), 567, -8),
+      ];
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-skills > dndgen-details', 'Skills', true);
+      expectTable('li.character-skills dndgen-details table', expectedSkills);
+    });
+  
     it(`should render the character feats - no feats`, () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
@@ -1383,7 +1483,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand:', true);
+      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
       expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
     });
   
@@ -1397,6 +1497,68 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
       expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand: None', false);
+    });
+  
+    it(`should render the character off-hand weapon`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const weapon = createWeapon('my off-hand weapon');
+      component.character.equipment.offHand = weapon;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
+      expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', weapon);
+    });
+  
+    it(`should render the character off-hand shield`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const shield = createArmor('my shield');
+      component.character.equipment.offHand = shield;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
+      expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', shield);
+    });
+  
+    it(`should render the character off-hand item - two-handed primary`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const weapon = createWeapon('my primary weapon');
+      weapon.attributes.push('Two-Handed');
+      component.character.equipment.primaryHand = weapon;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
+      expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: (Two-Handed)', false);
+      expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', weapon);
+    });
+  
+    it(`should render the character off-hand item - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.equipment.primaryHand = null;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
+      expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: None', false);
     });
 
     it('needs more tests', () => {
@@ -1680,8 +1842,8 @@ describe('CharacterComponent', () => {
       expectElement('dndgen-details.character-header li.character-animal', 'Animal: American shorthair cat');
       
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand:', true);
-      expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
+      expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
+      expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', component.character.equipment.primaryHand!);
     });
   });
 });
