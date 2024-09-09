@@ -16,7 +16,7 @@ import { TreasureGenComponent } from './treasure/components/treasuregen.componen
 import { TreasureComponent } from './treasure/components/treasure.component';
 import { ItemComponent } from './treasure/components/item.component';
 import { CharacterGenComponent } from './character/components/charactergen.component';
-import { LeaderComponent } from './character/components/leadership.component';
+import { LeadershipComponent } from './character/components/leadership.component';
 import { CharacterComponent } from './character/components/character.component';
 import { BonusPipe } from './shared/pipes/bonus.pipe';
 import { BonusesPipe } from './shared/pipes/bonuses.pipe';
@@ -48,7 +48,7 @@ import { SpellGroupComponent } from './character/components/spellGroup.component
 
         //CharacterGen
         CharacterGenComponent,
-        LeaderComponent,
+        LeadershipComponent,
         CharacterComponent,
         FeatComponent,
         SpellGroupComponent,

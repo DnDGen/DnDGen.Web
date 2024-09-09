@@ -1,18 +1,18 @@
-<dndgen-details [hidden]="leadership!.score == 0" heading="Leadership" [hasDetails]="leadership!.score > 0">
+<dndgen-details class="leadership-heading" [hidden]="leadership!.score == 0" heading="Leadership" [hasDetails]="leadership!.score > 0">
   <ul>
-    <li>Score: {{leadership!.score | number}}</li>
-    <li [hidden]="leadership!.leadershipModifiers.length == 0">
+    <li class="leadership-score">Score: {{leadership!.score | number}}</li>
+    <li class="leadership-modifiers" [hidden]="leadership!.leadershipModifiers.length == 0">
       <dndgen-details heading="Leadership Modifiers" [hasDetails]="leadership!.leadershipModifiers.length > 0">
         <ul>
           <li *ngFor="let modifier of leadership!.leadershipModifiers">{{modifier}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li *ngIf="cohort">
+    <li class="leadership-cohort" *ngIf="cohort">
       <span>Cohort:</span>
       <dndgen-character [character]="cohort!"></dndgen-character>
     </li>
-    <li [hidden]="followers.length == 0">
+    <li class="leadership-followers" [hidden]="followers.length == 0">
       <dndgen-details heading="Followers" [hasDetails]="followers.length > 0">
         <ul>
           <li *ngFor="let follower of followers">

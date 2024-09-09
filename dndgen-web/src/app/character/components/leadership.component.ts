@@ -7,7 +7,7 @@ import { Leadership } from '../models/leadership.model';
   templateUrl: './leadership.component.html'
 })
 
-export class LeaderComponent {
+export class LeadershipComponent {
   @Input() leadership!: Leadership | null;
   @Input() cohort!: Character | null;
   @Input() followers: Character[] = [];

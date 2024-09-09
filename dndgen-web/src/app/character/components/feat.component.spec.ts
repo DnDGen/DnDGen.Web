@@ -14,7 +14,7 @@ describe('FeatComponent', () => {
       component = new FeatComponent();
     });
   
-    it(`should set the feat `, () => {
+    it(`should set the feat`, () => {
       const feat = new Feat('my feat');
       component.feat = feat;
 

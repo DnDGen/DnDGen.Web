@@ -325,6 +325,8 @@ describe('CharacterComponent', () => {
 
         newCharacter.equipment.primaryHand = createWeapon('my weapon');
         newCharacter.equipment.offHand = createArmor('my shield');
+        newCharacter.equipment.armor = createArmor('my armor');
+        newCharacter.equipment.treasure = createTreasure();
 
         return newCharacter;
     }
@@ -1521,6 +1523,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
       expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
     });
@@ -1534,6 +1537,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand: None', false);
     });
   
@@ -1582,7 +1586,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: (Two-Handed)', false);
     });
   
@@ -1595,7 +1599,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: None', false);
     });
   
@@ -1610,6 +1614,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-armor > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor', true);
       expectItem('li.character-equipment-armor dndgen-details dndgen-item', armor);
     });
@@ -1623,6 +1628,7 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-armor > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor: None', false);
     });
   
@@ -1637,8 +1643,9 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-treasure > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure', true);
-      expectTreasure('li.character-equipment-treasure dndgen-details dndgen-item', treasure);
+      expectTreasure('li.character-equipment-treasure dndgen-details dndgen-treasure', treasure);
     });
   
     it(`should render the character treasure - none`, () => {
@@ -1653,11 +1660,8 @@ describe('CharacterComponent', () => {
   
       expectDetails('dndgen-details.character-header', 'my character summary', true);
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectHasAttribute('li.character-equipment li.character-equipment-treasure > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure: None', false);
-    });
-
-    it('needs more tests', () => {
-      expect('finish tests for HTML').toBe('');
     });
 
     function expectTable(selector: string, skills: Skill[]) {
@@ -1953,6 +1957,12 @@ describe('CharacterComponent', () => {
       expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
       expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
       expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', component.character.equipment.offHand!);
+      
+      expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor', true);
+      expectItem('li.character-equipment-armor dndgen-details dndgen-item', component.character.equipment.armor!);
+
+      expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure', true);
+      expectTreasure('li.character-equipment-treasure dndgen-details dndgen-treasure', component.character.equipment.treasure!);
     });
   });
 });
