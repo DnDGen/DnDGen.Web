@@ -22,6 +22,7 @@ import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
 import { ItemComponent } from '../../treasure/components/item.component';
+import { TreasureComponent } from '../../treasure/components/treasure.component';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {
@@ -140,27 +141,63 @@ describe('CharacterComponent', () => {
     });
 
     it('should return off-hand heading', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.offHand = new Item('my item', 'my item type');
+
+      component.character = character;
+
+      expect(component.offHandHeading).toEqual('Off Hand');
     });
 
     it('should return off-hand heading - two-handed', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.primaryHand = new Weapon('my weapon', 'Weapon');
+      character.equipment.primaryHand.attributes.push('Two-Handed');
+
+      character.equipment.offHand = character.equipment.primaryHand;
+
+      component.character = character;
+
+      expect(component.offHandHeading).toEqual('Off Hand: (Two-Handed)');
     });
 
     it('should return off-hand heading - none', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.offHand = null;
+
+      component.character = character;
+
+      expect(component.offHandHeading).toEqual('Off Hand: None');
     });
 
     it('should return off-hand details', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.offHand = new Item('my item', 'my item type');
+
+      component.character = character;
+
+      expect(component.offHandDetails).toBeTrue();
     });
 
     it('should return off-hand details - two-handed', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.primaryHand = new Weapon('my weapon', 'Weapon');
+      character.equipment.primaryHand.attributes.push('Two-Handed');
+
+      character.equipment.offHand = character.equipment.primaryHand;
+
+      component.character = character;
+
+      expect(component.offHandDetails).toBeFalse();
     });
 
     it('should return off-hand details - none', () => {
-      expect('not yet written').toBe('');
+      const character = new Character('my character summary');
+      character.equipment.offHand = null;
+
+      component.character = character;
+
+      expect(component.offHandDetails).toBeFalse();
     });
   });
 
@@ -287,6 +324,7 @@ describe('CharacterComponent', () => {
         newCharacter.magic.animal = 'American shorthair cat';
 
         newCharacter.equipment.primaryHand = createWeapon('my weapon');
+        newCharacter.equipment.offHand = createArmor('my shield');
 
         return newCharacter;
     }
@@ -1538,6 +1576,7 @@ describe('CharacterComponent', () => {
       const weapon = createWeapon('my primary weapon');
       weapon.attributes.push('Two-Handed');
       component.character.equipment.primaryHand = weapon;
+      component.character.equipment.offHand = component.character.equipment.primaryHand;
 
       fixture.detectChanges();
   
@@ -1545,7 +1584,6 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
       expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
       expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: (Two-Handed)', false);
-      expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', weapon);
     });
   
     it(`should render the character off-hand item - none`, () => {
@@ -1559,6 +1597,63 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
       expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', true);
       expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: None', false);
+    });
+  
+    it(`should render the character armor`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const armor = createArmor('my armor');
+      component.character.equipment.armor = armor;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor', true);
+      expectItem('li.character-equipment-armor dndgen-details dndgen-item', armor);
+    });
+  
+    it(`should render the character armor - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      component.character.equipment.armor = null;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor: None', false);
+    });
+  
+    it(`should render the character treasure`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+
+      const treasure = createTreasure();
+      component.character.equipment.treasure = treasure;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure', true);
+      expectTreasure('li.character-equipment-treasure dndgen-details dndgen-item', treasure);
+    });
+  
+    it(`should render the character treasure - none`, () => {
+      const component = fixture.componentInstance;
+      component.character = new Character('my character summary');
+      
+      const treasure = createTreasure();
+      treasure.isAny = false;
+      component.character.equipment.treasure = treasure;
+
+      fixture.detectChanges();
+  
+      expectDetails('dndgen-details.character-header', 'my character summary', true);
+      expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
+      expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure: None', false);
     });
 
     it('needs more tests', () => {
@@ -1663,7 +1758,7 @@ describe('CharacterComponent', () => {
       expect(element.componentInstance).toBeInstanceOf(FeatComponent);
 
       const featComponent = element.componentInstance as FeatComponent;
-      expect(featComponent.feat).toEqual(feat);
+      expect(featComponent.feat).toBe(feat);
     }
 
     function expectSpellGroups(selector: string, groups: SpellGroup[]) {
@@ -1711,7 +1806,17 @@ describe('CharacterComponent', () => {
       expect(element.componentInstance).toBeInstanceOf(ItemComponent);
 
       const featComponent = element.componentInstance as ItemComponent;
-      expect(featComponent.item).toEqual(item);
+      expect(featComponent.item).toBe(item);
+    }
+
+    function expectTreasure(selector: string, treasure: Treasure) {
+      const element = fixture.debugElement.query(By.css(selector));
+      expect(element).toBeTruthy();
+      expect(element.componentInstance).toBeTruthy();
+      expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
+
+      const featComponent = element.componentInstance as TreasureComponent;
+      expect(featComponent.treasure).toBe(treasure);
     }
   
     it(`should render a full character`, () => {
@@ -1844,6 +1949,10 @@ describe('CharacterComponent', () => {
       expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
       expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
       expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', component.character.equipment.primaryHand!);
+      
+      expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
+      expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', component.character.equipment.offHand!);
     });
   });
 });
