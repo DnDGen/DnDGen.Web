@@ -22,6 +22,7 @@ import { CharacterService } from '../services/character.service';
 import { LeadershipService } from '../services/leadership.service';
 import { LeaderPipe } from '../pipes/leader.pipe';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { Character } from '../models/character.model';
 
 describe('CharacterGenComponent', () => {
   describe('unit', () => {
@@ -357,89 +358,248 @@ describe('CharacterGenComponent', () => {
       expect(component.valid).toBeFalse();
     });
 
-    it('should be validating while validating the randomizers', fakeAsync(() => {
-      characterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+    const randomizerBooleans = [
+      { a: true, l: true, m: true },
+      { a: true, l: true, m: false },
+      { a: true, l: false, m: true },
+      { a: true, l: false, m: false },
+      { a: false, l: true, m: true },
+      { a: false, l: true, m: false },
+      { a: false, l: false, m: true },
+      { a: false, l: false, m: false },
+    ];
 
-      component.validateRandomizers();
+    randomizerBooleans.forEach(test => {
+      it(`should be validating while validating the randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        characterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+  
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+  
+        component.validateRandomizers();
+  
+        expect(characterServiceSpy.validate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace');
+        expect(component.validating).toBeTrue();
+        
+        tick(delay - 1);
+  
+        expect(component.validating).toBeTrue();
+  
+        flush();
+      }));
+  
+      it(`should validate valid randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        characterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+  
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+  
+        component.validateRandomizers();
+  
+        expect(characterServiceSpy.validate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace');
+        expect(component.validating).toBeTrue();
+  
+        tick(delay);
+  
+        expect(component.valid).toBeTrue();
+        expect(component.validating).toBeFalse();
+        
+        expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
+        expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
+      }));
+  
+      it(`should validate invalid randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        characterServiceSpy.validate.and.callFake(() => getFakeDelay(false));
+  
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
 
-      expect(characterServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating).toBeTrue();
+        component.validateRandomizers();
+  
+        expect(characterServiceSpy.validate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace');
+        expect(component.validating).toBeTrue();
+  
+        tick(delay);
+  
+        expect(component.valid).toBeFalse();
+        expect(component.validating).toBeFalse();
+        
+        expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
+        expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
+      }));
+  
+      it(`should display error from validating randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        characterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+  
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+
+        component.validateRandomizers();
+
+        tick(delay);
+  
+        expect(component.valid).toBeFalse();
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        expect(component.generating).toBeFalse();
+        expect(component.validating).toBeFalse();
+        
+        expect(characterServiceSpy.validate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace');
+        expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+        expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+      }));
       
-      tick(delay - 1);
+      it(`should be generating while generating character - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        setupOnInit();
 
-      expect(component.validating).toBeTrue();
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
 
-      flush();
-    }));
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
 
-    it('should validate valid treasure', fakeAsync(() => {
-      characterServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
+        component.generateCharacter();
 
-      component.validateTreasure('my treasure type', 9266);
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        
+        tick(delay - 1);
 
-      expect(characterServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating).toBeTrue();
+        expect(component.generating).toBeTrue();
 
-      tick(delay);
+        flush();
+      }));
+    });
 
-      expect(component.valid).toBeTrue();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should validate invalid treasure', fakeAsync(() => {
-      characterServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(false));
-
-      component.validateTreasure('my treasure type', 9266);
-
-      expect(characterServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should display error from validating treasure', fakeAsync(() => {
-      characterServiceSpy.validateTreasure.and.callFake(() => getFakeError('I failed'));
-
-      component.validateTreasure('my treasure type', 9266);
-      tick(delay);
-
-      expect(component.valid).toBeFalse();
-      expect(component.validItem).toBeFalse();
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(characterServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should be generating while generating treasure', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.getTreasure.and.callFake(() => getFakeDelay(new Treasure(new Coin('munny', 9266))));
-
-      component.generateTreasure();
-
-      expect(characterServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
-      expect(component.generating).toBeTrue();
-      
-      tick(delay - 1);
-
-      expect(component.generating).toBeTrue();
-
-      flush();
-    }));
 
     function setupOnInit() {
       component.treasureModel = getViewModel();

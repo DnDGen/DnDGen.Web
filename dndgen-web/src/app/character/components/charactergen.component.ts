@@ -57,9 +57,15 @@ export class CharacterGenComponent implements OnInit {
   @Input() setCharisma = 0;
   @Input() allowAbilitiesAdjustments = true;
   
+  @Input() leaderAlignment = '';
+  @Input() leaderClassName = '';
+  @Input() leaderLevel = 6;
+  @Input() leaderCharismaBonus = 0;
+  @Input() leaderAnimal = '';
+
   public character!: Character | null;
-  public valid: boolean = false; //compatible
-  public validating: boolean = false; //verifying
+  public valid: boolean = false;
+  public validating: boolean = false;
   public generating: boolean = false;
   public leadership!: Leadership | null;
   public cohort!: Character | null;
@@ -130,6 +136,9 @@ export class CharacterGenComponent implements OnInit {
     this.setMetarace = this.characterModel.metaraces[0];
 
     this.abilitiesRandomizerType = this.characterModel.abilitiesRandomizerTypes[0];
+    
+    this.leaderAlignment = this.characterModel.alignments[0];
+    this.leaderClassName = this.characterModel.classNames[0];
   }
 
   private handleError(error: any): void {
@@ -179,7 +188,27 @@ export class CharacterGenComponent implements OnInit {
     }
 
     if (this.validating) {
-      this.getRandomizerValidity();
+      this.characterService
+        .validate(
+          this.alignmentRandomizerType,
+          this.setAlignment,
+          this.classNameRandomizerType,
+          this.setClassName,
+          this.levelRandomizerType,
+          this.setLevel,
+          this.allowLevelAdjustments,
+          this.baseRaceRandomizerType,
+          this.setBaseRace,
+          this.metaraceRandomizerType,
+          this.forceMetarace,
+          this.setMetarace)
+        .subscribe({
+          next: data => this.setValidity(data),
+          error: error => {
+            this.valid = false;
+            this.handleError(error);
+          }
+        });
     }
   }
 
@@ -188,31 +217,7 @@ export class CharacterGenComponent implements OnInit {
     this.validating = false;
   }
 
-  private getRandomizerValidity(): void {
-    this.characterService
-      .validate(
-        this.alignmentRandomizerType,
-        this.setAlignment,
-        this.classNameRandomizerType,
-        this.setClassName,
-        this.levelRandomizerType,
-        this.setLevel,
-        this.allowLevelAdjustments,
-        this.baseRaceRandomizerType,
-        this.setBaseRace,
-        this.metaraceRandomizerType,
-        this.forceMetarace,
-        this.setMetarace)
-      .subscribe({
-        next: data => this.setValidity(data),
-        error: error => {
-          this.valid = false;
-          this.handleError(error);
-        }
-      });
-  }
-
-  public generate(): void {
+  public generateCharacter(): void {
     this.generating = true;
     this.character = null;
     this.leadership = null;
@@ -247,61 +252,63 @@ export class CharacterGenComponent implements OnInit {
         tap(data => this.character = data),
         switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader)),
         tap(() => this.generatingMessage = 'Generating leadership...'),
-        switchMap(() => this.leadershipService.generate(this.character!['class'].level, this.character!.abilities.Charisma.bonus, this.character!.magic.animal)),
+        tap(() => this.setLeadershipInputsFromCharacter()),
+        switchMap(() => this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)),
         tap(data => this.leadership = data),
         switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader || !this.leadership)),
         tap(() => this.generatingMessage = 'Generating cohort...'),
         switchMap(() => this.leadershipService.generateCohort(
-          this.character!['class'].level,
+          this.leaderLevel,
           this.leadership!.cohortScore,
-          this.character!.alignment.full,
-          this.character!['class'].name)),
+          this.leaderAlignment,
+          this.leaderClassName)),
         tap(data => this.cohort = data),
         switchMap(() => this.continueGeneration(!this.leadership || this.leadership.followerQuantities.level1 === 0)),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(1, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level1),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(2, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(2, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level2),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(3, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(3, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level3),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(4, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(4, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level4),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(5, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(5, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level5),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
-          switchMap(() => this.leadershipService.generateFollower(6, this.character!.alignment.full, this.character!['class'].name)),
+          switchMap(() => this.leadershipService.generateFollower(6, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level6),
       )
       .subscribe({
-        next: data => {
-          this.character = data;
-          this.generateLeadership();
-        },
+        next: () => this.finishGeneration(),
         error: error => this.handleError(error)
       });
+  }
+
+  private finishGeneration(): void {
+    this.generating = false;
   }
 
   private continueGeneration(stop: boolean): Observable<any> {
@@ -314,105 +321,74 @@ export class CharacterGenComponent implements OnInit {
     return of('continue');
   }
 
-  private generateLeadership(): void {
-    if (!this.character || !this.character.isLeader) {
-      this.generating = false;
-      this.generatingMessage = '';
-      return;
-    }
+  private setLeadershipInputsFromCharacter() {
+    this.leaderAlignment = this.character?.alignment.full ?? '';
+    this.leaderAnimal = this.character?.magic.animal ?? '';
+    this.leaderCharismaBonus = this.character?.abilities.Charisma.bonus ?? 0;
+    this.leaderClassName = this.character?.class.name ?? '';
+    this.leaderLevel = this.character?.class.level ?? 0;
+  }
 
+  public generateLeadership(): void {
+    this.generating = true;
+    this.leadership = null;
+    this.cohort = null;
+    this.followers = [];
+    
     this.generatingMessage = 'Generating leadership...';
 
-    this.leadershipService.generate(this.character['class'].level, this.character.abilities.Charisma.bonus, this.character.magic.animal)
+    this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)
+      .pipe(
+        tap(data => this.leadership = data),
+        switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader || !this.leadership)),
+        tap(() => this.generatingMessage = 'Generating cohort...'),
+        switchMap(() => this.leadershipService.generateCohort(
+          this.leaderLevel,
+          this.leadership!.cohortScore,
+          this.leaderAlignment,
+          this.leaderClassName)),
+        tap(data => this.cohort = data),
+        switchMap(() => this.continueGeneration(!this.leadership || this.leadership.followerQuantities.level1 === 0)),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level1),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(2, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level2),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(3, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level3),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(4, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level4),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(5, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level5),
+        pipe(
+          tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
+          switchMap(() => this.leadershipService.generateFollower(6, this.leaderAlignment, this.leaderClassName)),
+          tap(data => this.followers.push(data))
+        ),
+        repeat(this.leadership!.followerQuantities.level6),
+      )
       .subscribe({
-        next: data => {
-          this.leadership = data;
-          this.generateCohort();
-        },
+        next: () => this.finishGeneration(),
         error: error => this.handleError(error)
-      });
-  }
-
-  private generateCohort(): void {
-    if (!this.character || !this.character.isLeader || !this.leadership) {
-      this.generating = false;
-      this.generatingMessage = '';
-      return;
-    }
-
-    this.generatingMessage = 'Generating cohort...';
-
-    this.leadershipService
-      .generateCohort(
-        this.character['class'].level,
-        this.leadership.cohortScore,
-        this.character.alignment.full,
-        this.character['class'].name)
-      .subscribe({
-        next: data => {
-          this.cohort = data;
-          this.generateAllFollowers();
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
-      });
-  }
-
-  private generateAllFollowers(): void {
-    if (!this.leadership || this.leadership.followerQuantities.level1 === 0) {
-      this.generating = false;
-      this.generatingMessage = '';
-      return;
-    }
-
-    var expectedTotal = this.leadership.followerQuantities.level1 +
-      this.leadership.followerQuantities.level2 +
-      this.leadership.followerQuantities.level3 +
-      this.leadership.followerQuantities.level4 +
-      this.leadership.followerQuantities.level5 +
-      this.leadership.followerQuantities.level6;
-
-    this.generatingMessage = 'Generating ' + expectedTotal + ' followers...';
-
-    this.generateFollowers(1, this.leadership.followerQuantities.level1, expectedTotal);
-    this.generateFollowers(2, this.leadership.followerQuantities.level2, expectedTotal);
-    this.generateFollowers(3, this.leadership.followerQuantities.level3, expectedTotal);
-    this.generateFollowers(4, this.leadership.followerQuantities.level4, expectedTotal);
-    this.generateFollowers(5, this.leadership.followerQuantities.level5, expectedTotal);
-    this.generateFollowers(6, this.leadership.followerQuantities.level6, expectedTotal);
-  }
-
-  private generateFollowers(level: number, amount: number, expectedTotal: number): void {
-    if (!this.character || !this.character.isLeader || !this.leadership) {
-      this.generating = false;
-      this.generatingMessage = '';
-      return;
-    }
-
-    if (this.followers.length == expectedTotal) {
-      this.generating = false;
-      this.generatingMessage = '';
-
-      return;
-    }
-    else if (amount == 0) {
-      return;
-    }
-
-    this.generatingMessage = 'Generating follower ' + (this.followers.length + 1) + ' of ' + expectedTotal + '...';
-
-    this.leadershipService.generateFollower(level, this.character.alignment.full, this.character['class'].name)
-      .subscribe({
-        next: data => {
-          this.followers.push(data);
-          this.generateFollowers(level, amount - 1, expectedTotal);
-        },
-        error: error => {
-          this.logger.logError(error.message);
-          this.handleError();
-        }
       });
   }
 
