@@ -23,6 +23,7 @@ import { LeadershipService } from '../services/leadership.service';
 import { LeaderPipe } from '../pipes/leader.pipe';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
+import { Leadership } from '../models/leadership.model';
 
 describe('CharacterGenComponent', () => {
   describe('unit', () => {
@@ -591,257 +592,976 @@ describe('CharacterGenComponent', () => {
           test.a
         );
         expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
         
         tick(delay - 1);
 
         expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader without cohort or followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(null));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort but without followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        flush();
+      }));
+      
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+        expect('not yet written').toEqual('');
+        setupOnInit();
+
+        const character = new Character('my character summary');
+        characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+        
+        const leadership = new Leadership(0, []);
+        leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        component.alignmentRandomizerType = 'my alignment randomizer';
+        component.setAlignment = 'my alignment';
+        component.classNameRandomizerType = 'my class name randomizer';
+        component.setClassName = 'my class name';
+        component.levelRandomizerType = 'my level randomizer';
+        component.setLevel = 9266;
+        component.allowLevelAdjustments = test.l;
+        component.baseRaceRandomizerType = 'my base race randomizer';
+        component.setBaseRace = 'my base race';
+        component.metaraceRandomizerType = 'my metarace randomizer';
+        component.setMetarace = 'my metarace';
+        component.forceMetarace = test.m;
+        component.abilitiesRandomizerType = 'my abilities randomizer';
+        component.allowAbilitiesAdjustments = test.a;
+        component.setStrength = 90210;
+        component.setConstitution = 42;
+        component.setDexterity = 600;
+        component.setIntelligence = 1337;
+        component.setWisdom = 1336;
+        component.setCharisma = 96;
+
+        component.generateCharacter();
+
+        expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+          'my alignment randomizer',
+          'my alignment',
+          'my class name randomizer',
+          'my class name',
+          'my level randomizer',
+          9266,
+          test.l,
+          'my base race randomizer',
+          'my base race',
+          'my metarace randomizer',
+          test.m,
+          'my metarace',
+          'my abilities randomizer',
+          90210,
+          42,
+          600,
+          1337,
+          1336,
+          96,
+          test.a
+        );
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating character...');
+        expect(component.character).toBeNull();
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        tick(1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating leadership...');
+        expect(component.character).toBe(character);
+        expect(component.leadership).toBeNull();
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
 
         flush();
       }));
     });
 
-
     function setupOnInit() {
-      component.treasureModel = getViewModel();
+      component.characterModel = getViewModel();
 
-      component.treasureType = component.treasureModel.treasureTypes[0];
-      component.level = 1;
-
-      component.itemType = component.treasureModel.itemTypeViewModels[0];
-      component.power = component.treasureModel.powers[0];
+      component.alignmentRandomizerType = component.characterModel.alignmentRandomizerTypes[0];
+      component.setAlignment = component.characterModel.alignments[0];
+  
+      component.classNameRandomizerType = component.characterModel.classNameRandomizerTypes[0];
+      component.setClassName = component.characterModel.classNames[0];
+  
+      component.levelRandomizerType = component.characterModel.levelRandomizerTypes[0];
+      component.setLevel = 0;
+      component.allowLevelAdjustments = true;
+  
+      component.baseRaceRandomizerType = component.characterModel.baseRaceRandomizerTypes[0];
+      component.setBaseRace = component.characterModel.baseRaces[0];
+  
+      component.metaraceRandomizerType = component.characterModel.metaraceRandomizerTypes[0];
+      component.forceMetarace = false;
+      component.setMetarace = component.characterModel.metaraces[0];
+  
+      component.abilitiesRandomizerType = component.characterModel.abilitiesRandomizerTypes[0];
+      
+      component.leaderAlignment = component.characterModel.alignments[0];
+      component.leaderClassName = component.characterModel.classNames[0];
 
       component.valid = true;
-      component.validItem = true;
     }
 
-    it('should generate the default treasure', fakeAsync(() => {
+    it('should generate the default character', fakeAsync(() => {
       setupOnInit();
 
-      let treasure = new Treasure(new Coin('munny', 9266));
-      characterServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+      let character = new Character('my character summary');
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
 
-      component.generateTreasure();
+      component.generateCharacter();
 
-      expect(characterServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
+      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+        'alignment randomizer 1',
+        'alignment 1',
+        'class name randomizer 1',
+        'class name 1',
+        'level randomizer 1',
+        0,
+        true,
+        'base race randomizer 1',
+        'base race 1',
+        'metarace randomizer 1',
+        false,
+        'metarace 1',
+        'abilities randomizer 1',
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        true
+      );
       expect(component.generating).toBeTrue();
 
       tick(delay);
 
-      expect(component.treasure).toBe(treasure);
+      expect(component.character).toBe(character);
       expect(component.generating).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
     }));
 
-    it(`should generate a non-default treasure`, fakeAsync(() => {
+    it(`should generate a non-default character`, fakeAsync(() => {
       setupOnInit();
 
-      let treasure = new Treasure(new Coin('munny', 9266));
-      characterServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+      let character = new Character('my character summary');
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
 
-      component.treasureType = component.treasureModel.treasureTypes[1];
-      component.level = 90210;
+      component.alignmentRandomizerType = component.characterModel.alignmentRandomizerTypes[1];
+      component.setAlignment = component.characterModel.alignments[1];
+      component.classNameRandomizerType = component.characterModel.classNameRandomizerTypes[1];
+      component.setClassName = component.characterModel.classNames[1];
+      component.levelRandomizerType = component.characterModel.levelRandomizerTypes[1];
+      component.setLevel = 9266;
+      component.allowLevelAdjustments = false;
+      component.baseRaceRandomizerType = component.characterModel.baseRaceRandomizerTypes[1];
+      component.setBaseRace = component.characterModel.baseRaces[1];
+      component.metaraceRandomizerType = component.characterModel.metaraceRandomizerTypes[1];
+      component.setMetarace = component.characterModel.metaraces[1];
+      component.forceMetarace = true;
+      component.abilitiesRandomizerType = component.characterModel.abilitiesRandomizerTypes[1];
+      component.setStrength = 90210;
+      component.setConstitution = 42;
+      component.setDexterity = 600;
+      component.setIntelligence = 1337;
+      component.setWisdom = 1336;
+      component.setCharisma = 96;
+      component.allowAbilitiesAdjustments = false;
 
-      component.generateTreasure();
+      component.generateCharacter();
 
-      expect(characterServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 2', 90210);
+      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+        'alignment randomizer 2',
+        'alignment 2',
+        'class name randomizer 2',
+        'class name 2',
+        'level randomizer 2',
+        9266,
+        false,
+        'base race randomizer 2',
+        'base race 2',
+        'metarace randomizer 2',
+        true,
+        'metarace 2',
+        'abilities randomizer 2',
+        90210,
+        42,
+        600,
+        1337,
+        1336,
+        96,
+        false
+      );
       expect(component.generating).toBeTrue();
 
       tick(delay);
 
-      expect(component.treasure).toBe(treasure);
+      expect(component.character).toBe(character);
       expect(component.generating).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
     }));
 
-    it('should display error from generating treasure', fakeAsync(() => {
+    it('should generate the default character - leader', fakeAsync(() => {
+      expect('not yet written').toBe('');
       setupOnInit();
 
-      characterServiceSpy.getTreasure.and.callFake(() => getFakeError('I failed'));
+      let character = new Character('my character summary');
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
 
-      component.generateTreasure();
+      component.generateCharacter();
+
+      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+        'alignment randomizer 1',
+        'alignment 1',
+        'class name randomizer 1',
+        'class name 1',
+        'level randomizer 1',
+        0,
+        true,
+        'base race randomizer 1',
+        'base race 1',
+        'metarace randomizer 1',
+        false,
+        'metarace 1',
+        'abilities randomizer 1',
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        true
+      );
+      expect(component.generating).toBeTrue();
+
       tick(delay);
 
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
+      expect(component.character).toBe(character);
+      expect(component.generating).toBeFalse();
+      
+      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
+      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
+    }));
+
+    it('should display error from generating character', fakeAsync(() => {
+      setupOnInit();
+
+      characterServiceSpy.generate.and.callFake(() => getFakeError('I failed'));
+
+      component.generateCharacter();
+      tick(delay);
+
+      expect(component.character).toBeNull();
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
       expect(component.generating).toBeFalse();
       expect(component.validating).toBeFalse();
       
-      expect(characterServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
+      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
+        'alignment randomizer 1',
+        'alignment 1',
+        'class name randomizer 1',
+        'class name 1',
+        'level randomizer 1',
+        0,
+        true,
+        'base race randomizer 1',
+        'base race 1',
+        'metarace randomizer 1',
+        false,
+        'metarace 1',
+        'abilities randomizer 1',
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        true
+      );
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
     }));
 
-    it('should validate an item - invalid if no item type', fakeAsync(() => {
-      setupOnInit();
-
-      component.validateItem('', 'my power', '');
-      expect(component.validating).toBeFalse();
-      expect(component.validItem).toBeFalse();
-    }));
-
-    it('should validate an item - invalid if no power', fakeAsync(() => {
-      setupOnInit();
-
-      component.validateItem('my item type', '', '');
-      expect(component.validating).toBeFalse();
-      expect(component.validItem).toBeFalse();
-    }));
-
-    it('should be validating while validating an item', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
-
-      component.validateItem('my item type', 'my power', '');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating).toBeTrue();
-      
-      tick(delay - 1);
-
-      expect(component.validating).toBeTrue();
-
-      flush();
-    }));
-
-    it('should be validating while validating an item with name', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
-
-      component.validateItem('my item type', 'my power', 'my name');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating).toBeTrue();
-      
-      tick(delay - 1);
-
-      expect(component.validating).toBeTrue();
-
-      flush();
-    }));
-
-    it('should validate a valid item', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
-
-      component.validateItem('my item type', 'my power', '');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeTrue();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should validate a valid item with name', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
-
-      component.validateItem('my item type', 'my power', 'my name');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeTrue();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should validate an invalid item', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
-
-      component.validateItem('my item type', 'my power', '');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should validate an invalid item with name', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
-
-      component.validateItem('my item type', 'my power', 'my name');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should display error from validating item', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
-
-      component.validateItem('my item type', 'my power', '');
-      tick(delay);
-
-      expect(component.valid).toBeFalse();
-      expect(component.validItem).toBeFalse();
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should display error from validating item with name', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
-
-      component.validateItem('my item type', 'my power', 'my name');
-      tick(delay);
-
-      expect(component.valid).toBeFalse();
-      expect(component.validItem).toBeFalse();
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should be generating while generating an item', fakeAsync(() => {
+    it('should be generating while generating leadership', fakeAsync(() => {
       setupOnInit();
 
       characterServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));

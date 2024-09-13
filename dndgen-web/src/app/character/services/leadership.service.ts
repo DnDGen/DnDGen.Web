@@ -21,7 +21,7 @@ export class LeadershipService {
     return this.http.get<Leadership>(url, { params: params });
   }
 
-  public generateCohort(leaderLevel: number, cohortScore: number, leaderAlignment: string, leaderClass: string): Observable<Character> {
+  public generateCohort(leaderLevel: number, cohortScore: number, leaderAlignment: string, leaderClass: string): Observable<Character | null> {
     var url = "https://character.dndgen.com/api/v1/cohort/score/" + cohortScore + "/generate";
 
     let params = new HttpParams()
