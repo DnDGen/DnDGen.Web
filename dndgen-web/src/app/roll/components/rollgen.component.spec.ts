@@ -1232,6 +1232,50 @@ describe('RollGenComponent', () => {
         expect(examples!.item(6).textContent).toEqual('1d(2d3) - Roll 2 3-sided dice [sum x], then roll 1 x-sided die');
         expect(examples!.item(7).textContent).toEqual('1d2!+3d4k2 - Roll 1 2-sided die, roll again if a 2 is rolled; roll 3 4-sided dice, keep the highest 2');
       });
+
+      const exampleCases = [
+        { e: '3d6', l: 3, u: 3 * 6 },
+        { e: '4d4*1000', l: 4 * 1000, u: 4 * 4 * 1000 },
+        { e: '1d2+3', l: 4, u: 5 },
+        { e: '4d6k3', l: 3, u: 3 * 6 },
+        { e: '1d20!', l: 1, u: 20 * 10 },
+        { e: '3d6t1', l: 6, u: 3 * 6 },
+        { e: '4d8t2:3', l: 4, u: 4 * 8 },
+        { e: '1d2d3', l: 1, u: 6 },
+        { e: '1d(2d3)', l: 1, u: 6 },
+        { e: '1d2!+3d4k2', l: 1 + 2, u: 2 * 10 + 2 * 4 },
+      ];
+
+      exampleCases.forEach(test => {
+        it(`should roll an example roll - ${test.e}`, async () => {
+          setInput('#rollExpression', test.e);
+    
+          fixture.detectChanges();
+  
+          expect(fixture.componentInstance.expression).toEqual(test.e);
+  
+          //run validation
+          await waitForService();
+  
+          expectValid('#expressionRollButton', '#expressionValidating');
+          clickButton('#expressionRollButton');
+    
+          fixture.detectChanges();
+          
+          expectRolling('#expressionRollButton', '#expressionValidating');
+  
+          //run roll
+          await waitForService();
+    
+          expectRolled('#expressionRollButton', '#expressionValidating');
+  
+          const compiled = fixture.nativeElement as HTMLElement;
+          const rollSection = compiled.querySelector('#rollSection');
+          const rolledNumber = new Number(rollSection?.textContent);
+          expect(rolledNumber).toBeGreaterThanOrEqual(test.l);
+          expect(rolledNumber).toBeLessThanOrEqual(test.u);
+        });
+      });
     });
   
     it(`should render the initial roll`, () => {

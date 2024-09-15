@@ -24,6 +24,7 @@ import { LeaderPipe } from '../pipes/leader.pipe';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
+import { FollowerQuantities } from '../models/followerQuantities.model';
 
 describe('CharacterGenComponent', () => {
   describe('unit', () => {
@@ -591,6 +592,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -614,9 +619,15 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const leadership = new Leadership(2, [], 1);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
         leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(null));
 
@@ -665,6 +676,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -683,9 +698,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
+        expectLeadershipGenerating(character, leadership, null, []);
+
+        flush();
+      }));
+
+      function expectLeadershipGenerating(leader: Character, leadership: Leadership, cohort: Character | null, followers: Character[]) {
+        expect(leadershipServiceSpy.generate).toHaveBeenCalledWith(7, 8, 'my animal');
+        expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
+        expect(component.character).toBe(leader);
         expect(component.leadership).toBeNull();
         expect(component.cohort).toBeNull();
         expect(component.followers).toEqual([]);
@@ -694,23 +720,84 @@ describe('CharacterGenComponent', () => {
 
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
+        expect(component.character).toBe(leader);
         expect(component.leadership).toBeNull();
         expect(component.cohort).toBeNull();
         expect(component.followers).toEqual([]);
 
-        flush();
-      }));
+        tick(1);
+
+        expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+        expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, 1, 'my leader alignment', 'my leader class');
+        expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating cohort...');
+        expect(component.character).toBe(leader);
+        expect(component.leadership).toBe(leadership);
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual('Generating cohort...');
+        expect(component.character).toBe(leader);
+        expect(component.leadership).toBe(leadership);
+        expect(component.cohort).toBeNull();
+        expect(component.followers).toEqual([]);
+
+        const followerCount = followers.length;
+
+        if (!followerCount) {
+          return;
+        }
+        
+        for(let i = 0; i < followerCount; i++) {
+          const message = `Generating follower ${i + 1} of ${followerCount}...`;
+
+          tick(1);
+  
+          expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+          expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
+          expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
+
+          expect(component.generating).toBeTrue();
+          expect(component.generatingMessage).toEqual(message);
+          expect(component.character).toBe(leader);
+          expect(component.leadership).toBe(leadership);
+          expect(component.cohort).toBe(cohort);
+          expect(component.followers).toEqual(followers.slice(0, i));
+          
+          tick(delay - 1);
+  
+          expect(component.generating).toBeTrue();
+          expect(component.generatingMessage).toEqual(message);
+          expect(component.character).toBe(leader);
+          expect(component.leadership).toBe(leadership);
+          expect(component.cohort).toBe(cohort);
+          expect(component.followers).toEqual(followers.slice(0, i));  
+        }
+      }
       
       it(`should be generating while generating character - leader with cohort but without followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const leadership = new Leadership(3, [], 8);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -757,6 +844,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -775,21 +866,7 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, []);
 
         flush();
       }));
@@ -799,10 +876,27 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -849,6 +943,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -867,34 +965,82 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
+
+      function expectFollowerCalls(quantities: FollowerQuantities) {
+        const total = quantities.level1 + quantities.level2 + quantities.level3 + quantities.level4 + quantities.level5 + quantities.level6;
+        let callIndex = 0;
+
+        expect(leadershipServiceSpy.generateFollower).toHaveBeenCalledTimes(total);
+
+        for(let i = 0; i < quantities.level1; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([1, 'my leader alignment', 'my leader class']);
+        }
+
+        callIndex += quantities.level1;
+
+        for(let i = 0; i < quantities.level2; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([2, 'my leader alignment', 'my leader class']);
+        }
+
+        callIndex += quantities.level2;
+
+        for(let i = 0; i < quantities.level3; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([3, 'my leader alignment', 'my leader class']);
+        }
+
+        callIndex += quantities.level3;
+
+        for(let i = 0; i < quantities.level4; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([4, 'my leader alignment', 'my leader class']);
+        }
+
+        callIndex += quantities.level4;
+
+        for(let i = 0; i < quantities.level5; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([5, 'my leader alignment', 'my leader class']);
+        }
+
+        callIndex += quantities.level5;
+
+        for(let i = 0; i < quantities.level6; i++) {
+          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([6, 'my leader alignment', 'my leader class']);
+        }
+      }
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(3, 2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+          new Character('my follower summary 1.3'),
+          new Character('my follower summary 2.1'),
+          new Character('my follower summary 2.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -941,6 +1087,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -959,21 +1109,8 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
@@ -983,10 +1120,34 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(4, 3, 2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+          new Character('my follower summary 1.3'),
+          new Character('my follower summary 1.4'),
+          new Character('my follower summary 2.1'),
+          new Character('my follower summary 2.2'),
+          new Character('my follower summary 2.3'),
+          new Character('my follower summary 3.1'),
+          new Character('my follower summary 3.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -1033,6 +1194,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -1051,21 +1216,8 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
@@ -1075,10 +1227,39 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(5, 4, 3, 2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+          new Character('my follower summary 1.3'),
+          new Character('my follower summary 1.4'),
+          new Character('my follower summary 1.5'),
+          new Character('my follower summary 2.1'),
+          new Character('my follower summary 2.2'),
+          new Character('my follower summary 2.3'),
+          new Character('my follower summary 2.4'),
+          new Character('my follower summary 3.1'),
+          new Character('my follower summary 3.2'),
+          new Character('my follower summary 3.3'),
+          new Character('my follower summary 4.1'),
+          new Character('my follower summary 4.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -1125,6 +1306,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -1143,21 +1328,8 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
@@ -1167,10 +1339,45 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(6, 5, 4, 3, 2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+          new Character('my follower summary 1.3'),
+          new Character('my follower summary 1.4'),
+          new Character('my follower summary 1.5'),
+          new Character('my follower summary 1.6'),
+          new Character('my follower summary 2.1'),
+          new Character('my follower summary 2.2'),
+          new Character('my follower summary 2.3'),
+          new Character('my follower summary 2.4'),
+          new Character('my follower summary 2.5'),
+          new Character('my follower summary 3.1'),
+          new Character('my follower summary 3.2'),
+          new Character('my follower summary 3.3'),
+          new Character('my follower summary 3.4'),
+          new Character('my follower summary 4.1'),
+          new Character('my follower summary 4.2'),
+          new Character('my follower summary 4.3'),
+          new Character('my follower summary 5.1'),
+          new Character('my follower summary 5.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -1217,6 +1424,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -1235,21 +1446,8 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
@@ -1259,10 +1457,52 @@ describe('CharacterGenComponent', () => {
         setupOnInit();
 
         const character = new Character('my character summary');
+        character.isLeader = true;
+        character.class.level = 7;
+        character.abilities.Charisma.bonus = 8;
+        character.magic.animal = 'my animal';
+        character.alignment.full = 'my leader alignment';
+        character.class.name = 'my leader class';
         characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
         
-        const leadership = new Leadership(0, []);
+        const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+        const leadership = new Leadership(3, [], 8, followerQuantities);
         leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+        const cohort = new Character('my cohort summary');
+        leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+        let followerIndex = 0;
+        const followers = [
+          new Character('my follower summary 1.1'),
+          new Character('my follower summary 1.2'),
+          new Character('my follower summary 1.3'),
+          new Character('my follower summary 1.4'),
+          new Character('my follower summary 1.5'),
+          new Character('my follower summary 1.6'),
+          new Character('my follower summary 1.7'),
+          new Character('my follower summary 2.1'),
+          new Character('my follower summary 2.2'),
+          new Character('my follower summary 2.3'),
+          new Character('my follower summary 2.4'),
+          new Character('my follower summary 2.5'),
+          new Character('my follower summary 2.6'),
+          new Character('my follower summary 3.1'),
+          new Character('my follower summary 3.2'),
+          new Character('my follower summary 3.3'),
+          new Character('my follower summary 3.4'),
+          new Character('my follower summary 3.5'),
+          new Character('my follower summary 4.1'),
+          new Character('my follower summary 4.2'),
+          new Character('my follower summary 4.3'),
+          new Character('my follower summary 4.4'),
+          new Character('my follower summary 5.1'),
+          new Character('my follower summary 5.2'),
+          new Character('my follower summary 5.3'),
+          new Character('my follower summary 6.1'),
+          new Character('my follower summary 6.2'),
+        ];
+        leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
 
         component.alignmentRandomizerType = 'my alignment randomizer';
         component.setAlignment = 'my alignment';
@@ -1309,6 +1549,10 @@ describe('CharacterGenComponent', () => {
           96,
           test.a
         );
+        expect(leadershipServiceSpy.generate).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
         expect(component.generating).toBeTrue();
         expect(component.generatingMessage).toEqual('Generating character...');
         expect(component.character).toBeNull();
@@ -1327,21 +1571,8 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(character);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expectFollowerCalls(followerQuantities);
 
         flush();
       }));
