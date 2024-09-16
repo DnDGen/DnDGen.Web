@@ -253,6 +253,7 @@ export class CharacterGenComponent implements OnInit {
         switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader)),
         tap(() => this.generatingMessage = 'Generating leadership...'),
         tap(() => this.setLeadershipInputsFromCharacter()),
+        //TODO: Refactor to shared method
         switchMap(() => this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)),
         tap(data => this.leadership = data),
         switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader || !this.leadership)),
@@ -264,6 +265,7 @@ export class CharacterGenComponent implements OnInit {
           this.leaderClassName)),
         tap(data => this.cohort = data),
         switchMap(() => this.continueGeneration(!this.leadership || this.leadership.followerQuantities.level1 === 0)),
+        //TODO: Refactor to shared, repeatable, per-level method
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
