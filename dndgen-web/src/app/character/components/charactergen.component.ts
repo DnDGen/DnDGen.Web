@@ -31,6 +31,14 @@ export class CharacterGenComponent implements OnInit {
 
   public characterModel!: CharacterGenViewModel;
 
+  public get loading(): boolean {
+    if (this.characterModel) {
+      return true;
+    }
+
+    return false;
+  }
+
   @Input() alignmentRandomizerType = '';
   @Input() setAlignment = '';
 

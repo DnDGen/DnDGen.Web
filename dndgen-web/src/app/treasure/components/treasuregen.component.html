@@ -1,133 +1,135 @@
 <h1>TreasureGen</h1>
-<div class="row top-buffer">
-  <div class="col-sm-6">
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="nav-item">
-        <a class="nav-link active" href="#treasure" aria-controls="treasure" role="tab" data-bs-toggle="tab" aria-selected="true">Treasure</a>
-      </li>
-      <li role="presentation" class="nav-item">
-        <a class="nav-link" href="#item" aria-controls="item" role="tab" data-bs-toggle="tab" aria-selected="false">Item</a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane fade show active" id="treasure">
-        <form name="treasureForm" #treasureForm="ngForm" class="form-horizontal top-buffer" role="form">
-          <div class="form-group row">
-            <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
-            <div class="col-sm-6">
-              <select id="treasureTypes" 
-                      name="treasureTypes" 
-                      *ngIf="treasureModel" 
-                      class="form-select" 
-                      (change)="validateTreasure(treasureType, level)" 
-                      [(ngModel)]="treasureType" 
-                      required>
-                <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
-              </select>
+<dndgen-loading [isLoading]="loading">
+  <div class="row top-buffer">
+    <div class="col-sm-6">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="nav-item">
+          <a class="nav-link active" href="#treasure" aria-controls="treasure" role="tab" data-bs-toggle="tab" aria-selected="true">Treasure</a>
+        </li>
+        <li role="presentation" class="nav-item">
+          <a class="nav-link" href="#item" aria-controls="item" role="tab" data-bs-toggle="tab" aria-selected="false">Item</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade show active" id="treasure">
+          <form name="treasureForm" #treasureForm="ngForm" class="form-horizontal top-buffer" role="form">
+            <div class="form-group row">
+              <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
+              <div class="col-sm-6">
+                <select id="treasureTypes" 
+                        name="treasureTypes" 
+                        *ngIf="treasureModel" 
+                        class="form-select" 
+                        (change)="validateTreasure(treasureType, level)" 
+                        [(ngModel)]="treasureType" 
+                        required>
+                  <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
-            <div class="col-sm-6">
-              <input id="treasureLevel"
-                     name="treasureLevel"
-                     *ngIf="treasureModel"
-                     pattern="^[0-9]+$"
-                     class="form-control"
-                     type="number"
-                     min="1"
-                     max="{{treasureModel.maxTreasureLevel}}"
-                     [(ngModel)]="level"
-                     (input)="validateTreasure(treasureType, level)"
-                     required />
-            </div>
-          </div>
-          <button id="treasureButton"
-                  type="button"
-                  class="btn btn-success d-flex justify-content-center"
-                  (click)="generateTreasure()"
-                  [disabled]="!treasureForm.form.valid || generating || validating || !validTreasure">
-            Generate
-          </button>
-          <span id="treasureValidating" [hidden]="!validating">
-            <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-          </span>
-        </form>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="item">
-        <form name="itemForm" #itemForm="ngForm" class="form-horizontal top-buffer" role="form">
-          <div class="form-group row">
-            <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
-            <div class="col-sm-4">
-              <select id="itemTypes" 
-                      name="itemTypes" 
-                      *ngIf="treasureModel" 
-                      class="form-select" 
-                      (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
-                      [(ngModel)]="itemType" 
-                      required>
-                <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="powers" class="col-sm-3 col-form-label">Power:</label>
-            <div class="col-sm-3">
-              <select id="powers" 
-                      name="powers" 
+            <div class="form-group row">
+              <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
+              <div class="col-sm-6">
+                <input id="treasureLevel"
+                      name="treasureLevel"
                       *ngIf="treasureModel"
-                      class="form-select" 
-                      (change)="validateItem(itemType!.itemType, power, itemName)" 
-                      [(ngModel)]="power" 
-                      required>
-                <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
-              </select>
+                      pattern="^[0-9]+$"
+                      class="form-control"
+                      type="number"
+                      min="1"
+                      max="{{treasureModel.maxTreasureLevel}}"
+                      [(ngModel)]="level"
+                      (input)="validateTreasure(treasureType, level)"
+                      required />
+              </div>
             </div>
-            <div class="col-sm-6">
-              <select id="itemNames"
-                      name="itemNames" 
+            <button id="treasureButton"
+                    type="button"
+                    class="btn btn-success d-flex justify-content-center"
+                    (click)="generateTreasure()"
+                    [disabled]="!treasureForm.form.valid || generating || validating || !validTreasure">
+              Generate
+            </button>
+            <span id="treasureValidating" [hidden]="!validating">
+              <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
+            </span>
+          </form>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="item">
+          <form name="itemForm" #itemForm="ngForm" class="form-horizontal top-buffer" role="form">
+            <div class="form-group row">
+              <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
+              <div class="col-sm-4">
+                <select id="itemTypes" 
+                        name="itemTypes" 
+                        *ngIf="treasureModel" 
+                        class="form-select" 
+                        (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
+                        [(ngModel)]="itemType" 
+                        required>
+                  <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="powers" class="col-sm-3 col-form-label">Power:</label>
+              <div class="col-sm-3">
+                <select id="powers" 
+                        name="powers" 
+                        *ngIf="treasureModel"
+                        class="form-select" 
+                        (change)="validateItem(itemType!.itemType, power, itemName)" 
+                        [(ngModel)]="power" 
+                        required>
+                  <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <select id="itemNames"
+                        name="itemNames" 
+                        *ngIf="itemType"
+                        class="form-select"
+                        (change)="validateItem(itemType!.itemType, power, itemName)" 
+                        [(ngModel)]="itemName" 
+                        [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
+                  <option [ngValue]=""></option>
+                  <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
+                </select>
+                <input id="anyItemName"
+                      name="anyItemName"
                       *ngIf="itemType"
-                      class="form-select"
-                      (change)="validateItem(itemType!.itemType, power, itemName)" 
-                      [(ngModel)]="itemName" 
-                      [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
-                <option [ngValue]=""></option>
-                <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
-              </select>
-              <input id="anyItemName"
-                     name="anyItemName"
-                     *ngIf="itemType"
-                     class="form-control"
-                     type="text"
-                     (input)="validateItem(itemType!.itemType, power, itemName)" 
-                     [(ngModel)]="itemName"
-                     [hidden]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
+                      class="form-control"
+                      type="text"
+                      (input)="validateItem(itemType!.itemType, power, itemName)" 
+                      [(ngModel)]="itemName"
+                      [hidden]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
+              </div>
             </div>
-          </div>
-          <button id="itemButton"
-                  type="button"
-                  class="btn btn-success d-flex justify-content-center"
-                  (click)="generateItem()"
-                  [disabled]="!itemForm.form.valid || generating || validating || !validItem">
-            Generate
-          </button>
-          <span id="itemValidating" [hidden]="!validating">
-            <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-          </span>
-        </form>
+            <button id="itemButton"
+                    type="button"
+                    class="btn btn-success d-flex justify-content-center"
+                    (click)="generateItem()"
+                    [disabled]="!itemForm.form.valid || generating || validating || !validItem">
+              Generate
+            </button>
+            <span id="itemValidating" [hidden]="!validating">
+              <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
+            </span>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-6 clearfix">
-    <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !treasure" (click)="downloadTreasure()">Download</button>
-    <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !item" (click)="downloadItem()">Download</button>
-    <div id="treasureSection" [hidden]="generating">
-      <span id="noTreasure" class="italicize" [hidden]="treasure || item">No treasure was generated</span>
-      <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
-      <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
+    <div class="col-sm-6 clearfix">
+      <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !treasure" (click)="downloadTreasure()">Download</button>
+      <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !item" (click)="downloadItem()">Download</button>
+      <div id="treasureSection" [hidden]="generating">
+        <span id="noTreasure" class="italicize" [hidden]="treasure || item">No treasure was generated</span>
+        <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
+        <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
+      </div>
+      <span id="generatingSection" [hidden]="!generating">
+        <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
+      </span>
     </div>
-    <span id="generatingSection" [hidden]="!generating">
-      <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
-    </span>
   </div>
-</div>
+</dndgen-loading>

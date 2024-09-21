@@ -1,16 +1,6 @@
-<div *ngIf="!characterModel" class="container">
-  <div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
-      <img style="width: 500px; height: auto;" class="center-block" src="~/loading-dice.svg" />
-    </div>
-    <div class="col-sm-4"></div>
-  </div>
-</div>
-<div *ngIf="characterModel">
-  <h1>CharacterGen</h1>
+<h1>CharacterGen</h1>
+<dndgen-loading [isLoading]="loading">
   <div class="row top-buffer">
-
     <div class="col-sm-6">
       <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="nav-item"><a class="nav-link active" href="#character" aria-controls="character" role="tab" data-bs-toggle="tab">Character</a></li>
@@ -155,8 +145,7 @@
               </form>
           </div>
       </div>
-  </div>
-
+    </div>
     <div class="col-sm-6">
       <form name="characterForm" #characterForm="ngForm" class="form-horizontal top-buffer" role="form">
         <div class="form-group row">
@@ -273,7 +262,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <button id="generateButton" type="button" class="btn btn-success" (click)="generate()" [disabled]="characterForm.form.invalid || generating || validating || !valid">Generate</button>
+          <button id="generateButton" type="button" class="btn btn-success" (click)="generateCharacter()" [disabled]="characterForm.form.invalid || generating || validating || !valid">Generate</button>
         </div>
       </form>
     </div>
@@ -294,4 +283,4 @@
       </div>
     </div>
   </div>
-</div>
+</dndgen-loading>

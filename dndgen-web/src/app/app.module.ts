@@ -25,6 +25,7 @@ import { FeatComponent } from './character/components/feat.component';
 import { FrequencyPipe } from './character/pipes/frequency.pipe';
 import { SpellQuantityPipe } from './character/pipes/spellQuantity.pipe';
 import { SpellGroupComponent } from './character/components/spellGroup.component';
+import { LoadingComponent } from './shared/components/loading.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { SpellGroupComponent } from './character/components/spellGroup.component
 
         //Shared
         DetailsComponent,
+        LoadingComponent,
         BonusPipe,
         BonusesPipe,
 

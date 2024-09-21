@@ -35,6 +35,14 @@ export class TreasureGenComponent implements OnInit {
 
   public treasureModel!: TreasureGenViewModel;
 
+  public get loading(): boolean {
+    if (this.treasureModel) {
+      return true;
+    }
+
+    return false;
+  }
+
   public get itemNames() {
     if (!(this.itemType))
       return [];
