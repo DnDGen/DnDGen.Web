@@ -698,88 +698,17 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, null, []);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, null, []);
 
         flush();
       }));
-
-      function expectLeadershipGenerating(leader: Character, leadership: Leadership, cohort: Character | null, followers: Character[]) {
-        expect(leadershipServiceSpy.generate).toHaveBeenCalledWith(7, 8, 'my animal');
-        expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
-        expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
-        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(leader);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating leadership...');
-        expect(component.character).toBe(leader);
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-
-        tick(1);
-
-        expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
-        expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, 1, 'my leader alignment', 'my leader class');
-        expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
-        expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating cohort...');
-        expect(component.character).toBe(leader);
-        expect(component.leadership).toBe(leadership);
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        
-        tick(delay - 1);
-
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating cohort...');
-        expect(component.character).toBe(leader);
-        expect(component.leadership).toBe(leadership);
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-
-        const followerCount = followers.length;
-
-        if (!followerCount) {
-          return;
-        }
-        
-        for(let i = 0; i < followerCount; i++) {
-          const message = `Generating follower ${i + 1} of ${followerCount}...`;
-
-          tick(1);
-  
-          expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
-          expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
-          expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
-
-          expect(component.generating).toBeTrue();
-          expect(component.generatingMessage).toEqual(message);
-          expect(component.character).toBe(leader);
-          expect(component.leadership).toBe(leadership);
-          expect(component.cohort).toBe(cohort);
-          expect(component.followers).toEqual(followers.slice(0, i));
-          
-          tick(delay - 1);
-  
-          expect(component.generating).toBeTrue();
-          expect(component.generatingMessage).toEqual(message);
-          expect(component.character).toBe(leader);
-          expect(component.leadership).toBe(leadership);
-          expect(component.cohort).toBe(cohort);
-          expect(component.followers).toEqual(followers.slice(0, i));  
-        }
-      }
       
       it(`should be generating while generating character - leader with cohort but without followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
@@ -866,13 +795,19 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, []);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, []);
 
         flush();
       }));
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -965,55 +900,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
       }));
-
-      function expectFollowerCalls(quantities: FollowerQuantities) {
-        const total = quantities.level1 + quantities.level2 + quantities.level3 + quantities.level4 + quantities.level5 + quantities.level6;
-        let callIndex = 0;
-
-        expect(leadershipServiceSpy.generateFollower).toHaveBeenCalledTimes(total);
-
-        for(let i = 0; i < quantities.level1; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([1, 'my leader alignment', 'my leader class']);
-        }
-
-        callIndex += quantities.level1;
-
-        for(let i = 0; i < quantities.level2; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([2, 'my leader alignment', 'my leader class']);
-        }
-
-        callIndex += quantities.level2;
-
-        for(let i = 0; i < quantities.level3; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([3, 'my leader alignment', 'my leader class']);
-        }
-
-        callIndex += quantities.level3;
-
-        for(let i = 0; i < quantities.level4; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([4, 'my leader alignment', 'my leader class']);
-        }
-
-        callIndex += quantities.level4;
-
-        for(let i = 0; i < quantities.level5; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([5, 'my leader alignment', 'my leader class']);
-        }
-
-        callIndex += quantities.level5;
-
-        for(let i = 0; i < quantities.level6; i++) {
-          expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([6, 'my leader alignment', 'my leader class']);
-        }
-      }
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1109,14 +1009,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
       }));
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1216,14 +1122,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
       }));
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1328,14 +1240,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
       }));
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1446,14 +1364,20 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
       }));
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
-        expect('not yet written').toEqual('');
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1571,7 +1495,14 @@ describe('CharacterGenComponent', () => {
 
         tick(1);
 
-        expectLeadershipGenerating(character, leadership, cohort, followers);
+        expect(component.character).toBe(character);
+        expect(component.leaderAlignment).toEqual('my leader alignment');
+        expect(component.leaderAnimal).toEqual('my animal');
+        expect(component.leaderCharismaBonus).toEqual(8);
+        expect(component.leaderClassName).toEqual('my leader class');
+        expect(component.leaderLevel).toEqual(7);
+
+        expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
         flush();
@@ -1709,48 +1640,6 @@ describe('CharacterGenComponent', () => {
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
     }));
 
-    it('should generate the default character - leader', fakeAsync(() => {
-      expect('not yet written').toBe('');
-      setupOnInit();
-
-      let character = new Character('my character summary');
-      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
-
-      component.generateCharacter();
-
-      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
-        'alignment randomizer 1',
-        'alignment 1',
-        'class name randomizer 1',
-        'class name 1',
-        'level randomizer 1',
-        0,
-        true,
-        'base race randomizer 1',
-        'base race 1',
-        'metarace randomizer 1',
-        false,
-        'metarace 1',
-        'abilities randomizer 1',
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        true
-      );
-      expect(component.generating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.character).toBe(character);
-      expect(component.generating).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
     it('should display error from generating character', fakeAsync(() => {
       setupOnInit();
 
@@ -1766,367 +1655,663 @@ describe('CharacterGenComponent', () => {
       expect(component.generating).toBeFalse();
       expect(component.validating).toBeFalse();
       
-      expect(characterServiceSpy.generate).toHaveBeenCalledWith(
-        'alignment randomizer 1',
-        'alignment 1',
-        'class name randomizer 1',
-        'class name 1',
-        'level randomizer 1',
-        0,
-        true,
-        'base race randomizer 1',
-        'base race 1',
-        'metarace randomizer 1',
-        false,
-        'metarace 1',
-        'abilities randomizer 1',
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        true
-      );
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
     }));
 
-    it('should be generating while generating leadership', fakeAsync(() => {
+    it('should display error from generating leadership', fakeAsync(() => {
       setupOnInit();
 
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+      let character = new Character('my character summary');
+      character.isLeader = true;
+      character.class.level = 7;
+      character.abilities.Charisma.bonus = 8;
+      character.magic.animal = 'my animal';
+      character.alignment.full = 'my leader alignment';
+      character.class.name = 'my leader class';
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+      leadershipServiceSpy.generate.and.callFake(() => getFakeError('I failed'));
 
-      component.generateItem();
+      component.generateCharacter();
+      tick(delay);
 
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
-      expect(component.generating).toBeTrue();
+      expect(component.character).toBeNull();
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
       
-      tick(delay - 1);
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
 
-      expect(component.generating).toBeTrue();
+    it('should display error from generating cohort', fakeAsync(() => {
+      setupOnInit();
+
+      const character = new Character('my character summary');
+      character.isLeader = true;
+      character.class.level = 7;
+      character.abilities.Charisma.bonus = 8;
+      character.magic.animal = 'my animal';
+      character.alignment.full = 'my leader alignment';
+      character.class.name = 'my leader class';
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+
+      const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeError('I failed'));
+
+      component.generateCharacter();
+      tick(delay);
+
+      expect(component.character).toBeNull();
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should display error from generating follower', fakeAsync(() => {
+      setupOnInit();
+
+      const character = new Character('my character summary');
+      character.isLeader = true;
+      character.class.level = 7;
+      character.abilities.Charisma.bonus = 8;
+      character.magic.animal = 'my animal';
+      character.alignment.full = 'my leader alignment';
+      character.class.name = 'my leader class';
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+
+      const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+      
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+      
+      const follower = new Character('my follower summary');
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeError('I failed'));
+
+      component.generateCharacter();
+      tick(delay);
+
+      expect(component.character).toBeNull();
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should display error from generating any follower', fakeAsync(() => {
+      setupOnInit();
+
+      const character = new Character('my character summary');
+      character.isLeader = true;
+      character.class.level = 7;
+      character.abilities.Charisma.bonus = 8;
+      character.magic.animal = 'my animal';
+      character.alignment.full = 'my leader alignment';
+      character.class.name = 'my leader class';
+      characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
+
+      const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+      
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+      
+      const follower = new Character('my follower summary');
+      leadershipServiceSpy.generateFollower.and.returnValues(getFakeDelay(follower), getFakeError('I failed'));
+
+      component.generateCharacter();
+      tick(delay);
+
+      expect(component.character).toBeNull();
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+      expect(component.generating).toBeFalse();
+      expect(component.validating).toBeFalse();
+      
+      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
+      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+    }));
+      
+    it(`should be generating while generating leadership - without cohort or followers`, fakeAsync(() => {
+      setupOnInit();
+
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
+      
+      const leadership = new Leadership(2, [], 1);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(null));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, null, []);
 
       flush();
     }));
 
-    it('should be generating while generating an item with name', fakeAsync(() => {
-      setupOnInit();
-      
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+    function expectLeadershipGenerating(leadership: Leadership, cohort: Character | null, followers: Character[]) {
+      expect(leadershipServiceSpy.generate).toHaveBeenCalledWith(7, 8, 'my animal');
+      expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+      expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
+      expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-      component.itemName = component.itemNames[0];
-
-      component.generateItem();
-
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
       expect(component.generating).toBeTrue();
+      expect(component.generatingMessage).toEqual('Generating leadership...');
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
       
       tick(delay - 1);
 
       expect(component.generating).toBeTrue();
+      expect(component.generatingMessage).toEqual('Generating leadership...');
+      expect(component.leadership).toBeNull();
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+
+      tick(1);
+
+      expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+      expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, 1, 'my leader alignment', 'my leader class');
+      expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
+      expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
+
+      expect(component.generating).toBeTrue();
+      expect(component.generatingMessage).toEqual('Generating cohort...');
+      expect(component.leadership).toBe(leadership);
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+      
+      tick(delay - 1);
+
+      expect(component.generating).toBeTrue();
+      expect(component.generatingMessage).toEqual('Generating cohort...');
+      expect(component.leadership).toBe(leadership);
+      expect(component.cohort).toBeNull();
+      expect(component.followers).toEqual([]);
+
+      const followerCount = followers.length;
+
+      if (!followerCount) {
+        return;
+      }
+      
+      for(let i = 0; i < followerCount; i++) {
+        const message = `Generating follower ${i + 1} of ${followerCount}...`;
+
+        tick(1);
+
+        expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
+        expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
+        expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual(message);
+        expect(component.leadership).toBe(leadership);
+        expect(component.cohort).toBe(cohort);
+        expect(component.followers).toEqual(followers.slice(0, i));
+        
+        tick(delay - 1);
+
+        expect(component.generating).toBeTrue();
+        expect(component.generatingMessage).toEqual(message);
+        expect(component.leadership).toBe(leadership);
+        expect(component.cohort).toBe(cohort);
+        expect(component.followers).toEqual(followers.slice(0, i));  
+      }
+    }
+    
+    it(`should be generating while generating leadership - with cohort but without followers`, fakeAsync(() => {
+      setupOnInit();
+
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
+      
+      const leadership = new Leadership(3, [], 8);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, []);
+
+      flush();
+    }));
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
+      setupOnInit();
+
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
+      
+      const followerQuantities = new FollowerQuantities(2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
 
       flush();
     }));
 
-    it('should generate the default item', fakeAsync(() => {
+    function expectFollowerCalls(quantities: FollowerQuantities) {
+      const total = quantities.level1 + quantities.level2 + quantities.level3 + quantities.level4 + quantities.level5 + quantities.level6;
+      let callIndex = 0;
+
+      expect(leadershipServiceSpy.generateFollower).toHaveBeenCalledTimes(total);
+
+      for(let i = 0; i < quantities.level1; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([1, 'my leader alignment', 'my leader class']);
+      }
+
+      callIndex += quantities.level1;
+
+      for(let i = 0; i < quantities.level2; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([2, 'my leader alignment', 'my leader class']);
+      }
+
+      callIndex += quantities.level2;
+
+      for(let i = 0; i < quantities.level3; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([3, 'my leader alignment', 'my leader class']);
+      }
+
+      callIndex += quantities.level3;
+
+      for(let i = 0; i < quantities.level4; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([4, 'my leader alignment', 'my leader class']);
+      }
+
+      callIndex += quantities.level4;
+
+      for(let i = 0; i < quantities.level5; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([5, 'my leader alignment', 'my leader class']);
+      }
+
+      callIndex += quantities.level5;
+
+      for(let i = 0; i < quantities.level6; i++) {
+        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([6, 'my leader alignment', 'my leader class']);
+      }
+    }
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 2`, fakeAsync(() => {
       setupOnInit();
 
-      let item = new Item('my item', 'my item type');
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
-
-      component.generateItem();
-
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
-      expect(component.generating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.item).toBe(item);
-      expect(component.generating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+      const followerQuantities = new FollowerQuantities(3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
 
-    it('should generate the default item with name', fakeAsync(() => {
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      flush();
+    }));
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 3`, fakeAsync(() => {
       setupOnInit();
 
-      let item = new Item('my item', 'my item type');
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
-
-      component.itemName = component.itemNames[0];
-
-      component.generateItem();
-
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
-      expect(component.generating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.item).toBe(item);
-      expect(component.generating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+      const followerQuantities = new FollowerQuantities(4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
 
-    it(`should generate a non-default item`, fakeAsync(() => {
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      flush();
+    }));
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 4`, fakeAsync(() => {
       setupOnInit();
 
-      let item = new Item('my item', 'my item type');
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
-
-      component.itemType = component.treasureModel.itemTypeViewModels[1];
-      component.power = component.treasureModel.powers[1];
-
-      component.generateItem();
-
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', '');
-      expect(component.generating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.item).toBe(item);
-      expect(component.generating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+      const followerQuantities = new FollowerQuantities(5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
 
-    it(`should generate a non-default item with name`, fakeAsync(() => {
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 1.5'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 2.4'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+        new Character('my follower summary 3.3'),
+        new Character('my follower summary 4.1'),
+        new Character('my follower summary 4.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      flush();
+    }));
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 5`, fakeAsync(() => {
       setupOnInit();
 
-      let item = new Item('my item', 'my item type');
-      characterServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
-
-      component.itemType = component.treasureModel.itemTypeViewModels[1];
-      component.power = component.treasureModel.powers[1];
-      component.itemName = component.treasureModel.itemNames['it2'][1];
-
-      component.generateItem();
-
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', 'item 4');
-      expect(component.generating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.item).toBe(item);
-      expect(component.generating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+      const followerQuantities = new FollowerQuantities(6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
 
-    it('should display error from generating an item', fakeAsync(() => {
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 1.5'),
+        new Character('my follower summary 1.6'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 2.4'),
+        new Character('my follower summary 2.5'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+        new Character('my follower summary 3.3'),
+        new Character('my follower summary 3.4'),
+        new Character('my follower summary 4.1'),
+        new Character('my follower summary 4.2'),
+        new Character('my follower summary 4.3'),
+        new Character('my follower summary 5.1'),
+        new Character('my follower summary 5.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      flush();
+    }));
+    
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 6`, fakeAsync(() => {
       setupOnInit();
 
-      characterServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
-
-      component.generateItem();
-      tick(delay);
-
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+      const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
 
-    it('should display error from generating an item with name', fakeAsync(() => {
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 1.5'),
+        new Character('my follower summary 1.6'),
+        new Character('my follower summary 1.7'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 2.4'),
+        new Character('my follower summary 2.5'),
+        new Character('my follower summary 2.6'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+        new Character('my follower summary 3.3'),
+        new Character('my follower summary 3.4'),
+        new Character('my follower summary 3.5'),
+        new Character('my follower summary 4.1'),
+        new Character('my follower summary 4.2'),
+        new Character('my follower summary 4.3'),
+        new Character('my follower summary 4.4'),
+        new Character('my follower summary 5.1'),
+        new Character('my follower summary 5.2'),
+        new Character('my follower summary 5.3'),
+        new Character('my follower summary 6.1'),
+        new Character('my follower summary 6.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      flush();
+    }));
+    
+    it(`should generate full leadership`, fakeAsync(() => {
       setupOnInit();
 
-      characterServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
-
-      component.itemName = component.itemNames[1];
-
-      component.generateItem();
-      tick(delay);
-
-      expect(component.treasure).toBeNull();
-      expect(component.item).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      component.leaderLevel = 7;
+      component.leaderCharismaBonus = 8;
+      component.leaderAnimal = 'my animal';
+      component.leaderAlignment = 'my leader alignment';
+      component.leaderClassName = 'my leader class';
       
-      expect(characterServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 2');
-      expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
-      expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
+      const followerQuantities = new FollowerQuantities(7, 6, 5, 4, 3, 2);
+      const leadership = new Leadership(3, [], 8, followerQuantities);
+      leadershipServiceSpy.generate.and.callFake(() => getFakeDelay(leadership));
+
+      const cohort = new Character('my cohort summary');
+      leadershipServiceSpy.generateCohort.and.callFake(() => getFakeDelay(cohort));
+
+      let followerIndex = 0;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 1.5'),
+        new Character('my follower summary 1.6'),
+        new Character('my follower summary 1.7'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 2.4'),
+        new Character('my follower summary 2.5'),
+        new Character('my follower summary 2.6'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+        new Character('my follower summary 3.3'),
+        new Character('my follower summary 3.4'),
+        new Character('my follower summary 3.5'),
+        new Character('my follower summary 4.1'),
+        new Character('my follower summary 4.2'),
+        new Character('my follower summary 4.3'),
+        new Character('my follower summary 4.4'),
+        new Character('my follower summary 5.1'),
+        new Character('my follower summary 5.2'),
+        new Character('my follower summary 5.3'),
+        new Character('my follower summary 6.1'),
+        new Character('my follower summary 6.2'),
+      ];
+      leadershipServiceSpy.generateFollower.and.callFake(() => getFakeDelay(followers[followerIndex++]));
+
+      component.generateLeadership();
+
+      expectLeadershipGenerating(leadership, cohort, followers);
+      expectFollowerCalls(followerQuantities);
+
+      tick(1);
+
+      expect(component.leadership).toBe(leadership);
+      expect(component.cohort).toBe(cohort);
+      expect(component.followers).toEqual(followers);
     }));
 
-    it('should validate valid item and reset name', fakeAsync(() => {
-      setupOnInit();
+    it('should download character', () => {
+      const character = new Character('my character summary');
+      component.character = character;
 
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      leaderPipeSpy.transform.and.returnValue('my formatted character');
 
-      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1].itemType, 'my power', '');
+      component.download();
 
-      expect(component.itemName).toEqual('');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeTrue();
-      expect(component.validating).toBeFalse();
-    }));
-
-    it('should validate invalid item and reset name', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
-
-      component.validateItemAndResetName(component.treasureModel.itemTypeViewModels[1].itemType, 'my power', '');
-
-      expect(component.itemName).toEqual('');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeFalse();
-      expect(component.validating).toBeFalse();
-    }));
-
-    it('should download treasure - with coin', () => {
-      let treasure = new Treasure(new Coin('munny', 9266));
-      component.treasure = treasure;
-
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
-
-      component.downloadTreasure();
-
-      expect(treasurePipeSpy.transform).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 0 goods, 0 items)');
+      expect(leaderPipeSpy.transform).toHaveBeenCalledWith(character, null, null, []);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted character', 'my character summary');
     });
 
-    it('should download treasure - with goods', () => {
-      let treasure = new Treasure();
-      treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
-      component.treasure = treasure;
+    it('should download leader', () => {
+      const character = new Character('my leader summary');
+      component.character = character;
+      const leadership = new Leadership(3, [], 8);
+      component.leadership = leadership;
+      const cohort = new Character('my cohort summary');
+      component.cohort = cohort;
+      const followers = [
+        new Character('my follower summary 1.1'),
+        new Character('my follower summary 1.2'),
+        new Character('my follower summary 1.3'),
+        new Character('my follower summary 1.4'),
+        new Character('my follower summary 1.5'),
+        new Character('my follower summary 2.1'),
+        new Character('my follower summary 2.2'),
+        new Character('my follower summary 2.3'),
+        new Character('my follower summary 2.4'),
+        new Character('my follower summary 3.1'),
+        new Character('my follower summary 3.2'),
+        new Character('my follower summary 3.3'),
+        new Character('my follower summary 4.1'),
+        new Character('my follower summary 4.2'),
+      ];
+      component.followers = followers;
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
+      leaderPipeSpy.transform.and.returnValue('my formatted leader');
 
-      component.downloadTreasure();
+      component.download();
 
-      expect(treasurePipeSpy.transform).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 2 goods, 0 items)');
+      expect(leaderPipeSpy.transform).toHaveBeenCalledWith(character, leadership, cohort, followers);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted leader', 'my leader summary');
     });
 
-    it('should download treasure - with items', () => {
-      let treasure = new Treasure();
-      treasure.items = [new Item('item 1', 'itemtype'), new Item('item 2', 'itemtype')];
-      component.treasure = treasure;
+    it('should not download missing character', () => {
+      component.character = null;
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
-
-      component.downloadTreasure();
-
-      expect(treasurePipeSpy.transform).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (0 coins, 0 goods, 2 items)');
-    });
-
-    it('should download treasure - all', () => {
-      let treasure = new Treasure(new Coin('munny', 9266));
-      treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
-      treasure.items = [new Item('item 1', 'itemtype')];
-      component.treasure = treasure;
-
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
-
-      component.downloadTreasure();
-
-      expect(treasurePipeSpy.transform).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted treasure', 'Treasure (9266 munny, 2 goods, 1 items)');
-    });
-
-    it('should not download missing treasure', () => {
-      component.treasure = null;
-
-      component.downloadTreasure();
+      component.download();
       
-      expect(treasurePipeSpy.transform).not.toHaveBeenCalled();
+      expect(leaderPipeSpy.transform).not.toHaveBeenCalled();
       expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
-
-    it('should download empty treasure', () => {
-      let treasure = new Treasure(new Coin(), [], []);
-      component.treasure = treasure;
-
-      treasurePipeSpy.transform.and.returnValue('my empty treasure');
-
-      component.downloadTreasure();
-
-      expect(treasurePipeSpy.transform).toHaveBeenCalledWith(treasure);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my empty treasure', 'Treasure (0 coins, 0 goods, 0 items)');
-    });
-
-    it('should download item', () => {
-      let item = new Item('my item', 'my item type');
-      item.description = 'my item description'
-
-      component.item = item;
-
-      itemPipeSpy.transform.and.returnValue('my formatted item');
-
-      component.downloadItem();
-
-      expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item description)');
-    });
-
-    it('should not download missing item', () => {
-      component.item = null;
-
-      component.downloadItem();
-      
-      expect(itemPipeSpy.transform).not.toHaveBeenCalled();
-      expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
-    });
-
-    it('BUG - should show an item is invalid - not a valid matching power', fakeAsync(() => {
-      setupOnInit();
-
-      characterServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
-
-      const itemType = component.treasureModel.itemTypeViewModels[1];
-      let power = component.treasureModel.powers[0];
-      
-      component.validateItemAndResetName(itemType.itemType, power, '');
-      component.itemType = itemType;
-      
-      expect(component.itemType?.itemType).toEqual('it2');
-      expect(component.itemName).toEqual('');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeFalse();
-      expect(component.validating).toBeFalse();
-  
-      power = component.treasureModel.powers[1];
-      component.validateItemAndResetName(itemType.itemType, power, '');
-      component.power = power;
-      
-      expect(component.power).toEqual('power 2');
-
-      expect(characterServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 2', '');
-      expect(component.validating).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validItem).toBeFalse();
-      expect(component.validating).toBeFalse();
-    }));
   });
 
   describe('integration', () => {
-    let fixture: ComponentFixture<TreasureGenComponent>;
+    let fixture: ComponentFixture<CharacterGenComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -2135,7 +2320,7 @@ describe('CharacterGenComponent', () => {
         ],
       }).compileComponents();
   
-      fixture = TestBed.createComponent(TreasureGenComponent);
+      fixture = TestBed.createComponent(CharacterGenComponent);
       
       //run ngOnInit
       await waitForService();
