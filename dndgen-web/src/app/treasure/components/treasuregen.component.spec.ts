@@ -18,6 +18,7 @@ import { ItemComponent } from './item.component';
 import * as FileSaver from 'file-saver';
 import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 describe('TreasureGenComponent', () => {
   describe('unit', () => {
@@ -76,7 +77,7 @@ describe('TreasureGenComponent', () => {
       );
     }
 
-    it('should be validating while fetching the treasure model', fakeAsync(() => {
+    it('should be validating and loading while fetching the treasure model', fakeAsync(() => {
       const model = getViewModel();
       treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
       treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
@@ -91,6 +92,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual([]);
       expect(component.validTreasure).toBeFalse();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
       
       tick(delay - 1);
@@ -102,6 +104,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual([]);
       expect(component.validTreasure).toBeFalse();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
       
       tick(1);
@@ -113,6 +116,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
       expect(component.validTreasure).toBeFalse();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
 
       tick(delay - 1);
@@ -124,6 +128,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
       expect(component.validTreasure).toBeFalse();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
 
       tick(1);
@@ -135,6 +140,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
       expect(component.validTreasure).toBeTrue();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
 
       tick(delay - 1);
@@ -146,6 +152,7 @@ describe('TreasureGenComponent', () => {
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
       expect(component.validTreasure).toBeTrue();
       expect(component.validItem).toBeFalse();
+      expect(component.loading).toBeTrue();
       expect(component.validating).toBeTrue();
 
       flush();
@@ -172,11 +179,13 @@ describe('TreasureGenComponent', () => {
         component.ngOnInit();
   
         expect(component.treasureModel).not.toBeDefined();
+        expect(component.loading).toBeTrue();
         expect(component.validating).toBeTrue();
   
         tick(delay * 3);
   
         expect(component.treasureModel).toEqual(model);
+        expect(component.loading).toBeFalse();
         expect(component.validating).toBeFalse();
   
         expect(component.level).toEqual(1);
@@ -208,6 +217,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
@@ -227,6 +237,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
@@ -246,6 +257,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
@@ -332,6 +344,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
@@ -423,6 +436,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
@@ -569,6 +583,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
@@ -589,6 +604,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
@@ -732,6 +748,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
@@ -752,6 +769,7 @@ describe('TreasureGenComponent', () => {
       expect(component.treasure).toBeNull();
       expect(component.item).toBeNull();
       expect(component.generating).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 2');
@@ -956,6 +974,36 @@ describe('TreasureGenComponent', () => {
     it('should create the component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
+    });
+  
+    it('should show the loading component when loading', () => {
+      const component = fixture.componentInstance;
+      component.loading = true;
+
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeTrue();
+    });
+  
+    it('should hide the loading component when not loading', () => {
+      const component = fixture.componentInstance;
+      component.loading = false;
+
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeFalse();
     });
   
     it(`should set the treasure model on init`, () => {

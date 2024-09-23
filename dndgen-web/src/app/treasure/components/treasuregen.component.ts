@@ -35,14 +35,6 @@ export class TreasureGenComponent implements OnInit {
 
   public treasureModel!: TreasureGenViewModel;
 
-  public get loading(): boolean {
-    if (this.treasureModel) {
-      return true;
-    }
-
-    return false;
-  }
-
   public get itemNames() {
     if (!(this.itemType))
       return [];
@@ -61,6 +53,7 @@ export class TreasureGenComponent implements OnInit {
   @Input() power = '';
   @Input() itemName = '';
 
+  public loading = false;
   public generating = false;
   public validating = false;
   public validTreasure = false;
@@ -71,6 +64,7 @@ export class TreasureGenComponent implements OnInit {
     
   ngOnInit(): void {
     this.validating = true;
+    this.loading = true;
 
     this.treasureService.getViewModel()
       .pipe(
@@ -89,6 +83,7 @@ export class TreasureGenComponent implements OnInit {
 
   private finishInit(): void {
     this.validating = false;
+    this.loading = false;
   }
 
   private setInitialValues(): void {
@@ -119,6 +114,7 @@ export class TreasureGenComponent implements OnInit {
     this.logger.logError(error.message);
 
     this.generating = false;
+    this.loading = false;
     this.validating = false;
     this.treasure = null;
     this.item = null;

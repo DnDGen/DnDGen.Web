@@ -28,6 +28,7 @@ export class RollGenComponent implements OnInit {
   @Input() expression = '4d6k3+2';
 
   public rolling = false;
+  public loading = false;
   public validating = false;
   public rollIsValid = true;
 
@@ -48,7 +49,7 @@ export class RollGenComponent implements OnInit {
   @Input() standardDie = this.standardDice[7];
 
   ngOnInit(): void {
-    this.validating = true;
+    this.loading = true;
 
     this.rollService.getViewModel()
       .subscribe({
@@ -59,7 +60,7 @@ export class RollGenComponent implements OnInit {
 
   private setViewModel(data: RollGenViewModel): void {
     this.rollModel = data;
-    this.validating = false;
+    this.loading = false;
   }
 
   public rollStandard() {
@@ -83,6 +84,7 @@ export class RollGenComponent implements OnInit {
     this.roll = 0;
     this.rolling = false;
     this.validating = false;
+    this.loading = false;
 
     this.sweetAlertService.showError();
   }

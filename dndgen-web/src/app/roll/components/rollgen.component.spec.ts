@@ -6,6 +6,8 @@ import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { By } from '@angular/platform-browser';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 describe('RollGenComponent', () => {
   describe('unit', () => {
@@ -26,6 +28,7 @@ describe('RollGenComponent', () => {
   
     it(`should initialize the public properties`, () => {
       expect(component.rolling).toEqual(false);
+      expect(component.loading).toEqual(false);
       expect(component.validating).toEqual(false);
       expect(component.rollIsValid).toEqual(true);
       expect(component.roll).toEqual(0);
@@ -58,19 +61,19 @@ describe('RollGenComponent', () => {
       expect(component.expression).toEqual('4d6k3+2');
     });
 
-    it('should be validating while fetching the roll model', fakeAsync(() => {
+    it('should be loading while fetching the roll model', fakeAsync(() => {
       const model = new RollGenViewModel(9266, 90210, 42, 600);
       rollServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
 
       component.ngOnInit();
 
       expect(component.rollModel).not.toBeDefined();
-      expect(component.validating).toBeTrue();
+      expect(component.loading).toBeTrue();
       
       tick(delay / 2);
 
       expect(component.rollModel).not.toBeDefined();
-      expect(component.validating).toBeTrue();
+      expect(component.loading).toBeTrue();
 
       flush();
     }));
@@ -91,13 +94,12 @@ describe('RollGenComponent', () => {
       component.ngOnInit();
 
       expect(component.rollModel).not.toBeDefined();
-      expect(component.validating).toBeTrue();
+      expect(component.loading).toBeTrue();
 
       tick(delay);
 
-      expect(component.rollModel).toBeDefined();
       expect(component.rollModel).toEqual(model);
-      expect(component.validating).toBeFalse();
+      expect(component.loading).toBeFalse();
     }));
 
     it('should display error from getting roll model', fakeAsync(() => {
@@ -109,6 +111,7 @@ describe('RollGenComponent', () => {
       expect(component.rollModel).not.toBeDefined();
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
@@ -187,6 +190,7 @@ describe('RollGenComponent', () => {
       expect(component.rollIsValid).toBeFalse();
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
@@ -252,6 +256,7 @@ describe('RollGenComponent', () => {
 
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
@@ -313,6 +318,7 @@ describe('RollGenComponent', () => {
 
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
@@ -378,6 +384,7 @@ describe('RollGenComponent', () => {
       expect(component.rollIsValid).toBeFalse();
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
@@ -438,6 +445,7 @@ describe('RollGenComponent', () => {
 
       expect(component.roll).toEqual(0);
       expect(component.rolling).toBeFalse();
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       
       expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
@@ -473,6 +481,36 @@ describe('RollGenComponent', () => {
     it('should create the component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
+    });
+  
+    it('should show the loading component when loading', () => {
+      const component = fixture.componentInstance;
+      component.loading = true;
+
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeTrue();
+    });
+  
+    it('should hide the loading component when not loading', () => {
+      const component = fixture.componentInstance;
+      component.loading = false;
+
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeFalse();
     });
   
     it(`should set the roll model on init`, () => {
