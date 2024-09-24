@@ -292,13 +292,13 @@
       </div>
     </div>
     <div class="col-sm-6 clearfix">
-      <button class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || !character">Download</button>
+      <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || (!character && !leadership)">Download</button>
       <div id="generatingSection" *ngIf="generating">
         <span>{{generatingMessage}}</span>
         <img style="width: 300px; height: auto;" src="~/loading-dice.svg" />
       </div>
-      <div [hidden]="generating">
-        <span id="noCharacter" class="italicize" [hidden]="character">No character has been generated</span>
+      <div id="characterSection" [hidden]="generating">
+        <span id="noCharacter" class="italicize" [hidden]="character || leadership">No character has been generated</span>
         <div *ngIf="character">
           <dndgen-character [character]="character!"></dndgen-character>
         </div>

@@ -31,14 +31,6 @@ export class CharacterGenComponent implements OnInit {
 
   public characterModel!: CharacterGenViewModel;
 
-  public get loading(): boolean {
-    if (this.characterModel) {
-      return true;
-    }
-
-    return false;
-  }
-
   @Input() alignmentRandomizerType = '';
   @Input() setAlignment = '';
 
@@ -71,6 +63,7 @@ export class CharacterGenComponent implements OnInit {
   @Input() leaderCharismaBonus = 0;
   @Input() leaderAnimal = '';
 
+  public loading = false;
   public character!: Character | null;
   public valid: boolean = false;
   public validating: boolean = false;
@@ -81,6 +74,7 @@ export class CharacterGenComponent implements OnInit {
   public generatingMessage: string = '';
 
   ngOnInit(): void {
+    this.loading = true;
     this.validating = true;
 
     this.characterService.getViewModel()
@@ -123,6 +117,7 @@ export class CharacterGenComponent implements OnInit {
 
   private finishInit(): void {
     this.validating = false;
+    this.loading = false;
   }
 
   private setInitialValues(): void {
@@ -157,6 +152,7 @@ export class CharacterGenComponent implements OnInit {
     this.cohort = null;
     this.followers = [];
 
+    this.loading = false;
     this.generating = false;
     this.validating = false;
     this.generatingMessage = '';

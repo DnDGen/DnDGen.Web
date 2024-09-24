@@ -25,6 +25,7 @@ import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 describe('CharacterGenComponent', () => {
   describe('unit', () => {
@@ -2339,27 +2340,98 @@ describe('CharacterGenComponent', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should set the treasure model on init`, () => {
+    it('should show the loading component when loading', () => {
       const component = fixture.componentInstance;
-      expect(component.treasureModel).toBeDefined();
-      expect(component.treasureModel.treasureTypes).toEqual(['Treasure', 'Coin', 'Goods', 'Items']);
-      expect(component.treasureModel.maxTreasureLevel).toEqual(100);
-      expect(component.treasureModel.powers).toEqual(['Mundane', 'Minor', 'Medium', 'Major']);
-      expect(component.treasureModel.itemTypeViewModels.length).toEqual(11);
+      component.loading = true;
 
-      for(var i = 0; i < component.treasureModel.itemTypeViewModels.length; i++) {
-        let itemType = component.treasureModel.itemTypeViewModels[i].itemType;
-        expect(component.treasureModel.itemNames[itemType]).toBeDefined();
-        expect(component.treasureModel.itemNames[itemType].length).toBeGreaterThan(0);
-      }
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeTrue();
+    });
+  
+    it('should hide the loading component when not loading', () => {
+      const component = fixture.componentInstance;
+      component.loading = false;
+
+      fixture.detectChanges();
+      
+      const element = fixture.debugElement.query(By.css('dndgen-loading'));
+      expect(element).toBeDefined();
+      expect(element.componentInstance).toBeDefined();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBeFalse();
+    });
+  
+    it(`should set the character model on init`, () => {
+      const component = fixture.componentInstance;
+      expect(component.characterModel).toBeDefined();
+      expect(component.characterModel.alignmentRandomizerTypes.length).toEqual(1);
+      expect(component.characterModel.alignmentRandomizerTypes).toContain('Set');
+      expect(component.characterModel.alignments.length).toEqual(2);
+      expect(component.characterModel.classNameRandomizerTypes.length).toEqual(3);
+      expect(component.characterModel.classNameRandomizerTypes).toContain('Set');
+      expect(component.characterModel.classNames.length).toEqual(4);
+      expect(component.characterModel.levelRandomizerTypes.length).toEqual(5);
+      expect(component.characterModel.levelRandomizerTypes).toContain('Set');
+      expect(component.characterModel.baseRaceRandomizerTypes.length).toEqual(6);
+      expect(component.characterModel.baseRaceRandomizerTypes).toContain('Set');
+      expect(component.characterModel.baseRaces.length).toEqual(7);
+      expect(component.characterModel.metaraceRandomizerTypes.length).toEqual(8);
+      expect(component.characterModel.metaraceRandomizerTypes).toContain('Set');
+      expect(component.characterModel.metaraceRandomizerTypes).toContain('No Meta');
+      expect(component.characterModel.metaraces.length).toEqual(9);
+      expect(component.characterModel.abilitiesRandomizerTypes.length).toEqual(10);
+      expect(component.characterModel.abilitiesRandomizerTypes).toContain('Set');
+    });
+  
+    it(`should set initial values on init`, () => {
+      const component = fixture.componentInstance;
+      expect(component.alignmentRandomizerType).toEqual(component.characterModel.alignmentRandomizerTypes[0]);
+      expect(component.setAlignment).toEqual(component.characterModel.alignments[0]);
+
+      expect(component.classNameRandomizerType).toEqual(component.characterModel.classNameRandomizerTypes[0]);
+      expect(component.setClassName).toEqual(component.characterModel.classNames[0]);
+
+      expect(component.levelRandomizerType).toEqual(component.characterModel.levelRandomizerTypes[0]);
+      expect(component.setLevel).toEqual(0);
+      expect(component.allowLevelAdjustments).toEqual(true);
+
+      expect(component.baseRaceRandomizerType).toEqual(component.characterModel.baseRaceRandomizerTypes[0]);
+      expect(component.setBaseRace).toEqual(component.characterModel.baseRaces[0]);
+
+      expect(component.metaraceRandomizerType).toEqual(component.characterModel.metaraceRandomizerTypes[0]);
+      expect(component.forceMetarace).toEqual(false);
+      expect(component.setMetarace).toEqual(component.characterModel.metaraces[0]);
+
+      expect(component.abilitiesRandomizerType).toEqual(component.characterModel.abilitiesRandomizerTypes[0]);
+      expect(component.setStrength).toEqual(0);
+      expect(component.setConstitution).toEqual(0);
+      expect(component.setDexterity).toEqual(0);
+      expect(component.setIntelligence).toEqual(0);
+      expect(component.setWisdom).toEqual(0);
+      expect(component.setCharisma).toEqual(0);
+      
+      expect(component.leaderAlignment).toEqual(component.characterModel.alignments[0]);
+      expect(component.leaderClassName).toEqual(component.characterModel.classNames[0]);
+      expect(component.leaderLevel).toEqual(6);
+      expect(component.leaderCharismaBonus).toEqual(0);
+      expect(component.leaderAnimal).toEqual('');
     });
   
     it(`should validate inputs on init/changes`, async () => {
       const component = fixture.componentInstance;
+      expect(component.loading).toBeFalse();
       expect(component.validating).toBeFalse();
       expect(component.generating).toBeFalse();
       expect(component.valid).toBeTrue();
-      expect(component.validItem).toBeTrue();
     });
   
     it(`should render the tabs`, () => {
@@ -2368,12 +2440,12 @@ describe('CharacterGenComponent', () => {
       const tabLinks = compiled.querySelectorAll('ul.nav-tabs a.nav-link');
       expect(tabLinks).toBeDefined();
       expect(tabLinks?.length).toEqual(2);
-      expect(tabLinks?.item(0).textContent).toEqual('Treasure');
+      expect(tabLinks?.item(0).textContent).toEqual('Character');
       expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#treasure');
-      expect(tabLinks?.item(1).textContent).toEqual('Item');
+      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#character');
+      expect(tabLinks?.item(1).textContent).toEqual('Leadership');
       expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#item');
+      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#leadership');
     });
 
     function expectValidating(buttonSelector: string, validatingSelector: string) {
@@ -2386,10 +2458,9 @@ describe('CharacterGenComponent', () => {
       expect(fixture.componentInstance.generating).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', true);
       expectHasAttribute(validatingSelector, 'hidden', true);
-      expectHasAttribute('#treasureSection', 'hidden', true);
       expectHasAttribute('#generatingSection', 'hidden', false);
-      expectHasAttribute('#downloadTreasureButton', 'hidden', true);
-      expectHasAttribute('#downloadItemButton', 'hidden', true);
+      expectHasAttribute('#characterSection', 'hidden', true);
+      expectHasAttribute('#downloadButton', 'hidden', true);
     }
 
     function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
@@ -2405,9 +2476,9 @@ describe('CharacterGenComponent', () => {
 
       const element = compiled!.querySelector(selector);
       if (exists) {
-        expect(element).not.toBeNull();
+        expect(element).toBeTruthy();
       } else {
-        expect(element).toBeNull();
+        expect(element).toBeFalsy();
       }
     }
 
@@ -2415,10 +2486,9 @@ describe('CharacterGenComponent', () => {
       expect(fixture.componentInstance.generating).toBeFalse();
       expectHasAttribute(buttonSelector, 'disabled', false);
       expectHasAttribute(validatingSelector, 'hidden', true);
-      expectHasAttribute('#treasureSection', 'hidden', false);
       expectHasAttribute('#generatingSection', 'hidden', true);
-      expectHasAttribute('#downloadTreasureButton', 'hidden', downloadSelector != '#downloadTreasureButton');
-      expectHasAttribute('#downloadItemButton', 'hidden', downloadSelector != '#downloadItemButton');
+      expectHasAttribute('#characterSection', 'hidden', false);
+      expectHasAttribute('#downloadButton', 'hidden', false);
     }
 
     function expectInvalid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
@@ -2478,41 +2548,52 @@ describe('CharacterGenComponent', () => {
       button.dispatchEvent(new Event('click'));
     }
 
-    describe('the treasure tab', () => {
-      it(`should render the treasure tab`, () => {
+    describe('the character tab', () => {
+      it(`should render the character tab`, () => {
         const compiled = fixture.nativeElement as HTMLElement;
   
-        const treasureTab = compiled.querySelector('#treasure');
-        expect(treasureTab).toBeDefined();
+        const characterTab = compiled.querySelector('#character');
+        expect(characterTab).toBeDefined();
         
-        const treasureTypesSelect = treasureTab!.querySelector('#treasureTypes');
-        expect(treasureTypesSelect).toBeDefined();
-        expectHasAttribute('#treasureTypes', 'required', true);
-  
-        const selectedTreasureType = treasureTab!.querySelector('#treasureTypes > option:checked');
-        expect(selectedTreasureType).toBeDefined();
-        expect(selectedTreasureType?.textContent).toEqual('Treasure');
-  
-        const treasureTypeOptions = treasureTab!.querySelectorAll('#treasureTypes > option');
-        expect(treasureTypeOptions).toBeDefined();
-        expect(treasureTypeOptions?.length).toEqual(4);
-        expect(treasureTypeOptions?.item(0).textContent).toEqual('Treasure');
-        expect(treasureTypeOptions?.item(1).textContent).toEqual('Coin');
-        expect(treasureTypeOptions?.item(2).textContent).toEqual('Goods');
-        expect(treasureTypeOptions?.item(3).textContent).toEqual('Items');
-  
-        const levelInput = treasureTab!.querySelector('#treasureLevel') as HTMLInputElement;
-        expect(levelInput).toBeDefined();
-        expect(levelInput?.value).toEqual('1');
-        expect(levelInput?.getAttribute('type')).toEqual('number');
-        expect(levelInput?.getAttribute('min')).toEqual('1');
-        expect(levelInput?.getAttribute('max')).toEqual('100');
-        expect(levelInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        expectHasAttribute('#treasureLevel', 'required', true);
+        expectSelect(characterTab!, '#alignmentRandomizerTypes', true, 'Any', 1);
+        expectSelect(characterTab!, '#setAlignments', false, 'Lawful Good', 9);
+        
+        expectSelect(characterTab!, '#classNameRandomizerTypes', true, 'Any Player', 2);
+        expectSelect(characterTab!, '#setClassNames', false, 'Barbarian', 3);
+
+        expectSelect(characterTab!, '#levelRandomizerTypes', true, 'Any', 4);
+        expectNumberInput(characterTab!, '#setLevel', false, 1, 1, 20);
+
+        //TODO: base race, metarace, abilities
 
         expectHasAttribute('#treasureButton', 'disabled', false);
         expectHasAttribute('#treasureValidating', 'hidden', true);
       });
+
+      function expectNumberInput(tab: Element, selector: string, required: boolean, value: number, min: number, max: number) {
+        const input = tab!.querySelector(selector) as HTMLInputElement;
+        expect(input).toBeTruthy();
+        expect(input!.value).toEqual(`${value}`);
+        expect(input.getAttribute('type')).toEqual('number');
+        expect(input.getAttribute('min')).toEqual(`${min}`);
+        expect(input.getAttribute('max')).toEqual(`${max}`);
+        expect(input.getAttribute('pattern')).toEqual('^[0-9]+$');
+        expectHasAttribute(selector, 'required', required);
+      }
+
+      function expectSelect(tab: Element, selector: string, required: boolean, selectedValue: string, optionCount: number) {   
+        const randomizerTypesSelect = tab!.querySelector(selector);
+        expect(randomizerTypesSelect).toBeTruthy();
+        expectHasAttribute(selector, 'required', required);
+  
+        const selectedRandomizerType = tab!.querySelector(`${selector} > option:checked`);
+        expect(selectedRandomizerType).toBeTruthy();
+        expect(selectedRandomizerType!.textContent).toEqual(selectedValue);
+  
+        const randomizerTypeOptions = tab!.querySelectorAll(`${selector} > option`);
+        expect(randomizerTypeOptions).toBeTruthy();
+        expect(randomizerTypeOptions!.length).toEqual(optionCount);
+      }
     
       it(`should show when validating treasure`, () => {
         const component = fixture.componentInstance;
