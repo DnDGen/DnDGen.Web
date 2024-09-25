@@ -21,7 +21,7 @@
                           </select>
                       </div>
                       <div class="col-sm-4">
-                          <select id="setAlignments" 
+                          <select id="setAlignment" 
                                   class="form-select" 
                                   [hidden]="alignmentRandomizerType != 'Set'" 
                                   [(ngModel)]="setAlignment"
@@ -63,6 +63,13 @@
                                 required>
                           <option *ngFor="let levelRandomizerType of characterModel.levelRandomizerTypes" [ngValue]="levelRandomizerType">{{levelRandomizerType}}</option>
                         </select>
+                      </div>
+                      <div class="col-sm-4">
+                          <div class="checkbox-inline">
+                              <label>
+                                  <input id="levelAdjustCheckbox" type="checkbox" [(ngModel)]="allowLevelAdjustments" (input)="validateRandomizers()"> Allow Adjustments
+                              </label>
+                          </div>
                       </div>
                       <div class="col-sm-4">
                         <input id="setLevel"
@@ -114,7 +121,7 @@
                       <div class="col-sm-4" [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'">
                           <div class="checkbox-inline">
                               <label>
-                                  <input type="checkbox" [(ngModel)]="forceMetarace" (input)="validateRandomizers()"> Force
+                                  <input id="forceMetaraceCheckbox" type="checkbox" [(ngModel)]="forceMetarace" (input)="validateRandomizers()"> Force
                               </label>
                           </div>
                       </div>
@@ -142,7 +149,7 @@
                       <div class="col-sm-4">
                           <div class="checkbox-inline" [hidden]="abilitiesRandomizerType != 'Set'">
                               <label>
-                                  <input type="checkbox" [(ngModel)]="allowAbilitiesAdjustments" (input)="validateRandomizers()"> Allow Adjustments
+                                  <input id="abilitiesAdjustCheckbox" type="checkbox" [(ngModel)]="allowAbilitiesAdjustments" (input)="validateRandomizers()"> Allow Adjustments
                               </label>
                           </div>
                       </div>
@@ -231,6 +238,9 @@
                               [disabled]="!characterForm.form.valid || generating || validating || !valid">
                         Generate
                       </button>
+                      <span id="characterValidating" [hidden]="!validating">
+                        <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
+                      </span>
                   </div>
               </form>
           </div>
