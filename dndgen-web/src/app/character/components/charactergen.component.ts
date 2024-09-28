@@ -9,6 +9,8 @@ import { Leadership } from '../models/leadership.model';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { LeaderPipe } from '../pipes/leader.pipe';
 import { EMPTY, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
+import { LeadershipPipe } from '../pipes/leadership.pipe';
+import { CharacterPipe } from '../pipes/character.pipe';
 
 @Component({
   selector: 'dndgen-charactergen',
@@ -17,6 +19,8 @@ import { EMPTY, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
     CharacterService,
     LeadershipService,
     LeaderPipe,
+    LeadershipPipe,
+    CharacterPipe,
   ]
 })
 

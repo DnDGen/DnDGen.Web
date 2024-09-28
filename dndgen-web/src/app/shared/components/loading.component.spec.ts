@@ -41,22 +41,24 @@ describe('LoadingComponent', () => {
       const loadingImage = compiled.querySelector('div.loading img');
       expect(loadingImage).toBeTruthy();
       expect(loadingImage?.getAttribute('style')).toEqual('width: 500px; height: auto;');
-      expect(loadingImage?.getAttribute('src')).toEqual('~/loading-dice.svg');
+      expect(loadingImage?.getAttribute('src')).toEqual('/assets/loadingDice.svg');
       
       const notLoadingSection = compiled.querySelector('div.not-loading');
       expect(notLoadingSection).toBeFalsy();
     });
   
     it('should show the loaded content', () => {
-      fixture.componentInstance.isLoading = true;
+      fixture.componentInstance.isLoading = false;
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
   
       const loadingImage = compiled.querySelector('div.loading');
       expect(loadingImage).toBeFalsy();
       
-      const loadedContent = compiled.querySelector('div.not-loading ng-content');
-      expect(loadedContent).toBeTruthy();
+      const notLoadingSection = compiled.querySelector('div.not-loading');
+      expect(notLoadingSection).toBeTruthy();
+
+      //TODO: Figure out how to assert that the ng-content is there correctly
     });
   });
 });

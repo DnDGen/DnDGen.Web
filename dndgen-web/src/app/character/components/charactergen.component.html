@@ -305,7 +305,7 @@
       <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || (!character && !leadership)">Download</button>
       <div id="generatingSection" *ngIf="generating">
         <span>{{generatingMessage}}</span>
-        <img style="width: 300px; height: auto;" src="~/loading-dice.svg" />
+        <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
       </div>
       <div id="characterSection" [hidden]="generating">
         <span id="noCharacter" class="italicize" [hidden]="character || leadership">No character has been generated</span>

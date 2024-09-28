@@ -182,7 +182,7 @@ describe('Leadership Service', () => {
                 .generateCohort(15, 20, 'Lawful Good', 'Paladin')
                 .subscribe((cohort) => {
                     expect(cohort).toBeTruthy();
-                    expect(cohort.summary).toBeTruthy();
+                    expect(cohort!.summary).toBeTruthy();
                 });
         }));
     

@@ -1260,15 +1260,15 @@ describe('RollGenComponent', () => {
         expect(examples).toBeTruthy();
         expect(examples!.length).toBe(10);
         expect(examples!.item(0).textContent).toEqual('3d6 - Roll 3 6-sided dice');
-        expect(examples!.item(0).textContent).toEqual('4d4*1000 - Roll 4 4-sided dice, then multiply by 1000');
-        expect(examples!.item(1).textContent).toEqual('1d2+3 - Roll 1 2-sided die, then add 3');
-        expect(examples!.item(1).textContent).toEqual('4d6k3 - Roll 4 6-sided dice, keep the highest 3');
-        expect(examples!.item(2).textContent).toEqual('1d20! - Roll 1 20-sided die, roll again if a 20 is rolled');
-        expect(examples!.item(3).textContent).toEqual('3d6t1 - Roll 3 6-sided dice, transform 1s into 6s');
-        expect(examples!.item(4).textContent).toEqual('4d8t2:3 - Roll 4 8-sided dice, transform 2s into 3s');
-        expect(examples!.item(5).textContent).toEqual('1d2d3 - Roll 1 2-sided die [sum x], then roll x 3-sided dice');
-        expect(examples!.item(6).textContent).toEqual('1d(2d3) - Roll 2 3-sided dice [sum x], then roll 1 x-sided die');
-        expect(examples!.item(7).textContent).toEqual('1d2!+3d4k2 - Roll 1 2-sided die, roll again if a 2 is rolled; roll 3 4-sided dice, keep the highest 2');
+        expect(examples!.item(1).textContent).toEqual('4d4*1000 - Roll 4 4-sided dice, then multiply by 1000');
+        expect(examples!.item(2).textContent).toEqual('1d2+3 - Roll 1 2-sided die, then add 3');
+        expect(examples!.item(3).textContent).toEqual('4d6k3 - Roll 4 6-sided dice, keep the highest 3');
+        expect(examples!.item(4).textContent).toEqual('1d20! - Roll 1 20-sided die, roll again if a 20 is rolled');
+        expect(examples!.item(5).textContent).toEqual('3d6t1 - Roll 3 6-sided dice, transform 1s into 6s');
+        expect(examples!.item(6).textContent).toEqual('4d8t2:3 - Roll 4 8-sided dice, transform 2s into 3s');
+        expect(examples!.item(7).textContent).toEqual('1d2d3 - Roll 1 2-sided die [sum x], then roll x 3-sided dice');
+        expect(examples!.item(8).textContent).toEqual('1d(2d3) - Roll 2 3-sided dice [sum x], then roll 1 x-sided die');
+        expect(examples!.item(9).textContent).toEqual('1d2!+3d4k2 - Roll 1 2-sided die, roll again if a 2 is rolled; roll 3 4-sided dice, keep the highest 2');
       });
 
       const exampleCases = [
@@ -1309,7 +1309,10 @@ describe('RollGenComponent', () => {
   
           const compiled = fixture.nativeElement as HTMLElement;
           const rollSection = compiled.querySelector('#rollSection');
-          const rolledNumber = new Number(rollSection?.textContent);
+          expect(rollSection).toBeTruthy();
+          expect(rollSection!.textContent).toBeTruthy();
+
+          const rolledNumber = parseInt(rollSection!.textContent!.replace(/,/g, ''));
           expect(rolledNumber).toBeGreaterThanOrEqual(test.l);
           expect(rolledNumber).toBeLessThanOrEqual(test.u);
         });
