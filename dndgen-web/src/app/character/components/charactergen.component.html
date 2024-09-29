@@ -1,5 +1,5 @@
 <h1>CharacterGen</h1>
-<dndgen-loading [isLoading]="loading">
+<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul class="nav nav-tabs" role="tablist">
@@ -238,9 +238,7 @@
                               [disabled]="!characterForm.form.valid || generating || validating || !valid">
                         Generate
                       </button>
-                      <span id="characterValidating" [hidden]="!validating">
-                        <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-                      </span>
+                      <dndgen-loading id="characterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
                   </div>
               </form>
           </div>
@@ -305,7 +303,7 @@
       <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || (!character && !leadership)">Download</button>
       <div id="generatingSection" *ngIf="generating">
         <span>{{generatingMessage}}</span>
-        <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
+        <dndgen-loading [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
       </div>
       <div id="characterSection" [hidden]="generating">
         <span id="noCharacter" class="italicize" [hidden]="character || leadership">No character has been generated</span>

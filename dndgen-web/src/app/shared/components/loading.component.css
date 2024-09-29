@@ -1,0 +1,14 @@
+.dndgen-loading-small {
+  width: 50px; 
+  height: auto;
+}
+
+.dndgen-loading-medium {
+  width: 300px; 
+  height: auto;
+}
+
+.dndgen-loading-large {
+  width: 500px; 
+  height: auto;
+}

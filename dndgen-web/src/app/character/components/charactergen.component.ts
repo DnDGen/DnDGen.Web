@@ -11,6 +11,7 @@ import { LeaderPipe } from '../pipes/leader.pipe';
 import { EMPTY, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
 import { LeadershipPipe } from '../pipes/leadership.pipe';
 import { CharacterPipe } from '../pipes/character.pipe';
+import { Size } from '../../shared/components/size.enum';
 
 @Component({
   selector: 'dndgen-charactergen',
@@ -34,6 +35,7 @@ export class CharacterGenComponent implements OnInit {
     private logger: LoggerService) { }
 
   public characterModel!: CharacterGenViewModel;
+  public sizes = Size;
 
   @Input() alignmentRandomizerType = '';
   @Input() setAlignment = '';

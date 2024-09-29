@@ -19,6 +19,7 @@ import * as FileSaver from 'file-saver';
 import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
 import { LoadingComponent } from '../../shared/components/loading.component';
+import { Size } from '../../shared/components/size.enum';
 
 describe('TreasureGenComponent', () => {
   describe('unit', () => {
@@ -981,14 +982,8 @@ describe('TreasureGenComponent', () => {
       component.loading = true;
 
       fixture.detectChanges();
-      
-      const element = fixture.debugElement.query(By.css('dndgen-loading'));
-      expect(element).toBeDefined();
-      expect(element.componentInstance).toBeDefined();
-      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
 
-      const loadingComponent = element.componentInstance as LoadingComponent;
-      expect(loadingComponent.isLoading).toBeTrue();
+      expectLoading('dndgen-loading', true, Size.Large);
     });
   
     it('should hide the loading component when not loading', () => {
@@ -996,14 +991,8 @@ describe('TreasureGenComponent', () => {
       component.loading = false;
 
       fixture.detectChanges();
-      
-      const element = fixture.debugElement.query(By.css('dndgen-loading'));
-      expect(element).toBeDefined();
-      expect(element.componentInstance).toBeDefined();
-      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
 
-      const loadingComponent = element.componentInstance as LoadingComponent;
-      expect(loadingComponent.isLoading).toBeFalse();
+      expectLoading('dndgen-loading', false, Size.Large);
     });
   
     it(`should set the treasure model on init`, () => {
@@ -1046,15 +1035,26 @@ describe('TreasureGenComponent', () => {
     function expectValidating(buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.validating).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', true);
-      expectHasAttribute(validatingSelector, 'hidden', false);
+      expectLoading(validatingSelector, true, Size.Small);
+    }
+    
+    function expectLoading(selector: string, loading: boolean, size: Size) {
+      const element = fixture.debugElement.query(By.css(selector));
+      expect(element).toBeTruthy();
+      expect(element.componentInstance).toBeTruthy();
+      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
+
+      const loadingComponent = element.componentInstance as LoadingComponent;
+      expect(loadingComponent.isLoading).toBe(loading);
+      expect(loadingComponent.size).toBe(size);
     }
 
     function expectGenerating(buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.generating).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', true);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      expectLoading(validatingSelector, false, Size.Small);
       expectHasAttribute('#treasureSection', 'hidden', true);
-      expectHasAttribute('#generatingSection', 'hidden', false);
+      expectLoading('#generatingSection', true, Size.Medium);
       expectHasAttribute('#downloadTreasureButton', 'hidden', true);
       expectHasAttribute('#downloadItemButton', 'hidden', true);
     }
@@ -1081,9 +1081,9 @@ describe('TreasureGenComponent', () => {
     function expectGenerated(buttonSelector: string, validatingSelector: string, downloadSelector: string) {
       expect(fixture.componentInstance.generating).toBeFalse();
       expectHasAttribute(buttonSelector, 'disabled', false);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      expectLoading(validatingSelector, false, Size.Small);
       expectHasAttribute('#treasureSection', 'hidden', false);
-      expectHasAttribute('#generatingSection', 'hidden', true);
+      expectLoading('#generatingSection', false, Size.Medium);
       expectHasAttribute('#downloadTreasureButton', 'hidden', downloadSelector != '#downloadTreasureButton');
       expectHasAttribute('#downloadItemButton', 'hidden', downloadSelector != '#downloadItemButton');
     }
@@ -1092,14 +1092,14 @@ describe('TreasureGenComponent', () => {
       expect(fixture.componentInstance.validating).toBeFalse();
       expect(validProperty).toBeFalse();
       expectHasAttribute(buttonSelector, 'disabled', true);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      expectLoading(validatingSelector, false, Size.Small);
     }
 
     function expectValid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.validating).toBeFalse();
       expect(validProperty).toBeTrue();
       expectHasAttribute(buttonSelector, 'disabled', false);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      expectLoading(validatingSelector, false, Size.Small);
     }
 
     function setInput(selector: string, value: string) {
@@ -1178,7 +1178,7 @@ describe('TreasureGenComponent', () => {
         expectHasAttribute('#treasureLevel', 'required', true);
 
         expectHasAttribute('#treasureButton', 'disabled', false);
-        expectHasAttribute('#treasureValidating', 'hidden', true);
+        expectLoading('#treasureValidating', false, Size.Small);
       });
     
       it(`should show when validating treasure`, () => {
@@ -1448,7 +1448,7 @@ describe('TreasureGenComponent', () => {
         expectHasAttribute('#anyItemName', 'hidden', true);
 
         expectHasAttribute('#itemButton', 'disabled', false);
-        expectHasAttribute('#itemValidating', 'hidden', true);
+        expectLoading('#itemValidating', false, Size.Small);
       });
     
       it(`should update item names when item type changes`, async () => {

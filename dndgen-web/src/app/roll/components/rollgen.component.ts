@@ -4,6 +4,7 @@ import { StandardDie } from '../models/standardDie.model';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { Size } from '../../shared/components/size.enum';
 
 @Component({
   selector: 'dndgen-rollgen',
@@ -21,6 +22,7 @@ export class RollGenComponent implements OnInit {
     private logger: LoggerService) { }
 
   public rollModel!: RollGenViewModel;
+  public sizes = Size;
 
   @Input() standardQuantity = 1;
   @Input() customQuantity = 1;

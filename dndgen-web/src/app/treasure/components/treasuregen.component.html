@@ -1,5 +1,5 @@
 <h1>TreasureGen</h1>
-<dndgen-loading [isLoading]="loading">
+<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul class="nav nav-tabs" role="tablist">
@@ -50,9 +50,7 @@
                     [disabled]="!treasureForm.form.valid || generating || validating || !validTreasure">
               Generate
             </button>
-            <span id="treasureValidating" [hidden]="!validating">
-              <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-            </span>
+            <dndgen-loading id="treasureValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
           </form>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="item">
@@ -112,9 +110,7 @@
                     [disabled]="!itemForm.form.valid || generating || validating || !validItem">
               Generate
             </button>
-            <span id="itemValidating" [hidden]="!validating">
-              <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-            </span>
+            <dndgen-loading id="itemValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
           </form>
         </div>
       </div>
@@ -127,9 +123,7 @@
         <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
         <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
       </div>
-      <span id="generatingSection" [hidden]="!generating">
-        <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
-      </span>
+      <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

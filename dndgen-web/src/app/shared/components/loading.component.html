@@ -1,10 +1,13 @@
-<div *ngIf="isLoading" class="container loading">
+<span *ngIf="isLoading && !isLarge">
+    <img class="not-large-image {{loadingClass}}" src="/assets/loadingDice.svg" />
+</span>
+<div *ngIf="isLoading && isLarge" class="container loading">
     <div class="row">
         <div class="col-sm-4 offset-sm-4">
-            <img style="width: 500px; height: auto;" class="center-block" src="/assets/loadingDice.svg" />
+            <img class="large-image center-block {{loadingClass}}" src="/assets/loadingDice.svg" />
         </div>
     </div>
 </div>
-<div *ngIf="!isLoading" class="not-loading">
+<div *ngIf="!isLoading && isLarge" class="not-loading">
     <ng-content></ng-content>
 </div>

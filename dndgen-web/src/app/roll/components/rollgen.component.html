@@ -1,5 +1,5 @@
 <h1>RollGen</h1>
-<dndgen-loading [isLoading]="loading">
+<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul class="nav nav-tabs" role="tablist">
@@ -49,9 +49,7 @@
                         [disabled]="!standardRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
               </div>
               <div class="col-sm-2">
-                <span id="standardValidating" [hidden]="!validating">
-                  <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-                </span>
+                <dndgen-loading id="standardValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
               </div>
             </div>
           </form>
@@ -94,9 +92,7 @@
                         [disabled]="!customRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
               </div>
               <div class="col-sm-2">
-                <span id="customValidating" [hidden]="!validating">
-                  <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-                </span>
+                <dndgen-loading id="customValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
               </div>
             </div>
           </form>
@@ -116,9 +112,7 @@
                         [disabled]="!expressionRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
               </div>
               <div class="col-sm-2">
-                <span id="expressionValidating" [hidden]="!validating">
-                  <img style="width: 50px; height: auto;" src="/assets/loadingDice.svg" />
-                </span>
+                <dndgen-loading id="expressionValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
               </div>
               <br />
               <br />
@@ -139,9 +133,7 @@
     </div>
     <div class="col-sm-6">
       <span id="rollSection" [hidden]="rolling" class="font-green font-big">{{roll | number}}</span>
-      <span id="rollingSection" [hidden]="!rolling">
-        <img style="width: 300px; height: auto;" src="/assets/loadingDice.svg" />
-      </span>
+      <dndgen-loading id="rollingSection" [isLoading]="rolling" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

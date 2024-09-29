@@ -11,6 +11,7 @@ import { ItemPipe } from '../pipes/item.pipe';
 import { TreasurePipe } from '../pipes/treasure.pipe';
 import { switchMap, tap } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
+import { Size } from '../../shared/components/size.enum';
 
 @Component({
   selector: 'dndgen-treasuregen',
@@ -34,6 +35,7 @@ export class TreasureGenComponent implements OnInit {
     private logger: LoggerService) { }
 
   public treasureModel!: TreasureGenViewModel;
+  public sizes = Size;
 
   public get itemNames() {
     if (!(this.itemType))
