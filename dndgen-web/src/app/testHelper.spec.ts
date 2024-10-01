@@ -11,6 +11,7 @@ import { ItemComponent } from "./treasure/components/item.component";
 import { TreasureComponent } from "./treasure/components/treasure.component";
 import { CharacterComponent } from "./character/components/character.component";
 import { Character } from "./character/models/character.model";
+import { DebugElement } from "@angular/core";
 
 export class TestHelper<T> {
   constructor(
@@ -61,6 +62,10 @@ export class TestHelper<T> {
 
   public expectCharacter(selector: string, hasCharacter: boolean, character?: Character) {
     const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectCharacterInElement(element, hasCharacter, character);
+  }
+
+  private expectCharacterInElement(element: DebugElement, hasCharacter: boolean, character?: Character) {
     expect(element).toBeTruthy();
     expect(element.componentInstance).toBeTruthy();
     expect(element.componentInstance).toBeInstanceOf(CharacterComponent);
@@ -72,6 +77,16 @@ export class TestHelper<T> {
 
       if (character)
         expect(component.character).toBe(character);
+    }
+  }
+
+  public expectCharacters(selector: string, characters: Character[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+    expect(elements?.length).toEqual(characters.length);
+
+    for(var i = 0; i < elements.length; i++) {
+      this.expectCharacterInElement(elements?.at(i)!, true, characters[i]);
     }
   }
 
@@ -111,7 +126,7 @@ export class TestHelper<T> {
       this.expectHasAttribute(downloadSelector, 'hidden', true);
   }
 
-  public expectExists(selector: string, exists: boolean) {
+  public expectExists(selector: string, exists: boolean = true) {
     const element = this.compiled.querySelector(selector);
 
     if (exists) {
@@ -131,7 +146,31 @@ export class TestHelper<T> {
     expect(element!.hasAttribute(attribute)).toBe(hasAttribute);
   }
 
-  public expectGenerated(buttonSelector: string, validatingSelector: string, resultSelector: string, generatingSelector: string, downloadSelector?: string) {
+  public expectElement(selector: string, text: string) {
+    const element = this.compiled.querySelector(selector);
+    expect(element).toBeTruthy();
+    expect(element!.textContent).toEqual(text);
+  }
+
+  public expectElements(selector: string, text: string[]) {
+    const listItems = this.compiled.querySelectorAll(selector);
+    expect(listItems).toBeTruthy();
+    expect(listItems!.length).toEqual(text.length);
+
+    for(var i = 0; i < listItems.length; i++) {
+      expect(listItems.item(i).textContent).toEqual(text[i]);
+    }
+  }
+
+  public expectGenerated(
+    generating: boolean, 
+    buttonSelector: string, 
+    validatingSelector: string, 
+    resultSelector: string, 
+    generatingSelector: string, 
+    downloadSelector?: string) {
+
+    expect(generating).toBeFalse();
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     this.expectLoading(validatingSelector, false, Size.Small);
     this.expectHasAttribute(resultSelector, 'hidden', false);
@@ -155,11 +194,67 @@ export class TestHelper<T> {
     this.expectLoading(validatingSelector, false, Size.Small);
   }
 
+  public expectInput(selector: string, required: boolean, value: string) {
+    const input = this.compiled.querySelector(selector) as HTMLInputElement;
+    expect(input).toBeTruthy();
+    expect(input!.value).toEqual(value);
+    expect(input.getAttribute('type')).toEqual('text');
+    this.expectHasAttribute(selector, 'required', required);
+  }
+
+  public expectSelect(selector: string, required: boolean, selectedValue: string, optionCount: number, optionValues?: string[]) {   
+    this.expectExists(selector);
+    this.expectHasAttribute(selector, 'required', required);
+    this.expectElement(`${selector} > option:checked`, selectedValue);
+
+    const options = this.compiled.querySelectorAll(`${selector} > option`);
+    expect(options).toBeTruthy();
+    expect(options!.length).toEqual(optionCount);
+
+    if (options) {
+      this.expectElements(`${selector} > option`, optionValues!);
+    }
+  }
+
+  public expectCheckboxInput(selector: string, required: boolean, value: boolean) {
+    const input = this.compiled.querySelector(selector) as HTMLInputElement;
+    expect(input).toBeTruthy();
+    expect(input!.value).toEqual(`${value}`);
+    expect(input.getAttribute('checkbox')).toEqual('number');
+    this.expectHasAttribute(selector, 'required', required);
+  }
+
+  public expectNumberInput(selector: string, required: boolean, value: number, min?: number, max?: number) {
+    const input = this.compiled.querySelector(selector) as HTMLInputElement;
+    expect(input).toBeTruthy();
+    expect(input!.value).toEqual(`${value}`);
+    expect(input.getAttribute('type')).toEqual('number');
+
+    if (min)
+      expect(input.getAttribute('min')).toEqual(`${min}`);
+
+    if (max)
+      expect(input.getAttribute('max')).toEqual(`${max}`);
+    
+    expect(input.getAttribute('pattern')).toEqual('^[0-9]+$');
+    this.expectHasAttribute(selector, 'required', required);
+  }
+
   public setInput(selector: string, value: string) {
     const input = this.compiled.querySelector(selector) as HTMLInputElement;
     input.value = value;
 
     input.dispatchEvent(new Event('input'));
+  }
+
+  public setCheckbox(selector: string, value: boolean) {
+    this.expectHasAttribute(selector, 'hidden', false);
+    this.expectHasAttribute(selector, 'disabled', false);
+
+    const checkbox = this.compiled!.querySelector(selector) as HTMLInputElement;
+    checkbox.checked = value;
+
+    checkbox.dispatchEvent(new Event('change'));
   }
 
   public setSelectByValue(selector: string, value: string) {

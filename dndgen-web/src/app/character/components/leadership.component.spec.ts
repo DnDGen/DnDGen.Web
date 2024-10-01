@@ -2,13 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
-import { Feat } from '../models/feat.model';
 import { LeadershipComponent } from './leadership.component';
-import { Frequency } from '../models/frequency.model';
 import { Leadership } from '../models/leadership.model';
 import { Character } from '../models/character.model';
 import { CharacterComponent } from './character.component';
 import { DebugElement } from '@angular/core';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('LeadershipComponent', () => {
   describe('unit', () => {
@@ -57,6 +56,7 @@ describe('LeadershipComponent', () => {
 
   describe('integration', () => {
     let fixture: ComponentFixture<LeadershipComponent>;
+    let helper: TestHelper<LeadershipComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -67,6 +67,7 @@ describe('LeadershipComponent', () => {
       }).compileComponents();
   
       fixture = TestBed.createComponent(LeadershipComponent);
+      helper = new TestHelper(fixture);
     });
   
     it('should create the component', () => {
@@ -80,9 +81,9 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
     });
   
     it(`should render leadership with low score`, () => {
@@ -91,8 +92,8 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', false);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', true);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', false);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', true);
     });
   
     it(`should render leadership with modifiers`, () => {
@@ -101,11 +102,11 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
-      expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
-      expectListItems('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
+      helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
     });
   
     it(`should render leadership without modifiers`, () => {
@@ -114,10 +115,10 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', true);
-      expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', false);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', true);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', false);
     });
   
     it(`should render cohort`, () => {
@@ -129,10 +130,10 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
-      expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', cohort);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
+      helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
     });
   
     it(`should render cohort - null`, () => {
@@ -142,9 +143,9 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectNoElement('dndgen-details.leadership-heading li.leadership-cohort');
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-cohort', false);
     });
   
     it(`should render followers`, () => {
@@ -159,11 +160,11 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
-      expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
-      expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
+      helper.expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
     });
   
     it(`should render followers - none`, () => {
@@ -174,10 +175,10 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', true);
-      expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', false);
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', true);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', false);
     });
   
     it(`should render full leadership`, () => {
@@ -195,87 +196,20 @@ describe('LeadershipComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
+      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
+      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
+      helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
       
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
-      expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
-      expectListItems('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
+      helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
       
-      expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
-      expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', cohort);
+      helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
+      helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
       
-      expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
-      expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
-      expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
+      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
+      helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
+      helper.expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
     });
-
-    function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const element = compiled!.querySelector(selector);
-      expect(element).toBeTruthy();
-      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
-    }
-
-    function expectDetails(selector: string, heading: string, hasDetails: boolean) {
-      const element = fixture.debugElement.query(By.css(selector));
-      expect(element).toBeTruthy();
-      expect(element.componentInstance).toBeTruthy();
-      expect(element.componentInstance).toBeInstanceOf(DetailsComponent);
-
-      const details = element.componentInstance as DetailsComponent;
-      expect(details.heading).toEqual(heading);
-      expect(details.hasDetails).toBe(hasDetails);
-    }
-
-    function expectCharacter(selector: string, character: Character) {
-      const element = fixture.debugElement.query(By.css(selector));
-      expectCharacterInElement(element, character);
-    }
-
-    function expectCharacterInElement(element: DebugElement, character: Character) {
-      expect(element).toBeTruthy();
-      expect(element.componentInstance).toBeTruthy();
-      expect(element.componentInstance).toBeInstanceOf(CharacterComponent);
-
-      const details = element.componentInstance as CharacterComponent;
-      expect(details.character).toBe(character);
-    }
-
-    function expectCharacters(selector: string, characters: Character[]) {
-      const elements = fixture.debugElement.queryAll(By.css(selector));
-      expect(elements).toBeTruthy();
-      expect(elements?.length).toEqual(characters.length);
-
-      for(var i = 0; i < elements.length; i++) {
-        expectCharacterInElement(elements?.at(i)!, characters[i]);
-      }
-    }
-
-    function expectElement(selector: string, text: string) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector(selector);
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual(text);
-    }
-
-    function expectNoElement(selector: string) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector(selector);
-      expect(element).toBeFalsy();
-    }
-
-    function expectListItems(selector: string, text: string[]) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll(selector);
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(text.length);
-
-      for(var i = 0; i < listItems.length; i++) {
-        expect(listItems?.item(i).textContent).toEqual(text[i]);
-      }
-    }
   });
 });

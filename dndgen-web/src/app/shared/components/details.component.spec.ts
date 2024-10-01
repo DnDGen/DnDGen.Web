@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
 import { AppModule } from '../../app.module';
 import { UuidService } from '../services/uuid.service';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('DetailsComponent', () => {
   describe('unit', () => {
@@ -43,6 +44,7 @@ describe('DetailsComponent', () => {
 
   describe('integration', () => {
     let fixture: ComponentFixture<DetailsComponent>;
+    let helper: TestHelper<DetailsComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -52,6 +54,7 @@ describe('DetailsComponent', () => {
       }).compileComponents();
   
       fixture = TestBed.createComponent(DetailsComponent);
+      helper = new TestHelper(fixture);
       
       //run ngOnInit
       await waitForService();
@@ -82,21 +85,13 @@ describe('DetailsComponent', () => {
       const compiled = fixture.nativeElement as HTMLElement;
   
       const heading = compiled.querySelector('span.no-details-section');
-      expect(heading).toBeDefined();
+      expect(heading).toBeTruthy();
       expect(heading?.textContent).toEqual('my heading');
-      expectHasAttribute('span.no-details-section', 'hidden', false);
+      helper.expectHasAttribute('span.no-details-section', 'hidden', false);
       
-      expectHasAttribute('a.details-header', 'hidden', true);
-      expectHasAttribute('div.details-section', 'hidden', true);
+      helper.expectHasAttribute('a.details-header', 'hidden', true);
+      helper.expectHasAttribute('div.details-section', 'hidden', true);
     });
-
-    function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const element = compiled!.querySelector(selector);
-      expect(element).toBeDefined();
-      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
-    }
   
     it('should set the heading - has details', () => {
       fixture.componentInstance.heading = "my heading";
@@ -105,21 +100,21 @@ describe('DetailsComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
   
-      expectHasAttribute('span.no-details-section', 'hidden', true);
-      expectHasAttribute('a.details-header', 'hidden', false);
-      expectHasAttribute('div.details-section', 'hidden', false);
+      helper.expectHasAttribute('span.no-details-section', 'hidden', true);
+      helper.expectHasAttribute('a.details-header', 'hidden', false);
+      helper.expectHasAttribute('div.details-section', 'hidden', false);
       
       const detailsLink = compiled.querySelector('a.details-header');
-      expect(detailsLink).toBeDefined();
+      expect(detailsLink).toBeTruthy();
       expect(detailsLink?.textContent).toEqual('my heading');
       expect(detailsLink?.getAttribute('href')).toEqual('#' + fixture.componentInstance.id);
       expect(detailsLink?.getAttribute('data-bs-toggle')).toEqual('collapse');
 
       const details = compiled.querySelector('#' + fixture.componentInstance.id);
-      expect(details).toBeDefined();
+      expect(details).toBeTruthy();
       expect(details?.getAttribute('class')).toContain('collapse');
       
-      expect(compiled.querySelector('#' + fixture.componentInstance.id + ' > ng-content')).toBeDefined();
+      expect(compiled.querySelector('#' + fixture.componentInstance.id + ' > ng-content')).toBeTruthy();
     });
 
     it('should set distinct ids for multiple components', async () => {
@@ -138,19 +133,19 @@ describe('DetailsComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
       
-      expectHasAttribute('span.no-details-section', 'hidden', true);
-      expectHasAttribute('a.details-header', 'hidden', false);
-      expectHasAttribute('div.details-section', 'hidden', false);
+      helper.expectHasAttribute('span.no-details-section', 'hidden', true);
+      helper.expectHasAttribute('a.details-header', 'hidden', false);
+      helper.expectHasAttribute('div.details-section', 'hidden', false);
       
       let details = compiled.querySelector('#' + fixture.componentInstance.id);
-      expect(details).toBeDefined();
+      expect(details).toBeTruthy();
       expect(details?.getAttribute('class')).toEqual('details-section collapse');
       
       clickLink('a.details-header');
       fixture.detectChanges();
       
       details = compiled.querySelector('#' + fixture.componentInstance.id);
-      expect(details).toBeDefined();
+      expect(details).toBeTruthy();
       expect(details?.getAttribute('class')).toEqual('details-section collapsing');
       
       //TODO: Figure out how to get collapsing to finish, so we can test 'show;
@@ -177,7 +172,7 @@ describe('DetailsComponent', () => {
     });
 
     function clickLink(selector: string) {
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       const link = compiled!.querySelector(selector) as HTMLLinkElement;

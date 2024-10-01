@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Feat } from '../models/feat.model';
 import { FeatComponent } from './feat.component';
 import { Frequency } from '../models/frequency.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('FeatComponent', () => {
   describe('unit', () => {
@@ -24,6 +25,7 @@ describe('FeatComponent', () => {
 
   describe('integration', () => {
     let fixture: ComponentFixture<FeatComponent>;
+    let helper: TestHelper<FeatComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -34,6 +36,7 @@ describe('FeatComponent', () => {
       }).compileComponents();
   
       fixture = TestBed.createComponent(FeatComponent);
+      helper = new TestHelper(fixture);
     });
   
     it('should create the component', () => {
@@ -47,7 +50,7 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', false);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', false);
     });
   
     it(`should render the feat with focus`, () => {
@@ -56,12 +59,12 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
 
-      expectListItems('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus'
       ]);
     });
@@ -72,13 +75,13 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
       
-      expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      expectListItems('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
+      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus',
         'my other focus'
       ]);
@@ -90,12 +93,12 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
 
-      expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
+      helper.expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
     });
   
     it(`should render the feat with frequency`, () => {
@@ -104,12 +107,12 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
 
-      expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
+      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
     });
   
     it(`should render the feat with frequency without quantity`, () => {
@@ -118,12 +121,12 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
 
-      expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
+      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
     });
   
     it(`should render the full feat`, () => {
@@ -132,55 +135,18 @@ describe('FeatComponent', () => {
 
       fixture.detectChanges();
   
-      expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
-      expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
+      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
       
-      expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      expectListItems('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
+      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus',
         'my other focus'
       ]);
-      expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
-      expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 66/pay period');
+      helper.expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
+      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 66/pay period');
     });
-
-    function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const element = compiled!.querySelector(selector);
-      expect(element).toBeTruthy();
-      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
-    }
-
-    function expectDetails(selector: string, heading: string, hasDetails: boolean) {
-      const element = fixture.debugElement.query(By.css(selector));
-      expect(element).toBeTruthy();
-      expect(element.componentInstance).toBeTruthy();
-      expect(element.componentInstance).toBeInstanceOf(DetailsComponent);
-
-      const details = element.componentInstance as DetailsComponent;
-      expect(details.heading).toEqual(heading);
-      expect(details.hasDetails).toBe(hasDetails);
-    }
-
-    function expectElement(selector: string, text: string) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const element = compiled.querySelector(selector);
-      expect(element).toBeTruthy();
-      expect(element?.textContent).toEqual(text);
-    }
-
-    function expectListItems(selector: string, text: string[]) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll(selector);
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(text.length);
-
-      for(var i = 0; i < listItems.length; i++) {
-        expect(listItems?.item(i).textContent).toEqual(text[i]);
-      }
-    }
   });
 });
