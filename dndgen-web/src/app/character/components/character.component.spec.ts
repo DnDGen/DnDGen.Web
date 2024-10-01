@@ -23,7 +23,7 @@ import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
 import { ItemComponent } from '../../treasure/components/item.component';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
-import { TestHelper } from '../../shared/testHelper.spec';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('CharacterComponent', () => {
   describe('unit', () => {

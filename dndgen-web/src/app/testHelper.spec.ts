@@ -1,14 +1,16 @@
 import { ComponentFixture } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { LoadingComponent } from "./components/loading.component";
-import { Size } from "./components/size.enum";
-import { DetailsComponent } from "./components/details.component";
-import { Item } from "../treasure/models/item.model";
-import { Treasure } from "../treasure/models/treasure.model";
-import { Armor } from "../treasure/models/armor.model";
-import { Weapon } from "../treasure/models/weapon.model";
-import { ItemComponent } from "../treasure/components/item.component";
-import { TreasureComponent } from "../treasure/components/treasure.component";
+import { LoadingComponent } from "./shared/components/loading.component";
+import { Size } from "./shared/components/size.enum";
+import { DetailsComponent } from "./shared/components/details.component";
+import { Item } from "./treasure/models/item.model";
+import { Treasure } from "./treasure/models/treasure.model";
+import { Armor } from "./treasure/models/armor.model";
+import { Weapon } from "./treasure/models/weapon.model";
+import { ItemComponent } from "./treasure/components/item.component";
+import { TreasureComponent } from "./treasure/components/treasure.component";
+import { CharacterComponent } from "./character/components/character.component";
+import { Character } from "./character/models/character.model";
 
 export class TestHelper<T> {
   constructor(
@@ -43,8 +45,8 @@ export class TestHelper<T> {
     expect(element.componentInstance).toBeTruthy();
     expect(element.componentInstance).toBeInstanceOf(ItemComponent);
 
-    const featComponent = element.componentInstance as ItemComponent;
-    expect(featComponent.item).toBe(item);
+    const component = element.componentInstance as ItemComponent;
+    expect(component.item).toBe(item);
   }
 
   public expectTreasure(selector: string, treasure: Treasure) {
@@ -53,8 +55,24 @@ export class TestHelper<T> {
     expect(element.componentInstance).toBeTruthy();
     expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
 
-    const featComponent = element.componentInstance as TreasureComponent;
-    expect(featComponent.treasure).toBe(treasure);
+    const component = element.componentInstance as TreasureComponent;
+    expect(component.treasure).toBe(treasure);
+  }
+
+  public expectCharacter(selector: string, hasCharacter: boolean, character?: Character) {
+    const element = this.fixture.debugElement.query(By.css(selector));
+    expect(element).toBeTruthy();
+    expect(element.componentInstance).toBeTruthy();
+    expect(element.componentInstance).toBeInstanceOf(CharacterComponent);
+
+    const component = element.componentInstance as CharacterComponent;
+
+    if (hasCharacter) {
+      expect(component.character).toBeTruthy();
+
+      if (character)
+        expect(component.character).toBe(character);
+    }
   }
 
   public expectTextContent(selector: string, text: string) {
@@ -73,16 +91,34 @@ export class TestHelper<T> {
     }
   }
 
-  public expectValidating(buttonSelector: string, validatingSelector: string) {
+  public expectValidating(validating: boolean, buttonSelector: string, validatingSelector: string) {
+    expect(validating).toBeTrue();
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, true, Size.Small);
   }
 
-  public expectGenerating(buttonSelector: string, validatingSelector: string, resultSelector: string, generatingSelector: string) {
+  public expectGenerating(generating: boolean, buttonSelector: string, resultSelector: string, generatingSelector: string, validatingSelector?: string, downloadSelector?: string) {
+    expect(generating).toBeTrue();
     this.expectHasAttribute(buttonSelector, 'disabled', true);
-    this.expectLoading(validatingSelector, false, Size.Small);
+    
+    if (validatingSelector)
+      this.expectLoading(validatingSelector, false, Size.Small);
+
     this.expectHasAttribute(resultSelector, 'hidden', true);
     this.expectLoading(generatingSelector, true, Size.Medium);
+
+    if (downloadSelector)
+      this.expectHasAttribute(downloadSelector, 'hidden', true);
+  }
+
+  public expectExists(selector: string, exists: boolean) {
+    const element = this.compiled.querySelector(selector);
+
+    if (exists) {
+      expect(element).toBeTruthy();
+    } else {
+      expect(element).toBeFalsy();
+    }
   }
 
   private get compiled(): HTMLElement {
@@ -95,19 +131,26 @@ export class TestHelper<T> {
     expect(element!.hasAttribute(attribute)).toBe(hasAttribute);
   }
 
-  public expectGenerated(buttonSelector: string, validatingSelector: string, resultSelector: string, generatingSelector: string) {
+  public expectGenerated(buttonSelector: string, validatingSelector: string, resultSelector: string, generatingSelector: string, downloadSelector?: string) {
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     this.expectLoading(validatingSelector, false, Size.Small);
     this.expectHasAttribute(resultSelector, 'hidden', false);
     this.expectLoading(generatingSelector, false, Size.Medium);
+    
+    if (downloadSelector)
+      this.expectHasAttribute(downloadSelector, 'hidden', false);
   }
 
-  public expectInvalid(buttonSelector: string, validatingSelector: string) {
+  public expectInvalid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
+    expect(validating).toBeFalse();
+    expect(validProperty).toBeFalse();
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, false, Size.Small);
   }
 
-  public expectValid(buttonSelector: string, validatingSelector: string) {
+  public expectValid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
+    expect(validating).toBeFalse();
+    expect(validProperty).toBeTrue();
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     this.expectLoading(validatingSelector, false, Size.Small);
   }

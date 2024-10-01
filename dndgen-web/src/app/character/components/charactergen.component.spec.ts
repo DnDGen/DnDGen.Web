@@ -17,6 +17,7 @@ import { FollowerQuantities } from '../models/followerQuantities.model';
 import { LoadingComponent } from '../../shared/components/loading.component';
 import { CharacterComponent } from './character.component';
 import { LeadershipComponent } from './leadership.component';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('CharacterGenComponent', () => {
   describe('unit', () => {
@@ -2304,6 +2305,7 @@ describe('CharacterGenComponent', () => {
 
   describe('integration', () => {
     let fixture: ComponentFixture<CharacterGenComponent>;
+    let helper: TestHelper<CharacterGenComponent>;
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
@@ -2313,6 +2315,7 @@ describe('CharacterGenComponent', () => {
       }).compileComponents();
   
       fixture = TestBed.createComponent(CharacterGenComponent);
+      helper = new TestHelper(fixture);
       
       //run ngOnInit
       await waitForService();
@@ -2441,28 +2444,20 @@ describe('CharacterGenComponent', () => {
 
     function expectValidating(buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.validating).toBeTrue();
-      expectHasAttribute(buttonSelector, 'disabled', true);
-      expectHasAttribute(validatingSelector, 'hidden', false);
+      helper.expectHasAttribute(buttonSelector, 'disabled', true);
+      helper.expectHasAttribute(validatingSelector, 'hidden', false);
     }
 
     function expectGenerating(buttonSelector: string, validatingSelector?: string) {
       expect(fixture.componentInstance.generating).toBeTrue();
-      expectHasAttribute(buttonSelector, 'disabled', true);
+      helper.expectHasAttribute(buttonSelector, 'disabled', true);
 
       if (validatingSelector)
-        expectHasAttribute(validatingSelector, 'hidden', true);
+        helper.expectHasAttribute(validatingSelector, 'hidden', true);
 
-      expectHasAttribute('#generatingSection', 'hidden', false);
-      expectHasAttribute('#characterSection', 'hidden', true);
-      expectHasAttribute('#downloadButton', 'hidden', true);
-    }
-
-    function expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const element = compiled!.querySelector(selector);
-      expect(element).toBeDefined();
-      expect(element?.hasAttribute(attribute)).toBe(hasAttribute);
+      helper.expectHasAttribute('#generatingSection', 'hidden', false);
+      helper.expectHasAttribute('#characterSection', 'hidden', true);
+      helper.expectHasAttribute('#downloadButton', 'hidden', true);
     }
 
     function expectExists(selector: string, exists: boolean) {
@@ -2478,33 +2473,33 @@ describe('CharacterGenComponent', () => {
 
     function expectGenerated(buttonSelector: string, validatingSelector?: string) {
       expect(fixture.componentInstance.generating).toBeFalse();
-      expectHasAttribute(buttonSelector, 'disabled', false);
+      helper.expectHasAttribute(buttonSelector, 'disabled', false);
 
       if (validatingSelector)
-        expectHasAttribute(validatingSelector, 'hidden', true);
+        helper.expectHasAttribute(validatingSelector, 'hidden', true);
 
-      expectHasAttribute('#generatingSection', 'hidden', true);
-      expectHasAttribute('#characterSection', 'hidden', false);
-      expectHasAttribute('#downloadButton', 'hidden', false);
+      helper.expectHasAttribute('#generatingSection', 'hidden', true);
+      helper.expectHasAttribute('#characterSection', 'hidden', false);
+      helper.expectHasAttribute('#downloadButton', 'hidden', false);
     }
 
     function expectInvalid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.validating).toBeFalse();
       expect(validProperty).toBeFalse();
-      expectHasAttribute(buttonSelector, 'disabled', true);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      helper.expectHasAttribute(buttonSelector, 'disabled', true);
+      helper.expectHasAttribute(validatingSelector, 'hidden', true);
     }
 
     function expectValid(validProperty: boolean, buttonSelector: string, validatingSelector: string) {
       expect(fixture.componentInstance.validating).toBeFalse();
       expect(validProperty).toBeTrue();
-      expectHasAttribute(buttonSelector, 'disabled', false);
-      expectHasAttribute(validatingSelector, 'hidden', true);
+      helper.expectHasAttribute(buttonSelector, 'disabled', false);
+      helper.expectHasAttribute(validatingSelector, 'hidden', true);
     }
 
     function setInput(selector: string, value: string) {
-      expectHasAttribute(selector, 'hidden', false);
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'hidden', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
       
       const compiled = fixture.nativeElement as HTMLElement;
       const input = compiled!.querySelector(selector) as HTMLInputElement;
@@ -2514,8 +2509,8 @@ describe('CharacterGenComponent', () => {
     }
 
     function setCheckbox(selector: string, value: boolean) {
-      expectHasAttribute(selector, 'hidden', false);
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'hidden', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       const checkbox = compiled!.querySelector(selector) as HTMLInputElement;
@@ -2525,8 +2520,8 @@ describe('CharacterGenComponent', () => {
     }
 
     function setSelectByValue(selector: string, value: string) {
-      expectHasAttribute(selector, 'hidden', false);
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'hidden', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       const select = compiled!.querySelector(selector) as HTMLSelectElement;
@@ -2536,8 +2531,8 @@ describe('CharacterGenComponent', () => {
     }
 
     function setSelectByIndex(selector: string, index: number) {
-      expectHasAttribute(selector, 'hidden', false);
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'hidden', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       const select = compiled!.querySelector(selector) as HTMLSelectElement;
@@ -2547,8 +2542,8 @@ describe('CharacterGenComponent', () => {
     }
 
     function clickButton(selector: string) {
-      expectHasAttribute(selector, 'hidden', false);
-      expectHasAttribute(selector, 'disabled', false);
+      helper.expectHasAttribute(selector, 'hidden', false);
+      helper.expectHasAttribute(selector, 'disabled', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       const button = compiled!.querySelector(selector) as HTMLButtonElement;
@@ -2561,7 +2556,7 @@ describe('CharacterGenComponent', () => {
       expect(input).toBeTruthy();
       expect(input!.value).toEqual(value);
       expect(input.getAttribute('type')).toEqual('text');
-      expectHasAttribute(selector, 'required', required);
+      helper.expectHasAttribute(selector, 'required', required);
     }
 
     function expectNumberInput(tab: Element, selector: string, required: boolean, value: number, min?: number, max?: number) {
@@ -2577,7 +2572,7 @@ describe('CharacterGenComponent', () => {
         expect(input.getAttribute('max')).toEqual(`${max}`);
       
       expect(input.getAttribute('pattern')).toEqual('^[0-9]+$');
-      expectHasAttribute(selector, 'required', required);
+      helper.expectHasAttribute(selector, 'required', required);
     }
 
     function expectCheckboxInput(tab: Element, selector: string, required: boolean, value: boolean) {
@@ -2585,13 +2580,13 @@ describe('CharacterGenComponent', () => {
       expect(input).toBeTruthy();
       expect(input!.value).toEqual(`${value}`);
       expect(input.getAttribute('checkbox')).toEqual('number');
-      expectHasAttribute(selector, 'required', required);
+      helper.expectHasAttribute(selector, 'required', required);
     }
 
     function expectSelect(tab: Element, selector: string, required: boolean, selectedValue: string, optionCount: number) {   
       const randomizerTypesSelect = tab!.querySelector(selector);
       expect(randomizerTypesSelect).toBeTruthy();
-      expectHasAttribute(selector, 'required', required);
+      helper.expectHasAttribute(selector, 'required', required);
 
       const selectedRandomizerType = tab!.querySelector(`${selector} > option:checked`);
       expect(selectedRandomizerType).toBeTruthy();
@@ -2635,8 +2630,8 @@ describe('CharacterGenComponent', () => {
         expectNumberInput(characterTab!, '#setWisdom', false, 0, 0);
         expectNumberInput(characterTab!, '#setCharisma', false, 0, 0);
 
-        expectHasAttribute('#generateCharacterButton', 'disabled', false);
-        expectHasAttribute('#characterValidating', 'hidden', true);
+        helper.expectHasAttribute('#generateCharacterButton', 'disabled', false);
+        helper.expectHasAttribute('#characterValidating', 'hidden', true);
       });
     
       it(`should show when validating character`, () => {
@@ -2645,7 +2640,7 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
 
-        expectValidating('#generateCharacterButton', '#characterValidating');
+        helper.expectValidating('#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing alignment randomizer`, () => {
@@ -3177,7 +3172,7 @@ describe('CharacterGenComponent', () => {
       //     fixture.detectChanges();
     
       //     expect(fixture.componentInstance.level).toEqual(test);
-      //     expectValidating('#generateCharacterButton', '#characterValidating');
+      //     helper.expectValidating('#generateCharacterButton', '#characterValidating');
     
       //     //run validation
       //     await waitForService();
@@ -3194,7 +3189,7 @@ describe('CharacterGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.alignmentRandomizerType).toEqual(fixture.componentInstance.characterModel.alignmentRandomizerTypes[3]);
-        expectValidating('#generateCharacterButton', '#characterValidating');
+        helper.expectValidating('#generateCharacterButton', '#characterValidating');
   
         //run validation
         await waitForService();
@@ -3210,7 +3205,7 @@ describe('CharacterGenComponent', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.alignmentRandomizerType).toEqual(fixture.componentInstance.characterModel.alignmentRandomizerTypes[3]);
-        expectValidating('#generateCharacterButton', '#characterValidating');
+        helper.expectValidating('#generateCharacterButton', '#characterValidating');
   
         //run validation
         await waitForService();
@@ -3224,7 +3219,7 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
 
-        expectGenerating('#generateCharacterButton', '#characterValidating');
+        helper.expectGenerating('#generateCharacterButton', '#characterValidating');
       });
     
       it(`should generate the default character`, async () => {
@@ -3232,14 +3227,14 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectGenerating('#generateCharacterButton', '#characterValidating');
+        helper.expectGenerating('#generateCharacterButton', '#characterValidating');
 
         //run generate character
         await waitForService();
   
         expectGenerated('#generateCharacterButton', '#characterValidating');
 
-        expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectHasAttribute('#noCharacter', 'hidden', true)
         expectExists('#characterSection dndgen-character', true);
         expectExists('#characterSection dndgen-leadership', false);
 
@@ -3278,14 +3273,14 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectGenerating('#generateCharacterButton', '#characterValidating');
+        helper.expectGenerating('#generateCharacterButton', '#characterValidating');
 
         //run generate character
         await waitForService();
   
         expectGenerated('#generateCharacterButton', '#characterValidating');
 
-        expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectHasAttribute('#noCharacter', 'hidden', true)
         expectExists('#characterSection dndgen-character', true);
         expectExists('#characterSection dndgen-leadership', false);
 
@@ -3345,14 +3340,14 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectGenerating('#generateCharacterButton', '#characterValidating');
+        helper.expectGenerating('#generateCharacterButton', '#characterValidating');
 
         //run generate character
         await waitForService();
   
         expectGenerated('#generateCharacterButton', '#characterValidating');
 
-        expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectHasAttribute('#noCharacter', 'hidden', true)
         expectExists('#characterSection dndgen-character', true);
         expectExists('#characterSection dndgen-leadership', false);
 
@@ -3379,7 +3374,7 @@ describe('CharacterGenComponent', () => {
         expectNumberInput(leadershipTab!, '#leaderCharismaBonus', false, 0);
         expectInput(leadershipTab!, '#leaderAnimal', false, '');
 
-        expectHasAttribute('#generateLeadershipButton', 'disabled', false);
+        helper.expectHasAttribute('#generateLeadershipButton', 'disabled', false);
       });
     
       it(`should show when generating leadership`, () => {
@@ -3388,7 +3383,7 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
 
-        expectGenerating('#generateLeadershipButton');
+        helper.expectGenerating('#generateLeadershipButton');
       });
     
       it(`should generate default leadership`, async () => {
@@ -3396,14 +3391,14 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectGenerating('#generateLeadershipButton');
+        helper.expectGenerating('#generateLeadershipButton');
 
         //run generate leadership
         await waitForService();
   
         expectGenerated('#generateLeadershipButton');
         
-        expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectHasAttribute('#noCharacter', 'hidden', true)
         expectExists('#characterSection dndgen-character', false);
         expectExists('#characterSection dndgen-leadership', true);
 
@@ -3437,7 +3432,7 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
         
-        expectGenerating('#generateLeadershipButton');
+        helper.expectGenerating('#generateLeadershipButton');
 
         //run roll
         await waitForService();
@@ -3459,7 +3454,7 @@ describe('CharacterGenComponent', () => {
     });
   
     it(`should render no character or leadership`, () => {
-      expectHasAttribute('#noCharacter', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', false);
 
       const compiled = fixture.nativeElement as HTMLElement;
       let element = compiled!.querySelector('#characterSection dndgen-character');
@@ -3475,8 +3470,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
       expect(debugElement).toBeTruthy();
@@ -3497,8 +3492,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3524,8 +3519,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3556,8 +3551,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3583,8 +3578,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
       
       let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
       expect(debugElement).toBeTruthy();
@@ -3594,7 +3589,7 @@ describe('CharacterGenComponent', () => {
       const characterComponent = debugElement.componentInstance as CharacterComponent;
       expect(characterComponent.character).toBe(character);
 
-      expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
       debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3623,8 +3618,8 @@ describe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      expectHasAttribute('#noCharacter', 'hidden', true);
-      expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectHasAttribute('#noCharacter', 'hidden', true);
+      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
       
       let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
       expect(debugElement).toBeTruthy();
@@ -3634,7 +3629,7 @@ describe('CharacterGenComponent', () => {
       const characterComponent = debugElement.componentInstance as CharacterComponent;
       expect(characterComponent.character).toBe(character);
       
-      expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
       debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
