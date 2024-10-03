@@ -1825,7 +1825,7 @@ fdescribe('CharacterGenComponent', () => {
       tick(1);
 
       expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
-      expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, 1, 'my leader alignment', 'my leader class');
+      expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, leadership.cohortScore, 'my leader alignment', 'my leader class');
       expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
       expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
@@ -1859,10 +1859,10 @@ fdescribe('CharacterGenComponent', () => {
         expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
 
         expect(component.generating).toBeTrue();
+        expect(component.followers).toEqual(followers.slice(0, i));
         expect(component.generatingMessage).toEqual(message);
         expect(component.leadership).toBe(leadership);
         expect(component.cohort).toBe(cohort);
-        expect(component.followers).toEqual(followers.slice(0, i));
         
         tick(delay - 1);
 
@@ -1896,7 +1896,7 @@ fdescribe('CharacterGenComponent', () => {
       flush();
     }));
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
+    fit(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
       setupOnInit();
 
       component.leaderLevel = 7;

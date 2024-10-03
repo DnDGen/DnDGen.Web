@@ -8,7 +8,7 @@ import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { LeaderPipe } from '../pipes/leader.pipe';
-import { EMPTY, filter, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
+import { empty, EMPTY, expand, filter, Observable, of, pipe, repeat, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs';
 import { LeadershipPipe } from '../pipes/leadership.pipe';
 import { CharacterPipe } from '../pipes/character.pipe';
 import { Size } from '../../shared/components/size.enum';
@@ -236,6 +236,13 @@ export class CharacterGenComponent implements OnInit {
 
     this.generatingMessage = 'Generating character...';
 
+    let level1Count = 0;
+    let level2Count = 0;
+    let level3Count = 0;
+    let level4Count = 0;
+    let level5Count = 0;
+    let level6Count = 0;
+
     this.characterService
       .generate(
         this.alignmentRandomizerType,
@@ -274,44 +281,54 @@ export class CharacterGenComponent implements OnInit {
           this.leaderAlignment,
           this.leaderClassName)),
         tap(data => this.cohort = data),
-        filter(() => this.leadership!.followerQuantities.level1 > 0),
-        //TODO: Refactor to shared, repeatable, per-level method
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level1 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level1Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level1),
+        takeWhile(() => level1Count < this.leadership!.followerQuantities.level1, true),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level2 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(2, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level2Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level2),
+        takeWhile(() => level2Count < this.leadership!.followerQuantities.level2),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level3 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(3, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level3Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level3),
+        takeWhile(() => level3Count < this.leadership!.followerQuantities.level3),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level4 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(4, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level4Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level4),
+        takeWhile(() => level4Count < this.leadership!.followerQuantities.level4),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level5 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(5, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level5Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level5),
+        takeWhile(() => level5Count < this.leadership!.followerQuantities.level5),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level6 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(6, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level6Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level6),
+        takeWhile(() => level6Count < this.leadership!.followerQuantities.level6),
       )
       .subscribe({
         next: () => this.finishGeneration(),
@@ -349,6 +366,13 @@ export class CharacterGenComponent implements OnInit {
     
     this.generatingMessage = 'Generating leadership...';
 
+    let level1Count = 0;
+    let level2Count = 0;
+    let level3Count = 0;
+    let level4Count = 0;
+    let level5Count = 0;
+    let level6Count = 0;
+
     this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)
       .pipe(
         tap(data => this.leadership = data),
@@ -360,48 +384,54 @@ export class CharacterGenComponent implements OnInit {
           this.leaderAlignment,
           this.leaderClassName)),
         tap(data => this.cohort = data),
-        filter(() => this.leadership!.followerQuantities.level1 > 0),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level1 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level1Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level1),
-        filter(() => this.leadership!.followerQuantities.level2 > 0),
+        takeWhile(() => level1Count < this.leadership!.followerQuantities.level1),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level2 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(2, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level2Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level2),
-        filter(() => this.leadership!.followerQuantities.level3 > 0),
+        takeWhile(() => level2Count < this.leadership!.followerQuantities.level2),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level3 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(3, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level3Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level3),
-        filter(() => this.leadership!.followerQuantities.level4 > 0),
+        takeWhile(() => level3Count < this.leadership!.followerQuantities.level3),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level4 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(4, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level4Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level4),
-        filter(() => this.leadership!.followerQuantities.level5 > 0),
+        takeWhile(() => level4Count < this.leadership!.followerQuantities.level4),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level5 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(5, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level5Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level5),
-        filter(() => this.leadership!.followerQuantities.level6 > 0),
+        takeWhile(() => level5Count < this.leadership!.followerQuantities.level5),
+        filter(() => this.leadership != null && this.leadership!.followerQuantities.level6 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(6, this.leaderAlignment, this.leaderClassName)),
-          tap(data => this.followers.push(data))
+          tap(data => this.followers.push(data)),
+          tap(() => level6Count++)
         ),
-        repeat(this.leadership!.followerQuantities.level6),
+        takeWhile(() => level6Count < this.leadership!.followerQuantities.level6),
       )
       .subscribe({
         next: () => this.finishGeneration(),
