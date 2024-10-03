@@ -82,12 +82,9 @@ describe('DetailsComponent', () => {
       fixture.componentInstance.hasDetails = false;
 
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
   
-      const heading = compiled.querySelector('span.no-details-section');
-      expect(heading).toBeTruthy();
-      expect(heading?.textContent).toEqual('my heading');
-      helper.expectHasAttribute('span.no-details-section', 'hidden', false);
+      helper.expectElement('span.no-details-header', 'my heading');
+      helper.expectHasAttribute('span.no-details-header', 'hidden', false);
       
       helper.expectHasAttribute('a.details-header', 'hidden', true);
       helper.expectHasAttribute('div.details-section', 'hidden', true);
@@ -100,21 +97,14 @@ describe('DetailsComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
   
-      helper.expectHasAttribute('span.no-details-section', 'hidden', true);
+      helper.expectHasAttribute('span.no-details-header', 'hidden', true);
       helper.expectHasAttribute('a.details-header', 'hidden', false);
       helper.expectHasAttribute('div.details-section', 'hidden', false);
-      
-      const detailsLink = compiled.querySelector('a.details-header');
-      expect(detailsLink).toBeTruthy();
-      expect(detailsLink?.textContent).toEqual('my heading');
-      expect(detailsLink?.getAttribute('href')).toEqual('#' + fixture.componentInstance.id);
-      expect(detailsLink?.getAttribute('data-bs-toggle')).toEqual('collapse');
-
-      const details = compiled.querySelector('#' + fixture.componentInstance.id);
-      expect(details).toBeTruthy();
-      expect(details?.getAttribute('class')).toContain('collapse');
-      
-      expect(compiled.querySelector('#' + fixture.componentInstance.id + ' > ng-content')).toBeTruthy();
+      helper.expectHasAttribute(`#${fixture.componentInstance.id}`, 'hidden', false);
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute('a.details-header', 'href', `#${fixture.componentInstance.id}`);
+      helper.expectAttribute('a.details-header', 'data-bs-toggle', 'collapse');
+      helper.expectAttributeContains(`#${fixture.componentInstance.id}`, 'class', 'collapse');
     });
 
     it('should set distinct ids for multiple components', async () => {
@@ -133,7 +123,7 @@ describe('DetailsComponent', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
       
-      helper.expectHasAttribute('span.no-details-section', 'hidden', true);
+      helper.expectHasAttribute('span.no-details-header', 'hidden', true);
       helper.expectHasAttribute('a.details-header', 'hidden', false);
       helper.expectHasAttribute('div.details-section', 'hidden', false);
       

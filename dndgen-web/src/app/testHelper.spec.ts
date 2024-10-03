@@ -91,9 +91,8 @@ export class TestHelper<T> {
   }
 
   public expectTextContent(selector: string, text: string) {
-    const element = this.compiled.querySelector(selector);
-    expect(element).toBeTruthy();
-    expect(element?.textContent).toEqual(text);
+    const element = this.expectExists(selector);
+    expect(element!.textContent).toEqual(text);
   }
 
   public expectTextContents(selector: string, text: string[]) {
@@ -126,7 +125,7 @@ export class TestHelper<T> {
       this.expectHasAttribute(downloadSelector, 'hidden', true);
   }
 
-  public expectExists(selector: string, exists: boolean = true) {
+  public expectExists(selector: string, exists: boolean = true): Element | null {
     const element = this.compiled.querySelector(selector);
 
     if (exists) {
@@ -134,6 +133,8 @@ export class TestHelper<T> {
     } else {
       expect(element).toBeFalsy();
     }
+
+    return element;
   }
 
   private get compiled(): HTMLElement {
@@ -141,14 +142,22 @@ export class TestHelper<T> {
   }
 
   public expectHasAttribute(selector: string, attribute: string, hasAttribute: boolean) {
-    const element = this.compiled.querySelector(selector);
-    expect(element).toBeTruthy();
+    const element = this.expectExists(selector);
     expect(element!.hasAttribute(attribute)).toBe(hasAttribute);
   }
 
+  public expectAttribute(selector: string, attribute: string, value: string) {
+    const element = this.expectExists(selector);
+    expect(element!.getAttribute(attribute)).toEqual(value);
+  }
+
+  public expectAttributeContains(selector: string, attribute: string, value: string) {
+    const element = this.expectExists(selector);
+    expect(element!.getAttribute(attribute)).toContain(value);
+  }
+
   public expectElement(selector: string, text: string) {
-    const element = this.compiled.querySelector(selector);
-    expect(element).toBeTruthy();
+    const element = this.expectExists(selector);
     expect(element!.textContent).toEqual(text);
   }
 

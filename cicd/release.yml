@@ -164,6 +164,7 @@ jobs:
         steps:
         - task: AzureStaticWebApp@0
           displayName: 'Azure Static Web App Deploy: dndgen-web-static'
+          retryCountOnTaskFailure: 3
           inputs:
             cwd: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web-static'
             app_location: '/dndgen-web/browser'

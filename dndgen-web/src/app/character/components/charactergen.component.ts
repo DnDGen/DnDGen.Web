@@ -8,7 +8,7 @@ import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { LeaderPipe } from '../pipes/leader.pipe';
-import { EMPTY, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
+import { EMPTY, filter, Observable, of, pipe, repeat, switchMap, tap } from 'rxjs';
 import { LeadershipPipe } from '../pipes/leadership.pipe';
 import { CharacterPipe } from '../pipes/character.pipe';
 import { Size } from '../../shared/components/size.enum';
@@ -70,12 +70,12 @@ export class CharacterGenComponent implements OnInit {
   @Input() leaderAnimal = '';
 
   public loading = false;
-  public character!: Character | null;
+  public character: Character | null = null;
   public valid: boolean = false;
   public validating: boolean = false;
   public generating: boolean = false;
-  public leadership!: Leadership | null;
-  public cohort!: Character | null;
+  public leadership: Leadership | null = null;
+  public cohort: Character | null = null;
   public followers: Character[] = [];
   public generatingMessage: string = '';
 
@@ -260,13 +260,13 @@ export class CharacterGenComponent implements OnInit {
         this.allowAbilitiesAdjustments)
       .pipe(
         tap(data => this.character = data),
-        switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader)),
+        filter(() => this.character != null && this.character.isLeader),
         tap(() => this.generatingMessage = 'Generating leadership...'),
         tap(() => this.setLeadershipInputsFromCharacter()),
         //TODO: Refactor to shared method
         switchMap(() => this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)),
         tap(data => this.leadership = data),
-        switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader || !this.leadership)),
+        filter(() => this.leadership != null),
         tap(() => this.generatingMessage = 'Generating cohort...'),
         switchMap(() => this.leadershipService.generateCohort(
           this.leaderLevel,
@@ -274,7 +274,7 @@ export class CharacterGenComponent implements OnInit {
           this.leaderAlignment,
           this.leaderClassName)),
         tap(data => this.cohort = data),
-        switchMap(() => this.continueGeneration(!this.leadership || this.leadership.followerQuantities.level1 === 0)),
+        filter(() => this.leadership!.followerQuantities.level1 > 0),
         //TODO: Refactor to shared, repeatable, per-level method
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
@@ -352,7 +352,7 @@ export class CharacterGenComponent implements OnInit {
     this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)
       .pipe(
         tap(data => this.leadership = data),
-        switchMap(() => this.continueGeneration(!this.character || !this.character.isLeader || !this.leadership)),
+        filter(() => this.leadership != null),
         tap(() => this.generatingMessage = 'Generating cohort...'),
         switchMap(() => this.leadershipService.generateCohort(
           this.leaderLevel,
@@ -360,37 +360,42 @@ export class CharacterGenComponent implements OnInit {
           this.leaderAlignment,
           this.leaderClassName)),
         tap(data => this.cohort = data),
-        switchMap(() => this.continueGeneration(!this.leadership || this.leadership.followerQuantities.level1 === 0)),
+        filter(() => this.leadership!.followerQuantities.level1 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(1, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level1),
+        filter(() => this.leadership!.followerQuantities.level2 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(2, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level2),
+        filter(() => this.leadership!.followerQuantities.level3 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(3, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level3),
+        filter(() => this.leadership!.followerQuantities.level4 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(4, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level4),
+        filter(() => this.leadership!.followerQuantities.level5 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(5, this.leaderAlignment, this.leaderClassName)),
           tap(data => this.followers.push(data))
         ),
         repeat(this.leadership!.followerQuantities.level5),
+        filter(() => this.leadership!.followerQuantities.level6 > 0),
         pipe(
           tap(() => this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`),
           switchMap(() => this.leadershipService.generateFollower(6, this.leaderAlignment, this.leaderClassName)),
