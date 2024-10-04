@@ -20,7 +20,7 @@ import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 
 fdescribe('CharacterGenComponent', () => {
-  fdescribe('unit', () => {
+  describe('unit', () => {
     let component: CharacterGenComponent;
     let characterServiceSpy: jasmine.SpyObj<CharacterService>;
     let leadershipServiceSpy: jasmine.SpyObj<LeadershipService>;
@@ -1896,7 +1896,7 @@ fdescribe('CharacterGenComponent', () => {
       flush();
     }));
     
-    fit(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -3068,7 +3068,7 @@ fdescribe('CharacterGenComponent', () => {
         //run generate character
         await waitForService();
   
-        helper.expectGenerating(
+        helper.expectGenerated(
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
@@ -3079,14 +3079,7 @@ fdescribe('CharacterGenComponent', () => {
         helper.expectHasAttribute('#noCharacter', 'hidden', true)
         helper.expectExists('#characterSection dndgen-character', true);
         helper.expectExists('#characterSection dndgen-leadership', false);
-
-        const element = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
-        expect(element).toBeDefined();
-        expect(element.componentInstance).toBeDefined();
-        expect(element.componentInstance).toBeInstanceOf(CharacterComponent);
-  
-        const characterComponent = element.componentInstance as CharacterComponent;
-        expect(characterComponent.character).toBeTruthy();
+        helper.expectCharacter('#characterSection dndgen-character', true);
       });
     
       it(`should generate non-default character`, async () => {

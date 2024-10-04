@@ -13,6 +13,8 @@
                       <label for="alignmentRandomizerTypes" class="col-sm-4 col-form-label">Alignment Randomizer:</label>
                       <div class="col-sm-4">
                           <select id="alignmentRandomizerTypes" 
+                                  name="alignmentRandomizerTypes" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="alignmentRandomizerType" 
                                   (input)="validateRandomizers()"
@@ -22,6 +24,8 @@
                       </div>
                       <div class="col-sm-4">
                           <select id="setAlignment" 
+                                  name="setAlignment" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [hidden]="alignmentRandomizerType != 'Set'" 
                                   [(ngModel)]="setAlignment"
@@ -35,6 +39,8 @@
                       <label for="classNameRandomizerTypes" class="col-sm-4 col-form-label">Class Randomizer:</label>
                       <div class="col-sm-4">
                           <select id="classNameRandomizerTypes" 
+                                  name="classNameRandomizerTypes" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="classNameRandomizerType" 
                                   (input)="validateRandomizers()"
@@ -44,6 +50,8 @@
                       </div>
                       <div class="col-sm-4">
                           <select id="setClassNames" 
+                                  name="setClassNames" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [hidden]="classNameRandomizerType != 'Set'" 
                                   [(ngModel)]="setClassName" 
@@ -56,7 +64,9 @@
                   <div class="form-group row">
                       <label for="levelRandomizerTypes" class="col-sm-4 col-form-label">Level Randomizer:</label>
                       <div class="col-sm-4">
-                        <select id="levelRandomizerTypes" 
+                        <select id="levelRandomizerTypes"
+                                name="levelRandomizerTypes" 
+                                *ngIf="characterModel" 
                                 class="form-select" 
                                 [(ngModel)]="levelRandomizerType" 
                                 (input)="validateRandomizers()"
@@ -67,7 +77,11 @@
                       <div class="col-sm-4">
                           <div class="checkbox-inline">
                               <label>
-                                  <input id="levelAdjustCheckbox" type="checkbox" [(ngModel)]="allowLevelAdjustments" (input)="validateRandomizers()"> Allow Adjustments
+                                  <input id="levelAdjustCheckbox" 
+                                         name="levelAdjustCheckbox" 
+                                         type="checkbox" 
+                                         [(ngModel)]="allowLevelAdjustments" 
+                                         (input)="validateRandomizers()"> Allow Adjustments
                               </label>
                           </div>
                       </div>
@@ -89,6 +103,8 @@
                       <label for="baseRaceRandomizerTypes" class="col-sm-4 col-form-label">Base Race Randomizer:</label>
                       <div class="col-sm-4">
                           <select id="baseRaceRandomizerTypes" 
+                                  name="baseRaceRandomizerTypes" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="baseRaceRandomizerType"
                                   (input)="validateRandomizers()"
@@ -98,6 +114,8 @@
                       </div>
                       <div class="col-sm-4">
                           <select id="setBaseRaces" 
+                                  name="setBaseRaces" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [hidden]="baseRaceRandomizerType != 'Set'" 
                                   [(ngModel)]="setBaseRace" 
@@ -111,6 +129,8 @@
                       <label for="metaraceRandomizerTypes" class="col-sm-4 col-form-label">Metarace Randomizer:</label>
                       <div class="col-sm-4">
                           <select id="metaraceRandomizerTypes" 
+                                  name="metaraceRandomizerTypes" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="metaraceRandomizerType" 
                                   (input)="validateRandomizers()"
@@ -121,12 +141,18 @@
                       <div class="col-sm-4" [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'">
                           <div class="checkbox-inline">
                               <label>
-                                  <input id="forceMetaraceCheckbox" type="checkbox" [(ngModel)]="forceMetarace" (input)="validateRandomizers()"> Force
+                                  <input id="forceMetaraceCheckbox" 
+                                         name="forceMetaraceCheckbox" 
+                                         type="checkbox" 
+                                         [(ngModel)]="forceMetarace" 
+                                         (input)="validateRandomizers()"> Force
                               </label>
                           </div>
                       </div>
                       <div class="col-sm-4" [hidden]="metaraceRandomizerType != 'Set'">
                           <select id="setMetaraces" 
+                                  name="setMetaraces" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="setMetarace" 
                                   (input)="validateRandomizers()"
@@ -139,6 +165,8 @@
                       <label for="abilitiesRandomizerType" class="col-sm-4 col-form-label">Abilities Randomizer:</label>
                       <div class="col-sm-4">
                           <select id="abilitiesRandomizerType" 
+                                  name="abilitiesRandomizerType" 
+                                  *ngIf="characterModel" 
                                   class="form-select" 
                                   [(ngModel)]="abilitiesRandomizerType" 
                                   (input)="validateRandomizers()"
@@ -149,7 +177,11 @@
                       <div class="col-sm-4">
                           <div class="checkbox-inline" [hidden]="abilitiesRandomizerType != 'Set'">
                               <label>
-                                  <input id="abilitiesAdjustCheckbox" type="checkbox" [(ngModel)]="allowAbilitiesAdjustments" (input)="validateRandomizers()"> Allow Adjustments
+                                  <input id="abilitiesAdjustCheckbox" 
+                                         name="abilitiesAdjustCheckbox" 
+                                         type="checkbox" 
+                                         [(ngModel)]="allowAbilitiesAdjustments" 
+                                         (input)="validateRandomizers()"> Allow Adjustments
                               </label>
                           </div>
                       </div>
@@ -158,14 +190,14 @@
                       <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
                       <div class="col-sm-2">
                         <input id="setStrength" 
-                                name="setStrength"
-                                pattern="^[0-9]+$"
-                                class="form-control" 
-                                type="number" 
-                                min="0" 
-                                [(ngModel)]="setStrength" 
-                                (input)="validateRandomizers()"
-                                [required]="abilitiesRandomizerType == 'Set'" />
+                               name="setStrength"
+                               pattern="^[0-9]+$"
+                               class="form-control" 
+                               type="number" 
+                               min="0" 
+                               [(ngModel)]="setStrength" 
+                               (input)="validateRandomizers()"
+                               [required]="abilitiesRandomizerType == 'Set'" />
                       </div>
                       <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
                       <div class="col-sm-2">
@@ -247,7 +279,7 @@
                   <div class="form-group row">
                       <label for="leaderAlignment" class="col-sm-6 col-form-label">Leader Alignment:</label>
                       <div class="col-sm-6">
-                          <select id="leaderAlignment" class="form-select" [(ngModel)]="leaderAlignment" required>
+                          <select id="leaderAlignment" name="leaderAlignment" *ngIf="characterModel" class="form-select" [(ngModel)]="leaderAlignment" required>
                             <option *ngFor="let alignment of characterModel.alignments" [ngValue]="alignment">{{alignment}}</option>
                           </select>
                       </div>
@@ -255,7 +287,7 @@
                   <div class="form-group row">
                       <label for="leaderClassName" class="col-sm-6 col-form-label">Leader Class Name:</label>
                       <div class="col-sm-6">
-                          <select id="leaderClassName" class="form-select" [(ngModel)]="leaderClassName" required>
+                          <select id="leaderClassName" name="leaderClassName" *ngIf="characterModel" class="form-select" [(ngModel)]="leaderClassName" required>
                             <option *ngFor="let className of characterModel.classNames" [ngValue]="className">{{className}}</option>
                           </select>
                       </div>
@@ -283,7 +315,7 @@
                   <div class="form-group row">
                       <label for="leaderAnimal" class="col-sm-6 col-form-label">Leader Animal:</label>
                       <div class="col-sm-6">
-                          <input id="leaderAnimal" class="form-control" type="text" [(ngModel)]="leaderAnimal" />
+                          <input id="leaderAnimal" name="leaderAnimal" class="form-control" type="text" [(ngModel)]="leaderAnimal" />
                       </div>
                   </div>
                   <div class="d-flex justify-content-center">

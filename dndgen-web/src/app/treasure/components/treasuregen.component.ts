@@ -78,7 +78,7 @@ export class TreasureGenComponent implements OnInit {
         tap(data => this.validItem = data),
       )
       .subscribe({
-        next: () => this.finishInit(),
+        complete: () => this.finishInit(),
         error: error => this.handleError(error)
       });
   }
