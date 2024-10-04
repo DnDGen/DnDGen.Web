@@ -2496,7 +2496,7 @@ fdescribe('CharacterGenComponent', () => {
     
       it(`should show that character is invalid - missing set alignment`, () => {
         helper.setSelectByValue('#alignmentRandomizerTypes', 'Set');
-        helper.setSelectByValue('#setAlignment', '');
+        helper.setSelectByValue('#setAlignments', '');
   
         fixture.detectChanges();
   
@@ -2516,7 +2516,7 @@ fdescribe('CharacterGenComponent', () => {
     
       it(`should show that character is invalid - missing set class name`, () => {
         helper.setSelectByValue('#classNameRandomizerTypes', 'Set');
-        helper.setSelectByValue('#setClassName', '');
+        helper.setSelectByValue('#setClassNames', '');
   
         fixture.detectChanges();
   
@@ -3037,6 +3037,48 @@ fdescribe('CharacterGenComponent', () => {
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
+      it(`should bind allowing level adjustments`, async () => {
+        expect(fixture.componentInstance.allowLevelAdjustments).toBeTrue();
+
+        helper.clickCheckbox('#levelAdjustCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.allowLevelAdjustments).toBeFalse();
+
+        helper.clickCheckbox('#levelAdjustCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.allowLevelAdjustments).toBeTrue();
+      });
+    
+      it(`should bind forcing metaraces`, async () => {
+        expect(fixture.componentInstance.forceMetarace).toBeFalse();
+
+        helper.clickCheckbox('#forceMetaraceCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.forceMetarace).toBeTrue();
+
+        helper.clickCheckbox('#forceMetaraceCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.forceMetarace).toBeFalse();
+      });
+    
+      it(`should bind allowing ability adjustments`, async () => {
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeTrue();
+
+        helper.clickCheckbox('#abilitiesAdjustCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeFalse();
+
+        helper.clickCheckbox('#abilitiesAdjustCheckbox');
+
+        fixture.detectChanges();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeTrue();
+      });
+    
       it(`should show when generating a character`, () => {
         const component = fixture.componentInstance;
         component.generating = true;
@@ -3214,7 +3256,7 @@ fdescribe('CharacterGenComponent', () => {
         expect(leadershipTab).toBeTruthy();
   
         helper.expectSelect('#leadership #leaderAlignment', true, 'Lawful Good', 9);
-        helper.expectSelect('#leadership #leaderClassName', true, 'Barbarian', 11);
+        helper.expectSelect('#leadership #leaderClassName', true, 'Barbarian', 16);
         helper.expectNumberInput('#leadership #leaderLevel', true, 6, 6, 20);
         helper.expectNumberInput('#leadership #leaderCharismaBonus', false, 0);
         helper.expectInput('#leadership #leaderAnimal', false, '');
@@ -3330,13 +3372,8 @@ fdescribe('CharacterGenComponent', () => {
   
     it(`should render no character or leadership`, () => {
       helper.expectHasAttribute('#noCharacter', 'hidden', false);
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      let element = compiled!.querySelector('#characterSection dndgen-character');
-      expect(element).toBeFalsy();
-
-      element = compiled!.querySelector('#characterSection dndgen-leadership');
-      expect(element).toBeFalsy();
+      helper.expectExists('#characterSection dndgen-character', false);
+      helper.expectExists('#characterSection dndgen-leadership', false);
     });
     
     it(`should render character`, () => {
@@ -3347,18 +3384,8 @@ fdescribe('CharacterGenComponent', () => {
 
       helper.expectHasAttribute('#noCharacter', 'hidden', true);
       helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
-      
-      const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
-      expect(debugElement).toBeTruthy();
-      expect(debugElement.componentInstance).toBeTruthy();
-      expect(debugElement.componentInstance).toBeInstanceOf(CharacterComponent);
-
-      const characterComponent = debugElement.componentInstance as CharacterComponent;
-      expect(characterComponent.character).toBe(character);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      let element = compiled!.querySelector('#characterSection dndgen-leadership');
-      expect(element).toBeFalsy();
+      helper.expectCharacter('#characterSection dndgen-character', true, character);
+      helper.expectExists('#characterSection dndgen-leadership', false);
     });
     
     it(`should render leadership`, () => {
@@ -3379,10 +3406,8 @@ fdescribe('CharacterGenComponent', () => {
       expect(leadershipComponent.leadership).toBe(leadership);
       expect(leadershipComponent.cohort).toBeNull();
       expect(leadershipComponent.followers).toEqual([]);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      let element = compiled!.querySelector('#characterSection dndgen-character');
-      expect(element).toBeNull();
+
+      helper.expectExists('#characterSection dndgen-character', false);
     });
 
     it(`should render leadership with cohort`, () => {
@@ -3394,6 +3419,7 @@ fdescribe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
+      expect(fixture.componentInstance.character).toBeNull();
       helper.expectHasAttribute('#noCharacter', 'hidden', true);
       helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
@@ -3406,10 +3432,8 @@ fdescribe('CharacterGenComponent', () => {
       expect(leadershipComponent.leadership).toBe(leadership);
       expect(leadershipComponent.cohort).toBe(cohort);
       expect(leadershipComponent.followers).toEqual([]);
-      
-      const compiled = fixture.nativeElement as HTMLElement;
-      let element = compiled!.querySelector('#characterSection dndgen-character');
-      expect(element).toBeNull();
+
+      helper.expectExists('#characterSection > dndgen-character', false);
     });
 
     it(`should render leadership with cohort and followers`, () => {
@@ -3439,9 +3463,7 @@ fdescribe('CharacterGenComponent', () => {
       expect(leadershipComponent.cohort).toBe(cohort);
       expect(leadershipComponent.followers).toEqual(followers);
       
-      const compiled = fixture.nativeElement as HTMLElement;
-      let element = compiled!.querySelector('#characterSection dndgen-character');
-      expect(element).toBeNull();
+      helper.expectExists('#characterSection > dndgen-character', false);
     });
 
     it(`should render character and leadership`, () => {
@@ -3455,18 +3477,11 @@ fdescribe('CharacterGenComponent', () => {
 
       helper.expectHasAttribute('#noCharacter', 'hidden', true);
       helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
-      
-      let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
-      expect(debugElement).toBeTruthy();
-      expect(debugElement.componentInstance).toBeTruthy();
-      expect(debugElement.componentInstance).toBeInstanceOf(CharacterComponent);
-
-      const characterComponent = debugElement.componentInstance as CharacterComponent;
-      expect(characterComponent.character).toBe(character);
+      helper.expectCharacter('#characterSection dndgen-character', true, character);
 
       helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
-      debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
+      let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
       expect(debugElement.componentInstance).toBeTruthy();
       expect(debugElement.componentInstance).toBeInstanceOf(LeadershipComponent);
@@ -3495,18 +3510,11 @@ fdescribe('CharacterGenComponent', () => {
 
       helper.expectHasAttribute('#noCharacter', 'hidden', true);
       helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
-      
-      let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-character'));
-      expect(debugElement).toBeTruthy();
-      expect(debugElement.componentInstance).toBeTruthy();
-      expect(debugElement.componentInstance).toBeInstanceOf(CharacterComponent);
-
-      const characterComponent = debugElement.componentInstance as CharacterComponent;
-      expect(characterComponent.character).toBe(character);
+      helper.expectCharacter('#characterSection dndgen-character', true, character);
       
       helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
       
-      debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
+      let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
       expect(debugElement.componentInstance).toBeTruthy();
       expect(debugElement.componentInstance).toBeInstanceOf(LeadershipComponent);
@@ -3525,15 +3533,13 @@ fdescribe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      helper.clickButton('#downloadCharacterButton');
+      helper.clickButton('#downloadButton');
 
-      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my character summary');
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my character summary.txt');
         
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
-      expect(text).toEqual('9,266 munny\r\n' +
-        'Goods (x0)\r\n' +
-        'Items (x0)\r\n');
+      expect(text).toMatch(/^my character summary:\r\n.+\r\n$/);
     });
     
     it(`should download character with leadership`, async () => {
@@ -3550,15 +3556,13 @@ fdescribe('CharacterGenComponent', () => {
 
       fixture.detectChanges();
 
-      helper.clickButton('#downloadCharacterButton');
+      helper.clickButton('#downloadButton');
 
-      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my character summary');
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my character summary.txt');
         
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
-      expect(text).toEqual('9,266 munny\r\n' +
-        'Goods (x0)\r\n' +
-        'Items (x0)\r\n');
+      expect(text).toMatch(/^my character summary:\\r\\n.+\\r\\nLeadership:\\r\\n.+\\r\\nCohort:\\r\\n.+\\r\\nFollowers:\\r\\n$/);
     });
   });
 });

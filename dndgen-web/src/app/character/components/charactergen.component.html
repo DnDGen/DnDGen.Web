@@ -339,12 +339,8 @@
       </div>
       <div id="characterSection" [hidden]="generating">
         <span id="noCharacter" class="italicize" [hidden]="character || leadership">No character has been generated</span>
-        <div *ngIf="character">
-          <dndgen-character [character]="character!"></dndgen-character>
-        </div>
-        <div *ngIf="leadership">
-          <dndgen-leadership [leadership]="leadership!" [cohort]="cohort" [followers]="followers"></dndgen-leadership>
-        </div>
+        <dndgen-character *ngIf="character" [character]="character!"></dndgen-character>
+        <dndgen-leadership *ngIf="leadership" [leadership]="leadership!" [cohort]="cohort" [followers]="followers"></dndgen-leadership>
       </div>
     </div>
   </div>

@@ -162,12 +162,12 @@ export class TestHelper<T> {
   }
 
   public expectElements(selector: string, text: string[]) {
-    const listItems = this.compiled.querySelectorAll(selector);
-    expect(listItems).toBeTruthy();
-    expect(listItems!.length).toEqual(text.length);
+    const elements = this.compiled.querySelectorAll(selector);
+    expect(elements).toBeTruthy();
+    expect(elements!.length).toEqual(text.length);
 
-    for(var i = 0; i < listItems.length; i++) {
-      expect(listItems.item(i).textContent).toEqual(text[i]);
+    for(var i = 0; i < elements.length; i++) {
+      expect(elements.item(i).textContent).toEqual(text[i]);
     }
   }
 
@@ -220,7 +220,7 @@ export class TestHelper<T> {
     expect(options).toBeTruthy();
     expect(options!.length).toEqual(optionCount);
 
-    if (options) {
+    if (optionValues) {
       this.expectElements(`${selector} > option`, optionValues!);
     }
   }
@@ -286,5 +286,14 @@ export class TestHelper<T> {
     const button = this.compiled.querySelector(selector) as HTMLButtonElement;
 
     button.click();
+  }
+
+  public clickCheckbox(selector: string) {
+    this.expectHasAttribute(selector, 'hidden', false);
+    this.expectHasAttribute(selector, 'disabled', false);
+
+    const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
+
+    checkbox.click();
   }
 }
