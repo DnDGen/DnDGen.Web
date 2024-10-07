@@ -58,7 +58,7 @@
           <li class="item-magic-intelligence-dedicated-power" [hidden]="item.magic.intelligence.specialPurpose.length == 0">
             <span>Dedicated Power: {{item.magic.intelligence.dedicatedPower}}</span>
           </li>
-          <li class="item-magic-intelligence-personality">Personality: <span *ngIf="item.magic.intelligence.personality.length > 0">{{item.magic.intelligence.personality}}</span><span *ngIf="item.magic.intelligence.personality.length == 0">None</span></li>
+          <li class="item-magic-intelligence-personality">Personality: {{personality}}</li>
         </ul>
       </dndgen-details>
     </li>

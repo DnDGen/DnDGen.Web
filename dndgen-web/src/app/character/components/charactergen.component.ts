@@ -58,7 +58,7 @@ export class CharacterGenComponent implements OnInit {
   @Input() setClassName = '';
 
   @Input() levelRandomizerType = '';
-  @Input() setLevel = 0;
+  @Input() setLevel = 1;
   @Input() allowLevelAdjustments = true;
 
   @Input() baseRaceRandomizerType = '';
@@ -69,12 +69,12 @@ export class CharacterGenComponent implements OnInit {
   @Input() setMetarace = '';
 
   @Input() abilitiesRandomizerType = '';
-  @Input() setStrength = 0;
-  @Input() setConstitution = 0;
-  @Input() setDexterity = 0;
-  @Input() setIntelligence = 0;
-  @Input() setWisdom = 0;
-  @Input() setCharisma = 0;
+  @Input() setStrength = 10;
+  @Input() setConstitution = 10;
+  @Input() setDexterity = 10;
+  @Input() setIntelligence = 10;
+  @Input() setWisdom = 10;
+  @Input() setCharisma = 10;
   @Input() allowAbilitiesAdjustments = true;
   
   @Input() leaderAlignment = '';
@@ -148,14 +148,11 @@ export class CharacterGenComponent implements OnInit {
     this.setClassName = this.characterModel.classNames[0];
 
     this.levelRandomizerType = this.characterModel.levelRandomizerTypes[0];
-    this.setLevel = 0;
-    this.allowLevelAdjustments = true;
 
     this.baseRaceRandomizerType = this.characterModel.baseRaceRandomizerTypes[0];
     this.setBaseRace = this.characterModel.baseRaces[0];
 
     this.metaraceRandomizerType = this.characterModel.metaraceRandomizerTypes[0];
-    this.forceMetarace = false;
     this.setMetarace = this.characterModel.metaraces[0];
 
     this.abilitiesRandomizerType = this.characterModel.abilitiesRandomizerTypes[0];
@@ -180,60 +177,60 @@ export class CharacterGenComponent implements OnInit {
     this.sweetAlertService.showError();
   }
 
-  public validateRandomizers(): void {
+  public validateRandomizers(
+    alignmentRandomizerType?: string, setAlignment?: string,
+    classNameRandomizerType?: string, setClassName?: string,
+    levelRandomizerType?: string, setLevel?: number, allowLevelAdjustments?: boolean,
+    baseRaceRandomizerType?: string, setBaseRace?: string,
+    metaraceRandomizerType?: string, setMetarace?: string, forceMetarace?: boolean,
+    abilitiesRandomizerType?: string, setStrength?: number, setConstitution?: number, setDexterity?: number, setIntelligence?: number, setWisdom?: number, setCharisma?: number,
+  ): void {
     this.validating = true;
 
-    if (this.levelRandomizerType === 'Set' && this.setLevel === 0) {
+    if ((!(alignmentRandomizerType ?? this.alignmentRandomizerType))
+      || (!(setAlignment ?? this.setAlignment))
+      || (!(classNameRandomizerType ?? this.classNameRandomizerType))
+      || (!(setClassName ?? this.setClassName))
+      || (!(levelRandomizerType ?? this.levelRandomizerType))
+      || (!(setLevel ?? this.setLevel))
+      || ((setLevel ?? this.setLevel) <= 0)
+      || (!(baseRaceRandomizerType ?? this.baseRaceRandomizerType))
+      || (!(setBaseRace ?? this.setBaseRace))
+      || (!(metaraceRandomizerType ?? this.metaraceRandomizerType))
+      || (!(setMetarace ?? this.setMetarace))
+      || (!(abilitiesRandomizerType ?? this.abilitiesRandomizerType))
+      || ((setStrength ?? this.setStrength) <= 0)
+      || ((setConstitution ?? this.setConstitution) <= 0)
+      || ((setDexterity ?? this.setDexterity) <= 0)
+      || ((setIntelligence ?? this.setIntelligence) <= 0)
+      || ((setWisdom ?? this.setWisdom) <= 0)
+      || ((setCharisma ?? this.setCharisma) <= 0)
+    ) {
       this.setValidity(false);
+      return;
     }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setStrength === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setConstitution === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setDexterity === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setIntelligence === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setWisdom === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.abilitiesRandomizerType === 'Set' && this.setCharisma === 0) {
-      this.setValidity(false);
-    }
-
-    if (this.validating) {
-      this.characterService
-        .validate(
-          this.alignmentRandomizerType,
-          this.setAlignment,
-          this.classNameRandomizerType,
-          this.setClassName,
-          this.levelRandomizerType,
-          this.setLevel,
-          this.allowLevelAdjustments,
-          this.baseRaceRandomizerType,
-          this.setBaseRace,
-          this.metaraceRandomizerType,
-          this.forceMetarace,
-          this.setMetarace)
-        .subscribe({
-          next: data => this.setValidity(data),
-          error: error => {
-            this.valid = false;
-            this.handleError(error);
-          }
-        });
-    }
+    
+    this.characterService
+      .validate(
+        (alignmentRandomizerType ?? this.alignmentRandomizerType),
+        (setAlignment ?? this.setAlignment),
+        (classNameRandomizerType ?? this.classNameRandomizerType),
+        (setClassName ?? this.setClassName),
+        (levelRandomizerType ?? this.levelRandomizerType),
+        (setLevel ?? this.setLevel),
+        (allowLevelAdjustments ?? this.allowLevelAdjustments),
+        (baseRaceRandomizerType ?? this.baseRaceRandomizerType),
+        (setBaseRace ?? this.setBaseRace),
+        (metaraceRandomizerType ?? this.metaraceRandomizerType),
+        (forceMetarace ?? this.forceMetarace),
+        (setMetarace ?? this.setMetarace))
+      .subscribe({
+        next: data => this.setValidity(data),
+        error: error => {
+          this.setValidity(false);
+          this.handleError(error);
+        }
+      });
   }
 
   private setValidity(data: boolean) {

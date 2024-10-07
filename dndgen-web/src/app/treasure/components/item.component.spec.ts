@@ -6,7 +6,6 @@ import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
 import { DetailsComponent } from '../../shared/components/details.component';
-import { By } from '@angular/platform-browser';
 import { TestHelper } from '../../testHelper.spec';
 
 describe('ItemComponent', () => {
@@ -564,10 +563,7 @@ describe('ItemComponent', () => {
       }
       
       helper.expectExists('li.item-armor', selector == 'li.item-armor');
-      helper.expectHasAttribute('li.item-armor', 'hidden', false);
-
       helper.expectExists('li.item-weapon', selector == 'li.item-weapon');
-      helper.expectHasAttribute('li.item-weapon', 'hidden', false);
     }
   
     it(`should render an item with traits`, () => {
@@ -789,7 +785,7 @@ describe('ItemComponent', () => {
 
       helper.expectElement('.item-magic-intelligence-communication span', 'Communication:');
 
-      const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
+      const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication > ul > li');
       expect(communicationListItems).toBeTruthy();
       expect(communicationListItems?.length).toBe(3);
       expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
@@ -1190,11 +1186,11 @@ describe('ItemComponent', () => {
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-special-purpose > span', 'Special Purpose: to fight crime');
+      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-dedicated-powe> span', 'Dedicated Power: get really, really mad');
+      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
       helper.expectExists('li.item-armor', false);
@@ -1235,7 +1231,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x9266)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my armor description (x9266)', true);
       helper.expectHasAttribute('li.item-contents', 'hidden', false);
       helper.expectHasAttribute('li.item-traits', 'hidden', false);
       helper.expectHasAttribute('li.item-magic-bonus', 'hidden', false);
@@ -1290,11 +1286,11 @@ describe('ItemComponent', () => {
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-special-purpose > span', 'Special Purpose: to fight crime');
+      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-dedicated-powe> span', 'Dedicated Power: get really, really mad');
+      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
       
@@ -1353,7 +1349,7 @@ describe('ItemComponent', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x9266)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my weapon description (x9266)', true);
       helper.expectHasAttribute('li.item-contents', 'hidden', false);
       helper.expectHasAttribute('li.item-traits', 'hidden', false);
       helper.expectHasAttribute('li.item-magic-bonus', 'hidden', false);
@@ -1408,11 +1404,11 @@ describe('ItemComponent', () => {
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-special-purpose > span', 'Special Purpose: to fight crime');
+      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-dedicated-powe> span', 'Dedicated Power: get really, really mad');
+      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
 

@@ -111,7 +111,7 @@ export class TestHelper<T> {
     this.expectLoading(validatingSelector, true, Size.Small);
   }
 
-  public expectGenerating(generating: boolean, buttonSelector: string, resultSelector: string, generatingSelector: string, validatingSelector?: string, downloadSelector?: string) {
+  public expectGenerating(generating: boolean, buttonSelector: string, resultSelector: string, generatingSelector: string, validatingSelector?: string | null, downloadSelector?: string) {
     expect(generating).toBeTrue();
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     
@@ -174,14 +174,17 @@ export class TestHelper<T> {
   public expectGenerated(
     generating: boolean, 
     buttonSelector: string, 
-    validatingSelector: string, 
     resultSelector: string, 
     generatingSelector: string, 
+    validatingSelector: string | null, 
     downloadSelector?: string) {
 
     expect(generating).toBeFalse();
     this.expectHasAttribute(buttonSelector, 'disabled', false);
-    this.expectLoading(validatingSelector, false, Size.Small);
+    
+    if (validatingSelector)
+      this.expectLoading(validatingSelector, false, Size.Small);
+
     this.expectHasAttribute(resultSelector, 'hidden', false);
     this.expectLoading(generatingSelector, false, Size.Medium);
     
@@ -228,8 +231,8 @@ export class TestHelper<T> {
   public expectCheckboxInput(selector: string, required: boolean, value: boolean) {
     const input = this.compiled.querySelector(selector) as HTMLInputElement;
     expect(input).toBeTruthy();
-    expect(input!.value).toEqual(`${value}`);
-    expect(input.getAttribute('checkbox')).toEqual('number');
+    expect(input!.checked).toEqual(value);
+    expect(input.getAttribute('type')).toEqual('checkbox');
     this.expectHasAttribute(selector, 'required', required);
   }
 
@@ -274,9 +277,12 @@ export class TestHelper<T> {
   }
 
   public setSelectByIndex(selector: string, index: number) {
-    const select = this.compiled.querySelector(selector) as HTMLSelectElement;
-    select.value = select.options[index].value;
+    expect(index).toBeGreaterThanOrEqual(0);
 
+    const select = this.compiled.querySelector(selector) as HTMLSelectElement;
+    expect(index).toBeLessThan(select.options.length);
+
+    select.value = select.options[index].value;
     select.dispatchEvent(new Event('change'));
   }
 
@@ -295,5 +301,13 @@ export class TestHelper<T> {
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
 
     checkbox.click();
+  }
+
+  public async waitForService() {
+    this.fixture.detectChanges();
+    await this.fixture.whenStable();
+    
+    //update view
+    this.fixture.detectChanges();
   }
 }

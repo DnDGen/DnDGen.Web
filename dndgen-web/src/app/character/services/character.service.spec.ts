@@ -304,7 +304,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -325,7 +325,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -346,7 +346,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -367,7 +367,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -388,7 +388,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -409,9 +409,51 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
+                    done();
+                });
+        });
+    
+        it('validates an invalid character - level too high', done => {
+            characterService
+                .validate(
+                    'Set',
+                    'Neutral Good',
+                    'Set',
+                    'Fighter',
+                    'Set',
+                    21,
+                    true,
+                    'Set',
+                    'Half-Orc',
+                    'Set',
+                    false,
+                    'Ghost')
+                .subscribe((validity) => {
+                    expect(validity).toBe(false);
+                    done();
+                });
+        });
+    
+        it('validates an valid character - level at max', done => {
+            characterService
+                .validate(
+                    'Set',
+                    'Neutral Good',
+                    'Set',
+                    'Fighter',
+                    'Set',
+                    20,
+                    true,
+                    'Set',
+                    'Half-Orc',
+                    'Set',
+                    false,
+                    'Ghost')
+                .subscribe((validity) => {
+                    expect(validity).toBe(true);
                     done();
                 });
         });
@@ -430,7 +472,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -451,7 +493,7 @@ describe('Character Service', () => {
                     'Bad Race',
                     'Set',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
@@ -472,7 +514,7 @@ describe('Character Service', () => {
                     'Half-Orc',
                     'Bad',
                     false,
-                    'Werewolf')
+                    'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();

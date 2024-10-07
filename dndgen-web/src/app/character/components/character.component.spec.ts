@@ -21,8 +21,6 @@ import { Spell } from '../models/spell.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
-import { ItemComponent } from '../../treasure/components/item.component';
-import { TreasureComponent } from '../../treasure/components/treasure.component';
 import { TestHelper } from '../../testHelper.spec';
 
 describe('CharacterComponent', () => {

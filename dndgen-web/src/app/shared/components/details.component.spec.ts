@@ -57,17 +57,9 @@ describe('DetailsComponent', () => {
       helper = new TestHelper(fixture);
       
       //run ngOnInit
-      await waitForService();
+      await helper.waitForService();
     });
 
-    async function waitForService(waitingFixture: ComponentFixture<DetailsComponent> = fixture) {
-      waitingFixture.detectChanges();
-      await waitingFixture.whenStable();
-      
-      //update view
-      waitingFixture.detectChanges();
-    }
-  
     it('should create the details component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
@@ -109,9 +101,10 @@ describe('DetailsComponent', () => {
 
     it('should set distinct ids for multiple components', async () => {
       const otherFixture = TestBed.createComponent(DetailsComponent);
+      helper = new TestHelper(otherFixture);
       
       //run ngOnInit
-      await waitForService(otherFixture);
+      await helper.waitForService();
 
       expect(fixture.componentInstance.id).not.toEqual(otherFixture.componentInstance.id);
     });
@@ -139,7 +132,7 @@ describe('DetailsComponent', () => {
       expect(details?.getAttribute('class')).toEqual('details-section collapsing');
       
       //TODO: Figure out how to get collapsing to finish, so we can test 'show;
-      // await waitForService();
+      // await helper.waitForService();
       // await fixture.whenRenderingDone();
       // fixture.detectChanges();
 
@@ -154,7 +147,7 @@ describe('DetailsComponent', () => {
       // expect(details).toBeDefined();
       // expect(details?.getAttribute('class')).toEqual('collapsing');
       
-      // await waitForService();
+      // await helper.waitForService();
       
       // details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
       // expect(details).toBeDefined();

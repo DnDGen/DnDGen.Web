@@ -469,16 +469,8 @@ describe('RollGenComponent', () => {
       helper = new TestHelper(fixture);
       
       //run ngOnInit
-      await waitForService();
+      await helper.waitForService();
     });
-
-    async function waitForService() {
-      fixture.detectChanges();
-      await fixture.whenStable();
-      
-      //update view
-      fixture.detectChanges();
-    }
   
     it('should create the component', () => {
       const component = fixture.componentInstance;
@@ -585,7 +577,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
       });
@@ -602,7 +594,7 @@ describe('RollGenComponent', () => {
           helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
     
           //run roll validation
-          await waitForService();
+          await helper.waitForService();
     
           helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
         });
@@ -624,7 +616,7 @@ describe('RollGenComponent', () => {
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[1]);
         helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
 
-        await waitForService();
+        await helper.waitForService();
         
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
       });
@@ -640,7 +632,7 @@ describe('RollGenComponent', () => {
           expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[test]);
           helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
 
-          await waitForService();
+          await helper.waitForService();
 
           helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
         });
@@ -656,7 +648,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
       });
@@ -671,7 +663,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#standardRollButton', '#standardValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#standardRollButton', '#standardValidating');
       });
@@ -682,7 +674,13 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
 
-        helper.expectGenerating(fixture.componentInstance.rolling, '#standardRollButton', '#standardValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(
+          fixture.componentInstance.rolling, 
+          '#standardRollButton', 
+          '#rollSection', 
+          '#rollingSection',
+          '#standardValidating', 
+        );
       });
     
       it(`should roll the default standard roll`, async () => {
@@ -690,12 +688,18 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#standardRollButton', '#standardValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(
+          fixture.componentInstance.rolling, 
+          '#standardRollButton', 
+          '#rollSection', 
+          '#rollingSection',
+          '#standardValidating', 
+        );
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#standardRollButton', '#standardValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#standardRollButton', '#rollSection', '#rollingSection', '#standardValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -714,18 +718,24 @@ describe('RollGenComponent', () => {
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[2]);
 
         //run validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.clickButton('#standardRollButton');
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#standardRollButton', '#standardValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(
+          fixture.componentInstance.rolling, 
+          '#standardRollButton', 
+          '#rollSection', 
+          '#rollingSection',
+          '#standardValidating', 
+        );
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#standardRollButton', '#standardValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#standardRollButton', '#rollSection', '#rollingSection', '#standardValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -737,31 +747,12 @@ describe('RollGenComponent', () => {
   
     describe('the custom tab', () => {
       it(`should render the custom tab`, () => {
-        const compiled = fixture.nativeElement as HTMLElement;
-  
-        const customTab = compiled.querySelector('#custom');
-        expect(customTab).toBeDefined();
-  
-        const customQuantityInput = customTab!.querySelector('#customQuantity') as HTMLInputElement;
-        expect(customQuantityInput).toBeDefined();
-        expect(customQuantityInput?.value).toEqual('1');
-        expect(customQuantityInput?.getAttribute('type')).toEqual('number');
-        expect(customQuantityInput?.getAttribute('min')).toEqual('1');
-        expect(customQuantityInput?.getAttribute('max')).toEqual('10000');
-        expect(customQuantityInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        helper.expectHasAttribute('#customQuantity', 'required', true);
-  
-        const customDieInput = customTab!.querySelector('#customDie') as HTMLInputElement;
-        expect(customDieInput).toBeDefined();
-        expect(customDieInput?.value).toEqual('5');
-        expect(customDieInput?.getAttribute('type')).toEqual('number');
-        expect(customDieInput?.getAttribute('min')).toEqual('1');
-        expect(customDieInput?.getAttribute('max')).toEqual('10000');
-        expect(customDieInput?.getAttribute('pattern')).toEqual('^[0-9]+$');
-        helper.expectHasAttribute('#customDie', 'required', true);
-  
-        helper.expectHasAttribute('#customRollButton', 'disabled', false);
-        helper.expectLoading('#customValidating', false, Size.Small);
+        helper.expectExists('#custom');
+        helper.expectNumberInput('#custom #customQuantity', true, 1, 1, 10000);
+        helper.expectNumberInput('#custom #customDie', true, 5, 1, 10000);
+
+        helper.expectHasAttribute('#custom #customRollButton', 'disabled', false);
+        helper.expectLoading('#custom #customValidating', false, Size.Small);
       });
     
       it(`should show when validating a custom roll`, () => {
@@ -809,7 +800,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
       });
@@ -826,7 +817,7 @@ describe('RollGenComponent', () => {
           helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
     
           //run roll validation
-          await waitForService();
+          await helper.waitForService();
     
           helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
         });
@@ -868,7 +859,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
       });
@@ -883,7 +874,7 @@ describe('RollGenComponent', () => {
           helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
     
           //run roll validation
-          await waitForService();
+          await helper.waitForService();
     
           helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
         });
@@ -900,7 +891,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
       });
@@ -916,7 +907,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#customRollButton', '#customValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#customRollButton', '#customValidating');
       });
@@ -927,7 +918,7 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
 
-        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#customValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
       });
     
       it(`should roll the default custom roll`, async () => {
@@ -935,12 +926,12 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#customValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#customRollButton', '#customValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -959,18 +950,18 @@ describe('RollGenComponent', () => {
         expect(fixture.componentInstance.customDie).toEqual(7);
 
         //run validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.clickButton('#customRollButton');
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#customValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#customRollButton', '#customValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -982,19 +973,11 @@ describe('RollGenComponent', () => {
   
     describe('the expression tab', () => {
       it(`should render the expression tab`, () => {
-        const compiled = fixture.nativeElement as HTMLElement;
-  
-        const expressionTab = compiled.querySelector('#expression');
-        expect(expressionTab).toBeTruthy();
-  
-        const expressionInput = expressionTab!.querySelector('#rollExpression') as HTMLInputElement;
-        expect(expressionInput).toBeDefined();
-        expect(expressionInput?.value).toEqual('4d6k3+2');
-        expect(expressionInput?.getAttribute('type')).toEqual('text');
-        helper.expectHasAttribute('#rollExpression', 'required', true);
-  
-        helper.expectHasAttribute('#expressionRollButton', 'disabled', false);
-        helper.expectLoading('#expressionValidating', false, Size.Small);
+        helper.expectExists('#expression');
+        helper.expectInput('#expression #rollExpression', true, '4d6k3+2');
+
+        helper.expectHasAttribute('#expression #expressionRollButton', 'disabled', false);
+        helper.expectLoading('#expression #expressionValidating', false, Size.Small);
       });
     
       it(`should show when validating an expression`, () => {
@@ -1024,7 +1007,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#expressionRollButton', '#expressionValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
       });
@@ -1038,7 +1021,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#expressionRollButton', '#expressionValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
       });
@@ -1052,7 +1035,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#expressionRollButton', '#expressionValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
       });
@@ -1066,7 +1049,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#expressionRollButton', '#expressionValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
       });
@@ -1080,7 +1063,7 @@ describe('RollGenComponent', () => {
         helper.expectValidating(fixture.componentInstance.validating, '#expressionRollButton', '#expressionValidating');
   
         //run roll validation
-        await waitForService();
+        await helper.waitForService();
   
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
       });
@@ -1091,7 +1074,7 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
 
-        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
       });
     
       it(`should roll the default expression`, async () => {
@@ -1099,12 +1082,12 @@ describe('RollGenComponent', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -1121,18 +1104,18 @@ describe('RollGenComponent', () => {
         expect(fixture.componentInstance.expression).toEqual('3d6t1-2');
 
         //run validation
-        await waitForService();
+        await helper.waitForService();
 
         helper.clickButton('#expressionRollButton');
   
         fixture.detectChanges();
         
-        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         //run roll
-        await waitForService();
+        await helper.waitForService();
   
-        helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+        helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
@@ -1179,19 +1162,19 @@ describe('RollGenComponent', () => {
           expect(fixture.componentInstance.expression).toEqual(test.e);
   
           //run validation
-          await waitForService();
+          await helper.waitForService();
   
           helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.rollIsValid, '#expressionRollButton', '#expressionValidating');
           helper.clickButton('#expressionRollButton');
     
           fixture.detectChanges();
           
-          helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+          helper.expectGenerating(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
   
           //run roll
-          await waitForService();
+          await helper.waitForService();
     
-          helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#expressionValidating', '#rollSection', '#rollingSection');
+          helper.expectGenerated(fixture.componentInstance.rolling, '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
           const compiled = fixture.nativeElement as HTMLElement;
           const rollSection = compiled.querySelector('#rollSection');
@@ -1208,7 +1191,7 @@ describe('RollGenComponent', () => {
     it(`should render the initial roll`, () => {
       helper.expectHasAttribute('#rollSection', 'hidden', false);
       helper.expectElement('#rollSection', '0');
-      helper.expectHasAttribute('#rollingSection', 'hidden', true);
+      helper.expectLoading('#rollingSection', false, Size.Medium);
     });
     
     it(`should format a roll`, () => {

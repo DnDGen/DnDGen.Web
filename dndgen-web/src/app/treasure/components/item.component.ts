@@ -13,6 +13,17 @@ export class ItemComponent {
 
   public get armor() { return this.item as Armor };
   public get weapon() { return this.item as Weapon };
+  public get personality() {
+     if (!this.item.magic.intelligence) {
+      return '';
+     }
+
+     if (this.item.magic.intelligence.personality) {
+      return this.item.magic.intelligence.personality
+     }
+
+     return 'None';
+  }
 
   public isArmor(): boolean {
     return this.item instanceof Armor;

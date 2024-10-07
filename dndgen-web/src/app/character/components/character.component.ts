@@ -51,12 +51,17 @@ export class CharacterComponent {
   }
 
   private compare(a: string, b: string) {
-    if ( a.toLowerCase() < b.toLowerCase() ){
+    const aa = a?.toLowerCase() ?? '';
+    const bb = b?.toLowerCase() ?? '';
+
+    if ( aa < bb ){
       return -1;
     }
-    if ( a.toLowerCase() > b.toLowerCase() ){
+
+    if ( aa > bb ){
       return 1;
     }
+
     return 0;
   }
 }
