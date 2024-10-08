@@ -3385,7 +3385,7 @@ describe('CharacterGenComponent', () => {
       it(`should generate non-default leadership`, async () => {
         helper.setSelectByIndex('#leaderAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Chaotic Neutral'));
         helper.setSelectByIndex('#leaderClassName', fixture.componentInstance.characterModel.classNames.indexOf('Sorcerer'));
-        helper.setInput('#leaderLevel', '20');
+        helper.setInput('#leaderLevel', '10');
         helper.setInput('#leaderCharismaBonus', '5');
         helper.setInput('#leaderAnimal', 'Weasel');
   
@@ -3393,7 +3393,7 @@ describe('CharacterGenComponent', () => {
 
         expect(fixture.componentInstance.leaderAlignment).toEqual('Chaotic Neutral');
         expect(fixture.componentInstance.leaderClassName).toEqual('Sorcerer');
-        expect(fixture.componentInstance.leaderLevel).toEqual(20);
+        expect(fixture.componentInstance.leaderLevel).toEqual(10);
         expect(fixture.componentInstance.leaderCharismaBonus).toEqual(5);
         expect(fixture.componentInstance.leaderAnimal).toEqual('Weasel');
 
@@ -3409,7 +3409,7 @@ describe('CharacterGenComponent', () => {
           '#characterValidating', 
           '#downloadButton');
 
-        //run roll
+        //run generation
         await helper.waitForService();
   
         helper.expectGenerated(
@@ -3430,8 +3430,66 @@ describe('CharacterGenComponent', () => {
         const leadershipComponent = element.componentInstance as LeadershipComponent;
         expect(leadershipComponent.leadership).toBeTruthy();
         expect(leadershipComponent.cohort).toBeTruthy();
-        expect(leadershipComponent.followers.length).toBeGreaterThan(0);
+        //Using the lvl 1 followers at score-2
+        expect(leadershipComponent.followers.length).toBeGreaterThan(10);
       });
+    
+      for(let i = 0; i < 10; i++) {
+        it(`FLAKY - should generate full leadership`, async () => {
+          helper.setSelectByIndex('#leaderAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Lawful Evil'));
+          helper.setSelectByIndex('#leaderClassName', fixture.componentInstance.characterModel.classNames.indexOf('Ranger'));
+          helper.setInput('#leaderLevel', '20');
+          //INFO: Score of 21 grants at least 1 level 6 follower
+          //Modifiers might end up decreasing the overall score to lower and remove the level 6 follower
+          //So, we repeat this test to be sure
+          helper.setInput('#leaderCharismaBonus', '1');
+          helper.setInput('#leaderAnimal', 'Wolf');
+    
+          fixture.detectChanges();
+
+          expect(fixture.componentInstance.leaderAlignment).toEqual('Lawful Evil');
+          expect(fixture.componentInstance.leaderClassName).toEqual('Ranger');
+          expect(fixture.componentInstance.leaderLevel).toEqual(20);
+          expect(fixture.componentInstance.leaderCharismaBonus).toEqual(1);
+          expect(fixture.componentInstance.leaderAnimal).toEqual('Wolf');
+
+          helper.clickButton('#generateLeadershipButton');
+    
+          fixture.detectChanges();
+          
+          helper.expectGenerating(
+            fixture.componentInstance.generating,
+            '#generateCharacterButton', 
+            '#characterSection', 
+            '#generatingSection > dndgen-loading', 
+            '#characterValidating', 
+            '#downloadButton');
+
+          //run generation
+          await helper.waitForService();
+    
+          helper.expectGenerated(
+            fixture.componentInstance.generating,
+            '#generateCharacterButton', 
+            '#characterSection', 
+            '#generatingSection > dndgen-loading', 
+            '#characterValidating', 
+            '#downloadButton');
+          helper.expectExists('#characterSection > dndgen-character', false);
+          helper.expectExists('#characterSection dndgen-leadership', true);
+
+          const element = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
+          expect(element).toBeTruthy();
+          expect(element.componentInstance).toBeTruthy();
+          expect(element.componentInstance).toBeInstanceOf(LeadershipComponent);
+    
+          const leadershipComponent = element.componentInstance as LeadershipComponent;
+          expect(leadershipComponent.leadership).toBeTruthy();
+          expect(leadershipComponent.cohort).toBeTruthy();
+          //Using the lvl 1 followers at score-2
+          expect(leadershipComponent.followers.length).toBeGreaterThan(40);
+        });
+      }
     });
   
     it(`should render no character or leadership`, () => {
