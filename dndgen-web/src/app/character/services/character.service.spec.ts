@@ -416,19 +416,19 @@ describe('Character Service', () => {
                 });
         });
     
-        it('validates an invalid character - level too high', done => {
+        it('BUG - validates an invalid character - level too high', done => {
             characterService
                 .validate(
-                    'Set',
+                    'Any',
                     'Neutral Good',
-                    'Set',
+                    'Any Player',
                     'Fighter',
                     'Set',
                     21,
                     true,
-                    'Set',
+                    'Any Base',
                     'Half-Orc',
-                    'Set',
+                    'Any Meta',
                     false,
                     'Ghost')
                 .subscribe((validity) => {
@@ -437,7 +437,7 @@ describe('Character Service', () => {
                 });
         });
     
-        it('validates an valid character - level at max', done => {
+        it('BUG - validates an valid character - level at max', done => {
             characterService
                 .validate(
                     'Set',
@@ -452,6 +452,48 @@ describe('Character Service', () => {
                     'Set',
                     false,
                     'Ghost')
+                .subscribe((validity) => {
+                    expect(validity).toBe(true);
+                    done();
+                });
+        });
+    
+        it('BUG - validates an invalid character - Good Lich', done => {
+            characterService
+                .validate(
+                    'Good',
+                    'Neutral Good',
+                    'Any Player',
+                    'Fighter',
+                    'Any',
+                    1,
+                    true,
+                    'Any Base',
+                    'Aasimar',
+                    'Set',
+                    false,
+                    'Lich')
+                .subscribe((validity) => {
+                    expect(validity).toBe(false);
+                    done();
+                });
+        });
+    
+        it('BUG - validates an valid character - Evil Lich', done => {
+            characterService
+                .validate(
+                    'Evil',
+                    'Neutral Good',
+                    'Any Player',
+                    'Fighter',
+                    'Any',
+                    1,
+                    true,
+                    'Any Base',
+                    'Aasimar',
+                    'Set',
+                    false,
+                    'Lich')
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
                     done();

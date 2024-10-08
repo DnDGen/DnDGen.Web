@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CharacterGenComponent } from './charactergen.component';
 import { AppModule } from '../../app.module';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
@@ -2597,7 +2597,7 @@ describe('CharacterGenComponent', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
-      it(`should show that character is invalid - set level too high`, async () => {
+      it(`should show that character is invalid - set level too high`, waitForAsync(async () => {
         expectReady();
 
         helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
@@ -2614,7 +2614,7 @@ describe('CharacterGenComponent', () => {
         await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
-      });
+      }));
     
       it(`should show that character is invalid - missing base race randomizer`, async () => {
         helper.setSelectByValue('#baseRaceRandomizerType', '');
@@ -3049,7 +3049,7 @@ describe('CharacterGenComponent', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
 
-      it(`should show that character is invalid - validation fails`, async () => {
+      it(`should show that character is invalid - validation fails`, waitForAsync(async () => {
         expectReady();
 
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Good'));
@@ -3068,7 +3068,7 @@ describe('CharacterGenComponent', () => {
         await helper.waitForService();
   
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
-      });
+      }));
     
       it(`should show that character is valid - validation succeeds`, async () => {
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Evil'));
@@ -3077,7 +3077,6 @@ describe('CharacterGenComponent', () => {
   
         fixture.detectChanges();
   
-        
         expect(fixture.componentInstance.alignmentRandomizerType).toEqual('Evil');
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setMetarace).toEqual('Lich');

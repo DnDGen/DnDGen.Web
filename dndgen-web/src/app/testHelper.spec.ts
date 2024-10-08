@@ -306,7 +306,7 @@ export class TestHelper<T> {
   public async waitForService() {
     this.fixture.detectChanges();
     await this.fixture.whenStable();
-    
+
     //update view
     this.fixture.detectChanges();
   }
