@@ -2598,9 +2598,11 @@ describe('CharacterGenComponent', () => {
       });
     
       it(`should show that character is invalid - set level too high`, waitForAsync(async () => {
-        expectReady();
-
         helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        
+        //run validation
+        await helper.waitForService();
+
         helper.setInput('#setLevel', '21');
   
         fixture.detectChanges();
@@ -2613,6 +2615,7 @@ describe('CharacterGenComponent', () => {
         //run validation
         await helper.waitForService();
   
+        expect(fixture.componentInstance.valid).toBeFalse();
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       }));
     
@@ -3050,10 +3053,16 @@ describe('CharacterGenComponent', () => {
       });
 
       it(`should show that character is invalid - validation fails`, waitForAsync(async () => {
-        expectReady();
-
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Good'));
+        
+        //run validation
+        await helper.waitForService();
+
         helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
+        
+        //run validation
+        await helper.waitForService();
+
         helper.setSelectByIndex('#setMetarace', fixture.componentInstance.characterModel.metaraces.indexOf('Lich'));
   
         fixture.detectChanges();
@@ -3066,7 +3075,8 @@ describe('CharacterGenComponent', () => {
   
         //run validation
         await helper.waitForService();
-  
+        
+        expect(fixture.componentInstance.valid).toBeFalse();
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       }));
     
