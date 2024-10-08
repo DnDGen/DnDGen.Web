@@ -236,7 +236,7 @@ export class TestHelper<T> {
     this.expectHasAttribute(selector, 'required', required);
   }
 
-  public expectNumberInput(selector: string, required: boolean, value: number, min?: number, max?: number) {
+  public expectNumberInput(selector: string, required: boolean, value: number, min?: number | null, max?: number | null, negative: boolean = false) {
     const input = this.compiled.querySelector(selector) as HTMLInputElement;
     expect(input).toBeTruthy();
     expect(input!.value).toEqual(`${value}`);
@@ -248,7 +248,11 @@ export class TestHelper<T> {
     if (max)
       expect(input.getAttribute('max')).toEqual(`${max}`);
     
-    expect(input.getAttribute('pattern')).toEqual('^[0-9]+$');
+    if (negative)
+      expect(input.getAttribute('pattern')).toEqual('^-?[0-9]+$');
+    else
+      expect(input.getAttribute('pattern')).toEqual('^[0-9]+$');
+
     this.expectHasAttribute(selector, 'required', required);
   }
 
