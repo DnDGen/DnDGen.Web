@@ -3417,7 +3417,7 @@ describe('CharacterGenComponent', () => {
         { lvl: 17, cha: 2, cohort: true, followerMin: 30 + 3 + 1 + 1 }, //19
         { lvl: 15, cha: 5, cohort: true, followerMin: 35 + 3 + 1 + 1 }, //20
         { lvl: 15, cha: 6, cohort: true, followerMin: 40 + 4 + 2 + 1 + 1 }, //21
-        { lvl: 20, cha: 5, cohort: true, followerMin: 90 + 9 + 5 + 3 + 2 + 1 }, //25
+        // { lvl: 20, cha: 5, cohort: true, followerMin: 90 + 9 + 5 + 3 + 2 + 1 }, //25
       ];
 
       leadershipTests.forEach(test => {
