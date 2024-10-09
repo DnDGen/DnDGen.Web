@@ -3342,45 +3342,50 @@ describe('CharacterGen Component', () => {
           '#downloadButton');
       });
     
-      it(`should generate default leadership`, async () => {
-        helper.clickButton('#generateLeadershipButton');
-  
-        fixture.detectChanges();
-        
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
-          '#generateCharacterButton', 
-          '#characterSection', 
-          '#generatingSection dndgen-loading', 
-          null,
-          '#downloadButton');
+      for(let i = 0; i < 10; i++) {
+        it(`FLAKY - should generate default leadership`, async () => {
+          helper.clickButton('#generateLeadershipButton');
+    
+          fixture.detectChanges();
+          
+          helper.expectGenerating(
+            fixture.componentInstance.generating,
+            '#generateCharacterButton', 
+            '#characterSection', 
+            '#generatingSection dndgen-loading', 
+            null,
+            '#downloadButton');
 
-        //run generate leadership
-        await helper.waitForService();
-  
-        helper.expectGenerated(
-          fixture.componentInstance.generating,
-          '#generateCharacterButton', 
-          '#characterSection', 
-          '#generatingSection dndgen-loading', 
-          null, 
-          '#downloadButton');
-        
-        helper.expectHasAttribute('#noCharacter', 'hidden', true)
-        helper.expectExists('#characterSection > dndgen-character', false);
-        helper.expectExists('#characterSection dndgen-leadership', true);
+          //run generate leadership
+          await helper.waitForService();
+    
+          helper.expectGenerated(
+            fixture.componentInstance.generating,
+            '#generateCharacterButton', 
+            '#characterSection', 
+            '#generatingSection dndgen-loading', 
+            null, 
+            '#downloadButton');
+          
+          helper.expectHasAttribute('#noCharacter', 'hidden', true)
+          helper.expectExists('#characterSection > dndgen-character', false);
+          helper.expectExists('#characterSection dndgen-leadership', true);
 
-        const element = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
-        expect(element).toBeDefined();
-        expect(element.componentInstance).toBeDefined();
-        expect(element.componentInstance).toBeInstanceOf(LeadershipComponent);
-  
-        const leadershipComponent = element.componentInstance as LeadershipComponent;
-        expect(leadershipComponent.leadership).toBeTruthy();
-        expect(leadershipComponent.cohort).toBeTruthy();
-        //INFO: We might not generate any followers, so this is the best we can do
-        expect(leadershipComponent.followers.length).toBeGreaterThanOrEqual(0);
-      });
+          const element = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
+          expect(element).toBeDefined();
+          expect(element.componentInstance).toBeDefined();
+          expect(element.componentInstance).toBeInstanceOf(LeadershipComponent);
+    
+          const leadershipComponent = element.componentInstance as LeadershipComponent;
+          expect(leadershipComponent.leadership).toBeTruthy();
+
+          //INFO: We can't guarantee our score isn't super low, and a score of 1 or lower has no cohort
+          //So we can't assert anything about the cohort
+
+          //INFO: With a score of 6, we shouldn't have any followers, but
+          //Number of followers vary too much to make a reliable assertion
+        });
+      }
       
       it(`should say negative charisma bonus is valid`, async () => {
         helper.setInput('#leaderCharismaBonus', '-1');
@@ -3405,6 +3410,7 @@ describe('CharacterGen Component', () => {
       const leadershipTests = [
         { lvl: 6, cha: -5, cohort: false }, //1
         { lvl: 6, cha: -4, cohort: false }, //2
+        { lvl: 6, cha: 0, cohort: false }, //6
         { lvl: 10, cha: -1, cohort: true }, //9
         { lvl: 6, cha: 4, cohort: true }, //10
         { lvl: 13, cha: -1, cohort: true }, //12

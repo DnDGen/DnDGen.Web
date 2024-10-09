@@ -310,13 +310,6 @@ jobs:
 # The DnDGen Website
 - job: DnDGen_Web
   displayName: DnDGen Website
-  dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
   steps:
   - checkout: self
     displayName: 'Checkout Code'
@@ -379,25 +372,10 @@ jobs:
 # The DnDGen Website
 - job: DnDGen_Web_Static
   displayName: DnDGen Website (Static)
-  dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
   steps:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
-  # Without this step, the sdk is often 8.0.400, which has the bug
-  - task: UseDotNet@2
-    displayName: 'HACK - Use .NET Core sdk 8.0.402'
-    inputs:
-      packageType: sdk
-      version: 8.0.402
-      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: UseNode@1
     displayName: 'Install node.js'
     inputs:
@@ -445,14 +423,6 @@ jobs:
 # The Post-Deployment Tests
 - job: deployTests
   displayName: Package Post-Deployment Tests
-  dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
-  - DnDGen_Web
   steps:
   - checkout: self
     displayName: 'Checkout Code'
