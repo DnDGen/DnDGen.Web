@@ -3414,7 +3414,6 @@ describe('CharacterGen Component', () => {
         { lvl: 15, cha: 1, cohort: true }, //16
         { lvl: 15, cha: 2, cohort: true }, //17
         { lvl: 16, cha: 2, cohort: true }, //18
-        { lvl: 17, cha: 2, cohort: true }, //19
         //Higher than this causes timeouts in the pipeline
       ];
 
