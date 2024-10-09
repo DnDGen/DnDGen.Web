@@ -14,6 +14,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -56,6 +64,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -98,6 +114,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -140,6 +164,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -182,6 +214,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -224,6 +264,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -273,6 +321,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
@@ -334,6 +390,14 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
+  # Without this step, the sdk is often 8.0.400, which has the bug
+  - task: UseDotNet@2
+    displayName: 'HACK - Use .NET Core sdk 8.0.402'
+    inputs:
+      packageType: sdk
+      version: 8.0.402
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: UseNode@1
     displayName: 'Install node.js'
     inputs:
