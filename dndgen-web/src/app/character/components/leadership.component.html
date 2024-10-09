@@ -10,7 +10,9 @@
     </li>
     <li class="leadership-cohort" *ngIf="cohort">
       <span>Cohort:</span>
-      <dndgen-character [character]="cohort!"></dndgen-character>
+      <div>
+        <dndgen-character [character]="cohort!"></dndgen-character>
+      </div>
     </li>
     <li class="leadership-followers" [hidden]="followers.length == 0">
       <dndgen-details heading="Followers" [hasDetails]="followers.length > 0">

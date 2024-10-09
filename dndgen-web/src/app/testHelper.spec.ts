@@ -256,11 +256,14 @@ export class TestHelper<T> {
     this.expectHasAttribute(selector, 'required', required);
   }
 
-  public setInput(selector: string, value: string) {
+  public setInput(selector: string, value: string, extraEvent?: string) {
     const input = this.compiled.querySelector(selector) as HTMLInputElement;
     input.value = value;
 
     input.dispatchEvent(new Event('input'));
+
+    if (extraEvent)
+      input.dispatchEvent(new Event(extraEvent));
   }
 
   public setCheckbox(selector: string, value: boolean) {
@@ -313,5 +316,10 @@ export class TestHelper<T> {
 
     //update view
     this.fixture.detectChanges();
+  }
+
+  public waitForDebounce(sleep: number = 500) {
+    this.fixture.detectChanges();
+    setTimeout(() => { }, sleep);
   }
 }

@@ -19,7 +19,7 @@ import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
 
-describe('CharacterGenComponent', () => {
+describe('CharacterGen Component', () => {
   describe('unit', () => {
     let component: CharacterGenComponent;
     let characterServiceSpy: jasmine.SpyObj<CharacterService>;
@@ -3151,7 +3151,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
       });
@@ -3165,7 +3165,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3176,7 +3176,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3217,7 +3217,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3228,7 +3228,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3289,7 +3289,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3300,7 +3300,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
 
@@ -3337,7 +3337,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           '#characterValidating', 
           '#downloadButton');
       });
@@ -3351,7 +3351,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           null,
           '#downloadButton');
 
@@ -3362,7 +3362,7 @@ describe('CharacterGenComponent', () => {
           fixture.componentInstance.generating,
           '#generateCharacterButton', 
           '#characterSection', 
-          '#generatingSection > dndgen-loading', 
+          '#generatingSection dndgen-loading', 
           null, 
           '#downloadButton');
         
@@ -3443,7 +3443,7 @@ describe('CharacterGenComponent', () => {
               fixture.componentInstance.generating,
               '#generateCharacterButton', 
               '#characterSection', 
-              '#generatingSection > dndgen-loading', 
+              '#generatingSection dndgen-loading', 
               '#characterValidating', 
               '#downloadButton');
     
@@ -3454,7 +3454,7 @@ describe('CharacterGenComponent', () => {
               fixture.componentInstance.generating,
               '#generateCharacterButton', 
               '#characterSection', 
-              '#generatingSection > dndgen-loading', 
+              '#generatingSection dndgen-loading', 
               '#characterValidating', 
               '#downloadButton');
             helper.expectExists('#characterSection > dndgen-character', false);

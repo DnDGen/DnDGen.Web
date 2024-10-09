@@ -73,16 +73,16 @@
               <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
               <div class="col-sm-2 px-0">
                 <input id="customDie"
-                      pattern="^[0-9]+$"
-                      *ngIf="rollModel"
-                      class="form-control"
-                      type="number"
-                      min="{{rollModel.dieLimit_Lower}}" 
-                      max="{{rollModel.dieLimit_Upper}}" 
-                      (input)="validateRoll(customQuantity, customDie)"
-                      [(ngModel)]="customDie"
-                      name="customDie"
-                      required />
+                       pattern="^[0-9]+$"
+                       *ngIf="rollModel"
+                       class="form-control"
+                       type="number"
+                       min="{{rollModel.dieLimit_Lower}}" 
+                       max="{{rollModel.dieLimit_Upper}}" 
+                       (input)="validateRoll(customQuantity, customDie)"
+                       [(ngModel)]="customDie"
+                       name="customDie"
+                       required />
               </div>
               <div class="col-sm-2">
                 <button id="customRollButton"
@@ -102,7 +102,7 @@
             <div class="form-group row">
               <label for="rollExpression" class="col-sm-2 col-form-label">Expression</label>
               <div class="col-sm-3 col-sm-offset-1">
-                <input id="rollExpression" class="form-control" type="text" (input)="validateExpression(expression)" [(ngModel)]="expression" name="expression" required />
+                <input id="rollExpression" class="form-control" type="text" (keyup)="validateExpression(expression)" [(ngModel)]="expression" name="expression" required />
               </div>
               <div class="col-sm-2">
                 <button id="expressionRollButton"
@@ -114,8 +114,6 @@
               <div class="col-sm-2">
                 <dndgen-loading id="expressionValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
               </div>
-              <br />
-              <br />
               <span class="roll-expression-example">3d6 - Roll 3 6-sided dice</span>
               <span class="roll-expression-example">4d4*1000 - Roll 4 4-sided dice, then multiply by 1000</span>
               <span class="roll-expression-example">1d2+3 - Roll 1 2-sided die, then add 3</span>

@@ -5,6 +5,7 @@ import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
 import { Size } from '../../shared/components/size.enum';
+import { catchError, debounceTime, distinctUntilChanged, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'dndgen-rollgen',
@@ -23,6 +24,8 @@ export class RollGenComponent implements OnInit {
 
   public rollModel!: RollGenViewModel;
   public sizes = Size;
+
+  private expressionText$ = new Subject<string>();
 
   @Input() standardQuantity = 1;
   @Input() customQuantity = 1;
@@ -58,6 +61,19 @@ export class RollGenComponent implements OnInit {
         next: data => this.setViewModel(data),
         error: error => this.handleError(error)
       });
+    
+    this.expressionText$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(expression => this.rollService.validateExpression(expression)
+          //We will not display an error message here
+          //One example is if you send a badly-formatted expression, such as "(1d6", it returns a 500
+          //This isn't an actual error, just invalid, so set it as such
+          .pipe(catchError(() => of(false)))),
+        tap(data => this.setRollValidity(data))
+      )
+      .subscribe();
   }
 
   private setViewModel(data: RollGenViewModel): void {
@@ -147,10 +163,6 @@ export class RollGenComponent implements OnInit {
       return;
     }
 
-    this.rollService.validateExpression(expression)
-      .subscribe({
-        next: data => this.setRollValidity(data),
-        error: error => this.handleValidationError(error)
-      });
+    this.expressionText$.next(expression);
   }
 }
