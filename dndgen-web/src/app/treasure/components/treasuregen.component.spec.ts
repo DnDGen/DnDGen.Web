@@ -18,11 +18,10 @@ import { ItemComponent } from './item.component';
 import * as FileSaver from 'file-saver';
 import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
-import { LoadingComponent } from '../../shared/components/loading.component';
 import { Size } from '../../shared/components/size.enum';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('TreasureGenComponent', () => {
+describe('TreasureGen Component', () => {
   describe('unit', () => {
     let component: TreasureGenComponent;
     let treasureServiceSpy: jasmine.SpyObj<TreasureService>;
@@ -1117,19 +1116,21 @@ describe('TreasureGenComponent', () => {
       const treasureTypesIndicesTestCases = Array.from(Array(4).keys());
 
       treasureTypesIndicesTestCases.forEach(test => {
-        it(`should show that treasure is valid - treasure type index ${test}`, async () => {
-          helper.setSelectByIndex('#treasureTypes', test);
-    
-          fixture.detectChanges();
-          
-          expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[test]);
-          helper.expectValidating(fixture.componentInstance.validating, '#treasureButton', '#treasureValidating');
+        for(let i = 0; i < 10; i++) {
+          it(`FLAKY - should show that treasure is valid - treasure type index ${test}`, async () => {
+            helper.setSelectByIndex('#treasureTypes', test);
+      
+            fixture.detectChanges();
+            
+            expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel.treasureTypes[test]);
+            helper.expectValidating(fixture.componentInstance.validating, '#treasureButton', '#treasureValidating');
 
-          //run validation
-          await helper.waitForService();
-    
-          helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
-        });
+            //run validation
+            await helper.waitForService();
+      
+            helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
+          });
+        }
       });
 
       xit(`should show that treasure is invalid - validation fails`, () => {
