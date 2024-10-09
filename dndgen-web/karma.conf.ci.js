@@ -24,10 +24,10 @@ module.exports = function (config) {
       },
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-    captureTimeout: 1000 * 60 * 2,
+    captureTimeout: 1000 * 60 * 3.5,
     browserDisconnectTolerance: 3, 
-    browserDisconnectTimeout: 1000 * 60 * 2,
-    browserNoActivityTimeout: 1000 * 60 * 2,
+    browserDisconnectTimeout: 1000 * 60 * 3.5,
+    browserNoActivityTimeout: 1000 * 60 * 3.5,
     junitReporter: {
       outputDir: 'Results', // results will be saved as $outputDir/$browserName.xml
       outputFile: undefined, // if included, results will be saved as $outputDir/$browserName/$outputFile
