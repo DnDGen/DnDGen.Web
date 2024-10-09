@@ -7,115 +7,6 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-# The DnDGen Website
-- job: DnDGen_Web
-  displayName: DnDGen Website
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Server-side Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
-      arguments: '-v normal'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
-      arguments: '-v normal'
-  - task: NuGetCommand@2
-    displayName: Install Chutzpah
-    retryCountOnTaskFailure: 3
-    inputs:
-      command: custom
-      arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
-  - task: VSTest@2
-    displayName: Run Client-side Unit Tests
-    inputs:
-      pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
-      testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
-      failOnMinTestsNotRun: true
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website
-    inputs:
-      command: publish
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      publishWebProjects: False
-      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/Website'
-      zipAfterPublish: True
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Website'
-      artifactName: 'dndgen-web'
-      
-# The DnDGen Website
-- job: DnDGen_Web_Static
-  displayName: DnDGen Website (Static)
-  dependsOn:
-  - DnDGen_Web
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: UseNode@1
-    displayName: 'Install node.js'
-    inputs:
-      version: '20.x'
-  - task: Npm@1  
-    displayName: 'Install Angular CLI'  
-    inputs:  
-      command: custom  
-      verbose: true  
-      customCommand: 'install -g @angular/cli'
-  - task: Npm@1  
-    displayName: 'npm install'  
-    inputs:
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      command: install
-  - task: Npm@1  
-    displayName: Build  
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run build:ci'
-  - task: Npm@1  
-    displayName: Run Tests
-    # Sometimes the FE integration tests are flaky. We'll give it 1 retry, and if it fails again, assume it's real
-    retryCountOnTaskFailure: '1'
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run test:ci'
-  - task: PublishTestResults@2
-    displayName: 'Publish Test Results'
-    condition: always()
-    inputs:
-      testResultsFiles: '**/TESTS-*.xml'
-      failTaskOnFailedTests: true
-  - task: PublishBuildArtifacts@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website Artifacts
-    inputs:
-      ArtifactName: 'dndgen-web-static'
-      PathtoPublish: '$(Build.SourcesDirectory)/dndgen-web/dist'
-      publishLocation: 'Container'
-      
 # The RollGen API
 - job: RollGen_Api
   displayName: RollGen API
@@ -368,6 +259,125 @@ jobs:
       targetPath: '$(Build.ArtifactStagingDirectory)/Api/Web' 
       artifactName: 'dndgen-web-api'
 
+# The DnDGen Website
+- job: DnDGen_Web
+  displayName: DnDGen Website
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - CharacterGen_Api
+  - EncounterGen_Api
+  - DungeonGen_Api
+  - Web_Api
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: 'DnDGen.Web/DnDGen.Web.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    displayName: Run Server-side Unit Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
+      arguments: '-v normal'
+  - task: DotNetCoreCLI@2
+    displayName: Run Integration Tests
+    inputs:
+      command: test
+      projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
+      arguments: '-v normal'
+  - task: NuGetCommand@2
+    displayName: Install Chutzpah
+    retryCountOnTaskFailure: 3
+    inputs:
+      command: custom
+      arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
+  - task: VSTest@2
+    displayName: Run Client-side Unit Tests
+    inputs:
+      pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
+      testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
+      failOnMinTestsNotRun: true
+
+  - task: DotNetCoreCLI@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Website
+    inputs:
+      command: publish
+      projects: 'DnDGen.Web/DnDGen.Web.csproj'
+      publishWebProjects: False
+      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/Website'
+      zipAfterPublish: True
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Website Artifacts
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/Website'
+      artifactName: 'dndgen-web'
+      
+# The DnDGen Website
+- job: DnDGen_Web_Static
+  displayName: DnDGen Website (Static)
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - CharacterGen_Api
+  - EncounterGen_Api
+  - DungeonGen_Api
+  - Web_Api
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+  - task: UseNode@1
+    displayName: 'Install node.js'
+    inputs:
+      version: '20.x'
+  - task: Npm@1  
+    displayName: 'Install Angular CLI'  
+    inputs:  
+      command: custom  
+      verbose: true  
+      customCommand: 'install -g @angular/cli'
+  - task: Npm@1  
+    displayName: 'npm install'  
+    inputs:
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      command: install
+  - task: Npm@1  
+    displayName: Build  
+    inputs: 
+      command: custom
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      customCommand: 'run build:ci'
+  - task: Npm@1  
+    displayName: Run Tests
+    inputs: 
+      command: custom
+      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
+      verbose: true  
+      customCommand: 'run test:ci'
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    condition: always()
+    inputs:
+      testResultsFiles: '**/TESTS-*.xml'
+      failTaskOnFailedTests: true
+  - task: PublishBuildArtifacts@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Website Artifacts
+    inputs:
+      ArtifactName: 'dndgen-web-static'
+      PathtoPublish: '$(Build.SourcesDirectory)/dndgen-web/dist'
+      publishLocation: 'Container'
+      
 # The Post-Deployment Tests
 - job: deployTests
   displayName: Package Post-Deployment Tests
@@ -377,6 +387,7 @@ jobs:
   - CharacterGen_Api
   - EncounterGen_Api
   - DungeonGen_Api
+  - Web_Api
   - DnDGen_Web
   steps:
   - checkout: self
