@@ -64,6 +64,8 @@ jobs:
 # The DnDGen Website
 - job: DnDGen_Web_Static
   displayName: DnDGen Website (Static)
+  dependsOn:
+  - DnDGen_Web
   steps:
   - checkout: self
     displayName: 'Checkout Code'
@@ -369,6 +371,13 @@ jobs:
 # The Post-Deployment Tests
 - job: deployTests
   displayName: Package Post-Deployment Tests
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - CharacterGen_Api
+  - EncounterGen_Api
+  - DungeonGen_Api
+  - DnDGen_Web
   steps:
   - checkout: self
     displayName: 'Checkout Code'
