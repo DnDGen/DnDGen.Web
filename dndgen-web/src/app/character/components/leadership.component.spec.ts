@@ -1,15 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
-import { By } from '@angular/platform-browser';
 import { LeadershipComponent } from './leadership.component';
 import { Leadership } from '../models/leadership.model';
 import { Character } from '../models/character.model';
-import { CharacterComponent } from './character.component';
-import { DebugElement } from '@angular/core';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('LeadershipComponent', () => {
+describe('Leadership Component', () => {
   describe('unit', () => {
     let component: LeadershipComponent;
 

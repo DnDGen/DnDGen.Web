@@ -6,7 +6,7 @@ import { SpellGroupComponent } from './spellGroup.component';
 import { SpellGroup } from '../models/spellGroup.model';
 import { Spell } from '../models/spell.model';
 
-describe('SpellGroupComponent', () => {
+describe('SpellGroup Component', () => {
   describe('unit', () => {
     let component: SpellGroupComponent;
 

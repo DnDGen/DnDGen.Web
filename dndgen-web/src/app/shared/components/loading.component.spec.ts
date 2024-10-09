@@ -3,7 +3,7 @@ import { AppModule } from '../../app.module';
 import { LoadingComponent } from './loading.component';
 import { Size } from './size.enum';
 
-describe('LoadingComponent', () => {
+describe('Loading Component', () => {
   describe('unit', () => {
     let component: LoadingComponent;
     

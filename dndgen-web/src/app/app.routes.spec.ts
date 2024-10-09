@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { RollGenComponent } from './roll/components/rollgen.component';
 import { TreasureGenComponent } from './treasure/components/treasuregen.component';
 
-describe('routes', () => {
+describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
       expect(routes.length).toEqual(6);

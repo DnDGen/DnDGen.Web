@@ -1,6 +1,6 @@
 import { UuidService } from './uuid.service';
 
-describe('UuidService', () => {
+describe('Uuid Service', () => {
   describe('integration', () => {
     let service: UuidService;
 

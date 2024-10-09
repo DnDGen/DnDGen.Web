@@ -8,7 +8,7 @@ import { SpecialAbility } from '../models/specialAbility.model';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('ItemComponent', () => {
+describe('Item Component', () => {
   describe('unit', () => {
     let component: ItemComponent;
 

@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
-import { By } from '@angular/platform-browser';
 import { Feat } from '../models/feat.model';
 import { FeatComponent } from './feat.component';
 import { Frequency } from '../models/frequency.model';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('FeatComponent', () => {
+describe('Feat Component', () => {
   describe('unit', () => {
     let component: FeatComponent;
 

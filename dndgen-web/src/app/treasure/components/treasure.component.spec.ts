@@ -9,7 +9,7 @@ import { Coin } from '../models/coin.model';
 import { Good } from '../models/good.model';
 import { ItemComponent } from './item.component';
 
-describe('TreasureComponent', () => {
+describe('Treasure Component', () => {
   describe('unit', () => {
     let component: TreasureComponent;
 

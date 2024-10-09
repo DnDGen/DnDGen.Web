@@ -23,7 +23,7 @@ import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('CharacterComponent', () => {
+describe('Character Component', () => {
   describe('unit', () => {
     let component: CharacterComponent;
     let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;

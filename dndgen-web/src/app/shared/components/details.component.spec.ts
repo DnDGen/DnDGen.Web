@@ -4,7 +4,7 @@ import { AppModule } from '../../app.module';
 import { UuidService } from '../services/uuid.service';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('DetailsComponent', () => {
+describe('Details Component', () => {
   describe('unit', () => {
     let component: DetailsComponent;
     let idServiceSpy: jasmine.SpyObj<UuidService>;

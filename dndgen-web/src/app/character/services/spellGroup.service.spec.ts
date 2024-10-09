@@ -1,7 +1,7 @@
 ﻿import { Spell } from "../models/spell.model";
 import { SpellGroupService } from "./spellGroup.service";
 
-describe('Spell Group Service', () => {
+describe('SpellGroup Service', () => {
     describe('unit', () => {
         let spellGroupService: SpellGroupService;
 

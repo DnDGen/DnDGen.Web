@@ -1,7 +1,7 @@
 import { SweetAlertService } from './sweetAlert.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
-describe('SweetAlertService', () => {
+describe('SweetAlert Service', () => {
   describe('unit', () => {
     let service: SweetAlertService;
     let spy: jasmine.Spy;

@@ -1,7 +1,7 @@
 import { FileSaverService } from './fileSaver.service';
 import * as FileSaver from 'file-saver';
 
-describe('FileSaverService', () => {
+describe('FileSaver Service', () => {
   describe('unit', () => {
     let service: FileSaverService;
     let spy: jasmine.Spy;
