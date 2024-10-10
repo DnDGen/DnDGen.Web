@@ -76,7 +76,7 @@ namespace DnDGen.Api.CharacterGen.Repositories
             if (randomizer is IForcableMetaraceRandomizer)
             {
                 var forcableRandomizer = randomizer as IForcableMetaraceRandomizer;
-                forcableRandomizer.ForceMetarace = forceMetarace;
+                forcableRandomizer!.ForceMetarace = forceMetarace;
             }
 
             return randomizer;
