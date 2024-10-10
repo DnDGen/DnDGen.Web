@@ -1,13 +1,14 @@
 import { routes } from './app.routes';
+import { CharacterGenComponent } from './character/components/charactergen.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
-import { RollGenComponent } from './roll/rollgen.component';
-import { TreasureGenComponent } from './treasure/treasuregen.component';
+import { RollGenComponent } from './roll/components/rollgen.component';
+import { TreasureGenComponent } from './treasure/components/treasuregen.component';
 
-describe('routes', () => {
+describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(5);
+      expect(routes.length).toEqual(6);
     });
     
     it('should contain default route', () => {
@@ -42,12 +43,22 @@ describe('routes', () => {
       expect(route?.pathMatch).toEqual('full');
     });
     
+    it('should contain character route', () => {
+      let route = routes.find(r => r.path == 'character');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('character');
+      expect(route?.component).toEqual(CharacterGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
     it('should contain error route', () => {
       let route = routes.find(r => r.path == '**');
       expect(route).toBeDefined();
       expect(route?.path).toEqual('**');
       expect(route?.component).toEqual(ErrorComponent);
       expect(route?.pathMatch).toEqual('full');
+
+      expect(route).toBe(routes[routes.length - 1]);
     });
   });
 });

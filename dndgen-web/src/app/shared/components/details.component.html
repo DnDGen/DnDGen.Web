@@ -1,0 +1,5 @@
+<a class="details-header" [hidden]="!hasDetails" href="#{{id}}" role="button" data-bs-toggle="collapse">{{heading}}</a>
+<div class="details-section collapse" id="{{id}}" [hidden]="!hasDetails">
+    <ng-content></ng-content>
+</div>
+<span class="no-details-header" [hidden]="hasDetails">{{heading}}</span>
