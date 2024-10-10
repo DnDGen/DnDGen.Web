@@ -8,7 +8,7 @@ import { TreasureGenComponent } from './treasure/components/treasuregen.componen
 describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(6);
+      expect(routes.length).toEqual(7);
     });
     
     it('should contain default route', () => {
@@ -48,6 +48,14 @@ describe('App Routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('character');
       expect(route?.component).toEqual(CharacterGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain encounter route', () => {
+      let route = routes.find(r => r.path == 'encounter');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('encounter');
+      expect(route?.component).toEqual(EncounterGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     
