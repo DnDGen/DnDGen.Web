@@ -41,20 +41,18 @@ import { SpellQuantityPipe } from '../pipes/spellQuantity.pipe';
 
 export class EncounterGenComponent implements OnInit {
   constructor(
-    private characterService: CharacterService,
-    private leadershipService: LeadershipService,
+    private encounterService: EncounterService,
     private leaderPipe: LeaderPipe,
     private fileSaverService: FileSaverService,
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public characterModel!: CharacterGenViewModel;
+  public encounterModel!: EncounterGenViewModel;
   public sizes = Size;
 
-  @Input() alignmentRandomizerType = '';
-  @Input() setAlignment = '';
-
-  @Input() classNameRandomizerType = '';
+  @Input() temperature = '';
+  @Input() environment = '';
+  @Input() timeOfDay = '';
   @Input() setClassName = '';
 
   @Input() levelRandomizerType = '';
