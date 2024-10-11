@@ -26,6 +26,10 @@ import { FrequencyPipe } from './character/pipes/frequency.pipe';
 import { SpellQuantityPipe } from './character/pipes/spellQuantity.pipe';
 import { SpellGroupComponent } from './character/components/spellGroup.component';
 import { LoadingComponent } from './shared/components/loading.component';
+import { EncounterGenComponent } from './encounter/components/encountergen.component';
+import { EncounterComponent } from './encounter/components/encounter.component';
+import { EncounterCreaturePipe } from './encounter/pipes/encounterCreature.pipe';
+import { CreaturePipe } from './encounter/pipes/creature.pipe';
 
 @NgModule({
     declarations: [
@@ -58,6 +62,12 @@ import { LoadingComponent } from './shared/components/loading.component';
         MeasurementPipe,
         FrequencyPipe,
         SpellQuantityPipe,
+        
+        //EncounterGen
+        EncounterGenComponent,
+        EncounterComponent,
+        EncounterCreaturePipe,
+        CreaturePipe,
     ],
     imports: [
         BrowserModule,

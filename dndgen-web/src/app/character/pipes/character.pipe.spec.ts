@@ -21,6 +21,7 @@ import { Measurement } from "../models/measurement.model";
 import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 import { SpellQuantityPipe } from "./spellQuantity.pipe";
+import { TestHelper } from "../../testHelper.spec";
 
 describe('Character Pipe', () => {
     describe('unit', () => {
@@ -314,27 +315,8 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
-        
-        function expectLines(actual: string[], expected: string[]) {
-            let badIndex = -1;
-            for (var i = 0; i < actual.length && i < expected.length; i++) {
-                if (actual[i] != expected[i]) {
-                    badIndex = i;
-                    break;
-                }
-            }
-
-            if (badIndex >= 0) {
-                expect(actual[badIndex].trim()).toEqual(expected[badIndex].trim());
-                expect(actual[badIndex].match(/\\t/g) || []).toEqual(expected[badIndex].match(/\\t/g) || []);
-                expect(actual[badIndex]).toEqual(expected[badIndex]);
-            }
-            
-            expect(badIndex).toBe(-1);
-            expect(actual.length).toBe(expected.length);
-        }
     
         it('formats class specialization', () => {
             character.class.specialistFields = ["specialist field 1", "specialist field 2"];
@@ -414,7 +396,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats prohibited fields', () => {
@@ -499,7 +481,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats metarace species', () => {
@@ -578,7 +560,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats wings', () => {
@@ -657,7 +639,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats aerial speed', () => {
@@ -738,7 +720,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats swim speed', () => {
@@ -819,7 +801,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
     
         });
     
@@ -895,7 +877,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats no class feats', () => {
@@ -970,7 +952,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats feat foci', () => {
@@ -1059,7 +1041,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats feat power', () => {
@@ -1142,7 +1124,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats feat frequency', () => {
@@ -1228,7 +1210,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats feat frequency without quantity', () => {
@@ -1314,7 +1296,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats interesting trait', () => {
@@ -1392,7 +1374,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats spells per day', () => {
@@ -1480,7 +1462,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats known spells', () => {
@@ -1590,7 +1572,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats prepared spells', () => {
@@ -1730,7 +1712,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats arcane spell failure', () => {
@@ -1809,7 +1791,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats animal', () => {
@@ -1888,7 +1870,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats primary hand', () => {
@@ -1968,7 +1950,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats two-handed weapon', () => {
@@ -2049,7 +2031,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats off-hand item', () => {
@@ -2132,7 +2114,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats armor', () => {
@@ -2212,7 +2194,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats treasure if there is any', () => {
@@ -2297,7 +2279,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats full character', () => {
@@ -2512,7 +2494,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats full character with prefix', () => {
@@ -2727,7 +2709,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats undead character', () => {
@@ -2805,7 +2787,7 @@ describe('Character Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     });
 });

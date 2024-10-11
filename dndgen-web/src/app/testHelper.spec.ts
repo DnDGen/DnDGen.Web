@@ -322,4 +322,23 @@ export class TestHelper<T> {
     this.fixture.detectChanges();
     setTimeout(() => { }, sleep);
   }
+
+  public static expectLines(actual: string[], expected: string[]) {
+      let badIndex = -1;
+      for (var i = 0; i < actual.length && i < expected.length; i++) {
+          if (actual[i] != expected[i]) {
+              badIndex = i;
+              break;
+          }
+      }
+
+      if (badIndex >= 0) {
+          expect(actual[badIndex].trim()).toEqual(expected[badIndex].trim());
+          expect(actual[badIndex].match(/\\t/g) || []).toEqual(expected[badIndex].match(/\\t/g) || []);
+          expect(actual[badIndex]).toEqual(expected[badIndex]);
+      }
+      
+      expect(badIndex).toBe(-1);
+      expect(actual.length).toBe(expected.length);
+  }
 }

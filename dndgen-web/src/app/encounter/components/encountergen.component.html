@@ -6,7 +6,13 @@
             <div class="form-group row">
                 <label for="temperature" class="col-sm-3 col-form-label">Temperature:</label>
                 <div class="col-sm-6">
-                  <select id="temperature" name="temperature" *ngIf="encounterModel" class="form-select" [(ngModel)]="temperature" (change)="validate()" required>
+                  <select id="temperature" 
+                          name="temperature" 
+                          *ngIf="encounterModel" 
+                          class="form-select" 
+                          [(ngModel)]="temperature" 
+                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                          required>
                     <option *ngFor="let temperature in encounterModel.temperatures" [ngValue]="temperature">{{temperature}}</option>
                   </select>
                 </div>
@@ -14,7 +20,13 @@
             <div class="form-group row">
                 <label for="environment" class="col-sm-3 col-form-label">Environment:</label>
                 <div class="col-sm-6">
-                  <select id="environment" name="environment" *ngIf="encounterModel" class="form-select" [(ngModel)]="environment" (change)="validate()" required>
+                  <select id="environment" 
+                          name="environment" 
+                          *ngIf="encounterModel" 
+                          class="form-select" 
+                          [(ngModel)]="environment" 
+                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                          required>
                     <option *ngFor="let environment in encounterModel.environments" [ngValue]="environment">{{environment}}</option>
                   </select>
                 </div>
@@ -22,7 +34,13 @@
             <div class="form-group row">
                 <label for="timeOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
                 <div class="col-sm-6">
-                  <select id="timeOfDay" name="timeOfDay" *ngIf="encounterModel" class="form-select" [(ngModel)]="timeOfDay" (change)="validate()" required>
+                  <select id="timeOfDay" 
+                          name="timeOfDay" 
+                          *ngIf="encounterModel" 
+                          class="form-select" 
+                          [(ngModel)]="timeOfDay" 
+                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                          required>
                     <option *ngFor="let timeOfDay in encounterModel.timesOfDay" [ngValue]="timeOfDay">{{timeOfDay}}</option>
                   </select>
                 </div>
@@ -37,7 +55,7 @@
                          type="number" 
                          min="1" 
                          [(ngModel)]="level" 
-                         (input)="validate()"
+                         (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                          required />
                 </div>
             </div>
@@ -50,7 +68,7 @@
                                  name="allowAquatic" 
                                  type="checkbox" 
                                  [(ngModel)]="allowAquatic" 
-                                 (input)="validate()"> Allow Aquatic
+                                 (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
                         </label>
                     </div>
                 </div>
@@ -61,7 +79,7 @@
                                  name="allowUnderground" 
                                  type="checkbox" 
                                  [(ngModel)]="allowUnderground" 
-                                 (input)="validate()"> Allow Aquatic
+                                 (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
                         </label>
                     </div>
                 </div>
@@ -76,7 +94,8 @@
                                name="{{filter.name}}"
                                type="checkbox" 
                                class="checkbox" 
-                               [(ngModel)]="filter.checked"> {{filter.name}}
+                               [(ngModel)]="filter.checked"
+                               (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > {{filter.name}}
                     </label>
                 </div>
             </div>
@@ -97,7 +116,7 @@
       <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
       <div id="encounterSection" [hidden]="generating">
         <span id="noEncounter" class="italicize" [hidden]="encounter">No encounter has been generated</span>
-        <dndgen-encounter *ngIf="encounter" [encounter]="encounter!"></dndgen-leadership>
+        <dndgen-encounter *ngIf="encounter" [encounter]="encounter!"></dndgen-encounter>
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { routes } from './app.routes';
 import { CharacterGenComponent } from './character/components/charactergen.component';
+import { EncounterGenComponent } from './encounter/components/encountergen.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { RollGenComponent } from './roll/components/rollgen.component';

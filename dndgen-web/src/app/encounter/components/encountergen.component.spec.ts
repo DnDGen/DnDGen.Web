@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { CharacterGenComponent } from './charactergen.component';
+import { CharacterGenComponent } from './encountergen.component';
 import { AppModule } from '../../app.module';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { By } from '@angular/platform-browser';
 import * as FileSaver from 'file-saver';
-import { CharacterService } from '../services/character.service';
+import { CharacterService } from '../services/encounter.service';
 import { LeadershipService } from '../services/leadership.service';
 import { LeaderPipe } from '../pipes/leader.pipe';
-import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { CharacterGenViewModel } from '../models/encountergenViewModel.model';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
@@ -19,7 +19,7 @@ import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
 
-describe('CharacterGen Component', () => {
+describe('EncounterGen Component', () => {
   describe('unit', () => {
     let component: CharacterGenComponent;
     let characterServiceSpy: jasmine.SpyObj<CharacterService>;
