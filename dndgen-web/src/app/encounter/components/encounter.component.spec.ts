@@ -124,6 +124,20 @@ describe('Encounter Component', () => {
       const component = fixture.componentInstance;
       component.encounter = new Encounter('my encounter description');
       component.encounter.creatures.push(createEncounterCreature());
+      component.encounter.creatures[0].creature.description = '';
+
+      fixture.detectChanges();
+  
+      helper.expectDetails('dndgen-details.character-header', 'my encounter description', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details', 'Creatures', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details', 'creature 1 x9267', false);
+      helper.expectTextContent('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details .encounter-creature-cr', 'Challenge Rating: CR 90211');
+    });
+  
+    it(`should render the encounter creature with description`, () => {
+      const component = fixture.componentInstance;
+      component.encounter = new Encounter('my encounter description');
+      component.encounter.creatures.push(createEncounterCreature());
 
       fixture.detectChanges();
   
@@ -146,12 +160,54 @@ describe('Encounter Component', () => {
       helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details', 'creature 1 (creature description 1) x9267', true);
       helper.expectDetails(
         'dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details dndgen-details', 
+        'my sub-creature', 
+        false);
+      helper.expectTextContent('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details .encounter-creature-cr', 'Challenge Rating: CR 90211');
+    });
+  
+    it(`should render the encounter creature with sub-creature with description`, () => {
+      const component = fixture.componentInstance;
+      component.encounter = new Encounter('my encounter description');
+      component.encounter.creatures.push(createEncounterCreature());
+      component.encounter.creatures[0].creature.subCreature = createCreature('my sub-creature');
+      component.encounter.creatures[0].creature.subCreature.description = '';
+
+      fixture.detectChanges();
+  
+      helper.expectDetails('dndgen-details.character-header', 'my encounter description', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details', 'Creatures', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details', 'creature 1 (creature description 1) x9267', true);
+      helper.expectDetails(
+        'dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details dndgen-details', 
         'my sub-creature (my sub-creature description)', 
         false);
       helper.expectTextContent('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details .encounter-creature-cr', 'Challenge Rating: CR 90211');
     });
   
     it(`should render the encounter creature with sub-sub-creature`, () => {
+      const component = fixture.componentInstance;
+      component.encounter = new Encounter('my encounter description');
+      component.encounter.creatures.push(createEncounterCreature());
+      component.encounter.creatures[0].creature.subCreature = createCreature('my sub-creature');
+      component.encounter.creatures[0].creature.subCreature.subCreature = createCreature('my sub-sub-creature');
+      component.encounter.creatures[0].creature.subCreature.subCreature.description = '';
+
+      fixture.detectChanges();
+  
+      helper.expectDetails('dndgen-details.character-header', 'my encounter description', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details', 'Creatures', true);
+      helper.expectDetails('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details', 'creature 1 (creature description 1) x9267', true);
+      helper.expectDetails(
+        'dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details dndgen-details', 
+        'my sub-creature (my sub-creature description)', 
+        true);
+      helper.expectTextContent(
+        'dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details dndgen-details span', 
+        'my sub-sub-creature');
+      helper.expectTextContent('dndgen-details.character-header .encounter-creatures dndgen-details dndgen-details .encounter-creature-cr', 'Challenge Rating: CR 90211');
+    });
+  
+    it(`should render the encounter creature with sub-sub-creature with description`, () => {
       const component = fixture.componentInstance;
       component.encounter = new Encounter('my encounter description');
       component.encounter.creatures.push(createEncounterCreature());
