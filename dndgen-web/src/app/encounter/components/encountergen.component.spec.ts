@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { CharacterGenComponent } from './encountergen.component';
+import { EncounterGenComponent } from './encountergen.component';
 import { AppModule } from '../../app.module';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -7,10 +7,9 @@ import { Observable } from 'rxjs';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { By } from '@angular/platform-browser';
 import * as FileSaver from 'file-saver';
-import { CharacterService } from '../services/encounter.service';
-import { LeadershipService } from '../services/leadership.service';
-import { LeaderPipe } from '../pipes/leader.pipe';
-import { CharacterGenViewModel } from '../models/encountergenViewModel.model';
+import { EncounterService } from '../services/encounter.service';
+import { EncounterPipe } from '../pipes/encounter.pipe';
+import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
@@ -21,10 +20,9 @@ import { Size } from '../../shared/components/size.enum';
 
 describe('EncounterGen Component', () => {
   describe('unit', () => {
-    let component: CharacterGenComponent;
-    let characterServiceSpy: jasmine.SpyObj<CharacterService>;
-    let leadershipServiceSpy: jasmine.SpyObj<LeadershipService>;
-    let leaderPipeSpy: jasmine.SpyObj<LeaderPipe>;
+    let component: EncounterGenComponent;
+    let encounterServiceSpy: jasmine.SpyObj<EncounterService>;
+    let encounterPipeSpy: jasmine.SpyObj<EncounterPipe>;
     let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
     let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
     let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
@@ -39,7 +37,7 @@ describe('EncounterGen Component', () => {
       loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
       fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
 
-      component = new CharacterGenComponent(characterServiceSpy, leadershipServiceSpy, leaderPipeSpy, fileSaverServiceSpy, sweetAlertServiceSpy, loggerServiceSpy);
+      component = new EncounterGenComponent(characterServiceSpy, leadershipServiceSpy, leaderPipeSpy, fileSaverServiceSpy, sweetAlertServiceSpy, loggerServiceSpy);
     });
   
     it(`should initialize the public properties`, () => {

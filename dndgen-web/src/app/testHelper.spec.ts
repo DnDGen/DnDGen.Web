@@ -52,6 +52,20 @@ export class TestHelper<T> {
 
   public expectTreasure(selector: string, treasure: Treasure) {
     const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectTreasureInElement(element, treasure);
+  }
+
+  public expectTreasures(selector: string, treasures: Treasure[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+    expect(elements?.length).toEqual(treasures.length);
+
+    for(var i = 0; i < elements.length; i++) {
+      this.expectTreasureInElement(elements?.at(i)!, treasures[i]);
+    }
+  }
+
+  private expectTreasureInElement(element: DebugElement, treasure: Treasure) {
     expect(element).toBeTruthy();
     expect(element.componentInstance).toBeTruthy();
     expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
