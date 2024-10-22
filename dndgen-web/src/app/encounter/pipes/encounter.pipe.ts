@@ -6,7 +6,10 @@ import { Creature } from '../models/creature.model';
 import { Treasure } from '../../treasure/models/treasure.model';
 import { TreasurePipe } from '../../treasure/pipes/treasure.pipe';
 
-@Pipe({ name: 'encounter' })
+@Pipe({ 
+    name: 'encounter',
+    standalone: true 
+})
 export class EncounterPipe implements PipeTransform {
     constructor(
         private characterPipe: CharacterPipe,

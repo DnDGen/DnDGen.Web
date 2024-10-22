@@ -19,7 +19,7 @@
             <div class="form-group row">
               <div class="col-sm-3">
                 <input id="standardQuantity"
-                      *ngIf="rollModel"
+                      [*ngIf-REPLACE]="rollModel"
                       pattern="^[0-9]+$"
                       class="form-control"
                       type="number"
@@ -38,7 +38,7 @@
                         [(ngModel)]="standardDie"
                         name="standardDie"
                         required>
-                  <option *ngFor="let standardDieOption of standardDice" [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
+                  <option [*ngFor-REPLACE]="let standardDieOption of standardDice" [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
                 </select>
               </div>
               <div class="col-sm-2">
@@ -60,7 +60,7 @@
               <div class="col-sm-3">
                 <input id="customQuantity"
                       pattern="^[0-9]+$"
-                      *ngIf="rollModel"
+                      [*ngIf-REPLACE]="rollModel"
                       class="form-control"
                       type="number"
                       min="{{rollModel.quantityLimit_Lower}}" 
@@ -74,7 +74,7 @@
               <div class="col-sm-2 px-0">
                 <input id="customDie"
                        pattern="^[0-9]+$"
-                       *ngIf="rollModel"
+                       [*ngIf-REPLACE]="rollModel"
                        class="form-control"
                        type="number"
                        min="{{rollModel.dieLimit_Lower}}" 
@@ -130,7 +130,7 @@
       </div>
     </div>
     <div class="col-sm-6">
-      <span id="rollSection" [hidden]="rolling" class="font-green font-big">{{roll | number}}</span>
+      <span id="rollSection" [hidden-REPLACE-WITH-IF]="rolling" class="font-green font-big">{{roll | number}}</span>
       <dndgen-loading id="rollingSection" [isLoading]="rolling" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>

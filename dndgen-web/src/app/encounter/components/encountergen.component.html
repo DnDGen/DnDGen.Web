@@ -6,43 +6,52 @@
             <div class="form-group row">
                 <label for="temperature" class="col-sm-3 col-form-label">Temperature:</label>
                 <div class="col-sm-6">
-                  <select id="temperature" 
-                          name="temperature" 
-                          *ngIf="encounterModel" 
-                          class="form-select" 
-                          [(ngModel)]="temperature" 
-                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
-                          required>
-                    <option *ngFor="let temperature in encounterModel.temperatures" [ngValue]="temperature">{{temperature}}</option>
-                  </select>
+                  @if (encounterModel) {
+                    <select id="temperature" 
+                            name="temperature"
+                            class="form-select" 
+                            [(ngModel)]="temperature" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (temperature of encounterModel.temperatures; track temperature) {
+                        <option [ngValue]="temperature">{{temperature}}</option>
+                      }
+                    </select>
+                  }
                 </div>
             </div>
             <div class="form-group row">
                 <label for="environment" class="col-sm-3 col-form-label">Environment:</label>
                 <div class="col-sm-6">
-                  <select id="environment" 
-                          name="environment" 
-                          *ngIf="encounterModel" 
-                          class="form-select" 
-                          [(ngModel)]="environment" 
-                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
-                          required>
-                    <option *ngFor="let environment in encounterModel.environments" [ngValue]="environment">{{environment}}</option>
-                  </select>
+                  @if (encounterModel) {
+                    <select id="environment" 
+                            name="environment" 
+                            class="form-select" 
+                            [(ngModel)]="environment" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (environment of encounterModel.environments; track environment) {
+                        <option [ngValue]="environment">{{environment}}</option>
+                      }
+                    </select>
+                  }
                 </div>
             </div>
             <div class="form-group row">
                 <label for="timeOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
                 <div class="col-sm-6">
-                  <select id="timeOfDay" 
-                          name="timeOfDay" 
-                          *ngIf="encounterModel" 
-                          class="form-select" 
-                          [(ngModel)]="timeOfDay" 
-                          (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
-                          required>
-                    <option *ngFor="let timeOfDay in encounterModel.timesOfDay" [ngValue]="timeOfDay">{{timeOfDay}}</option>
-                  </select>
+                  @if (encounterModel) {
+                    <select id="timeOfDay" 
+                            name="timeOfDay" 
+                            class="form-select" 
+                            [(ngModel)]="timeOfDay" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (timeOfDay of encounterModel.timesOfDay; track timeOfDay) {
+                        <option [ngValue]="timeOfDay">{{timeOfDay}}</option>
+                      }
+                    </select>
+                  }
                 </div>
             </div>
             <div class="form-group row">
@@ -88,7 +97,8 @@
                 <label class="col-form-label">Creature Type Filters (selecting none is the same as selecting all):</label>
             </div>
             <div class="form-group row">
-                <div class="checkbox col-sm-4" *ngFor="let filter in creatureTypeFilters">
+              @for (filter of creatureTypeFilters; track filter.name) {
+                <div class="checkbox col-sm-4">
                     <label>
                         <input id="{{filter.name}}" 
                                name="{{filter.name}}"
@@ -98,6 +108,7 @@
                                (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > {{filter.name}}
                     </label>
                 </div>
+              }
             </div>
             <div class="d-flex justify-content-center">
               <button id="generateButton" 
@@ -112,11 +123,13 @@
         </form>
     </div>
     <div class="col-sm-6 clearfix">
-      <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden]="generating || !encounter">Download</button>
+      <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden-REPLACE-WITH-IF]="generating || !encounter">Download</button>
       <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
-      <div id="encounterSection" [hidden]="generating">
-        <span id="noEncounter" class="italicize" [hidden]="encounter">No encounter has been generated</span>
-        <dndgen-encounter *ngIf="encounter" [encounter]="encounter!"></dndgen-encounter>
+      <div id="encounterSection" [hidden-REPLACE-WITH-IF]="generating">
+        <span id="noEncounter" class="italicize" [hidden-REPLACE-WITH-IF]="encounter">No encounter has been generated</span>
+        @if (encounter) {
+          <dndgen-encounter [encounter]="encounter!"></dndgen-encounter>
+        }
       </div>
     </div>
   </div>

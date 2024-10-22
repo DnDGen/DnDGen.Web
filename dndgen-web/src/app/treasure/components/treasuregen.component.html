@@ -16,31 +16,35 @@
             <div class="form-group row">
               <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
               <div class="col-sm-6">
-                <select id="treasureTypes" 
-                        name="treasureTypes" 
-                        *ngIf="treasureModel" 
-                        class="form-select" 
-                        (change)="validateTreasure(treasureType, level)" 
-                        [(ngModel)]="treasureType" 
-                        required>
-                  <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
-                </select>
+                @if (treasureModel) {
+                  <select id="treasureTypes" 
+                          name="treasureTypes"
+                          class="form-select" 
+                          (change)="validateTreasure(treasureType, level)" 
+                          [(ngModel)]="treasureType" 
+                          required>
+                    @for (treasureTypeOption of treasureModel.treasureTypes; track treasureTypeOption) {
+                      <option [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
+                    }
+                  </select>
+                }
               </div>
             </div>
             <div class="form-group row">
               <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
               <div class="col-sm-6">
-                <input id="treasureLevel"
-                      name="treasureLevel"
-                      *ngIf="treasureModel"
-                      pattern="^[0-9]+$"
-                      class="form-control"
-                      type="number"
-                      min="1"
-                      max="{{treasureModel.maxTreasureLevel}}"
-                      [(ngModel)]="level"
-                      (input)="validateTreasure(treasureType, level)"
-                      required />
+                @if (treasureModel) {
+                  <input id="treasureLevel"
+                         name="treasureLevel"
+                         pattern="^[0-9]+$"
+                         class="form-control"
+                         type="number"
+                         min="1"
+                         max="{{treasureModel.maxTreasureLevel}}"
+                         [(ngModel)]="level"
+                         (input)="validateTreasure(treasureType, level)"
+                         required />
+                }
               </div>
             </div>
             <button id="treasureButton"
@@ -58,15 +62,18 @@
             <div class="form-group row">
               <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
               <div class="col-sm-4">
-                <select id="itemTypes" 
-                        name="itemTypes" 
-                        *ngIf="treasureModel" 
-                        class="form-select" 
-                        (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
-                        [(ngModel)]="itemType" 
-                        required>
-                  <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
-                </select>
+                @if (treasureModel) {
+                  <select id="itemTypes" 
+                          name="itemTypes"
+                          class="form-select" 
+                          (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
+                          [(ngModel)]="itemType" 
+                          required>
+                    @for (itemTypeOption of treasureModel.itemTypeViewModels; track itemTypeOption) {
+                      <option [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
+                    }
+                  </select>
+                }
               </div>
             </div>
             <div class="form-group row">
@@ -74,33 +81,33 @@
               <div class="col-sm-3">
                 <select id="powers" 
                         name="powers" 
-                        *ngIf="treasureModel"
+                        [*ngIf-REPLACE]="treasureModel"
                         class="form-select" 
                         (change)="validateItem(itemType!.itemType, power, itemName)" 
                         [(ngModel)]="power" 
                         required>
-                  <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
+                  <option [*ngFor-REPLACE]="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
                 </select>
               </div>
               <div class="col-sm-6">
                 <select id="itemNames"
                         name="itemNames" 
-                        *ngIf="itemType"
+                        [*ngIf-REPLACE]="itemType"
                         class="form-select"
                         (change)="validateItem(itemType!.itemType, power, itemName)" 
                         [(ngModel)]="itemName" 
-                        [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
+                        [hidden-REPLACE-WITH-IF]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
                   <option [ngValue]=""></option>
-                  <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
+                  <option [*ngFor-REPLACE]="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
                 </select>
                 <input id="anyItemName"
                       name="anyItemName"
-                      *ngIf="itemType"
+                      [*ngIf-REPLACE]="itemType"
                       class="form-control"
                       type="text"
                       (input)="validateItem(itemType!.itemType, power, itemName)" 
                       [(ngModel)]="itemName"
-                      [hidden]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
+                      [hidden-REPLACE-WITH-IF]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
               </div>
             </div>
             <button id="itemButton"
@@ -116,12 +123,12 @@
       </div>
     </div>
     <div class="col-sm-6 clearfix">
-      <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !treasure" (click)="downloadTreasure()">Download</button>
-      <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !item" (click)="downloadItem()">Download</button>
-      <div id="treasureSection" [hidden]="generating">
-        <span id="noTreasure" class="italicize" [hidden]="treasure || item">No treasure was generated</span>
-        <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
-        <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
+      <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden-REPLACE-WITH-IF]="generating || !treasure" (click)="downloadTreasure()">Download</button>
+      <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden-REPLACE-WITH-IF]="generating || !item" (click)="downloadItem()">Download</button>
+      <div id="treasureSection" [hidden-REPLACE-WITH-IF]="generating">
+        <span id="noTreasure" class="italicize" [hidden-REPLACE-WITH-IF]="treasure || item">No treasure was generated</span>
+        <dndgen-treasure [*ngIf-REPLACE]="treasure" [treasure]="treasure!"></dndgen-treasure>
+        <dndgen-item [*ngIf-REPLACE]="item" [item]="item!"></dndgen-item>
       </div>
       <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
     </div>

@@ -33,11 +33,11 @@ describe('Encounter Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [EncounterComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        EncounterComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(EncounterComponent);
       helper = new TestHelper(fixture);

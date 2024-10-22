@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { Creature } from "../models/creature.model";
 
-@Pipe({ name: 'creature' })
+@Pipe({
+    name: 'creature',
+    standalone: true
+})
 export class CreaturePipe implements PipeTransform {
   constructor() {}
 

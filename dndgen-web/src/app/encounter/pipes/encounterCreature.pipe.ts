@@ -2,7 +2,10 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { CreaturePipe } from "./creature.pipe";
 import { EncounterCreature } from "../models/encounterCreature.model";
 
-@Pipe({ name: 'encounterCreature' })
+@Pipe({
+    name: 'encounterCreature',
+    standalone: true
+})
 export class EncounterCreaturePipe implements PipeTransform {
   constructor(private creaturePipe: CreaturePipe) {}
 

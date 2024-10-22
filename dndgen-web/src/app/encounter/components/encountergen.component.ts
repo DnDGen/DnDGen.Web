@@ -17,22 +17,27 @@ import { EncounterPipe } from '../pipes/encounter.pipe';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
 import { CreatureTypeFilter } from '../models/creatureTypeFilter.model';
 import { Encounter } from '../models/encounter.model';
+import { EncounterComponent } from './encounter.component';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 @Component({
-  selector: 'dndgen-encountergen',
-  templateUrl: './encountergen.component.html',
-  providers: [
-    EncounterService,
-    EncounterPipe,
-    CharacterPipe,
-    ItemPipe,
-    TreasurePipe,
-    DecimalPipe,
-    MeasurementPipe,
-    InchesToFeetPipe,
-    FrequencyPipe,
-    SpellQuantityPipe,
-  ]
+    selector: 'dndgen-encountergen',
+    templateUrl: './encountergen.component.html',
+    providers: [
+        EncounterService,
+        EncounterPipe,
+        CharacterPipe,
+        ItemPipe,
+        TreasurePipe,
+        DecimalPipe,
+        MeasurementPipe,
+        InchesToFeetPipe,
+        FrequencyPipe,
+        SpellQuantityPipe,
+    ],
+    standalone: true,
+    imports: [LoadingComponent, FormsModule, EncounterComponent]
 })
 
 export class EncounterGenComponent implements OnInit {

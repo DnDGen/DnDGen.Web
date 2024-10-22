@@ -499,11 +499,11 @@ describe('Item Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [ItemComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        ItemComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(ItemComponent);
       helper = new TestHelper(fixture);

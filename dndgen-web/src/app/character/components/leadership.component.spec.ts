@@ -57,11 +57,11 @@ describe('Leadership Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [LeadershipComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        LeadershipComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(LeadershipComponent);
       helper = new TestHelper(fixture);

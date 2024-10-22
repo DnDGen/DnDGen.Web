@@ -27,11 +27,11 @@ describe('SpellGroup Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [SpellGroupComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        SpellGroupComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(SpellGroupComponent);
     });

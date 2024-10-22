@@ -206,11 +206,11 @@ describe('Character Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [CharacterComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        CharacterComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(CharacterComponent);
       helper = new TestHelper(fixture);

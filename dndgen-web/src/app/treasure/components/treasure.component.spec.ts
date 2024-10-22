@@ -34,11 +34,11 @@ describe('Treasure Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [TreasureComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        TreasureComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(TreasureComponent);
     });

@@ -28,11 +28,11 @@ describe('Feat Component', () => {
   
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [FeatComponent, DetailsComponent]
-      }).compileComponents();
+    imports: [
+        AppModule,
+        FeatComponent, DetailsComponent
+    ]
+}).compileComponents();
   
       fixture = TestBed.createComponent(FeatComponent);
       helper = new TestHelper(fixture);

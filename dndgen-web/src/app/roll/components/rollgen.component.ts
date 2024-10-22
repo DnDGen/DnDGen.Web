@@ -6,14 +6,19 @@ import { LoggerService } from '../../shared/services/logger.service';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
 import { Size } from '../../shared/components/size.enum';
 import { catchError, debounceTime, distinctUntilChanged, of, Subject, switchMap, tap } from 'rxjs';
+import { DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 @Component({
-  selector: 'dndgen-rollgen',
-  templateUrl: './rollgen.component.html',
-  styleUrls: ['./rollgen.component.css'],
-  providers: [
-    RollService
-  ]
+    selector: 'dndgen-rollgen',
+    templateUrl: './rollgen.component.html',
+    styleUrls: ['./rollgen.component.css'],
+    providers: [
+        RollService
+    ],
+    standalone: true,
+    imports: [LoadingComponent, FormsModule, DecimalPipe]
 })
 
 export class RollGenComponent implements OnInit {

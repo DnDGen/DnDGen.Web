@@ -1,13 +1,13 @@
 <dndgen-details class="feat-heading" [heading]="feat.name" [hasDetails]="feat.foci.length > 0 || feat.power > 0 || feat.frequency.timePeriod.length > 0">
   <ul>
-    <li class="feat-foci" [hidden]="feat.foci.length == 0">
+    <li class="feat-foci" [hidden-REPLACE-WITH-IF]="feat.foci.length == 0">
       <dndgen-details heading="Foci" [hasDetails]="feat.foci.length > 0">
         <ul>
-          <li *ngFor="let focus of feat.foci">{{focus}}</li>
+          <li [*ngFor-REPLACE]="let focus of feat.foci">{{focus}}</li>
         </ul>
       </dndgen-details>
     </li>
-    <li class="feat-power" [hidden]="feat.power == 0">Power: {{feat.power}}</li>
-    <li class="feat-frequency" [hidden]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency | frequency}}</li>
+    <li class="feat-power" [hidden-REPLACE-WITH-IF]="feat.power == 0">Power: {{feat.power}}</li>
+    <li class="feat-frequency" [hidden-REPLACE-WITH-IF]="feat.frequency.timePeriod.length == 0">Frequency: {{feat.frequency | frequency}}</li>
   </ul>
 </dndgen-details>

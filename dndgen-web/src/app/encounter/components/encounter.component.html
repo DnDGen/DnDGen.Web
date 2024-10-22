@@ -7,40 +7,48 @@
   <div class="encounter-creatures">
       <dndgen-details heading="Creatures" [hasDetails]="true">
           <ul>
-              <li *ngFor="let creature in encounter.creatures">
-                  <dndgen-details [heading]="creature | encounterCreature" [hasDetails]="true">
-                      <ul>
-                          <li *ngIf="creature.creature.subCreature">
-                              <dndgen-details [heading]="creature.creature.subCreature | creature" [hasDetails]="creature.creature.subCreature.subCreature">
-                                  <ul>
-                                      <li *ngIf="creature.creature.subCreature.subCreature">
-                                          <span>{{creature.creature.subCreature.subCreature | creature}}</span>
-                                      </li>
-                                  </ul>
-                              </dndgen-details>
-                          </li>
-                          <li class="encounter-creature-cr">Challenge Rating: {{creature.challengeRating}}</li>
-                      </ul>
-                  </dndgen-details>
-              </li>
+            @for (creature of encounter.creatures; track $index) {
+                <li>
+                    <dndgen-details [heading]="creature | encounterCreature" [hasDetails]="true">
+                        <ul>
+                            @if (creature.creature.subCreature) {
+                                <li>
+                                    <dndgen-details [heading]="creature.creature.subCreature | creature" [hasDetails]="creature.creature.subCreature.subCreature != null">
+                                        <ul>
+                                            @if (creature.creature.subCreature.subCreature) {
+                                                <li>{{creature.creature.subCreature.subCreature | creature}}</li>
+                                            }
+                                        </ul>
+                                    </dndgen-details>
+                                </li>
+                            }
+                            <li class="encounter-creature-cr">Challenge Rating: {{creature.challengeRating}}</li>
+                        </ul>
+                    </dndgen-details>
+                </li>
+            }
           </ul>
       </dndgen-details>
   </div>
   <div class="encounter-treasures">
       <dndgen-details heading="Treasures{{encounter.treasures.length ? '' : ': None'}}" [hasDetails]="encounter.treasures.length > 0">
           <ul>
-              <li *ngFor="let treasure in encounter.treasures">
-                  <dndgen-treasure [treasure]="treasure"></dndgen-treasure>
-              </li>
+            @for (treasure of encounter.treasures; track $index) {
+                <li>
+                    <dndgen-treasure [treasure]="treasure"></dndgen-treasure>
+                </li>
+            }
           </ul>
       </dndgen-details>
   </div>
   <div class="encounter-characters">
-      <dndgen-details [hidden]="!encounter.characters.length" heading="Characters" [hasDetails]="encounter.characters.length > 0">
+      <dndgen-details [hidden-REPLACE-WITH-IF]="!encounter.characters.length" heading="Characters" [hasDetails]="encounter.characters.length > 0">
           <ul>
-              <li *ngFor="let character in encounter.characters">
-                  <dndgen-character [character]="character"></dndgen-character>
-              </li>
+            @for (character of encounter.characters; track $index) {
+                <li>
+                    <dndgen-character [character]="character"></dndgen-character>
+                </li>
+            }
           </ul>
       </dndgen-details>
   </div>

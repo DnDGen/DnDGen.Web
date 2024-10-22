@@ -12,17 +12,23 @@ import { TreasurePipe } from '../pipes/treasure.pipe';
 import { switchMap, tap } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
 import { Size } from '../../shared/components/size.enum';
+import { ItemComponent } from './item.component';
+import { TreasureComponent } from './treasure.component';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 @Component({
-  selector: 'dndgen-treasuregen',
-  templateUrl: './treasuregen.component.html',
-  styleUrls: ['./treasuregen.component.css'],
-  providers: [
-    TreasureService,
-    ItemPipe,
-    TreasurePipe,
-    DecimalPipe,
-  ]
+    selector: 'dndgen-treasuregen',
+    templateUrl: './treasuregen.component.html',
+    styleUrls: ['./treasuregen.component.css'],
+    providers: [
+        TreasureService,
+        ItemPipe,
+        TreasurePipe,
+        DecimalPipe,
+    ],
+    standalone: true,
+    imports: [LoadingComponent, FormsModule, TreasureComponent, ItemComponent]
 })
 
 export class TreasureGenComponent implements OnInit {

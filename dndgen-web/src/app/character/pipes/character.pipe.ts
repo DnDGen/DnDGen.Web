@@ -22,7 +22,10 @@ import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { FrequencyPipe } from './frequency.pipe';
 import { SpellQuantityPipe } from './spellQuantity.pipe';
 
-@Pipe({ name: 'character' })
+@Pipe({ 
+    name: 'character',
+    standalone: true
+})
 export class CharacterPipe implements PipeTransform {
     constructor(
         private itemPipe: ItemPipe,
