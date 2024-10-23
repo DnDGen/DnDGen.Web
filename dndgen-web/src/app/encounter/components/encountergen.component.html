@@ -123,14 +123,19 @@
         </form>
     </div>
     <div class="col-sm-6 clearfix">
-      <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()" [hidden-REPLACE-WITH-IF]="generating || !encounter">Download</button>
-      <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
-      <div id="encounterSection" [hidden-REPLACE-WITH-IF]="generating">
-        <span id="noEncounter" class="italicize" [hidden-REPLACE-WITH-IF]="encounter">No encounter has been generated</span>
+      @if (!generating) {
         @if (encounter) {
-          <dndgen-encounter [encounter]="encounter!"></dndgen-encounter>
+          <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
         }
-      </div>
+        <div id="encounterSection">
+          @if (!encounter) {
+            <span id="noEncounter" class="italicize">No encounter has been generated</span>
+          } @else {
+            <dndgen-encounter [encounter]="encounter!"></dndgen-encounter>
+          }
+        </div>
+      }
+      <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

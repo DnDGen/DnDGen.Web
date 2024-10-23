@@ -1,5 +1,7 @@
 <dndgen-details class="spell-group-heading" [heading]="group.name" [hasDetails]="group.spells.length > 0">
   <ul>
-    <li [*ngFor-REPLACE]="let spell of group.spells">{{spell.name}}</li>
+    @for (spell of group.spells; track $index) {
+      <li>{{spell.name}}</li>
+    }
   </ul>
 </dndgen-details>

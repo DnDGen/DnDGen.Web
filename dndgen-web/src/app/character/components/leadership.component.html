@@ -1,27 +1,39 @@
-<dndgen-details class="leadership-heading" [hidden-REPLACE-WITH-IF]="leadership!.score == 0" heading="Leadership" [hasDetails]="leadership!.score > 0">
-  <ul>
-    <li class="leadership-score">Score: {{leadership!.score | number}}</li>
-    <li class="leadership-modifiers" [hidden-REPLACE-WITH-IF]="leadership!.leadershipModifiers.length == 0">
-      <dndgen-details heading="Leadership Modifiers" [hasDetails]="leadership!.leadershipModifiers.length > 0">
-        <ul>
-          <li [*ngFor-REPLACE]="let modifier of leadership!.leadershipModifiers">{{modifier}}</li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="leadership-cohort" [*ngIf-REPLACE]="cohort">
-      <span>Cohort:</span>
-      <div>
-        <dndgen-character [character]="cohort!"></dndgen-character>
-      </div>
-    </li>
-    <li class="leadership-followers" [hidden-REPLACE-WITH-IF]="followers.length == 0">
-      <dndgen-details heading="Followers" [hasDetails]="followers.length > 0">
-        <ul>
-          <li [*ngFor-REPLACE]="let follower of followers">
-            <dndgen-character [character]="follower"></dndgen-character>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-  </ul>
-</dndgen-details>
+@if (leadership!.score) {
+  <dndgen-details class="leadership-heading" heading="Leadership" [hasDetails]="leadership!.score > 0">
+    <ul>
+      <li class="leadership-score">Score: {{leadership!.score | number}}</li>
+      @if (leadership!.leadershipModifiers.length) {
+        <li class="leadership-modifiers">
+          <dndgen-details heading="Leadership Modifiers" [hasDetails]="leadership!.leadershipModifiers.length > 0">
+            <ul>
+              @for (modifier of leadership!.leadershipModifiers; track $index) {
+                <li>{{modifier}}</li>
+              }
+            </ul>
+          </dndgen-details>
+        </li>
+      }
+      @if (cohort) {
+        <li class="leadership-cohort">
+          <span>Cohort:</span>
+          <div>
+            <dndgen-character [character]="cohort!"></dndgen-character>
+          </div>
+        </li>
+      }
+      @if (followers.length) {
+        <li class="leadership-followers">
+          <dndgen-details heading="Followers" [hasDetails]="followers.length > 0">
+            <ul>
+              @for (follower of followers; track $index) {
+                <li>
+                  <dndgen-character [character]="follower"></dndgen-character>
+                </li>
+              }
+            </ul>
+          </dndgen-details>
+        </li>
+      }
+    </ul>
+  </dndgen-details>
+}

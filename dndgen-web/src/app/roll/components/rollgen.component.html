@@ -18,27 +18,30 @@
           <form name="standardRollForm" #standardRollForm="ngForm" class="form-horizontal top-buffer" role="form">
             <div class="form-group row">
               <div class="col-sm-3">
-                <input id="standardQuantity"
-                      [*ngIf-REPLACE]="rollModel"
-                      pattern="^[0-9]+$"
-                      class="form-control"
-                      type="number"
-                      min="{{rollModel.quantityLimit_Lower}}" 
-                      max="{{rollModel.quantityLimit_Upper}}" 
-                      (input)="validateRoll(standardQuantity, standardDie.die)"
-                      [(ngModel)]="standardQuantity"
-                      name="standardQuantity"
-                      required />
+                @if (rollModel) {
+                  <input id="standardQuantity"
+                         name="standardQuantity"
+                         pattern="^[0-9]+$"
+                         class="form-control"
+                         type="number"
+                         min="{{rollModel.quantityLimit_Lower}}" 
+                         max="{{rollModel.quantityLimit_Upper}}" 
+                         (input)="validateRoll(standardQuantity, standardDie.die)"
+                         [(ngModel)]="standardQuantity"
+                         required />
+                }
               </div>
               <label for="standardDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
               <div class="col-sm-2 px-0">
                 <select id="standardDie" 
+                        name="standardDie"
                         class="form-control" 
                         (change)="validateRoll(standardQuantity, standardDie.die)"
                         [(ngModel)]="standardDie"
-                        name="standardDie"
                         required>
-                  <option [*ngFor-REPLACE]="let standardDieOption of standardDice" [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
+                  @for (standardDieOption of standardDice; track $index) {
+                    <option [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
+                  }
                 </select>
               </div>
               <div class="col-sm-2">
@@ -58,31 +61,33 @@
           <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
             <div class="form-group row">
               <div class="col-sm-3">
-                <input id="customQuantity"
-                      pattern="^[0-9]+$"
-                      [*ngIf-REPLACE]="rollModel"
-                      class="form-control"
-                      type="number"
-                      min="{{rollModel.quantityLimit_Lower}}" 
-                      max="{{rollModel.quantityLimit_Upper}}" 
-                      (input)="validateRoll(customQuantity, customDie)"
-                      [(ngModel)]="customQuantity"
-                      name="customQuantity"
-                      required />
+                @if (rollModel) {
+                  <input id="customQuantity"
+                         name="customQuantity"
+                         pattern="^[0-9]+$"
+                         class="form-control"
+                         type="number"
+                         min="{{rollModel.quantityLimit_Lower}}" 
+                         max="{{rollModel.quantityLimit_Upper}}" 
+                         (input)="validateRoll(customQuantity, customDie)"
+                         [(ngModel)]="customQuantity"
+                         required />
+                }
               </div>
               <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
               <div class="col-sm-2 px-0">
-                <input id="customDie"
-                       pattern="^[0-9]+$"
-                       [*ngIf-REPLACE]="rollModel"
-                       class="form-control"
-                       type="number"
-                       min="{{rollModel.dieLimit_Lower}}" 
-                       max="{{rollModel.dieLimit_Upper}}" 
-                       (input)="validateRoll(customQuantity, customDie)"
-                       [(ngModel)]="customDie"
-                       name="customDie"
-                       required />
+                @if (rollModel) {
+                  <input id="customDie"
+                         name="customDie"
+                         pattern="^[0-9]+$"
+                         class="form-control"
+                         type="number"
+                         min="{{rollModel.dieLimit_Lower}}" 
+                         max="{{rollModel.dieLimit_Upper}}" 
+                         (input)="validateRoll(customQuantity, customDie)"
+                         [(ngModel)]="customDie"
+                         required />
+                }
               </div>
               <div class="col-sm-2">
                 <button id="customRollButton"
@@ -130,7 +135,9 @@
       </div>
     </div>
     <div class="col-sm-6">
-      <span id="rollSection" [hidden-REPLACE-WITH-IF]="rolling" class="font-green font-big">{{roll | number}}</span>
+      @if (!rolling) {
+        <span id="rollSection" class="font-green font-big">{{roll | number}}</span>
+      }
       <dndgen-loading id="rollingSection" [isLoading]="rolling" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>

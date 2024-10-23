@@ -42,14 +42,16 @@
       </dndgen-details>
   </div>
   <div class="encounter-characters">
-      <dndgen-details [hidden-REPLACE-WITH-IF]="!encounter.characters.length" heading="Characters" [hasDetails]="encounter.characters.length > 0">
-          <ul>
-            @for (character of encounter.characters; track $index) {
-                <li>
-                    <dndgen-character [character]="character"></dndgen-character>
-                </li>
-            }
-          </ul>
-      </dndgen-details>
+      @if (encounter.characters.length) {
+        <dndgen-details heading="Characters" [hasDetails]="encounter.characters.length > 0">
+            <ul>
+              @for (character of encounter.characters; track $index) {
+                  <li>
+                      <dndgen-character [character]="character"></dndgen-character>
+                  </li>
+              }
+            </ul>
+        </dndgen-details>
+      }
   </div>
 </dndgen-details>
