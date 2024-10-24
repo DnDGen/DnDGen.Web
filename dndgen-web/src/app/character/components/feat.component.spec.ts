@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { Feat } from '../models/feat.model';
 import { FeatComponent } from './feat.component';
@@ -27,12 +26,7 @@ describe('Feat Component', () => {
     let helper: TestHelper<FeatComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-    imports: [
-        AppModule,
-        FeatComponent, DetailsComponent
-    ]
-}).compileComponents();
+      await TestHelper.configureTestBed([FeatComponent]);
   
       fixture = TestBed.createComponent(FeatComponent);
       helper = new TestHelper(fixture);

@@ -3,10 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Encounter Service', () => {
     describe('unit', () => {
@@ -148,11 +148,7 @@ describe('Encounter Service', () => {
         let encounterService: EncounterService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             encounterService = TestBed.inject(EncounterService);
         });

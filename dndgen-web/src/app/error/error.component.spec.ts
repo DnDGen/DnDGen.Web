@@ -1,17 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorComponent } from './error.component';
-import { AppModule } from '../app.module';
+import { TestHelper } from '../testHelper.spec';
 
 describe('ErrorComponent', () => {
   describe('integration', () => {
     let fixture: ComponentFixture<ErrorComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([ErrorComponent]);
   
       fixture = TestBed.createComponent(ErrorComponent);
     });

@@ -235,17 +235,23 @@
         <ul>
           <li class="character-equipment-primary-hand">
             <dndgen-details heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" [hasDetails]="character.equipment.primaryHand != null">
-              <dndgen-item [item]="character.equipment.primaryHand!"></dndgen-item>
+              @if (character.equipment.primaryHand) { 
+                <dndgen-item [item]="character.equipment.primaryHand!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-off-hand">
             <dndgen-details [heading]="offHandHeading" [hasDetails]="offHandDetails">
-              <dndgen-item [item]="character.equipment.offHand!"></dndgen-item>
+              @if (character.equipment.offHand) {
+                <dndgen-item [item]="character.equipment.offHand!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-armor">
             <dndgen-details heading="Armor{{character.equipment.armor ? '' : ': None'}}" [hasDetails]="character.equipment.armor != null">
-              <dndgen-item [item]="character.equipment.armor!"></dndgen-item>
+              @if (character.equipment.armor) {
+                <dndgen-item [item]="character.equipment.armor!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-treasure">

@@ -93,7 +93,7 @@
                 }
               </div>
               <div class="col-sm-6">
-                @if (itemType && (itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll')) { 
+                @if (itemType && itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll') { 
                   <select id="itemNames"
                           name="itemNames"
                           class="form-select"
@@ -104,7 +104,7 @@
                       <option [ngValue]="nameOption">{{nameOption}}</option>
                     }
                   </select>
-                } @else if (itemType && itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll') {
+                } @else if (itemType && (itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll')) {
                   <input id="anyItemName"
                          name="anyItemName"
                          class="form-control"

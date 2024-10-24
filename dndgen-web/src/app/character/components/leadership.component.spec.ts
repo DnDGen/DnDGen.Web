@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { LeadershipComponent } from './leadership.component';
 import { Leadership } from '../models/leadership.model';
@@ -56,12 +55,7 @@ describe('Leadership Component', () => {
     let helper: TestHelper<LeadershipComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-    imports: [
-        AppModule,
-        LeadershipComponent, DetailsComponent
-    ]
-}).compileComponents();
+      await TestHelper.configureTestBed([LeadershipComponent]);
   
       fixture = TestBed.createComponent(LeadershipComponent);
       helper = new TestHelper(fixture);

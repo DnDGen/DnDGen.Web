@@ -1,5 +1,5 @@
-import { ComponentFixture } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BrowserModule, By } from "@angular/platform-browser";
 import { LoadingComponent } from "./shared/components/loading.component";
 import { Size } from "./shared/components/size.enum";
 import { DetailsComponent } from "./shared/components/details.component";
@@ -11,12 +11,34 @@ import { ItemComponent } from "./treasure/components/item.component";
 import { TreasureComponent } from "./treasure/components/treasure.component";
 import { CharacterComponent } from "./character/components/character.component";
 import { Character } from "./character/models/character.model";
-import { DebugElement } from "@angular/core";
+import { DebugElement, importProvidersFrom } from "@angular/core";
+import { Observable } from "rxjs";
+import { EncounterComponent } from "./encounter/components/encounter.component";
+import { Encounter } from "./encounter/models/encounter.model";
+import { FormsModule } from "@angular/forms";
+import { provideRouter, RouterOutlet } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { routes } from "./app.routes";
+import { BonusPipe } from "./shared/pipes/bonus.pipe";
+import { BonusesPipe } from "./shared/pipes/bonuses.pipe";
 
 export class TestHelper<T> {
   constructor(
     private fixture: ComponentFixture<T>
   ) { }
+
+  public static async configureTestBed(imports: any[] = []) {
+    await TestBed.configureTestingModule({
+      imports: imports,
+      providers: [
+          importProvidersFrom(BrowserModule, FormsModule, RouterOutlet, NgbModule),
+          provideHttpClient(withInterceptorsFromDi()),
+          provideRouter(routes),
+          BonusPipe, BonusesPipe
+      ]
+    }).compileComponents();
+  }
   
   public expectLoading(selector: string, loading: boolean, size: Size) {
     const element = this.fixture.debugElement.query(By.css(selector));
@@ -104,6 +126,26 @@ export class TestHelper<T> {
     }
   }
 
+  public expectEncounter(selector: string, hasEncounter: boolean, encounter?: Encounter) {
+    const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectEncounterInElement(element, hasEncounter, encounter);
+  }
+
+  private expectEncounterInElement(element: DebugElement, hasEncounter: boolean, encounter?: Encounter) {
+    expect(element).toBeTruthy();
+    expect(element.componentInstance).toBeTruthy();
+    expect(element.componentInstance).toBeInstanceOf(EncounterComponent);
+
+    const component = element.componentInstance as EncounterComponent;
+
+    if (hasEncounter) {
+      expect(component.encounter).toBeTruthy();
+
+      if (encounter)
+        expect(component.encounter).toBe(encounter);
+    }
+  }
+
   public expectTextContent(selector: string, text: string) {
     const element = this.expectExists(selector);
     expect(element!.textContent).toEqual(text);
@@ -132,11 +174,11 @@ export class TestHelper<T> {
     if (validatingSelector)
       this.expectLoading(validatingSelector, false, Size.Small);
 
-    this.expectHasAttribute(resultSelector, 'hidden', true);
+    this.expectExists(resultSelector, false);
     this.expectLoading(generatingSelector, true, Size.Medium);
 
     if (downloadSelector)
-      this.expectHasAttribute(downloadSelector, 'hidden', true);
+      this.expectExists(downloadSelector, false);
   }
 
   public expectExists(selector: string, exists: boolean = true): Element | null {
@@ -199,11 +241,11 @@ export class TestHelper<T> {
     if (validatingSelector)
       this.expectLoading(validatingSelector, false, Size.Small);
 
-    this.expectHasAttribute(resultSelector, 'hidden', false);
+    this.expectExists(resultSelector, true);
     this.expectLoading(generatingSelector, false, Size.Medium);
     
     if (downloadSelector)
-      this.expectHasAttribute(downloadSelector, 'hidden', false);
+      this.expectExists(downloadSelector, true);
   }
 
   public expectInvalid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
@@ -281,7 +323,7 @@ export class TestHelper<T> {
   }
 
   public setCheckbox(selector: string, value: boolean) {
-    this.expectHasAttribute(selector, 'hidden', false);
+    this.expectExists(selector, true);
     this.expectHasAttribute(selector, 'disabled', false);
 
     const checkbox = this.compiled!.querySelector(selector) as HTMLInputElement;
@@ -316,7 +358,7 @@ export class TestHelper<T> {
   }
 
   public clickCheckbox(selector: string) {
-    this.expectHasAttribute(selector, 'hidden', false);
+    this.expectExists(selector, true);
     this.expectHasAttribute(selector, 'disabled', false);
 
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;

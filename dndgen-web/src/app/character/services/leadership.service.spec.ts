@@ -3,10 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Leadership Service', () => {
     describe('unit', () => {
@@ -113,11 +113,7 @@ describe('Leadership Service', () => {
         let leadershipService: LeadershipService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             leadershipService = TestBed.inject(LeadershipService);
         });

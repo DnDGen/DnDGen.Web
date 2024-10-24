@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TreasureComponent } from './treasure.component';
-import { AppModule } from '../../app.module';
 import { Item } from '../models/item.model';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
@@ -8,6 +7,7 @@ import { Treasure } from '../models/treasure.model';
 import { Coin } from '../models/coin.model';
 import { Good } from '../models/good.model';
 import { ItemComponent } from './item.component';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Treasure Component', () => {
   describe('unit', () => {
@@ -33,12 +33,7 @@ describe('Treasure Component', () => {
     let fixture: ComponentFixture<TreasureComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-    imports: [
-        AppModule,
-        TreasureComponent, DetailsComponent
-    ]
-}).compileComponents();
+      await TestHelper.configureTestBed([TreasureComponent]);
   
       fixture = TestBed.createComponent(TreasureComponent);
     });

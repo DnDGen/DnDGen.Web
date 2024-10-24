@@ -1,6 +1,5 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CharacterGenComponent } from './charactergen.component';
-import { AppModule } from '../../app.module';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
@@ -14,10 +13,10 @@ import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
-import { LoadingComponent } from '../../shared/components/loading.component';
 import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 
 describe('CharacterGen Component', () => {
   describe('unit', () => {
@@ -2327,11 +2326,7 @@ describe('CharacterGen Component', () => {
     let helper: TestHelper<CharacterGenComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([CharacterGenComponent]);
   
       fixture = TestBed.createComponent(CharacterGenComponent);
       helper = new TestHelper(fixture);
@@ -2350,14 +2345,8 @@ describe('CharacterGen Component', () => {
       component.loading = true;
 
       fixture.detectChanges();
-      
-      const element = fixture.debugElement.query(By.css('dndgen-loading'));
-      expect(element).toBeDefined();
-      expect(element.componentInstance).toBeDefined();
-      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
 
-      const loadingComponent = element.componentInstance as LoadingComponent;
-      expect(loadingComponent.isLoading).toBeTrue();
+      helper.expectLoading('dndgen-loading', true, Size.Large);
     });
   
     it('should hide the loading component when not loading', () => {
@@ -2365,14 +2354,8 @@ describe('CharacterGen Component', () => {
       component.loading = false;
 
       fixture.detectChanges();
-      
-      const element = fixture.debugElement.query(By.css('dndgen-loading'));
-      expect(element).toBeDefined();
-      expect(element.componentInstance).toBeDefined();
-      expect(element.componentInstance).toBeInstanceOf(LoadingComponent);
 
-      const loadingComponent = element.componentInstance as LoadingComponent;
-      expect(loadingComponent.isLoading).toBeFalse();
+      helper.expectLoading('dndgen-loading', false, Size.Large);
     });
   
     it(`should set the character model on init`, () => {

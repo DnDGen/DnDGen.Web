@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
-import { AppModule } from '../../app.module';
 import { UuidService } from '../services/uuid.service';
 import { TestHelper } from '../../testHelper.spec';
 
@@ -47,11 +46,7 @@ describe('Details Component', () => {
     let helper: TestHelper<DetailsComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([DetailsComponent]);
   
       fixture = TestBed.createComponent(DetailsComponent);
       helper = new TestHelper(fixture);

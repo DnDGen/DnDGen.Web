@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Roll Service', () => {
     describe('unit', () => {
@@ -102,11 +102,7 @@ describe('Roll Service', () => {
         let rollService: RollService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             rollService = TestBed.inject(RollService);
         });

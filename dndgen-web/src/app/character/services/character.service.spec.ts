@@ -3,9 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Character Service', () => {
     describe('unit', () => {
@@ -186,11 +186,7 @@ describe('Character Service', () => {
         let characterService: CharacterService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             characterService = TestBed.inject(CharacterService);
         });

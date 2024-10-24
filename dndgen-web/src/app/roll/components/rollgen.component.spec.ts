@@ -1,6 +1,5 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
-import { AppModule } from '../../app.module';
 import { RollService } from '../services/roll.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -541,11 +540,7 @@ describe('RollGen Component', () => {
     let helper: TestHelper<RollGenComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([RollGenComponent]);
   
       fixture = TestBed.createComponent(RollGenComponent);
       helper = new TestHelper(fixture);

@@ -23,14 +23,13 @@ import { LoadingComponent } from '../../shared/components/loading.component';
     styleUrls: ['./treasuregen.component.css'],
     providers: [
         TreasureService,
-        ItemPipe,
         TreasurePipe,
+        ItemPipe,
         DecimalPipe,
     ],
     standalone: true,
     imports: [LoadingComponent, FormsModule, TreasureComponent, ItemComponent]
 })
-
 export class TreasureGenComponent implements OnInit {
   constructor(
     private treasureService: TreasureService,

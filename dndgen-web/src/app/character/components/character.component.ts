@@ -19,22 +19,23 @@ import { DetailsComponent } from '../../shared/components/details.component';
 @Component({
     selector: 'dndgen-character',
     templateUrl: './character.component.html',
-    providers: [
-        DecimalPipe,
-        InchesToFeetPipe,
-    ],
     standalone: true,
+    providers: [
+      DecimalPipe,
+      InchesToFeetPipe,
+    ],
     imports: [
       DetailsComponent, 
       FeatComponent,
       SpellGroupComponent, 
       ItemComponent, 
-      TreasureComponent, 
-      DecimalPipe, 
-      BonusPipe, 
-      BonusesPipe, 
+      TreasureComponent,
+      InchesToFeetPipe,
       MeasurementPipe, 
-      SpellQuantityPipe
+      SpellQuantityPipe,
+      BonusPipe,
+      BonusesPipe,
+      DecimalPipe,
     ]
 })
 
