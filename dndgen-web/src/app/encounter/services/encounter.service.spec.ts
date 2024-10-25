@@ -156,10 +156,10 @@ describe('Encounter Service', () => {
         it('gets the encounter view model', waitForAsync(() => {
             encounterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeTruthy();
-                expect(viewmodel.environments.length).toBe(12);
+                expect(viewmodel.environments.length).toBe(9);
                 expect(viewmodel.temperatures.length).toBe(3);
                 expect(viewmodel.timesOfDay.length).toBe(2);
-                expect(viewmodel.creatureTypes.length).toBe(16);
+                expect(viewmodel.creatureTypes.length).toBe(15);
                 expect(viewmodel.defaults.environment).toBe('Plains');
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
@@ -344,7 +344,7 @@ describe('Encounter Service', () => {
                 });
         });
     
-        it('validates an invalid encounter - empty filter', done => {
+        it('validates a valid encounter - empty filter', done => {
             encounterService
                 .validate(
                     'Mountain',
@@ -355,12 +355,12 @@ describe('Encounter Service', () => {
                     true,
                     true)
                 .subscribe((validity) => {
-                    expect(validity).toBe(false);
+                    expect(validity).toBe(true);
                     done();
                 });
         });
     
-        it('validates an invalid encounter - bad filter', done => {
+        it('validates a valid encounter - bad filter', done => {
             encounterService
                 .validate(
                     'Mountain',
@@ -371,19 +371,51 @@ describe('Encounter Service', () => {
                     true,
                     true)
                 .subscribe((validity) => {
+                    expect(validity).toBe(true);
+                    done();
+                });
+        });
+    
+        it('validates an invalid encounter - bad combo', done => {
+            encounterService
+                .validate(
+                    'Mountain',
+                    'Cold',
+                    'Day',
+                    9,
+                    ['Plant', 'Ooze'],
+                    false,
+                    false)
+                .subscribe((validity) => {
                     expect(validity).toBe(false);
                     done();
                 });
         });
     
-        it('validates an invalid character - bad combo', done => {
+        it('validates an invalid encounter - bad combo and empty filter', done => {
             encounterService
                 .validate(
                     'Mountain',
                     'Cold',
-                    'Night',
+                    'Day',
                     9,
-                    ['Giant', 'Ooze'],
+                    ['Plant', '', 'Ooze'],
+                    false,
+                    false)
+                .subscribe((validity) => {
+                    expect(validity).toBe(false);
+                    done();
+                });
+        });
+    
+        it('validates an invalid encounter - bad combo and bad filter', done => {
+            encounterService
+                .validate(
+                    'Mountain',
+                    'Cold',
+                    'Day',
+                    9,
+                    ['Plant', 'Bad Filter', 'Ooze'],
                     false,
                     false)
                 .subscribe((validity) => {

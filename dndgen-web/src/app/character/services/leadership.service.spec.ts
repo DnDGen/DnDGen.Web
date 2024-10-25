@@ -22,7 +22,7 @@ describe('Leadership Service', () => {
         it('generates leadership', done => {
             const expected = new Leadership(
                 42, 
-                ['super awesome', 'a little flaky'],
+                ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
             httpClientSpy.get.and.returnValue(of(expected));
@@ -42,7 +42,7 @@ describe('Leadership Service', () => {
         it('generates leadership without animal', done => {
             const expected = new Leadership(
                 42, 
-                ['super awesome', 'a little flaky'],
+                ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
             httpClientSpy.get.and.returnValue(of(expected));

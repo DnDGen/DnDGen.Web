@@ -8,7 +8,7 @@ import { TreasurePipe } from '../../treasure/pipes/treasure.pipe';
 
 @Pipe({ 
     name: 'encounter',
-    standalone: true 
+    standalone: true,
 })
 export class EncounterPipe implements PipeTransform {
     constructor(

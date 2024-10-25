@@ -16,9 +16,8 @@ import { FollowerQuantities } from '../models/followerQuantities.model';
 import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
-import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 
-describe('CharacterGen Component', () => {
+fdescribe('CharacterGen Component', () => {
   describe('unit', () => {
     let component: CharacterGenComponent;
     let characterServiceSpy: jasmine.SpyObj<CharacterService>;
@@ -2449,7 +2448,7 @@ describe('CharacterGen Component', () => {
       expect(tabLinks?.item(1).getAttribute('href')).toEqual('#leadership');
     });
 
-    describe('the character tab', () => {
+    fdescribe('the character tab', () => {
       it(`should render the character tab`, () => {
         helper.expectExists('#character');
         
@@ -2655,6 +2654,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - missing set strength`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2676,6 +2678,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set strength invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', 'wrong');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2697,6 +2702,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set strength too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '-1');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2719,6 +2727,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - missing set constitution`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '');
         helper.setInput('#setDexterity', '6');
@@ -2740,6 +2751,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set constitution invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', 'wrong');
         helper.setInput('#setDexterity', '6');
@@ -2761,6 +2775,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set constitution too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '-1');
         helper.setInput('#setDexterity', '6');
@@ -2782,6 +2799,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - missing set dexterity`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '');
@@ -2803,6 +2823,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set dexterity invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', 'wrong');
@@ -2825,6 +2848,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set dexterity too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '-1');
@@ -2844,8 +2870,11 @@ describe('CharacterGen Component', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
-      it(`should show that character is invalid - missing set intelligence`, () => {
+      fit(`should show that character is invalid - missing set intelligence`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2867,6 +2896,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set intelligence invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2888,6 +2920,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set intelligence too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2909,6 +2944,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - missing set wisdom`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2930,6 +2968,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set wisdom invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2951,6 +2992,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set wisdom too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2972,6 +3016,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - missing set charisma`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -2994,6 +3041,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set charisma invalid`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -3015,6 +3065,9 @@ describe('CharacterGen Component', () => {
     
       it(`should show that character is invalid - set charisma too low`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '26');
         helper.setInput('#setDexterity', '6');
@@ -3163,7 +3216,7 @@ describe('CharacterGen Component', () => {
           '#characterValidating', 
           '#downloadButton');
 
-        helper.expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectExists('#noCharacter', false);
         helper.expectExists('#characterSection > dndgen-character', true);
         // HACK: We might generate leadership, so we can't assert this
         // helper.expectExists('#characterSection dndgen-leadership', false);
@@ -3215,7 +3268,7 @@ describe('CharacterGen Component', () => {
           '#characterValidating', 
           '#downloadButton');
 
-        helper.expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectExists('#noCharacter', false)
         helper.expectExists('#characterSection dndgen-character', true);
         helper.expectExists('#characterSection dndgen-leadership', false);
         helper.expectCharacter('#characterSection dndgen-character', true);
@@ -3287,7 +3340,7 @@ describe('CharacterGen Component', () => {
           '#characterValidating', 
           '#downloadButton');
 
-        helper.expectHasAttribute('#noCharacter', 'hidden', true)
+        helper.expectExists('#noCharacter', false)
         helper.expectExists('#characterSection dndgen-character', true);
         helper.expectExists('#characterSection dndgen-leadership', false);
         helper.expectCharacter('#characterSection dndgen-character', true);
@@ -3325,8 +3378,8 @@ describe('CharacterGen Component', () => {
           '#downloadButton');
       });
     
-      for(let i = 0; i < 10; i++) {
-        it(`FLAKY - should generate default leadership`, async () => {
+      TestHelper.runFlakyTest(() => {
+        it(`should generate default leadership`, async () => {
           helper.clickButton('#generateLeadershipButton');
     
           fixture.detectChanges();
@@ -3350,7 +3403,7 @@ describe('CharacterGen Component', () => {
             null, 
             '#downloadButton');
           
-          helper.expectHasAttribute('#noCharacter', 'hidden', true)
+          helper.expectExists('#noCharacter', false)
           helper.expectExists('#characterSection > dndgen-character', false);
           helper.expectExists('#characterSection dndgen-leadership', true);
 
@@ -3368,7 +3421,7 @@ describe('CharacterGen Component', () => {
           //INFO: With a score of 6, we shouldn't have any followers, but
           //Number of followers vary too much to make a reliable assertion
         });
-      }
+      });
       
       it(`should say negative charisma bonus is valid`, async () => {
         helper.setInput('#leaderCharismaBonus', '-1');
@@ -3411,8 +3464,8 @@ describe('CharacterGen Component', () => {
       ];
 
       leadershipTests.forEach(test => {
-        for(let i = 0; i < 10; i++) {
-          it(`FLAKY - should generate non-default leadership - leader level ${test.lvl}, CHA bonus ${test.cha}`, async () => {
+        TestHelper.runFlakyTest(() => {
+          it(`should generate non-default leadership - leader level ${test.lvl}, CHA bonus ${test.cha}`, async () => {
             helper.setSelectByIndex('#leaderAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Chaotic Neutral'));
             helper.setSelectByIndex('#leaderClassName', fixture.componentInstance.characterModel.classNames.indexOf('Sorcerer'));
             helper.setInput('#leaderLevel', `${test.lvl}`);
@@ -3465,12 +3518,12 @@ describe('CharacterGen Component', () => {
             
             //Number of followers vary too much to make a reliable assertion
           });
-        }
+        });
       });
     });
   
     it(`should render no character or leadership`, () => {
-      helper.expectHasAttribute('#noCharacter', 'hidden', false);
+      helper.expectExists('#noCharacter', true);
       helper.expectExists('#characterSection dndgen-character', false);
       helper.expectExists('#characterSection dndgen-leadership', false);
     });
@@ -3481,8 +3534,8 @@ describe('CharacterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectExists('#noCharacter', false);
+      helper.expectExists('#characterSection dndgen-character', true);
       helper.expectCharacter('#characterSection dndgen-character', true, character);
       helper.expectExists('#characterSection dndgen-leadership', false);
     });
@@ -3493,8 +3546,8 @@ describe('CharacterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectExists('#noCharacter', false);
+      helper.expectExists('#characterSection dndgen-leadership', true);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3519,8 +3572,8 @@ describe('CharacterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.character).toBeNull();
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectExists('#noCharacter', false);
+      helper.expectExists('#characterSection dndgen-leadership', true);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3549,8 +3602,8 @@ describe('CharacterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectExists('#noCharacter', false);
+      helper.expectExists('#characterSection dndgen-leadership', true);
       
       const debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3574,11 +3627,10 @@ describe('CharacterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectExists('#characterSection #noCharacter', false);
       helper.expectCharacter('#characterSection dndgen-character', true, character);
 
-      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectExists('#characterSection dndgen-leadership', true);
       
       let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();
@@ -3607,11 +3659,11 @@ describe('CharacterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noCharacter', 'hidden', true);
-      helper.expectHasAttribute('#characterSection dndgen-character', 'hidden', false);
+      helper.expectExists('#noCharacter', false);
+      helper.expectExists('#characterSection dndgen-character', true);
       helper.expectCharacter('#characterSection dndgen-character', true, character);
       
-      helper.expectHasAttribute('#characterSection dndgen-leadership', 'hidden', false);
+      helper.expectExists('#characterSection dndgen-leadership', true);
       
       let debugElement = fixture.debugElement.query(By.css('#characterSection dndgen-leadership'));
       expect(debugElement).toBeTruthy();

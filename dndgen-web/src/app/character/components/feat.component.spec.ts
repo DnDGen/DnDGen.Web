@@ -54,8 +54,8 @@ describe('Feat Component', () => {
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
 
       helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus'
@@ -69,9 +69,9 @@ describe('Feat Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-foci', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
       
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
       helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
@@ -87,9 +87,9 @@ describe('Feat Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
 
       helper.expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
     });
@@ -101,9 +101,9 @@ describe('Feat Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
 
       helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
     });
@@ -115,9 +115,9 @@ describe('Feat Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
 
       helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
     });
@@ -129,9 +129,9 @@ describe('Feat Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-foci', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-power', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.feat-heading li.feat-frequency', 'hidden', false);
+      helper.expectExists('dndgen-details.feat-heading li.feat-foci', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-power', true);
+      helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
       
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
       helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [

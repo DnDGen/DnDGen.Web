@@ -527,9 +527,11 @@
         <div id="characterSection">
           @if (!character && !leadership) {
             <span id="noCharacter" class="italicize">No character has been generated</span>
-          } @else if (character) {
+          }
+          @if (character) {
             <dndgen-character [character]="character!"></dndgen-character>
-          } @else if (leadership) {
+          }
+          @if (leadership) {
             <div>
               <dndgen-leadership [leadership]="leadership!" [cohort]="cohort" [followers]="followers"></dndgen-leadership>
             </div>

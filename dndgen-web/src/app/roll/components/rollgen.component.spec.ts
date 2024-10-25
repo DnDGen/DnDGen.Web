@@ -1263,7 +1263,7 @@ describe('RollGen Component', () => {
     });
   
     it(`should render the initial roll`, () => {
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '0');
       helper.expectLoading('#rollingSection', false, Size.Medium);
     });
@@ -1273,7 +1273,7 @@ describe('RollGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '42');
     });
     
@@ -1282,7 +1282,7 @@ describe('RollGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '9,266');
     });
   });

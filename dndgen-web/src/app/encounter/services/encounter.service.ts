@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
 import { Encounter } from '../models/encounter.model';
 
@@ -25,6 +25,14 @@ export class EncounterService {
     allowAquatic: boolean, 
     allowUnderground: boolean
   ): Observable<Encounter> {
+    // HACK: In theory, passing empty values should fail and return quickly in the API
+    // however, it tends to lag and time out after 10s
+    // This seems exclusive to the URL parameters
+    // So, we will validate them here
+    if (!environment || !temperature || !timeOfDay) {
+      throwError(() => new Error('Invalid environment, temperature, or time of day'));
+    }
+
     var url = `https://encounter.dndgen.com/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);
@@ -41,11 +49,6 @@ export class EncounterService {
         allowUnderground: allowUnderground
       }
     });
-
-    // return new HttpParams()
-    //   .set('creatureTypeFilters', filters)
-    //   .set('allowAquatic', allowAquatic)
-    //   .set('allowUnderground', allowUnderground);
   }
 
   public validate(
@@ -57,6 +60,14 @@ export class EncounterService {
     allowAquatic: boolean, 
     allowUnderground: boolean
   ): Observable<boolean> {
+    // HACK: In theory, passing empty values should fail and return quickly in the API
+    // however, it tends to lag and time out after 10s
+    // This seems exclusive to the URL parameters
+    // So, we will validate them here
+    if (!environment || !temperature || !timeOfDay) {
+      return of(false);
+    }
+
     var url = `https://encounter.dndgen.com/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/validate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);

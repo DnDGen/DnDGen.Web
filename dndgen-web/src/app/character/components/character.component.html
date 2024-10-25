@@ -45,7 +45,7 @@
             <li class="character-class-specialist">
               <dndgen-details heading="Specialist Fields" [hasDetails]="character['class'].specialistFields.length > 0">
                 <ul>
-                  @for (field of character['class'].specialistFields; track field) {
+                  @for (field of character['class'].specialistFields; track $index) {
                     <li>{{field}}</li>
                   }
                 </ul>
@@ -56,7 +56,7 @@
             <li class="character-class-prohibited">
               <dndgen-details heading="Prohibited Fields" [hasDetails]="character['class'].prohibitedFields.length > 0">
                 <ul>
-                  @for (field of character['class'].prohibitedFields; track field) {
+                  @for (field of character['class'].prohibitedFields; track $index) {
                     <li>{{field}}</li>
                   }
                 </ul>
@@ -107,7 +107,7 @@
     <li class="character-languages">
       <dndgen-details heading="Languages" [hasDetails]="true">
         <ul>
-          @for (language of character.languages; track language) {
+          @for (language of character.languages; track $index) {
             <li>{{language}}</li>
           }
         </ul>
@@ -126,7 +126,7 @@
             <th scope="col">Armor Check Penalty</th>
           </thead>
           <tbody>
-            @for (skill of sortedSkills; track skill.displayName) {
+            @for (skill of sortedSkills; track $index) {
               <tr>
                 <td>@if (skill.classSkill) { <i class="bi bi-check-lg"></i> }</td>
                 <td>{{skill.displayName}}</td>

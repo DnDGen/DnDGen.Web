@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsComponent } from '../../shared/components/details.component';
 import { Character } from '../../character/models/character.model';
 import { Treasure } from '../../treasure/models/treasure.model';
 import { TestHelper } from '../../testHelper.spec';
@@ -279,7 +278,7 @@ describe('Encounter Component', () => {
   
       helper.expectDetails('dndgen-details.encounter-header', 'my encounter description', true);
       helper.expectDetails('dndgen-details.encounter-header .encounter-characters dndgen-details', 'Characters', true);
-      helper.expectHasAttribute('dndgen-details.encounter-header .encounter-characters dndgen-details', 'hidden', false);
+      helper.expectExists('dndgen-details.encounter-header .encounter-characters dndgen-details', true);
       helper.expectCharacters('dndgen-details.encounter-header .encounter-characters dndgen-details dndgen-character', component.encounter.characters);
     });
   
@@ -322,7 +321,7 @@ describe('Encounter Component', () => {
         'my sub-creature (my sub-creature description)', 
         true);
       helper.expectTextContent(
-        'dndgen-details.encounter-header .encounter-creatures > dndgen-details dndgen-details dndgen-details span', 
+        'dndgen-details.encounter-header .encounter-creatures > dndgen-details dndgen-details dndgen-details li', 
         'my sub-sub-creature (my sub-sub-creature description)');
       helper.expectTextContent('dndgen-details.encounter-header .encounter-creatures > dndgen-details dndgen-details .encounter-creature-cr', 'Challenge Rating: CR 90211');
       
@@ -330,7 +329,7 @@ describe('Encounter Component', () => {
       helper.expectTreasures('dndgen-details.encounter-header .encounter-treasures dndgen-details dndgen-treasure', component.encounter.treasures);
       
       helper.expectDetails('dndgen-details.encounter-header .encounter-characters dndgen-details', 'Characters', true);
-      helper.expectHasAttribute('dndgen-details.encounter-header .encounter-characters dndgen-details', 'hidden', false);
+      helper.expectExists('dndgen-details.encounter-header .encounter-characters dndgen-details', true);
       helper.expectCharacters('dndgen-details.encounter-header .encounter-characters dndgen-details dndgen-character', component.encounter.characters);
     });
   });

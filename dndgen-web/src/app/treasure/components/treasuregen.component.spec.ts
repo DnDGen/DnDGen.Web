@@ -1111,8 +1111,8 @@ describe('TreasureGen Component', () => {
       const treasureTypesIndicesTestCases = Array.from(Array(4).keys());
 
       treasureTypesIndicesTestCases.forEach(test => {
-        for(let i = 0; i < 10; i++) {
-          it(`FLAKY - should show that treasure is valid - treasure type index ${test}`, async () => {
+        TestHelper.runFlakyTest(() => {
+          it(`should show that treasure is valid - treasure type index ${test}`, async () => {
             helper.setSelectByIndex('#treasureTypes', test);
       
             fixture.detectChanges();
@@ -1125,7 +1125,7 @@ describe('TreasureGen Component', () => {
       
             helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
           });
-        }
+        });
       });
 
       xit(`should show that treasure is invalid - validation fails`, () => {

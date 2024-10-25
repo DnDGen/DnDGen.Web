@@ -823,7 +823,7 @@ describe('EncounterGen Component', () => {
         '#encounterValidating', 
         '#downloadButton');
 
-      helper.expectHasAttribute('#noEncounter', 'hidden', true)
+      helper.expectExists('#noEncounter', false)
       helper.expectExists('#encounterSection > dndgen-encounter', true);
       helper.expectEncounter('#encounterSection > dndgen-encounter', true);
     });
@@ -877,7 +877,7 @@ describe('EncounterGen Component', () => {
         '#encounterValidating', 
         '#downloadButton');
 
-      helper.expectHasAttribute('#noEncounter', 'hidden', true)
+      helper.expectExists('#noEncounter', false)
       helper.expectExists('#encounterSection dndgen-character', true);
       helper.expectExists('#encounterSection dndgen-leadership', false);
       helper.expectCharacter('#encounterSection dndgen-character', true);
@@ -896,7 +896,7 @@ describe('EncounterGen Component', () => {
     }
   
     it(`should render no encounter`, () => {
-      helper.expectHasAttribute('#noEncounter', 'hidden', false);
+      helper.expectExists('#noEncounter', true);
       helper.expectExists('#encounterSection dndgen-character', false);
       helper.expectExists('#encounterSection dndgen-leadership', false);
     });
@@ -907,8 +907,8 @@ describe('EncounterGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#noEncounter', 'hidden', true);
-      helper.expectHasAttribute('#encounterSection dndgen-encounter', 'hidden', false);
+      helper.expectExists('#noEncounter', false);
+      helper.expectExists('#encounterSection dndgen-encounter', true);
       helper.expectEncounter('#encounterSection dndgen-encounter', true, encounter);
       helper.expectExists('#encounterSection dndgen-leadership', false);
     });

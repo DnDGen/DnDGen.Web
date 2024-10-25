@@ -13,7 +13,7 @@
                             [(ngModel)]="temperature" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (temperature of encounterModel.temperatures; track temperature) {
+                      @for (temperature of encounterModel.temperatures; track $index) {
                         <option [ngValue]="temperature">{{temperature}}</option>
                       }
                     </select>
@@ -30,7 +30,7 @@
                             [(ngModel)]="environment" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (environment of encounterModel.environments; track environment) {
+                      @for (environment of encounterModel.environments; track $index) {
                         <option [ngValue]="environment">{{environment}}</option>
                       }
                     </select>
@@ -47,7 +47,7 @@
                             [(ngModel)]="timeOfDay" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (timeOfDay of encounterModel.timesOfDay; track timeOfDay) {
+                      @for (timeOfDay of encounterModel.timesOfDay; track $index) {
                         <option [ngValue]="timeOfDay">{{timeOfDay}}</option>
                       }
                     </select>
@@ -97,7 +97,7 @@
                 <label class="col-form-label">Creature Type Filters (selecting none is the same as selecting all):</label>
             </div>
             <div class="form-group row">
-              @for (filter of creatureTypeFilters; track filter.name) {
+              @for (filter of creatureTypeFilters; track $index) {
                 <div class="checkbox col-sm-4">
                     <label>
                         <input id="{{filter.name}}" 

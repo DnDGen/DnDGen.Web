@@ -34,6 +34,7 @@ export class TestHelper<T> {
       providers: [
           importProvidersFrom(BrowserModule, FormsModule, RouterOutlet, NgbModule),
           provideHttpClient(withInterceptorsFromDi()),
+          { provide: 'APP_ID', useValue: 'dndgen-web' },
           provideRouter(routes),
           BonusPipe, BonusesPipe
       ]
@@ -242,7 +243,9 @@ export class TestHelper<T> {
       this.expectLoading(validatingSelector, false, Size.Small);
 
     this.expectExists(resultSelector, true);
-    this.expectLoading(generatingSelector, false, Size.Medium);
+    // this.expectLoading(generatingSelector, false, Size.Medium);
+    //Changed for charactergen
+    this.expectExists(generatingSelector, false);
     
     if (downloadSelector)
       this.expectExists(downloadSelector, true);
@@ -313,6 +316,8 @@ export class TestHelper<T> {
   }
 
   public setInput(selector: string, value: string, extraEvent?: string) {
+    this.expectHasAttribute(selector, 'disabled', false);
+
     const input = this.compiled.querySelector(selector) as HTMLInputElement;
     input.value = value;
 
@@ -323,7 +328,6 @@ export class TestHelper<T> {
   }
 
   public setCheckbox(selector: string, value: boolean) {
-    this.expectExists(selector, true);
     this.expectHasAttribute(selector, 'disabled', false);
 
     const checkbox = this.compiled!.querySelector(selector) as HTMLInputElement;
@@ -333,6 +337,8 @@ export class TestHelper<T> {
   }
 
   public setSelectByValue(selector: string, value: string) {
+    this.expectHasAttribute(selector, 'disabled', false);
+
     const select = this.compiled.querySelector(selector) as HTMLSelectElement;
     select.value = value;
 
@@ -340,6 +346,7 @@ export class TestHelper<T> {
   }
 
   public setSelectByIndex(selector: string, index: number) {
+    this.expectHasAttribute(selector, 'disabled', false);
     expect(index).toBeGreaterThanOrEqual(0);
 
     const select = this.compiled.querySelector(selector) as HTMLSelectElement;
@@ -358,7 +365,6 @@ export class TestHelper<T> {
   }
 
   public clickCheckbox(selector: string) {
-    this.expectExists(selector, true);
     this.expectHasAttribute(selector, 'disabled', false);
 
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
@@ -396,5 +402,13 @@ export class TestHelper<T> {
       
       expect(badIndex).toBe(-1);
       expect(actual.length).toBe(expected.length);
+  }
+
+  public static runFlakyTest(test: () => void) {
+    for(let i = 0; i < 10; i++) {
+      describe(`FLAKY (run ${i})`, () => {
+        test();
+      });
+    }
   }
 }

@@ -23,7 +23,7 @@
                           (change)="validateTreasure(treasureType, level)" 
                           [(ngModel)]="treasureType" 
                           required>
-                    @for (treasureTypeOption of treasureModel.treasureTypes; track treasureTypeOption) {
+                    @for (treasureTypeOption of treasureModel.treasureTypes; track $index) {
                       <option [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
                     }
                   </select>
@@ -69,7 +69,7 @@
                           (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
                           [(ngModel)]="itemType" 
                           required>
-                    @for (itemTypeOption of treasureModel.itemTypeViewModels; track itemTypeOption) {
+                    @for (itemTypeOption of treasureModel.itemTypeViewModels; track $index) {
                       <option [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
                     }
                   </select>
