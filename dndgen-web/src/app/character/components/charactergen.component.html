@@ -34,7 +34,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel && alignmentRandomizerType == 'Set') {
+                        @if (characterModel) {
                           <select id="setAlignment" 
                                   name="setAlignment"
                                   class="form-select"
@@ -47,6 +47,7 @@
                                     metaraceRandomizerType, setMetarace, forceMetarace,
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
+                                  [hidden]="alignmentRandomizerType != 'Set'"
                                   [required]="alignmentRandomizerType == 'Set'">
                             @for (alignment of characterModel.alignments; track $index) {
                               <option [ngValue]="alignment">{{alignment}}</option>
@@ -80,7 +81,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel && classNameRandomizerType == 'Set') {
+                        @if (characterModel) {
                           <select id="setClassName" 
                                   name="setClassName"
                                   class="form-select"
@@ -93,6 +94,7 @@
                                     metaraceRandomizerType, setMetarace, forceMetarace,
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
+                                  [hidden]="classNameRandomizerType != 'Set'"
                                   [required]="classNameRandomizerType == 'Set'">
                             @for (className of characterModel.classNames; track $index) {
                               <option [ngValue]="className">{{className}}</option>
@@ -188,7 +190,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel && baseRaceRandomizerType == 'Set') {
+                        @if (characterModel) {
                           <select id="setBaseRace" 
                                   name="setBaseRace"
                                   class="form-select"
@@ -201,6 +203,7 @@
                                     metaraceRandomizerType, setMetarace, forceMetarace,
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
+                                  [hidden]="baseRaceRandomizerType != 'Set'"
                                   [required]="baseRaceRandomizerType == 'Set'">
                             @for (baseRace of characterModel.baseRaces; track $index) {
                               <option [ngValue]="baseRace">{{baseRace}}</option>
@@ -233,28 +236,27 @@
                         }
                       </div>
                       <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                      @if (metaraceRandomizerType != 'Set' && metaraceRandomizerType != 'No Meta') {
-                        <div class="col-sm-4">
-                            <div class="checkbox-inline">
-                                <label>
-                                    <input id="forceMetaraceCheckbox" 
-                                           name="forceMetaraceCheckbox" 
-                                           type="checkbox" 
-                                           [(ngModel)]="forceMetarace" 
-                                           (input)="validateRandomizers(
-                                              alignmentRandomizerType, setAlignment,
-                                              classNameRandomizerType, setClassName,
-                                              levelRandomizerType, setLevel, allowLevelAdjustments,
-                                              baseRaceRandomizerType, setBaseRace,
-                                              metaraceRandomizerType, setMetarace, forceMetarace,
-                                              abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
-                                            )"> Force
-                                </label>
-                            </div>
-                        </div>
-                      }
+                      <div class="col-sm-4">
+                          <div class="checkbox-inline">
+                              <label>
+                                  <input id="forceMetaraceCheckbox" 
+                                          name="forceMetaraceCheckbox" 
+                                          type="checkbox" 
+                                          [(ngModel)]="forceMetarace" 
+                                          (input)="validateRandomizers(
+                                            alignmentRandomizerType, setAlignment,
+                                            classNameRandomizerType, setClassName,
+                                            levelRandomizerType, setLevel, allowLevelAdjustments,
+                                            baseRaceRandomizerType, setBaseRace,
+                                            metaraceRandomizerType, setMetarace, forceMetarace,
+                                            abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
+                                          )"
+                                [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'"> Force
+                              </label>
+                          </div>
+                      </div>
                       <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                      @if (characterModel && metaraceRandomizerType == 'Set') {
+                      @if (characterModel) {
                         <div class="col-sm-4">
                             <select id="setMetarace" 
                                     name="setMetarace"
@@ -268,6 +270,7 @@
                                       metaraceRandomizerType, setMetarace, forceMetarace,
                                       abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                     )"
+                                    [hidden]="metaraceRandomizerType != 'Set'"
                                     [required]="metaraceRandomizerType == 'Set'">
                               @for (metarace of characterModel.metaraces; track $index) {
                                 <option [ngValue]="metarace">{{metarace}}</option>
@@ -301,24 +304,23 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (abilitiesRandomizerType == 'Set') {
-                          <div class="checkbox-inline">
-                              <label>
-                                  <input id="abilitiesAdjustCheckbox" 
-                                         name="abilitiesAdjustCheckbox" 
-                                         type="checkbox" 
-                                         [(ngModel)]="allowAbilitiesAdjustments" 
-                                         (input)="validateRandomizers(
-                                            alignmentRandomizerType, setAlignment,
-                                            classNameRandomizerType, setClassName,
-                                            levelRandomizerType, setLevel, allowLevelAdjustments,
-                                            baseRaceRandomizerType, setBaseRace,
-                                            metaraceRandomizerType, setMetarace, forceMetarace,
-                                            abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
-                                          )"> Allow Adjustments
-                              </label>
-                          </div>
-                        }
+                        <div class="checkbox-inline">
+                            <label>
+                                <input id="abilitiesAdjustCheckbox" 
+                                        name="abilitiesAdjustCheckbox" 
+                                        type="checkbox" 
+                                        [(ngModel)]="allowAbilitiesAdjustments" 
+                                        (input)="validateRandomizers(
+                                          alignmentRandomizerType, setAlignment,
+                                          classNameRandomizerType, setClassName,
+                                          levelRandomizerType, setLevel, allowLevelAdjustments,
+                                          baseRaceRandomizerType, setBaseRace,
+                                          metaraceRandomizerType, setMetarace, forceMetarace,
+                                          abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
+                                        )"
+                                      [hidden]="abilitiesRandomizerType != 'Set'"> Allow Adjustments
+                            </label>
+                        </div>
                       </div>
                   </div>
                     <div class="form-group row">

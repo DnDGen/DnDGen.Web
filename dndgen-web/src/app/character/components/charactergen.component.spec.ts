@@ -2448,7 +2448,7 @@ fdescribe('CharacterGen Component', () => {
       expect(tabLinks?.item(1).getAttribute('href')).toEqual('#leadership');
     });
 
-    fdescribe('the character tab', () => {
+    describe('the character tab', () => {
       it(`should render the character tab`, () => {
         helper.expectExists('#character');
         
@@ -2481,6 +2481,85 @@ fdescribe('CharacterGen Component', () => {
         helper.expectHasAttribute('#generateCharacterButton', 'disabled', false);
         helper.expectLoading('#characterValidating', false, Size.Small);
       });
+
+      it(`should hide set alignment, except for Set alignment randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.alignmentRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#alignmentRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.alignmentRandomizerTypes[i];
+          helper.expectSelect('#alignmentRandomizerType', true, randomizer, fixture.componentInstance.characterModel.alignmentRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setAlignment', 'hidden', !isSet);
+          helper.expectHasAttribute('#setAlignment', 'required', isSet);
+        }
+      });
+
+      it(`should hide set class name, except for Set class name randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.classNameRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#classNameRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.classNameRandomizerTypes[i];
+          helper.expectSelect('#classNameRandomizerType', true, randomizer, fixture.componentInstance.characterModel.classNameRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setClassName', 'hidden', !isSet);
+          helper.expectHasAttribute('#setClassName', 'required', isSet);
+        }
+      });
+
+      it(`should hide set level, except for Set level randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.levelRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#levelRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.levelRandomizerTypes[i];
+          helper.expectSelect('#levelRandomizerType', true, randomizer, fixture.componentInstance.characterModel.levelRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setLevel', 'hidden', !isSet);
+          helper.expectHasAttribute('#setLevel', 'required', isSet);
+        }
+      });
+
+      it(`should hide set base race, except for Set base race randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.baseRaceRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#baseRaceRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.baseRaceRandomizerTypes[i];
+          helper.expectSelect('#baseRaceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.baseRaceRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setBaseRace', 'hidden', !isSet);
+          helper.expectHasAttribute('#setBaseRace', 'required', isSet);
+        }
+      });
+
+      it(`should hide set metarace, except for Set metarace randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.metaraceRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#metaraceRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.metaraceRandomizerTypes[i];
+          helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setMetarace', 'hidden', !isSet);
+          helper.expectHasAttribute('#setMetarace', 'required', isSet);
+        }
+      });
+
+      //TODO: Hide force metarace
+      //TODO: Hide allow ability adjustments
+      //TODO: Hide set abilities
     
       it(`should show when validating character`, () => {
         const component = fixture.componentInstance;
@@ -2931,13 +3010,6 @@ fdescribe('CharacterGen Component', () => {
   
         fixture.detectChanges();
   
-        helper.expectNumberInput('#setStrength', true, 9);
-        helper.expectNumberInput('#setConstitution', true, 26);
-        helper.expectNumberInput('#setDexterity', true, 6);
-        helper.expectNumberInput('#setIntelligence', true, 0);
-        helper.expectNumberInput('#setWisdom', true, 10);
-        helper.expectNumberInput('#setCharisma', true, 4);
-
         expect(fixture.componentInstance.abilitiesRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setStrength).toEqual(9);
         expect(fixture.componentInstance.setConstitution).toEqual(26);
@@ -3328,7 +3400,7 @@ fdescribe('CharacterGen Component', () => {
         helper.expectCharacter('#characterSection dndgen-character', true);
       });
     
-      fit(`should generate non-default character - set values`, async () => {
+      it(`should generate non-default character - set values`, async () => {
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
