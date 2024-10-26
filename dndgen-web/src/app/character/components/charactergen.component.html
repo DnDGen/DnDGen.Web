@@ -33,6 +33,7 @@
                         }
                       </div>
                       <div class="col-sm-4">
+                        <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                         @if (characterModel && alignmentRandomizerType == 'Set') {
                           <select id="setAlignment" 
                                   name="setAlignment"
@@ -78,6 +79,7 @@
                         }
                       </div>
                       <div class="col-sm-4">
+                        <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                         @if (characterModel && classNameRandomizerType == 'Set') {
                           <select id="setClassName" 
                                   name="setClassName"
@@ -185,6 +187,7 @@
                         }
                       </div>
                       <div class="col-sm-4">
+                        <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                         @if (characterModel && baseRaceRandomizerType == 'Set') {
                           <select id="setBaseRace" 
                                   name="setBaseRace"
@@ -229,6 +232,7 @@
                           </select>
                         }
                       </div>
+                      <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                       @if (metaraceRandomizerType != 'Set' && metaraceRandomizerType != 'No Meta') {
                         <div class="col-sm-4">
                             <div class="checkbox-inline">
@@ -249,6 +253,7 @@
                             </div>
                         </div>
                       }
+                      <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                       @if (characterModel && metaraceRandomizerType == 'Set') {
                         <div class="col-sm-4">
                             <select id="setMetarace" 
@@ -295,6 +300,7 @@
                         }
                       </div>
                       <div class="col-sm-4">
+                        <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                         @if (abilitiesRandomizerType == 'Set') {
                           <div class="checkbox-inline">
                               <label>
@@ -318,6 +324,7 @@
                     <div class="form-group row">
                         <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setStrength" 
                                 name="setStrength"
                                 pattern="^[0-9]+$"
@@ -338,6 +345,7 @@
                         </div>
                         <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setConstitution" 
                                 name="setConstitution"
                                 pattern="^[0-9]+$"
@@ -358,6 +366,7 @@
                         </div>
                         <label for="setDexterity" class="col-sm-2 col-form-label">Dexterity:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setDexterity" 
                                 name="setDexterity"
                                 pattern="^[0-9]+$"
@@ -380,6 +389,7 @@
                     <div class="form-group row">
                         <label for="setIntelligence" class="col-sm-2 col-form-label">Intelligence:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setIntelligence" 
                                 name="setIntelligence"
                                 pattern="^[0-9]+$"
@@ -400,6 +410,7 @@
                         </div>
                         <label for="setWisdom" class="col-sm-2 col-form-label">Wisdom:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setWisdom" 
                                 name="setWisdom"
                                 pattern="^[0-9]+$"
@@ -420,6 +431,7 @@
                         </div>
                         <label for="setCharisma" class="col-sm-2 col-form-label">Charisma:</label>
                         <div class="col-sm-2">
+                          <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                           <input id="setCharisma" 
                                 name="setCharisma"
                                 pattern="^[0-9]+$"
