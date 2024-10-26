@@ -2652,6 +2652,53 @@ fdescribe('CharacterGen Component', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
+      it(`BUG - should set set level`, () => {
+        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.levelRandomizerType).toEqual('Set');
+
+        helper.setInput('#setLevel', '9');
+  
+        fixture.detectChanges();
+  
+        helper.expectNumberInput('#setLevel', true, 9);
+
+        expect(fixture.componentInstance.setLevel).toEqual(9);
+      });
+    
+      it(`BUG - should set set abilities`, () => {
+        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.abilitiesRandomizerType).toEqual('Set');
+
+        helper.setInput('#setStrength', '9');
+        helper.setInput('#setConstitution', '26');
+        helper.setInput('#setDexterity', '6');
+        helper.setInput('#setIntelligence', '2');
+        helper.setInput('#setWisdom', '10');
+        helper.setInput('#setCharisma', '4');
+  
+        fixture.detectChanges();
+  
+        helper.expectNumberInput('#setStrength', true, 9);
+        helper.expectNumberInput('#setConstitution', true, 26);
+        helper.expectNumberInput('#setDexterity', true, 6);
+        helper.expectNumberInput('#setIntelligence', true, 2);
+        helper.expectNumberInput('#setWisdom', true, 10);
+        helper.expectNumberInput('#setCharisma', true, 4);
+
+        expect(fixture.componentInstance.setStrength).toEqual(9);
+        expect(fixture.componentInstance.setConstitution).toEqual(26);
+        expect(fixture.componentInstance.setDexterity).toEqual(6);
+        expect(fixture.componentInstance.setIntelligence).toEqual(2);
+        expect(fixture.componentInstance.setWisdom).toEqual(10);
+        expect(fixture.componentInstance.setCharisma).toEqual(4);
+      });
+
       it(`should show that character is invalid - missing set strength`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
         
@@ -2870,7 +2917,7 @@ fdescribe('CharacterGen Component', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
-      fit(`should show that character is invalid - missing set intelligence`, () => {
+      it(`should show that character is invalid - missing set intelligence`, () => {
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
@@ -2884,6 +2931,13 @@ fdescribe('CharacterGen Component', () => {
   
         fixture.detectChanges();
   
+        helper.expectNumberInput('#setStrength', true, 9);
+        helper.expectNumberInput('#setConstitution', true, 26);
+        helper.expectNumberInput('#setDexterity', true, 6);
+        helper.expectNumberInput('#setIntelligence', true, 0);
+        helper.expectNumberInput('#setWisdom', true, 10);
+        helper.expectNumberInput('#setCharisma', true, 4);
+
         expect(fixture.componentInstance.abilitiesRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setStrength).toEqual(9);
         expect(fixture.componentInstance.setConstitution).toEqual(26);
@@ -3274,19 +3328,31 @@ fdescribe('CharacterGen Component', () => {
         helper.expectCharacter('#characterSection dndgen-character', true);
       });
     
-      it(`should generate non-default character - set values`, async () => {
+      fit(`should generate non-default character - set values`, async () => {
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setSelectByIndex('#setAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Neutral Good'));
         helper.setSelectByIndex('#classNameRandomizerType', fixture.componentInstance.characterModel.classNameRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setSelectByIndex('#setClassName', fixture.componentInstance.characterModel.classNames.indexOf('Fighter'));
         helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setCheckbox('#levelAdjustCheckbox', false);
         helper.setInput('#setLevel', '4');
         helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setSelectByIndex('#setBaseRace', fixture.componentInstance.characterModel.baseRaces.indexOf('Mountain Dwarf'));
         helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setSelectByIndex('#setMetarace', fixture.componentInstance.characterModel.metaraces.indexOf('Half-Dragon'));
         helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        fixture.detectChanges();
+
         helper.setInput('#setStrength', '9');
         helper.setInput('#setConstitution', '21');
         helper.setInput('#setDexterity', '2');

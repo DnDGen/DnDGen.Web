@@ -141,25 +141,24 @@
                           </div>
                       </div>
                       <div class="col-sm-4">
-                        @if (levelRandomizerType == 'Set') {
-                          <input id="setLevel"
-                            name="setLevel"
-                            pattern="^[0-9]+$"
-                            class="form-control" 
-                            type="number" 
-                            min="1" 
-                            max="20" 
-                            [(ngModel)]="setLevel" 
-                            (input)="validateRandomizers(
-                              alignmentRandomizerType, setAlignment,
-                              classNameRandomizerType, setClassName,
-                              levelRandomizerType, setLevel, allowLevelAdjustments,
-                              baseRaceRandomizerType, setBaseRace,
-                              metaraceRandomizerType, setMetarace, forceMetarace,
-                              abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
-                            )"
-                            [required]="levelRandomizerType == 'Set'" />
-                        }
+                        <input id="setLevel"
+                          name="setLevel"
+                          pattern="^[0-9]+$"
+                          class="form-control" 
+                          type="number" 
+                          min="1" 
+                          max="20" 
+                          [(ngModel)]="setLevel" 
+                          (input)="validateRandomizers(
+                            alignmentRandomizerType, setAlignment,
+                            classNameRandomizerType, setClassName,
+                            levelRandomizerType, setLevel, allowLevelAdjustments,
+                            baseRaceRandomizerType, setBaseRace,
+                            metaraceRandomizerType, setMetarace, forceMetarace,
+                            abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
+                          )"
+                          [hidden]="levelRandomizerType != 'Set'"
+                          [required]="levelRandomizerType == 'Set'" />
                       </div>
                   </div>
                   <div class="form-group row">
@@ -316,18 +315,17 @@
                         }
                       </div>
                   </div>
-                  @if (abilitiesRandomizerType == 'Set') {
                     <div class="form-group row">
                         <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
                         <div class="col-sm-2">
                           <input id="setStrength" 
-                                 name="setStrength"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setStrength" 
-                                 (input)="validateRandomizers(
+                                name="setStrength"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setStrength" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -335,18 +333,19 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                         <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
                         <div class="col-sm-2">
                           <input id="setConstitution" 
-                                 name="setConstitution"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setConstitution" 
-                                 (input)="validateRandomizers(
+                                name="setConstitution"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setConstitution" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -354,18 +353,19 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                         <label for="setDexterity" class="col-sm-2 col-form-label">Dexterity:</label>
                         <div class="col-sm-2">
                           <input id="setDexterity" 
-                                 name="setDexterity"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setDexterity" 
-                                 (input)="validateRandomizers(
+                                name="setDexterity"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setDexterity" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -373,20 +373,21 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="setIntelligence" class="col-sm-2 col-form-label">Intelligence:</label>
                         <div class="col-sm-2">
                           <input id="setIntelligence" 
-                                 name="setIntelligence"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setIntelligence" 
-                                 (input)="validateRandomizers(
+                                name="setIntelligence"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setIntelligence" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -394,18 +395,19 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                         <label for="setWisdom" class="col-sm-2 col-form-label">Wisdom:</label>
                         <div class="col-sm-2">
                           <input id="setWisdom" 
-                                 name="setWisdom"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setWisdom" 
-                                 (input)="validateRandomizers(
+                                name="setWisdom"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setWisdom" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -413,18 +415,19 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                         <label for="setCharisma" class="col-sm-2 col-form-label">Charisma:</label>
                         <div class="col-sm-2">
                           <input id="setCharisma" 
-                                 name="setCharisma"
-                                 pattern="^[0-9]+$"
-                                 class="form-control" 
-                                 type="number" 
-                                 min="0" 
-                                 [(ngModel)]="setCharisma" 
-                                 (input)="validateRandomizers(
+                                name="setCharisma"
+                                pattern="^[0-9]+$"
+                                class="form-control" 
+                                type="number" 
+                                min="0" 
+                                [(ngModel)]="setCharisma" 
+                                (input)="validateRandomizers(
                                   alignmentRandomizerType, setAlignment,
                                   classNameRandomizerType, setClassName,
                                   levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -432,10 +435,10 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                 [required]="abilitiesRandomizerType == 'Set'" />
+                                [hidden]="abilitiesRandomizerType != 'Set'"
+                                [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                     </div>
-                  }
                   <div class="d-flex justify-content-center">
                       <button id="generateCharacterButton" 
                               type="button" 
