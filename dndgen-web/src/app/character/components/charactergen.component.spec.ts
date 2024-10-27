@@ -2557,9 +2557,47 @@ fdescribe('CharacterGen Component', () => {
         }
       });
 
-      //TODO: Hide force metarace
+      it(`should hide force metarace for Set and None metarace randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.metaraceRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#metaraceRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.metaraceRandomizerTypes[i];
+          helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
+
+          const isSetOrNone = randomizer == 'Set' || randomizer == 'No Meta';
+          helper.expectHasAttribute('#forceMetaraceCheckbox', 'hidden', !isSetOrNone);
+          helper.expectHasAttribute('#forceMetaraceCheckbox', 'required', false);
+        }
+      });
+
+      it(`should hide set abilities, except for Set abilities randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#abilitiesRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.abilitiesRandomizerTypes[i];
+          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#setStrength', 'hidden', !isSet);
+          helper.expectHasAttribute('#setStrength', 'required', isSet);
+          helper.expectHasAttribute('#setConstitution', 'hidden', !isSet);
+          helper.expectHasAttribute('#setConstitution', 'required', isSet);
+          helper.expectHasAttribute('#setDexterity', 'hidden', !isSet);
+          helper.expectHasAttribute('#setDexterity', 'required', isSet);
+          helper.expectHasAttribute('#setIntelligence', 'hidden', !isSet);
+          helper.expectHasAttribute('#setIntelligence', 'required', isSet);
+          helper.expectHasAttribute('#setWisdom', 'hidden', !isSet);
+          helper.expectHasAttribute('#setWisdom', 'required', isSet);
+          helper.expectHasAttribute('#setCharisma', 'hidden', !isSet);
+          helper.expectHasAttribute('#setCharisma', 'required', isSet);
+        }
+      });
+
       //TODO: Hide allow ability adjustments
-      //TODO: Hide set abilities
     
       it(`should show when validating character`, () => {
         const component = fixture.componentInstance;
