@@ -17,7 +17,7 @@ import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
 
-fdescribe('CharacterGen Component', () => {
+describe('CharacterGen Component', () => {
   describe('unit', () => {
     let component: CharacterGenComponent;
     let characterServiceSpy: jasmine.SpyObj<CharacterService>;
@@ -2567,7 +2567,7 @@ fdescribe('CharacterGen Component', () => {
           helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
 
           const isSetOrNone = randomizer == 'Set' || randomizer == 'No Meta';
-          helper.expectHasAttribute('#forceMetaraceCheckbox', 'hidden', !isSetOrNone);
+          helper.expectHasAttribute('#forceMetaraceCheckbox', 'hidden', isSetOrNone);
           helper.expectHasAttribute('#forceMetaraceCheckbox', 'required', false);
         }
       });
@@ -2597,7 +2597,20 @@ fdescribe('CharacterGen Component', () => {
         }
       });
 
-      //TODO: Hide allow ability adjustments
+      it(`should hide allow ability adjustments, except for Set abilities randomizer`, () => {
+        for(let i = 0; i < fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length; i++) {
+          helper.setSelectByIndex('#abilitiesRandomizerType', i);
+
+          fixture.detectChanges();
+  
+          const randomizer = fixture.componentInstance.characterModel.abilitiesRandomizerTypes[i];
+          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
+
+          const isSet = randomizer == 'Set';
+          helper.expectHasAttribute('#abilitiesAdjustCheckbox', 'hidden', !isSet);
+          helper.expectHasAttribute('#abilitiesAdjustCheckbox', 'required', false);
+        }
+      });
     
       it(`should show when validating character`, () => {
         const component = fixture.componentInstance;
