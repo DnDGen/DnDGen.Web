@@ -13,7 +13,7 @@ import { Size } from '../../shared/components/size.enum';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';
 
-fdescribe('EncounterGen Component', () => {
+describe('EncounterGen Component', () => {
   describe('unit', () => {
     let component: EncounterGenComponent;
     let encounterServiceSpy: jasmine.SpyObj<EncounterService>;
@@ -759,7 +759,15 @@ fdescribe('EncounterGen Component', () => {
   
     it(`should show that encounter is valid - validation succeeds`, async () => {
       helper.setCheckbox('#Ooze', true);
+      
+      //run validation
+      await helper.waitForService();
+
       helper.setCheckbox('#allowUnderground', true);
+      
+      //run validation
+      await helper.waitForService();
+
       helper.setInput('#level', '7');
 
       fixture.detectChanges();
@@ -833,7 +841,7 @@ fdescribe('EncounterGen Component', () => {
         fixture.componentInstance.generating,
         '#generateButton', 
         '#encounterSection', 
-        '#generatingSection dndgen-loading', 
+        '#generatingSection', 
         '#encounterValidating', 
         '#downloadButton');
     });
@@ -847,7 +855,7 @@ fdescribe('EncounterGen Component', () => {
         fixture.componentInstance.generating,
         '#generateButton', 
         '#encounterSection', 
-        '#generatingSection dndgen-loading', 
+        '#generatingSection', 
         '#encounterValidating', 
         '#downloadButton');
 
@@ -858,7 +866,7 @@ fdescribe('EncounterGen Component', () => {
         fixture.componentInstance.generating,
         '#generateButton', 
         '#encounterSection', 
-        '#generatingSection dndgen-loading', 
+        '#generatingSection', 
         '#encounterValidating',
         '#downloadButton');
 
@@ -901,7 +909,7 @@ fdescribe('EncounterGen Component', () => {
         fixture.componentInstance.generating,
         '#generateButton', 
         '#encounterSection', 
-        '#generatingSection dndgen-loading', 
+        '#generatingSection', 
         '#encounterValidating', 
         '#downloadButton');
 
@@ -912,14 +920,12 @@ fdescribe('EncounterGen Component', () => {
         fixture.componentInstance.generating,
         '#generateButton', 
         '#encounterSection', 
-        '#generatingSection dndgen-loading', 
+        '#generatingSection', 
         '#encounterValidating',
         '#downloadButton');
 
-      helper.expectExists('#noEncounter', false)
-      helper.expectExists('#encounterSection dndgen-character', true);
-      helper.expectExists('#encounterSection dndgen-leadership', false);
-      helper.expectCharacter('#encounterSection dndgen-character', true);
+      helper.expectExists('#noEncounter', false);
+      helper.expectEncounter('#encounterSection dndgen-encounter', true);
     });
     
     function getCheckedFilters(): string[] {

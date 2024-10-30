@@ -133,7 +133,7 @@
                                          name="levelAdjustCheckbox" 
                                          type="checkbox" 
                                          [(ngModel)]="allowLevelAdjustments" 
-                                         (input)="validateRandomizers(
+                                         (change)="validateRandomizers(
                                             alignmentRandomizerType, setAlignment,
                                             classNameRandomizerType, setClassName,
                                             levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -243,7 +243,7 @@
                                           name="forceMetaraceCheckbox" 
                                           type="checkbox" 
                                           [(ngModel)]="forceMetarace" 
-                                          (input)="validateRandomizers(
+                                          (change)="validateRandomizers(
                                             alignmentRandomizerType, setAlignment,
                                             classNameRandomizerType, setClassName,
                                             levelRandomizerType, setLevel, allowLevelAdjustments,
@@ -310,7 +310,7 @@
                                         name="abilitiesAdjustCheckbox" 
                                         type="checkbox" 
                                         [(ngModel)]="allowAbilitiesAdjustments" 
-                                        (input)="validateRandomizers(
+                                        (change)="validateRandomizers(
                                           alignmentRandomizerType, setAlignment,
                                           classNameRandomizerType, setClassName,
                                           levelRandomizerType, setLevel, allowLevelAdjustments,

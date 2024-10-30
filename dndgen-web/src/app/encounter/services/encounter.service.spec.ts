@@ -360,6 +360,22 @@ describe('Encounter Service', () => {
                 });
         });
     
+        it('BUG - validates a valid encounter - oozes', done => {
+            encounterService
+                .validate(
+                    'Plains',
+                    'Temperate',
+                    'Day',
+                    7,
+                    ['Ooze'],
+                    false,
+                    true)
+                .subscribe((validity) => {
+                    expect(validity).toBe(true);
+                    done();
+                });
+        });
+    
         it('validates a valid encounter - bad filter', done => {
             encounterService
                 .validate(
