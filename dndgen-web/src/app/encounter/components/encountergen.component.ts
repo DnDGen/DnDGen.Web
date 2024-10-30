@@ -103,7 +103,8 @@ export class EncounterGenComponent implements OnInit {
     
     for (var i = 0; i < this.encounterModel.creatureTypes.length; i++) {
       this.creatureTypeFilters.push({ 
-          name: this.encounterModel.creatureTypes[i],
+          id: this.encounterModel.creatureTypes[i].replaceAll(' ', '_'),
+          displayName: this.encounterModel.creatureTypes[i],
           checked: false
       });
     }
@@ -131,6 +132,11 @@ export class EncounterGenComponent implements OnInit {
   ): void {
     this.validating = true;
 
+    if (!level) {
+      this.setValidity(false);
+      return;
+    }
+
     this.encounterService
       .validate(
         environment,
@@ -155,7 +161,7 @@ export class EncounterGenComponent implements OnInit {
 
     for (var i = 0; i < this.creatureTypeFilters.length; i++) {
         if (this.creatureTypeFilters[i].checked) {
-            checkedFilters.push(this.creatureTypeFilters[i].name);
+            checkedFilters.push(this.creatureTypeFilters[i].displayName);
         }
     }
 

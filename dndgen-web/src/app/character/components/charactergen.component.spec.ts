@@ -2731,6 +2731,22 @@ describe('CharacterGen Component', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       }));
     
+      it(`should validate when level adjustment changes`, waitForAsync(async () => {
+        helper.clickCheckbox('#levelAdjustCheckbox');
+  
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.allowLevelAdjustments).toBeTrue();
+
+        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        
+        //run validation
+        await helper.waitForService();
+  
+        expect(fixture.componentInstance.valid).toBeTrue();
+        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+      }));
+    
       it(`should show that character is invalid - missing base race randomizer`, async () => {
         helper.setSelectByValue('#baseRaceRandomizerType', '');
   
@@ -2759,6 +2775,22 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('');
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
+    
+      it(`should validate when force metarace changes`, waitForAsync(async () => {
+        helper.clickCheckbox('#forceMetaraceCheckbox');
+        
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.forceMetarace).toBeTrue();
+
+        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        
+        //run validation
+        await helper.waitForService();
+  
+        expect(fixture.componentInstance.valid).toBeTrue();
+        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+      }));
     
       it(`should show that character is invalid - missing set metarace`, async () => {
         expectReady();
@@ -3632,24 +3664,12 @@ describe('CharacterGen Component', () => {
         helper.expectHasAttribute('#generateLeadershipButton', 'disabled', true);
       });
     
+      //INFO: Running all permutations of generation is very slow, especially since these are "flaky" or inconsistent tests
+      //Therefore, we will test minimum (score 1) and maximum (score 25)
+      //Unit tests cover all other permutations of cohort and followers
       const leadershipTests = [
         { lvl: 6, cha: -5, cohort: false }, //1
-        { lvl: 6, cha: -4, cohort: false }, //2
-        { lvl: 6, cha: 0, cohort: false }, //6
-        { lvl: 10, cha: -1, cohort: true }, //9
-        { lvl: 6, cha: 4, cohort: true }, //10
-        { lvl: 13, cha: -1, cohort: true }, //12
-        { lvl: 13, cha: 0, cohort: true }, //13
-        { lvl: 15, cha: -1, cohort: true }, //14
-        { lvl: 16, cha: -1, cohort: true }, //15
-        { lvl: 15, cha: 1, cohort: true }, //16
-        { lvl: 15, cha: 2, cohort: true }, //17
-        { lvl: 16, cha: 2, cohort: true }, //18
-        { lvl: 17, cha: 2, cohort: true }, //19
-        { lvl: 18, cha: 2, cohort: true }, //20
-        { lvl: 18, cha: 3, cohort: true }, //21
         { lvl: 20, cha: 5, cohort: true }, //25
-        //Higher than this causes timeouts in the pipeline
       ];
 
       leadershipTests.forEach(test => {

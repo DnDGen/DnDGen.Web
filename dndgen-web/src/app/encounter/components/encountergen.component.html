@@ -64,7 +64,7 @@
                          type="number" 
                          min="1" 
                          [(ngModel)]="level" 
-                         (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                         (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                          required />
                 </div>
             </div>
@@ -77,7 +77,7 @@
                                  name="allowAquatic" 
                                  type="checkbox" 
                                  [(ngModel)]="allowAquatic" 
-                                 (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
+                                 (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
                         </label>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                                  name="allowUnderground" 
                                  type="checkbox" 
                                  [(ngModel)]="allowUnderground" 
-                                 (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
+                                 (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
                         </label>
                     </div>
                 </div>
@@ -100,12 +100,12 @@
               @for (filter of creatureTypeFilters; track $index) {
                 <div class="checkbox col-sm-4">
                     <label>
-                        <input id="{{filter.name}}" 
-                               name="{{filter.name}}"
+                        <input id="{{filter.id}}" 
+                               name="{{filter.id}}"
                                type="checkbox" 
                                class="checkbox" 
                                [(ngModel)]="filter.checked"
-                               (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > {{filter.name}}
+                               (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > {{filter.displayName}}
                     </label>
                 </div>
               }

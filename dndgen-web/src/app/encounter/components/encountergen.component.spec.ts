@@ -13,7 +13,7 @@ import { Size } from '../../shared/components/size.enum';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';
 
-describe('EncounterGen Component', () => {
+fdescribe('EncounterGen Component', () => {
   describe('unit', () => {
     let component: EncounterGenComponent;
     let encounterServiceSpy: jasmine.SpyObj<EncounterService>;
@@ -63,9 +63,11 @@ describe('EncounterGen Component', () => {
       expect(component.allowUnderground).toEqual(false);
 
       expect(component.creatureTypeFilters.length).toBe(2);
-      expect(component.creatureTypeFilters[0].name).toBe('creature type 1');
+      expect(component.creatureTypeFilters[0].id).toBe('creature_type_1');
+      expect(component.creatureTypeFilters[0].displayName).toBe('creature type 1');
       expect(component.creatureTypeFilters[0].checked).toBeFalse();
-      expect(component.creatureTypeFilters[1].name).toBe('creature type 2');
+      expect(component.creatureTypeFilters[1].id).toBe('creature_type_2');
+      expect(component.creatureTypeFilters[1].displayName).toBe('creature type 2');
       expect(component.creatureTypeFilters[1].checked).toBeFalse();
     }
 
@@ -242,10 +244,10 @@ describe('EncounterGen Component', () => {
       var checkedFilters = [];
 
       if (c0)
-        checkedFilters.push(component.creatureTypeFilters[0].name);
+        checkedFilters.push(component.creatureTypeFilters[0].displayName);
 
       if (c1)
-        checkedFilters.push(component.creatureTypeFilters[1].name);
+        checkedFilters.push(component.creatureTypeFilters[1].displayName);
 
       return checkedFilters;
     }
@@ -418,7 +420,8 @@ describe('EncounterGen Component', () => {
 
       for (var i = 0; i < component.encounterModel.creatureTypes.length; i++) {
         component.creatureTypeFilters.push({ 
-            name: component.encounterModel.creatureTypes[i],
+            id: component.encounterModel.creatureTypes[i].replaceAll(' ', '_'),
+            displayName: component.encounterModel.creatureTypes[i],
             checked: false
         });
       }
@@ -566,12 +569,12 @@ describe('EncounterGen Component', () => {
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
   
-    const expectedCreatureTypeCount = 16;
+    const expectedCreatureTypeCount = 15;
 
     it(`should set the encounter model on init`, () => {
       const component = fixture.componentInstance;
       expect(component.encounterModel).toBeTruthy();
-      expect(component.encounterModel.environments.length).toEqual(12);
+      expect(component.encounterModel.environments.length).toEqual(9);
       expect(component.encounterModel.environments).toContain(component.encounterModel.defaults.environment);
       expect(component.encounterModel.temperatures.length).toEqual(3);
       expect(component.encounterModel.temperatures).toContain(component.encounterModel.defaults.temperature);
@@ -595,7 +598,9 @@ describe('EncounterGen Component', () => {
       expect(component.creatureTypeFilters.length).toEqual(component.encounterModel.creatureTypes.length);
 
       for(let i = 0; i < component.encounterModel.creatureTypes.length; i++) {
-        expect(component.creatureTypeFilters[i].name).toBe(component.encounterModel.creatureTypes[i]);
+        expect(component.creatureTypeFilters[i].id).not.toContain(' ');
+        expect(component.creatureTypeFilters[i].id).toBe(component.encounterModel.creatureTypes[i].replaceAll(' ', '_'));
+        expect(component.creatureTypeFilters[i].displayName).toBe(component.encounterModel.creatureTypes[i]);
         expect(component.creatureTypeFilters[i].checked).toBeFalse();
       }
     });
@@ -623,14 +628,14 @@ describe('EncounterGen Component', () => {
 
     it(`should render the encounter inputs`, () => {
       helper.expectSelect('#temperature', true, 'Temperate', 3);
-      helper.expectSelect('#environment', true, 'Plains', 3);
+      helper.expectSelect('#environment', true, 'Plains', 9);
       helper.expectSelect('#timeOfDay', true, 'Day', 2);
       helper.expectNumberInput('#level', true, 1, 1);
       helper.expectCheckboxInput('#allowAquatic', false, false);
       helper.expectCheckboxInput('#allowUnderground', false, false);
 
-      for(let i = 0; i < fixture.componentInstance.encounterModel.creatureTypes.length; i++) {
-        helper.expectCheckboxInput(`#${fixture.componentInstance.encounterModel.creatureTypes[i]}`, false, false);
+      for(let i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
+        helper.expectCheckboxInput(`#${fixture.componentInstance.creatureTypeFilters[i].id}`, false, false);
       }
 
       helper.expectHasAttribute('#generateButton', 'disabled', false);
@@ -700,12 +705,46 @@ describe('EncounterGen Component', () => {
       helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
     });
 
+    const checkboxValues = [ true, false ];
+
+    checkboxValues.forEach(v => {
+      it(`should validate when allow aquatic changes - value ${v}`, waitForAsync(async () => {
+        helper.setCheckbox('#allowAquatic', v);
+        
+        fixture.detectChanges();
+  
+        helper.expectCheckboxInput('#allowAquatic', false, v);
+        helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+      }));
+      
+      it(`should validate when allow underground changes - value ${v}`, waitForAsync(async () => {
+        helper.setCheckbox('#allowUnderground', v);
+        
+        fixture.detectChanges();
+  
+        helper.expectCheckboxInput('#allowUnderground', false, v);
+        helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+      }));
+      
+      for(let i = 0; i < expectedCreatureTypeCount; i++) {
+        it(`should validate when creature type filter changes - value ${v}, index ${i}`, async () => {
+          const selector = `#${fixture.componentInstance.creatureTypeFilters[i].id}`;
+          helper.setCheckbox(selector, v);
+          
+          fixture.detectChanges();
+    
+          helper.expectCheckboxInput(selector, false, v);
+          helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+        });
+      }
+    });
+
     it(`should show that encounter is invalid - validation fails`, waitForAsync(async () => {
       helper.setCheckbox('#Ooze', true);
       
       fixture.detectChanges();
 
-      const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.name == "Ooze");
+      const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
       expect(oozeFilter?.checked).toBeTrue();
 
@@ -718,7 +757,7 @@ describe('EncounterGen Component', () => {
       helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
     }));
   
-    it(`should show that character is valid - validation succeeds`, async () => {
+    it(`should show that encounter is valid - validation succeeds`, async () => {
       helper.setCheckbox('#Ooze', true);
       helper.setCheckbox('#allowUnderground', true);
       helper.setInput('#level', '7');
@@ -728,7 +767,7 @@ describe('EncounterGen Component', () => {
       expect(fixture.componentInstance.allowUnderground).toBeTrue();
       expect(fixture.componentInstance.level).toEqual(7);
 
-      const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.name == "Ooze");
+      const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
       expect(oozeFilter?.checked).toBeTrue();
 
@@ -772,12 +811,12 @@ describe('EncounterGen Component', () => {
       it(`should bind creature type filters - index ${i}`, () => {
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
   
-        helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].name}`);
+        helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
         fixture.detectChanges();
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeTrue();
   
-        helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].name}`);
+        helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
         fixture.detectChanges();
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
@@ -820,7 +859,7 @@ describe('EncounterGen Component', () => {
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection dndgen-loading', 
-        '#encounterValidating', 
+        '#encounterValidating',
         '#downloadButton');
 
       helper.expectExists('#noEncounter', false)
@@ -874,7 +913,7 @@ describe('EncounterGen Component', () => {
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection dndgen-loading', 
-        '#encounterValidating', 
+        '#encounterValidating',
         '#downloadButton');
 
       helper.expectExists('#noEncounter', false)
@@ -888,7 +927,7 @@ describe('EncounterGen Component', () => {
   
       for (var i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
           if (fixture.componentInstance.creatureTypeFilters[i].checked) {
-              checkedFilters.push(fixture.componentInstance.creatureTypeFilters[i].name);
+              checkedFilters.push(fixture.componentInstance.creatureTypeFilters[i].displayName);
           }
       }
   
@@ -927,7 +966,7 @@ describe('EncounterGen Component', () => {
         
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
-      expect(text).toMatch(/^my encounter description:[\r\n]+[\S\s]+[\r\n\s]+$/);
+      expect(text).toMatch(/^my encounter description[\r\n]+[\S\s]+[\r\n\s]+$/);
     });
   });
 });

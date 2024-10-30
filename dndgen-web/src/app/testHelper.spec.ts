@@ -233,8 +233,9 @@ export class TestHelper<T> {
     buttonSelector: string, 
     resultSelector: string, 
     generatingSelector: string, 
-    validatingSelector: string | null, 
-    downloadSelector?: string) {
+    validatingSelector?: string | null, 
+    downloadSelector?: string | null,
+    generatingExists: boolean = true) {
 
     expect(generating).toBeFalse();
     this.expectHasAttribute(buttonSelector, 'disabled', false);
@@ -243,9 +244,12 @@ export class TestHelper<T> {
       this.expectLoading(validatingSelector, false, Size.Small);
 
     this.expectExists(resultSelector, true);
-    // this.expectLoading(generatingSelector, false, Size.Medium);
-    //Changed for charactergen
-    this.expectExists(generatingSelector, false);
+
+    if (generatingExists) {
+      this.expectLoading(generatingSelector, false, Size.Medium);
+    } else {
+      this.expectExists(generatingSelector, false);
+    }
     
     if (downloadSelector)
       this.expectExists(downloadSelector, true);

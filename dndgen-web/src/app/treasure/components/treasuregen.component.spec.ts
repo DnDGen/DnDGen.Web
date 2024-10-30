@@ -1183,7 +1183,7 @@ describe('TreasureGen Component', () => {
           '#treasureButton', 
           '#treasureSection', 
           '#generatingSection', 
-          '#treasureValidating', 
+          '#treasureValidating',
           '#downloadTreasureButton');
 
         helper.expectExists('#noTreasure', false);
@@ -1232,7 +1232,7 @@ describe('TreasureGen Component', () => {
           '#treasureButton', 
           '#treasureSection', 
           '#generatingSection', 
-          '#treasureValidating', 
+          '#treasureValidating',
           '#downloadTreasureButton');
 
         helper.expectExists('#noTreasure', false);
