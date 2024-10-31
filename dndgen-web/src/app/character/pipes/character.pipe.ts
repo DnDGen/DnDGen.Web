@@ -185,7 +185,8 @@ export class CharacterPipe implements PipeTransform {
         for (var i = 0; i < skills.length; i++) {
             var skill = skills[i];
 
-            formattedSkills += prefix + `\t${skill.displayName}\r\n`;
+            const displayName = this.getSkillDisplayName(skill);
+            formattedSkills += prefix + `\t${displayName}\r\n`;
             formattedSkills += prefix + '\t\t' + `Total Bonus: ${this.bonusPipe.transform(skill.totalBonus, skill.circumstantialBonus)}\r\n`;
 
             formattedSkills += prefix + '\t\t' + 'Ranks: ' + skill.effectiveRanks + '\r\n';
@@ -198,6 +199,13 @@ export class CharacterPipe implements PipeTransform {
         }
 
         return formattedSkills;
+    }
+
+    public getSkillDisplayName(skill: Skill): string {
+        if (!skill.focus)
+          return skill.name;
+    
+        return `${skill.name} (${skill.focus})`;
     }
 
     private formatFeats(feats: FeatCollection, prefix: string): string {

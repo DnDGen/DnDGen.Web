@@ -236,6 +236,46 @@ describe('Character Service', () => {
                 });
         }));
     
+        it('BUG - generates character with skills', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'Any Player',
+                    '',
+                    'Low',
+                    0,
+                    true,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'Raw',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.skills.length).toBeTruthy();
+
+                    let foundClassSkill = false;
+
+                    for(let i = 0; i < character.skills.length; i++) {
+                        expect(character.skills[i].name).toBeTruthy();
+                        foundClassSkill ||= character.skills[i].classSkill;
+                    }
+
+                    expect(foundClassSkill).toBeTrue();
+                });
+        }));
+    
         it('generates character with set values', waitForAsync(() => {
             characterService
                 .generate(

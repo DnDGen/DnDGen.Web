@@ -4,7 +4,6 @@ import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
-import { DetailsComponent } from '../../shared/components/details.component';
 import { TestHelper } from '../../testHelper.spec';
 
 describe('Item Component', () => {
@@ -53,6 +52,13 @@ describe('Item Component', () => {
       expect(component.isArmor()).toBeFalse();
     });
   
+    it(`should say is armor when item is armor`, () => {
+      let item = new Item('my item', 'Armor');
+      component.item = item;
+
+      expect(component.isArmor()).toBeTrue();
+    });
+  
     it(`should say is not armor when weapon`, () => {
       let item = new Weapon('my item', 'MyItemType');
       component.item = item;
@@ -72,6 +78,13 @@ describe('Item Component', () => {
       component.item = item;
 
       expect(component.isWeapon()).toBeFalse();
+    });
+  
+    it(`should say is weapon when item is weapon`, () => {
+      let item = new Item('my item', 'Weapon');
+      component.item = item;
+
+      expect(component.isWeapon()).toBeTrue();
     });
   
     it(`should say is not weapon when armor`, () => {

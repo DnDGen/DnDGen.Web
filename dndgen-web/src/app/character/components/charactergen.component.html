@@ -302,7 +302,7 @@
                           </select>
                         }
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-sm-4" [hidden]="abilitiesRandomizerType != 'Set'">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
                         <div class="checkbox-inline">
                             <label>
@@ -317,13 +317,12 @@
                                           baseRaceRandomizerType, setBaseRace,
                                           metaraceRandomizerType, setMetarace, forceMetarace,
                                           abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
-                                        )"
-                                      [hidden]="abilitiesRandomizerType != 'Set'"> Allow Adjustments
+                                        )" > Allow Adjustments
                             </label>
                         </div>
                       </div>
                   </div>
-                    <div class="form-group row">
+                    <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
                         <label for="setStrength" class="col-sm-2 col-form-label">Strength:</label>
                         <div class="col-sm-2">
                           <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
@@ -342,7 +341,6 @@
                                   metaraceRandomizerType, setMetarace, forceMetarace,
                                   abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                 )"
-                                [hidden]="abilitiesRandomizerType != 'Set'"
                                 [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                         <label for="setConstitution" class="col-sm-2 col-form-label">Constitution:</label>
@@ -388,7 +386,7 @@
                                 [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row" [hidden]="abilitiesRandomizerType != 'Set'">
                         <label for="setIntelligence" class="col-sm-2 col-form-label">Intelligence:</label>
                         <div class="col-sm-2">
                           <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->

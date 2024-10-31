@@ -30,11 +30,11 @@ export class ItemComponent {
   }
 
   public isArmor(): boolean {
-    return this.item instanceof Armor;
+    return this.item instanceof Armor || this.item.itemType == 'Armor';
   }
 
   public isWeapon(): boolean {
-    return this.item instanceof Weapon;
+    return this.item instanceof Weapon || this.item.itemType == 'Weapon';
   }
 
   public hasDetails(): boolean {

@@ -198,6 +198,20 @@ describe('Character Component', () => {
 
       expect(component.offHandDetails).toBeFalse();
     });
+
+    it('should get skill display name', () => {
+      const skill = new Skill('my skill', '', 0, false, 0, new Ability(), 0, 0);
+      const displayName = component.getSkillDisplayName(skill);
+      expect(displayName).toEqual('my skill');
+    });
+
+    it('should get skill display name with focus', () => {
+      const skill = new Skill('my skill', '', 0, false, 0, new Ability(), 0, 0);
+      skill.focus = 'my focus';
+      
+      const displayName = component.getSkillDisplayName(skill);
+      expect(displayName).toEqual('my skill (my focus)');
+    });
   });
 
   describe('integration', () => {
@@ -1702,7 +1716,8 @@ describe('Character Component', () => {
           expect(classIcon).toBeFalsy();
         }
 
-        expect(values?.item(nameIndex).textContent).toEqual(skills[i].displayName);
+        const displayName = fixture.componentInstance.getSkillDisplayName(skills[i]);
+        expect(values?.item(nameIndex).textContent).toEqual(displayName);
 
         let total = bonusPipe.transform(skills[i].totalBonus, skills[i].circumstantialBonus);
         expect(values?.item(totalIndex).textContent).toEqual(total);

@@ -15,6 +15,7 @@ import { ItemComponent } from '../../treasure/components/item.component';
 import { SpellGroupComponent } from './spellGroup.component';
 import { FeatComponent } from './feat.component';
 import { DetailsComponent } from '../../shared/components/details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-character',
@@ -36,6 +37,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
       BonusPipe,
       BonusesPipe,
       DecimalPipe,
+      NgbModule,
     ]
 })
 
@@ -54,9 +56,16 @@ export class CharacterComponent {
   public getSpellGroups(spells: Spell[]): SpellGroup[] {
     return this.spellGroupService.sortIntoGroups(spells);
   }
+
+  public getSkillDisplayName(skill: Skill): string {
+      if (!skill.focus)
+        return skill.name;
+  
+      return `${skill.name} (${skill.focus})`;
+  }
   
   public get sortedSkills(): Skill[] {
-    return this.character.skills.sort((a, b) => this.compare(a.displayName, b.displayName));
+    return this.character.skills.sort((a, b) => this.compare(this.getSkillDisplayName(a), this.getSkillDisplayName(b)));
   }
 
   public get offHandHeading(): string {

@@ -129,7 +129,7 @@
             @for (skill of sortedSkills; track $index) {
               <tr>
                 <td>@if (skill.classSkill) { <i class="bi bi-check-lg"></i> }</td>
-                <td>{{skill.displayName}}</td>
+                <td>{{getSkillDisplayName(skill)}}</td>
                 <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
                 <td>{{skill.effectiveRanks}}</td>
                 <td>{{skill.baseAbility.bonus}}</td>

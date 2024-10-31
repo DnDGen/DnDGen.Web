@@ -80,14 +80,5 @@ describe('SkillModel', () => {
         expect(skill.qualifiesForSkillSynergy).toEqual(test.syn);
       });
     });
-
-    it('should have display name', () => {
-      expect(skill.displayName).toEqual('my skill');
-    });
-
-    it('should have display name with focus', () => {
-      skill.focus = 'my focus';
-      expect(skill.displayName).toEqual('my skill (my focus)');
-    });
   });
 });
