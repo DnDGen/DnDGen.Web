@@ -1716,6 +1716,7 @@ describe('Character Component', () => {
           expect(classIcon).toBeFalsy();
         }
 
+        expect(values?.item(nameIndex).textContent).toBeTruthy();
         const displayName = fixture.componentInstance.getSkillDisplayName(skills[i]);
         expect(values?.item(nameIndex).textContent).toEqual(displayName);
 

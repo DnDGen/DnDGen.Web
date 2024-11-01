@@ -37,7 +37,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       BonusPipe,
       BonusesPipe,
       DecimalPipe,
-      NgbModule,
     ]
 })
 

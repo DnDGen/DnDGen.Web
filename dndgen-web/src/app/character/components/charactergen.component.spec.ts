@@ -2567,8 +2567,8 @@ describe('CharacterGen Component', () => {
           helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
 
           const isSetOrNone = randomizer == 'Set' || randomizer == 'No Meta';
-          helper.expectHasAttribute('#forceMetaraceCheckbox', 'hidden', isSetOrNone);
-          helper.expectHasAttribute('#forceMetaraceCheckbox', 'required', false);
+          helper.expectHasAttribute('#force-metarace-col', 'hidden', isSetOrNone);
+          helper.expectHasAttribute('#force-metarace-col #forceMetaraceCheckbox', 'required', false);
         }
       });
 
@@ -2582,18 +2582,14 @@ describe('CharacterGen Component', () => {
           helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
-          helper.expectHasAttribute('#setStrength', 'hidden', !isSet);
-          helper.expectHasAttribute('#setStrength', 'required', isSet);
-          helper.expectHasAttribute('#setConstitution', 'hidden', !isSet);
-          helper.expectHasAttribute('#setConstitution', 'required', isSet);
-          helper.expectHasAttribute('#setDexterity', 'hidden', !isSet);
-          helper.expectHasAttribute('#setDexterity', 'required', isSet);
-          helper.expectHasAttribute('#setIntelligence', 'hidden', !isSet);
-          helper.expectHasAttribute('#setIntelligence', 'required', isSet);
-          helper.expectHasAttribute('#setWisdom', 'hidden', !isSet);
-          helper.expectHasAttribute('#setWisdom', 'required', isSet);
-          helper.expectHasAttribute('#setCharisma', 'hidden', !isSet);
-          helper.expectHasAttribute('#setCharisma', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-1', 'hidden', !isSet);
+          helper.expectHasAttribute('#set-abilities-row-2', 'hidden', !isSet);
+          helper.expectHasAttribute('#set-abilities-row-1 #setStrength', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-1 #setConstitution', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-1 #setDexterity', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-2 #setIntelligence', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-2 #setWisdom', 'required', isSet);
+          helper.expectHasAttribute('#set-abilities-row-2 #setCharisma', 'required', isSet);
         }
       });
 
@@ -2607,8 +2603,8 @@ describe('CharacterGen Component', () => {
           helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
-          helper.expectHasAttribute('#abilitiesAdjustCheckbox', 'hidden', !isSet);
-          helper.expectHasAttribute('#abilitiesAdjustCheckbox', 'required', false);
+          helper.expectHasAttribute('#adjust-abilities-col', 'hidden', !isSet);
+          helper.expectHasAttribute('#adjust-abilities-col #abilitiesAdjustCheckbox', 'required', false);
         }
       });
     
