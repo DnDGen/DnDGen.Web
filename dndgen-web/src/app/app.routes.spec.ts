@@ -1,5 +1,6 @@
 import { routes } from './app.routes';
 import { CharacterGenComponent } from './character/components/charactergen.component';
+import { DungeonGenComponent } from './dungeon/components/dungeongen.component';
 import { EncounterGenComponent } from './encounter/components/encountergen.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
@@ -57,6 +58,14 @@ describe('App Routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('encounter');
       expect(route?.component).toEqual(EncounterGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain dungeon route', () => {
+      let route = routes.find(r => r.path == 'dungeon');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('dungeon');
+      expect(route?.component).toEqual(DungeonGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     
