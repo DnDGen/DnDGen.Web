@@ -50,10 +50,10 @@ describe('Encounter Service', () => {
             { f: ['my filter'], a: true, u: false},
             { f: ['my filter'], a: false, u: true},
             { f: ['my filter'], a: false, u: false},
-            { f: ['my other filter'], a: true, u: true},
-            { f: ['my other filter'], a: true, u: false},
-            { f: ['my other filter'], a: false, u: true},
-            { f: ['my other filter'], a: false, u: false},
+            { f: ['my filter', 'my other filter'], a: true, u: true},
+            { f: ['my filter', 'my other filter'], a: true, u: false},
+            { f: ['my filter', 'my other filter'], a: false, u: true},
+            { f: ['my filter', 'my other filter'], a: false, u: false},
         ];
 
         parameters.forEach(test => {
@@ -164,6 +164,8 @@ describe('Encounter Service', () => {
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
                 expect(viewmodel.defaults.level).toBe(1);
+                expect(viewmodel.defaults.allowAquatic).toBeFalse();
+                expect(viewmodel.defaults.allowUnderground).toBeFalse();
             });
         }));
     
