@@ -4,7 +4,10 @@ import { Leadership } from '../models/leadership.model';
 import { CharacterPipe } from './character.pipe';
 import { LeadershipPipe } from './leadership.pipe';
 
-@Pipe({ name: 'leader' })
+@Pipe({ 
+    name: 'leader',
+    standalone: true
+})
 export class LeaderPipe implements PipeTransform {
     constructor(
         private leadershipPipe: LeadershipPipe,

@@ -22,7 +22,10 @@ import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { FrequencyPipe } from './frequency.pipe';
 import { SpellQuantityPipe } from './spellQuantity.pipe';
 
-@Pipe({ name: 'character' })
+@Pipe({ 
+    name: 'character',
+    standalone: true
+})
 export class CharacterPipe implements PipeTransform {
     constructor(
         private itemPipe: ItemPipe,
@@ -182,7 +185,8 @@ export class CharacterPipe implements PipeTransform {
         for (var i = 0; i < skills.length; i++) {
             var skill = skills[i];
 
-            formattedSkills += prefix + `\t${skill.displayName}\r\n`;
+            const displayName = this.getSkillDisplayName(skill);
+            formattedSkills += prefix + `\t${displayName}\r\n`;
             formattedSkills += prefix + '\t\t' + `Total Bonus: ${this.bonusPipe.transform(skill.totalBonus, skill.circumstantialBonus)}\r\n`;
 
             formattedSkills += prefix + '\t\t' + 'Ranks: ' + skill.effectiveRanks + '\r\n';
@@ -195,6 +199,13 @@ export class CharacterPipe implements PipeTransform {
         }
 
         return formattedSkills;
+    }
+
+    public getSkillDisplayName(skill: Skill): string {
+        if (!skill.focus)
+          return skill.name;
+    
+        return `${skill.name} (${skill.focus})`;
     }
 
     private formatFeats(feats: FeatCollection, prefix: string): string {

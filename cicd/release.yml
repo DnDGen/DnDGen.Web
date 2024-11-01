@@ -198,24 +198,31 @@ jobs:
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
           displayName: 'Run RollGen API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
           displayName: 'Run TreasureGen API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
           displayName: 'Run CharacterGen API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
           displayName: 'Run EncounterGen API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
           displayName: 'Run DungeonGen API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
           displayName: 'Run Web API Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'
           condition: always()
+          retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Test Results'
           condition: always()

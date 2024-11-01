@@ -5,7 +5,10 @@ import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
 import { Intelligence } from '../models/intelligence.model';
 
-@Pipe({ name: 'item' })
+@Pipe({ 
+    name: 'item',
+    standalone: true
+})
 export class ItemPipe implements PipeTransform {
   transform(value: Item, prefix?: string): string {
     return this.formatItem(value, prefix);

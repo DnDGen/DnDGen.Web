@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
 import { ItemTypeViewModel } from '../models/itemTypeViewModel.model';
 import { Treasure } from '../models/treasure.model';
@@ -13,6 +12,7 @@ import { Item } from '../models/item.model';
 import { Weapon } from '../models/weapon.model';
 import { Armor } from '../models/armor.model';
 import { Magic } from '../models/magic.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Treasure Service', () => {
     describe('unit', () => {
@@ -201,11 +201,7 @@ describe('Treasure Service', () => {
         let treasureService: TreasureService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             treasureService = TestBed.inject(TreasureService);
         });

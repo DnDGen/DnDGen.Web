@@ -19,24 +19,30 @@ import { MeasurementPipe } from '../pipes/measurement.pipe';
 import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
 import { FrequencyPipe } from '../pipes/frequency.pipe';
 import { SpellQuantityPipe } from '../pipes/spellQuantity.pipe';
+import { LeadershipComponent } from './leadership.component';
+import { CharacterComponent } from './character.component';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../shared/components/loading.component';
 
 @Component({
-  selector: 'dndgen-charactergen',
-  templateUrl: './charactergen.component.html',
-  providers: [
-    CharacterService,
-    LeadershipService,
-    LeaderPipe,
-    LeadershipPipe,
-    CharacterPipe,
-    ItemPipe,
-    TreasurePipe,
-    DecimalPipe,
-    MeasurementPipe,
-    InchesToFeetPipe,
-    FrequencyPipe,
-    SpellQuantityPipe,
-  ]
+    selector: 'dndgen-charactergen',
+    templateUrl: './charactergen.component.html',
+    providers: [
+        CharacterService,
+        LeadershipService,
+        LeaderPipe,
+        LeadershipPipe,
+        CharacterPipe,
+        ItemPipe,
+        TreasurePipe,
+        DecimalPipe,
+        MeasurementPipe,
+        InchesToFeetPipe,
+        FrequencyPipe,
+        SpellQuantityPipe,
+    ],
+    standalone: true,
+    imports: [LoadingComponent, FormsModule, CharacterComponent, LeadershipComponent]
 })
 
 export class CharacterGenComponent implements OnInit {

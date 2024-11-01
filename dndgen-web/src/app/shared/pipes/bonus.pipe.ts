@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: 'bonus' })
+@Pipe({
+    name: 'bonus',
+    standalone: true
+})
 export class BonusPipe implements PipeTransform {
   transform(value: number, conditional: boolean = false, includePlus: boolean = true): string {
     let bonus = '';

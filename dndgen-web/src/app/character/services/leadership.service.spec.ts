@@ -3,10 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Leadership Service', () => {
     describe('unit', () => {
@@ -22,7 +22,7 @@ describe('Leadership Service', () => {
         it('generates leadership', done => {
             const expected = new Leadership(
                 42, 
-                ['super awesome', 'a little flaky'],
+                ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
             httpClientSpy.get.and.returnValue(of(expected));
@@ -42,7 +42,7 @@ describe('Leadership Service', () => {
         it('generates leadership without animal', done => {
             const expected = new Leadership(
                 42, 
-                ['super awesome', 'a little flaky'],
+                ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
             httpClientSpy.get.and.returnValue(of(expected));
@@ -113,11 +113,7 @@ describe('Leadership Service', () => {
         let leadershipService: LeadershipService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             leadershipService = TestBed.inject(LeadershipService);
         });

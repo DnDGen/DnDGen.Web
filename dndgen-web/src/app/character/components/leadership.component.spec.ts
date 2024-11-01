@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { LeadershipComponent } from './leadership.component';
 import { Leadership } from '../models/leadership.model';
@@ -56,12 +55,7 @@ describe('Leadership Component', () => {
     let helper: TestHelper<LeadershipComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [LeadershipComponent, DetailsComponent]
-      }).compileComponents();
+      await TestHelper.configureTestBed([LeadershipComponent]);
   
       fixture = TestBed.createComponent(LeadershipComponent);
       helper = new TestHelper(fixture);
@@ -79,7 +73,6 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
       helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
     });
   
@@ -89,8 +82,7 @@ describe('Leadership Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', false);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', true);
+      helper.expectExists('dndgen-details.leadership-heading', false);
     });
   
     it(`should render leadership with modifiers`, () => {
@@ -100,8 +92,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
       helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
     });
@@ -113,9 +104,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', true);
-      helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', false);
     });
   
     it(`should render cohort`, () => {
@@ -128,7 +117,6 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
       helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
       helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
     });
@@ -141,7 +129,6 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-cohort', false);
     });
   
@@ -158,8 +145,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
       helper.expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
     });
@@ -173,9 +159,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', true);
-      helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', false);
     });
   
     it(`should render full leadership`, () => {
@@ -194,17 +178,16 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectHasAttribute('dndgen-details.leadership-heading', 'hidden', false);
       helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
       
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-modifiers', 'hidden', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
       helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
       
       helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
       helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
       
-      helper.expectHasAttribute('dndgen-details.leadership-heading li.leadership-followers', 'hidden', false);
+      helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-followers dndgen-details', 'Followers', true);
       helper.expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
     });

@@ -3,7 +3,10 @@ import { Measurement } from "../../character/models/measurement.model";
 import { InchesToFeetPipe } from "./inchesToFeet.pipe";
 import { DecimalPipe } from "@angular/common";
 
-@Pipe({ name: 'measurement' })
+@Pipe({
+    name: 'measurement',
+    standalone: true
+})
 export class MeasurementPipe implements PipeTransform {
   private inchesUnit = 'inches';
 

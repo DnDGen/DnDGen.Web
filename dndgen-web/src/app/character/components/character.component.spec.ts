@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterComponent } from './character.component';
-import { AppModule } from '../../app.module';
 import { Item } from '../../treasure/models/item.model';
 import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
@@ -22,6 +21,7 @@ import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
 import { TestHelper } from '../../testHelper.spec';
+import { ItemComponent } from '../../treasure/components/item.component';
 
 describe('Character Component', () => {
   describe('unit', () => {
@@ -198,6 +198,20 @@ describe('Character Component', () => {
 
       expect(component.offHandDetails).toBeFalse();
     });
+
+    it('should get skill display name', () => {
+      const skill = new Skill('my skill', '', 0, false, 0, new Ability(), 0, 0);
+      const displayName = component.getSkillDisplayName(skill);
+      expect(displayName).toEqual('my skill');
+    });
+
+    it('should get skill display name with focus', () => {
+      const skill = new Skill('my skill', '', 0, false, 0, new Ability(), 0, 0);
+      skill.focus = 'my focus';
+      
+      const displayName = component.getSkillDisplayName(skill);
+      expect(displayName).toEqual('my skill (my focus)');
+    });
   });
 
   describe('integration', () => {
@@ -205,12 +219,7 @@ describe('Character Component', () => {
     let helper: TestHelper<CharacterComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [CharacterComponent, DetailsComponent]
-      }).compileComponents();
+      await TestHelper.configureTestBed([CharacterComponent, ItemComponent]);
   
       fixture = TestBed.createComponent(CharacterComponent);
       helper = new TestHelper(fixture);
@@ -566,12 +575,12 @@ describe('Character Component', () => {
       helper.expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
-      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +92', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
+      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +92', 'Reflex: +66', 'Will: +902']);
       
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', false);
     });
   
     it(`should render the character saving throws - negative`, () => {
@@ -588,12 +597,12 @@ describe('Character Component', () => {
       helper.expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
-      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: -92', 'Reflex: -66', 'Will: -902', 'Circumstantial Bonus']);
+      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: -92', 'Reflex: -66', 'Will: -902']);
 
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', false);
     });
   
     it(`should render the character saving throws - conditional bonus`, () => {
@@ -613,10 +622,10 @@ describe('Character Component', () => {
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
       helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +92', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
 
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', false);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', true);
     });
   
     it(`should render the character saving throws - no fortitude`, () => {
@@ -633,12 +642,12 @@ describe('Character Component', () => {
       helper.expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
-      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +0', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
+      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Reflex: +66', 'Will: +902']);
 
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', true);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', false);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', false);
     });
   
     it(`should render the character saving throws - no fortitude and conditional bonus`, () => {
@@ -656,12 +665,12 @@ describe('Character Component', () => {
       helper.expectDetails('dndgen-details.character-header li.character-combat > dndgen-details', 'Combat', true);
 
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
-      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +0', 'Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
+      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Reflex: +66', 'Will: +902', 'Circumstantial Bonus']);
 
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', true);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', false);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', false);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', true);
     });
   
     it(`should render the character adjusted dexterity bonus`, () => {
@@ -733,11 +742,10 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-class > dndgen-details', 'my class summary', true);
+      helper.expectExists('li.character-class-specialist', true);
       helper.expectDetails('li.character-class > dndgen-details li.character-class-specialist > dndgen-details', 'Specialist Fields', true);
-      helper.expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', false);
-      helper.expectHasAttribute('li.character-class-specialist', 'hidden', false);
-      helper.expectHasAttribute('li.character-class-prohibited', 'hidden', true);
       helper.expectTextContents('li.character-class-specialist li', ['special field 1', 'special field 2']);
+      helper.expectExists('li.character-class-prohibited', false);
     });
   
     it(`should render the character class with prohibited fields`, () => {
@@ -750,10 +758,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-class > dndgen-details', 'my class summary', true);
-      helper.expectDetails('li.character-class > dndgen-details li.character-class-specialist > dndgen-details', 'Specialist Fields', false);
+      helper.expectExists('li.character-class-specialist', false);
+      helper.expectExists('li.character-class-prohibited', true);
       helper.expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', true);
-      helper.expectHasAttribute('li.character-class-specialist', 'hidden', true);
-      helper.expectHasAttribute('li.character-class-prohibited', 'hidden', false);
       helper.expectTextContents('li.character-class-prohibited li', ['forbidden field 1', 'forbidden field 2']);
     });
   
@@ -770,8 +777,8 @@ describe('Character Component', () => {
       helper.expectDetails('dndgen-details.character-header li.character-class > dndgen-details', 'my class summary', true);
       helper.expectDetails('li.character-class > dndgen-details li.character-class-specialist > dndgen-details', 'Specialist Fields', true);
       helper.expectDetails('li.character-class > dndgen-details li.character-class-prohibited > dndgen-details', 'Prohibited Fields', true);
-      helper.expectHasAttribute('li.character-class-specialist', 'hidden', false);
-      helper.expectHasAttribute('li.character-class-prohibited', 'hidden', false);
+      helper.expectExists('li.character-class-specialist', true);
+      helper.expectExists('li.character-class-prohibited', true);
       helper.expectTextContents('li.character-class-specialist li', ['special field 1', 'special field 2']);
       helper.expectTextContents('li.character-class-prohibited li', ['forbidden field 1', 'forbidden field 2']);
     });
@@ -797,7 +804,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-metarace-species', 'hidden', false);
+      helper.expectExists('li.character-race-metarace-species', true);
       helper.expectTextContent('li.character-race li.character-race-metarace-species', 'Metarace Species: my metarace species');
     });
   
@@ -811,7 +818,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-metarace-species', 'hidden', true);
+      helper.expectExists('li.character-race-metarace-species', false);
     });
   
     it(`should render the character race land speed`, () => {
@@ -824,7 +831,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-land', 'hidden', false);
+      helper.expectExists('li.character-race-speed-land', true);
       helper.expectTextContent('li.character-race li.character-race-speed-land', 'Land Speed: 9,266 m/s');
     });
   
@@ -838,7 +845,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-wings', 'hidden', false);
+      helper.expectExists('li.character-race-wings', true);
       helper.expectTextContent('li.character-race li.character-race-wings', 'Has Wings');
     });
   
@@ -852,7 +859,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-wings', 'hidden', true);
+      helper.expectExists('li.character-race-wings', false);
     });
   
     it(`should render the character race with aerial speed`, () => {
@@ -865,7 +872,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-air', 'hidden', false);
+      helper.expectExists('li.character-race-speed-air', true);
       helper.expectTextContent('li.character-race li.character-race-speed-air', 'Aerial Speed: 9,266 m/s (graceful)');
     });
   
@@ -879,7 +886,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-air', 'hidden', true);
+      helper.expectExists('li.character-race-speed-air', false);
     });
   
     it(`should render the character race with swim speed`, () => {
@@ -892,7 +899,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-swim', 'hidden', false);
+      helper.expectExists('li.character-race-speed-swim', true);
       helper.expectTextContent('li.character-race li.character-race-speed-swim', 'Swim Speed: 9,266 m/s');
     });
   
@@ -906,7 +913,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-swim', 'hidden', true);
+      helper.expectExists('li.character-race-speed-swim', false);
     });
   
     it(`should render the character race size`, () => {
@@ -919,7 +926,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-size', 'hidden', false);
+      helper.expectExists('li.character-race-size', true);
       helper.expectTextContent('li.character-race li.character-race-size', 'Size: my size');
     });
   
@@ -933,7 +940,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-age', 'hidden', false);
+      helper.expectExists('li.character-race-age', true);
       helper.expectTextContent('li.character-race li.character-race-age', 'Age: 9,266 years (decrepit)');
     });
   
@@ -947,7 +954,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-age-max', 'hidden', false);
+      helper.expectExists('li.character-race-age-max', true);
       helper.expectTextContent('li.character-race li.character-race-age-max', 'Maximum Age: 9,266 years (will die of natural causes)');
     });
   
@@ -961,7 +968,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-age-max', 'hidden', false);
+      helper.expectExists('li.character-race-age-max', true);
       helper.expectTextContent('li.character-race li.character-race-age-max', 'Maximum Age: Will not die of old age');
     });
   
@@ -975,7 +982,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-height', 'hidden', false);
+      helper.expectExists('li.character-race-height', true);
       helper.expectTextContent('li.character-race li.character-race-height', 'Height: 772\' 2" (lanky)');
     });
   
@@ -989,7 +996,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'my race summary', true);
-      helper.expectHasAttribute('li.character-race-weight', 'hidden', false);
+      helper.expectExists('li.character-race-weight', true);
       helper.expectTextContent('li.character-race li.character-race-weight', 'Weight: 9,266 kgs (like a linebacker)');
     });
   
@@ -1188,9 +1195,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', false);
     });
   
     it(`should render the character feats - racial feats`, () => {
@@ -1205,9 +1212,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', false);
 
       helper.expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
       expectFeats('li.character-feats-racial li.character-feat-racial > dndgen-feat', component.character.feats.racial);
@@ -1225,9 +1232,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', false);
 
       helper.expectDetails('li.character-feats li.character-feats-class > dndgen-details', 'Class', true);
       expectFeats('li.character-feats-class li.character-feat-class > dndgen-feat', component.character.feats.class);
@@ -1245,9 +1252,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', true);
 
       helper.expectDetails('li.character-feats li.character-feats-additional > dndgen-details', 'Additional', true);
       expectFeats('li.character-feats-additional li.character-feat-additional > dndgen-feat', component.character.feats.additional);
@@ -1273,9 +1280,9 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', true);
 
       helper.expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
       expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial > dndgen-feat', component.character.feats.racial);
@@ -1318,7 +1325,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-per-day', true);
       helper.expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', true);
       helper.expectTextContents('li.character-spells-per-day dndgen-details li', ['source 1 Level 9: 2', 'source 2 Level 6: 1 + 1']);
     });
@@ -1331,8 +1338,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', true);
-      helper.expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-per-day', false);
     });
   
     it(`BUG - should render the character spells known - one`, () => {
@@ -1346,7 +1352,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-known', true);
       helper.expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
       expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
         new SpellGroup('my source Level 9', [
@@ -1369,7 +1375,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-known', true);
       helper.expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
       expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
         new SpellGroup('my source Level 2', [
@@ -1391,8 +1397,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', true);
-      helper.expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-known', false);
     });
   
     it(`BUG - should render the character spells prepared - one`, () => {
@@ -1407,7 +1412,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-prepared', true);
       helper.expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
       expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
         new SpellGroup('my source Level 9', [
@@ -1433,7 +1438,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-prepared', true);
       helper.expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
       expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
         new SpellGroup('my source Level 2', [
@@ -1457,8 +1462,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', true);
-      helper.expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-prepared', false);
     });
   
     it(`should render the character spell failure`, () => {
@@ -1469,7 +1473,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-failure', true);
       helper.expectTextContent('dndgen-details.character-header li.character-spells-failure', 'Arcane Spell Failure: 92%');
     });
   
@@ -1481,7 +1485,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', true);
+      helper.expectExists('dndgen-details.character-header li.character-spells-failure', false);
     });
   
     it(`should render the character animal`, () => {
@@ -1492,7 +1496,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-animal', true);
       helper.expectTextContent('dndgen-details.character-header li.character-animal', 'Animal: Bernese mountain dog');
     });
   
@@ -1504,7 +1508,7 @@ describe('Character Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
-      helper.expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', true);
+      helper.expectExists('dndgen-details.character-header li.character-animal', false);
     });
   
     it(`should render the character primary weapon`, () => {
@@ -1518,7 +1522,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-primary-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
       helper.expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', weapon);
     });
@@ -1532,7 +1536,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-primary-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand: None', false);
     });
   
@@ -1547,7 +1551,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-off-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
       helper.expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', weapon);
     });
@@ -1563,7 +1567,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-off-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
       helper.expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', shield);
     });
@@ -1581,7 +1585,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-off-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: (Two-Handed)', false);
     });
   
@@ -1594,7 +1598,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-off-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand: None', false);
     });
   
@@ -1609,7 +1613,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-armor > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-armor > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor', true);
       helper.expectItem('li.character-equipment-armor dndgen-details dndgen-item', armor);
     });
@@ -1623,7 +1627,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-armor > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-armor > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-armor > dndgen-details', 'Armor: None', false);
     });
   
@@ -1638,7 +1642,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-treasure > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-treasure > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure', true);
       helper.expectTreasure('li.character-equipment-treasure dndgen-details dndgen-treasure', treasure);
     });
@@ -1655,7 +1659,7 @@ describe('Character Component', () => {
   
       helper.expectDetails('dndgen-details.character-header', 'my character summary', true);
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-treasure > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-treasure > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-treasure > dndgen-details', 'Treasure: None', false);
     });
 
@@ -1663,7 +1667,7 @@ describe('Character Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const table = compiled.querySelector(selector);
       expect(table).toBeTruthy();
-      expect(table?.getAttribute('class')).toEqual('table table-striped');
+      expect(table!.getAttribute('class')).toEqual('table table-striped');
 
       const classIndex = 0;
       const nameIndex = 1;
@@ -1705,11 +1709,16 @@ describe('Character Component', () => {
         expect(values?.length).toEqual(7);
 
         const classIcon = values?.item(classIndex).querySelector('i');
-        expect(classIcon).toBeTruthy();
-        expect(classIcon?.hasAttribute('hidden')).toEqual(!skills[i].classSkill);
-        expect(classIcon?.getAttribute('class')).toEqual('bi bi-check-lg');
+        if (skills[i].classSkill) {
+          expect(classIcon).toBeTruthy();
+          expect(classIcon?.getAttribute('class')).toEqual('bi bi-check-lg');
+        } else {
+          expect(classIcon).toBeFalsy();
+        }
 
-        expect(values?.item(nameIndex).textContent).toEqual(skills[i].displayName);
+        expect(values?.item(nameIndex).textContent).toBeTruthy();
+        const displayName = fixture.componentInstance.getSkillDisplayName(skills[i]);
+        expect(values?.item(nameIndex).textContent).toEqual(displayName);
 
         let total = bonusPipe.transform(skills[i].totalBonus, skills[i].circumstantialBonus);
         expect(values?.item(totalIndex).textContent).toEqual(total);
@@ -1777,19 +1786,19 @@ describe('Character Component', () => {
       helper.expectTextContents('li.character-combat li.character-combat-ba li', ['Melee: +21/+16/+11/+6/+1', 'Ranged: +22/+17/+12/+7/+2']);
       helper.expectTextContent('li.character-combat li.character-combat-initiative', 'Initiative Bonus: +4567');
       helper.expectTextContent('li.character-combat li.character-combat-saves span', 'Saving Throws:');
-      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +56', 'Reflex: +78', 'Will: +67', 'Circumstantial Bonus']);
+      helper.expectTextContents('li.character-combat li.character-combat-saves li', ['Fortitude: +56', 'Reflex: +78', 'Will: +67']);
 
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-fort', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-ref', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-will', 'hidden', false);
-      helper.expectHasAttribute('li.character-combat li.character-combat-saves li.character-combat-saves-condition', 'hidden', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-fort', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-ref', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-will', true);
+      helper.expectExists('li.character-combat li.character-combat-saves li.character-combat-saves-condition', false);
       
       helper.expectTextContent('li.character-combat li.character-combat-adj-dex', 'Adjusted Dexterity Bonus: +3');
       helper.expectTextContent('dndgen-details.character-header li.character-cr', 'Challenge Rating: 89');
       helper.expectTextContent('dndgen-details.character-header li.character-alignment', 'Alignment: my alignment');
       helper.expectDetails('dndgen-details.character-header li.character-class > dndgen-details', 'my class summary', false);
       helper.expectDetails('dndgen-details.character-header li.character-race > dndgen-details', 'race summary', true);
-      helper.expectHasAttribute('li.character-race-speed-land', 'hidden', false);
+      helper.expectExists('li.character-race-speed-land', true);
       
       helper.expectTextContent('li.character-race li.character-race-speed-land', 'Land Speed: 90,210 feet per round (fast)');
       helper.expectTextContent('li.character-race li.character-race-size', 'Size: size');
@@ -1816,9 +1825,9 @@ describe('Character Component', () => {
       expectSkillsTable('li.character-skills dndgen-details table', component.character.skills);
       
       helper.expectDetails('dndgen-details.character-header li.character-feats > dndgen-details', 'Feats', true);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-racial', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-class', 'hidden', false);
-      helper.expectHasAttribute('li.character-feats dndgen-details li.character-feats-additional', 'hidden', false);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-racial', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-class', true);
+      helper.expectExists('li.character-feats dndgen-details li.character-feats-additional', true);
 
       helper.expectDetails('li.character-feats li.character-feats-racial > dndgen-details', 'Racial', true);
       expectFeats('li.character-feats-racial > dndgen-details li.character-feat-racial > dndgen-feat', component.character.feats.racial);
@@ -1829,7 +1838,7 @@ describe('Character Component', () => {
       
       helper.expectTextContent('dndgen-details.character-header li.character-trait', 'Interesting Trait: my interesting trait');
       
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-per-day', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-per-day', true);
       helper.expectDetails('li.character-spells-per-day > dndgen-details', 'Spells Per Day', true);
       helper.expectTextContents('li.character-spells-per-day dndgen-details li', [
         'source 1 Level 0: 5', 
@@ -1838,7 +1847,7 @@ describe('Character Component', () => {
         'source 2 Level 2: 2',
       ]);
       
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-known', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-known', true);
       helper.expectDetails('li.character-spells-known > dndgen-details', 'Known Spells', true);
       expectSpellGroups('li.character-spells-known dndgen-details li > dndgen-spell-group', [
         new SpellGroup('source 1 Level 0', [
@@ -1859,7 +1868,7 @@ describe('Character Component', () => {
         ])
       ]);
       
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-prepared', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-prepared', true);
       helper.expectDetails('li.character-spells-prepared > dndgen-details', 'Prepared Spells', true);
       expectSpellGroups('li.character-spells-prepared dndgen-details li > dndgen-spell-group', [
         new SpellGroup('source 1 Level 0', [
@@ -1882,17 +1891,17 @@ describe('Character Component', () => {
         ])
       ]);
       
-      helper.expectHasAttribute('dndgen-details.character-header li.character-spells-failure', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-spells-failure', true);
       helper.expectTextContent('dndgen-details.character-header li.character-spells-failure', 'Arcane Spell Failure: 36%');
       
-      helper.expectHasAttribute('dndgen-details.character-header li.character-animal', 'hidden', false);
+      helper.expectExists('dndgen-details.character-header li.character-animal', true);
       helper.expectTextContent('dndgen-details.character-header li.character-animal', 'Animal: American shorthair cat');
       
       helper.expectDetails('dndgen-details.character-header li.character-equipment > dndgen-details', 'Equipment', true);
       helper.expectDetails('li.character-equipment li.character-equipment-primary-hand > dndgen-details', 'Primary Hand', true);
       helper.expectItem('li.character-equipment-primary-hand dndgen-details dndgen-item', component.character.equipment.primaryHand!);
       
-      helper.expectHasAttribute('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'hidden', false);
+      helper.expectExists('li.character-equipment li.character-equipment-off-hand > dndgen-details', true);
       helper.expectDetails('li.character-equipment li.character-equipment-off-hand > dndgen-details', 'Off Hand', true);
       helper.expectItem('li.character-equipment-off-hand dndgen-details dndgen-item', component.character.equipment.offHand!);
       

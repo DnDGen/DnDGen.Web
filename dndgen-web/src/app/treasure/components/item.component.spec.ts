@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemComponent } from './item.component';
-import { AppModule } from '../../app.module';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
-import { DetailsComponent } from '../../shared/components/details.component';
 import { TestHelper } from '../../testHelper.spec';
 
 describe('Item Component', () => {
@@ -54,6 +52,13 @@ describe('Item Component', () => {
       expect(component.isArmor()).toBeFalse();
     });
   
+    it(`should say is armor when item is armor`, () => {
+      let item = new Item('my item', 'Armor');
+      component.item = item;
+
+      expect(component.isArmor()).toBeTrue();
+    });
+  
     it(`should say is not armor when weapon`, () => {
       let item = new Weapon('my item', 'MyItemType');
       component.item = item;
@@ -73,6 +78,13 @@ describe('Item Component', () => {
       component.item = item;
 
       expect(component.isWeapon()).toBeFalse();
+    });
+  
+    it(`should say is weapon when item is weapon`, () => {
+      let item = new Item('my item', 'Weapon');
+      component.item = item;
+
+      expect(component.isWeapon()).toBeTrue();
     });
   
     it(`should say is not weapon when armor`, () => {
@@ -498,12 +510,7 @@ describe('Item Component', () => {
     let helper: TestHelper<ItemComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [ItemComponent, DetailsComponent]
-      }).compileComponents();
+      await TestHelper.configureTestBed([ItemComponent]);
   
       fixture = TestBed.createComponent(ItemComponent);
       helper = new TestHelper(fixture);
@@ -558,8 +565,8 @@ describe('Item Component', () => {
       ];
 
       for(var i = 0; i < selectors.length; i++) {
-        let show = (selectors[i] != selector);
-        helper.expectHasAttribute(selectors[i], 'hidden', show);
+        let exist = (selectors[i] == selector);
+        helper.expectExists(selectors[i], exist);
       }
       
       helper.expectExists('li.item-armor', selector == 'li.item-armor');
@@ -711,7 +718,7 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toBe(11);
+      expect(listItems?.length).toBe(9);
       expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
       expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
       expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
@@ -725,13 +732,10 @@ describe('Item Component', () => {
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
-      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.length).toBe(2);
       expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
-      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
-
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      helper.expectExists('li.item-magic-intelligence-languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -741,13 +745,10 @@ describe('Item Component', () => {
       helper.expectElement('li.item-magic-intelligence-powers span', 'Powers:');
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
-      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
 
-      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
-
-      expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
+      expect(listItems?.item(8).textContent).toEqual('Personality: gregarious');
     });
   
     it(`should render an item with magic intelligence with languages`, () => {
@@ -773,7 +774,7 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toBe(11);
+      expect(listItems?.length).toBe(9);
       expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
       expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
       expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
@@ -792,7 +793,7 @@ describe('Item Component', () => {
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
       
@@ -804,13 +805,10 @@ describe('Item Component', () => {
       helper.expectElement('.item-magic-intelligence-powers span', 'Powers:');
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
-      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
 
-      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
-
-      expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
+      expect(listItems?.item(8).textContent).toEqual('Personality: gregarious');
     });
   
     it(`should render an item with magic intelligence with special purpose`, () => {
@@ -851,13 +849,11 @@ describe('Item Component', () => {
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
-      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.length).toBe(2);
       expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
-      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      helper.expectExists('li.item-magic-intelligence-languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -868,12 +864,12 @@ describe('Item Component', () => {
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-special-purpose span', 'Special Purpose: to fight crime');
+      helper.expectExists('li.item-magic-intelligence-special-purpose', true);
+      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
-      helper.expectElement('li.item-magic-intelligence-dedicated-power span', 'Dedicated Power: get really, really mad');
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
+      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
     });
@@ -900,7 +896,7 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toBe(11);
+      expect(listItems?.length).toBe(9);
       expect(listItems?.item(0).textContent).toEqual('Ego: 9266');
       expect(listItems?.item(1).textContent).toEqual('Intelligence: 90210');
       expect(listItems?.item(2).textContent).toEqual('Wisdom: 42');
@@ -914,13 +910,11 @@ describe('Item Component', () => {
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
-      expect(communicationListItems?.length).toBe(3);
+      expect(communicationListItems?.length).toBe(2);
       expect(communicationListItems?.item(0).textContent).toEqual('interpretive dance');
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
-      expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', true);
-      helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', false);
+      helper.expectExists('li.item-magic-intelligence-languages', false);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
@@ -930,13 +924,10 @@ describe('Item Component', () => {
       helper.expectElement('.item-magic-intelligence-powers span', 'Powers:');
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
-      expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', true);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
 
-      expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', true);
-
-      expect(listItems?.item(10).textContent).toEqual('Personality: None');
+      expect(listItems?.item(8).textContent).toEqual('Personality: None');
     });
   
     it(`should render armor`, () => {
@@ -958,7 +949,7 @@ describe('Item Component', () => {
       expect(listItems?.item(2).textContent).toEqual('Armor Check Penalty: -1336');
       expect(listItems?.item(3).textContent).toEqual('Max Dexterity Bonus: 96');
       expect(listItems?.item(3).getAttribute('class')).toEqual('item-armor-max-dex');
-      helper.expectHasAttribute('li.item-armor-max-dex', 'hidden', false);
+      helper.expectExists('li.item-armor-max-dex', true);
     });
 
     function getArmor(): Armor {
@@ -989,12 +980,11 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-armor > dndgen-details ul.item-armor-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(4);
+      expect(listItems?.length).toEqual(3);
       expect(listItems?.item(0).textContent).toEqual('Size: my size');
       expect(listItems?.item(1).textContent).toEqual('Armor Bonus: 1337');
       expect(listItems?.item(2).textContent).toEqual('Armor Check Penalty: -1336');
-      expect(listItems?.item(3).getAttribute('class')).toEqual('item-armor-max-dex');
-      helper.expectHasAttribute('li.item-armor-max-dex', 'hidden', true);
+      helper.expectExists('li.item-armor-max-dex', false);
     });
   
     it(`should render weapon`, () => {
@@ -1010,18 +1000,15 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-weapon > dndgen-details ul.item-weapon-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(8);
+      expect(listItems?.length).toEqual(5);
       expect(listItems?.item(0).textContent).toEqual('Size: my size');
       expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
       expect(listItems?.item(2).textContent).toEqual('Damage: my damage description');
-      expect(listItems?.item(3).getAttribute('class')).toEqual('item-weapon-2nd-damage');
-      helper.expectHasAttribute('li.item-weapon-2nd-damage', 'hidden', true);
-      expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range');
-      expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage description');
-      expect(listItems?.item(6).getAttribute('class')).toEqual('item-weapon-2nd-crit');
-      helper.expectHasAttribute('li.item-weapon-2nd-crit', 'hidden', true);
-      expect(listItems?.item(7).getAttribute('class')).toEqual('item-weapon-ammo');
-      helper.expectHasAttribute('li.item-weapon-ammo', 'hidden', true);
+      helper.expectExists('li.item-weapon-2nd-damage', false);
+      expect(listItems?.item(3).textContent).toEqual('Threat Range: my threat range');
+      expect(listItems?.item(4).textContent).toEqual('Critical Damage: my critical damage description');
+      helper.expectExists('li.item-weapon-2nd-crit', false);
+      helper.expectExists('li.item-weapon-ammo', false);
     });
 
     function getWeapon(): Weapon {
@@ -1055,20 +1042,15 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-weapon > dndgen-details ul.item-weapon-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(8);
+      expect(listItems?.length).toEqual(7);
       expect(listItems?.item(0).textContent).toEqual('Size: my size');
       expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
       expect(listItems?.item(2).textContent).toEqual('Damage: my damage description');
-      expect(listItems?.item(3).getAttribute('class')).toEqual('item-weapon-2nd-damage');
-      helper.expectHasAttribute('li.item-weapon-2nd-damage', 'hidden', false);
       expect(listItems?.item(3).textContent).toEqual('Secondary Damage: my secondary damage description');
       expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range');
       expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage description');
-      expect(listItems?.item(6).getAttribute('class')).toEqual('item-weapon-2nd-crit');
-      helper.expectHasAttribute('li.item-weapon-2nd-crit', 'hidden', false);
       expect(listItems?.item(6).textContent).toEqual('Secondary Critical Damage: my secondary critical damage description');
-      expect(listItems?.item(7).getAttribute('class')).toEqual('item-weapon-ammo');
-      helper.expectHasAttribute('li.item-weapon-ammo', 'hidden', true);
+      helper.expectExists('li.item-weapon-ammo', false);
     });
   
     it(`should render weapon requiring ammunition`, () => {
@@ -1087,19 +1069,15 @@ describe('Item Component', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       const listItems = compiled.querySelectorAll('li.item-weapon > dndgen-details ul.item-weapon-details > li');
       expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(8);
+      expect(listItems?.length).toEqual(6);
       expect(listItems?.item(0).textContent).toEqual('Size: my size');
       expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
       expect(listItems?.item(2).textContent).toEqual('Damage: my damage description');
-      expect(listItems?.item(3).getAttribute('class')).toEqual('item-weapon-2nd-damage');
-      helper.expectHasAttribute('li.item-weapon-2nd-damage', 'hidden', true);
-      expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range');
-      expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage description');
-      expect(listItems?.item(6).getAttribute('class')).toEqual('item-weapon-2nd-crit');
-      helper.expectHasAttribute('li.item-weapon-2nd-crit', 'hidden', true);
-      expect(listItems?.item(7).getAttribute('class')).toEqual('item-weapon-ammo');
-      helper.expectHasAttribute('li.item-weapon-ammo', 'hidden', false);
-      expect(listItems?.item(7).textContent).toEqual('Ammunition Used: my ammo');
+      helper.expectExists('li.item-weapon-2nd-damage', false);
+      expect(listItems?.item(3).textContent).toEqual('Threat Range: my threat range');
+      expect(listItems?.item(4).textContent).toEqual('Critical Damage: my critical damage description');
+      helper.expectExists('li.item-weapon-2nd-crit', false);
+      expect(listItems?.item(5).textContent).toEqual('Ammunition Used: my ammo');
     });
   
     it(`should render an item with everything`, () => {
@@ -1132,13 +1110,13 @@ describe('Item Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.item-header', 'my item description (x9266)', true);
-      helper.expectHasAttribute('li.item-contents', 'hidden', false);
-      helper.expectHasAttribute('li.item-traits', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-bonus', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-special-abilities', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-charges', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-curse', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
+      helper.expectExists('li.item-contents', true);
+      helper.expectExists('li.item-traits', true);
+      helper.expectExists('li.item-magic-bonus', true);
+      helper.expectExists('li.item-magic-special-abilities', true);
+      helper.expectExists('li.item-magic-charges', true);
+      helper.expectExists('li.item-magic-curse', true);
+      helper.expectExists('li.item-magic-intelligence', true);
       helper.expectDetails('li.item-contents > dndgen-details', 'Contents', true);
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
@@ -1172,7 +1150,7 @@ describe('Item Component', () => {
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
@@ -1185,11 +1163,11 @@ describe('Item Component', () => {
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', true);
       helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
       helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
@@ -1232,13 +1210,13 @@ describe('Item Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.item-header', 'my armor description (x9266)', true);
-      helper.expectHasAttribute('li.item-contents', 'hidden', false);
-      helper.expectHasAttribute('li.item-traits', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-bonus', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-special-abilities', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-charges', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-curse', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
+      helper.expectExists('li.item-contents', true);
+      helper.expectExists('li.item-traits', true);
+      helper.expectExists('li.item-magic-bonus', true);
+      helper.expectExists('li.item-magic-special-abilities', true);
+      helper.expectExists('li.item-magic-charges', true);
+      helper.expectExists('li.item-magic-curse', true);
+      helper.expectExists('li.item-magic-intelligence', true);
       helper.expectDetails('li.item-contents > dndgen-details', 'Contents', true);
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
@@ -1272,7 +1250,7 @@ describe('Item Component', () => {
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
@@ -1285,11 +1263,11 @@ describe('Item Component', () => {
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', true);
       helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
       helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
@@ -1297,7 +1275,7 @@ describe('Item Component', () => {
       let armorElement = compiled!.querySelector('li.item-armor');
       expect(armorElement).not.toBeNull();
       expect(armorElement).toBeTruthy();
-      helper.expectHasAttribute('li.item-armor', 'hidden', false);
+      helper.expectExists('li.item-armor', true);
       
       helper.expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
@@ -1309,7 +1287,7 @@ describe('Item Component', () => {
       expect(listItems?.item(2).textContent).toEqual('Armor Check Penalty: -8245');
       expect(listItems?.item(3).textContent).toEqual('Max Dexterity Bonus: 9');
       expect(listItems?.item(3).getAttribute('class')).toEqual('item-armor-max-dex');
-      helper.expectHasAttribute('li.item-armor-max-dex', 'hidden', false);
+      helper.expectExists('li.item-armor-max-dex', true);
 
       helper.expectExists('li.item-weapon', false);
     });
@@ -1350,13 +1328,13 @@ describe('Item Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon description (x9266)', true);
-      helper.expectHasAttribute('li.item-contents', 'hidden', false);
-      helper.expectHasAttribute('li.item-traits', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-bonus', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-special-abilities', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-charges', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-curse', 'hidden', false);
-      helper.expectHasAttribute('li.item-magic-intelligence', 'hidden', false);
+      helper.expectExists('li.item-contents', true);
+      helper.expectExists('li.item-traits', true);
+      helper.expectExists('li.item-magic-bonus', true);
+      helper.expectExists('li.item-magic-special-abilities', true);
+      helper.expectExists('li.item-magic-charges', true);
+      helper.expectExists('li.item-magic-curse', true);
+      helper.expectExists('li.item-magic-intelligence', true);
       helper.expectDetails('li.item-contents > dndgen-details', 'Contents', true);
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
@@ -1390,7 +1368,7 @@ describe('Item Component', () => {
       expect(communicationListItems?.item(1).textContent).toEqual('miming');
       expect(communicationListItems?.item(2).getAttribute('class')).toEqual('item-magic-intelligence-languages');
 
-      helper.expectHasAttribute('li.item-magic-intelligence-languages', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
       helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
@@ -1403,11 +1381,11 @@ describe('Item Component', () => {
       helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
-      helper.expectHasAttribute('li.item-magic-intelligence-special-purpose', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-special-purpose', true);
       helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
-      helper.expectHasAttribute('li.item-magic-intelligence-dedicated-power', 'hidden', false);
+      helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
       helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
@@ -1415,7 +1393,6 @@ describe('Item Component', () => {
       helper.expectExists('li.item-armor', false);
       
       helper.expectExists('li.item-weapon', true);
-      helper.expectHasAttribute('li.item-weapon', 'hidden', false);
       
       helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
@@ -1426,15 +1403,15 @@ describe('Item Component', () => {
       expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
       expect(listItems?.item(2).textContent).toEqual('Damage: my damage description');
       expect(listItems?.item(3).getAttribute('class')).toEqual('item-weapon-2nd-damage');
-      helper.expectHasAttribute('li.item-weapon-2nd-damage', 'hidden', false);
+      helper.expectExists('li.item-weapon-2nd-damage', true);
       expect(listItems?.item(3).textContent).toEqual('Secondary Damage: my secondary damage description');
       expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range');
       expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage description');
       expect(listItems?.item(6).getAttribute('class')).toEqual('item-weapon-2nd-crit');
-      helper.expectHasAttribute('li.item-weapon-2nd-crit', 'hidden', false);
+      helper.expectExists('li.item-weapon-2nd-crit', true);
       expect(listItems?.item(6).textContent).toEqual('Secondary Critical Damage: my secondary critical damage description');
       expect(listItems?.item(7).getAttribute('class')).toEqual('item-weapon-ammo');
-      helper.expectHasAttribute('li.item-weapon-ammo', 'hidden', false);
+      helper.expectExists('li.item-weapon-ammo', true);
       expect(listItems?.item(7).textContent).toEqual('Ammunition Used: my ammunition');
     });
   });

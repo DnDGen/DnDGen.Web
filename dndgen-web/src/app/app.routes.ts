@@ -4,6 +4,7 @@ import { ErrorComponent } from './error/error.component';
 import { RollGenComponent } from './roll/components/rollgen.component';
 import { TreasureGenComponent } from './treasure/components/treasuregen.component';
 import { CharacterGenComponent } from './character/components/charactergen.component';
+import { EncounterGenComponent } from './encounter/components/encountergen.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -11,7 +12,7 @@ export const routes: Routes = [
     { path: 'roll', component: RollGenComponent, pathMatch: 'full' },
     { path: 'treasure', component: TreasureGenComponent, pathMatch: 'full' },
     { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
-    //TODO: EncounterGen
+    { path: 'encounter', component: EncounterGenComponent, pathMatch: 'full' },
     //TODO: DungeonGen
     { path: '**', component: ErrorComponent, pathMatch: 'full' }
 ];

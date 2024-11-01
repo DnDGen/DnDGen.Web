@@ -2,10 +2,14 @@ import { Input, Component } from '@angular/core';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { DetailsComponent } from '../../shared/components/details.component';
 
 @Component({
-  selector: 'dndgen-item',
-  templateUrl: './item.component.html'
+    selector: 'dndgen-item',
+    templateUrl: './item.component.html',
+    standalone: true,
+    imports: [DetailsComponent, BonusPipe]
 })
 
 export class ItemComponent {
@@ -26,11 +30,11 @@ export class ItemComponent {
   }
 
   public isArmor(): boolean {
-    return this.item instanceof Armor;
+    return this.item instanceof Armor || this.item.itemType == 'Armor';
   }
 
   public isWeapon(): boolean {
-    return this.item instanceof Weapon;
+    return this.item instanceof Weapon || this.item.itemType == 'Weapon';
   }
 
   public hasDetails(): boolean {

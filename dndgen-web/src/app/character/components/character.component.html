@@ -22,11 +22,14 @@
           <li class="character-combat-saves">
             <span>Saving Throws:</span>
             <ul>
-              <li class="character-combat-saves-fort" 
-                  [hidden]="!character.combat.savingThrows.hasFortitudeSave">Fortitude: {{character.combat.savingThrows.fortitude | bonus}}</li>
+              @if (character.combat.savingThrows.hasFortitudeSave) {
+                <li class="character-combat-saves-fort">Fortitude: {{character.combat.savingThrows.fortitude | bonus}}</li>
+              }
               <li class="character-combat-saves-ref">Reflex: {{character.combat.savingThrows.reflex | bonus}}</li>
               <li class="character-combat-saves-will">Will: {{character.combat.savingThrows.will | bonus}}</li>
-              <li class="character-combat-saves-condition" [hidden]="!character.combat.savingThrows.circumstantialBonus">Circumstantial Bonus</li>
+              @if (character.combat.savingThrows.circumstantialBonus) {
+                <li class="character-combat-saves-condition">Circumstantial Bonus</li>
+              }
             </ul>
           </li>
           <li class="character-combat-adj-dex">Adjusted Dexterity Bonus: {{character.combat.adjustedDexterityBonus | bonus}}</li>
@@ -38,31 +41,47 @@
     <li class="character-class">
       <dndgen-details [heading]="character['class'].summary" [hasDetails]="character['class'].specialistFields.length > 0 || character['class'].prohibitedFields.length > 0">
         <ul>
-          <li class="character-class-specialist" [hidden]="character['class'].specialistFields.length == 0">
-            <dndgen-details heading="Specialist Fields" [hasDetails]="character['class'].specialistFields.length > 0">
-              <ul>
-                <li *ngFor="let field of character['class'].specialistFields">{{field}}</li>
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="character-class-prohibited" [hidden]="character['class'].prohibitedFields.length == 0">
-            <dndgen-details heading="Prohibited Fields" [hasDetails]="character['class'].prohibitedFields.length > 0">
-              <ul>
-                <li *ngFor="let field of character['class'].prohibitedFields">{{field}}</li>
-              </ul>
-            </dndgen-details>
-          </li>
+          @if (character['class'].specialistFields.length) {
+            <li class="character-class-specialist">
+              <dndgen-details heading="Specialist Fields" [hasDetails]="character['class'].specialistFields.length > 0">
+                <ul>
+                  @for (field of character['class'].specialistFields; track $index) {
+                    <li>{{field}}</li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
+          @if (character['class'].prohibitedFields.length) {
+            <li class="character-class-prohibited">
+              <dndgen-details heading="Prohibited Fields" [hasDetails]="character['class'].prohibitedFields.length > 0">
+                <ul>
+                  @for (field of character['class'].prohibitedFields; track $index) {
+                    <li>{{field}}</li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
         </ul>
       </dndgen-details>
     </li>
     <li class="character-race">
       <dndgen-details [heading]="character.race.summary" [hasDetails]="true">
         <ul>
-          <li class="character-race-metarace-species" [hidden]="character.race.metaraceSpecies.length == 0">Metarace Species: {{character.race.metaraceSpecies}}</li>
+          @if (character.race.metaraceSpecies) {
+            <li class="character-race-metarace-species">Metarace Species: {{character.race.metaraceSpecies}}</li>
+          }
           <li class="character-race-speed-land">Land Speed: {{character.race.landSpeed | measurement}}</li>
-          <li class="character-race-wings" [hidden]="!character.race.hasWings">Has Wings</li>
-          <li class="character-race-speed-air" [hidden]="!character.race.aerialSpeed.value">Aerial Speed: {{character.race.aerialSpeed | measurement}}</li>
-          <li class="character-race-speed-swim" [hidden]="!character.race.swimSpeed.value">Swim Speed: {{character.race.swimSpeed | measurement}}</li>
+          @if (character.race.hasWings) {
+            <li class="character-race-wings">Has Wings</li>
+          }
+          @if (character.race.aerialSpeed.value) {
+            <li class="character-race-speed-air">Aerial Speed: {{character.race.aerialSpeed | measurement}}</li>
+          }
+          @if (character.race.swimSpeed.value) {
+            <li class="character-race-speed-swim">Swim Speed: {{character.race.swimSpeed | measurement}}</li>
+          }
           <li class="character-race-size">Size: {{character.race.size}}</li>
           <li class="character-race-age">Age: {{character.race.age | measurement}}</li>
           <li class="character-race-age-max">Maximum Age: {{character.race.maximumAge | measurement}}</li>
@@ -75,7 +94,9 @@
       <dndgen-details heading="Abilities" [hasDetails]="true">
         <ul>
           <li>Strength: {{character.abilities.Strength.value}} ({{character.abilities.Strength.bonus | bonus}})</li>
-          <li *ngIf="character.abilities.Constitution">Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus | bonus}})</li>
+          @if (character.abilities.Constitution) {
+            <li>Constitution: {{character.abilities.Constitution!.value}} ({{character.abilities.Constitution!.bonus | bonus}})</li>
+          }
           <li>Dexterity: {{character.abilities.Dexterity.value}} ({{character.abilities.Dexterity.bonus | bonus}})</li>
           <li>Intelligence: {{character.abilities.Intelligence.value}} ({{character.abilities.Intelligence.bonus | bonus}})</li>
           <li>Wisdom: {{character.abilities.Wisdom.value}} ({{character.abilities.Wisdom.bonus | bonus}})</li>
@@ -86,7 +107,9 @@
     <li class="character-languages">
       <dndgen-details heading="Languages" [hasDetails]="true">
         <ul>
-          <li *ngFor="let language of character.languages">{{language}}</li>
+          @for (language of character.languages; track $index) {
+            <li>{{language}}</li>
+          }
         </ul>
       </dndgen-details>
     </li>
@@ -94,24 +117,26 @@
       <dndgen-details heading="Skills" [hasDetails]="true">
         <table class="table table-striped">
           <thead>
-          <th scope="col">Class Skill</th>
-          <th scope="col">Skill</th>
-          <th scope="col">Total Bonus</th>
-          <th scope="col">Ranks</th>
-          <th scope="col">Ability Bonus</th>
-          <th scope="col">Other Bonus</th>
-          <th scope="col">Armor Check Penalty</th>
+            <th scope="col">Class Skill</th>
+            <th scope="col">Skill</th>
+            <th scope="col">Total Bonus</th>
+            <th scope="col">Ranks</th>
+            <th scope="col">Ability Bonus</th>
+            <th scope="col">Other Bonus</th>
+            <th scope="col">Armor Check Penalty</th>
           </thead>
           <tbody>
-            <tr *ngFor="let skill of sortedSkills">
-              <td><i [hidden]="!skill.classSkill" class="bi bi-check-lg"></i></td>
-              <td>{{skill.displayName}}</td>
-              <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
-              <td>{{skill.effectiveRanks}}</td>
-              <td>{{skill.baseAbility.bonus}}</td>
-              <td>{{skill.bonus}}</td>
-              <td>{{skill.armorCheckPenalty}}</td>
-            </tr>
+            @for (skill of sortedSkills; track $index) {
+              <tr>
+                <td>@if (skill.classSkill) { <i class="bi bi-check-lg"></i> }</td>
+                <td>{{getSkillDisplayName(skill)}}</td>
+                <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
+                <td>{{skill.effectiveRanks}}</td>
+                <td>{{skill.baseAbility.bonus}}</td>
+                <td>{{skill.bonus}}</td>
+                <td>{{skill.armorCheckPenalty}}</td>
+              </tr>
+            }
           </tbody>
         </table>
       </dndgen-details>
@@ -119,85 +144,119 @@
     <li class="character-feats">
       <dndgen-details heading="Feats" [hasDetails]="true">
         <ul>
-          <li class="character-feats-racial" [hidden]="character.feats.racial.length == 0">
-            <dndgen-details heading="Racial" [hasDetails]="character.feats.racial.length > 0">
-              <ul>
-                <li class="character-feat-racial" *ngFor="let feat of character.feats.racial">
-                  <dndgen-feat [feat]="feat"></dndgen-feat>
-                </li>
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="character-feats-class" [hidden]="character.feats['class'].length == 0">
-            <dndgen-details heading="Class" [hasDetails]="character.feats['class'].length > 0">
-              <ul>
-                <li class="character-feat-class" *ngFor="let feat of character.feats['class']">
-                  <dndgen-feat [feat]="feat"></dndgen-feat>
-                </li>
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="character-feats-additional" [hidden]="character.feats.additional.length == 0">
-            <dndgen-details heading="Additional" [hasDetails]="character.feats.additional.length > 0">
-              <ul>
-                <li class="character-feat-additional" *ngFor="let feat of character.feats.additional">
-                  <dndgen-feat [feat]="feat"></dndgen-feat>
-                </li>
-              </ul>
-            </dndgen-details>
-          </li>
+          @if (character.feats.racial.length) {
+            <li class="character-feats-racial">
+              <dndgen-details heading="Racial" [hasDetails]="character.feats.racial.length > 0">
+                <ul>
+                  @for (feat of character.feats.racial; track $index) {
+                    <li class="character-feat-racial">
+                      <dndgen-feat [feat]="feat"></dndgen-feat>
+                    </li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
+          @if (character.feats['class'].length) {
+            <li class="character-feats-class">
+              <dndgen-details heading="Class" [hasDetails]="character.feats['class'].length > 0">
+                <ul>
+                  @for (feat of character.feats['class']; track $index) {
+                    <li class="character-feat-class">
+                      <dndgen-feat [feat]="feat"></dndgen-feat>
+                    </li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
+          @if (character.feats.additional.length) {
+            <li class="character-feats-additional">
+              <dndgen-details heading="Additional" [hasDetails]="character.feats.additional.length > 0">
+                <ul>
+                  @for (feat of character.feats.additional; track $index) {
+                    <li class="character-feat-additional">
+                      <dndgen-feat [feat]="feat"></dndgen-feat>
+                    </li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
         </ul>
       </dndgen-details>
     </li>
     <li class="character-trait">Interesting Trait: {{character.interestingTrait.length > 0 ? character.interestingTrait : 'None'}}</li>
-    <li class="character-spells-per-day" [hidden]="character.magic.spellsPerDay.length == 0">
-      <dndgen-details heading="Spells Per Day" [hasDetails]="character.magic.spellsPerDay.length > 0">
-        <ul>
-          <li *ngFor="let spellLevel of character.magic.spellsPerDay">{{spellLevel | spellQuantity}}</li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="character-spells-known" [hidden]="character.magic.knownSpells.length == 0">
-      <dndgen-details heading="Known Spells" [hasDetails]="character.magic.knownSpells.length > 0">
-        <ul>
-          <li *ngFor="let spellGroup of getSpellGroups(character.magic.knownSpells)">
-            <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="character-spells-prepared" [hidden]="character.magic.preparedSpells.length == 0">
-      <dndgen-details heading="Prepared Spells" [hasDetails]="character.magic.preparedSpells.length > 0">
-        <ul>
-          <li *ngFor="let spellGroup of getSpellGroups(character.magic.preparedSpells)">
-            <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="character-spells-failure" [hidden]="character.magic.arcaneSpellFailure == 0">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
-    <li class="character-animal" [hidden]="character.magic.animal.length == 0">Animal: {{character.magic.animal}}</li>
+    @if (character.magic.spellsPerDay.length) {
+      <li class="character-spells-per-day">
+        <dndgen-details heading="Spells Per Day" [hasDetails]="character.magic.spellsPerDay.length > 0">
+          <ul>
+            @for (spellLevel of character.magic.spellsPerDay; track $index) {
+              <li>{{spellLevel | spellQuantity}}</li>
+            }
+          </ul>
+        </dndgen-details>
+      </li>
+    }
+    @if (character.magic.knownSpells.length) {
+      <li class="character-spells-known">
+        <dndgen-details heading="Known Spells" [hasDetails]="character.magic.knownSpells.length > 0">
+          <ul>
+            @for (spellGroup of getSpellGroups(character.magic.knownSpells); track $index) {
+              <li>
+                <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
+              </li>
+            }
+          </ul>
+        </dndgen-details>
+      </li>
+    }
+    @if (character.magic.preparedSpells.length) {
+      <li class="character-spells-prepared">
+        <dndgen-details heading="Prepared Spells" [hasDetails]="character.magic.preparedSpells.length > 0">
+          <ul>
+            @for (spellGroup of getSpellGroups(character.magic.preparedSpells); track $index) {
+              <li>
+                <dndgen-spell-group [group]="spellGroup"></dndgen-spell-group>
+              </li>
+            }
+          </ul>
+        </dndgen-details>
+      </li>
+    }
+    @if (character.magic.arcaneSpellFailure) {
+      <li class="character-spells-failure">Arcane Spell Failure: {{character.magic.arcaneSpellFailure}}%</li>
+    }
+    @if (character.magic.animal) {
+      <li class="character-animal">Animal: {{character.magic.animal}}</li>
+    }
     <li class="character-equipment">
       <dndgen-details heading="Equipment" [hasDetails]="true">
         <ul>
           <li class="character-equipment-primary-hand">
             <dndgen-details heading="Primary Hand{{character.equipment.primaryHand ? '' : ': None'}}" [hasDetails]="character.equipment.primaryHand != null">
-              <dndgen-item *ngIf="character.equipment.primaryHand" [item]="character.equipment.primaryHand"></dndgen-item>
+              @if (character.equipment.primaryHand) { 
+                <dndgen-item [item]="character.equipment.primaryHand!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-off-hand">
             <dndgen-details [heading]="offHandHeading" [hasDetails]="offHandDetails">
-              <dndgen-item *ngIf="character.equipment.offHand" [item]="character.equipment.offHand"></dndgen-item>
+              @if (character.equipment.offHand) {
+                <dndgen-item [item]="character.equipment.offHand!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-armor">
             <dndgen-details heading="Armor{{character.equipment.armor ? '' : ': None'}}" [hasDetails]="character.equipment.armor != null">
-              <dndgen-item *ngIf="character.equipment.armor" [item]="character.equipment.armor"></dndgen-item>
+              @if (character.equipment.armor) {
+                <dndgen-item [item]="character.equipment.armor!"></dndgen-item>
+              }
             </dndgen-details>
           </li>
           <li class="character-equipment-treasure">
             <dndgen-details heading="Treasure{{character.equipment.treasure.isAny ? '' : ': None'}}" [hasDetails]="character.equipment.treasure.isAny">
-              <dndgen-treasure *ngIf="character.equipment.treasure.isAny" [treasure]="character.equipment.treasure"></dndgen-treasure>
+              <dndgen-treasure [treasure]="character.equipment.treasure"></dndgen-treasure>
             </dndgen-details>
           </li>
         </ul>

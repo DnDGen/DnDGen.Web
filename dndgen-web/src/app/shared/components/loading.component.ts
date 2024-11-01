@@ -2,9 +2,10 @@ import { Input, Component } from '@angular/core';
 import { Size } from './size.enum';
 
 @Component({
-  selector: 'dndgen-loading',
-  templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.css'],
+    selector: 'dndgen-loading',
+    templateUrl: './loading.component.html',
+    styleUrls: ['./loading.component.css'],
+    standalone: true,
 })
 
 export class LoadingComponent {

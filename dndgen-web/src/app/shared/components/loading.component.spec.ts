@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { LoadingComponent } from './loading.component';
 import { Size } from './size.enum';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Loading Component', () => {
   describe('unit', () => {
@@ -51,11 +51,7 @@ describe('Loading Component', () => {
     let fixture: ComponentFixture<LoadingComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([LoadingComponent]);
   
       fixture = TestBed.createComponent(LoadingComponent);
     });

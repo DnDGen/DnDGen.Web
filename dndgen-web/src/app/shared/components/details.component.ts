@@ -2,11 +2,12 @@ import { Input, Component, OnInit } from '@angular/core';
 import { UuidService } from '../services/uuid.service';
 
 @Component({
-  selector: 'dndgen-details',
-  templateUrl: './details.component.html',
-  providers: [
-    UuidService
-  ]
+    selector: 'dndgen-details',
+    templateUrl: './details.component.html',
+    providers: [
+        UuidService
+    ],
+    standalone: true
 })
 
 export class DetailsComponent implements OnInit {

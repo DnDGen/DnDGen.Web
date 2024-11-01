@@ -6,14 +6,38 @@ import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
 import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
 import { Skill } from '../models/skill.model';
+import { SpellQuantityPipe } from '../pipes/spellQuantity.pipe';
+import { MeasurementPipe } from '../pipes/measurement.pipe';
+import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { TreasureComponent } from '../../treasure/components/treasure.component';
+import { ItemComponent } from '../../treasure/components/item.component';
+import { SpellGroupComponent } from './spellGroup.component';
+import { FeatComponent } from './feat.component';
+import { DetailsComponent } from '../../shared/components/details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'dndgen-character',
-  templateUrl: './character.component.html',
-  providers: [
-    DecimalPipe,
-    InchesToFeetPipe,
-  ]
+    selector: 'dndgen-character',
+    templateUrl: './character.component.html',
+    standalone: true,
+    providers: [
+      DecimalPipe,
+      InchesToFeetPipe,
+    ],
+    imports: [
+      DetailsComponent, 
+      FeatComponent,
+      SpellGroupComponent, 
+      ItemComponent, 
+      TreasureComponent,
+      InchesToFeetPipe,
+      MeasurementPipe, 
+      SpellQuantityPipe,
+      BonusPipe,
+      BonusesPipe,
+      DecimalPipe,
+    ]
 })
 
 export class CharacterComponent {
@@ -31,9 +55,16 @@ export class CharacterComponent {
   public getSpellGroups(spells: Spell[]): SpellGroup[] {
     return this.spellGroupService.sortIntoGroups(spells);
   }
+
+  public getSkillDisplayName(skill: Skill): string {
+      if (!skill.focus)
+        return skill.name;
+  
+      return `${skill.name} (${skill.focus})`;
+  }
   
   public get sortedSkills(): Skill[] {
-    return this.character.skills.sort((a, b) => this.compare(a.displayName, b.displayName));
+    return this.character.skills.sort((a, b) => this.compare(this.getSkillDisplayName(a), this.getSkillDisplayName(b)));
   }
 
   public get offHandHeading(): string {

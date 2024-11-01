@@ -3,7 +3,10 @@ import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { CharacterPipe } from './character.pipe';
 
-@Pipe({ name: 'leadership' })
+@Pipe({ 
+    name: 'leadership',
+    standalone: true 
+})
 export class LeadershipPipe implements PipeTransform {
     constructor(private characterPipe: CharacterPipe) { }
 

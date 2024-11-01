@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
 import { SpellGroupComponent } from './spellGroup.component';
 import { SpellGroup } from '../models/spellGroup.model';
 import { Spell } from '../models/spell.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('SpellGroup Component', () => {
   describe('unit', () => {
@@ -26,12 +26,7 @@ describe('SpellGroup Component', () => {
     let fixture: ComponentFixture<SpellGroupComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-        declarations: [SpellGroupComponent, DetailsComponent]
-      }).compileComponents();
+      await TestHelper.configureTestBed([SpellGroupComponent]);
   
       fixture = TestBed.createComponent(SpellGroupComponent);
     });

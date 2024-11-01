@@ -1,0 +1,141 @@
+<h1>EncounterGen</h1>
+<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
+  <div class="row top-buffer">
+    <div class="col-sm-6">
+        <form name="encounterForm" #encounterForm="ngForm" class="form-horizontal top-buffer" role="form">
+            <div class="form-group row">
+                <label for="temperature" class="col-sm-3 col-form-label">Temperature:</label>
+                <div class="col-sm-6">
+                  @if (encounterModel) {
+                    <select id="temperature" 
+                            name="temperature"
+                            class="form-select" 
+                            [(ngModel)]="temperature" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (temperature of encounterModel.temperatures; track $index) {
+                        <option [ngValue]="temperature">{{temperature}}</option>
+                      }
+                    </select>
+                  }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="environment" class="col-sm-3 col-form-label">Environment:</label>
+                <div class="col-sm-6">
+                  @if (encounterModel) {
+                    <select id="environment" 
+                            name="environment" 
+                            class="form-select" 
+                            [(ngModel)]="environment" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (environment of encounterModel.environments; track $index) {
+                        <option [ngValue]="environment">{{environment}}</option>
+                      }
+                    </select>
+                  }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="timeOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
+                <div class="col-sm-6">
+                  @if (encounterModel) {
+                    <select id="timeOfDay" 
+                            name="timeOfDay" 
+                            class="form-select" 
+                            [(ngModel)]="timeOfDay" 
+                            (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                            required>
+                      @for (timeOfDay of encounterModel.timesOfDay; track $index) {
+                        <option [ngValue]="timeOfDay">{{timeOfDay}}</option>
+                      }
+                    </select>
+                  }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="level" class="col-sm-3 col-form-label">Level:</label>
+                <div class="col-sm-2">
+                  <input id="level"
+                         name="level"
+                         pattern="^[0-9]+$"
+                         class="form-control" 
+                         type="number" 
+                         min="1" 
+                         [(ngModel)]="level" 
+                         (input)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
+                         required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Options:</label>
+                <div class="col-sm-3">
+                    <div class="checkbox-inline">
+                        <label>
+                          <input id="allowAquatic" 
+                                 name="allowAquatic" 
+                                 type="checkbox" 
+                                 [(ngModel)]="allowAquatic" 
+                                 (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="checkbox-inline">
+                        <label>
+                          <input id="allowUnderground" 
+                                 name="allowUnderground" 
+                                 type="checkbox" 
+                                 [(ngModel)]="allowUnderground" 
+                                 (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > Allow Aquatic
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label">Creature Type Filters (selecting none is the same as selecting all):</label>
+            </div>
+            <div class="form-group row">
+              @for (filter of creatureTypeFilters; track $index) {
+                <div class="checkbox col-sm-4">
+                    <label>
+                        <input id="{{filter.id}}" 
+                               name="{{filter.id}}"
+                               type="checkbox" 
+                               class="checkbox" 
+                               [(ngModel)]="filter.checked"
+                               (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" > {{filter.displayName}}
+                    </label>
+                </div>
+              }
+            </div>
+            <div class="d-flex justify-content-center">
+              <button id="generateButton" 
+                      type="button" 
+                      class="btn btn-success" 
+                      (click)="generateEncounter()" 
+                      [disabled]="!encounterForm.form.valid || generating || validating || !valid">
+                Generate
+              </button>
+              <dndgen-loading id="encounterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6 clearfix">
+      @if (!generating) {
+        @if (encounter) {
+          <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
+        }
+        <div id="encounterSection">
+          @if (!encounter) {
+            <span id="noEncounter" class="italicize">No encounter has been generated</span>
+          } @else {
+            <dndgen-encounter [encounter]="encounter!"></dndgen-encounter>
+          }
+        </div>
+      }
+      <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
+    </div>
+  </div>
+</dndgen-loading>

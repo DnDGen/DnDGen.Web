@@ -1,7 +1,10 @@
 import { DecimalPipe } from "@angular/common";
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: 'inchesToFeet' })
+@Pipe({
+    name: 'inchesToFeet',
+    standalone: true
+})
 export class InchesToFeetPipe implements PipeTransform {
   constructor(private numberPipe: DecimalPipe) {}
 

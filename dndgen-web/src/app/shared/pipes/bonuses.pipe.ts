@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { BonusPipe } from "./bonus.pipe";
 
-@Pipe({ name: 'bonuses' })
+@Pipe({
+    name: 'bonuses',
+    standalone: true
+})
 export class BonusesPipe implements PipeTransform {
   constructor(private bonusPipe: BonusPipe) {}
 

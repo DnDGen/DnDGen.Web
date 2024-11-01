@@ -3,9 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppModule } from '../../app.module';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
+import { TestHelper } from '../../testHelper.spec';
 
 describe('Character Service', () => {
     describe('unit', () => {
@@ -186,11 +186,7 @@ describe('Character Service', () => {
         let characterService: CharacterService;
     
         beforeEach(async () => {
-            await TestBed.configureTestingModule({
-              imports: [
-                AppModule
-              ],
-            }).compileComponents();
+            await TestHelper.configureTestBed();
         
             characterService = TestBed.inject(CharacterService);
         });
@@ -237,6 +233,46 @@ describe('Character Service', () => {
                 .subscribe((character) => {
                     expect(character).toBeTruthy();
                     expect(character.summary).toBeTruthy();
+                });
+        }));
+    
+        it('BUG - generates character with skills', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'Any Player',
+                    '',
+                    'Low',
+                    0,
+                    true,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'Raw',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.skills.length).toBeTruthy();
+
+                    let foundClassSkill = false;
+
+                    for(let i = 0; i < character.skills.length; i++) {
+                        expect(character.skills[i].name).toBeTruthy();
+                        foundClassSkill ||= character.skills[i].classSkill;
+                    }
+
+                    expect(foundClassSkill).toBeTrue();
                 });
         }));
     

@@ -16,31 +16,35 @@
             <div class="form-group row">
               <label for="treasureTypes" class="col-sm-3 col-form-label">Treasure Type:</label>
               <div class="col-sm-6">
-                <select id="treasureTypes" 
-                        name="treasureTypes" 
-                        *ngIf="treasureModel" 
-                        class="form-select" 
-                        (change)="validateTreasure(treasureType, level)" 
-                        [(ngModel)]="treasureType" 
-                        required>
-                  <option *ngFor="let treasureTypeOption of treasureModel.treasureTypes" [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
-                </select>
+                @if (treasureModel) {
+                  <select id="treasureTypes" 
+                          name="treasureTypes"
+                          class="form-select" 
+                          (change)="validateTreasure(treasureType, level)" 
+                          [(ngModel)]="treasureType" 
+                          required>
+                    @for (treasureTypeOption of treasureModel.treasureTypes; track $index) {
+                      <option [ngValue]="treasureTypeOption">{{treasureTypeOption}}</option>
+                    }
+                  </select>
+                }
               </div>
             </div>
             <div class="form-group row">
               <label for="treasureLevel" class="col-sm-3 col-form-label">Level:</label>
               <div class="col-sm-6">
-                <input id="treasureLevel"
-                      name="treasureLevel"
-                      *ngIf="treasureModel"
-                      pattern="^[0-9]+$"
-                      class="form-control"
-                      type="number"
-                      min="1"
-                      max="{{treasureModel.maxTreasureLevel}}"
-                      [(ngModel)]="level"
-                      (input)="validateTreasure(treasureType, level)"
-                      required />
+                @if (treasureModel) {
+                  <input id="treasureLevel"
+                         name="treasureLevel"
+                         pattern="^[0-9]+$"
+                         class="form-control"
+                         type="number"
+                         min="1"
+                         max="{{treasureModel.maxTreasureLevel}}"
+                         [(ngModel)]="level"
+                         (input)="validateTreasure(treasureType, level)"
+                         required />
+                }
               </div>
             </div>
             <button id="treasureButton"
@@ -58,49 +62,56 @@
             <div class="form-group row">
               <label for="itemTypes" class="col-sm-3 col-form-label">Item Type:</label>
               <div class="col-sm-4">
-                <select id="itemTypes" 
-                        name="itemTypes" 
-                        *ngIf="treasureModel" 
-                        class="form-select" 
-                        (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
-                        [(ngModel)]="itemType" 
-                        required>
-                  <option *ngFor="let itemTypeOption of treasureModel.itemTypeViewModels" [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
-                </select>
+                @if (treasureModel) {
+                  <select id="itemTypes" 
+                          name="itemTypes"
+                          class="form-select" 
+                          (change)="validateItemAndResetName(itemType!.itemType, power, '')" 
+                          [(ngModel)]="itemType" 
+                          required>
+                    @for (itemTypeOption of treasureModel.itemTypeViewModels; track $index) {
+                      <option [ngValue]="itemTypeOption">{{itemTypeOption.displayName}}</option>
+                    }
+                  </select>
+                }
               </div>
             </div>
             <div class="form-group row">
               <label for="powers" class="col-sm-3 col-form-label">Power:</label>
               <div class="col-sm-3">
-                <select id="powers" 
-                        name="powers" 
-                        *ngIf="treasureModel"
-                        class="form-select" 
-                        (change)="validateItem(itemType!.itemType, power, itemName)" 
-                        [(ngModel)]="power" 
-                        required>
-                  <option *ngFor="let powerOption of treasureModel.powers" [ngValue]="powerOption">{{powerOption}}</option>
-                </select>
+                @if (treasureModel) {
+                  <select id="powers" 
+                          name="powers"
+                          class="form-select" 
+                          (change)="validateItem(itemType!.itemType, power, itemName)" 
+                          [(ngModel)]="power" 
+                          required>
+                    @for (powerOption of treasureModel.powers; track $index) {
+                      <option [ngValue]="powerOption">{{powerOption}}</option>
+                    }
+                  </select>
+                }
               </div>
               <div class="col-sm-6">
-                <select id="itemNames"
-                        name="itemNames" 
-                        *ngIf="itemType"
-                        class="form-select"
-                        (change)="validateItem(itemType!.itemType, power, itemName)" 
-                        [(ngModel)]="itemName" 
-                        [hidden]="itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll'">
-                  <option [ngValue]=""></option>
-                  <option *ngFor="let nameOption of itemNames" [ngValue]="nameOption">{{nameOption}}</option>
-                </select>
-                <input id="anyItemName"
-                      name="anyItemName"
-                      *ngIf="itemType"
-                      class="form-control"
-                      type="text"
-                      (input)="validateItem(itemType!.itemType, power, itemName)" 
-                      [(ngModel)]="itemName"
-                      [hidden]="itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll'" />
+                @if (itemType && itemType!.itemType != 'Wand' && itemType!.itemType != 'Scroll') { 
+                  <select id="itemNames"
+                          name="itemNames"
+                          class="form-select"
+                          (change)="validateItem(itemType!.itemType, power, itemName)" 
+                          [(ngModel)]="itemName">
+                    <option [ngValue]=""></option>
+                    @for (nameOption of itemNames; track $index) {
+                      <option [ngValue]="nameOption">{{nameOption}}</option>
+                    }
+                  </select>
+                } @else if (itemType && (itemType!.itemType == 'Wand' || itemType!.itemType == 'Scroll')) {
+                  <input id="anyItemName"
+                         name="anyItemName"
+                         class="form-control"
+                         type="text"
+                         (input)="validateItem(itemType!.itemType, power, itemName)" 
+                         [(ngModel)]="itemName" />
+                }
               </div>
             </div>
             <button id="itemButton"
@@ -116,13 +127,22 @@
       </div>
     </div>
     <div class="col-sm-6 clearfix">
-      <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !treasure" (click)="downloadTreasure()">Download</button>
-      <button id="downloadItemButton" class="btn btn-light btn-lg float-end" [hidden]="generating || !item" (click)="downloadItem()">Download</button>
-      <div id="treasureSection" [hidden]="generating">
-        <span id="noTreasure" class="italicize" [hidden]="treasure || item">No treasure was generated</span>
-        <dndgen-treasure *ngIf="treasure" [treasure]="treasure!"></dndgen-treasure>
-        <dndgen-item *ngIf="item" [item]="item!"></dndgen-item>
-      </div>
+      @if (!generating) {
+        @if (treasure) {
+          <button id="downloadTreasureButton" class="btn btn-light btn-lg float-end" (click)="downloadTreasure()">Download</button>
+        } @else if (item) {
+          <button id="downloadItemButton" class="btn btn-light btn-lg float-end" (click)="downloadItem()">Download</button>
+        } 
+        <div id="treasureSection">
+          @if (!treasure && !item) {
+            <span id="noTreasure" class="italicize">No treasure was generated</span>
+          } @else if (treasure) {
+            <dndgen-treasure [treasure]="treasure!"></dndgen-treasure>
+          } @else if (item) {
+            <dndgen-item [item]="item!"></dndgen-item>
+          }
+        </div>
+      }
       <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>

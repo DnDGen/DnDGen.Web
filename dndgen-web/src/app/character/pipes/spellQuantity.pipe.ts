@@ -2,7 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { SpellQuantity } from '../models/spellQuantity.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 
-@Pipe({ name: 'spellQuantity' })
+@Pipe({
+    name: 'spellQuantity',
+    standalone: true
+})
 export class SpellQuantityPipe implements PipeTransform {
     constructor(private spellGroupService: SpellGroupService) { }
 

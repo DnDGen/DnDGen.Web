@@ -1,6 +1,5 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
-import { AppModule } from '../../app.module';
 import { RollService } from '../services/roll.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -541,11 +540,7 @@ describe('RollGen Component', () => {
     let helper: TestHelper<RollGenComponent>;
   
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          AppModule
-        ],
-      }).compileComponents();
+      await TestHelper.configureTestBed([RollGenComponent]);
   
       fixture = TestBed.createComponent(RollGenComponent);
       helper = new TestHelper(fixture);
@@ -1268,7 +1263,7 @@ describe('RollGen Component', () => {
     });
   
     it(`should render the initial roll`, () => {
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '0');
       helper.expectLoading('#rollingSection', false, Size.Medium);
     });
@@ -1278,7 +1273,7 @@ describe('RollGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '42');
     });
     
@@ -1287,7 +1282,7 @@ describe('RollGen Component', () => {
 
       fixture.detectChanges();
 
-      helper.expectHasAttribute('#rollSection', 'hidden', false);
+      helper.expectExists('#rollSection', true);
       helper.expectElement('#rollSection', '9,266');
     });
   });

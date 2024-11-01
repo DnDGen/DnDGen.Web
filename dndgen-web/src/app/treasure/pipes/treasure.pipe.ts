@@ -3,7 +3,10 @@ import { Treasure } from '../models/treasure.model';
 import { ItemPipe } from './item.pipe';
 import { DecimalPipe } from '@angular/common';
 
-@Pipe({ name: 'treasure' })
+@Pipe({ 
+  name: 'treasure',
+  standalone: true 
+})
 export class TreasurePipe implements PipeTransform {
   constructor(
     private itemPipe: ItemPipe,

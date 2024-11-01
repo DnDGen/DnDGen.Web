@@ -3,6 +3,7 @@ import { Leadership } from "../models/leadership.model";
 import { LeaderPipe } from "./leader.pipe";
 import { CharacterPipe } from "./character.pipe";
 import { LeadershipPipe } from "./leadership.pipe";
+import { TestHelper } from "../../testHelper.spec";
 
 describe('Leader Pipe', () => {
     describe('unit', () => {
@@ -69,25 +70,6 @@ describe('Leader Pipe', () => {
             var newCharacter = new Character(`character summary ${characterCount}`);
             return newCharacter;
         }
-        
-        function expectLines(actual: string[], expected: string[]) {
-            let badIndex = -1;
-            for (var i = 0; i < actual.length && i < expected.length; i++) {
-                if (actual[i] != expected[i]) {
-                    badIndex = i;
-                    break;
-                }
-            }
-
-            if (badIndex >= 0) {
-                expect(actual[badIndex].trim()).toEqual(expected[badIndex].trim());
-                expect(actual[badIndex].match(/\\t/g) || []).toEqual(expected[badIndex].match(/\\t/g) || []);
-                expect(actual[badIndex]).toEqual(expected[badIndex]);
-            }
-            
-            expect(badIndex).toBe(-1);
-            expect(actual.length).toBe(expected.length);
-        }
 
         it('formats leader without leadership', () => {
             var formattedLeader = pipe.transform(leader, null, null, []);
@@ -100,7 +82,7 @@ describe('Leader Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
 
         it('formats leader without leadership but with prefix', () => {
@@ -114,7 +96,7 @@ describe('Leader Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
 
         it('formats leader with leadership', () => {
@@ -138,7 +120,7 @@ describe('Leader Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats leader with leadership and prefix', () => {
@@ -162,7 +144,7 @@ describe('Leader Pipe', () => {
                 '',
             ];
     
-            expectLines(lines, expected);
+            TestHelper.expectLines(lines, expected);
         });
     });
 });
