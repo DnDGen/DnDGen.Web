@@ -7,12 +7,11 @@ import { FileSaverService } from '../../shared/services/fileSaver.service';
 import * as FileSaver from 'file-saver';
 import { DungeonService } from '../services/dungeon.service';
 import { DungeonPipe } from '../pipes/dungeon.pipe';
-import { EncounterPipe } from '../pipes/encounter.pipe';
+import { EncounterPipe } from '../pipes/dungeon.pipe';
 import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
 import { TestHelper } from '../../testHelper.spec';
 import { Size } from '../../shared/components/size.enum';
-import { EncounterDefaults } from '../models/encounterDefaults.model';
-import { Encounter } from '../models/encounter.model';
+import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
 
 describe('DungeonGen Component', () => {
   describe('unit', () => {
@@ -87,8 +86,8 @@ describe('DungeonGen Component', () => {
 
     it('should be validating while fetching the encounter model', fakeAsync(() => {
       const model = getViewModel();
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
+      dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(true));
 
       component.ngOnInit();
 
@@ -148,8 +147,8 @@ describe('DungeonGen Component', () => {
     initValidations.forEach(test => {
       it(`should set the encounter model on init - validity: ${test}`, fakeAsync(() => {
         const model = getViewModel();
-        encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(test));
+        dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
+        dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(test));
   
         component.ngOnInit();
   
@@ -165,7 +164,7 @@ describe('DungeonGen Component', () => {
   
         expectDefaultInputValues();
       
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.validate).toHaveBeenCalledWith(
           'environment 2',
           'temperature 1',
           'time of day 2',
@@ -183,8 +182,8 @@ describe('DungeonGen Component', () => {
     });
 
     it('should display error from getting encounter model', fakeAsync(() => {
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(true));
 
       component.ngOnInit();
       tick(delay * 2);
@@ -201,8 +200,8 @@ describe('DungeonGen Component', () => {
 
     it('should display error from validating on init', fakeAsync(() => {
       const model = getViewModel();
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
+      dungeonServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
 
       component.ngOnInit();
       tick(delay * 2);
@@ -260,7 +259,7 @@ describe('DungeonGen Component', () => {
       it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
         setupOnInit();
   
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(true));
 
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -268,7 +267,7 @@ describe('DungeonGen Component', () => {
         component.validate('my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
   
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
           'my temperature',
           'my time of day',
@@ -288,7 +287,7 @@ describe('DungeonGen Component', () => {
       it(`should validate valid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(true));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -296,7 +295,7 @@ describe('DungeonGen Component', () => {
         component.validate('my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
   
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
           'my temperature',
           'my time of day',
@@ -318,7 +317,7 @@ describe('DungeonGen Component', () => {
       it(`should validate invalid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(false));
+        dungeonServiceSpy.validate.and.callFake(() => getFakeDelay(false));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -326,7 +325,7 @@ describe('DungeonGen Component', () => {
         component.validate('my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
   
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
           'my temperature',
           'my time of day',
@@ -348,7 +347,7 @@ describe('DungeonGen Component', () => {
       it(`should display error from validating parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+        dungeonServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -363,7 +362,7 @@ describe('DungeonGen Component', () => {
         expect(component.generating).toBeFalse();
         expect(component.validating).toBeFalse();
         
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
           'my temperature',
           'my time of day',
@@ -379,7 +378,7 @@ describe('DungeonGen Component', () => {
         setupOnInit();
 
         const encounter = new Encounter('my encounter description');
-        encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+        dungeonServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
 
         component.environment = 'my environment';
         component.temperature = 'my temperature';
@@ -393,7 +392,7 @@ describe('DungeonGen Component', () => {
         component.generateEncounter();
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
 
-        expect(encounterServiceSpy.generate).toHaveBeenCalledWith(
+        expect(dungeonServiceSpy.generate).toHaveBeenCalledWith(
           'my environment',
           'my temperature',
           'my time of day',
@@ -437,11 +436,11 @@ describe('DungeonGen Component', () => {
       setupOnInit();
 
       let encounter = new Encounter('my encounter description');
-      encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+      dungeonServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
 
       component.generateEncounter();
 
-      expect(encounterServiceSpy.generate).toHaveBeenCalledWith(
+      expect(dungeonServiceSpy.generate).toHaveBeenCalledWith(
         'environment 2',
         'temperature 1',
         'time of day 2',
@@ -465,7 +464,7 @@ describe('DungeonGen Component', () => {
       setupOnInit();
 
       let encounter = new Encounter('my encounter description');
-      encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+      dungeonServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
 
       component.environment = component.encounterModel.environments.find(e => e != component.encounterModel.defaults.environment)!;
       component.temperature = component.encounterModel.temperatures.find(e => e != component.encounterModel.defaults.temperature)!;
@@ -478,7 +477,7 @@ describe('DungeonGen Component', () => {
 
       component.generateEncounter();
 
-      expect(encounterServiceSpy.generate).toHaveBeenCalledWith(
+      expect(dungeonServiceSpy.generate).toHaveBeenCalledWith(
         'environment 1',
         'temperature 2',
         'time of day 1',
@@ -501,7 +500,7 @@ describe('DungeonGen Component', () => {
     it('should display error from generating encounter', fakeAsync(() => {
       setupOnInit();
 
-      encounterServiceSpy.generate.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.generate.and.callFake(() => getFakeError('I failed'));
 
       component.generateEncounter();
       tick(delay);
