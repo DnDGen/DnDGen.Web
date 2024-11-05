@@ -1,0 +1,13 @@
+@if (dungeonTreasure.container) {
+    <span class="dungeon-treasure-container">Container: {{dungeonTreasure.container}}</span>
+    <br />
+}
+@if (dungeonTreasure.concealment) {
+    <span class="dungeon-treasure-concealment">Concealment: {{dungeonTreasure.concealment}}</span>
+    <br />
+}
+@if (dungeonTreasure.treasure) {
+    <div class="dungeon-treasure-treasure">
+        <dndgen-treasure [treasure]="dungeonTreasure.treasure!"></dndgen-treasure>
+    </div>
+}

@@ -15,12 +15,13 @@ import { SpellQuantityPipe } from '../../character/pipes/spellQuantity.pipe';
 import { EncounterGenViewModel } from '../models/dungeongenViewModel.model';
 import { CreatureTypeFilter } from '../models/creatureTypeFilter.model';
 import { Encounter } from '../models/encounter.model';
-import { EncounterComponent } from './encounter.component';
+import { EncounterComponent } from './dungeonTreasure.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
 import { EncounterPipe } from '../../encounter/pipes/encounter.pipe';
 import { Area } from '../models/area.model';
 import { DungeonService } from '../services/dungeon.service';
+import { DungeonPipe } from '../pipes/dungeon.pipe';
 
 @Component({
     selector: 'dndgen-dungeongen',

@@ -1,12 +1,15 @@
-import { Character } from "../../character/models/character.model";
 import { EncounterPipe } from "../../encounter/pipes/encounter.pipe";
 import { TestHelper } from "../../testHelper.spec";
+import { Good } from "../../treasure/models/good.model";
+import { Item } from "../../treasure/models/item.model";
 import { Treasure } from "../../treasure/models/treasure.model";
 import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Area } from "../models/area.model";
-import { Creature } from "../models/creature.model";
-import { Encounter } from "../models/encounter.model";
-import { EncounterCreature } from "../models/encounterCreature.model";
+import { Contents } from "../models/contents.model";
+import { DungeonTreasure } from "../models/dungeonTreasure.model";
+import { Encounter } from "../../encounter/models/encounter.model";
+import { Pool } from "../models/pool.model";
+import { Trap } from "../models/trap.model";
 import { DungeonPipe } from "./dungeon.pipe";
 
 describe('Dungeon Pipe', () => {
@@ -15,6 +18,10 @@ describe('Dungeon Pipe', () => {
         let encounterPipeSpy: jasmine.SpyObj<EncounterPipe>;
         let treasurePipeSpy: jasmine.SpyObj<TreasurePipe>;
         let encounterCount: number;
+        let dungeonTreasureCount: number;
+        let trapCount: number;
+        let treasureCount: number;
+        let areas: Area[];
 
         beforeEach(() => {
             treasurePipeSpy = jasmine.createSpyObj('TreasurePipe', ['transform']);
@@ -42,6 +49,37 @@ describe('Dungeon Pipe', () => {
             });
 
             encounterCount = 0;
+            dungeonTreasureCount = 0;
+            trapCount = 0;
+            treasureCount = 0;
+
+            areas = [createArea(), createArea()];
+    
+            areas[0].type = 'Room';
+            areas[0].descriptions.push('description 1');
+            areas[0].descriptions.push('description 2');
+            areas[0].length = 9266;
+            areas[0].width = 90210;
+            areas[0].contents.encounters.push(createEncounter());
+            areas[0].contents.encounters.push(createEncounter());
+            areas[0].contents.treasures.push(createDungeonTreasure());
+            areas[0].contents.treasures.push(createDungeonTreasure());
+            areas[0].contents.miscellaneous.push("contents 1");
+            areas[0].contents.miscellaneous.push("contents 2");
+            areas[0].contents.pool = createPool();
+            areas[0].contents.pool.magicPower = 'super strength';
+            areas[0].contents.isEmpty = false;
+    
+            areas[1].type = 'Exit';
+            areas[1].descriptions.push('description 3');
+            areas[1].descriptions.push('description 4');
+            areas[1].length = 0;
+            areas[1].width = 0;
+            areas[1].contents.miscellaneous.push("contents 3");
+            areas[1].contents.miscellaneous.push("contents 4");
+            areas[1].contents.traps.push(createTrap());
+            areas[1].contents.traps.push(createTrap());
+            areas[1].contents.isEmpty = false;
         });
 
         function createArea(): Area {
@@ -58,7 +96,7 @@ describe('Dungeon Pipe', () => {
     
         function createDungeonTreasure() {
             dungeonTreasureCount++;
-            var dungeonTreasure = getMock('dungeonTreasure');
+            var dungeonTreasure = new DungeonTreasure();
     
             dungeonTreasure.container = "container " + dungeonTreasureCount;
             dungeonTreasure.concealment = "concealment " + dungeonTreasureCount;
@@ -68,7 +106,7 @@ describe('Dungeon Pipe', () => {
         }
     
         function createPool() {
-            var pool = getMock('pool');
+            var pool = new Pool();
     
             pool.encounter = createEncounter();
             pool.treasure = createDungeonTreasure();
@@ -77,13 +115,13 @@ describe('Dungeon Pipe', () => {
         }
     
         function createTrap() {
-            var trap = getMock('trap');
+            var trap = new Trap();
             trapCount++;
             
             trap.name = 'trap ' + trapCount,
             trap.challengeRating = 6789 + trapCount,
-            trap.searchDC = 7890 + trapCount,
-            trap.disableDeviceDC = 8901 + trapCount,
+            trap.searchDc = 7890 + trapCount,
+            trap.disableDeviceDc = 8901 + trapCount,
             trap.descriptions.push('trap description ' + trapCount);
             trap.descriptions.push('other trap description ' + trapCount);
     
@@ -93,22 +131,14 @@ describe('Dungeon Pipe', () => {
         function createTreasure() {
             treasureCount++;
     
-            var treasure = getMock('treasure');
+            var treasure = new Treasure();
     
             treasure.coin.currency = 'gold ' + treasureCount;
             treasure.coin.quantity = treasureCount;
-            treasure.goods.push(getMock('good'));
-            treasure.goods.push(getMock('good'));
-            treasure.goods[0].description = 'goods description ' + treasureCount;
-            treasure.goods[0].ValueInGold = treasureCount * 2;
-            treasure.goods[1].description = 'other goods description ' + treasureCount;
-            treasure.goods[1].ValueInGold = treasureCount * 3;
-            treasure.items.push(getMock('item'));
-            treasure.items.push(getMock('item'));
-            treasure.items[0].name = 'item ' + treasureCount;
-            treasure.items[0].quantity = treasureCount * 4;
-            treasure.items[1].name = "other item " + treasureCount;
-            treasure.items[1].quantity = treasureCount * 5;
+            treasure.goods.push(new Good('goods description ' + treasureCount, treasureCount * 2));
+            treasure.goods.push(new Good('other goods description ' + treasureCount, treasureCount * 3));
+            treasure.items.push(new Item('item ' + treasureCount, 'item type ' + treasureCount));
+            treasure.items.push(new Item('other item ' + treasureCount, 'other item type ' + treasureCount));
             treasure.isAny = true;
     
             return treasure;
@@ -419,7 +449,7 @@ describe('Dungeon Pipe', () => {
         });
     
         it('formats pool without encounter', function () {
-            areas[0].contents.pool.encounter = null;
+            areas[0].contents.pool!.encounter = null;
     
             var formattedDungeonAreas = pipe.transform(areas);
             var lines = formattedDungeonAreas.split('\r\n');
@@ -483,7 +513,7 @@ describe('Dungeon Pipe', () => {
         });
     
         it('formats pool without treasure', function () {
-            areas[0].contents.pool.treasure = null;
+            areas[0].contents.pool!.treasure = null;
     
             var formattedDungeonAreas = pipe.transform(areas);
             var lines = formattedDungeonAreas.split('\r\n');
@@ -547,8 +577,8 @@ describe('Dungeon Pipe', () => {
         });
     
         it('formats pool with only a treasure container', function () {
-            areas[0].contents.pool.treasure.treasure.isAny = false;
-            areas[0].contents.pool.treasure.concealment = '';
+            areas[0].contents.pool!.treasure!.treasure.isAny = false;
+            areas[0].contents.pool!.treasure!.concealment = '';
     
             var formattedDungeonAreas = pipe.transform(areas);
             var lines = formattedDungeonAreas.split('\r\n');
@@ -614,7 +644,7 @@ describe('Dungeon Pipe', () => {
         });
     
         it('formats pool without magic powers', function () {
-            areas[0].contents.pool.magicPower = '';
+            areas[0].contents.pool!.magicPower = '';
     
             var formattedDungeonAreas = pipe.transform(areas);
             var lines = formattedDungeonAreas.split('\r\n');
@@ -681,9 +711,9 @@ describe('Dungeon Pipe', () => {
         });
     
         it('formats ordinary pool', function () {
-            areas[0].contents.pool.magicPower = '';
-            areas[0].contents.pool.encounter = null;
-            areas[0].contents.pool.treasure = null;
+            areas[0].contents.pool!.magicPower = '';
+            areas[0].contents.pool!.encounter = null;
+            areas[0].contents.pool!.treasure = null;
     
             var formattedDungeonAreas = pipe.transform(areas);
             var lines = formattedDungeonAreas.split('\r\n');
@@ -948,9 +978,7 @@ describe('Dungeon Pipe', () => {
                 descriptions: [],
                 length: 0,
                 width: 0,
-                contents: {
-                    isEmpty: true
-                }
+                contents: new Contents()
             }];
     
             var formattedDungeonAreas = pipe.transform(areas);
