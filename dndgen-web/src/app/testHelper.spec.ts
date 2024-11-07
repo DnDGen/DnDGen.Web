@@ -22,6 +22,8 @@ import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http"
 import { routes } from "./app.routes";
 import { BonusPipe } from "./shared/pipes/bonus.pipe";
 import { BonusesPipe } from "./shared/pipes/bonuses.pipe";
+import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
+import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
 
 export class TestHelper<T> {
   constructor(
@@ -54,6 +56,10 @@ export class TestHelper<T> {
 
   public expectDetails(selector: string, heading: string, hasDetails: boolean) {
     const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectDetailsInElement(element, heading, hasDetails);
+  }
+
+  private expectDetailsInElement(element: DebugElement, heading: string, hasDetails: boolean) {
     expect(element).toBeTruthy();
     expect(element.componentInstance).toBeTruthy();
     expect(element.componentInstance).toBeInstanceOf(DetailsComponent);
@@ -61,6 +67,16 @@ export class TestHelper<T> {
     const details = element.componentInstance as DetailsComponent;
     expect(details.heading).toEqual(heading);
     expect(details.hasDetails).toBe(hasDetails);
+  }
+
+  public expectMultipleDetails(selector: string, details: {heading: string, hasDetails: boolean}[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+    expect(elements?.length).toEqual(details.length);
+
+    for(let i = 0; i < details.length; i++) {
+      this.expectDetailsInElement(elements?.at(i)!, details[i].heading, details[i].hasDetails);
+    }
   }
 
   public expectItem(selector: string, item: Item | Armor | Weapon) {
@@ -147,6 +163,41 @@ export class TestHelper<T> {
     }
   }
 
+  public expectEncounters(selector: string, encounters: Encounter[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+    expect(elements?.length).toEqual(encounters.length);
+
+    for(var i = 0; i < elements.length; i++) {
+      this.expectEncounterInElement(elements?.at(i)!, true, encounters[i]);
+    }
+  }
+
+  public expectDungeonTreasure(selector: string, treasure: DungeonTreasure) {
+    const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectDungeonTreasureInElement(element, treasure);
+  }
+
+  private expectDungeonTreasureInElement(element: DebugElement, treasure: DungeonTreasure) {
+    expect(element).toBeTruthy();
+    expect(element.componentInstance).toBeTruthy();
+    expect(element.componentInstance).toBeInstanceOf(DungeonTreasureComponent);
+
+    const component = element.componentInstance as DungeonTreasureComponent;
+    expect(component.dungeonTreasure).toBeTruthy();
+    expect(component.dungeonTreasure).toBe(treasure);
+  }
+
+  public expectDungeonTreasures(selector: string, treasures: DungeonTreasure[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+    expect(elements?.length).toEqual(treasures.length);
+
+    for(var i = 0; i < elements.length; i++) {
+      this.expectDungeonTreasureInElement(elements?.at(i)!, treasures[i]);
+    }
+  }
+
   public expectTextContent(selector: string, text: string) {
     const element = this.expectExists(selector);
     expect(element!.textContent).toEqual(text);
@@ -226,6 +277,14 @@ export class TestHelper<T> {
     for(var i = 0; i < elements.length; i++) {
       expect(elements.item(i).textContent).toEqual(text[i]);
     }
+  }
+
+  public expectCount(selector: string, count: number): NodeListOf<Element> {
+    const elements = this.compiled.querySelectorAll(selector);
+    expect(elements).toBeTruthy();
+    expect(elements!.length).toEqual(count);
+
+    return elements;
   }
 
   public expectGenerated(

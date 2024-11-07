@@ -6,14 +6,14 @@
             <div class="form-group row">
                 <label for="temperature" class="col-sm-3 col-form-label">Temperature:</label>
                 <div class="col-sm-6">
-                  @if (encounterModel) {
+                  @if (dungeonModel) {
                     <select id="temperature" 
                             name="temperature"
                             class="form-select" 
                             [(ngModel)]="temperature" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (temperature of encounterModel.temperatures; track $index) {
+                      @for (temperature of dungeonModel.temperatures; track $index) {
                         <option [ngValue]="temperature">{{temperature}}</option>
                       }
                     </select>
@@ -23,14 +23,14 @@
             <div class="form-group row">
                 <label for="environment" class="col-sm-3 col-form-label">Environment:</label>
                 <div class="col-sm-6">
-                  @if (encounterModel) {
+                  @if (dungeonModel) {
                     <select id="environment" 
                             name="environment" 
                             class="form-select" 
                             [(ngModel)]="environment" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (environment of encounterModel.environments; track $index) {
+                      @for (environment of dungeonModel.environments; track $index) {
                         <option [ngValue]="environment">{{environment}}</option>
                       }
                     </select>
@@ -40,14 +40,14 @@
             <div class="form-group row">
                 <label for="timeOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
                 <div class="col-sm-6">
-                  @if (encounterModel) {
+                  @if (dungeonModel) {
                     <select id="timeOfDay" 
                             name="timeOfDay" 
                             class="form-select" 
                             [(ngModel)]="timeOfDay" 
                             (change)="validate(environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (timeOfDay of encounterModel.timesOfDay; track $index) {
+                      @for (timeOfDay of dungeonModel.timesOfDay; track $index) {
                         <option [ngValue]="timeOfDay">{{timeOfDay}}</option>
                       }
                     </select>
@@ -115,7 +115,7 @@
                       type="button" 
                       class="btn btn-success" 
                       (click)="generateEncounter()" 
-                      [disabled]="!encounterForm.form.valid || generating || validating || !valid">
+                      [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
                 Generate
               </button>
               <dndgen-loading id="encounterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
@@ -124,14 +124,18 @@
     </div>
     <div class="col-sm-6 clearfix">
       @if (!generating) {
-        @if (encounter) {
+        @if (areas.length) {
           <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
         }
-        <div id="encounterSection">
-          @if (!encounter) {
-            <span id="noEncounter" class="italicize">No encounter has been generated</span>
+        <div id="areasSection">
+          @if (!areas.length) {
+            <span id="noAreas" class="italicize">No dungeon areas have been generated</span>
           } @else {
-            <dndgen-encounter [encounter]="encounter!"></dndgen-encounter>
+            <ul>
+              @for (area of areas; track $index) {
+                <dndgen-area [area]="area"></dndgen-area>
+              }
+            </ul>
           }
         </div>
       }

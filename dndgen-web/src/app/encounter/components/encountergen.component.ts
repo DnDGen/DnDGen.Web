@@ -100,6 +100,8 @@ export class EncounterGenComponent implements OnInit {
     this.environment = this.encounterModel.defaults.environment;
     this.timeOfDay = this.encounterModel.defaults.timeOfDay;
     this.level = this.encounterModel.defaults.level;
+    this.allowAquatic = this.encounterModel.defaults.allowAquatic;
+    this.allowUnderground = this.encounterModel.defaults.allowUnderground;
     
     for (var i = 0; i < this.encounterModel.creatureTypes.length; i++) {
       this.creatureTypeFilters.push({ 
