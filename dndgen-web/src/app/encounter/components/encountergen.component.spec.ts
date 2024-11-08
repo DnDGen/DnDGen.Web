@@ -585,6 +585,8 @@ describe('EncounterGen Component', () => {
       expect(component.encounterModel.defaults.temperature).toBe('Temperate');
       expect(component.encounterModel.defaults.timeOfDay).toBe('Day');
       expect(component.encounterModel.defaults.level).toBe(1);
+      expect(component.encounterModel.defaults.allowAquatic).toBeFalse();
+      expect(component.encounterModel.defaults.allowUnderground).toBeFalse();
     });
   
     it(`should set initial values on init`, () => {
@@ -593,8 +595,8 @@ describe('EncounterGen Component', () => {
       expect(component.temperature).toEqual(component.encounterModel.defaults.temperature);
       expect(component.timeOfDay).toEqual(component.encounterModel.defaults.timeOfDay);
       expect(component.level).toEqual(component.encounterModel.defaults.level);
-      expect(component.allowAquatic).toBeFalse();
-      expect(component.allowUnderground).toBeFalse();
+      expect(component.allowAquatic).toEqual(component.encounterModel.defaults.allowAquatic);
+      expect(component.allowUnderground).toEqual(component.encounterModel.defaults.allowUnderground);
       expect(component.creatureTypeFilters.length).toEqual(component.encounterModel.creatureTypes.length);
 
       for(let i = 0; i < component.encounterModel.creatureTypes.length; i++) {

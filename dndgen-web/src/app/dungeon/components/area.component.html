@@ -1,0 +1,102 @@
+<dndgen-details class="area-header" heading="{{area.type}}" [hasDetails]="true">
+    <ul>
+        @if (area.descriptions.length) {
+            <li>
+                <dndgen-details class="area-descriptions" heading="Descriptions" [hasDetails]="area.descriptions.length > 0">
+                    <ul>
+                        @for (description of area.descriptions; track $index) {
+                            <li>{{description}}</li>
+                        }
+                    </ul>
+                </dndgen-details>
+            </li>
+        }
+        @if (area.length > 0 && area.width == 0) {
+            <li class="area-length-width">continues {{area.length | number}}'</li>
+        } @else if (area.length > 0 && area.width == 1) {
+            <li class="area-length-width">about {{area.length | number}} square feet</li>
+        } @else if (area.length > 0) {
+            <li class="area-length-width">{{area.length | number}}' x {{area.width | number}}'</li>
+        }
+        @if (!area.contents.isEmpty) {
+            <li class="area-contents">
+                <dndgen-details heading="Contents" [hasDetails]="!area.contents.isEmpty">
+                    <ul>
+                        @for (misc of area.contents.miscellaneous; track $index) {
+                            <li class="area-contents-misc">{{misc}}</li>
+                        }
+                        @if (area.contents.pool) {
+                            <li class="area-contents-pool">
+                                <dndgen-details heading="Pool" [hasDetails]="area.contents.pool.encounter != null || area.contents.pool.treasure != null || area.contents.pool.magicPower.length > 0">
+                                    <ul>
+                                        @if (area.contents.pool.encounter) {
+                                            <li class="area-contents-pool-encounter">
+                                                <dndgen-encounter [encounter]="area.contents.pool.encounter!"></dndgen-encounter>
+                                            </li>
+                                        }
+                                        @if (area.contents.pool.treasure) {
+                                            <li class="area-contents-pool-treasure">
+                                                <dndgen-dungeon-treasure [dungeonTreasure]="area.contents.pool.treasure!"></dndgen-dungeon-treasure>
+                                            </li>
+                                        }
+                                        @if (area.contents.pool.magicPower) {
+                                            <li class="area-contents-pool-magic-power">{{area.contents.pool.magicPower}}</li>
+                                        }
+                                    </ul>
+                                </dndgen-details>
+                            </li>
+                        }
+                        @if (area.contents.traps.length) {
+                            <li class="area-contents-traps">
+                                <dndgen-details heading="Traps" [hasDetails]="area.contents.traps.length > 0">
+                                    <ul>
+                                        @for (trap of area.contents.traps; track $index) {
+                                            <li class="area-contents-trap">
+                                                <dndgen-details heading="{{trap.name}}" [hasDetails]="true">
+                                                    <ul>
+                                                        @for (description of trap.descriptions; track $index) {
+                                                            <li class="area-contents-trap-description">{{description}}</li>
+                                                        }
+                                                        <li class="area-contents-trap-cr">Challenge Rating: {{trap.challengeRating}}</li>
+                                                        <li class="area-contents-trap-search">Search DC: {{trap.searchDC}}</li>
+                                                        <li class="area-contents-trap-disable">Disable Device DC: {{trap.disableDeviceDC}}</li>
+                                                    </ul>
+                                                </dndgen-details>
+                                            </li>
+                                        }
+                                    </ul>
+                                </dndgen-details>
+                            </li>
+                        }
+                        @if (area.contents.encounters.length) {
+                            <li class="area-contents-encounters">
+                                <dndgen-details heading="Encounters" [hasDetails]="area.contents.encounters.length > 0">
+                                    <ul>
+                                        @for (encounter of area.contents.encounters; track $index) {
+                                            <li class="area-contents-encounter">
+                                                <dndgen-encounter [encounter]="encounter"></dndgen-encounter>
+                                            </li>
+                                        }
+                                    </ul>
+                                </dndgen-details>
+                            </li>
+                        }
+                        @if (area.contents.treasures.length) {
+                            <li class="area-contents-treasures">
+                                <dndgen-details heading="Treasures" [hasDetails]="area.contents.treasures.length > 0">
+                                    <ul>
+                                        @for (treasure of area.contents.treasures; track $index) {
+                                            <li class="area-contents-treasure">
+                                                <dndgen-dungeon-treasure [dungeonTreasure]="treasure"></dndgen-dungeon-treasure>
+                                            </li>
+                                        }
+                                    </ul>
+                                </dndgen-details>
+                            </li>
+                        }
+                    </ul>
+                </dndgen-details>
+            </li>
+        }
+    </ul>
+</dndgen-details>

@@ -2,7 +2,6 @@ import { Input, Component, OnInit } from '@angular/core';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
-import { switchMap, tap } from 'rxjs';
 import { CharacterPipe } from '../../character/pipes/character.pipe';
 import { Size } from '../../shared/components/size.enum';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
@@ -12,20 +11,25 @@ import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
 import { InchesToFeetPipe } from '../../character/pipes/inchesToFeet.pipe';
 import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
 import { SpellQuantityPipe } from '../../character/pipes/spellQuantity.pipe';
-import { EncounterService } from '../services/encounter.service';
-import { EncounterPipe } from '../pipes/encounter.pipe';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { CreatureTypeFilter } from '../models/creatureTypeFilter.model';
-import { Encounter } from '../models/encounter.model';
-import { EncounterComponent } from './encounter.component';
+import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
+import { CreatureTypeFilter } from '../../encounter/models/creatureTypeFilter.model';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
+import { EncounterPipe } from '../../encounter/pipes/encounter.pipe';
+import { Area } from '../models/area.model';
+import { DungeonService } from '../services/dungeon.service';
+import { DungeonPipe } from '../pipes/dungeon.pipe';
+import { AreaComponent } from './area.component';
+import { switchMap, tap } from 'rxjs';
+import { EncounterService } from '../../encounter/services/encounter.service';
 
 @Component({
-    selector: 'dndgen-encountergen',
-    templateUrl: './encountergen.component.html',
+    selector: 'dndgen-dungeongen',
+    templateUrl: './dungeongen.component.html',
     providers: [
+        DungeonService,
         EncounterService,
+        DungeonPipe,
         EncounterPipe,
         CharacterPipe,
         ItemPipe,
@@ -37,21 +41,23 @@ import { LoadingComponent } from '../../shared/components/loading.component';
         SpellQuantityPipe,
     ],
     standalone: true,
-    imports: [LoadingComponent, FormsModule, EncounterComponent]
+    imports: [LoadingComponent, FormsModule, AreaComponent]
 })
 
-export class EncounterGenComponent implements OnInit {
+export class DungeonGenComponent implements OnInit {
   constructor(
+    private dungeonService: DungeonService,
     private encounterService: EncounterService,
-    private encounterPipe: EncounterPipe,
+    private dungeonPipe: DungeonPipe,
     private fileSaverService: FileSaverService,
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public encounterModel!: EncounterGenViewModel;
+  public dungeonModel!: DungeonGenViewModel;
   public sizes = Size;
   public creatureTypeFilters: CreatureTypeFilter[] = [];
 
+  @Input() dungeonLevel = 1;
   @Input() temperature = '';
   @Input() environment = '';
   @Input() timeOfDay = '';
@@ -60,7 +66,7 @@ export class EncounterGenComponent implements OnInit {
   @Input() allowUnderground = false;
 
   public loading = false;
-  public encounter: Encounter | null = null;
+  public areas: Area[] = [];
   public valid: boolean = false;
   public validating: boolean = false;
   public generating: boolean = false;
@@ -69,9 +75,9 @@ export class EncounterGenComponent implements OnInit {
     this.loading = true;
     this.validating = true;
 
-    this.encounterService.getViewModel()
+    this.dungeonService.getViewModel()
       .pipe(
-        tap(data => this.encounterModel = data),
+        tap(data => this.dungeonModel = data),
         tap(() => this.setInitialValues()),
         switchMap(() => this.encounterService
           .validate(
@@ -96,17 +102,17 @@ export class EncounterGenComponent implements OnInit {
   }
 
   private setInitialValues(): void {
-    this.temperature = this.encounterModel.defaults.temperature;
-    this.environment = this.encounterModel.defaults.environment;
-    this.timeOfDay = this.encounterModel.defaults.timeOfDay;
-    this.level = this.encounterModel.defaults.level;
-    this.allowAquatic = this.encounterModel.defaults.allowAquatic;
-    this.allowUnderground = this.encounterModel.defaults.allowUnderground;
+    this.temperature = this.dungeonModel.defaults.temperature;
+    this.environment = this.dungeonModel.defaults.environment;
+    this.timeOfDay = this.dungeonModel.defaults.timeOfDay;
+    this.level = this.dungeonModel.defaults.level;
+    this.allowAquatic = this.dungeonModel.defaults.allowAquatic;
+    this.allowUnderground = this.dungeonModel.defaults.allowUnderground;
     
-    for (var i = 0; i < this.encounterModel.creatureTypes.length; i++) {
+    for (var i = 0; i < this.dungeonModel.creatureTypes.length; i++) {
       this.creatureTypeFilters.push({ 
-          id: this.encounterModel.creatureTypes[i].replaceAll(' ', '_'),
-          displayName: this.encounterModel.creatureTypes[i],
+          id: this.dungeonModel.creatureTypes[i].replaceAll(' ', '_'),
+          displayName: this.dungeonModel.creatureTypes[i],
           checked: false
       });
     }
@@ -115,7 +121,7 @@ export class EncounterGenComponent implements OnInit {
   private handleError(error: any): void {
     this.logger.logError(error.message);
 
-    this.encounter = null;
+    this.areas = [];
 
     this.loading = false;
     this.generating = false;
@@ -123,8 +129,74 @@ export class EncounterGenComponent implements OnInit {
     
     this.sweetAlertService.showError();
   }
+  
+  private get checkedFilters(): string[] {
+    var checkedFilters = [];
+
+    for (var i = 0; i < this.creatureTypeFilters.length; i++) {
+        if (this.creatureTypeFilters[i].checked) {
+            checkedFilters.push(this.creatureTypeFilters[i].displayName);
+        }
+    }
+
+    return checkedFilters;
+  }
+
+  public generateFromHall(): void {
+    this.generating = true;
+    this.areas = [];
+
+    this.dungeonService
+      .generateAreasFromHall(
+        this.dungeonLevel,
+        this.environment,
+        this.temperature,
+        this.timeOfDay,
+        this.level,
+        this.checkedFilters,
+        this.allowAquatic,
+        this.allowUnderground,
+      )
+      .pipe(
+        tap(data => this.areas = data),
+      )
+      .subscribe({
+        complete: () => this.finishGeneration(),
+        error: error => this.handleError(error),
+      });
+  }
+
+  public generateFromDoor(): void {
+    this.generating = true;
+    this.areas = [];
+
+    this.dungeonService
+      .generateAreasFromDoor(
+        this.dungeonLevel,
+        this.environment,
+        this.temperature,
+        this.timeOfDay,
+        this.level,
+        this.checkedFilters,
+        this.allowAquatic,
+        this.allowUnderground,
+      )
+      .pipe(
+        tap(data => this.areas = data),
+      )
+      .subscribe({
+        complete: () => this.finishGeneration(),
+        error: error => this.handleError(error),
+      });
+  }
+
+  private setValidity(data: boolean) {
+    this.valid = data;
+    this.validating = false;
+  }
 
   public validate(
+    dungeonLevel: number,
     environment: string,
     temperature: string,
     timeOfDay: string,
@@ -134,7 +206,7 @@ export class EncounterGenComponent implements OnInit {
   ): void {
     this.validating = true;
 
-    if (!level) {
+    if (!dungeonLevel || !level) {
       this.setValidity(false);
       return;
     }
@@ -157,57 +229,17 @@ export class EncounterGenComponent implements OnInit {
         }
       });
   }
-  
-  private get checkedFilters(): string[] {
-    var checkedFilters = [];
-
-    for (var i = 0; i < this.creatureTypeFilters.length; i++) {
-        if (this.creatureTypeFilters[i].checked) {
-            checkedFilters.push(this.creatureTypeFilters[i].displayName);
-        }
-    }
-
-    return checkedFilters;
-  }
-
-  private setValidity(data: boolean) {
-    this.valid = data;
-    this.validating = false;
-  }
-
-  public generateEncounter(): void {
-    this.generating = true;
-    this.encounter = null;
-
-    this.encounterService
-      .generate(
-        this.environment,
-        this.temperature,
-        this.timeOfDay,
-        this.level,
-        this.checkedFilters,
-        this.allowAquatic,
-        this.allowUnderground,
-      )
-      .pipe(
-        tap(data => this.encounter = data),
-      )
-      .subscribe({
-        complete: () => this.finishGeneration(),
-        error: error => this.handleError(error),
-      });
-  }
 
   private finishGeneration(): void {
     this.generating = false;
   }
 
   public download(): void {
-    if (!this.encounter) {
+    if (!this.areas.length) {
       return;
     }
 
-    var formattedEncounter = this.encounterPipe.transform(this.encounter);
-    this.fileSaverService.save(formattedEncounter, this.encounter.description);
+    var formattedDungeon = this.dungeonPipe.transform(this.areas);
+    this.fileSaverService.save(formattedDungeon, this.areas[0].type);
   }
 }

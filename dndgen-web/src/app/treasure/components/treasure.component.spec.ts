@@ -19,6 +19,7 @@ describe('Treasure Component', () => {
   
     it(`should set the treasure `, () => {
       let treasure = new Treasure(
+        true,
         new Coin('munny', 9266),
         [new Good('good 1', 90210), new Good('good 2', 42)],
         [new Item('item 1', 'item type 1'), new Item('item 2', 'item type 2')],

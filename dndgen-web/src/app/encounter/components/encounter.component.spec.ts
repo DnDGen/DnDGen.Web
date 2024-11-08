@@ -211,6 +211,7 @@ describe('Encounter Component', () => {
       component.encounter = new Encounter('my encounter description');
       component.encounter.treasures = [
         new Treasure(
+          true,
           new Coin('munny', 9266)
         ),
       ];
@@ -227,9 +228,11 @@ describe('Encounter Component', () => {
       component.encounter = new Encounter('my encounter description');
       component.encounter.treasures = [
         new Treasure(
+          true,
           new Coin('munny', 9266)
         ),
         new Treasure(
+          true,
           new Coin('dubloons', 90210)
         ),
       ];
@@ -295,9 +298,11 @@ describe('Encounter Component', () => {
       component.encounter.creatures[0].creature.subCreature.subCreature = createCreature('my sub-sub-creature');
       component.encounter.treasures = [
         new Treasure(
+          true,
           new Coin('munny', 9266)
         ),
         new Treasure(
+          true,
           new Coin('dubloons', 90210)
         ),
       ];

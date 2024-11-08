@@ -447,16 +447,25 @@
                                 [required]="abilitiesRandomizerType == 'Set'" />
                         </div>
                     </div>
-                  <div class="d-flex justify-content-center">
-                      <button id="generateCharacterButton" 
-                              type="button" 
-                              class="btn btn-success" 
-                              (click)="generateCharacter()" 
-                              [disabled]="!characterForm.form.valid || generating || validating || !valid">
-                        Generate
-                      </button>
-                  </div>
-                  <dndgen-loading id="characterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                    <div class="row">
+                      <div class="col-sm-12"><br /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4 offset-sm-4">
+                        <div class="d-flex justify-content-center">
+                          <button id="generateCharacterButton" 
+                                  type="button" 
+                                  class="btn btn-success" 
+                                  (click)="generateCharacter()" 
+                                  [disabled]="!characterForm.form.valid || generating || validating || !valid">
+                            Generate
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <dndgen-loading id="characterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                      </div>
+                    </div>
               </form>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="leadership">

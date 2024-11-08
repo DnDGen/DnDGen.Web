@@ -50,6 +50,7 @@ describe('Treasure Service', () => {
     
         it('gets treasure', done => {
             const expected = new Treasure(
+                true,
                 new Coin('munny', 42),
                 [
                     new Good('good 1', 600),
@@ -58,8 +59,7 @@ describe('Treasure Service', () => {
                 [
                     new Item('item 1', 'item type 1'),
                     new Item('item 2', 'item type 2'),
-                ],
-                true
+                ]
             );
             httpClientSpy.get.and.returnValue(of(expected));
     
