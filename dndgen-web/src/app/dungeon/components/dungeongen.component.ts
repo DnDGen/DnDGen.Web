@@ -196,6 +196,7 @@ export class DungeonGenComponent implements OnInit {
   }
 
   public validate(
+    dungeonLevel: number,
     environment: string,
     temperature: string,
     timeOfDay: string,
@@ -205,7 +206,7 @@ export class DungeonGenComponent implements OnInit {
   ): void {
     this.validating = true;
 
-    if (!level) {
+    if (!dungeonLevel || !level) {
       this.setValidity(false);
       return;
     }

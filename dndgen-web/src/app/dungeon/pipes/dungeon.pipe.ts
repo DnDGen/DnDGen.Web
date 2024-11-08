@@ -91,8 +91,7 @@ export class DungeonPipe implements PipeTransform {
             formattedContents += prefix + '\t\tEncounters:\r\n';
 
             for (var i = 0; i < contents.encounters.length; i++) {
-                formattedContents += prefix + '\t\t\tEncounter ' + (i + 1) + ':\r\n';
-                formattedContents += this.encounterPipe.transform(contents.encounters[i], prefix + '\t\t\t\t');
+                formattedContents += this.encounterPipe.transform(contents.encounters[i], prefix + '\t\t\t');
             }
         }
 

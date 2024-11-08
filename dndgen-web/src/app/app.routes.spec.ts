@@ -10,7 +10,7 @@ import { TreasureGenComponent } from './treasure/components/treasuregen.componen
 describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(7);
+      expect(routes.length).toEqual(8);
     });
     
     it('should contain default route', () => {

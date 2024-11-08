@@ -6,7 +6,7 @@
     <span class="dungeon-treasure-concealment">Concealment: {{dungeonTreasure.concealment}}</span>
     <br />
 }
-@if (dungeonTreasure.treasure) {
+@if (dungeonTreasure.treasure.isAny) {
     <div class="dungeon-treasure-treasure">
         <dndgen-treasure [treasure]="dungeonTreasure.treasure!"></dndgen-treasure>
     </div>

@@ -50,7 +50,7 @@ describe('Dungeon Treasure Component', () => {
     });
   
     it(`should render a dungeon treasure`, () => {
-      const treasure = new Treasure(new Coin('munny', 9266));
+      const treasure = new Treasure(true, new Coin('munny', 9266));
       const component = fixture.componentInstance;
       component.dungeonTreasure = new DungeonTreasure();
       component.dungeonTreasure.treasure = treasure;
@@ -90,7 +90,7 @@ describe('Dungeon Treasure Component', () => {
     });
   
     it(`should render full dungeon treasure`, () => {
-      const treasure = new Treasure(new Coin('munny', 9266));
+      const treasure = new Treasure(true, new Coin('munny', 9266));
 
       const component = fixture.componentInstance;
       component.dungeonTreasure = new DungeonTreasure();

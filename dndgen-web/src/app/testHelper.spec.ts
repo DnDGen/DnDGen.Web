@@ -24,6 +24,8 @@ import { BonusPipe } from "./shared/pipes/bonus.pipe";
 import { BonusesPipe } from "./shared/pipes/bonuses.pipe";
 import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
 import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
+import { AreaComponent } from "./dungeon/components/area.component";
+import { Area } from "./dungeon/models/area.model";
 
 export class TestHelper<T> {
   constructor(
@@ -195,6 +197,49 @@ export class TestHelper<T> {
 
     for(var i = 0; i < elements.length; i++) {
       this.expectDungeonTreasureInElement(elements?.at(i)!, treasures[i]);
+    }
+  }
+
+  public expectArea(selector: string, hasArea: boolean, area?: Area) {
+    const element = this.fixture.debugElement.query(By.css(selector));
+    this.expectAreaInElement(element, hasArea, area);
+  }
+
+  private expectAreaInElement(element: DebugElement, hasArea: boolean, area?: Area) {
+    expect(element).toBeTruthy();
+    expect(element.componentInstance).toBeTruthy();
+    expect(element.componentInstance).toBeInstanceOf(AreaComponent);
+
+    const component = element.componentInstance as AreaComponent;
+
+    if (hasArea) {
+      expect(component.area).toBeTruthy();
+
+      if (area)
+        expect(component.area).toBe(area);
+    }
+  }
+
+  public expectAreas(selector: string, hasAreas: boolean, areas?: Area[]) {
+    const elements = this.fixture.debugElement.queryAll(By.css(selector));
+    expect(elements).toBeTruthy();
+
+    if (hasAreas) {
+      expect(elements.length).toBeTruthy();
+    } else {
+      expect(elements.length).toBeFalsy();
+    }
+
+    if (areas) {
+      expect(elements.length).toBe(areas.length);
+    }
+
+    for(var i = 0; i < elements.length; i++) {
+      if (areas) {
+        this.expectAreaInElement(elements?.at(i)!, true, areas[i]);
+      } else {
+        this.expectAreaInElement(elements?.at(i)!, true);
+      }
     }
   }
 

@@ -317,7 +317,7 @@ describe('Area Component', () => {
       helper.expectExists('dndgen-details.area-header li.area-contents > dndgen-details', true);
       helper.expectDetails('dndgen-details.area-header li.area-contents > dndgen-details', 'Contents', true);
       helper.expectExists('li.area-contents > dndgen-details li.area-contents-pool', true);
-      helper.expectDetails('li.area-contents-pool > dndgen-details', 'Pool', true);
+      helper.expectDetails('li.area-contents-pool > dndgen-details', 'Pool', false);
       helper.expectExists('li.area-contents-pool > dndgen-details li.area-contents-pool-magic-power', false);
     });
   
