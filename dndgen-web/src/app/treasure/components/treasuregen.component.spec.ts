@@ -355,7 +355,7 @@ describe('TreasureGen Component', () => {
     it('should be generating while generating treasure', fakeAsync(() => {
       setupOnInit();
 
-      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(new Treasure(new Coin('munny', 9266))));
+      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(new Treasure(true, new Coin('munny', 9266))));
 
       component.generateTreasure();
 
@@ -385,7 +385,7 @@ describe('TreasureGen Component', () => {
     it('should generate the default treasure', fakeAsync(() => {
       setupOnInit();
 
-      let treasure = new Treasure(new Coin('munny', 9266));
+      let treasure = new Treasure(true, new Coin('munny', 9266));
       treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
 
       component.generateTreasure();
@@ -405,7 +405,7 @@ describe('TreasureGen Component', () => {
     it(`should generate a non-default treasure`, fakeAsync(() => {
       setupOnInit();
 
-      let treasure = new Treasure(new Coin('munny', 9266));
+      let treasure = new Treasure(true, new Coin('munny', 9266));
       treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
 
       component.treasureType = component.treasureModel.treasureTypes[1];
@@ -814,7 +814,7 @@ describe('TreasureGen Component', () => {
     }));
 
     it('should download treasure - with coin', () => {
-      let treasure = new Treasure(new Coin('munny', 9266));
+      let treasure = new Treasure(true, new Coin('munny', 9266));
       component.treasure = treasure;
 
       treasurePipeSpy.transform.and.returnValue('my formatted treasure');
@@ -852,7 +852,7 @@ describe('TreasureGen Component', () => {
     });
 
     it('should download treasure - all', () => {
-      let treasure = new Treasure(new Coin('munny', 9266));
+      let treasure = new Treasure(true, new Coin('munny', 9266));
       treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
       treasure.items = [new Item('item 1', 'itemtype')];
       component.treasure = treasure;
@@ -875,7 +875,7 @@ describe('TreasureGen Component', () => {
     });
 
     it('should download empty treasure', () => {
-      let treasure = new Treasure(new Coin(), [], []);
+      let treasure = new Treasure(false, new Coin(), [], []);
       component.treasure = treasure;
 
       treasurePipeSpy.transform.and.returnValue('my empty treasure');
@@ -1952,7 +1952,7 @@ describe('TreasureGen Component', () => {
       //Even for an integration test, we don't want to create an actual file
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
-      fixture.componentInstance.treasure = new Treasure(new Coin('munny', 9266));
+      fixture.componentInstance.treasure = new Treasure(true, new Coin('munny', 9266));
       fixture.componentInstance.treasure.isAny = true;
 
       fixture.detectChanges();
