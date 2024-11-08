@@ -82,8 +82,8 @@ export class DungeonPipe implements PipeTransform {
                 formattedContents += prefix + '\t\t\t' + contents.traps[i].name + ':\r\n';
                 formattedContents += this.formatList(contents.traps[i].descriptions, prefix + '\t\t\t\t');
                 formattedContents += prefix + '\t\t\t\tChallenge Rating: ' + contents.traps[i].challengeRating + '\r\n';
-                formattedContents += prefix + '\t\t\t\tSearch DC: ' + contents.traps[i].searchDc + '\r\n';
-                formattedContents += prefix + '\t\t\t\tDisable Device DC: ' + contents.traps[i].disableDeviceDc + '\r\n';
+                formattedContents += prefix + '\t\t\t\tSearch DC: ' + contents.traps[i].searchDC + '\r\n';
+                formattedContents += prefix + '\t\t\t\tDisable Device DC: ' + contents.traps[i].disableDeviceDC + '\r\n';
             }
         }
 

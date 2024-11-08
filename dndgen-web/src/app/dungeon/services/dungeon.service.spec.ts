@@ -297,5 +297,44 @@ describe('Dungeon Service', () => {
                     }
                 });
         }));
+        
+        TestHelper.runFlakyTest(() => {
+            it('BUG - returns data for generated traps', waitForAsync(() => {
+                dungeonService
+                    .generateAreasFromDoor(
+                        2,
+                        'Plains',
+                        'Cold',
+                        'Night',
+                        3,
+                        ['Humanoid', 'Abomination', 'Undead'],
+                        true,
+                        false,
+                    )
+                    .subscribe((areas) => {
+                        expect(areas.length).toBeTruthy();
+    
+                        for(let i = 0; i < areas.length; i++) {
+                            expect(areas[i].type).toBeTruthy();
+
+                            if (areas[i].contents.isEmpty) {
+                                continue;
+                            }
+
+                            if (areas[i].contents.traps.length == 0) {
+                                continue;
+                            }
+
+                            for(let j = 0; j < areas[i].contents.traps.length; j++) {
+                                const trap = areas[i].contents.traps[j];
+                                expect(trap.descriptions.length).toBeTruthy();
+                                expect(trap.challengeRating).toBeTruthy();
+                                expect(trap.searchDC).toBeTruthy();
+                                expect(trap.disableDeviceDC).toBeTruthy();
+                            }
+                        }
+                    });
+            }));
+        }, 100);
     });
 });

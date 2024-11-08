@@ -1177,73 +1177,75 @@ describe('DungeonGen Component', () => {
       helper.expectAreas('#areasSection dndgen-area', true);
     });
   
-    it(`should generate non-default dungeon from door`, async () => {
-      helper.setInput('#dungeonLevel', '3');
-      helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel.environments.indexOf('Mountain'));
-      helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel.temperatures.indexOf('Cold'));
-      helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel.timesOfDay.indexOf('Night'));
-      helper.setInput('#level', '10');
-      helper.setCheckbox('#allowAquatic', true);
-      helper.setCheckbox('#allowUnderground', false);
-      helper.setCheckbox('#Dragon', true);
-      helper.setCheckbox('#Giant', true);
-      helper.setCheckbox('#Humanoid', true);
-      
-      fixture.detectChanges();
-
-      expect(fixture.componentInstance.dungeonLevel).toEqual(3);
-      expect(fixture.componentInstance.environment).toEqual('Mountain');
-      expect(fixture.componentInstance.temperature).toEqual('Cold');
-      expect(fixture.componentInstance.timeOfDay).toEqual('Night');
-      expect(fixture.componentInstance.level).toEqual(10);
-      expect(fixture.componentInstance.allowAquatic).toBeTrue();
-      expect(fixture.componentInstance.allowUnderground).toBeFalse();
-
-      const checkedfilters = getCheckedFilters();
-      expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
-
-      //run validation
-      await helper.waitForService();
-
-      helper.clickButton('#generateFromDoorButton');
-
-      fixture.detectChanges();
-      
-      helper.expectGenerating(
-        fixture.componentInstance.generating,
-        '#generateFromDoorButton', 
-        '#areasSection', 
-        '#generatingSection', 
-        '#dungeonValidating', 
-        '#downloadButton');
-      helper.expectGenerating(
-        fixture.componentInstance.generating,
-        '#generateFromHallButton', 
-        '#areasSection', 
-        '#generatingSection', 
-        '#dungeonValidating', 
-        '#downloadButton');
-
-      //run generate encounter
-      await helper.waitForService();
-
-      helper.expectGenerated(
-        fixture.componentInstance.generating,
-        '#generateFromDoorButton', 
-        '#areasSection', 
-        '#generatingSection', 
-        '#dungeonValidating',
-        '#downloadButton');
-      helper.expectGenerated(
-        fixture.componentInstance.generating,
-        '#generateFromHallButton', 
-        '#areasSection', 
-        '#generatingSection', 
-        '#dungeonValidating',
-        '#downloadButton');
-
-      helper.expectExists('#noAreas', false);
-      helper.expectAreas('#areasSection dndgen-area', true);
+    TestHelper.runFlakyTest(() => {
+      it(`should generate non-default dungeon from door`, async () => {
+        helper.setInput('#dungeonLevel', '3');
+        helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel.environments.indexOf('Mountain'));
+        helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel.temperatures.indexOf('Cold'));
+        helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel.timesOfDay.indexOf('Night'));
+        helper.setInput('#level', '10');
+        helper.setCheckbox('#allowAquatic', true);
+        helper.setCheckbox('#allowUnderground', false);
+        helper.setCheckbox('#Dragon', true);
+        helper.setCheckbox('#Giant', true);
+        helper.setCheckbox('#Humanoid', true);
+        
+        fixture.detectChanges();
+  
+        expect(fixture.componentInstance.dungeonLevel).toEqual(3);
+        expect(fixture.componentInstance.environment).toEqual('Mountain');
+        expect(fixture.componentInstance.temperature).toEqual('Cold');
+        expect(fixture.componentInstance.timeOfDay).toEqual('Night');
+        expect(fixture.componentInstance.level).toEqual(10);
+        expect(fixture.componentInstance.allowAquatic).toBeTrue();
+        expect(fixture.componentInstance.allowUnderground).toBeFalse();
+  
+        const checkedfilters = getCheckedFilters();
+        expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
+  
+        //run validation
+        await helper.waitForService();
+  
+        helper.clickButton('#generateFromDoorButton');
+  
+        fixture.detectChanges();
+        
+        helper.expectGenerating(
+          fixture.componentInstance.generating,
+          '#generateFromDoorButton', 
+          '#areasSection', 
+          '#generatingSection', 
+          '#dungeonValidating', 
+          '#downloadButton');
+        helper.expectGenerating(
+          fixture.componentInstance.generating,
+          '#generateFromHallButton', 
+          '#areasSection', 
+          '#generatingSection', 
+          '#dungeonValidating', 
+          '#downloadButton');
+  
+        //run generate encounter
+        await helper.waitForService();
+  
+        helper.expectGenerated(
+          fixture.componentInstance.generating,
+          '#generateFromDoorButton', 
+          '#areasSection', 
+          '#generatingSection', 
+          '#dungeonValidating',
+          '#downloadButton');
+        helper.expectGenerated(
+          fixture.componentInstance.generating,
+          '#generateFromHallButton', 
+          '#areasSection', 
+          '#generatingSection', 
+          '#dungeonValidating',
+          '#downloadButton');
+  
+        helper.expectExists('#noAreas', false);
+        helper.expectAreas('#areasSection dndgen-area', true);
+      });
     });
   
     it(`should generate non-default dungeon from hall`, async () => {

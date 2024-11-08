@@ -120,8 +120,8 @@ describe('Dungeon Pipe', () => {
             
             trap.name = 'trap ' + trapCount,
             trap.challengeRating = 6789 + trapCount,
-            trap.searchDc = 7890 + trapCount,
-            trap.disableDeviceDc = 8901 + trapCount,
+            trap.searchDC = 7890 + trapCount,
+            trap.disableDeviceDC = 8901 + trapCount,
             trap.descriptions.push('trap description ' + trapCount);
             trap.descriptions.push('other trap description ' + trapCount);
     

@@ -110,15 +110,24 @@
                 </div>
               }
             </div>
-            <div class="d-flex justify-content-center">
-              <button id="generateButton" 
-                      type="button" 
-                      class="btn btn-success" 
-                      (click)="generateEncounter()" 
-                      [disabled]="!encounterForm.form.valid || generating || validating || !valid">
-                Generate
-              </button>
-              <dndgen-loading id="encounterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+            <div class="row">
+              <div class="col-sm-12"><br /></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 offset-sm-4">
+                <div class="d-flex justify-content-center">
+                  <button id="generateButton" 
+                          type="button" 
+                          class="btn btn-success" 
+                          (click)="generateEncounter()" 
+                          [disabled]="!encounterForm.form.valid || generating || validating || !valid">
+                    Generate
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <dndgen-loading id="encounterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+              </div>
             </div>
         </form>
     </div>

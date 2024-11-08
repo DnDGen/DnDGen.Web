@@ -4,7 +4,7 @@
     <div class="col-sm-6">
         <form name="dungeonForm" #dungeonForm="ngForm" class="form-horizontal top-buffer" role="form">
           <div class="form-group row">
-              <label for="level" class="col-sm-3 col-form-label">Dungeon Level (Physical):</label>
+              <label for="level" class="col-sm-4 col-form-label">Dungeon Level (Physical):</label>
               <div class="col-sm-2">
                 <input id="dungeonLevel"
                        name="dungeonLevel"
@@ -18,8 +18,8 @@
               </div>
           </div>
             <div class="form-group row">
-                <label for="temperature" class="col-sm-3 col-form-label">Temperature:</label>
-                <div class="col-sm-6">
+                <label for="temperature" class="col-sm-4 col-form-label">Temperature:</label>
+                <div class="col-sm-4">
                   @if (dungeonModel) {
                     <select id="temperature" 
                             name="temperature"
@@ -35,8 +35,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="environment" class="col-sm-3 col-form-label">Environment:</label>
-                <div class="col-sm-6">
+                <label for="environment" class="col-sm-4 col-form-label">Environment:</label>
+                <div class="col-sm-4">
                   @if (dungeonModel) {
                     <select id="environment" 
                             name="environment" 
@@ -52,8 +52,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="timeOfDay" class="col-sm-3 col-form-label">Time of Day:</label>
-                <div class="col-sm-6">
+                <label for="timeOfDay" class="col-sm-4 col-form-label">Time of Day:</label>
+                <div class="col-sm-4">
                   @if (dungeonModel) {
                     <select id="timeOfDay" 
                             name="timeOfDay" 
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="level" class="col-sm-3 col-form-label">Level:</label>
+                <label for="level" class="col-sm-4 col-form-label">Encounter Level:</label>
                 <div class="col-sm-2">
                   <input id="level"
                          name="level"
@@ -124,22 +124,35 @@
                 </div>
               }
             </div>
-            <div class="d-flex justify-content-center">
-              <button id="generateFromDoorButton" 
-                      type="button" 
-                      class="btn btn-success" 
-                      (click)="generateFromDoor()" 
-                      [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
-                Generate From Door
-              </button>
-              <button id="generateFromHallButton" 
-                      type="button" 
-                      class="btn btn-success" 
-                      (click)="generateFromHall()" 
-                      [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
-                Generate From Hall
-              </button>
-              <dndgen-loading id="dungeonValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+            <div class="row">
+              <div class="col-sm-12"><br /></div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 offset-sm-2">
+                <div class="d-flex justify-content-center">
+                  <button id="generateFromDoorButton" 
+                          type="button" 
+                          class="btn btn-success" 
+                          (click)="generateFromDoor()" 
+                          [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
+                    Generate From Door
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="d-flex justify-content-center">
+                  <button id="generateFromHallButton" 
+                          type="button" 
+                          class="btn btn-success" 
+                          (click)="generateFromHall()" 
+                          [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
+                    Generate From Hall
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <dndgen-loading id="dungeonValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+              </div>
             </div>
         </form>
     </div>
@@ -154,7 +167,9 @@
           } @else {
             <ul>
               @for (area of areas; track $index) {
-                <dndgen-area [area]="area"></dndgen-area>
+                <li>
+                  <dndgen-area [area]="area"></dndgen-area>
+                </li>
               }
             </ul>
           }

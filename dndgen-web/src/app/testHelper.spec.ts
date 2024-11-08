@@ -512,8 +512,8 @@ export class TestHelper<T> {
       expect(actual.length).toBe(expected.length);
   }
 
-  public static runFlakyTest(test: () => void) {
-    for(let i = 0; i < 10; i++) {
+  public static runFlakyTest(test: () => void, iterations: number = 10) {
+    for(let i = 0; i < iterations; i++) {
       describe(`FLAKY (run ${i})`, () => {
         test();
       });
