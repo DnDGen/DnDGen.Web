@@ -2,7 +2,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'DnDGen.Web.sln'
+  solution: 'DnDGen.Apis.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -314,68 +314,6 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  # This avoids the issue noted here: https://github.com/NuGet/Home/issues/13729
-  # Without this step, the sdk is often 8.0.400, which has the bug
-  - task: UseDotNet@2
-    displayName: 'HACK - Use .NET Core sdk 8.0.402'
-    inputs:
-      packageType: sdk
-      version: 8.0.402
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Server-side Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Unit/DnDGen.Web.Tests.Unit.csproj'
-      arguments: '-v normal'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Web.Tests.Integration/DnDGen.Web.Tests.Integration.csproj'
-      arguments: '-v normal'
-  - task: NuGetCommand@2
-    displayName: Install Chutzpah
-    retryCountOnTaskFailure: 3
-    inputs:
-      command: custom
-      arguments: 'install Chutzpah -OutputDirectory $(System.DefaultWorkingDirectory)/testrunner'
-  - task: VSTest@2
-    displayName: Run Client-side Unit Tests
-    inputs:
-      pathtoCustomTestAdapters: '$(System.DefaultWorkingDirectory)/testrunner/'
-      testAssemblyVer2: 'DnDGen.Web.Tests.Unit/**/chutzpah.json'
-      failOnMinTestsNotRun: true
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website
-    inputs:
-      command: publish
-      projects: 'DnDGen.Web/DnDGen.Web.csproj'
-      publishWebProjects: False
-      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/Website'
-      zipAfterPublish: True
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Website Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Website'
-      artifactName: 'dndgen-web'
-      
-# The DnDGen Website
-- job: DnDGen_Web_Static
-  displayName: DnDGen Website (Static)
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
   - task: UseNode@1
     displayName: 'Install node.js'
     inputs:
@@ -416,7 +354,7 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Website Artifacts
     inputs:
-      ArtifactName: 'dndgen-web-static'
+      ArtifactName: 'dndgen-web'
       PathtoPublish: '$(Build.SourcesDirectory)/dndgen-web/dist'
       publishLocation: 'Container'
       

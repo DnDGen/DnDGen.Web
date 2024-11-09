@@ -123,33 +123,6 @@ jobs:
 - deployment: Website
   displayName: Deploy Website
   pool:
-    vmImage: 'windows-latest'
-  environment: Prod
-  dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - task: AzureWebApp@1
-          displayName: 'Azure Web App Deploy: dndgen'
-          inputs:
-            azureSubscription: 'Azure - DnDGen'
-            appType: webApp
-            appName: dndgen
-            deployToSlotOrASE: true
-            resourceGroupName: 'Default-Web-NorthCentralUS'
-            package: '$(Pipeline.Workspace)/**/dndgen-web/*.zip'
-            
-# The DnDGen Website Static
-- deployment: Website_Static
-  displayName: Deploy Static Website
-  pool:
     vmImage: 'ubuntu-latest'
   environment: Prod
   dependsOn:
@@ -163,10 +136,10 @@ jobs:
       deploy:
         steps:
         - task: AzureStaticWebApp@0
-          displayName: 'Azure Static Web App Deploy: dndgen-web-static'
+          displayName: 'Azure Static Web App Deploy: dndgen-web'
           retryCountOnTaskFailure: 3
           inputs:
-            cwd: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web-static'
+            cwd: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web'
             app_location: '/dndgen-web/browser'
             output_location: ''
             skip_app_build: true
