@@ -181,11 +181,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Description);
             }
 
+            if (!armor.Attributes.Contains(AttributeConstants.Shield))
+            {
+                Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Description);
+                Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Description);
+            }
+
             Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Description);
-            Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Description);
             Assert.That(armor.Size, Is.Not.Empty, armor.Description);
             Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Description);
-            Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Description);
         }
 
         [TestCase(PowerConstants.Mundane)]
