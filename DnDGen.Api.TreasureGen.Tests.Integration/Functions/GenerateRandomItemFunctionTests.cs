@@ -169,17 +169,23 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
 
             var armor = StreamHelper.Read<Armor>(response.Body);
             Assert.That(armor, Is.Not.Null);
-            Assert.That(armor.Name, Is.Not.Empty);
-            Assert.That(armor.ItemType, Is.EqualTo(ItemTypeConstants.Armor), armor.Name);
-            Assert.That(armor.Quantity, Is.Positive, armor.Name);
-            Assert.That(armor.CanBeUsedAsWeaponOrArmor, Is.True, armor.Name);
-            Assert.That(armor.ArmorBonus, Is.Positive, armor.Name);
-            Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Name);
-            Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Name);
-            Assert.That(armor.Size, Is.Not.Empty, armor.Name);
-            Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Name);
-            Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Name);
-            Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Name);
+            Assert.That(armor.Description, Is.Not.Empty);
+            Assert.That(armor.Name, Is.Not.Empty, armor.Description);
+            Assert.That(armor.ItemType, Is.EqualTo(ItemTypeConstants.Armor), armor.Description);
+            Assert.That(armor.Quantity, Is.Positive, armor.Description);
+            Assert.That(armor.CanBeUsedAsWeaponOrArmor, Is.True, armor.Description);
+
+            if (string.IsNullOrEmpty(armor.Magic.Curse))
+            {
+                Assert.That(armor.ArmorBonus, Is.Positive, armor.Description);
+                Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Description);
+            }
+
+            Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Description);
+            Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Description);
+            Assert.That(armor.Size, Is.Not.Empty, armor.Description);
+            Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Description);
+            Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Description);
         }
 
         [TestCase(PowerConstants.Mundane)]
