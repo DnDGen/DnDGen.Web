@@ -22,6 +22,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/staticwebapp.config.json",
               {
                 "glob": "**/*.svg",
                 "input": "src/assets/",
