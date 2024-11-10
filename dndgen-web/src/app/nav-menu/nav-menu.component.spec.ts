@@ -34,17 +34,23 @@ describe('Nav-Menu Component', () => {
       const children = compiled?.querySelectorAll('#collapsibleNavbar > ul.navbar-nav > li');
       expect(children).toBeDefined();
       expect(children?.length).toEqual(5);
-      assertLink(children?.item(0).querySelector('a.nav-link'), 'RollGen', '/roll');
-      assertLink(children?.item(1).querySelector('a.nav-link'), 'TreasureGen', '/treasure');
-      assertLink(children?.item(2).querySelector('a.nav-link'), 'CharacterGen', '/character');
-      assertLink(children?.item(3).querySelector('a.nav-link'), 'EncounterGen', '/encounter');
-      assertLink(children?.item(4).querySelector('a.nav-link'), 'DungeonGen', '/dungeon');
+      assertLink(children?.item(0).querySelector('a.nav-link'), 'RollGen', '/roll', false);
+      assertLink(children?.item(1).querySelector('a.nav-link'), 'TreasureGen', '/treasure', false);
+      assertLink(children?.item(2).querySelector('a.nav-link'), 'CharacterGen', '/character', false);
+      assertLink(children?.item(3).querySelector('a.nav-link'), 'EncounterGen', '/encounter', false);
+      assertLink(children?.item(4).querySelector('a.nav-link'), 'DungeonGen', '/dungeon', false);
     });
 
-    function assertLink(element: Element | null | undefined, text: string, link: string) {
-      expect(element).toBeDefined();
-      expect(element?.textContent).toEqual(text);
-      expect(element?.getAttribute('href')).toEqual(link);
+    function assertLink(element: Element | null | undefined, text: string, link: string, external: boolean) {
+      expect(element).toBeTruthy();
+      expect(element!.textContent).toEqual(text);
+      expect(element!.getAttribute('href')).toEqual(link);
+      
+      if (external) {
+        expect(element!.getAttribute('target')).toBe('_blank');
+      } else {
+        expect(element!.hasAttribute('target')).toBeFalse();
+      }
     }
   
     it('should render the GitHub project links', () => {
@@ -59,14 +65,14 @@ describe('Nav-Menu Component', () => {
       const children = compiled?.querySelectorAll('#githubLinks > ul.dropdown-menu > li');
       expect(children).toBeDefined();
       expect(children?.length).toEqual(8);
-      assertLink(children?.item(0).querySelector('a.dropdown-item'), 'The DnDGen Project', 'https://github.com/DnDGen');
+      assertLink(children?.item(0).querySelector('a.dropdown-item'), 'The DnDGen Project', 'https://github.com/DnDGen', true);
       expect(children?.item(1).querySelector('hr.dropdown-divider')).toBeDefined();
-      assertLink(children?.item(2).querySelector('a.dropdown-item'), 'RollGen', 'https://github.com/DnDGen/RollGen');
-      assertLink(children?.item(3).querySelector('a.dropdown-item'), 'TreasureGen', 'https://github.com/DnDGen/TreasureGen');
-      assertLink(children?.item(4).querySelector('a.dropdown-item'), 'CharacterGen', 'https://github.com/DnDGen/CharacterGen');
-      assertLink(children?.item(5).querySelector('a.dropdown-item'), 'EncounterGen', 'https://github.com/DnDGen/EncounterGen');
-      assertLink(children?.item(6).querySelector('a.dropdown-item'), 'DungeonGen', 'https://github.com/DnDGen/DungeonGen');
-      assertLink(children?.item(7).querySelector('a.dropdown-item'), 'This Site', 'https://github.com/DnDGen/DnDGen.Web');
+      assertLink(children?.item(2).querySelector('a.dropdown-item'), 'RollGen', 'https://github.com/DnDGen/RollGen', true);
+      assertLink(children?.item(3).querySelector('a.dropdown-item'), 'TreasureGen', 'https://github.com/DnDGen/TreasureGen', true);
+      assertLink(children?.item(4).querySelector('a.dropdown-item'), 'CharacterGen', 'https://github.com/DnDGen/CharacterGen', true);
+      assertLink(children?.item(5).querySelector('a.dropdown-item'), 'EncounterGen', 'https://github.com/DnDGen/EncounterGen', true);
+      assertLink(children?.item(6).querySelector('a.dropdown-item'), 'DungeonGen', 'https://github.com/DnDGen/DungeonGen', true);
+      assertLink(children?.item(7).querySelector('a.dropdown-item'), 'This Site', 'https://github.com/DnDGen/DnDGen.Web', true);
     });
   
     it('should render the API Swagger links', () => {
@@ -81,21 +87,18 @@ describe('Nav-Menu Component', () => {
       const children = compiled?.querySelectorAll('#apiLinks > ul.dropdown-menu > li');
       expect(children).toBeDefined();
       expect(children?.length).toEqual(5);
-      assertLink(children?.item(0).querySelector('a.dropdown-item'), 'RollGen', 'https://roll.dndgen.com/api/swagger/ui');
-      assertLink(children?.item(1).querySelector('a.dropdown-item'), 'TreasureGen', 'https://treasure.dndgen.com/api/swagger/ui');
-      assertLink(children?.item(2).querySelector('a.dropdown-item'), 'CharacterGen', 'https://character.dndgen.com/api/swagger/ui');
-      assertLink(children?.item(3).querySelector('a.dropdown-item'), 'EncounterGen', 'https://encounter.dndgen.com/api/swagger/ui');
-      assertLink(children?.item(4).querySelector('a.dropdown-item'), 'DungeonGen', 'https://dungeon.dndgen.com/api/swagger/ui');
+      assertLink(children?.item(0).querySelector('a.dropdown-item'), 'RollGen', 'https://roll.dndgen.com/api/swagger/ui', true);
+      assertLink(children?.item(1).querySelector('a.dropdown-item'), 'TreasureGen', 'https://treasure.dndgen.com/api/swagger/ui', true);
+      assertLink(children?.item(2).querySelector('a.dropdown-item'), 'CharacterGen', 'https://character.dndgen.com/api/swagger/ui', true);
+      assertLink(children?.item(3).querySelector('a.dropdown-item'), 'EncounterGen', 'https://encounter.dndgen.com/api/swagger/ui', true);
+      assertLink(children?.item(4).querySelector('a.dropdown-item'), 'DungeonGen', 'https://dungeon.dndgen.com/api/swagger/ui', true);
     });
   
     it('should render the link to the official Dungeons & Dragons website', () => {
       fixture.detectChanges();
       const compiled = fixture.nativeElement as HTMLElement;
   
-      const officialLink = compiled.querySelector('#officialLink > a.nav-link');
-      expect(officialLink).toBeDefined();
-      expect(officialLink?.textContent).toEqual('Official D&D Site');
-      expect(officialLink?.getAttribute('href')).toEqual('http://dnd.wizards.com/');
+      assertLink(compiled.querySelector('#officialLink > a.nav-link'), 'Official D&D Site', 'http://dnd.wizards.com/', true);
     });
   });
 });

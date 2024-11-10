@@ -26,6 +26,7 @@ import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
 import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
+import { provideLocationMocks } from "@angular/common/testing";
 
 export class TestHelper<T> {
   constructor(
@@ -40,6 +41,7 @@ export class TestHelper<T> {
           provideHttpClient(withInterceptorsFromDi()),
           { provide: 'APP_ID', useValue: 'dndgen-web' },
           provideRouter(routes),
+          provideLocationMocks(),
           BonusPipe, BonusesPipe
       ]
     }).compileComponents();

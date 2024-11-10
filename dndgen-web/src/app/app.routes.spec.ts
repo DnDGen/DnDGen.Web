@@ -10,7 +10,7 @@ import { TreasureGenComponent } from './treasure/components/treasuregen.componen
 describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(8);
+      expect(routes.length).toEqual(9);
     });
     
     it('should contain default route', () => {
@@ -26,6 +26,14 @@ describe('App Routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('home');
       expect(route?.redirectTo).toEqual('/');
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain explicit error route', () => {
+      let route = routes.find(r => r.path == 'error');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('error');
+      expect(route?.component).toEqual(ErrorComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     
@@ -69,7 +77,7 @@ describe('App Routes', () => {
       expect(route?.pathMatch).toEqual('full');
     });
     
-    it('should contain error route', () => {
+    it('should contain catch-all error route', () => {
       let route = routes.find(r => r.path == '**');
       expect(route).toBeDefined();
       expect(route?.path).toEqual('**');
