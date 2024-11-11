@@ -482,6 +482,26 @@ export class TestHelper<T> {
     checkbox.click();
   }
 
+  public expectLink(element: Element | null | undefined, text: string, link: string, external: boolean) {
+    expect(element).toBeTruthy();
+    expect(element!.textContent).toEqual(text);
+    expect(element!.getAttribute('href')).toEqual(link);
+    
+    if (external) {
+      expect(element!.getAttribute('target')).toBe('_blank');
+    } else {
+      expect(element!.hasAttribute('target')).toBeFalse();
+    }
+  }
+
+  public clickLink(selector: string) {
+    this.expectExists(selector);
+
+    const link = this.compiled.querySelector(selector) as HTMLAnchorElement;
+
+    link.click();
+  }
+
   public async waitForService() {
     this.fixture.detectChanges();
     await this.fixture.whenStable();

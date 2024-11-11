@@ -7,12 +7,14 @@ fdescribe('App Component', () => {
   describe('integration', () => {
     let fixture: ComponentFixture<AppComponent>;
     let harness: RouterTestingHarness;
+    let helper: TestHelper<AppComponent>;
   
     beforeEach(async () => {
       await TestHelper.configureTestBed([AppComponent]);
   
       fixture = TestBed.createComponent(AppComponent);
       harness = await RouterTestingHarness.create();
+      helper = new TestHelper(fixture);
     });
   
     it('should create the app', () => {
@@ -100,7 +102,9 @@ fdescribe('App Component', () => {
 
       describe('by navigation', () => {
         it('routes to the root page', async () => {
+          helper.clickLink('#rootLink');
           expect('NOT YET WRITTEN').toBeFalsy();
+
           const component = await harness.navigateByUrl('/');
           const heading = harness.routeNativeElement?.querySelector('h1');
           expect(heading?.textContent).toBe('Welcome!');
