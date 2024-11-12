@@ -12,7 +12,6 @@ import { TreasureComponent } from "./treasure/components/treasure.component";
 import { CharacterComponent } from "./character/components/character.component";
 import { Character } from "./character/models/character.model";
 import { DebugElement, importProvidersFrom } from "@angular/core";
-import { Observable } from "rxjs";
 import { EncounterComponent } from "./encounter/components/encounter.component";
 import { Encounter } from "./encounter/models/encounter.model";
 import { FormsModule } from "@angular/forms";
@@ -491,18 +490,6 @@ export class TestHelper<T> {
       this.expectAttribute(selector, 'target', '_blank');
     } else {
       this.expectHasAttribute(selector, 'target', false);
-    }
-  }
-
-  public expectLinkOLD(element: Element | null | undefined, text: string, link: string, external: boolean) {
-    expect(element).toBeTruthy();
-    expect(element!.textContent).toEqual(text);
-    expect(element!.getAttribute('href')).toEqual(link);
-    
-    if (external) {
-      expect(element!.getAttribute('target')).toBe('_blank');
-    } else {
-      expect(element!.hasAttribute('target')).toBeFalse();
     }
   }
 

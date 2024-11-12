@@ -1,6 +1,6 @@
 @if (hasDetails) {
-    <a class="details-header" href="#{{id}}" role="button" data-bs-toggle="collapse">{{heading}}</a>
-    <div class="details-section collapse" id="{{id}}">
+    <a class="details-header" role="button" (click)="collapse.toggle()">{{heading}}</a>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="collapsed" class="details-section">
         <ng-content></ng-content>
     </div>
 } @else {
