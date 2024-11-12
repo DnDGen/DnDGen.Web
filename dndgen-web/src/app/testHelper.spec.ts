@@ -483,7 +483,18 @@ export class TestHelper<T> {
     checkbox.click();
   }
 
-  public expectLink(element: Element | null | undefined, text: string, link: string, external: boolean) {
+  public expectLink(selector: string, text: string, link: string, external: boolean) {
+    this.expectTextContent(selector, text);
+    this.expectAttribute(selector, 'href', link);
+    
+    if (external) {
+      this.expectAttribute(selector, 'target', '_blank');
+    } else {
+      this.expectHasAttribute(selector, 'target', false);
+    }
+  }
+
+  public expectLinkOLD(element: Element | null | undefined, text: string, link: string, external: boolean) {
     expect(element).toBeTruthy();
     expect(element!.textContent).toEqual(text);
     expect(element!.getAttribute('href')).toEqual(link);

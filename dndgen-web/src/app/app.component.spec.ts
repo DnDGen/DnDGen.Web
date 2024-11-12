@@ -27,16 +27,12 @@ describe('App Component', () => {
   
     it('should render the navigation bar', () => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
-
-      const navbarBrand = compiled.querySelector('a.navbar-brand');
-      helper.expectLink(navbarBrand, 'DnDGen', '/', false);
+      helper.expectLink('a.navbar-brand', 'DnDGen', '/', false);
     });
   
     it('should render the router outlet', () => {
       fixture.detectChanges();
-      const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('router-outlet')).toBeTruthy();
+      helper.expectExists('router-outlet');
     });
 
     describe('routing', () => {
