@@ -27,6 +27,7 @@ import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.c
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
 import { provideLocationMocks } from "@angular/common/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
 export class TestHelper<T> {
   constructor(
