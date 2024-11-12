@@ -1,43 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
-import { UuidService } from '../services/uuid.service';
 import { TestHelper } from '../../testHelper.spec';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('Details Component', () => {
   describe('unit', () => {
     let component: DetailsComponent;
-    let idServiceSpy: jasmine.SpyObj<UuidService>;
     
     beforeEach(() => {
-      idServiceSpy = jasmine.createSpyObj('UuidService', ['generate']);
-      
-      component = new DetailsComponent(idServiceSpy);
+      component = new DetailsComponent();
     });
 
     it('initializes the inputs', () => {
-      expect(component.hasDetails).toBe(false);
+      expect(component.hasDetails).toBeFalse();
       expect(component.heading).toBe('');
     });
 
-    it('sets a random id', () => {
-      idServiceSpy.generate.and.returnValue('my-fake-id');
-
-      component.ngOnInit();
-
-      expect(component.id).toEqual('details-my-fake-id');
-    });
-
-    it('sets distinct ids for multiple components', () => {
-      idServiceSpy.generate.and.returnValues('my-fake-id-1', 'my-fake-id-2');
-
-      const otherComponent = new DetailsComponent(idServiceSpy);
-      
-      component.ngOnInit();
-      otherComponent.ngOnInit();
-
-      expect(component.id).toEqual('details-my-fake-id-1');
-      expect(otherComponent.id).toEqual('details-my-fake-id-2');
-      expect(component.id).not.toEqual(otherComponent.id);
+    it('initializes as collapsed', () => {
+      expect(component.collapsed).toBeTrue();
     });
   });
 
@@ -46,13 +26,10 @@ describe('Details Component', () => {
     let helper: TestHelper<DetailsComponent>;
   
     beforeEach(async () => {
-      await TestHelper.configureTestBed([DetailsComponent]);
+      await TestHelper.configureTestBed([NoopAnimationsModule, DetailsComponent]);
   
       fixture = TestBed.createComponent(DetailsComponent);
       helper = new TestHelper(fixture);
-      
-      //run ngOnInit
-      await helper.waitForService();
     });
 
     it('should create the details component', () => {
@@ -60,8 +37,8 @@ describe('Details Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should set the id on init', () => {
-      expect(fixture.componentInstance.id).toMatch(/^details-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+    it('should be collapsed on init', () => {
+      expect(fixture.componentInstance.collapsed).toBeTrue();
     });
   
     it('should set the heading - no details', () => {
@@ -86,21 +63,7 @@ describe('Details Component', () => {
       helper.expectExists('span.no-details-header', false);
       helper.expectExists('a.details-header', true);
       helper.expectExists('div.details-section', true);
-      helper.expectExists(`#${fixture.componentInstance.id}`, true);
       helper.expectElement('a.details-header', 'my heading');
-      helper.expectAttribute('a.details-header', 'href', `#${fixture.componentInstance.id}`);
-      helper.expectAttribute('a.details-header', 'data-bs-toggle', 'collapse');
-      helper.expectAttributeContains(`#${fixture.componentInstance.id}`, 'class', 'collapse');
-    });
-
-    it('should set distinct ids for multiple components', async () => {
-      const otherFixture = TestBed.createComponent(DetailsComponent);
-      helper = new TestHelper(otherFixture);
-      
-      //run ngOnInit
-      await helper.waitForService();
-
-      expect(fixture.componentInstance.id).not.toEqual(otherFixture.componentInstance.id);
     });
 
     it('should toggle the detail visibility', async () => {
@@ -111,60 +74,71 @@ describe('Details Component', () => {
       
       helper.expectExists('span.no-details-header', false);
       helper.expectExists('a.details-header', true);
-      helper.expectExists('div.details-section', true);
-      helper.expectExists(`#${fixture.componentInstance.id}`, true);
-      helper.expectAttribute(`#${fixture.componentInstance.id}`, 'class', 'details-section collapse');
+      helper.expectExists(`div.details-section`, true);
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
-      clickLink('a.details-header');
+      helper.clickLink('a.details-header');
       fixture.detectChanges();
       
-      helper.expectAttribute(`#${fixture.componentInstance.id}`, 'class', 'details-section collapsing');
-
-      //TODO: Figure out how to get collapsing to finish, so we can test 'show;
-      // await helper.waitForService();
-      // await fixture.whenRenderingDone();
+      // TODO: Figure out how to disable the ng-bootstrap animations. NoopAnimationsModule doesn't seem to work
+      // helper.expectAttribute(`div.details-section`, 'class', 'details-section show');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapsing');
+      
+      // helper.clickLink('a.details-header');
       // fixture.detectChanges();
-
-      // details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
-      // expect(details).toBeDefined();
-      // expect(details?.getAttribute('class')).toEqual('show');
       
-      // clickLink('div.details-section > a');
-      // fixture.detectChanges();
-
-      // details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
-      // expect(details).toBeDefined();
-      // expect(details?.getAttribute('class')).toEqual('collapsing');
-      
-      // await helper.waitForService();
-      
-      // details = compiled.querySelector('div.details-section > #' + fixture.componentInstance.id);
-      // expect(details).toBeDefined();
-      // expect(details?.getAttribute('class')).toEqual('collapse');
+      // helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
     });
 
-    function clickLink(selector: string) {
-      helper.expectHasAttribute(selector, 'disabled', false);
+    // TODO: Do this after figuring out how to properly disable animations
+    xit('should distinctly toggle the detail visibility', () => {
+      const otherFixture = TestBed.createComponent(DetailsComponent);
+      const otherHelper = new TestHelper(otherFixture);
 
-      const compiled = fixture.nativeElement as HTMLElement;
-      const link = compiled!.querySelector(selector) as HTMLLinkElement;
+      otherFixture.componentInstance.heading = "my other heading";
+      otherFixture.componentInstance.hasDetails = true;
+      
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
+      
+      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
-      link.click();
-    }
+      helper.clickLink('a.details-header');
+      fixture.detectChanges();
+      
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section show');
+      
+      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
-    xit('should distinctly toggle the detail visibility', async () => {
-      //TODO: Setup fake component with 2 details child components
-      //TODO: Setup both children to have details
-      //TODO: Expect both hidden
-      //TODO: click the link for child 1
-      //TODO: Expect visible child 1, hidden child 2
-      //TODO: click the link for child 1 again
-      //TODO: expect both hidden
-      //TODO: click link for child 2
-      //TODO: expect hidden child 1, visible child 2
-      //TODO: click link for child 2 again
-      //TODO: Expect both hidden again
-      expect('set up 2 components within a parent (fake component), click one, verify other does not toggle. Then do reverse').toBe('');
+      helper.clickLink('a.details-header');
+      fixture.detectChanges();
+      
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
+      
+      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
+
+      otherHelper.clickLink('a.details-header');
+      fixture.detectChanges();
+      
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
+      
+      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section show');
+
+      otherHelper.clickLink('a.details-header');
+      fixture.detectChanges();
+      
+      helper.expectElement('a.details-header', 'my heading');
+      helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
+      
+      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
     });
   });
 });

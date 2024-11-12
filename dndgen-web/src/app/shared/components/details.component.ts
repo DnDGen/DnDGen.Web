@@ -1,26 +1,18 @@
-import { Input, Component, OnInit } from '@angular/core';
-import { UuidService } from '../services/uuid.service';
+import { Input, Component } from '@angular/core';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-details',
     templateUrl: './details.component.html',
-    providers: [
-        UuidService
+    imports: [
+      NgbCollapseModule,
     ],
     standalone: true
 })
 
-export class DetailsComponent implements OnInit {
-  constructor(
-    private idService: UuidService
-  ) { }
-
+export class DetailsComponent {
   @Input() heading: string = '';
   @Input() hasDetails: boolean = false;
 
-  public id: string = '';
-
-  ngOnInit(): void {
-    this.id = 'details-' + this.idService.generate();
-  }
+  public collapsed: boolean = true;
 }

@@ -12,7 +12,6 @@ import { TreasureComponent } from "./treasure/components/treasure.component";
 import { CharacterComponent } from "./character/components/character.component";
 import { Character } from "./character/models/character.model";
 import { DebugElement, importProvidersFrom } from "@angular/core";
-import { Observable } from "rxjs";
 import { EncounterComponent } from "./encounter/components/encounter.component";
 import { Encounter } from "./encounter/models/encounter.model";
 import { FormsModule } from "@angular/forms";
@@ -26,6 +25,8 @@ import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
 import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
+import { provideLocationMocks } from "@angular/common/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
 export class TestHelper<T> {
   constructor(
@@ -40,6 +41,7 @@ export class TestHelper<T> {
           provideHttpClient(withInterceptorsFromDi()),
           { provide: 'APP_ID', useValue: 'dndgen-web' },
           provideRouter(routes),
+          provideLocationMocks(),
           BonusPipe, BonusesPipe
       ]
     }).compileComponents();
@@ -478,6 +480,25 @@ export class TestHelper<T> {
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
 
     checkbox.click();
+  }
+
+  public expectLink(selector: string, text: string, link: string, external: boolean) {
+    this.expectTextContent(selector, text);
+    this.expectAttribute(selector, 'href', link);
+    
+    if (external) {
+      this.expectAttribute(selector, 'target', '_blank');
+    } else {
+      this.expectHasAttribute(selector, 'target', false);
+    }
+  }
+
+  public clickLink(selector: string) {
+    this.expectExists(selector);
+
+    const link = this.compiled.querySelector(selector) as HTMLAnchorElement;
+
+    link.click();
   }
 
   public async waitForService() {
