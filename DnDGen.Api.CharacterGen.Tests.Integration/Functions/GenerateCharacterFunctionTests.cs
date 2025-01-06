@@ -2397,21 +2397,69 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 var response = await function.Run(request);
                 Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Body, Is.Not.Null);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                    Assert.That(response.Body, Is.Not.Null);
+                });
 
                 var character = StreamHelper.Read<Character>(response.Body);
                 Assert.That(character, Is.Not.Null);
-                Assert.That(character.Summary, Is.Not.Empty);
-                Assert.That(character.Alignment.Full, Is.Not.Empty);
-                Assert.That(character.Class.Level, Is.AtLeast(1));
-                Assert.That(character.Class.Summary, Is.Not.Empty);
-                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(character.Summary, Is.Not.Empty);
+                    Assert.That(character.Alignment.Full, Is.Not.Empty);
+                    Assert.That(character.Class.Level, Is.Positive);
+                    Assert.That(character.Class.Summary, Is.Not.Empty);
+                    Assert.That(character.Race.Summary, Is.Not.Empty);
+                });
 
                 hasMeta = character.Race.Metarace != RaceConstants.Metaraces.None;
             }
 
             Assert.That(hasMeta, Is.False);
+        }
+
+        [Test]
+        public async Task BUG_GenerateCharacter_ReturnsCharacter_SpellsCanHaveMultipleSources()
+        {
+            var queryString = "abilitiesRandomizerType=Raw";
+            queryString += "&alignmentRandomizerType=Any";
+            queryString += "&classNameRandomizerType=set";
+            queryString += "&setClassName=cleric";
+            queryString += "&levelRandomizerType=medium";
+            queryString += "&baseRaceRandomizerType=Any+Base";
+            queryString += "&metaraceRandomizerType=Any+Meta";
+            queryString += "&forceMetarace=false";
+            queryString += "&allowAbilityAdjustments=true";
+            queryString += "&allowLevelAdjustments=true";
+
+            var url = GetUrl(queryString);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+
+            var response = await function.Run(request);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
+
+            var character = StreamHelper.Read<Character>(response.Body);
+            Assert.That(character, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.Positive);
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Magic.KnownSpells, Is.Not.Empty);
+                Assert.That(character.Magic.KnownSpells.Any(s => s.Sources.Count > 1), Is.True);
+                Assert.That(character.Magic.PreparedSpells, Is.Not.Empty);
+                Assert.That(character.Magic.PreparedSpells.Any(s => s.Sources.Count > 1), Is.True);
+            });
         }
     }
 }
