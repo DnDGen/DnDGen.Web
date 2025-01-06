@@ -472,6 +472,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
                 RaceConstants.BaseRaces.MindFlayer,
                 RaceConstants.BaseRaces.Minotaur,
                 RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Mummy,
                 RaceConstants.BaseRaces.Ogre,
                 RaceConstants.BaseRaces.OgreMage,
                 RaceConstants.BaseRaces.Orc,
@@ -635,14 +636,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Validators
                 RaceConstants.Metaraces.HalfDragon,
                 RaceConstants.Metaraces.HalfFiend,
                 RaceConstants.Metaraces.Lich,
-                RaceConstants.Metaraces.Mummy,
                 RaceConstants.Metaraces.None,
                 RaceConstants.Metaraces.Vampire,
                 RaceConstants.Metaraces.Werebear,
                 RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wereboar_Dire,
                 RaceConstants.Metaraces.Wererat,
                 RaceConstants.Metaraces.Weretiger,
                 RaceConstants.Metaraces.Werewolf,
+                RaceConstants.Metaraces.Werewolf_Dire,
             };
 
             var result = CharacterValidator.GetValid(req);

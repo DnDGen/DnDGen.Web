@@ -27,6 +27,11 @@
                 "glob": "**/*.svg",
                 "input": "src/assets/",
                 "output": "/assets/"
+              },
+              {
+                "glob": "**/*.png",
+                "input": "src/assets/",
+                "output": "/assets/"
               }
             ],
             "styles": [
@@ -89,6 +94,11 @@
             "assets": [
               {
                 "glob": "**/*.svg",
+                "input": "src/assets/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "**/*.png",
                 "input": "src/assets/",
                 "output": "/assets/"
               }

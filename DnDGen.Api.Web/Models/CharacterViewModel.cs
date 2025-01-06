@@ -112,6 +112,7 @@ namespace DnDGen.Api.Web.Models
                 RaceConstants.BaseRaces.MindFlayer,
                 RaceConstants.BaseRaces.Minotaur,
                 RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Mummy,
                 RaceConstants.BaseRaces.Ogre,
                 RaceConstants.BaseRaces.OgreMage,
                 RaceConstants.BaseRaces.Orc,
@@ -197,13 +198,14 @@ namespace DnDGen.Api.Web.Models
                 RaceConstants.Metaraces.HalfDragon,
                 RaceConstants.Metaraces.HalfFiend,
                 RaceConstants.Metaraces.Lich,
-                RaceConstants.Metaraces.Mummy,
                 RaceConstants.Metaraces.Vampire,
                 RaceConstants.Metaraces.Werebear,
                 RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wereboar_Dire,
                 RaceConstants.Metaraces.Wererat,
                 RaceConstants.Metaraces.Weretiger,
                 RaceConstants.Metaraces.Werewolf,
+                RaceConstants.Metaraces.Werewolf_Dire,
             ];
 
             AbilitiesRandomizerTypes =

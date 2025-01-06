@@ -1851,10 +1851,11 @@
 													"    pm.expect(character.class.level).to.be.at.least(1);\r",
 													"    pm.expect(character.race.summary).to.not.be.empty;\r",
 													"\r",
-													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Azer\", \"Blue Slaad\", \"Bugbear\", \"Centaur\", \"Cloud Giant\", \"Death Slaad\", \"Doppelganger\", \"Fire Giant\", \"Frost Giant\", \"Gargoyle\", \"Githyanki\", \"Githzerai\", \"Gnoll\", \"Goblin\", \"Gray Slaad\", \"Green Slaad\", \"Grimlock\", \"Harpy\", \"Hobgoblin\", \"Hound Archon\", \"Janni\", \"Kapoacinth\", \"Kobold\", \"Kuo-toa\", \"Lizardfolk\", \"Locathah\", \"Merfolk\", \"Merrow\", \"Ogre\", \"Troll\", \"Scrag\", \"Ogre Mage\", \"Orc\", \"Pixie\", \"Rakshasa\", \"Red Slaad\", \"Sahuagin\", \"Satyr\", \"Scorpionfolk\", \"Storm Giant\", \"Stone Giant\", \"Troglodyte\", \"Yuan-ti Pureblood\", \"Yuan-ti Halfblood\", \"Yuan-ti Abomination\", \"Hill Giant\"]);\r",
+													"    pm.expect(character.race.baseRace).to.be.oneOf([\"Azer\", \"Blue Slaad\", \"Bugbear\", \"Centaur\", \"Cloud Giant\", \"Death Slaad\", \"Doppelganger\", \"Fire Giant\", \"Frost Giant\", \"Gargoyle\", \"Githyanki\", \"Githzerai\", \"Gnoll\", \"Goblin\", \"Gray Slaad\", \"Green Slaad\", \"Grimlock\", \"Harpy\", \"Hobgoblin\", \"Hound Archon\", \"Janni\", \"Kapoacinth\", \"Kobold\", \"Kuo-toa\", \"Lizardfolk\", \"Locathah\", \"Merfolk\", \"Merrow\", \"Minotaur\", \"Mummy\", \"Ogre\", \"Troll\", \"Scrag\", \"Ogre Mage\", \"Orc\", \"Pixie\", \"Rakshasa\", \"Red Slaad\", \"Sahuagin\", \"Satyr\", \"Scorpionfolk\", \"Storm Giant\", \"Stone Giant\", \"Troglodyte\", \"Yuan-ti Pureblood\", \"Yuan-ti Halfblood\", \"Yuan-ti Abomination\", \"Hill Giant\"]);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2245,13 +2246,14 @@
 													"\r",
 													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
 													"        \"\", \r",
-													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\",\r",
+													"        \"Ghost\", \"Lich\", \"Vampire\",\r",
 													"        \"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\",\r",
-													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\", \"Dire Wereboar\", \"Dire Werewolf\"\r",
 													"    ]);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2299,13 +2301,14 @@
 													"    pm.expect(character.race.summary).to.not.be.empty;\r",
 													"\r",
 													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
-													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\",\r",
+													"        \"Ghost\", \"Lich\", \"Vampire\",\r",
 													"        \"Half-Celestial\", \"Half-Dragon\", \"Half-Fiend\",\r",
-													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\", \"Dire Wereboar\", \"Dire Werewolf\"\r",
 													"    ]);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2411,11 +2414,12 @@
 													"\r",
 													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
 													"        \"\", \r",
-													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\"\r",
+													"        \"Werebear\", \"Wereboar\", \"Wererat\", \"Weretiger\", \"Werewolf\", \"Dire Wereboar\", \"Dire Werewolf\"\r",
 													"    ]);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2464,11 +2468,12 @@
 													"\r",
 													"    pm.expect(character.race.metarace).to.be.oneOf([\r",
 													"        \"\", \r",
-													"        \"Ghost\", \"Mummy\", \"Lich\", \"Vampire\"\r",
+													"        \"Ghost\", \"Lich\", \"Vampire\"\r",
 													"    ]);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],

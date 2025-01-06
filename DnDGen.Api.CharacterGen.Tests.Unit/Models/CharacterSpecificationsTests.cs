@@ -371,6 +371,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             RaceConstants.BaseRaces.MindFlayer,
             RaceConstants.BaseRaces.Minotaur,
             RaceConstants.BaseRaces.MountainDwarf,
+            RaceConstants.BaseRaces.Mummy,
             RaceConstants.BaseRaces.Ogre,
             RaceConstants.BaseRaces.OgreMage,
             RaceConstants.BaseRaces.Orc,
@@ -479,14 +480,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                     RaceConstants.Metaraces.HalfDragon,
                     RaceConstants.Metaraces.HalfFiend,
                     RaceConstants.Metaraces.Lich,
-                    RaceConstants.Metaraces.Mummy,
                     RaceConstants.Metaraces.None,
                     RaceConstants.Metaraces.Vampire,
                     RaceConstants.Metaraces.Werebear,
                     RaceConstants.Metaraces.Wereboar,
+                    RaceConstants.Metaraces.Wereboar_Dire,
                     RaceConstants.Metaraces.Wererat,
                     RaceConstants.Metaraces.Weretiger,
                     RaceConstants.Metaraces.Werewolf,
+                    RaceConstants.Metaraces.Werewolf_Dire,
                 };
 
                 foreach (var metarace in metaraces)
@@ -1029,10 +1031,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             var valid = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetMetarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
+            Assert.Multiple(() =>
+            {
+                Assert.That(valid.Valid, Is.True);
+                Assert.That(valid.Error, Is.Empty);
+                Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetMetarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
+            });
         }
 
         [Test]
@@ -1050,20 +1055,24 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 RaceConstants.Metaraces.HalfDragon,
                 RaceConstants.Metaraces.HalfFiend,
                 RaceConstants.Metaraces.Lich,
-                RaceConstants.Metaraces.Mummy,
                 RaceConstants.Metaraces.None,
                 RaceConstants.Metaraces.Vampire,
                 RaceConstants.Metaraces.Werebear,
                 RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wereboar_Dire,
                 RaceConstants.Metaraces.Wererat,
                 RaceConstants.Metaraces.Weretiger,
                 RaceConstants.Metaraces.Werewolf,
+                RaceConstants.Metaraces.Werewolf_Dire,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"SetMetarace is not valid. Should be one of: [{string.Join(", ", metaraces)}]"));
-            Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetMetarace, Is.EqualTo(CharacterSpecifications.InvalidMetarace));
+            Assert.Multiple(() =>
+            {
+                Assert.That(valid.Valid, Is.False);
+                Assert.That(valid.Error, Is.EqualTo($"SetMetarace is not valid. Should be one of: [{string.Join(", ", metaraces)}]"));
+                Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetMetarace, Is.EqualTo(CharacterSpecifications.InvalidMetarace));
+            });
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]

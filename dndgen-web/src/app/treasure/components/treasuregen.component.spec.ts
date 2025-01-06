@@ -19,6 +19,8 @@ import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
 import { Size } from '../../shared/components/size.enum';
 import { TestHelper } from '../../testHelper.spec';
+import { Armor } from '../models/armor.model';
+import { Weapon } from '../models/weapon.model';
 
 describe('TreasureGen Component', () => {
   describe('unit', () => {
@@ -898,6 +900,34 @@ describe('TreasureGen Component', () => {
 
       expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
       expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item description)');
+    });
+
+    it('BUG - should download armor', () => {
+      let item = new Armor('my armor', 'Armor');
+      item.description = 'my armor description'
+
+      component.item = item;
+
+      itemPipeSpy.transform.and.returnValue('my formatted armor');
+
+      component.downloadItem();
+
+      expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted armor', 'Item (my armor description)');
+    });
+
+    it('BUG - should download weapon', () => {
+      let item = new Weapon('my weapon', 'Weapon');
+      item.description = 'my weapon description'
+
+      component.item = item;
+
+      itemPipeSpy.transform.and.returnValue('my formatted weapon');
+
+      component.downloadItem();
+
+      expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted weapon', 'Item (my weapon description)');
     });
 
     it('should not download missing item', () => {
@@ -1988,6 +2018,78 @@ describe('TreasureGen Component', () => {
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
       expect(text).toEqual('my item\r\n');
+    });
+    
+    it(`BUG - should download armor`, async () => {
+      //Even for an integration test, we don't want to create an actual file
+      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+
+      let armor = new Armor('my armor', 'Armor');
+      armor.description = 'my armor description';
+      armor.size = 'Medium';
+      armor.totalArmorBonus = 9;
+      armor.totalArmorCheckPenalty = -2;
+      armor.totalMaxDexterityBonus = 6;
+
+      fixture.componentInstance.item = armor as Item;
+      fixture.detectChanges();
+
+      helper.clickButton('#downloadItemButton');
+
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(
+        jasmine.any(Blob),
+        jasmine.stringMatching(/^Item \(my armor description\)\.txt$/));
+      
+      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const text = await blob.text();
+      const lines = text.split('\r\n');
+      const expected = [
+        'my armor',
+        '\t' + 'Armor:',
+        '\t\t' + 'Size: Medium',
+        '\t\t' + 'Armor Bonus: 9',
+        '\t\t' + 'Armor Check Penalty: -2',
+        '\t\t' + 'Max Dexterity Bonus: 6',
+        '',
+      ];
+      TestHelper.expectLines(lines, expected);
+    });
+    
+    it(`BUG - should download weapon`, async () => {
+      //Even for an integration test, we don't want to create an actual file
+      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+
+      let weapon = new Weapon('my weapon', 'Weapon');
+      weapon.description = 'my weapon description';
+      weapon.size = 'Medium';
+      weapon.combatTypes = ['melee', 'ranged'];
+      weapon.damageDescription = 'my damage description';
+      weapon.threatRangeDescription = 'my threat range description';
+      weapon.criticalDamageDescription = 'my critical damage description';
+
+      fixture.componentInstance.item = weapon as Item;
+      fixture.detectChanges();
+
+      helper.clickButton('#downloadItemButton');
+
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(
+        jasmine.any(Blob),
+        jasmine.stringMatching(/^Item \(my weapon description\)\.txt$/));
+      
+      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const text = await blob.text();
+      const lines = text.split('\r\n');
+      const expected = [
+          'my weapon',
+          '\t' + 'Weapon:',
+          '\t\t' + 'Size: Medium',
+          '\t\t' + 'Combat Types: melee, ranged',
+          '\t\t' + 'Damage: my damage description',
+          '\t\t' + 'Threat Range: my threat range description',
+          '\t\t' + 'Critical Damage: my critical damage description',
+          '',
+      ];
+      TestHelper.expectLines(lines, expected);
     });
   });
 });

@@ -118,9 +118,9 @@
 							"    pm.expect(model.classNames.length).to.equal(16);\r",
 							"    pm.expect(model.levelRandomizerTypes.length).to.equal(6);\r",
 							"    pm.expect(model.baseRaceRandomizerTypes.length).to.equal(7);\r",
-							"    pm.expect(model.baseRaces.length).to.equal(70);\r",
+							"    pm.expect(model.baseRaces.length).to.equal(71);\r",
 							"    pm.expect(model.metaraceRandomizerTypes.length).to.equal(6);\r",
-							"    pm.expect(model.metaraces.length).to.equal(12);\r",
+							"    pm.expect(model.metaraces.length).to.equal(13);\r",
 							"    pm.expect(model.abilitiesRandomizerTypes.length).to.equal(9);\r",
 							"});"
 						],

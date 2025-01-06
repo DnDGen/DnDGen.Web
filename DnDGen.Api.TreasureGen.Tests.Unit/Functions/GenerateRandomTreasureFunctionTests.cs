@@ -82,8 +82,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(treasure.Goods.First().Description));
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(treasure.Goods.Last().Description));
             Assert.That(responseTreasure.Items.Count(), Is.EqualTo(treasure.Items.Count()).And.EqualTo(2));
-            Assert.That(responseTreasure.Items.First().Description, Is.EqualTo(treasure.Items.First().Description));
-            Assert.That(responseTreasure.Items.Last().Description, Is.EqualTo(treasure.Items.Last().Description));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
@@ -117,8 +117,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(treasure.Goods.First().Description));
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(treasure.Goods.Last().Description));
             Assert.That(responseTreasure.Items.Count(), Is.EqualTo(treasure.Items.Count()).And.EqualTo(2));
-            Assert.That(responseTreasure.Items.First().Description, Is.EqualTo(treasure.Items.First().Description));
-            Assert.That(responseTreasure.Items.Last().Description, Is.EqualTo(treasure.Items.Last().Description));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
@@ -250,8 +250,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count()).And.EqualTo(2));
-            Assert.That(responseTreasure.Items.First().Description, Is.EqualTo(items.First().Description));
-            Assert.That(responseTreasure.Items.Last().Description, Is.EqualTo(items.Last().Description));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
@@ -276,9 +276,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
             Assert.That(responseTreasure.Goods, Is.Empty);
-            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count()).And.EqualTo(2));
-            Assert.That(responseTreasure.Items.First().Description, Is.EqualTo(items.First().Description));
-            Assert.That(responseTreasure.Items.Last().Description, Is.EqualTo(items.Last().Description));
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");

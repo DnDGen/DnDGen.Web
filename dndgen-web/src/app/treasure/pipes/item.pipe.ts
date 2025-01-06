@@ -40,14 +40,21 @@ export class ItemPipe implements PipeTransform {
 
       formattedItem += this.formatIntelligence(item.magic.intelligence, prefix + '\t');
 
-      if (item instanceof Armor) {
+      if (this.isArmor(item)) {
           formattedItem += this.formatArmor(item as Armor, prefix + '\t');
-      }
-      else if (item instanceof Weapon) {
+      } else if (this.isWeapon(item)) {
           formattedItem += this.formatWeapon(item as Weapon, prefix + '\t');
       }
 
       return formattedItem;
+  }
+
+  public isArmor(item: Item): boolean {
+    return item instanceof Armor || item.itemType == 'Armor';
+  }
+
+  public isWeapon(item: Item): boolean {
+    return item instanceof Weapon || item.itemType == 'Weapon';
   }
 
   private formatList(list: string[], title: string, prefix: string): string {

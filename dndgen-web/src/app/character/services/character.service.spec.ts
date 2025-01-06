@@ -41,18 +41,14 @@ describe('Character Service', () => {
         });
     
         let booleanCombos = [
-            {l: true, m: true, a: true},
-            {l: true, m: true, a: false},
-            {l: true, m: false, a: true},
-            {l: true, m: false, a: false},
-            {l: false, m: true, a: true},
-            {l: false, m: true, a: false},
-            {l: false, m: false, a: true},
-            {l: false, m: false, a: false},
+            {m: true, a: true},
+            {m: true, a: false},
+            {m: true, a: true},
+            {m: true, a: false},
         ];
 
         booleanCombos.forEach(test => {
-            it(`generates character - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, done => {
+            it(`generates character - metarace ${test.m}, abilities ${test.a}`, done => {
                 const expected = new Character('my character summary');
                 httpClientSpy.get.and.returnValue(of(expected));
                 let params = new HttpParams()
@@ -62,7 +58,6 @@ describe('Character Service', () => {
                     .set('setClassName', 'my class name')
                     .set('levelRandomizerType', 'my level randomizer')
                     .set('setLevel', 9266)
-                    .set('allowLevelAdjustments', test.l)
                     .set('baseRaceRandomizerType', 'my base race randomizer')
                     .set('setBaseRace', 'my base race')
                     .set('metaraceRandomizerType', 'my metarace randomizer')
@@ -85,7 +80,6 @@ describe('Character Service', () => {
                         'my class name',
                         'my level randomizer',
                         9266,
-                        test.l,
                         'my base race randomizer',
                         'my base race',
                         'my metarace randomizer',
@@ -106,7 +100,7 @@ describe('Character Service', () => {
                     });
             });
             
-            it(`validates a valid character - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, done => {
+            it(`validates a valid character - metarace ${test.m}, abilities ${test.a}`, done => {
                 httpClientSpy.get.and.returnValue(of(true));
                 let params = new HttpParams()
                     .set('alignmentRandomizerType', 'my alignment randomizer')
@@ -115,7 +109,6 @@ describe('Character Service', () => {
                     .set('setClassName', 'my class name')
                     .set('levelRandomizerType', 'my level randomizer')
                     .set('setLevel', 9266)
-                    .set('allowLevelAdjustments', test.l)
                     .set('baseRaceRandomizerType', 'my base race randomizer')
                     .set('setBaseRace', 'my base race')
                     .set('metaraceRandomizerType', 'my metarace randomizer')
@@ -130,7 +123,6 @@ describe('Character Service', () => {
                         'my class name',
                         'my level randomizer',
                         9266,
-                        test.l,
                         'my base race randomizer',
                         'my base race',
                         'my metarace randomizer',
@@ -143,7 +135,7 @@ describe('Character Service', () => {
                     });
             });
         
-            it(`validates an invalid character - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, done => {
+            it(`validates an invalid character - metarace ${test.m}, abilities ${test.a}`, done => {
                 httpClientSpy.get.and.returnValue(of(false));
                 let params = new HttpParams()
                     .set('alignmentRandomizerType', 'my alignment randomizer')
@@ -152,7 +144,6 @@ describe('Character Service', () => {
                     .set('setClassName', 'my class name')
                     .set('levelRandomizerType', 'my level randomizer')
                     .set('setLevel', 9266)
-                    .set('allowLevelAdjustments', test.l)
                     .set('baseRaceRandomizerType', 'my base race randomizer')
                     .set('setBaseRace', 'my base race')
                     .set('metaraceRandomizerType', 'my metarace randomizer')
@@ -167,7 +158,6 @@ describe('Character Service', () => {
                         'my class name',
                         'my level randomizer',
                         9266,
-                        test.l,
                         'my base race randomizer',
                         'my base race',
                         'my metarace randomizer',
@@ -216,7 +206,6 @@ describe('Character Service', () => {
                     '',
                     'Any',
                     0,
-                    true,
                     'Any Base',
                     '',
                     'Any Meta',
@@ -245,7 +234,6 @@ describe('Character Service', () => {
                     '',
                     'Low',
                     0,
-                    true,
                     'Any Base',
                     '',
                     'Any Meta',
@@ -285,7 +273,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -314,7 +301,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -335,7 +321,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -356,7 +341,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -377,7 +361,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -398,7 +381,6 @@ describe('Character Service', () => {
                     'Bad Class Name',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -419,7 +401,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Bad',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -440,7 +421,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     92,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -461,7 +441,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     21,
-                    true,
                     'Any Base',
                     'Half-Orc',
                     'Any Meta',
@@ -482,7 +461,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     20,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -503,7 +481,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Any',
                     1,
-                    true,
                     'Any Base',
                     'Aasimar',
                     'Set',
@@ -524,7 +501,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Any',
                     1,
-                    true,
                     'Any Base',
                     'Aasimar',
                     'Set',
@@ -545,7 +521,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Bad',
                     'Half-Orc',
                     'Set',
@@ -566,7 +541,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Bad Race',
                     'Set',
@@ -587,7 +561,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Bad',
@@ -608,7 +581,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',
@@ -629,7 +601,6 @@ describe('Character Service', () => {
                     'Fighter',
                     'Set',
                     9,
-                    true,
                     'Set',
                     'Half-Orc',
                     'Set',

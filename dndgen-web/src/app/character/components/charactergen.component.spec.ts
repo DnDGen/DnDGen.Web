@@ -62,7 +62,6 @@ describe('CharacterGen Component', () => {
       expect(component.setClassName).toEqual('');
       expect(component.levelRandomizerType).toEqual('');
       expect(component.setLevel).toEqual(1);
-      expect(component.allowLevelAdjustments).toEqual(true);
       expect(component.baseRaceRandomizerType).toEqual('');
       expect(component.setBaseRace).toEqual('');
       expect(component.metaraceRandomizerType).toEqual('');
@@ -85,7 +84,6 @@ describe('CharacterGen Component', () => {
       expect(component.setClassName).toEqual('class name 1');
       expect(component.levelRandomizerType).toEqual('level randomizer 1');
       expect(component.setLevel).toEqual(1);
-      expect(component.allowLevelAdjustments).toEqual(true);
       expect(component.baseRaceRandomizerType).toEqual('base race randomizer 1');
       expect(component.setBaseRace).toEqual('base race 1');
       expect(component.metaraceRandomizerType).toEqual('metarace randomizer 1');
@@ -196,7 +194,6 @@ describe('CharacterGen Component', () => {
           'class name 1',
           'level randomizer 1',
           1,
-          true,
           'base race randomizer 1',
           'base race 1',
           'metarace randomizer 1',
@@ -366,18 +363,14 @@ describe('CharacterGen Component', () => {
     });
 
     const randomizerBooleans = [
-      { a: true, l: true, m: true },
-      { a: true, l: true, m: false },
-      { a: true, l: false, m: true },
-      { a: true, l: false, m: false },
-      { a: false, l: true, m: true },
-      { a: false, l: true, m: false },
-      { a: false, l: false, m: true },
-      { a: false, l: false, m: false },
+      { a: true, m: true },
+      { a: true, m: false },
+      { a: false, m: true },
+      { a: false, m: false },
     ];
 
     randomizerBooleans.forEach(test => {
-      it(`should be validating while validating the randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be validating while validating the randomizers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         characterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
@@ -388,7 +381,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -404,7 +396,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -419,7 +410,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
   
-      it(`should validate valid randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should validate valid randomizers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         characterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
@@ -430,7 +421,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -446,7 +436,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -463,7 +452,7 @@ describe('CharacterGen Component', () => {
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
       }));
   
-      it(`should validate invalid randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should validate invalid randomizers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         characterServiceSpy.validate.and.callFake(() => getFakeDelay(false));
@@ -474,7 +463,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -490,7 +478,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -507,7 +494,7 @@ describe('CharacterGen Component', () => {
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
       }));
   
-      it(`should display error from validating randomizers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should display error from validating randomizers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         characterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
@@ -518,7 +505,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -544,7 +530,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -554,7 +539,7 @@ describe('CharacterGen Component', () => {
         expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
       }));
       
-      it(`should be generating while generating character - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -566,7 +551,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -590,7 +574,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -628,7 +611,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader without cohort or followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader without cohort or followers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -650,7 +633,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -674,7 +656,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -723,7 +704,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort but without followers - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort but without followers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -747,7 +728,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -771,7 +751,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -820,7 +799,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -852,7 +831,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -876,7 +854,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -926,7 +903,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -961,7 +938,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -985,7 +961,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -1035,7 +1010,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1074,7 +1049,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -1098,7 +1072,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -1148,7 +1121,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1192,7 +1165,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -1216,7 +1188,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -1266,7 +1237,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1316,7 +1287,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -1340,7 +1310,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -1390,7 +1359,7 @@ describe('CharacterGen Component', () => {
         flush();
       }));
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - level ${test.l}, metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1447,7 +1416,6 @@ describe('CharacterGen Component', () => {
         component.setClassName = 'my class name';
         component.levelRandomizerType = 'my level randomizer';
         component.setLevel = 9266;
-        component.allowLevelAdjustments = test.l;
         component.baseRaceRandomizerType = 'my base race randomizer';
         component.setBaseRace = 'my base race';
         component.metaraceRandomizerType = 'my metarace randomizer';
@@ -1471,7 +1439,6 @@ describe('CharacterGen Component', () => {
           'my class name',
           'my level randomizer',
           9266,
-          test.l,
           'my base race randomizer',
           'my base race',
           'my metarace randomizer',
@@ -1562,7 +1529,6 @@ describe('CharacterGen Component', () => {
         'class name 1',
         'level randomizer 1',
         1,
-        true,
         'base race randomizer 1',
         'base race 1',
         'metarace randomizer 1',
@@ -1600,7 +1566,6 @@ describe('CharacterGen Component', () => {
       component.setClassName = component.characterModel.classNames[1];
       component.levelRandomizerType = component.characterModel.levelRandomizerTypes[1];
       component.setLevel = 9266;
-      component.allowLevelAdjustments = false;
       component.baseRaceRandomizerType = component.characterModel.baseRaceRandomizerTypes[1];
       component.setBaseRace = component.characterModel.baseRaces[1];
       component.metaraceRandomizerType = component.characterModel.metaraceRandomizerTypes[1];
@@ -1624,7 +1589,6 @@ describe('CharacterGen Component', () => {
         'class name 2',
         'level randomizer 2',
         9266,
-        false,
         'base race randomizer 2',
         'base race 2',
         'metarace randomizer 2',
@@ -2389,7 +2353,6 @@ describe('CharacterGen Component', () => {
 
       expect(component.levelRandomizerType).toEqual(component.characterModel.levelRandomizerTypes[0]);
       expect(component.setLevel).toEqual(1);
-      expect(component.allowLevelAdjustments).toEqual(true);
 
       expect(component.baseRaceRandomizerType).toEqual(component.characterModel.baseRaceRandomizerTypes[0]);
       expect(component.setBaseRace).toEqual(component.characterModel.baseRaces[0]);
@@ -2459,7 +2422,6 @@ describe('CharacterGen Component', () => {
         helper.expectSelect('#character #setClassName', false, 'Barbarian', 16);
 
         helper.expectSelect('#character #levelRandomizerType', true, 'Any', 6);
-        helper.expectCheckboxInput('#character #levelAdjustCheckbox', false, true);
         helper.expectNumberInput('#character #setLevel', false, 1, 1, 20);
 
         helper.expectSelect('#character #baseRaceRandomizerType', true, 'Any Base', 7);
@@ -2725,16 +2687,6 @@ describe('CharacterGen Component', () => {
   
         expect(fixture.componentInstance.valid).toBeFalse();
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
-      }));
-    
-      it(`should validate when level adjustment changes`, waitForAsync(async () => {
-        helper.clickCheckbox('#levelAdjustCheckbox');
-  
-        fixture.detectChanges();
-  
-        expect(fixture.componentInstance.allowLevelAdjustments).toBeFalse();
-
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
       }));
     
       it(`should show that character is invalid - missing base race randomizer`, async () => {
@@ -3338,20 +3290,6 @@ describe('CharacterGen Component', () => {
         helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
       });
     
-      it(`should bind allowing level adjustments`, async () => {
-        expect(fixture.componentInstance.allowLevelAdjustments).toBeTrue();
-
-        helper.clickCheckbox('#levelAdjustCheckbox');
-
-        fixture.detectChanges();
-        expect(fixture.componentInstance.allowLevelAdjustments).toBeFalse();
-
-        helper.clickCheckbox('#levelAdjustCheckbox');
-
-        fixture.detectChanges();
-        expect(fixture.componentInstance.allowLevelAdjustments).toBeTrue();
-      });
-    
       it(`should bind forcing metaraces`, async () => {
         expect(fixture.componentInstance.forceMetarace).toBeFalse();
 
@@ -3431,7 +3369,6 @@ describe('CharacterGen Component', () => {
         helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Non-evil'));
         helper.setSelectByIndex('#classNameRandomizerType', fixture.componentInstance.characterModel.classNameRandomizerTypes.indexOf('Physical Combat'));
         helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Low'));
-        helper.setCheckbox('#levelAdjustCheckbox', false);
         helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Non-Monster Base'));
         helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Lycanthrope Meta'));
         helper.setCheckbox('#forceMetaraceCheckbox', true);
@@ -3491,7 +3428,6 @@ describe('CharacterGen Component', () => {
         helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
-        helper.setCheckbox('#levelAdjustCheckbox', false);
         helper.setInput('#setLevel', '4');
         helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
