@@ -25,6 +25,14 @@ describe('App Component', () => {
       expect(app.title).toEqual('DnDGen');
     });
   
+    it(`should have the 'DnDGen' icon`, () => {
+      fixture.detectChanges();
+      helper.expectAttribute('link', 'rel', 'icon');
+      helper.expectAttribute('link', 'type', 'image/png');
+      // helper.expectAttribute('link', 'href', '/assets/dndgen-icon.png');
+      helper.expectAttribute('link', 'href', 'https://theonlysheet.com/community/images/smilies/d20.png');
+    });
+  
     it('should render the navigation bar', () => {
       fixture.detectChanges();
       helper.expectLink('a.navbar-brand', 'DnDGen', '/', false);

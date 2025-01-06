@@ -1,4 +1,5 @@
-﻿import { Armor } from "../models/armor.model";
+﻿import { TestHelper } from "../../testHelper.spec";
+import { Armor } from "../models/armor.model";
 import { Item } from "../models/item.model";
 import { SpecialAbility } from "../models/specialAbility.model";
 import { Weapon } from "../models/weapon.model";
@@ -155,12 +156,7 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Max Dexterity Bonus: 42',
                 '',
             ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats armor with no max dexterity limitation', () => {
@@ -181,12 +177,7 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Armor Check Penalty: -90210',
                 '',
             ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats weapon', () => {
@@ -210,12 +201,7 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Critical Damage: over 9000',
                 '',
             ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats double weapon', () => {
@@ -244,12 +230,7 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Secondary Critical Damage: finish him',
                 '',
             ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats weapon requiring ammunition', () => {
@@ -275,12 +256,7 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Ammunition Used: needed ammo',
                 '',
             ];
-    
-            for (var i = 0; i < lines.length; i++) {
-                expect(lines[i]).toBe(expected[i]);
-            }
-    
-            expect(lines.length).toBe(expected.length);
+            TestHelper.expectLines(lines, expected);
         });
     
         it('formats item intelligence', () => {
