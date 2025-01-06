@@ -264,6 +264,152 @@ describe('Character Service', () => {
                 });
         }));
     
+        fit('BUG - generates character with known spells with multiple sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.knownSpells.length).toBeTruthy();
+
+                    let foundMultipleSources = false;
+
+                    for(let i = 0; i < character.magic.knownSpells.length; i++) {
+                        foundMultipleSources ||= character.magic.knownSpells[i].sources.length > 1;
+                    }
+
+                    expect(foundMultipleSources).toBeTrue();
+                });
+        }));
+    
+        fit('BUG - generates character with prepared spells with multiple sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.preparedSpells.length).toBeTruthy();
+
+                    let foundMultipleSources = false;
+
+                    for(let i = 0; i < character.magic.preparedSpells.length; i++) {
+                        foundMultipleSources ||= character.magic.preparedSpells[i].sources.length > 1;
+                    }
+
+                    expect(foundMultipleSources).toBeTrue();
+                });
+        }));
+    
+        fit('BUG - generates character with correct known spell sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.knownSpells.length).toBeTruthy();
+                    expect(character.magic.knownSpells[0].name).toBeTruthy();
+                    expect(character.magic.knownSpells[0].metamagic.length).toBeFalsy();
+                    expect(character.magic.knownSpells[0].sources.length).toBeTruthy();
+                    expect(character.magic.knownSpells[0].sources[0].source).toBeTruthy();
+                    expect(character.magic.knownSpells[0].sources[0].level).toBeGreaterThanOrEqual(0);
+                });
+        }));
+    
+        fit('BUG - generates character with correct prepared spell sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.preparedSpells.length).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].name).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].metamagic.length).toBeFalsy();
+                    expect(character.magic.preparedSpells[0].sources.length).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].sources[0].source).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].sources[0].level).toBeGreaterThanOrEqual(0);
+                });
+        }));
+    
         it('generates character with set values', waitForAsync(() => {
             characterService
                 .generate(

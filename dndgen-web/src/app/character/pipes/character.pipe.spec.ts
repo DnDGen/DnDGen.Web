@@ -22,6 +22,7 @@ import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 import { SpellQuantityPipe } from "./spellQuantity.pipe";
 import { TestHelper } from "../../testHelper.spec";
+import { SpellSource } from "../models/spellSource.model";
 
 describe('Character Pipe', () => {
     describe('unit', () => {
@@ -1474,14 +1475,14 @@ describe('Character Pipe', () => {
             ];
     
             character.magic.knownSpells = [
-                new Spell('my source', 0, 'spell 0.1', []),
-                new Spell('my source', 0, 'spell 0.2', []),
-                new Spell('my source', 1, 'spell 1.1', []),
-                new Spell('my source', 1, 'spell 1.2', []),
-                new Spell('my other source', 1, 'spell 2.1', []),
-                new Spell('my other source', 1, 'spell 2.2', []),
-                new Spell('my other source', 2, 'spell 3.1', []),
-                new Spell('my other source', 2, 'spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.2', []),
             ];
     
             var formattedCharacter = pipe.transform(character);
@@ -1584,29 +1585,29 @@ describe('Character Pipe', () => {
             ];
     
             character.magic.knownSpells = [
-                new Spell('my source', 0, 'spell 0.1', []),
-                new Spell('my source', 0, 'spell 0.2', []),
-                new Spell('my source', 1, 'spell 1.1', []),
-                new Spell('my source', 1, 'spell 1.2', []),
-                new Spell('my other source', 1, 'spell 2.1', []),
-                new Spell('my other source', 1, 'spell 2.2', []),
-                new Spell('my other source', 2, 'spell 3.1', []),
-                new Spell('my other source', 2, 'spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.2', []),
             ];
     
             character.magic.preparedSpells = [
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.2', []),
-                new Spell('my source', 1, 'prepared spell 1.1', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.1', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.2', []),
             ];
     
             var formattedCharacter = pipe.transform(character);
@@ -2318,29 +2319,29 @@ describe('Character Pipe', () => {
             ];
     
             character.magic.knownSpells = [
-                new Spell('my source', 0, 'spell 0.1', []),
-                new Spell('my source', 0, 'spell 0.2', []),
-                new Spell('my source', 1, 'spell 1.1', []),
-                new Spell('my source', 1, 'spell 1.2', []),
-                new Spell('my other source', 1, 'spell 2.1', []),
-                new Spell('my other source', 1, 'spell 2.2', []),
-                new Spell('my other source', 2, 'spell 3.1', []),
-                new Spell('my other source', 2, 'spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.2', []),
             ];
     
             character.magic.preparedSpells = [
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.2', []),
-                new Spell('my source', 1, 'prepared spell 1.1', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.1', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.2', []),
             ];
     
             character.magic.arcaneSpellFailure = 12;
@@ -2533,29 +2534,29 @@ describe('Character Pipe', () => {
             ];
     
             character.magic.knownSpells = [
-                new Spell('my source', 0, 'spell 0.1', []),
-                new Spell('my source', 0, 'spell 0.2', []),
-                new Spell('my source', 1, 'spell 1.1', []),
-                new Spell('my source', 1, 'spell 1.2', []),
-                new Spell('my other source', 1, 'spell 2.1', []),
-                new Spell('my other source', 1, 'spell 2.2', []),
-                new Spell('my other source', 2, 'spell 3.1', []),
-                new Spell('my other source', 2, 'spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'spell 3.2', []),
             ];
     
             character.magic.preparedSpells = [
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.1', []),
-                new Spell('my source', 0, 'prepared spell 0.2', []),
-                new Spell('my source', 1, 'prepared spell 1.1', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my source', 1, 'prepared spell 1.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.1', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 1, 'prepared spell 2.2', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.1', []),
-                new Spell('my other source', 2, 'prepared spell 3.2', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.1', []),
+                new Spell([new SpellSource('my source', 0)], 'prepared spell 0.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.1', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my source', 1)], 'prepared spell 1.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.1', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 1)], 'prepared spell 2.2', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.1', []),
+                new Spell([new SpellSource('my other source', 2)], 'prepared spell 3.2', []),
             ];
     
             character.magic.arcaneSpellFailure = 12;
