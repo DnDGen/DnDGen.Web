@@ -26,7 +26,7 @@ describe('Treasure Pipe', () => {
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.description + ':\r\n';
+            var formattedItem = prefix + item.summary + ':\r\n';
             formattedItem += prefix + '\tformatted\r\n';
 
             return formattedItem;

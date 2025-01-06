@@ -190,9 +190,9 @@ describe('Character Service', () => {
                 expect(viewmodel.classNames.length).toBe(16);
                 expect(viewmodel.levelRandomizerTypes.length).toBe(6);
                 expect(viewmodel.baseRaceRandomizerTypes.length).toBe(7);
-                expect(viewmodel.baseRaces.length).toBe(70);
+                expect(viewmodel.baseRaces.length).toBe(71);
                 expect(viewmodel.metaraceRandomizerTypes.length).toBe(6);
-                expect(viewmodel.metaraces.length).toBe(12);
+                expect(viewmodel.metaraces.length).toBe(13);
                 expect(viewmodel.abilitiesRandomizerTypes.length).toBe(9);
             });
         }));
@@ -333,7 +333,7 @@ describe('Character Service', () => {
                     let foundMultipleSources = false;
 
                     for(let i = 0; i < character.magic.preparedSpells.length; i++) {
-                        foundMultipleSources ||= Object.keys(character.magic.knownSpells[i].sources).length > 1;
+                        foundMultipleSources ||= Object.keys(character.magic.preparedSpells[i].sources).length > 1;
                     }
 
                     expect(foundMultipleSources).toBeTrue();

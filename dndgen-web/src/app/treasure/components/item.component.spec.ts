@@ -690,7 +690,7 @@ describe('Item Component', () => {
 
     function getItem(): Item {
       let item = new Item('my item', 'MyItemType');
-      item.description = 'my item description';
+      item.summary = 'my item summary';
       item.attributes = ['My Attribute', 'My Other Attribute'];
 
       return item;
@@ -954,7 +954,7 @@ describe('Item Component', () => {
 
     function getArmor(): Armor {
       let armor = new Armor('my armor', 'Armor');
-      armor.description = 'my armor description';
+      armor.summary = 'my armor summary';
       armor.attributes = ['My Attribute', 'My Other Attribute'];
       armor.size = 'my size';
       armor.totalArmorBonus = 1337;
@@ -1013,7 +1013,7 @@ describe('Item Component', () => {
 
     function getWeapon(): Weapon {
       let weapon = new Weapon('my weapon', 'Weapon');
-      weapon.description = 'my weapon description';
+      weapon.summary = 'my weapon summary';
       weapon.attributes = ['My Attribute', 'My Other Attribute'];
       weapon.size = 'my size';
       weapon.combatTypes = ['stabbing', 'tickling'];

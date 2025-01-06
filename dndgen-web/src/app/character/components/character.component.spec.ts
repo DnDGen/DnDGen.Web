@@ -355,7 +355,7 @@ describe('Character Component', () => {
 
     function createWeapon(name: string): Weapon {
         const weapon = new Weapon(name, 'Weapon');
-        weapon.description = `${name} description`;
+        weapon.summary = `${name} summary`;
         weapon.damageDescription = '9d2 damage';
 
         return weapon;
@@ -363,7 +363,7 @@ describe('Character Component', () => {
 
     function createArmor(name: string): Armor {
         const armor = new Armor(name, 'Armor');
-        armor.description = `${name} description`;
+        armor.summary = `${name} summary`;
         armor.totalArmorBonus = 92;
 
         return armor;

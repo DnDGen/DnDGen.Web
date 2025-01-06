@@ -109,7 +109,7 @@ describe('Character Pipe', () => {
             if (!prefix)
                 prefix = '';
 
-            var formattedItem = prefix + item.description + '\r\n';
+            var formattedItem = prefix + item.summary + '\r\n';
             formattedItem += prefix + '\tformatted\r\n';
 
             return formattedItem;
@@ -207,13 +207,13 @@ describe('Character Pipe', () => {
     
         function createItem(name: string): Item {
             const item = new Item(name, 'MyItemType');
-            item.description = `${name} description`;
+            item.summary = `${name} summary`;
             return item;
         }
     
         function createWeapon(name: string): Weapon {
             const weapon = new Weapon(name, 'Weapon');
-            weapon.description = `${name} description`;
+            weapon.summary = `${name} summary`;
             weapon.damageDescription = '9d2 damage';
     
             return weapon;
@@ -221,7 +221,7 @@ describe('Character Pipe', () => {
     
         function createArmor(name: string): Armor {
             const armor = new Armor(name, 'Armor');
-            armor.description = `${name} description`;
+            armor.summary = `${name} summary`;
             armor.totalArmorBonus = 92;
     
             return armor;

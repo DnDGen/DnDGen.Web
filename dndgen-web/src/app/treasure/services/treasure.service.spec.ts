@@ -286,10 +286,10 @@ describe('Treasure Service', () => {
             });
         });
     
-        it('BUG - gets an item description', done => {
+        it('BUG - gets an item summary', done => {
             treasureService.getItem('staff', 'major', '').subscribe((item) => {
                 expect(item).toBeTruthy();
-                expect(item.description).toBeTruthy();
+                expect(item.summary).toBeTruthy();
                 
                 done();
             });
