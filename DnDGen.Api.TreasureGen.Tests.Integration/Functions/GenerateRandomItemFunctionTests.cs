@@ -169,27 +169,27 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
 
             var armor = StreamHelper.Read<Armor>(response.Body);
             Assert.That(armor, Is.Not.Null);
-            Assert.That(armor.Description, Is.Not.Empty);
-            Assert.That(armor.Name, Is.Not.Empty, armor.Description);
-            Assert.That(armor.ItemType, Is.EqualTo(ItemTypeConstants.Armor), armor.Description);
-            Assert.That(armor.Quantity, Is.Positive, armor.Description);
-            Assert.That(armor.CanBeUsedAsWeaponOrArmor, Is.True, armor.Description);
+            Assert.That(armor.Summary, Is.Not.Empty);
+            Assert.That(armor.Name, Is.Not.Empty, armor.Summary);
+            Assert.That(armor.ItemType, Is.EqualTo(ItemTypeConstants.Armor), armor.Summary);
+            Assert.That(armor.Quantity, Is.Positive, armor.Summary);
+            Assert.That(armor.CanBeUsedAsWeaponOrArmor, Is.True, armor.Summary);
 
             if (string.IsNullOrEmpty(armor.Magic.Curse))
             {
-                Assert.That(armor.ArmorBonus, Is.Positive, armor.Description);
-                Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Description);
+                Assert.That(armor.ArmorBonus, Is.Positive, armor.Summary);
+                Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Summary);
             }
 
             if (!armor.Attributes.Contains(AttributeConstants.Shield))
             {
-                Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Description);
-                Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Description);
+                Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Summary);
+                Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Summary);
             }
 
-            Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Description);
-            Assert.That(armor.Size, Is.Not.Empty, armor.Description);
-            Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Description);
+            Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Summary);
+            Assert.That(armor.Size, Is.Not.Empty, armor.Summary);
+            Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Summary);
         }
 
         [TestCase(PowerConstants.Mundane)]

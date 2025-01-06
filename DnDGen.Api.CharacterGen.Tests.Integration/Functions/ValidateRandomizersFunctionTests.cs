@@ -519,6 +519,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.BaseRaces.MindFlayer)]
         [TestCase(RaceConstants.BaseRaces.Minotaur)]
         [TestCase(RaceConstants.BaseRaces.MountainDwarf)]
+        [TestCase(RaceConstants.BaseRaces.Mummy)]
         [TestCase(RaceConstants.BaseRaces.Ogre)]
         [TestCase(RaceConstants.BaseRaces.OgreMage)]
         [TestCase(RaceConstants.BaseRaces.Orc)]
@@ -648,8 +649,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -661,13 +665,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.Metaraces.HalfDragon)]
         [TestCase(RaceConstants.Metaraces.HalfFiend)]
         [TestCase(RaceConstants.Metaraces.Lich)]
-        [TestCase(RaceConstants.Metaraces.Mummy)]
         [TestCase(RaceConstants.Metaraces.Vampire)]
         [TestCase(RaceConstants.Metaraces.Werebear)]
         [TestCase(RaceConstants.Metaraces.Wereboar)]
+        [TestCase(RaceConstants.Metaraces.Wereboar_Dire)]
         [TestCase(RaceConstants.Metaraces.Wererat)]
         [TestCase(RaceConstants.Metaraces.Weretiger)]
         [TestCase(RaceConstants.Metaraces.Werewolf)]
+        [TestCase(RaceConstants.Metaraces.Werewolf_Dire)]
         public async Task ValidateRandomizers_ReturnsValid_SetMetarace(string metarace)
         {
             var url = GetUrl($"?metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(metarace)}");
@@ -675,8 +680,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);

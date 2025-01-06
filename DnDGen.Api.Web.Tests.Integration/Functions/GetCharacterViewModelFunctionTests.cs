@@ -164,6 +164,7 @@ namespace DnDGen.Api.Web.Tests.Integration.Functions
                 RaceConstants.BaseRaces.MindFlayer,
                 RaceConstants.BaseRaces.Minotaur,
                 RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Mummy,
                 RaceConstants.BaseRaces.Ogre,
                 RaceConstants.BaseRaces.OgreMage,
                 RaceConstants.BaseRaces.Orc,
@@ -188,32 +189,33 @@ namespace DnDGen.Api.Web.Tests.Integration.Functions
                 RaceConstants.BaseRaces.YuanTiHalfblood,
                 RaceConstants.BaseRaces.YuanTiPureblood,
             }));
-            Assert.That(model.MetaraceRandomizerTypes, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.MetaraceRandomizerTypes, Is.EquivalentTo(
+            [
                 RaceRandomizerTypeConstants.Metarace.AnyMeta,
                 RaceRandomizerTypeConstants.Metarace.GeneticMeta,
                 RaceRandomizerTypeConstants.Metarace.LycanthropeMeta,
                 RaceRandomizerTypeConstants.Metarace.NoMeta,
                 RaceRandomizerTypeConstants.Metarace.UndeadMeta,
                 RandomizerTypeConstants.Set,
-            }));
-            Assert.That(model.Metaraces, Is.EquivalentTo(new[]
-            {
+            ]));
+            Assert.That(model.Metaraces, Is.EquivalentTo(
+            [
                 RaceConstants.Metaraces.Ghost,
                 RaceConstants.Metaraces.HalfCelestial,
                 RaceConstants.Metaraces.HalfDragon,
                 RaceConstants.Metaraces.HalfFiend,
                 RaceConstants.Metaraces.Lich,
-                RaceConstants.Metaraces.Mummy,
                 RaceConstants.Metaraces.Vampire,
                 RaceConstants.Metaraces.Werebear,
                 RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wereboar_Dire,
                 RaceConstants.Metaraces.Wererat,
                 RaceConstants.Metaraces.Weretiger,
                 RaceConstants.Metaraces.Werewolf,
-            }));
-            Assert.That(model.AbilitiesRandomizerTypes, Is.EquivalentTo(new[]
-            {
+                RaceConstants.Metaraces.Werewolf_Dire,
+            ]));
+            Assert.That(model.AbilitiesRandomizerTypes, Is.EquivalentTo(
+            [
                 AbilitiesRandomizerTypeConstants.Average,
                 AbilitiesRandomizerTypeConstants.BestOfFour,
                 AbilitiesRandomizerTypeConstants.Good,
@@ -223,7 +225,7 @@ namespace DnDGen.Api.Web.Tests.Integration.Functions
                 AbilitiesRandomizerTypeConstants.Raw,
                 AbilitiesRandomizerTypeConstants.TwoTenSidedDice,
                 RandomizerTypeConstants.Set,
-            }));
+            ]));
 
             Assert.That(model.AlignmentRandomizerTypes.First(), Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
             Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));

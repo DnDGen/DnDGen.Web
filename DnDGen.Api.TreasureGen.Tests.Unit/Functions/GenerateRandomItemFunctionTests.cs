@@ -65,7 +65,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var responseItem = StreamHelper.Read<Item>(response.Body);
-            Assert.That(responseItem.Description, Is.EqualTo(item.Description));
+            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Item (Tool) at power Mundane");
@@ -95,7 +95,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var responseItem = StreamHelper.Read<Item>(response.Body);
-            Assert.That(responseItem.Description, Is.EqualTo(item.Description));
+            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog($"Generated Item (Wand) at power {power}");
@@ -188,7 +188,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var responseItem = StreamHelper.Read<Item>(response.Body);
-            Assert.That(responseItem.Description, Is.EqualTo(item.Description));
+            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog("Generated Item Spyglass (Tool) at power Mundane");
@@ -221,7 +221,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(response.Body, Is.Not.Null);
 
             var responseItem = StreamHelper.Read<Item>(response.Body);
-            Assert.That(responseItem.Description, Is.EqualTo(item.Description));
+            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
             mockLogger.AssertLog($"Generated Item My Item (Wand) at power {power}");

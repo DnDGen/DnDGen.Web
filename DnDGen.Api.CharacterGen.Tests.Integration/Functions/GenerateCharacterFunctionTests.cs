@@ -645,6 +645,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.BaseRaces.MindFlayer,
             RaceConstants.BaseRaces.Minotaur,
             RaceConstants.BaseRaces.MountainDwarf,
+            RaceConstants.BaseRaces.Mummy,
             RaceConstants.BaseRaces.Ogre,
             RaceConstants.BaseRaces.OgreMage,
             RaceConstants.BaseRaces.Orc,
@@ -710,6 +711,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.BaseRaces.Merrow,
             RaceConstants.BaseRaces.MindFlayer,
             RaceConstants.BaseRaces.Minotaur,
+            RaceConstants.BaseRaces.Mummy,
             RaceConstants.BaseRaces.Ogre,
             RaceConstants.BaseRaces.OgreMage,
             RaceConstants.BaseRaces.Orc,
@@ -792,6 +794,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.BaseRaces.MindFlayer,
             RaceConstants.BaseRaces.Minotaur,
             RaceConstants.BaseRaces.MountainDwarf,
+            RaceConstants.BaseRaces.Mummy,
             RaceConstants.BaseRaces.Ogre,
             RaceConstants.BaseRaces.OgreMage,
             RaceConstants.BaseRaces.Orc,
@@ -931,6 +934,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.BaseRaces.MindFlayer)]
         [TestCase(RaceConstants.BaseRaces.Minotaur)]
         [TestCase(RaceConstants.BaseRaces.MountainDwarf)]
+        [TestCase(RaceConstants.BaseRaces.Mummy)]
         [TestCase(RaceConstants.BaseRaces.Ogre)]
         [TestCase(RaceConstants.BaseRaces.OgreMage)]
         [TestCase(RaceConstants.BaseRaces.Orc)]
@@ -1031,13 +1035,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.Metaraces.HalfDragon,
             RaceConstants.Metaraces.HalfFiend,
             RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
             RaceConstants.Metaraces.Vampire,
             RaceConstants.Metaraces.Werebear,
             RaceConstants.Metaraces.Wereboar,
+            RaceConstants.Metaraces.Wereboar_Dire,
             RaceConstants.Metaraces.Wererat,
             RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
+            RaceConstants.Metaraces.Werewolf,
+            RaceConstants.Metaraces.Werewolf_Dire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.AnyMeta, false,
             RaceConstants.Metaraces.None,
             RaceConstants.Metaraces.Ghost,
@@ -1045,13 +1050,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             RaceConstants.Metaraces.HalfDragon,
             RaceConstants.Metaraces.HalfFiend,
             RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
             RaceConstants.Metaraces.Vampire,
             RaceConstants.Metaraces.Werebear,
             RaceConstants.Metaraces.Wereboar,
+            RaceConstants.Metaraces.Wereboar_Dire,
             RaceConstants.Metaraces.Wererat,
             RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
+            RaceConstants.Metaraces.Werewolf,
+            RaceConstants.Metaraces.Werewolf_Dire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.GeneticMeta, true,
             RaceConstants.Metaraces.HalfCelestial,
             RaceConstants.Metaraces.HalfDragon,
@@ -1064,26 +1070,28 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta, true,
             RaceConstants.Metaraces.Werebear,
             RaceConstants.Metaraces.Wereboar,
+            RaceConstants.Metaraces.Wereboar_Dire,
             RaceConstants.Metaraces.Wererat,
             RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
+            RaceConstants.Metaraces.Werewolf,
+            RaceConstants.Metaraces.Werewolf_Dire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.LycanthropeMeta, false,
             RaceConstants.Metaraces.None,
             RaceConstants.Metaraces.Werebear,
             RaceConstants.Metaraces.Wereboar,
+            RaceConstants.Metaraces.Wereboar_Dire,
             RaceConstants.Metaraces.Wererat,
             RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf)]
+            RaceConstants.Metaraces.Werewolf,
+            RaceConstants.Metaraces.Werewolf_Dire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.UndeadMeta, true,
             RaceConstants.Metaraces.Ghost,
             RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
             RaceConstants.Metaraces.Vampire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.UndeadMeta, false,
             RaceConstants.Metaraces.None,
             RaceConstants.Metaraces.Ghost,
             RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.Mummy,
             RaceConstants.Metaraces.Vampire)]
         [TestCase(RaceRandomizerTypeConstants.Metarace.NoMeta, false,
             RaceConstants.Metaraces.None)]
@@ -1096,17 +1104,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.AnyOf(expectedMetaraces));
+            Assert.Multiple(() =>
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Metarace, Is.AnyOf(expectedMetaraces));
+            });
         }
 
         [Test]
@@ -1117,20 +1131,26 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.None,
-                RaceConstants.Metaraces.HalfCelestial,
-                RaceConstants.Metaraces.HalfDragon,
-                RaceConstants.Metaraces.HalfFiend));
+            Assert.Multiple(() =>
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.None,
+                    RaceConstants.Metaraces.HalfCelestial,
+                    RaceConstants.Metaraces.HalfDragon,
+                    RaceConstants.Metaraces.HalfFiend));
+            });
         }
 
         [Test]
@@ -1141,8 +1161,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1154,13 +1177,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(RaceConstants.Metaraces.HalfDragon)]
         [TestCase(RaceConstants.Metaraces.HalfFiend)]
         [TestCase(RaceConstants.Metaraces.Lich)]
-        [TestCase(RaceConstants.Metaraces.Mummy)]
         [TestCase(RaceConstants.Metaraces.Vampire)]
         [TestCase(RaceConstants.Metaraces.Werebear)]
         [TestCase(RaceConstants.Metaraces.Wereboar)]
+        [TestCase(RaceConstants.Metaraces.Wereboar_Dire)]
         [TestCase(RaceConstants.Metaraces.Wererat)]
         [TestCase(RaceConstants.Metaraces.Weretiger)]
         [TestCase(RaceConstants.Metaraces.Werewolf)]
+        [TestCase(RaceConstants.Metaraces.Werewolf_Dire)]
         public async Task GenerateCharacter_ReturnsCharacter_SetMetarace(string metarace)
         {
             var url = GetUrl($"metaraceRandomizerType=Set&setMetarace={HttpUtility.UrlEncode(metarace)}");
@@ -1168,8 +1192,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            });
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
@@ -1876,6 +1903,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 RaceConstants.BaseRaces.MindFlayer,
                 RaceConstants.BaseRaces.Minotaur,
                 RaceConstants.BaseRaces.MountainDwarf,
+                RaceConstants.BaseRaces.Mummy,
                 RaceConstants.BaseRaces.Ogre,
                 RaceConstants.BaseRaces.OgreMage,
                 RaceConstants.BaseRaces.Orc,
@@ -1900,8 +1928,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 RaceConstants.BaseRaces.YuanTiPureblood));
             Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.Werebear,
                 RaceConstants.Metaraces.Wereboar,
+                RaceConstants.Metaraces.Wereboar_Dire,
                 RaceConstants.Metaraces.Wererat,
                 RaceConstants.Metaraces.Weretiger,
+                RaceConstants.Metaraces.Werewolf_Dire,
                 RaceConstants.Metaraces.Werewolf));
             Assert.That(character.Abilities, Has.Count.EqualTo(6)
                 .And.ContainKey(AbilityConstants.Strength)
