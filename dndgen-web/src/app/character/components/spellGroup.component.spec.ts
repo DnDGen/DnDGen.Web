@@ -5,7 +5,6 @@ import { SpellGroupComponent } from './spellGroup.component';
 import { SpellGroup } from '../models/spellGroup.model';
 import { Spell } from '../models/spell.model';
 import { TestHelper } from '../../testHelper.spec';
-import { SpellSource } from '../models/spellSource.model';
 
 describe('SpellGroup Component', () => {
   describe('unit', () => {
@@ -40,8 +39,8 @@ describe('SpellGroup Component', () => {
     it(`should render the spell group`, () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
-        new Spell([new SpellSource('my source', 9)], 'my spell'),
-        new Spell([new SpellSource('my source', 9)], 'my other spell'),
+        new Spell({'my source': 9}, 'my spell'),
+        new Spell({'my source': 9}, 'my other spell'),
       ]);
       component.group = group;
 
@@ -54,9 +53,9 @@ describe('SpellGroup Component', () => {
     it(`should render the spell group - with duplicates`, () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
-        new Spell([new SpellSource('my source', 9)], 'my spell'),
-        new Spell([new SpellSource('my source', 9)], 'my other spell'),
-        new Spell([new SpellSource('my source', 9)], 'my other spell'),
+        new Spell({'my source': 9}, 'my spell'),
+        new Spell({'my source': 9}, 'my other spell'),
+        new Spell({'my source': 9}, 'my other spell'),
       ]);
       component.group = group;
 

@@ -22,7 +22,6 @@ import { SpellGroup } from '../models/spellGroup.model';
 import { SpellGroupComponent } from './spellGroup.component';
 import { TestHelper } from '../../testHelper.spec';
 import { ItemComponent } from '../../treasure/components/item.component';
-import { SpellSource } from '../models/spellSource.model';
 
 describe('Character Component', () => {
   describe('unit', () => {
@@ -88,9 +87,9 @@ describe('Character Component', () => {
 
     it('should sort spells into groups', () => {
       let spells = [
-        new Spell([new SpellSource('my source', 9)], 'my spell'),
-        new Spell([new SpellSource('my other source', 2)], 'my other spell'),
-        new Spell([new SpellSource('my other source', 3)], 'another spell'),
+        new Spell({'my source': 9}, 'my spell'),
+        new Spell({'my other source': 2}, 'my other spell'),
+        new Spell({'my other source': 3}, 'another spell'),
       ];
 
       let groups = component.getSpellGroups(spells);
@@ -310,26 +309,26 @@ describe('Character Component', () => {
           new SpellQuantity('source 2', 2, 2, false),
         ];
         newCharacter.magic.knownSpells = [
-          new Spell([new SpellSource('source 1', 0)], 'spell 1.0.1'),
-          new Spell([new SpellSource('source 1', 0)], 'spell 1.0.2'),
-          new Spell([new SpellSource('source 1', 1)], 'spell 1.1.1'),
-          new Spell([new SpellSource('source 1', 1)], 'spell 1.1.2'),
-          new Spell([new SpellSource('source 2', 1)], 'spell 2.1.1'),
-          new Spell([new SpellSource('source 2', 1)], 'spell 2.1.2'),
-          new Spell([new SpellSource('source 2', 2)], 'spell 2.2.1'),
-          new Spell([new SpellSource('source 2', 2)], 'spell 2.2.2'),
+          new Spell({'source 1': 0}, 'spell 1.0.1'),
+          new Spell({'source 1': 0}, 'spell 1.0.2'),
+          new Spell({'source 1': 1}, 'spell 1.1.1'),
+          new Spell({'source 1': 1}, 'spell 1.1.2'),
+          new Spell({'source 2': 1}, 'spell 2.1.1'),
+          new Spell({'source 2': 1}, 'spell 2.1.2'),
+          new Spell({'source 2': 2}, 'spell 2.2.1'),
+          new Spell({'source 2': 2}, 'spell 2.2.2'),
         ];
         newCharacter.magic.preparedSpells = [
-          new Spell([new SpellSource('source 1', 0)], 'spell 1.0.1'),
-          new Spell([new SpellSource('source 1', 0)], 'spell 1.0.2'),
-          new Spell([new SpellSource('source 1', 1)], 'spell 1.1.1'),
-          new Spell([new SpellSource('source 1', 1)], 'spell 1.1.2'),
-          new Spell([new SpellSource('source 1', 1)], 'spell 1.1.2'),
-          new Spell([new SpellSource('source 2', 1)], 'spell 2.1.1'),
-          new Spell([new SpellSource('source 2', 1)], 'spell 2.1.1'),
-          new Spell([new SpellSource('source 2', 1)], 'spell 2.1.2'),
-          new Spell([new SpellSource('source 2', 2)], 'spell 2.2.1'),
-          new Spell([new SpellSource('source 2', 2)], 'spell 2.2.2'),
+          new Spell({'source 1': 0}, 'spell 1.0.1'),
+          new Spell({'source 1': 0}, 'spell 1.0.2'),
+          new Spell({'source 1': 1}, 'spell 1.1.1'),
+          new Spell({'source 1': 1}, 'spell 1.1.2'),
+          new Spell({'source 1': 1}, 'spell 1.1.2'),
+          new Spell({'source 2': 1}, 'spell 2.1.1'),
+          new Spell({'source 2': 1}, 'spell 2.1.1'),
+          new Spell({'source 2': 1}, 'spell 2.1.2'),
+          new Spell({'source 2': 2}, 'spell 2.2.1'),
+          new Spell({'source 2': 2}, 'spell 2.2.2'),
         ];
         newCharacter.magic.arcaneSpellFailure = 36;
         newCharacter.magic.animal = 'American shorthair cat';
@@ -1346,8 +1345,8 @@ describe('Character Component', () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.magic.knownSpells = [
-        new Spell([new SpellSource('my source', 9)], 'spell 1'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
+        new Spell({'my source': 9}, 'spell 1'),
+        new Spell({'my source': 9}, 'spell 2'),
       ];
 
       fixture.detectChanges();
@@ -1367,10 +1366,10 @@ describe('Character Component', () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.magic.knownSpells = [
-        new Spell([new SpellSource('my source', 9)], 'spell 1'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
-        new Spell([new SpellSource('my source', 2)], 'spell 3'),
-        new Spell([new SpellSource('my source', 2)], 'spell 4'),
+        new Spell({'my source': 9}, 'spell 1'),
+        new Spell({'my source': 9}, 'spell 2'),
+        new Spell({'my source': 2}, 'spell 3'),
+        new Spell({'my source': 2}, 'spell 4'),
       ];
 
       fixture.detectChanges();
@@ -1405,9 +1404,9 @@ describe('Character Component', () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.magic.preparedSpells = [
-        new Spell([new SpellSource('my source', 9)], 'spell 1'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
+        new Spell({'my source': 9}, 'spell 1'),
+        new Spell({'my source': 9}, 'spell 2'),
+        new Spell({'my source': 9}, 'spell 2'),
       ];
 
       fixture.detectChanges();
@@ -1428,12 +1427,12 @@ describe('Character Component', () => {
       const component = fixture.componentInstance;
       component.character = new Character('my character summary');
       component.character.magic.preparedSpells = [
-        new Spell([new SpellSource('my source', 9)], 'spell 1'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
-        new Spell([new SpellSource('my source', 9)], 'spell 2'),
-        new Spell([new SpellSource('my source', 2)], 'spell 3'),
-        new Spell([new SpellSource('my source', 2)], 'spell 3'),
-        new Spell([new SpellSource('my source', 2)], 'spell 4'),
+        new Spell({'my source': 9}, 'spell 1'),
+        new Spell({'my source': 9}, 'spell 2'),
+        new Spell({'my source': 9}, 'spell 2'),
+        new Spell({'my source': 2}, 'spell 3'),
+        new Spell({'my source': 2}, 'spell 3'),
+        new Spell({'my source': 2}, 'spell 4'),
       ];
 
       fixture.detectChanges();

@@ -20,8 +20,8 @@ export class SpellGroupService {
 
   private addToSpellGroup(groups: SpellGroup[], spell: Spell): SpellGroup[] {
 
-    for(let i = 0; i < spell.sources.length; i++) {
-      const name = this.getSpellGroupName(spell.sources[i].level, spell.sources[i].source);
+    for(let key in spell.sources) {
+      const name = this.getSpellGroupName(spell.sources[key], key);
   
       let existing = groups.find(g => g.name == name);
       if (!existing) {
