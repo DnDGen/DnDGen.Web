@@ -23,7 +23,6 @@ export class CharacterService {
     setClassName: string,
     levelRandomizerType: string,
     setLevel: number,
-    allowLevelAdjustments: boolean,
     baseRaceRandomizerType: string,
     setBaseRace: string,
     metaraceRandomizerType: string,
@@ -47,7 +46,6 @@ export class CharacterService {
       .set('setClassName', setClassName)
       .set('levelRandomizerType', levelRandomizerType)
       .set('setLevel', setLevel)
-      .set('allowLevelAdjustments', allowLevelAdjustments)
       .set('baseRaceRandomizerType', baseRaceRandomizerType)
       .set('setBaseRace', setBaseRace)
       .set('metaraceRandomizerType', metaraceRandomizerType)
@@ -72,7 +70,6 @@ export class CharacterService {
     setClassName: string,
     levelRandomizerType: string,
     setLevel: number,
-    allowLevelAdjustments: boolean,
     baseRaceRandomizerType: string,
     setBaseRace: string,
     metaraceRandomizerType: string,
@@ -88,7 +85,6 @@ export class CharacterService {
       .set('setClassName', setClassName)
       .set('levelRandomizerType', levelRandomizerType)
       .set('setLevel', setLevel)
-      .set('allowLevelAdjustments', allowLevelAdjustments)
       .set('baseRaceRandomizerType', baseRaceRandomizerType)
       .set('setBaseRace', setBaseRace)
       .set('metaraceRandomizerType', metaraceRandomizerType)

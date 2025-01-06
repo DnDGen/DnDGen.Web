@@ -65,7 +65,6 @@ export class CharacterGenComponent implements OnInit {
 
   @Input() levelRandomizerType = '';
   @Input() setLevel = 1;
-  @Input() allowLevelAdjustments = true;
 
   @Input() baseRaceRandomizerType = '';
   @Input() setBaseRace = '';
@@ -115,7 +114,6 @@ export class CharacterGenComponent implements OnInit {
             this.setClassName,
             this.levelRandomizerType,
             this.setLevel,
-            this.allowLevelAdjustments,
             this.baseRaceRandomizerType,
             this.setBaseRace,
             this.metaraceRandomizerType,
@@ -186,7 +184,7 @@ export class CharacterGenComponent implements OnInit {
   public validateRandomizers(
     alignmentRandomizerType?: string, setAlignment?: string,
     classNameRandomizerType?: string, setClassName?: string,
-    levelRandomizerType?: string, setLevel?: number, allowLevelAdjustments?: boolean,
+    levelRandomizerType?: string, setLevel?: number,
     baseRaceRandomizerType?: string, setBaseRace?: string,
     metaraceRandomizerType?: string, setMetarace?: string, forceMetarace?: boolean,
     abilitiesRandomizerType?: string, setStrength?: number, setConstitution?: number, setDexterity?: number, setIntelligence?: number, setWisdom?: number, setCharisma?: number,
@@ -224,7 +222,6 @@ export class CharacterGenComponent implements OnInit {
         (setClassName ?? this.setClassName),
         (levelRandomizerType ?? this.levelRandomizerType),
         (setLevel ?? this.setLevel),
-        (allowLevelAdjustments ?? this.allowLevelAdjustments),
         (baseRaceRandomizerType ?? this.baseRaceRandomizerType),
         (setBaseRace ?? this.setBaseRace),
         (metaraceRandomizerType ?? this.metaraceRandomizerType),
@@ -261,7 +258,6 @@ export class CharacterGenComponent implements OnInit {
         this.setClassName,
         this.levelRandomizerType,
         this.setLevel,
-        this.allowLevelAdjustments,
         this.baseRaceRandomizerType,
         this.setBaseRace,
         this.metaraceRandomizerType,

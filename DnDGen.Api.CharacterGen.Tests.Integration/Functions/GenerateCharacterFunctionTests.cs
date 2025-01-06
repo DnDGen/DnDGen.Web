@@ -2383,7 +2383,6 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&metaraceRandomizerType=Any+Meta";
             queryString += "&forceMetarace=false";
             queryString += "&allowAbilityAdjustments=true";
-            queryString += "&allowLevelAdjustments=true";
 
             var url = GetUrl(queryString);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
@@ -2432,7 +2431,6 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             queryString += "&metaraceRandomizerType=Any+Meta";
             queryString += "&forceMetarace=false";
             queryString += "&allowAbilityAdjustments=true";
-            queryString += "&allowLevelAdjustments=true";
 
             var url = GetUrl(queryString);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
