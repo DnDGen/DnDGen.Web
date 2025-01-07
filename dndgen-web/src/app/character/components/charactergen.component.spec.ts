@@ -2334,11 +2334,11 @@ describe('CharacterGen Component', () => {
       expect(component.characterModel.levelRandomizerTypes).toContain('Set');
       expect(component.characterModel.baseRaceRandomizerTypes.length).toEqual(7);
       expect(component.characterModel.baseRaceRandomizerTypes).toContain('Set');
-      expect(component.characterModel.baseRaces.length).toEqual(70);
+      expect(component.characterModel.baseRaces.length).toEqual(71);
       expect(component.characterModel.metaraceRandomizerTypes.length).toEqual(6);
       expect(component.characterModel.metaraceRandomizerTypes).toContain('Set');
       expect(component.characterModel.metaraceRandomizerTypes).toContain('No Meta');
-      expect(component.characterModel.metaraces.length).toEqual(12);
+      expect(component.characterModel.metaraces.length).toEqual(13);
       expect(component.characterModel.abilitiesRandomizerTypes.length).toEqual(9);
       expect(component.characterModel.abilitiesRandomizerTypes).toContain('Set');
     });
@@ -2425,11 +2425,11 @@ describe('CharacterGen Component', () => {
         helper.expectNumberInput('#character #setLevel', false, 1, 1, 20);
 
         helper.expectSelect('#character #baseRaceRandomizerType', true, 'Any Base', 7);
-        helper.expectSelect('#character #setBaseRace', false, 'Aasimar', 70);
+        helper.expectSelect('#character #setBaseRace', false, 'Aasimar', 71);
 
         helper.expectSelect('#character #metaraceRandomizerType', true, 'Any Meta', 6);
         helper.expectCheckboxInput('#character #forceMetaraceCheckbox', false, false);
-        helper.expectSelect('#character #setMetarace', false, 'Ghost', 12);
+        helper.expectSelect('#character #setMetarace', false, 'Ghost', 13);
 
         helper.expectSelect('#character #abilitiesRandomizerType', true, 'Raw', 9);
         helper.expectCheckboxInput('#character #abilitiesAdjustCheckbox', false, true);

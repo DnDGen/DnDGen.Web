@@ -19,18 +19,21 @@ export class SpellGroupService {
   }
 
   private addToSpellGroup(groups: SpellGroup[], spell: Spell): SpellGroup[] {
-    const name = this.getSpellGroupName(spell.level, spell.source);
 
-    let existing = groups.find(g => g.name == name);
-    if (!existing) {
-        existing = {
-            name: name,
-            spells: []
-        };
-        groups.push(existing);
+    for(let key in spell.sources) {
+      const name = this.getSpellGroupName(spell.sources[key], key);
+  
+      let existing = groups.find(g => g.name == name);
+      if (!existing) {
+          existing = {
+              name: name,
+              spells: []
+          };
+          groups.push(existing);
+      }
+  
+      existing.spells.push(spell);
     }
-
-    existing.spells.push(spell);
     
     return groups;
   }

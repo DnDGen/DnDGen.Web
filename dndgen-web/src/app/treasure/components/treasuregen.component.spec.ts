@@ -890,7 +890,7 @@ describe('TreasureGen Component', () => {
 
     it('should download item', () => {
       let item = new Item('my item', 'my item type');
-      item.description = 'my item description'
+      item.summary = 'my item summary'
 
       component.item = item;
 
@@ -899,12 +899,12 @@ describe('TreasureGen Component', () => {
       component.downloadItem();
 
       expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item description)');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted item', 'Item (my item summary)');
     });
 
     it('BUG - should download armor', () => {
       let item = new Armor('my armor', 'Armor');
-      item.description = 'my armor description'
+      item.summary = 'my armor summary'
 
       component.item = item;
 
@@ -913,12 +913,12 @@ describe('TreasureGen Component', () => {
       component.downloadItem();
 
       expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted armor', 'Item (my armor description)');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted armor', 'Item (my armor summary)');
     });
 
     it('BUG - should download weapon', () => {
       let item = new Weapon('my weapon', 'Weapon');
-      item.description = 'my weapon description'
+      item.summary = 'my weapon summary'
 
       component.item = item;
 
@@ -927,7 +927,7 @@ describe('TreasureGen Component', () => {
       component.downloadItem();
 
       expect(itemPipeSpy.transform).toHaveBeenCalledWith(item);
-      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted weapon', 'Item (my weapon description)');
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted weapon', 'Item (my weapon summary)');
     });
 
     it('should not download missing item', () => {
@@ -2005,7 +2005,7 @@ describe('TreasureGen Component', () => {
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
       fixture.componentInstance.item = new Item('my item', 'my item type');
-      fixture.componentInstance.item.description = 'my item description';
+      fixture.componentInstance.item.summary = 'my item summary';
 
       fixture.detectChanges();
 
@@ -2013,11 +2013,11 @@ describe('TreasureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my item description\)\.txt$/));
+        jasmine.stringMatching(/^Item \(my item summary\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
-      expect(text).toEqual('my item\r\n');
+      expect(text).toEqual('my item summary\r\n');
     });
     
     it(`BUG - should download armor`, async () => {
@@ -2025,7 +2025,7 @@ describe('TreasureGen Component', () => {
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
       let armor = new Armor('my armor', 'Armor');
-      armor.description = 'my armor description';
+      armor.summary = 'my armor summary';
       armor.size = 'Medium';
       armor.totalArmorBonus = 9;
       armor.totalArmorCheckPenalty = -2;
@@ -2038,13 +2038,13 @@ describe('TreasureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my armor description\)\.txt$/));
+        jasmine.stringMatching(/^Item \(my armor summary\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
-        'my armor',
+        'my armor summary',
         '\t' + 'Armor:',
         '\t\t' + 'Size: Medium',
         '\t\t' + 'Armor Bonus: 9',
@@ -2060,7 +2060,7 @@ describe('TreasureGen Component', () => {
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
       let weapon = new Weapon('my weapon', 'Weapon');
-      weapon.description = 'my weapon description';
+      weapon.summary = 'my weapon summary';
       weapon.size = 'Medium';
       weapon.combatTypes = ['melee', 'ranged'];
       weapon.damageDescription = 'my damage description';
@@ -2074,13 +2074,13 @@ describe('TreasureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my weapon description\)\.txt$/));
+        jasmine.stringMatching(/^Item \(my weapon summary\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
-          'my weapon',
+          'my weapon summary',
           '\t' + 'Weapon:',
           '\t\t' + 'Size: Medium',
           '\t\t' + 'Combat Types: melee, ranged',

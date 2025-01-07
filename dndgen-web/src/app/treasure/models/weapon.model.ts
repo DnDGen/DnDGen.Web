@@ -6,7 +6,7 @@ export class Weapon extends Item {
   constructor(
     public override name: string,
     public override itemType: string,
-    public override description: string = '',
+    public override summary: string = '',
     public override baseNames: string[] = [],
     public override traits: string[] = [],
     public override attributes: string[] = [],
@@ -38,6 +38,6 @@ export class Weapon extends Item {
     public secondaryHasAbilities: boolean = false,
     public combatTypes: string[] = [],
   ) {
-    super(name, itemType, description, baseNames, traits, attributes, magic, quantity, contents, isMagical, true);
+    super(name, itemType, summary, baseNames, traits, attributes, magic, quantity, contents, isMagical, true);
   }
 }

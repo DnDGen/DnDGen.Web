@@ -527,7 +527,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', false);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', false);
     });
   
     it(`should render a boring item with quantity of 2`, () => {
@@ -537,7 +537,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x2)', false);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x2)', false);
     });
   
     it(`should render an item with contents`, () => {
@@ -547,7 +547,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-contents');
       helper.expectDetails('li.item-contents > dndgen-details', 'Contents', true);
       helper.expectElements('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
@@ -580,7 +580,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-traits');
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectElements('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
@@ -593,7 +593,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectElement('li.item-magic-bonus', 'Bonus: +1');
     });
@@ -605,7 +605,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectElement('li.item-magic-bonus', 'Bonus: +2');
     });
@@ -617,7 +617,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectElement('li.item-magic-bonus', 'Bonus: -1');
     });
@@ -629,7 +629,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectElement('li.item-magic-bonus', 'Bonus: -2');
     });
@@ -644,7 +644,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-special-abilities');
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
       helper.expectElements('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
@@ -658,7 +658,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
       helper.expectElement('li.item-magic-charges', 'Charges: 9266');
     });
@@ -671,7 +671,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
       helper.expectElement('li.item-magic-charges', 'Charges: 0');
     });
@@ -683,14 +683,14 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-curse');
       helper.expectElement('li.item-magic-curse', 'Curse: my curse');
     });
 
     function getItem(): Item {
       let item = new Item('my item', 'MyItemType');
-      item.description = 'my item description';
+      item.summary = 'my item summary';
       item.attributes = ['My Attribute', 'My Other Attribute'];
 
       return item;
@@ -711,7 +711,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
@@ -767,7 +767,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
@@ -828,7 +828,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
@@ -889,7 +889,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
 
@@ -936,7 +936,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my armor description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my armor summary (x1)', true);
       expectOnlyToShow('li.item-armor');
       helper.expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
@@ -954,7 +954,7 @@ describe('Item Component', () => {
 
     function getArmor(): Armor {
       let armor = new Armor('my armor', 'Armor');
-      armor.description = 'my armor description';
+      armor.summary = 'my armor summary';
       armor.attributes = ['My Attribute', 'My Other Attribute'];
       armor.size = 'my size';
       armor.totalArmorBonus = 1337;
@@ -973,7 +973,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my armor description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my armor summary (x1)', true);
       expectOnlyToShow('li.item-armor');
       helper.expectDetails('li.item-armor > dndgen-details', 'Armor', true);
 
@@ -993,7 +993,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my weapon description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
       helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
@@ -1013,7 +1013,7 @@ describe('Item Component', () => {
 
     function getWeapon(): Weapon {
       let weapon = new Weapon('my weapon', 'Weapon');
-      weapon.description = 'my weapon description';
+      weapon.summary = 'my weapon summary';
       weapon.attributes = ['My Attribute', 'My Other Attribute'];
       weapon.size = 'my size';
       weapon.combatTypes = ['stabbing', 'tickling'];
@@ -1035,7 +1035,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my weapon description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
       helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
@@ -1062,7 +1062,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my weapon description (x1)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
       helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
 
@@ -1109,7 +1109,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my item description (x9266)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my item summary (x9266)', true);
       helper.expectExists('li.item-contents', true);
       helper.expectExists('li.item-traits', true);
       helper.expectExists('li.item-magic-bonus', true);
@@ -1209,7 +1209,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my armor description (x9266)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my armor summary (x9266)', true);
       helper.expectExists('li.item-contents', true);
       helper.expectExists('li.item-traits', true);
       helper.expectExists('li.item-magic-bonus', true);
@@ -1327,7 +1327,7 @@ describe('Item Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectDetails('dndgen-details.item-header', 'my weapon description (x9266)', true);
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x9266)', true);
       helper.expectExists('li.item-contents', true);
       helper.expectExists('li.item-traits', true);
       helper.expectExists('li.item-magic-bonus', true);

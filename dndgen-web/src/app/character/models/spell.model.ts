@@ -1,7 +1,6 @@
 export class Spell {
   constructor(
-    public source: string,
-    public level: number,
+    public sources: { [source: string]: number; },
     public name: string,
     public metamagic: string[] = []
   ) { }

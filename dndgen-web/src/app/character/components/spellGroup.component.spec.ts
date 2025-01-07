@@ -39,8 +39,8 @@ describe('SpellGroup Component', () => {
     it(`should render the spell group`, () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
-        new Spell('my source', 9, 'my spell'),
-        new Spell('my source', 9, 'my other spell'),
+        new Spell({'my source': 9}, 'my spell'),
+        new Spell({'my source': 9}, 'my other spell'),
       ]);
       component.group = group;
 
@@ -53,9 +53,9 @@ describe('SpellGroup Component', () => {
     it(`should render the spell group - with duplicates`, () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
-        new Spell('my source', 9, 'my spell'),
-        new Spell('my source', 9, 'my other spell'),
-        new Spell('my source', 9, 'my other spell'),
+        new Spell({'my source': 9}, 'my spell'),
+        new Spell({'my source': 9}, 'my other spell'),
+        new Spell({'my source': 9}, 'my other spell'),
       ]);
       component.group = group;
 
