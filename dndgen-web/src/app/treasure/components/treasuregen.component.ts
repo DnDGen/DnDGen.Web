@@ -215,7 +215,7 @@ export class TreasureGenComponent implements OnInit {
       return;
 
     let formattedItem = this.itemPipe.transform(this.item);
-    let fileName = `Item (${this.item.description})`;
+    let fileName = `Item (${this.item.summary})`;
 
     this.fileSaverService.save(formattedItem, fileName);
   }

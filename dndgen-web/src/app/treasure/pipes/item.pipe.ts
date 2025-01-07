@@ -18,7 +18,7 @@ export class ItemPipe implements PipeTransform {
       if (!prefix)
           prefix = '';
 
-      var formattedItem = prefix + item.name;
+      var formattedItem = prefix + item.summary;
 
       if (item.quantity > 1)
           formattedItem += ' (x' + item.quantity + ')';

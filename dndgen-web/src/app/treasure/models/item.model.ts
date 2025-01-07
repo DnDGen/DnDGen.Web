@@ -4,7 +4,7 @@ export class Item {
   constructor(
     public name: string,
     public itemType: string,
-    public description: string = '',
+    public summary: string = '',
     public baseNames: string[] = [],
     public traits: string[] = [],
     public attributes: string[] = [],

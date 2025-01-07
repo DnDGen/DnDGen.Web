@@ -190,9 +190,9 @@ describe('Character Service', () => {
                 expect(viewmodel.classNames.length).toBe(16);
                 expect(viewmodel.levelRandomizerTypes.length).toBe(6);
                 expect(viewmodel.baseRaceRandomizerTypes.length).toBe(7);
-                expect(viewmodel.baseRaces.length).toBe(70);
+                expect(viewmodel.baseRaces.length).toBe(71);
                 expect(viewmodel.metaraceRandomizerTypes.length).toBe(6);
-                expect(viewmodel.metaraces.length).toBe(12);
+                expect(viewmodel.metaraces.length).toBe(13);
                 expect(viewmodel.abilitiesRandomizerTypes.length).toBe(9);
             });
         }));
@@ -261,6 +261,78 @@ describe('Character Service', () => {
                     }
 
                     expect(foundClassSkill).toBeTrue();
+                });
+        }));
+    
+        it('BUG - generates character with correct known spell sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.knownSpells.length).toBeTruthy();
+                    expect(character.magic.knownSpells[0].name).toBeTruthy();
+                    expect(character.magic.knownSpells[0].metamagic.length).toBeFalsy();
+
+                    let keys = Object.keys(character.magic.knownSpells[0].sources);
+                    expect(keys.length).toBeTruthy();
+                    expect(character.magic.knownSpells[0].sources[keys[0]]).toBeGreaterThanOrEqual(0);
+                });
+        }));
+    
+        it('BUG - generates character with correct prepared spell sources', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'set',
+                    'cleric',
+                    'medium',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'heroic',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+
+                    expect(character.magic.preparedSpells.length).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].name).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].metamagic.length).toBeFalsy();
+                    
+                    let keys = Object.keys(character.magic.preparedSpells[0].sources);
+                    expect(keys.length).toBeTruthy();
+                    expect(character.magic.preparedSpells[0].sources[keys[0]]).toBeGreaterThanOrEqual(0);
                 });
         }));
     
