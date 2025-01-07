@@ -4822,6 +4822,88 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "BUG - Generate Character with Spells with Multiple Sources",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Returns generated character\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    var character = pm.response.json();\r",
+											"    pm.expect(character.summary).to.not.be.empty;\r",
+											"    pm.expect(character.class.level).to.be.at.least(1);\r",
+											"\r",
+											"    pm.expect(character.class.name).to.be.oneOf([\"Cleric\"]);\r",
+											"\r",
+											"    pm.expect(character.magic.knownSpells.length).to.be.at.least(1);\r",
+											"    pm.expect(character.magic.knownSpells[0].sources.Cleric.level).to.be.at.least(0);\r",
+											"\r",
+											"    pm.expect(character.magic.preparedSpells.length).to.be.at.least(1);\r",
+											"    pm.expect(character.magic.preparedSpells[0].sources.Cleric.level).to.be.at.least(0);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Any&classNameRandomizerType=Set&levelRandomizerType=medium&baseRaceRandomizerType=any Base&metaraceRandomizerType=any meta&forceMetarace=false&abilitiesRandomizerType=Ones as Sixes&setClassName=cleric",
+									"host": [
+										"character",
+										"dndgen",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"character",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "alignmentRandomizerType",
+											"value": "Any"
+										},
+										{
+											"key": "classNameRandomizerType",
+											"value": "Set"
+										},
+										{
+											"key": "levelRandomizerType",
+											"value": "medium"
+										},
+										{
+											"key": "baseRaceRandomizerType",
+											"value": "any Base"
+										},
+										{
+											"key": "metaraceRandomizerType",
+											"value": "any meta"
+										},
+										{
+											"key": "forceMetarace",
+											"value": "false"
+										},
+										{
+											"key": "abilitiesRandomizerType",
+											"value": "Ones as Sixes"
+										},
+										{
+											"key": "setClassName",
+											"value": "cleric"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
