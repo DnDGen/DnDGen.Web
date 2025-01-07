@@ -2017,7 +2017,7 @@ describe('TreasureGen Component', () => {
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
-      expect(text).toEqual('my item\r\n');
+      expect(text).toEqual('my item summary\r\n');
     });
     
     it(`BUG - should download armor`, async () => {
@@ -2038,13 +2038,13 @@ describe('TreasureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my armor description\)\.txt$/));
+        jasmine.stringMatching(/^Item \(my armor summary\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
-        'my armor',
+        'my armor summary',
         '\t' + 'Armor:',
         '\t\t' + 'Size: Medium',
         '\t\t' + 'Armor Bonus: 9',
@@ -2074,13 +2074,13 @@ describe('TreasureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
         jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my weapon description\)\.txt$/));
+        jasmine.stringMatching(/^Item \(my weapon summary\)\.txt$/));
       
       const blob = fileSaverSpy.calls.first().args[0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
-          'my weapon',
+          'my weapon summary',
           '\t' + 'Weapon:',
           '\t\t' + 'Size: Medium',
           '\t\t' + 'Combat Types: melee, ranged',

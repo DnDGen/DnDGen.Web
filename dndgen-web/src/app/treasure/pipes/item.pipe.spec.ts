@@ -16,7 +16,7 @@ describe('Item Pipe', () => {
         });
     
         function createItem(itemName: string): Item {
-            var item = new Item(itemName, 'MyItemType');
+            var item = new Item(itemName, 'MyItemType', `${itemName} summary`);
     
             return item;
         }
@@ -25,7 +25,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('');
             expect(lines.length).toBe(2);
         });
@@ -36,7 +36,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name (x2)');
+            expect(lines[0]).toBe('item name summary (x2)');
             expect(lines[1]).toBe('');
             expect(lines.length).toBe(2);
         });
@@ -48,7 +48,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tContents:');
             expect(lines[2]).toBe('\t\tfirst contents');
             expect(lines[3]).toBe('\t\tsecond contents');
@@ -63,7 +63,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tTraits:');
             expect(lines[2]).toBe('\t\tfirst trait');
             expect(lines[3]).toBe('\t\tsecond trait');
@@ -77,7 +77,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tBonus: +3');
             expect(lines[2]).toBe('');
             expect(lines.length).toBe(3);
@@ -91,7 +91,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tBonus: +3');
             expect(lines[2]).toBe('\tSpecial Abilities:');
             expect(lines[3]).toBe('\t\tspecial ability 1');
@@ -107,7 +107,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tCharges: 4');
             expect(lines[2]).toBe('');
             expect(lines.length).toBe(3);
@@ -119,7 +119,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tCharges: 0');
             expect(lines[2]).toBe('');
             expect(lines.length).toBe(3);
@@ -131,14 +131,14 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tCurse: curse');
             expect(lines[2]).toBe('');
             expect(lines.length).toBe(3);
         });
     
         it('formats armor', () => {
-            var armor = new Armor('armor name', 'Armor');
+            var armor = new Armor('armor name', 'Armor', 'my armor summary');
             armor.totalArmorBonus = 9266;
             armor.totalArmorCheckPenalty = -90210;
             armor.totalMaxDexterityBonus = 42;
@@ -148,7 +148,7 @@ describe('Item Pipe', () => {
             var lines = formattedItem.split('\r\n');
     
             var expected = [
-                'armor name',
+                'my armor summary',
                 '\t' + 'Armor:',
                 '\t\t' + 'Size: armor size',
                 '\t\t' + 'Armor Bonus: 9266',
@@ -160,7 +160,7 @@ describe('Item Pipe', () => {
         });
     
         it('formats armor with no max dexterity limitation', () => {
-            var armor = new Armor('armor name', 'Armor');
+            var armor = new Armor('armor name', 'Armor', 'my armor summary');
             armor.totalArmorBonus = 9266;
             armor.totalArmorCheckPenalty = -90210;
             armor.totalMaxDexterityBonus = 9000;
@@ -170,7 +170,7 @@ describe('Item Pipe', () => {
             var lines = formattedItem.split('\r\n');
     
             var expected = [
-                'armor name',
+                'my armor summary',
                 '\t' + 'Armor:',
                 '\t\t' + 'Size: armor size',
                 '\t\t' + 'Armor Bonus: 9266',
@@ -181,7 +181,7 @@ describe('Item Pipe', () => {
         });
     
         it('formats weapon', () => {
-            var weapon = new Weapon('weapon name', 'Weapon');
+            var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
             weapon.size = "weapon size";
             weapon.combatTypes = ["melee", "ranged"];
             weapon.damageDescription = "damage description";
@@ -192,7 +192,7 @@ describe('Item Pipe', () => {
             var lines = formattedItem.split('\r\n');
     
             var expected = [
-                'weapon name',
+                'my weapon summary',
                 '\t' + 'Weapon:',
                 '\t\t' + 'Size: weapon size',
                 '\t\t' + 'Combat Types: melee, ranged',
@@ -205,7 +205,7 @@ describe('Item Pipe', () => {
         });
     
         it('formats double weapon', () => {
-            var weapon = new Weapon('weapon name', 'Weapon');
+            var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
             weapon.size = "weapon size";
             weapon.combatTypes = ["melee", "ranged"];
             weapon.damageDescription = "damage description";
@@ -219,7 +219,7 @@ describe('Item Pipe', () => {
             var lines = formattedItem.split('\r\n');
     
             var expected = [
-                'weapon name',
+                'my weapon summary',
                 '\t' + 'Weapon:',
                 '\t\t' + 'Size: weapon size',
                 '\t\t' + 'Combat Types: melee, ranged',
@@ -234,7 +234,7 @@ describe('Item Pipe', () => {
         });
     
         it('formats weapon requiring ammunition', () => {
-            var weapon = new Weapon('weapon name', 'Weapon');
+            var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
             weapon.size = "weapon size";
             weapon.combatTypes = ["ranged"];
             weapon.damageDescription = "damage description";
@@ -246,7 +246,7 @@ describe('Item Pipe', () => {
             var lines = formattedItem.split('\r\n');
     
             var expected = [
-                'weapon name',
+                'my weapon summary',
                 '\t' + 'Weapon:',
                 '\t\t' + 'Size: weapon size',
                 '\t\t' + 'Combat Types: ranged',
@@ -274,7 +274,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tIntelligent:');
             expect(lines[2]).toBe('\t\tEgo: 5');
             expect(lines[3]).toBe('\t\tIntelligence: 6');
@@ -310,7 +310,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tIntelligent:');
             expect(lines[2]).toBe('\t\tEgo: 5');
             expect(lines[3]).toBe('\t\tIntelligence: 6');
@@ -349,7 +349,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tIntelligent:');
             expect(lines[2]).toBe('\t\tEgo: 5');
             expect(lines[3]).toBe('\t\tIntelligence: 6');
@@ -386,7 +386,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name');
+            expect(lines[0]).toBe('item name summary');
             expect(lines[1]).toBe('\tIntelligent:');
             expect(lines[2]).toBe('\t\tEgo: 5');
             expect(lines[3]).toBe('\t\tIntelligence: 6');
@@ -438,7 +438,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item);
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('item name (x2)');
+            expect(lines[0]).toBe('item name summary (x2)');
             expect(lines[1]).toBe('\tContents:');
             expect(lines[2]).toBe('\t\tfirst contents');
             expect(lines[3]).toBe('\t\tsecond contents');
@@ -507,7 +507,7 @@ describe('Item Pipe', () => {
             var formattedItem = pipe.transform(item, '\t');
             var lines = formattedItem.split('\r\n');
     
-            expect(lines[0]).toBe('\titem name (x2)');
+            expect(lines[0]).toBe('\titem name summary (x2)');
             expect(lines[1]).toBe('\t\tContents:');
             expect(lines[2]).toBe('\t\t\tfirst contents');
             expect(lines[3]).toBe('\t\t\tsecond contents');
