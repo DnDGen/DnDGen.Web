@@ -58,7 +58,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ItemTypes.Tool.ToString(), PowerConstants.Mundane);
+            var response = await function.RunV1(request, ItemTypes.Tool.ToString(), PowerConstants.Mundane);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -88,7 +88,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Wand.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Wand.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -108,7 +108,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, "wrong item type", PowerConstants.Medium);
+            var response = await function.RunV1(request, "wrong item type", PowerConstants.Medium);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -128,7 +128,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), "wrong power");
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), "wrong power");
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -150,7 +150,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, itemType.ToString(), power);
+            var response = await function.RunV1(request, itemType.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -181,7 +181,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Tool.ToString(), PowerConstants.Mundane);
+            var response = await function.RunV1(request, ItemTypes.Tool.ToString(), PowerConstants.Mundane);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -214,7 +214,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Wand.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Wand.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -237,7 +237,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, "wrong item type", PowerConstants.Medium);
+            var response = await function.RunV1(request, "wrong item type", PowerConstants.Medium);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -260,7 +260,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), "wrong power");
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), "wrong power");
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -283,7 +283,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), PowerConstants.Medium);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), PowerConstants.Medium);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -311,7 +311,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, itemType.ToString(), power);
+            var response = await function.RunV1(request, itemType.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));

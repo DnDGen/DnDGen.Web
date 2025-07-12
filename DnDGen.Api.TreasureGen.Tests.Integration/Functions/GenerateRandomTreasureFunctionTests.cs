@@ -71,7 +71,8 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString().ToUpper(), 20);
                     yield return new TestCaseData(treasureType.ToString().ToLower(), 20);
                     yield return new TestCaseData(((int)treasureType).ToString(), 20);
-                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Standard);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Epic);
                 }
             }
         }

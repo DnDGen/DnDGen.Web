@@ -2,6 +2,7 @@ using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
+using DnDGen.Api.TreasureGen.Models.Legacy;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
@@ -206,7 +207,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.Body, Is.Not.Null);
 
-            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            var weapon = StreamHelper.Read<LegacyWeapon>(response.Body);
             Assert.That(weapon, Is.Not.Null);
             Assert.That(weapon.Name, Is.Not.Empty);
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
@@ -241,7 +242,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.Body, Is.Not.Null);
 
-            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            var weapon = StreamHelper.Read<LegacyWeapon>(response.Body);
             Assert.That(weapon, Is.Not.Null);
             Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
