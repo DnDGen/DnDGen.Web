@@ -18,7 +18,8 @@ namespace DnDGen.Api.Web.Functions
         }
 
         [Function("GetDungeonViewModelFunction")]
-        [OpenApiOperation(operationId: "GetDungeonViewModelFunctionRun", Summary = "Get the DungeonGen View Model",
+        [OpenApiOperation(operationId: "GetDungeonViewModelFunctionRun", tags: ["v1"],
+            Summary = "Get the DungeonGen View Model",
             Description = "Gets the initial view data for the DungeonGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(DungeonViewModel),
             Description = "The OK response containing the rollgen view model")]

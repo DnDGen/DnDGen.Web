@@ -3,7 +3,7 @@ using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
-using DnDGen.Infrastructure.Generators;
+using DnDGen.Infrastructure.Factories;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;

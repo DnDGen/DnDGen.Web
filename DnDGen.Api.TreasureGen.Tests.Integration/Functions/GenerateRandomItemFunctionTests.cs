@@ -31,7 +31,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(itemTypeInput, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -162,7 +162,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(ItemTypes.Armor.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Armor.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Armor.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -201,13 +201,13 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(ItemTypes.Weapon.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.Body, Is.Not.Null);
 
-            var weapon = StreamHelper.Read<LegacyWeapon>(response.Body);
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
             Assert.That(weapon, Is.Not.Null);
             Assert.That(weapon.Name, Is.Not.Empty);
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
@@ -236,13 +236,13 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.Body, Is.Not.Null);
 
-            var weapon = StreamHelper.Read<LegacyWeapon>(response.Body);
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
             Assert.That(weapon, Is.Not.Null);
             Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
@@ -277,7 +277,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -428,7 +428,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

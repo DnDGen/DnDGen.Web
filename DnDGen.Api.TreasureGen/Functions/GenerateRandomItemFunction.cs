@@ -28,25 +28,35 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("GenerateRandomItemFunction")]
-        [OpenApiOperation(operationId: "GenerateRandomItemFunctionRun", Summary = "Generate random item",
+        [OpenApiOperation(operationId: "GenerateRandomItemFunctionRun", tags: ["v1"],
+            Summary = "Generate random item",
             Description = "Generate a random item of the specified item type at the specified power.")]
-        [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
+        [OpenApiParameter(name: "itemType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(ItemTypes),
             Description = "The type of item to generate. Valid values: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem")]
-        [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "power",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
-        [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+        [OpenApiParameter(name: "name",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Armor),
             Description = "The OK response containing the generated armor")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(LegacyWeapon),
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(WeaponV1),
             Description = "The OK response containing the generated weapon")]
-        public async Task<HttpResponseData> Run(
+        public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/generate")] HttpRequestData req,
             string itemType, string power)
         {
-            _logger.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
 
             var name = req.Query["name"];
             var validatorResult = ItemValidator.GetValid(itemType, power, name);
@@ -69,7 +79,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             var response = req.CreateResponse(HttpStatusCode.OK);
 
             if (item is Weapon)
-                await response.WriteAsJsonAsync(item as LegacyWeapon);
+                await response.WriteAsJsonAsync(item as WeaponV1);
             else
                 await response.WriteAsJsonAsync(item);
 
@@ -77,13 +87,23 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("GenerateRandomItemFunctionV2")]
-        [OpenApiOperation(operationId: "GenerateRandomItemFunctionV2Run", Summary = "Generate random item",
+        [OpenApiOperation(operationId: "GenerateRandomItemFunctionV2Run", tags: ["v2"],
+            Summary = "Generate random item",
             Description = "Generate a random item of the specified item type at the specified power.")]
-        [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
+        [OpenApiParameter(name: "itemType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(ItemTypes),
             Description = "The type of item to generate. Valid values: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem")]
-        [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "power",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
-        [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+        [OpenApiParameter(name: "name",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]

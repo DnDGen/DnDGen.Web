@@ -18,7 +18,8 @@ namespace DnDGen.Api.Web.Functions
         }
 
         [Function("GetEncounterViewModelFunction")]
-        [OpenApiOperation(operationId: "GetEncounterViewModelFunctionRun", Summary = "Get the EncounterGen View Model",
+        [OpenApiOperation(operationId: "GetEncounterViewModelFunctionRun", tags: ["v1"],
+            Summary = "Get the EncounterGen View Model",
             Description = "Gets the initial view data for the EncounterGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(EncounterViewModel),
             Description = "The OK response containing the encountergen view model")]

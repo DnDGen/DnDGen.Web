@@ -249,7 +249,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
             Assert.That(responseTreasure.Goods, Is.Empty);
-            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count).And.EqualTo(2));
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
@@ -310,8 +310,6 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
         [TestCase(LevelLimits.Minimum - 2)]
         [TestCase(LevelLimits.Minimum - 1)]
-        [TestCase(LevelLimits.Maximum + 1)]
-        [TestCase(LevelLimits.Maximum + 2)]
         public async Task Run_ReturnsBadRequest_WhenLevelNotValid_OutOfRange(int level)
         {
             var request = requestHelper.BuildRequest();

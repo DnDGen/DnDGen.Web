@@ -27,23 +27,48 @@ namespace DnDGen.Api.DungeonGen.Functions
         }
 
         [Function("GenerateFromDoorFunction")]
-        [OpenApiOperation(operationId: "GenerateFromDoorFunctionRun", Summary = "Generate an area of a dungeon, starting at a door",
+        [OpenApiOperation(operationId: "GenerateFromDoorFunctionRun", tags: ["v1"],
+            Summary = "Generate an area of a dungeon, starting at a door",
             Description = "Generate an area of a dungeon, starting at a door, for the given parameters.")]
-        [OpenApiParameter(name: "dungeonLevel", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "dungeonLevel",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The physical level of the dungeon")]
-        [OpenApiParameter(name: "environment", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "environment",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The environment of the dungeon. Valid values: Aquatic, Civilized, Desert, Forest, Hill, Marsh, Mountain, Plains, Underground")]
-        [OpenApiParameter(name: "partyLevel", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "partyLevel",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The level of the party in the dungeon. Valid values: 1 <= L <= 30")]
-        [OpenApiParameter(name: "temperature", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "temperature",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The temperature of the environment for the dungeon. Valid values: Cold, Temperate, Warm")]
-        [OpenApiParameter(name: "timeOfDay", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "timeOfDay",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The time of day for the dungeon. Valid values: Day, Night")]
-        [OpenApiParameter(name: "allowAquatic", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
+        [OpenApiParameter(name: "allowAquatic",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(bool),
             Description = "Whether to allow aquatic encounters. Defaults to false.")]
-        [OpenApiParameter(name: "allowUnderground", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
+        [OpenApiParameter(name: "allowUnderground",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(bool),
             Description = "Whether to allow underground encounters. Defaults to false")]
-        [OpenApiParameter(name: "creatureTypeFilters", In = ParameterLocation.Query, Required = false, Type = typeof(string[]),
+        [OpenApiParameter(name: "creatureTypeFilters",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string[]),
             Description = "The allowed creature types for encounters. Providing all is the same as providing none. Valid values: Aberration, Animal, Construct, Dragon, Elemental, Fey, Giant, Humanoid, Magical Beast, Monstrous Humanoid, Ooze, Outsider, Plant, Undead, Vermin")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Area[]),
             Description = "The generated areas of the dungeon")]

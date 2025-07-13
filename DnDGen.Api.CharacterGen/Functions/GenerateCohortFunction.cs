@@ -25,15 +25,28 @@ namespace DnDGen.Api.CharacterGen.Functions
         }
 
         [Function("GenerateCohortFunction")]
-        [OpenApiOperation(operationId: "GenerateCohortFunctionRun", Summary = "Generate cohort",
+        [OpenApiOperation(operationId: "GenerateCohortFunctionRun", tags: ["v1"],
+            Summary = "Generate cohort",
             Description = "Generate a cohort with the given cohort score.")]
-        [OpenApiParameter(name: "cohortScore", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "cohortScore",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The leadership score, adjusted to be cohort-specific, used to generate the cohort.")]
-        [OpenApiParameter(name: "leaderLevel", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "leaderLevel",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(int),
             Description = "The level of the leader for whom the cohort is being generated. Valid values are 6 <= level <= 20.")]
-        [OpenApiParameter(name: "leaderAlignment", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "leaderAlignment",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(int),
             Description = "The alignment of the leader.")]
-        [OpenApiParameter(name: "leaderClassName", In = ParameterLocation.Query, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "leaderClassName",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(string),
             Description = "The class name of the leader.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated cohort character")]

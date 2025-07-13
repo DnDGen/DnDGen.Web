@@ -2,7 +2,7 @@
 
 namespace DnDGen.Api.TreasureGen.Models.Legacy
 {
-    public class LegacyWeapon : Weapon
+    public class WeaponV1 : Weapon
     {
         public string DamageDescription => DamageSummary;
         public string CriticalDamageDescription => CriticalDamageSummary;

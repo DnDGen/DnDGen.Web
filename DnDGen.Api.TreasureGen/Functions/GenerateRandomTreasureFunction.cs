@@ -34,12 +34,19 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("GenerateRandomTreasureFunction")]
-        [OpenApiOperation(operationId: "GenerateRandomTreasureFunctionRun", Summary = "Generate random treasure",
+        [OpenApiOperation(operationId: "GenerateRandomTreasureFunctionRun", tags: ["v1"],
+            Summary = "Generate random treasure",
             Description = "Generate random treasure at the specified level. Can narrow the treasure to coin, goods, or items.")]
-        [OpenApiParameter(name: "treasureType", In = ParameterLocation.Path, Required = true, Type = typeof(TreasureTypes),
+        [OpenApiParameter(name: "treasureType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(TreasureTypes),
             Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
-        [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
-            Description = "The level at which to generate the treasure. Should be 1 <= L <= 100")]
+        [OpenApiParameter(name: "level",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
+            Description = "The level at which to generate the treasure. Should be 1 <= level")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
             Description = "The OK response containing the generated treasure")]
         public async Task<HttpResponseData> Run(
@@ -57,9 +64,9 @@ namespace DnDGen.Api.TreasureGen.Functions
                 return invalidResponse;
             }
 
-            if (level < LevelLimits.Minimum || level > LevelLimits.Maximum)
+            if (level < LevelLimits.Minimum)
             {
-                _logger.LogError($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= L <= 100");
+                _logger.LogError($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= level");
 
                 var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
                 return invalidResponse;
