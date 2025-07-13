@@ -28,7 +28,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(itemType, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemType, power);
+            var response = await function.RunV1(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -397,7 +397,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

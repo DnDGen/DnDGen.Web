@@ -69,7 +69,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Treasure.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Treasure.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -104,7 +104,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Treasure).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Treasure).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -134,7 +134,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Coin.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Coin.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -160,7 +160,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Coin).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Coin).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -186,7 +186,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Goods.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Goods.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -213,7 +213,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Goods).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Goods).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -240,7 +240,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Items.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Items.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -267,7 +267,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Items).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Items).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -295,7 +295,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         {
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, invalid, 42);
+            var response = await function.RunV1(request, invalid, 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -314,7 +314,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         {
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Treasure.ToString(), level);
+            var response = await function.RunV1(request, TreasureTypes.Treasure.ToString(), level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));

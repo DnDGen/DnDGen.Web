@@ -27,7 +27,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         {
             var url = GetUrl(treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, treasureType, level);
+            var response = await function.RunV1(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

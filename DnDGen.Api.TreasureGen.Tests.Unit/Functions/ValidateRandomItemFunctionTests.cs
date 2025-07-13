@@ -70,7 +70,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         {
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, itemType, power);
+            var response = await function.RunV1(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -143,7 +143,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest(query);
 
-            var response = await function.Run(request, itemType, power);
+            var response = await function.RunV1(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

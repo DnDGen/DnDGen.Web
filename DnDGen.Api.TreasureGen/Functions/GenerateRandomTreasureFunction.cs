@@ -49,11 +49,11 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The level at which to generate the treasure. Should be 1 <= level")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
             Description = "The OK response containing the generated treasure")]
-        public async Task<HttpResponseData> Run(
+        public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/generate")] HttpRequestData req,
             string treasureType, int level)
         {
-            _logger.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
 
             var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
             if (!validTreasureType)
@@ -80,6 +80,26 @@ namespace DnDGen.Api.TreasureGen.Functions
             await response.WriteAsJsonAsync(treasure);
             return response;
         }
+
+        [Function("GenerateRandomTreasureFunctionV2")]
+        [OpenApiOperation(operationId: "GenerateRandomTreasureFunctionRunV2", tags: ["v2"],
+            Summary = "Generate random treasure",
+            Description = "Generate random treasure at the specified level. Can narrow the treasure to coin, goods, or items.")]
+        [OpenApiParameter(name: "treasureType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(TreasureTypes),
+            Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
+        [OpenApiParameter(name: "level",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
+            Description = "The level at which to generate the treasure. Should be 1 <= level")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Treasure),
+            Description = "The OK response containing the generated treasure")]
+        public async Task<HttpResponseData> RunV2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{treasureType}/level/{level:int}/generate")] HttpRequestData req,
+            string treasureType, int level) => await RunV1(req, treasureType, level);
 
         private async Task<Treasure> GetTreasureAsync(TreasureTypes treasureType, int level)
         {
