@@ -35,9 +35,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(validity, Is.EqualTo(valid));
         }
 
-        private string GetUrl(string treasureType, int level, string query = "")
+        private string GetUrl(string version, string treasureType, int level, string query = "")
         {
-            var url = $"https://treasure.dndgen.com/api/v1/{treasureType}/level/{level}/validate";
+            var url = $"https://treasure.dndgen.com/api/{version}/{treasureType}/level/{level}/validate";
             if (query.Any())
                 url += "?" + query.TrimStart('?');
 
