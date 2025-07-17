@@ -23,7 +23,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(TreasureValidationData))]
         public async Task ValidateRandom_ReturnsValidity(string treasureType, int level, bool valid)
         {
-            var url = GetUrl(treasureType, level);
+            var url = GetUrl("v1", treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -68,6 +68,21 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Epic + 1, false);
                 }
             }
+        }
+
+        [TestCaseSource(nameof(TreasureValidationData))]
+        public async Task ValidateRandomV2_ReturnsValidity(string treasureType, int level, bool valid)
+        {
+            var url = GetUrl("v2", treasureType, level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
     }
 }

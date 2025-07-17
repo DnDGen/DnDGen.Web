@@ -25,13 +25,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task GenerateRandomV1_ReturnsTreasure(string treasureType, int level)
         {
-            var url = GetUrl(treasureType, level);
+            var url = GetUrl("v1", treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var treasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(treasure, Is.Not.Null);
@@ -41,9 +43,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             foreach (var item in treasure.Items)
             {
                 Assert.That(item, Is.Not.Null);
-                Assert.That(item.Name, Is.Not.Empty);
-                Assert.That(item.ItemType, Is.Not.Empty, item.Name);
-                Assert.That(item.Quantity, Is.Positive, item.Name);
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(item.Name, Is.Not.Empty);
+                    Assert.That(item.ItemType, Is.Not.Empty, item.Name);
+                    Assert.That(item.Quantity, Is.Positive, item.Name);
+                }
             }
         }
 
@@ -80,13 +85,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(TreasureGenerationData))]
         public async Task GenerateRandomV2_ReturnsTreasure(string treasureType, int level)
         {
-            var url = GetUrl(treasureType, level);
+            var url = GetUrl("v2", treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var treasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(treasure, Is.Not.Null);
@@ -96,9 +103,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             foreach (var item in treasure.Items)
             {
                 Assert.That(item, Is.Not.Null);
-                Assert.That(item.Name, Is.Not.Empty);
-                Assert.That(item.ItemType, Is.Not.Empty, item.Name);
-                Assert.That(item.Quantity, Is.Positive, item.Name);
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(item.Name, Is.Not.Empty);
+                    Assert.That(item.ItemType, Is.Not.Empty, item.Name);
+                    Assert.That(item.Quantity, Is.Positive, item.Name);
+                }
             }
         }
     }

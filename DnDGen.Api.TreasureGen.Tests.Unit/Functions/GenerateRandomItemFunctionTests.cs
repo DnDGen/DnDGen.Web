@@ -67,7 +67,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Item (Tool) at power Mundane");
         }
 
@@ -90,13 +90,16 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var response = await function.RunV1(request, ItemTypes.Wand.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Generated Item (Wand) at power {power}");
         }
 
@@ -117,14 +120,21 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), PowerConstants.Medium);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseItem = StreamHelper.Read<WeaponV1>(response.Body);
-            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
-            Assert.That(responseItem.DamageDescription, Is.EqualTo(item.DamageSummary).And.EqualTo("92d66 emotional"));
+            Assert.That(responseItem, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
+                Assert.That(responseItem.DamageDescription, Is.EqualTo(item.DamageSummary).And.EqualTo("92d66 emotional"));
+            }
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Item (Weapon) at power Medium");
         }
 
@@ -145,14 +155,20 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var response = await function.RunV1(request, ItemTypes.Armor.ToString(), PowerConstants.Medium);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseItem = StreamHelper.Read<Armor>(response.Body);
-            Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
-            Assert.That(responseItem.ArmorBonus, Is.EqualTo(item.ArmorBonus).And.EqualTo(9266));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
+                Assert.That(responseItem.ArmorBonus, Is.EqualTo(item.ArmorBonus).And.EqualTo(9266));
+            }
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Item (Armor) at power Medium");
         }
 
@@ -171,7 +187,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: wrong item type; Power: Medium; Name: (None)", LogLevel.Error);
         }
 
@@ -190,7 +206,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: wrong power; Name: (None)", LogLevel.Error);
         }
 
@@ -211,7 +227,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: (None)", LogLevel.Error);
         }
 
@@ -241,7 +257,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Item Spyglass (Tool) at power Mundane");
         }
 
@@ -273,7 +289,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Generated Item My Item (Wand) at power {power}");
         }
 
@@ -295,7 +311,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: wrong item type; Power: Medium; Name: Longsword", LogLevel.Error);
         }
 
@@ -317,7 +333,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: wrong power; Name: Longsword", LogLevel.Error);
         }
 
@@ -339,7 +355,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: Medium; Name: Wrong Item", LogLevel.Error);
         }
 
@@ -366,7 +382,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: {name}", LogLevel.Error);
         }
 
@@ -391,7 +407,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Item (Tool) at power Mundane");
         }
 
@@ -420,7 +436,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Generated Item (Wand) at power {power}");
         }
 
@@ -448,7 +464,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
             Assert.That(responseItem.DamageSummary, Is.EqualTo("92d66 emotional"));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Item (Weapon) at power Medium");
         }
 
@@ -476,7 +492,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
             Assert.That(responseItem.ArmorBonus, Is.EqualTo(item.ArmorBonus).And.EqualTo(9266));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Item (Armor) at power Medium");
         }
 
@@ -495,7 +511,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: wrong item type; Power: Medium; Name: (None)", LogLevel.Error);
         }
 
@@ -514,7 +530,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: wrong power; Name: (None)", LogLevel.Error);
         }
 
@@ -535,7 +551,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: (None)", LogLevel.Error);
         }
 
@@ -565,7 +581,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Item Spyglass (Tool) at power Mundane");
         }
 
@@ -597,7 +613,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseItem = StreamHelper.Read<Item>(response.Body);
             Assert.That(responseItem.Summary, Is.EqualTo(item.Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Generated Item My Item (Wand) at power {power}");
         }
 
@@ -619,7 +635,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: wrong item type; Power: Medium; Name: Longsword", LogLevel.Error);
         }
 
@@ -641,7 +657,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: wrong power; Name: Longsword", LogLevel.Error);
         }
 
@@ -663,7 +679,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Parameters are not a valid combination. Item Type: Weapon; Power: Medium; Name: Wrong Item", LogLevel.Error);
         }
 
@@ -690,7 +706,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomItemFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Parameters are not a valid combination. Item Type: {itemType}; Power: {power}; Name: {name}", LogLevel.Error);
         }
     }

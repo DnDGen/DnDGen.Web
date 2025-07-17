@@ -29,7 +29,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(RandomItemGenerationData))]
         public async Task GenerateRandomV1_ReturnsTreasure(string itemTypeInput, string power, string itemTypeOutput)
         {
-            var url = GetUrl(itemTypeInput, power);
+            var url = GetUrl("v1", itemTypeInput, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -160,7 +160,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Major)]
         public async Task BUG_GenerateRandomArmorV1_ReturnsArmorWithArmorProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Armor.ToString(), power);
+            var url = GetUrl("v1", ItemTypes.Armor.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, ItemTypes.Armor.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -199,7 +199,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Major)]
         public async Task BUG_GenerateRandomWeaponV1_ReturnsWeaponWithWeaponProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), power);
+            var url = GetUrl("v1", ItemTypes.Weapon.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -426,7 +426,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [Test]
         public async Task BUG_GenerateItemV1_ReturnsSpecificWeapon_WithQuantity()
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
+            var url = GetUrl("v1", ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -444,7 +444,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(RandomItemGenerationData))]
         public async Task GenerateRandomV2_ReturnsTreasure(string itemTypeInput, string power, string itemTypeOutput)
         {
-            var url = GetUrl(itemTypeInput, power);
+            var url = GetUrl("v2", itemTypeInput, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -465,7 +465,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Major)]
         public async Task BUG_GenerateRandomArmorV2_ReturnsArmorWithArmorProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Armor.ToString(), power);
+            var url = GetUrl("v2", ItemTypes.Armor.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, ItemTypes.Armor.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -504,7 +504,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Major)]
         public async Task BUG_GenerateRandomWeaponV2_ReturnsWeaponWithWeaponProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), power);
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -539,7 +539,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Major)]
         public async Task BUG_GenerateDoubleWeaponV2_ReturnsWeaponWithWeaponProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -580,7 +580,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(ItemGenerationData))]
         public async Task GenerateItemV2_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
         {
-            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var url = GetUrl("v2", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -599,7 +599,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [Test]
         public async Task BUG_GenerateItemV2_ReturnsSpecificWeapon_WithQuantity()
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());

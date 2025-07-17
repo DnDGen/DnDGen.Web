@@ -81,7 +81,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             if (item is Weapon)
                 await response.WriteAsJsonAsync(item as WeaponV1);
             else
-                await response.WriteAsJsonAsync(item);
+                await response.WriteDnDGenModelAsJsonAsync(item);
 
             return response;
         }
@@ -137,7 +137,7 @@ namespace DnDGen.Api.TreasureGen.Functions
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
-            await response.WriteAsJsonAsync(item);
+            await response.WriteDnDGenModelAsJsonAsync(item);
 
             return response;
         }

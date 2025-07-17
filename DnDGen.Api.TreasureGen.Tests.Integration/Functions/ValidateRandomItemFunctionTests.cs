@@ -26,7 +26,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(RandomItemGenerationData))]
         public async Task ValidateRandomItemV1_ReturnsValidity(string itemType, string power, bool valid)
         {
-            var url = GetUrl(itemType, power);
+            var url = GetUrl("v1", itemType, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -549,13 +549,15 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(RandomItemGenerationData))]
         public async Task ValidateRandomItemV2_ReturnsValidity(string itemType, string power, bool valid)
         {
-            var url = GetUrl(itemType, power);
+            var url = GetUrl("v2", itemType, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var validity = StreamHelper.Read<bool>(response.Body);
             Assert.That(validity, Is.EqualTo(valid));
