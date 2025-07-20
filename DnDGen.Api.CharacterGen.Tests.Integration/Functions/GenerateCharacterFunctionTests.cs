@@ -2459,5 +2459,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 Assert.That(character.Magic.PreparedSpells.Any(s => s.Sources.Count > 1), Is.True);
             });
         }
+
+        [Test]
+        public void BUG_GenerateCharacter_WithWeaponV1()
+        {
+            Assert.Fail("not yet written");
+        }
     }
 }

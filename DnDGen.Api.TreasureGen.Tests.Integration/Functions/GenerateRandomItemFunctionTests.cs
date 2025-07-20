@@ -272,6 +272,18 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(weapon.ThreatRangeDescription, Is.Not.Empty, weapon.Name);
         }
 
+        [Test]
+        public void BUG_GenerateItemV1_GeneratesRod_WithWeaponProperties()
+        {
+            Assert.Fail("not yet written");
+        }
+
+        [Test]
+        public void BUG_GenerateItemV1_GeneratesStaff_WithWeaponProperties()
+        {
+            Assert.Fail("not yet written");
+        }
+
         [TestCaseSource(nameof(ItemGenerationData))]
         public async Task GenerateItemV1_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
         {
@@ -612,6 +624,18 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(item.Name, Is.Not.Empty.And.EqualTo(WeaponConstants.AssassinsDagger));
             Assert.That(item.ItemType, Is.EqualTo(ItemTypeConstants.Weapon));
             Assert.That(item.Quantity, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void BUG_GenerateItemV2_GeneratesRod_WithWeaponProperties()
+        {
+            Assert.Fail("not yet written");
+        }
+
+        [Test]
+        public void BUG_GenerateItemV2_GeneratesStaff_WithWeaponProperties()
+        {
+            Assert.Fail("not yet written");
         }
     }
 }

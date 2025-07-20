@@ -487,5 +487,11 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
 
             Assert.That(encounter.Characters.Count(), Is.EqualTo(2));
         }
+
+        [Test]
+        public void BUG_GenerateEncounter_WithWeaponV1()
+        {
+            Assert.Fail("not yet written");
+        }
     }
 }

@@ -580,5 +580,11 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
 
             Assert.That(characters.Select(c => c.InterestingTrait), Is.EquivalentTo(expectedCharacters.Select(c => c.InterestingTrait)));
         }
+
+        [Test]
+        public void BUG_GenerateFromDoor_WithWeaponV1()
+        {
+            Assert.Fail("not yet written");
+        }
     }
 }
