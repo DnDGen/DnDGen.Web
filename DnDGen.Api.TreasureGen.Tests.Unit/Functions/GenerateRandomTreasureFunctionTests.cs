@@ -597,7 +597,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseBody, Is.Empty);
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
-            mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= L <= 100", LogLevel.Error);
+            mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= level", LogLevel.Error);
         }
     }
 }

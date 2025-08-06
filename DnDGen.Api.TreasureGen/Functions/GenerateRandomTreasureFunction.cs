@@ -55,6 +55,11 @@ namespace DnDGen.Api.TreasureGen.Functions
         {
             _logger.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
 
+            return await Run(req, treasureType, level);
+        }
+
+        private async Task<HttpResponseData> Run(HttpRequestData req, string treasureType, int level)
+        {
             var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
             if (!validTreasureType)
             {
@@ -99,7 +104,12 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The OK response containing the generated treasure")]
         public async Task<HttpResponseData> RunV2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{treasureType}/level/{level:int}/generate")] HttpRequestData req,
-            string treasureType, int level) => await RunV1(req, treasureType, level);
+            string treasureType, int level)
+        {
+            _logger.LogInformation("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+
+            return await Run(req, treasureType, level);
+        }
 
         private async Task<Treasure> GetTreasureAsync(TreasureTypes treasureType, int level)
         {

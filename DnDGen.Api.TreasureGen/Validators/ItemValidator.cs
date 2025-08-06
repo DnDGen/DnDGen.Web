@@ -107,30 +107,30 @@ namespace DnDGen.Api.TreasureGen.Validators
                 case ItemTypeConstants.Armor:
                     var specificArmors = ArmorConstants.GetAllSpecificArmorsAndShields();
                     if (specificArmors.Select(n => n.ToLower()).Contains(name.ToLower()) && power == PowerConstants.Mundane)
-                        return Enumerable.Empty<string>();
+                        return [];
 
                     return ArmorConstants.GetAllArmorsAndShields(true);
                 case ItemTypeConstants.Potion: return PotionConstants.GetAllPotions(false);
                 case ItemTypeConstants.Ring: return RingConstants.GetAllRings();
                 case ItemTypeConstants.Rod: return RodConstants.GetAllRods();
-                case ItemTypeConstants.Scroll: return new[] { name };
+                case ItemTypeConstants.Scroll: return [name];
                 case ItemTypeConstants.Staff: return StaffConstants.GetAllStaffs();
                 case ItemTypeConstants.Tool: return ToolConstants.GetAllTools();
-                case ItemTypeConstants.Wand: return new[] { name };
+                case ItemTypeConstants.Wand: return [name];
                 case ItemTypeConstants.Weapon:
                     var specificWeapons = WeaponConstants.GetAllSpecific();
                     if (specificWeapons.Select(n => n.ToLower()).Contains(name.ToLower()) && power == PowerConstants.Mundane)
-                        return Enumerable.Empty<string>();
+                        return [];
 
                     return WeaponConstants.GetAllWeapons(true, false);
                 case ItemTypeConstants.WondrousItem: return WondrousItemConstants.GetAllWondrousItems();
-                default: return Enumerable.Empty<string>();
+                default: return [];
             }
         }
 
         public static (bool Valid, string ItemType, string Power, string Name) GetValid(string itemType, string power, string name = null)
         {
-            var validatedPower = Powers.FirstOrDefault(p => p.ToLower() == power.ToLower());
+            var validatedPower = Powers.FirstOrDefault(p => p.Equals(power, StringComparison.CurrentCultureIgnoreCase));
             var valid = validatedPower != null;
 
             var validItemType = Enum.TryParse<ItemTypes>(itemType, true, out var validatedItemType);
@@ -150,7 +150,7 @@ namespace DnDGen.Api.TreasureGen.Validators
             }
 
             var items = GetItemNames(itemTypeDescription, validatedPower, name);
-            var validatedName = items.FirstOrDefault(n => n.ToLower() == name.ToLower());
+            var validatedName = items.FirstOrDefault(n => n.Equals(name, StringComparison.CurrentCultureIgnoreCase));
             valid &= validatedName != null;
 
             return (valid, itemTypeDescription, validatedPower, validatedName);
