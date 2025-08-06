@@ -77,7 +77,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             _logger.LogInformation($"Generated Treasure ({validatedTreasureType}) at level {level}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(treasure);
+            await response.WriteDnDGenModelAsJsonAsync(treasure);
             return response;
         }
 

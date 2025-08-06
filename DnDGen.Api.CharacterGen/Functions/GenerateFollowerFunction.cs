@@ -68,7 +68,7 @@ namespace DnDGen.Api.CharacterGen.Functions
             _logger.LogInformation($"Generated Follower: {follower.Summary}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(follower);
+            await response.WriteDnDGenModelAsJsonAsync(follower);
             return response;
         }
     }

@@ -85,7 +85,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
@@ -120,7 +120,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
@@ -146,7 +146,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
@@ -172,7 +172,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
@@ -199,7 +199,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
@@ -226,7 +226,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
@@ -253,7 +253,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
         }
 
@@ -280,7 +280,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
         }
 
@@ -304,7 +304,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Parameter 'treasureType' of '{invalid}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items", LogLevel.Error);
         }
 
@@ -323,7 +323,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= level", LogLevel.Error);
         }
 
@@ -358,7 +358,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
@@ -393,7 +393,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
@@ -419,7 +419,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
@@ -445,7 +445,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
@@ -472,7 +472,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
@@ -499,7 +499,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
@@ -526,7 +526,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
         }
 
@@ -553,7 +553,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
         }
 
@@ -577,7 +577,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Parameter 'treasureType' of '{invalid}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items", LogLevel.Error);
         }
 
@@ -596,7 +596,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
             mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= L <= 100", LogLevel.Error);
         }
     }

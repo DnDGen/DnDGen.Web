@@ -79,7 +79,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             var response = req.CreateResponse(HttpStatusCode.OK);
 
             if (item is Weapon)
-                await response.WriteAsJsonAsync(item as WeaponV1);
+                await response.WriteDnDGenModelAsJsonAsync(WeaponV1.From(item as Weapon));
             else
                 await response.WriteDnDGenModelAsJsonAsync(item);
 

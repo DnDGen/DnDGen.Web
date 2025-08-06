@@ -67,7 +67,7 @@ namespace DnDGen.Api.CharacterGen.Functions
             _logger.LogInformation($"Generated Leadership: Score - {leadership.Score}; Modifiers - {string.Join(", ", leadership.LeadershipModifiers)}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(leadership);
+            await response.WriteDnDGenModelAsJsonAsync(leadership);
             return response;
         }
     }

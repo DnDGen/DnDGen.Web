@@ -108,7 +108,7 @@ namespace DnDGen.Api.DungeonGen.Functions
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(areas);
+            await response.WriteDnDGenModelAsJsonAsync(areas);
             return response;
         }
     }

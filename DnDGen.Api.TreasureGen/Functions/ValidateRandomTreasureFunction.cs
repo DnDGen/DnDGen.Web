@@ -53,7 +53,7 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("ValidateRandomTreasureFunctionV2")]
-        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRunV2", tags: ["v1"],
+        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRunV2", tags: ["v2"],
             Summary = "Validate parameters for random treasure generation",
             Description = "Validates the parameters for random treasure generation")]
         [OpenApiParameter(name: "treasureType",

@@ -30,7 +30,7 @@ namespace DnDGen.Api.Web.Functions
             var model = new DungeonViewModel();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(model);
+            await response.WriteDnDGenModelAsJsonAsync(model);
             return response;
         }
     }

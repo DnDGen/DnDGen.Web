@@ -489,9 +489,55 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
         }
 
         [Test]
-        public void BUG_GenerateEncounter_WithWeaponV1()
+        public async Task BUG_GenerateEncounter_WithWeaponV1()
         {
-            Assert.Fail("not yet written");
+            mockEncounterVerifier
+                .Setup(v => v.ValidEncounterExists(It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(true);
+
+            var expectedEncounter = new Encounter
+            {
+                Description = "My encounter description",
+                Characters =
+                [
+                    new()
+                    {
+                        Equipment = new()
+                        {
+                            PrimaryHand = new()
+                            {
+                                Name = "Sword",
+                                Quantity = 1,
+                                Damages = [new() { Roll = "92d66", Type = "psychic" }],
+                            }
+                        }
+                    }
+                ]
+            };
+            mockEncounterGenerator
+                .Setup(v => v.Generate(It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(expectedEncounter);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await _function.Run(request, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var encounter = StreamHelper.Read<Encounter>(response.Body);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(encounter.Description, Is.EqualTo(expectedEncounter.Description));
+                Assert.That(encounter.Characters.Count(), Is.EqualTo(1));
+                Assert.That(encounter.Characters.Single().Equipment.PrimaryHand, Is.Not.Null);
+                Assert.That(encounter.Characters.Single().Equipment.PrimaryHand.DamageDescription, Is.Not.Empty);
+            }
         }
     }
 }

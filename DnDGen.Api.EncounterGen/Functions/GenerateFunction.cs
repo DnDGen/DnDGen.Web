@@ -99,7 +99,7 @@ namespace DnDGen.Api.EncounterGen.Functions
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(encounter);
+            await response.WriteDnDGenModelAsJsonAsync(encounter);
             return response;
         }
     }

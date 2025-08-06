@@ -187,7 +187,7 @@ namespace DnDGen.Api.CharacterGen.Functions
             _logger.LogInformation($"Generated Character: {character.Summary}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(character);
+            await response.WriteDnDGenModelAsJsonAsync(character);
             return response;
         }
     }

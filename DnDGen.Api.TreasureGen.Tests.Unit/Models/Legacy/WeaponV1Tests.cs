@@ -62,67 +62,71 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Models.Legacy
                 BaseNames = ["longsword", "greatsword"],
                 Contents = ["a small amount of blood", "a wand and a rabbit"],
                 CriticalDamages = [
-                    new() { Roll = "1d8", Type = "slashing", Condition = "whenever" },
-                    new() { Roll = "2d7", Type = "piercing", Condition = "sometimes" }],
-                CriticalMultiplier = "x2",
-                Damages = [new() { Roll = "1d10", Type = "bludgeoning", Condition = "occasionally" }, new() { Roll = "2d9", Type = "emotional", Condition = "often" }],
+                    new() { Roll = "92d66", Type = "slashing", Condition = "whenever" },
+                    new() { Roll = "90d210", Type = "piercing", Condition = "sometimes" }],
+                CriticalMultiplier = "x42",
+                Damages = [new() { Roll = "1d600", Type = "bludgeoning", Condition = "occasionally" }, new() { Roll = "13d37", Type = "emotional", Condition = "often" }],
                 IsMagical = true,
                 ItemType = "weapon",
                 Magic = new()
                 {
-                    Bonus = 12,
-                    Charges = 4,
+                    Bonus = 1336,
+                    Charges = 96,
                     Curse = "cursed with bad luck",
                     Intelligence = new()
                     {
                         Alignment = "neutral",
-                        CharismaStat = 15,
+                        CharismaStat = 783,
                         Communication = ["telepathy", "speech"],
                         DedicatedPower = "detect magic",
-                        Ego = 6,
-                        IntelligenceStat = 18,
+                        Ego = 8245,
+                        IntelligenceStat = 9,
                         Languages = ["Common", "Elvish"],
                         Personality = "curious",
                         Powers = ["light", "fireball"],
                         SpecialPurpose = "protect the wielder",
                         Senses = "darkvision, truesight",
-                        WisdomStat = 14,
+                        WisdomStat = 22,
                     },
                     SpecialAbilities =
                     [
                         new()
                         {
                             Name = "Super Flaming",
-                            AttributeRequirements = ["Dexterity 13"],
+                            AttributeRequirements = ["cannot be spherical", "shouldn't be red"],
                             BaseName = "flaming",
-                            BonusEquivalent = 5,
+                            BonusEquivalent = 2022,
                             CriticalDamages = [
-                                new() { Roll = "2d6", Type = "fire", Condition = "usually" },
-                                new() { Roll = "3d5", Type = "electric", Condition = "rarely" }],
-                            Damages = [new() { Roll = "1d6", Type = "sonic", Condition = "almost never" }, new() { Roll = "2d5", Type = "ice", Condition = "always" }],
-                            Power = 7,
+                                new() { Roll = "2d27", Type = "fire", Condition = "usually" },
+                                new() { Roll = "2d12", Type = "electric", Condition = "rarely" }],
+                            Damages = [new() { Roll = "20d25", Type = "sonic", Condition = "almost never" }, new() { Roll = "1d11", Type = "ice", Condition = "always" }],
+                            Power = 10,
                         },
                         new()
                         {
                             Name = "Super Awesome",
-                            AttributeRequirements = ["Wisdom 14"],
+                            AttributeRequirements = ["must be conical", "should be blue"],
                             BaseName = "awesome",
-                            BonusEquivalent = 8,
-                            CriticalDamages = [new() { Roll = "3d5", Type = "acid", Condition = "50/50" }, new() { Roll = "4d4", Type = "air", Condition = "blue moon" }],
-                            Damages = [new() { Roll = "2d5", Type = "earth", Condition = "pigs fly" }, new() { Roll = "3d4", Type = "water", Condition = "right now" }],
-                            Power = 9,
+                            BonusEquivalent = 2015,
+                            CriticalDamages = [
+                                new() { Roll = "12d34", Type = "acid", Condition = "50/50" },
+                                new() { Roll = "23d45", Type = "air", Condition = "blue moon" }],
+                            Damages = [new() { Roll = "34d56", Type = "earth", Condition = "pigs fly" }, new() { Roll = "45d67", Type = "water", Condition = "right now" }],
+                            Power = 5678,
                         },
                     ],
                 },
                 Name = "Test Weapon",
-                Quantity = 10,
-                SecondaryCriticalDamages = [new() { Roll = "1d6", Type = "cold", Condition = "manchmal" }, new() { Roll = "2d4", Type = "force", Condition = "in myth" }],
-                SecondaryCriticalMultiplier = "x3",
-                SecondaryDamages = [new() { Roll = "1d8", Type = "lightning", Condition = "seldom" }, new() { Roll = "2d6", Type = "psychic", Condition = "already did" }],
+                Quantity = 6789,
+                SecondaryCriticalDamages = [
+                    new() { Roll = "78d90", Type = "cold", Condition = "manchmal" },
+                    new() { Roll = "89d12", Type = "force", Condition = "in myth" }],
+                SecondaryCriticalMultiplier = "x9012",
+                SecondaryDamages = [new() { Roll = "1d23", Type = "lightning", Condition = "seldom" }, new() { Roll = "2d34", Type = "psychic", Condition = "already did" }],
                 SecondaryHasAbilities = true,
-                SecondaryMagicBonus = 11,
+                SecondaryMagicBonus = 345,
                 Size = "large",
-                ThreatRange = 3,
+                ThreatRange = 456,
                 Traits = ["versatile", "finesse"],
             };
 
@@ -174,22 +178,61 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Models.Legacy
                 Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
                 Assert.That(weaponV1.Magic.Intelligence.CharismaStat, Is.EqualTo(15));
                 Assert.That(weaponV1.Magic.Intelligence.Communication, Is.EqualTo(["telepathy", "speech"]));
-                Assert.That(weaponV1.Magic.Intelligence.DedicatedPower, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.That(weaponV1.Magic.Intelligence.Alignment, Is.EqualTo("neutral"));
-                Assert.Fail("assert item intelligence");
-                Assert.Fail("assert item special abilities");
+                Assert.That(weaponV1.Magic.Intelligence.DedicatedPower, Is.EqualTo("detect magic"));
+                Assert.That(weaponV1.Magic.Intelligence.Ego, Is.EqualTo(6));
+                Assert.That(weaponV1.Magic.Intelligence.IntelligenceStat, Is.EqualTo(666));
+                Assert.That(weaponV1.Magic.Intelligence.Languages, Is.EqualTo(["telepathy", "speech"]));
+                Assert.That(weaponV1.Magic.Intelligence.Personality, Is.EqualTo("neutral"));
+                Assert.That(weaponV1.Magic.Intelligence.Powers, Is.EqualTo(["telepathy", "speech"]));
+                Assert.That(weaponV1.Magic.Intelligence.Senses, Is.EqualTo("neutral"));
+                Assert.That(weaponV1.Magic.Intelligence.SpecialPurpose, Is.EqualTo("neutral"));
+                Assert.That(weaponV1.Magic.Intelligence.WisdomStat, Is.EqualTo(666));
                 Assert.That(weaponV1.Quantity, Is.EqualTo(10));
                 Assert.That(weaponV1.SecondaryMagicBonus, Is.EqualTo(11));
                 Assert.That(weaponV1.Size, Is.EqualTo("large"));
-                Assert.That(weaponV1.ThreatRange, Is.EqualTo(3));
+                Assert.That(weaponV1.ThreatRange, Is.EqualTo(456));
                 Assert.That(weaponV1.Traits, Is.EqualTo(["versatile", "finesse"]));
+
+                var specialAbilities = weaponV1.Magic.SpecialAbilities.ToArray();
+                Assert.That(specialAbilities, Has.Length.EqualTo(2));
+                Assert.That(specialAbilities[0].AttributeRequirements, Is.EqualTo(["telepathy", "speech"]));
+                Assert.That(specialAbilities[0].BaseName, Is.EqualTo("whatever"));
+                Assert.That(specialAbilities[0].BonusEquivalent, Is.EqualTo(666));
+                Assert.That(specialAbilities[0].Damages, Has.Count.EqualTo(2));
+                Assert.That(specialAbilities[0].Damages[0].Roll, Is.EqualTo("1d8"));
+                Assert.That(specialAbilities[0].Damages[0].Type, Is.EqualTo("slashing"));
+                Assert.That(specialAbilities[0].Damages[0].Condition, Is.EqualTo("whenever"));
+                Assert.That(specialAbilities[0].Damages[1].Roll, Is.EqualTo("2d7"));
+                Assert.That(specialAbilities[0].Damages[1].Type, Is.EqualTo("piercing"));
+                Assert.That(specialAbilities[0].Damages[1].Condition, Is.EqualTo("sometimes"));
+                Assert.That(specialAbilities[0].CriticalDamages, Has.Count.EqualTo(2));
+                Assert.That(specialAbilities[0].CriticalDamages[0].Roll, Is.EqualTo("1d10"));
+                Assert.That(specialAbilities[0].CriticalDamages[0].Type, Is.EqualTo("bludgeoning"));
+                Assert.That(specialAbilities[0].CriticalDamages[0].Condition, Is.EqualTo("occasionally"));
+                Assert.That(specialAbilities[0].CriticalDamages[1].Roll, Is.EqualTo("2d9"));
+                Assert.That(specialAbilities[0].CriticalDamages[1].Type, Is.EqualTo("emotional"));
+                Assert.That(specialAbilities[0].CriticalDamages[1].Condition, Is.EqualTo("often"));
+                Assert.That(specialAbilities[0].Name, Is.EqualTo("whatever"));
+                Assert.That(specialAbilities[0].Power, Is.EqualTo(666));
+                Assert.That(specialAbilities[1].AttributeRequirements, Is.EqualTo(["telepathy", "speech"]));
+                Assert.That(specialAbilities[1].BaseName, Is.EqualTo("whatever"));
+                Assert.That(specialAbilities[1].BonusEquivalent, Is.EqualTo(666));
+                Assert.That(specialAbilities[1].Damages, Has.Count.EqualTo(2));
+                Assert.That(specialAbilities[1].Damages[0].Roll, Is.EqualTo("1d8"));
+                Assert.That(specialAbilities[1].Damages[0].Type, Is.EqualTo("slashing"));
+                Assert.That(specialAbilities[1].Damages[0].Condition, Is.EqualTo("whenever"));
+                Assert.That(specialAbilities[1].Damages[1].Roll, Is.EqualTo("2d7"));
+                Assert.That(specialAbilities[1].Damages[1].Type, Is.EqualTo("piercing"));
+                Assert.That(specialAbilities[1].Damages[1].Condition, Is.EqualTo("sometimes"));
+                Assert.That(specialAbilities[1].CriticalDamages, Has.Count.EqualTo(2));
+                Assert.That(specialAbilities[1].CriticalDamages[0].Roll, Is.EqualTo("1d10"));
+                Assert.That(specialAbilities[1].CriticalDamages[0].Type, Is.EqualTo("bludgeoning"));
+                Assert.That(specialAbilities[1].CriticalDamages[0].Condition, Is.EqualTo("occasionally"));
+                Assert.That(specialAbilities[1].CriticalDamages[1].Roll, Is.EqualTo("2d9"));
+                Assert.That(specialAbilities[1].CriticalDamages[1].Type, Is.EqualTo("emotional"));
+                Assert.That(specialAbilities[1].CriticalDamages[1].Condition, Is.EqualTo("often"));
+                Assert.That(specialAbilities[1].Name, Is.EqualTo("whatever"));
+                Assert.That(specialAbilities[1].Power, Is.EqualTo(666));
             }
         }
     }

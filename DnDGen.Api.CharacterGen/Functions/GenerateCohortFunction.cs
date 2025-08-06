@@ -80,7 +80,7 @@ namespace DnDGen.Api.CharacterGen.Functions
                 _logger.LogInformation("Generated Cohort: (None)");
             }
 
-            await response.WriteAsJsonAsync(cohort);
+            await response.WriteDnDGenModelAsJsonAsync(cohort);
             return response;
         }
     }

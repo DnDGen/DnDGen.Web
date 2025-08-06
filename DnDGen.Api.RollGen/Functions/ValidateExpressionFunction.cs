@@ -51,7 +51,7 @@ namespace DnDGen.Api.RollGen.Functions
             _logger.LogInformation($"Validated {expression} = {valid}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(valid);
+            await response.WriteDnDGenModelAsJsonAsync(valid);
             return response;
         }
 
@@ -86,7 +86,7 @@ namespace DnDGen.Api.RollGen.Functions
             _logger.LogInformation($"Validated {expression} = {valid}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(valid);
+            await response.WriteDnDGenModelAsJsonAsync(valid);
             return response;
         }
     }
