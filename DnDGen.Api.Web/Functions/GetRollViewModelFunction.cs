@@ -18,7 +18,8 @@ namespace DnDGen.Api.Web.Functions
         }
 
         [Function("GetRollViewModelFunction")]
-        [OpenApiOperation(operationId: "GetRollViewModelFunctionRun", Summary = "Get the RollGen View Model",
+        [OpenApiOperation(operationId: "GetRollViewModelFunctionRun", tags: ["v1"],
+            Summary = "Get the RollGen View Model",
             Description = "Gets the initial view data for the RollGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(RollViewModel),
             Description = "The OK response containing the rollgen view model")]
@@ -29,7 +30,7 @@ namespace DnDGen.Api.Web.Functions
             var model = new RollViewModel();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(model);
+            await response.WriteDnDGenModelAsJsonAsync(model);
             return response;
         }
     }

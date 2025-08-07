@@ -18,7 +18,8 @@ namespace DnDGen.Api.Web.Functions
         }
 
         [Function("GetCharacterViewModelFunction")]
-        [OpenApiOperation(operationId: "GetCharacterViewModelFunctionRun", Summary = "Get the CharacterGen View Model",
+        [OpenApiOperation(operationId: "GetCharacterViewModelFunctionRun", tags: ["v1"],
+            Summary = "Get the CharacterGen View Model",
             Description = "Gets the initial view data for the CharacterGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CharacterViewModel),
             Description = "The OK response containing the charactergen view model")]
@@ -29,7 +30,7 @@ namespace DnDGen.Api.Web.Functions
             var model = new CharacterViewModel();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(model);
+            await response.WriteDnDGenModelAsJsonAsync(model);
             return response;
         }
     }

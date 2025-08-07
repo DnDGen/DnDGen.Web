@@ -20,17 +20,27 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("ValidateRandomItemFunction")]
-        [OpenApiOperation(operationId: "ValidateRandomItemFunctionRun", Summary = "Validate parameters for random item generation",
+        [OpenApiOperation(operationId: "ValidateRandomItemFunctionRun", tags: ["v1"],
+            Summary = "Validate parameters for random item generation",
             Description = "Validates the parameters for random item generation")]
-        [OpenApiParameter(name: "itemType", In = ParameterLocation.Path, Required = true, Type = typeof(ItemTypes),
+        [OpenApiParameter(name: "itemType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(ItemTypes),
             Description = "The type of item to generate. Valid values: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem")]
-        [OpenApiParameter(name: "power", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "power",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
-        [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = false, Type = typeof(string),
+        [OpenApiParameter(name: "name",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated item")]
-        public async Task<HttpResponseData> Run(
+        public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/validate")] HttpRequestData req,
             string itemType, string power)
         {
@@ -48,5 +58,30 @@ namespace DnDGen.Api.TreasureGen.Functions
             await response.WriteAsJsonAsync(validatorResult.Valid);
             return response;
         }
+
+        [Function("ValidateRandomItemFunctionV2")]
+        [OpenApiOperation(operationId: "ValidateRandomItemFunctionRunV2", tags: ["v2"],
+            Summary = "Validate parameters for random item generation",
+            Description = "Validates the parameters for random item generation")]
+        [OpenApiParameter(name: "itemType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(ItemTypes),
+            Description = "The type of item to generate. Valid values: AlchemicalItem, Armor, Potion, Ring, Rod, Scroll, Staff, Tool, Wand, Weapon, WondrousItem")]
+        [OpenApiParameter(name: "power",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
+            Description = "The power at which to generate the item. Valid values: Mundane, Minor, Medium, Major. Not all powers are compatible with all item types.")]
+        [OpenApiParameter(name: "name",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
+            Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
+            Description = "The OK response containing the generated item")]
+        public async Task<HttpResponseData> RunV2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/item/{itemType}/power/{power}/validate")] HttpRequestData req,
+            string itemType, string power) => await RunV1(req, itemType, power);
     }
 }

@@ -23,9 +23,13 @@ namespace DnDGen.Api.RollGen.Functions
         }
 
         [Function("RollExpressionFunction")]
-        [OpenApiOperation(operationId: "RollExpressionFunctionRun", Summary = "Roll an expression",
+        [OpenApiOperation(operationId: "RollExpressionFunctionRun", tags: ["v1"],
+            Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
-        [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "expression",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(string),
             Description = "The expression to compute")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
@@ -63,9 +67,13 @@ namespace DnDGen.Api.RollGen.Functions
         //HACK: Have to put the expression in the query, instead of the path, as the expression may contain invalid path characters such as slashes.
         //URL encoding does not fix the issue. It is a known issue: https://github.com/Azure/azure-functions-host/issues/9290
         [Function("RollExpressionFunctionV2")]
-        [OpenApiOperation(operationId: "RollExpressionFunctionV2Run", Summary = "Roll an expression",
+        [OpenApiOperation(operationId: "RollExpressionFunctionV2Run", tags: ["v2"],
+            Summary = "Roll an expression",
             Description = "Computes the expression, including all roll values")]
-        [OpenApiParameter(name: "expression", In = ParameterLocation.Query, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "expression",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(string),
             Description = "The expression to compute")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]

@@ -21,22 +21,29 @@ namespace DnDGen.Api.TreasureGen.Functions
         }
 
         [Function("ValidateRandomTreasureFunction")]
-        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", Summary = "Validate parameters for random treasure generation",
+        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRun", tags: ["v1"],
+            Summary = "Validate parameters for random treasure generation",
             Description = "Validates the parameters for random treasure generation")]
-        [OpenApiParameter(name: "treasureType", In = ParameterLocation.Path, Required = true, Type = typeof(TreasureTypes),
+        [OpenApiParameter(name: "treasureType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(TreasureTypes),
             Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
-        [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
-            Description = "The level at which to generate the treasure. Should be 1 <= L <= 100")]
+        [OpenApiParameter(name: "level",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
+            Description = "The level at which to generate the treasure. Should be 1 <= level")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the generated treasure")]
-        public async Task<HttpResponseData> Run(
+        public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/{treasureType}/level/{level:int}/validate")] HttpRequestData req,
             string treasureType, int level)
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateRandomTreasureFunction.Run) processed a request.");
 
             var validTreasureType = Enum.TryParse<TreasureTypes>(treasureType, true, out var validatedTreasureType);
-            var valid = validTreasureType && LevelLimits.Minimum <= level && level <= LevelLimits.Maximum;
+            var valid = validTreasureType && LevelLimits.Minimum <= level;
 
             _logger.LogInformation($"Validated Treasure ({treasureType}) at level {level} = {valid}");
 
@@ -44,5 +51,25 @@ namespace DnDGen.Api.TreasureGen.Functions
             await response.WriteAsJsonAsync(valid);
             return response;
         }
+
+        [Function("ValidateRandomTreasureFunctionV2")]
+        [OpenApiOperation(operationId: "ValidateRandomTreasureFunctionRunV2", tags: ["v2"],
+            Summary = "Validate parameters for random treasure generation",
+            Description = "Validates the parameters for random treasure generation")]
+        [OpenApiParameter(name: "treasureType",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(TreasureTypes),
+            Description = "The type of treasure to generate. Valid values: Treasure, Coin, Goods, Items")]
+        [OpenApiParameter(name: "level",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
+            Description = "The level at which to generate the treasure. Should be 1 <= level")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
+            Description = "The OK response containing the generated treasure")]
+        public async Task<HttpResponseData> RunV2(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/{treasureType}/level/{level:int}/validate")] HttpRequestData req,
+            string treasureType, int level) => await RunV1(req, treasureType, level);
     }
 }

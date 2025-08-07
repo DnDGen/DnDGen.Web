@@ -580,5 +580,72 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
 
             Assert.That(characters.Select(c => c.InterestingTrait), Is.EquivalentTo(expectedCharacters.Select(c => c.InterestingTrait)));
         }
+
+        [Test]
+        public async Task BUG_GenerateFromHall_WithWeaponV1()
+        {
+            mockEncounterVerifier
+                .Setup(v => v.ValidEncounterExists(It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(true);
+
+            var expectedAreas = new[] {
+                new Area { Type = "my area" },
+                new Area
+                {
+                    Type = "my other area",
+                    Contents = new()
+                    {
+                        Encounters = [
+                            new()
+                            {
+                                Description = "My OTHER encounter description",
+                                Characters =
+                                [
+                                    new()
+                                    {
+                                        Equipment = new()
+                                        {
+                                            PrimaryHand = new()
+                                            {
+                                                Name = "Sword",
+                                                Quantity = 1,
+                                                Damages = [new() { Roll = "92d66", Type = "psychic" }],
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+            };
+            mockDungeonGenerator
+                .Setup(v => v.GenerateFromHall(9266, It.Is<EncounterSpecifications>(s =>
+                    s.Description == "Level 1 Temperate Plains Day")))
+                .Returns(expectedAreas);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await _function.Run(request, 9266, EnvironmentConstants.Temperatures.Temperate, EnvironmentConstants.Plains, EnvironmentConstants.TimesOfDay.Day, 1);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var areas = StreamHelper.Read<Area[]>(response.Body);
+            Assert.That(areas, Has.Length.EqualTo(2));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(areas[0].Type, Is.EqualTo(expectedAreas[0].Type));
+                Assert.That(areas[1].Type, Is.EqualTo(expectedAreas[1].Type));
+                Assert.That(areas[1].Contents.Encounters.Count(), Is.EqualTo(1));
+                Assert.That(areas[1].Contents.Encounters.Single().Characters.Count(), Is.EqualTo(1));
+                Assert.That(areas[1].Contents.Encounters.Single().Characters.Single().Equipment.PrimaryHand, Is.Not.Null);
+                Assert.That(areas[1].Contents.Encounters.Single().Characters.Single().Equipment.PrimaryHand.DamageDescription, Is.Not.Empty);
+            }
+        }
     }
 }

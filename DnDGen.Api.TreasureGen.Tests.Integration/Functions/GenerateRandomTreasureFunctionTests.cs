@@ -23,15 +23,17 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [TestCaseSource(nameof(TreasureGenerationData))]
-        public async Task GenerateRandom_ReturnsTreasure(string treasureType, int level)
+        public async Task GenerateRandomV1_ReturnsTreasure(string treasureType, int level)
         {
-            var url = GetUrl(treasureType, level);
+            var url = GetUrl("v1", treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, treasureType, level);
+            var response = await function.RunV1(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var treasure = StreamHelper.Read<Treasure>(response.Body);
             Assert.That(treasure, Is.Not.Null);
@@ -41,15 +43,18 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             foreach (var item in treasure.Items)
             {
                 Assert.That(item, Is.Not.Null);
-                Assert.That(item.Name, Is.Not.Empty);
-                Assert.That(item.ItemType, Is.Not.Empty, item.Name);
-                Assert.That(item.Quantity, Is.Positive, item.Name);
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(item.Name, Is.Not.Empty);
+                    Assert.That(item.ItemType, Is.Not.Empty, item.Name);
+                    Assert.That(item.Quantity, Is.Positive, item.Name);
+                }
             }
         }
 
-        private string GetUrl(string treasureType, int level, string query = "")
+        private string GetUrl(string version, string treasureType, int level, string query = "")
         {
-            var url = $"https://treasure.dndgen.com/api/v1/{treasureType}/level/{level}/generate";
+            var url = $"https://treasure.dndgen.com/api/{version}/{treasureType}/level/{level}/generate";
             if (query.Any())
                 url += "?" + query.TrimStart('?');
 
@@ -71,7 +76,38 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString().ToUpper(), 20);
                     yield return new TestCaseData(treasureType.ToString().ToLower(), 20);
                     yield return new TestCaseData(((int)treasureType).ToString(), 20);
-                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Standard);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Epic);
+                }
+            }
+        }
+
+        [TestCaseSource(nameof(TreasureGenerationData))]
+        public async Task GenerateRandomV2_ReturnsTreasure(string treasureType, int level)
+        {
+            var url = GetUrl("v2", treasureType, level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var treasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(treasure, Is.Not.Null);
+            //HACK: Generating treasure does not guarantee you would get treasure, so IsAny can be True or False
+            Assert.That(treasure.IsAny, Is.True.Or.False);
+
+            foreach (var item in treasure.Items)
+            {
+                Assert.That(item, Is.Not.Null);
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(item.Name, Is.Not.Empty);
+                    Assert.That(item.ItemType, Is.Not.Empty, item.Name);
+                    Assert.That(item.Quantity, Is.Positive, item.Name);
                 }
             }
         }

@@ -55,7 +55,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Treasure()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Treasure()
         {
             var treasure = new Treasure
             {
@@ -69,7 +69,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Treasure.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Treasure.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -85,12 +85,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Treasure_Numeric()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Treasure_Numeric()
         {
             var treasure = new Treasure
             {
@@ -104,7 +104,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Treasure).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Treasure).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -120,12 +120,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Coin()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Coin()
         {
             var coin = new Coin { Currency = "munny", Quantity = 9266 };
             mockCoinGenerator
@@ -134,7 +134,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Coin.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Coin.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -146,12 +146,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Coin_Numeric()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Coin_Numeric()
         {
             var coin = new Coin { Currency = "munny", Quantity = 9266 };
             mockCoinGenerator
@@ -160,7 +160,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Coin).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Coin).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -172,12 +172,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods, Is.Empty);
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Goods()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Goods()
         {
             var goods = new List<Good> { new() { Description = "my good" }, new() { Description = "my other good" } };
             mockGoodsGenerator
@@ -186,7 +186,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Goods.ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Goods.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -199,12 +199,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Goods_Numeric()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Goods_Numeric()
         {
             var goods = new List<Good> { new() { Description = "my good" }, new() { Description = "my other good" } };
             mockGoodsGenerator
@@ -213,7 +213,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, ((int)TreasureTypes.Goods).ToString(), 42);
+            var response = await function.RunV1(request, ((int)TreasureTypes.Goods).ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -226,12 +226,12 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
             Assert.That(responseTreasure.Items, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
         }
 
         [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Items()
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Items()
         {
             var items = new List<Item> { new() { Name = "my item" }, new() { Name = "my other item" } };
             mockItemsGenerator
@@ -240,34 +240,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
 
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Items.ToString(), 42);
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
-
-            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
-            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
-            Assert.That(responseTreasure.Goods, Is.Empty);
-            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count()).And.EqualTo(2));
-            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
-            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
-
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
-            mockLogger.AssertLog("Generated Treasure (Items) at level 42");
-        }
-
-        [Test]
-        public async Task Run_ReturnsTheGeneratedTreasure_Items_Numeric()
-        {
-            var items = new List<Item> { new() { Name = "my item" }, new() { Name = "my other item" } };
-            mockItemsGenerator
-                .Setup(g => g.GenerateRandomAtLevelAsync(42))
-                .ReturnsAsync(items);
-
-            var request = requestHelper.BuildRequest();
-
-            var response = await function.Run(request, ((int)TreasureTypes.Items).ToString(), 42);
+            var response = await function.RunV1(request, TreasureTypes.Items.ToString(), 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -280,7 +253,34 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
             Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Items) at level 42");
+        }
+
+        [Test]
+        public async Task RunV1_ReturnsTheGeneratedTreasure_Items_Numeric()
+        {
+            var items = new List<Item> { new() { Name = "my item" }, new() { Name = "my other item" } };
+            mockItemsGenerator
+                .Setup(g => g.GenerateRandomAtLevelAsync(42))
+                .ReturnsAsync(items);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV1(request, ((int)TreasureTypes.Items).ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
+            Assert.That(responseTreasure.Goods, Is.Empty);
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Generated Treasure (Items) at level 42");
         }
 
@@ -291,11 +291,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
         [TestCase("Good")]
         [TestCase("item")]
         [TestCase("Item")]
-        public async Task Run_ReturnsBadRequest_WhenTreasureTypeInvalid(string invalid)
+        public async Task RunV1_ReturnsBadRequest_WhenTreasureTypeInvalid(string invalid)
         {
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, invalid, 42);
+            var response = await function.RunV1(request, invalid, 42);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -304,19 +304,17 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
             mockLogger.AssertLog($"Parameter 'treasureType' of '{invalid}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items", LogLevel.Error);
         }
 
         [TestCase(LevelLimits.Minimum - 2)]
         [TestCase(LevelLimits.Minimum - 1)]
-        [TestCase(LevelLimits.Maximum + 1)]
-        [TestCase(LevelLimits.Maximum + 2)]
-        public async Task Run_ReturnsBadRequest_WhenLevelNotValid_OutOfRange(int level)
+        public async Task RunV1_ReturnsBadRequest_WhenLevelNotValid_OutOfRange(int level)
         {
             var request = requestHelper.BuildRequest();
 
-            var response = await function.Run(request, TreasureTypes.Treasure.ToString(), level);
+            var response = await function.RunV1(request, TreasureTypes.Treasure.ToString(), level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -325,8 +323,281 @@ namespace DnDGen.Api.TreasureGen.Tests.Unit.Functions
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.Run) processed a request.");
-            mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= L <= 100", LogLevel.Error);
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= level", LogLevel.Error);
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Treasure()
+        {
+            var treasure = new Treasure
+            {
+                Coin = new Coin { Currency = "munny", Quantity = 9266 },
+                Goods = [new() { Description = "my good" }, new() { Description = "my other good" }],
+                Items = [new() { Name = "my item" }, new() { Name = "my other item" }],
+            };
+            mockTreasureGenerator
+                .Setup(g => g.GenerateAtLevelAsync(42))
+                .ReturnsAsync(treasure);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, TreasureTypes.Treasure.ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.EqualTo(treasure.Coin.Quantity));
+            Assert.That(responseTreasure.Coin.Currency, Is.EqualTo(treasure.Coin.Currency));
+            Assert.That(responseTreasure.Goods.Count(), Is.EqualTo(treasure.Goods.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(treasure.Goods.First().Description));
+            Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(treasure.Goods.Last().Description));
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(treasure.Items.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Treasure_Numeric()
+        {
+            var treasure = new Treasure
+            {
+                Coin = new Coin { Currency = "munny", Quantity = 9266 },
+                Goods = [new() { Description = "my good" }, new() { Description = "my other good" }],
+                Items = [new() { Name = "my item" }, new() { Name = "my other item" }],
+            };
+            mockTreasureGenerator
+                .Setup(g => g.GenerateAtLevelAsync(42))
+                .ReturnsAsync(treasure);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, ((int)TreasureTypes.Treasure).ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.EqualTo(treasure.Coin.Quantity));
+            Assert.That(responseTreasure.Coin.Currency, Is.EqualTo(treasure.Coin.Currency));
+            Assert.That(responseTreasure.Goods.Count(), Is.EqualTo(treasure.Goods.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(treasure.Goods.First().Description));
+            Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(treasure.Goods.Last().Description));
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(treasure.Items.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(treasure.Items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(treasure.Items.Last().Summary));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Treasure) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Coin()
+        {
+            var coin = new Coin { Currency = "munny", Quantity = 9266 };
+            mockCoinGenerator
+                .Setup(g => g.GenerateAtLevel(42))
+                .Returns(coin);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, TreasureTypes.Coin.ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.EqualTo(coin.Quantity));
+            Assert.That(responseTreasure.Coin.Currency, Is.EqualTo(coin.Currency));
+            Assert.That(responseTreasure.Goods, Is.Empty);
+            Assert.That(responseTreasure.Items, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Coin_Numeric()
+        {
+            var coin = new Coin { Currency = "munny", Quantity = 9266 };
+            mockCoinGenerator
+                .Setup(g => g.GenerateAtLevel(42))
+                .Returns(coin);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, ((int)TreasureTypes.Coin).ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.EqualTo(coin.Quantity));
+            Assert.That(responseTreasure.Coin.Currency, Is.EqualTo(coin.Currency));
+            Assert.That(responseTreasure.Goods, Is.Empty);
+            Assert.That(responseTreasure.Items, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Coin) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Goods()
+        {
+            var goods = new List<Good> { new() { Description = "my good" }, new() { Description = "my other good" } };
+            mockGoodsGenerator
+                .Setup(g => g.GenerateAtLevelAsync(42))
+                .ReturnsAsync(goods);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, TreasureTypes.Goods.ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
+            Assert.That(responseTreasure.Goods.Count(), Is.EqualTo(goods.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(goods.First().Description));
+            Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
+            Assert.That(responseTreasure.Items, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Goods_Numeric()
+        {
+            var goods = new List<Good> { new() { Description = "my good" }, new() { Description = "my other good" } };
+            mockGoodsGenerator
+                .Setup(g => g.GenerateAtLevelAsync(42))
+                .ReturnsAsync(goods);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, ((int)TreasureTypes.Goods).ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
+            Assert.That(responseTreasure.Goods.Count(), Is.EqualTo(goods.Count()).And.EqualTo(2));
+            Assert.That(responseTreasure.Goods.First().Description, Is.EqualTo(goods.First().Description));
+            Assert.That(responseTreasure.Goods.Last().Description, Is.EqualTo(goods.Last().Description));
+            Assert.That(responseTreasure.Items, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Goods) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Items()
+        {
+            var items = new List<Item> { new() { Name = "my item" }, new() { Name = "my other item" } };
+            mockItemsGenerator
+                .Setup(g => g.GenerateRandomAtLevelAsync(42))
+                .ReturnsAsync(items);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, TreasureTypes.Items.ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
+            Assert.That(responseTreasure.Goods, Is.Empty);
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Items) at level 42");
+        }
+
+        [Test]
+        public async Task RunV2_ReturnsTheGeneratedTreasure_Items_Numeric()
+        {
+            var items = new List<Item> { new() { Name = "my item" }, new() { Name = "my other item" } };
+            mockItemsGenerator
+                .Setup(g => g.GenerateRandomAtLevelAsync(42))
+                .ReturnsAsync(items);
+
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, ((int)TreasureTypes.Items).ToString(), 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseTreasure = StreamHelper.Read<Treasure>(response.Body);
+            Assert.That(responseTreasure.Coin.Quantity, Is.Zero);
+            Assert.That(responseTreasure.Goods, Is.Empty);
+            Assert.That(responseTreasure.Items.Count(), Is.EqualTo(items.Count).And.EqualTo(2));
+            Assert.That(responseTreasure.Items.First().Summary, Is.EqualTo(items.First().Summary));
+            Assert.That(responseTreasure.Items.Last().Summary, Is.EqualTo(items.Last().Summary));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog("Generated Treasure (Items) at level 42");
+        }
+
+        [TestCase("coolpoints")]
+        [TestCase("coins")]
+        [TestCase("Coins")]
+        [TestCase("good")]
+        [TestCase("Good")]
+        [TestCase("item")]
+        [TestCase("Item")]
+        public async Task RunV2_ReturnsBadRequest_WhenTreasureTypeInvalid(string invalid)
+        {
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, invalid, 42);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog($"Parameter 'treasureType' of '{invalid}' is not a valid Treasure Type. Should be one of: Treasure, Coin, Goods, Items", LogLevel.Error);
+        }
+
+        [TestCase(LevelLimits.Minimum - 2)]
+        [TestCase(LevelLimits.Minimum - 1)]
+        public async Task RunV2_ReturnsBadRequest_WhenLevelNotValid_OutOfRange(int level)
+        {
+            var request = requestHelper.BuildRequest();
+
+            var response = await function.RunV2(request, TreasureTypes.Treasure.ToString(), level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateRandomTreasureFunction.RunV2) processed a request.");
+            mockLogger.AssertLog($"Parameter 'level' of '{level}' is not a valid level. Should be 1 <= level", LogLevel.Error);
         }
     }
 }

@@ -26,21 +26,43 @@ namespace DnDGen.Api.EncounterGen.Functions
         }
 
         [Function("GenerateFunction")]
-        [OpenApiOperation(operationId: "GenerateFunctionRun", Summary = "Generate an encounter",
+        [OpenApiOperation(operationId: "GenerateFunctionRun", tags: ["v1"],
+            Summary = "Generate an encounter",
             Description = "Generate an encounter for the given parameters.")]
-        [OpenApiParameter(name: "environment", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "environment",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The environment of the encounter. Valid values: Aquatic, Civilized, Desert, Forest, Hill, Marsh, Mountain, Plains, Underground")]
-        [OpenApiParameter(name: "level", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "level",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The target level of the encounter. Valid values: 1 <= L <= 30")]
-        [OpenApiParameter(name: "temperature", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "temperature",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The temperature of the environment for the encounter. Valid values: Cold, Temperate, Warm")]
-        [OpenApiParameter(name: "timeOfDay", In = ParameterLocation.Path, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "timeOfDay",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(string),
             Description = "The time of day for the encounter. Valid values: Day, Night")]
-        [OpenApiParameter(name: "allowAquatic", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
+        [OpenApiParameter(name: "allowAquatic",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(bool),
             Description = "Whether to allow aquatic encounters. Defaults to false.")]
-        [OpenApiParameter(name: "allowUnderground", In = ParameterLocation.Query, Required = false, Type = typeof(bool),
+        [OpenApiParameter(name: "allowUnderground",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(bool),
             Description = "Whether to allow underground encounters. Defaults to false")]
-        [OpenApiParameter(name: "creatureTypeFilters", In = ParameterLocation.Query, Required = false, Type = typeof(string[]),
+        [OpenApiParameter(name: "creatureTypeFilters",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string[]),
             Description = "The allowed creature types for the encounter. Providing all is the same as providing none. Valid values: Aberration, Animal, Construct, Dragon, Elemental, Fey, Giant, Humanoid, Magical Beast, Monstrous Humanoid, Ooze, Outsider, Plant, Undead, Vermin")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Encounter),
             Description = "The generated encounter")]
@@ -77,7 +99,7 @@ namespace DnDGen.Api.EncounterGen.Functions
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(encounter);
+            await response.WriteDnDGenModelAsJsonAsync(encounter);
             return response;
         }
     }

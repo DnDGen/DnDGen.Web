@@ -24,11 +24,18 @@ namespace DnDGen.Api.RollGen.Functions
         }
 
         [Function("RollFunction")]
-        [OpenApiOperation(operationId: "RollFunctionRun", Summary = "Roll XdY",
+        [OpenApiOperation(operationId: "RollFunctionRun", tags: ["v1"],
+            Summary = "Roll XdY",
             Description = "Rolls the die Y quantity X times (XdY) and returns the sum")]
-        [OpenApiParameter(name: "quantity", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "quantity",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(int),
             Description = "The Quantity to roll. Should be 1 <= Q <= 10,000")]
-        [OpenApiParameter(name: "die", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "die",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(int),
             Description = "The Die to roll. Should be 1 <= D <= 10,000")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]
@@ -65,11 +72,18 @@ namespace DnDGen.Api.RollGen.Functions
         }
 
         [Function("RollFunctionV2")]
-        [OpenApiOperation(operationId: "RollFunctionV2Run", Summary = "Roll XdY",
+        [OpenApiOperation(operationId: "RollFunctionV2Run", tags: ["v2"],
+            Summary = "Roll XdY",
             Description = "Rolls the die Y quantity X times (XdY) and returns the sum")]
-        [OpenApiParameter(name: "quantity", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "quantity",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The Quantity to roll. Should be 1 <= Q <= 10,000")]
-        [OpenApiParameter(name: "die", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "die",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The Die to roll. Should be 1 <= D <= 10,000")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(int),
             Description = "The OK response containing the resulting roll")]

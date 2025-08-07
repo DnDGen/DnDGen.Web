@@ -24,11 +24,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [TestCaseSource(nameof(RandomItemGenerationData))]
-        public async Task ValidateRandomItem_ReturnsValidity(string itemType, string power, bool valid)
+        public async Task ValidateRandomItemV1_ReturnsValidity(string itemType, string power, bool valid)
         {
-            var url = GetUrl(itemType, power);
+            var url = GetUrl("v1", itemType, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemType, power);
+            var response = await function.RunV1(request, itemType, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -38,9 +38,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(validity, Is.EqualTo(valid));
         }
 
-        private string GetUrl(string itemType, string power, string query = "")
+        private string GetUrl(string version, string itemType, string power, string query = "")
         {
-            var url = $"https://treasure.dndgen.com/api/v1/item/{itemType}/power/{power}/validate";
+            var url = $"https://treasure.dndgen.com/api/{version}/item/{itemType}/power/{power}/validate";
             if (query.Any())
                 url += "?" + query.TrimStart('?');
 
@@ -393,11 +393,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [TestCaseSource(nameof(ItemGenerationData))]
-        public async Task ValidateItem_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
+        public async Task ValidateItemV1_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
         {
-            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var url = GetUrl("v1", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -544,6 +544,38 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.AmuletOfHealth.ToLower(), true);
                 yield return new TestCaseData(ItemTypes.WondrousItem.ToString(), PowerConstants.Medium, WondrousItemConstants.CloakOfArachnida, true);
             }
+        }
+
+        [TestCaseSource(nameof(RandomItemGenerationData))]
+        public async Task ValidateRandomItemV2_ReturnsValidity(string itemType, string power, bool valid)
+        {
+            var url = GetUrl("v2", itemType, power);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, itemType, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
+        }
+
+        [TestCaseSource(nameof(ItemGenerationData))]
+        public async Task ValidateItemV2_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
+        {
+            var url = GetUrl("v2", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, itemTypeInput, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
     }
 }

@@ -23,9 +23,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(TreasureValidationData))]
         public async Task ValidateRandom_ReturnsValidity(string treasureType, int level, bool valid)
         {
-            var url = GetUrl(treasureType, level);
+            var url = GetUrl("v1", treasureType, level);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, treasureType, level);
+            var response = await function.RunV1(request, treasureType, level);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -35,9 +35,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(validity, Is.EqualTo(valid));
         }
 
-        private string GetUrl(string treasureType, int level, string query = "")
+        private string GetUrl(string version, string treasureType, int level, string query = "")
         {
-            var url = $"https://treasure.dndgen.com/api/v1/{treasureType}/level/{level}/validate";
+            var url = $"https://treasure.dndgen.com/api/{version}/{treasureType}/level/{level}/validate";
             if (query.Any())
                 url += "?" + query.TrimStart('?');
 
@@ -62,10 +62,27 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
                     yield return new TestCaseData(treasureType.ToString().ToUpper(), 20, true);
                     yield return new TestCaseData(treasureType.ToString().ToLower(), 20, true);
                     yield return new TestCaseData(((int)treasureType).ToString(), 20, true);
-                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum, true);
-                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum + 1, false);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Standard, true);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Standard + 1, true);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Epic, true);
+                    yield return new TestCaseData(treasureType.ToString(), LevelLimits.Maximum_Epic + 1, true);
                 }
             }
+        }
+
+        [TestCaseSource(nameof(TreasureValidationData))]
+        public async Task ValidateRandomV2_ReturnsValidity(string treasureType, int level, bool valid)
+        {
+            var url = GetUrl("v2", treasureType, level);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, treasureType, level);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var validity = StreamHelper.Read<bool>(response.Body);
+            Assert.That(validity, Is.EqualTo(valid));
         }
     }
 }

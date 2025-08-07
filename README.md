@@ -12,5 +12,5 @@ This also includes the code for the public-accessible APIs for the various gener
 * [RollGen API](https://roll.dndgen.com/api/swagger/ui)
 * [TreasureGen API](https://treasure.dndgen.com/api/swagger/ui)
 * [CharacterGen API](https://character.dndgen.com/api/swagger/ui)
-
-Other APIs for other generators are currently on the docket, but are not yet implemented.
+* [EncounterGen API](https://encounter.dndgen.com/api/swagger/ui)
+* [DungeonGen API](https://dungeon.dndgen.com/api/swagger/ui)

@@ -18,7 +18,8 @@ namespace DnDGen.Api.Web.Functions
         }
 
         [Function("GetTreasureViewModelFunction")]
-        [OpenApiOperation(operationId: "GetTreasureViewModelFunctionRun", Summary = "Get the TreasureGen View Model",
+        [OpenApiOperation(operationId: "GetTreasureViewModelFunctionRun", tags: ["v1"],
+            Summary = "Get the TreasureGen View Model",
             Description = "Gets the initial view data for the TreasureGen view")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TreasureViewModel),
             Description = "The OK response containing the treasuregen view model")]
@@ -29,7 +30,7 @@ namespace DnDGen.Api.Web.Functions
             var model = new TreasureViewModel();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(model);
+            await response.WriteDnDGenModelAsJsonAsync(model);
             return response;
         }
     }

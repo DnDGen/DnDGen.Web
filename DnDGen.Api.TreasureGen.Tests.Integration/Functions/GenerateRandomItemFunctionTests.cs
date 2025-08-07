@@ -2,6 +2,7 @@ using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.Api.TreasureGen.Dependencies;
 using DnDGen.Api.TreasureGen.Functions;
 using DnDGen.Api.TreasureGen.Models;
+using DnDGen.Api.TreasureGen.Models.Legacy;
 using DnDGen.TreasureGen.Items;
 using DnDGen.TreasureGen.Items.Magical;
 using DnDGen.TreasureGen.Items.Mundane;
@@ -26,11 +27,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [TestCaseSource(nameof(RandomItemGenerationData))]
-        public async Task GenerateRandom_ReturnsTreasure(string itemTypeInput, string power, string itemTypeOutput)
+        public async Task GenerateRandomV1_ReturnsTreasure(string itemTypeInput, string power, string itemTypeOutput)
         {
-            var url = GetUrl(itemTypeInput, power);
+            var url = GetUrl("v1", itemTypeInput, power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -43,9 +44,9 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(item.Quantity, Is.Positive, item.Name);
         }
 
-        private string GetUrl(string itemType, string power, string query = "")
+        private string GetUrl(string version, string itemType, string power, string query = "")
         {
-            var url = $"https://treasure.dndgen.com/api/v1/item/{itemType}/power/{power}/generate";
+            var url = $"https://treasure.dndgen.com/api/{version}/item/{itemType}/power/{power}/generate";
             if (query.Any())
                 url += "?" + query.TrimStart('?');
 
@@ -157,11 +158,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Minor)]
         [TestCase(PowerConstants.Medium)]
         [TestCase(PowerConstants.Major)]
-        public async Task BUG_GenerateRandomArmor_ReturnsArmorWithArmorProperties(string power)
+        public async Task BUG_GenerateRandomArmorV1_ReturnsArmorWithArmorProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Armor.ToString(), power);
+            var url = GetUrl("v1", ItemTypes.Armor.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Armor.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Armor.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -196,17 +197,17 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Minor)]
         [TestCase(PowerConstants.Medium)]
         [TestCase(PowerConstants.Major)]
-        public async Task BUG_GenerateRandomWeapon_ReturnsWeaponWithWeaponProperties(string power)
+        public async Task BUG_GenerateRandomWeaponV1_ReturnsWeaponWithWeaponProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), power);
+            var url = GetUrl("v1", ItemTypes.Weapon.ToString(), power);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.Body, Is.Not.Null);
 
-            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
             Assert.That(weapon, Is.Not.Null);
             Assert.That(weapon.Name, Is.Not.Empty);
             Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
@@ -231,63 +232,149 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCase(PowerConstants.Minor)]
         [TestCase(PowerConstants.Medium)]
         [TestCase(PowerConstants.Major)]
-        public async Task BUG_GenerateDoubleWeapon_ReturnsWeaponWithWeaponProperties(string power)
+        public async Task BUG_GenerateDoubleWeaponV1_ReturnsWeaponWithWeaponProperties(string power)
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
+            var url = GetUrl("v1", ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), power);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
-
-            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
             Assert.That(weapon, Is.Not.Null);
-            Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
-            Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
-            Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
-            Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
-            Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
-            Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.CriticalDamageDescription, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.DamageDescription, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.IsDoubleWeapon, Is.True, weapon.Name);
-            Assert.That(weapon.SecondaryCriticalDamageDescription, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryCriticalDamageRoll, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryCriticalDamages, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryCriticalMultiplier, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryDamageDescription, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryDamageRoll, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryDamages, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.SecondaryHasAbilities, Is.True.Or.False, weapon.Name);
-            Assert.That(weapon.SecondaryMagicBonus, Is.Not.Negative, weapon.Name);
-            Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
-            Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
-            Assert.That(weapon.ThreatRangeDescription, Is.Not.Empty, weapon.Name);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
+                Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
+                Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+                Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+                Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+                Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.IsDoubleWeapon, Is.True, weapon.Name);
+                Assert.That(weapon.SecondaryCriticalDamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryCriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryCriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryCriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryDamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.SecondaryHasAbilities, Is.True.Or.False, weapon.Name);
+                Assert.That(weapon.SecondaryMagicBonus, Is.Not.Negative, weapon.Name);
+                Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+                Assert.That(weapon.ThreatRangeDescription, Is.Not.Empty, weapon.Name);
+            }
+        }
+
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateItemV1_GeneratesRod_WithWeaponProperties(string power)
+        {
+            var url = GetUrl("v1", ItemTypes.Rod.ToString(), power, $"?name={HttpUtility.UrlEncode(RodConstants.Flailing)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request, ItemTypes.Rod.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(weapon.Name, Is.Not.Empty);
+                Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Rod), weapon.Name);
+                Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+                Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+                Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+                Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.IsDoubleWeapon, Is.True.Or.False, weapon.Name);
+                Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+                Assert.That(weapon.ThreatRangeDescription, Is.Not.Empty, weapon.Name);
+            }
+        }
+
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateItemV1_GeneratesStaff_WithWeaponProperties(string power)
+        {
+            var url = GetUrl("v1", ItemTypes.Staff.ToString(), power, $"?name={HttpUtility.UrlEncode(StaffConstants.Power)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV1(request, ItemTypes.Staff.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var weapon = StreamHelper.Read<WeaponV1>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(weapon.Name, Is.Not.Empty);
+                Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Staff), weapon.Name);
+                Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+                Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+                Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+                Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageDescription, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.IsDoubleWeapon, Is.True.Or.False, weapon.Name);
+                Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+                Assert.That(weapon.ThreatRangeDescription, Is.Not.Empty, weapon.Name);
+            }
         }
 
         [TestCaseSource(nameof(ItemGenerationData))]
-        public async Task GenerateItem_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
+        public async Task GenerateItemV1_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
         {
-            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var url = GetUrl("v1", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, itemTypeInput, power);
+            var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var item = StreamHelper.Read<Item>(response.Body);
             Assert.That(item, Is.Not.Null);
-            Assert.That(item.Name, Is.Not.Empty);
-            Assert.That(item.NameMatches(itemNameOutput), Is.True, item.Name);
-            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
-            Assert.That(item.Quantity, Is.Positive, item.Name);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(item.Name, Is.Not.Empty);
+                Assert.That(item.NameMatches(itemNameOutput), Is.True, item.Name);
+                Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
+                Assert.That(item.Quantity, Is.Positive, item.Name);
+            }
         }
 
         public static IEnumerable ItemGenerationData
@@ -423,11 +510,11 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task BUG_GenerateItem_ReturnsSpecificWeapon_WithQuantity()
+        public async Task BUG_GenerateItemV1_ReturnsSpecificWeapon_WithQuantity()
         {
-            var url = GetUrl(ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
+            var url = GetUrl("v1", ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.Run(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
+            var response = await function.RunV1(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -438,6 +525,255 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
             Assert.That(item.Name, Is.Not.Empty.And.EqualTo(WeaponConstants.AssassinsDagger));
             Assert.That(item.ItemType, Is.EqualTo(ItemTypeConstants.Weapon));
             Assert.That(item.Quantity, Is.EqualTo(1));
+        }
+
+        [TestCaseSource(nameof(RandomItemGenerationData))]
+        public async Task GenerateRandomV2_ReturnsTreasure(string itemTypeInput, string power, string itemTypeOutput)
+        {
+            var url = GetUrl("v2", itemTypeInput, power);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, itemTypeInput, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var item = StreamHelper.Read<Item>(response.Body);
+            Assert.That(item, Is.Not.Null);
+            Assert.That(item.Name, Is.Not.Empty);
+            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
+            Assert.That(item.Quantity, Is.Positive, item.Name);
+        }
+
+        [TestCase(PowerConstants.Mundane)]
+        [TestCase(PowerConstants.Minor)]
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateRandomArmorV2_ReturnsArmorWithArmorProperties(string power)
+        {
+            var url = GetUrl("v2", ItemTypes.Armor.ToString(), power);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Armor.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var armor = StreamHelper.Read<Armor>(response.Body);
+            Assert.That(armor, Is.Not.Null);
+            Assert.That(armor.Summary, Is.Not.Empty);
+            Assert.That(armor.Name, Is.Not.Empty, armor.Summary);
+            Assert.That(armor.ItemType, Is.EqualTo(ItemTypeConstants.Armor), armor.Summary);
+            Assert.That(armor.Quantity, Is.Positive, armor.Summary);
+            Assert.That(armor.CanBeUsedAsWeaponOrArmor, Is.True, armor.Summary);
+
+            if (string.IsNullOrEmpty(armor.Magic.Curse))
+            {
+                Assert.That(armor.ArmorBonus, Is.Positive, armor.Summary);
+                Assert.That(armor.TotalArmorBonus, Is.Positive, armor.Summary);
+            }
+
+            if (!armor.Attributes.Contains(AttributeConstants.Shield))
+            {
+                Assert.That(armor.MaxDexterityBonus, Is.Not.Negative, armor.Summary);
+                Assert.That(armor.TotalMaxDexterityBonus, Is.Not.Negative, armor.Summary);
+            }
+
+            Assert.That(armor.ArmorCheckPenalty, Is.Not.Positive, armor.Summary);
+            Assert.That(armor.Size, Is.Not.Empty, armor.Summary);
+            Assert.That(armor.TotalArmorCheckPenalty, Is.Not.Positive, armor.Summary);
+        }
+
+        [TestCase(PowerConstants.Mundane)]
+        [TestCase(PowerConstants.Minor)]
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateRandomWeaponV2_ReturnsWeaponWithWeaponProperties(string power)
+        {
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), power);
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            Assert.That(weapon.Name, Is.Not.Empty);
+            Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
+            Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+            Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+            Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+            Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.DamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.IsDoubleWeapon, Is.True.Or.False, weapon.Name);
+            Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+            Assert.That(weapon.ThreatRangeSummary, Is.Not.Empty, weapon.Name);
+        }
+
+        [TestCase(PowerConstants.Mundane)]
+        [TestCase(PowerConstants.Minor)]
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateDoubleWeaponV2_ReturnsWeaponWithWeaponProperties(string power)
+        {
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), power, $"?name={HttpUtility.UrlEncode(WeaponConstants.TwoBladedSword)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            Assert.That(weapon.Name, Is.EqualTo(WeaponConstants.TwoBladedSword).Or.EqualTo(WeaponConstants.ShiftersSorrow));
+            Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Weapon), weapon.Name);
+            Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+            Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+            Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+            Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.DamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.IsDoubleWeapon, Is.True, weapon.Name);
+            Assert.That(weapon.SecondaryCriticalDamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryCriticalDamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryCriticalDamages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryCriticalMultiplier, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryDamageSummary, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryDamageRoll, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryDamages, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.SecondaryHasAbilities, Is.True.Or.False, weapon.Name);
+            Assert.That(weapon.SecondaryMagicBonus, Is.Not.Negative, weapon.Name);
+            Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+            Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+            Assert.That(weapon.ThreatRangeSummary, Is.Not.Empty, weapon.Name);
+        }
+
+        [TestCaseSource(nameof(ItemGenerationData))]
+        public async Task GenerateItemV2_ReturnsItem(string itemTypeInput, string power, string name, string itemTypeOutput, string itemNameOutput)
+        {
+            var url = GetUrl("v2", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, itemTypeInput, power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var item = StreamHelper.Read<Item>(response.Body);
+            Assert.That(item, Is.Not.Null);
+            Assert.That(item.Name, Is.Not.Empty);
+            Assert.That(item.NameMatches(itemNameOutput), Is.True, item.Name);
+            Assert.That(item.ItemType, Is.EqualTo(itemTypeOutput), item.Name);
+            Assert.That(item.Quantity, Is.Positive, item.Name);
+        }
+
+        [Test]
+        public async Task BUG_GenerateItemV2_ReturnsSpecificWeapon_WithQuantity()
+        {
+            var url = GetUrl("v2", ItemTypes.Weapon.ToString(), PowerConstants.Major, $"?name={HttpUtility.UrlEncode(WeaponConstants.AssassinsDagger)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Weapon.ToString(), PowerConstants.Major);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Body, Is.Not.Null);
+
+            var item = StreamHelper.Read<Item>(response.Body);
+            Assert.That(item, Is.Not.Null);
+            Assert.That(item.Name, Is.Not.Empty.And.EqualTo(WeaponConstants.AssassinsDagger));
+            Assert.That(item.ItemType, Is.EqualTo(ItemTypeConstants.Weapon));
+            Assert.That(item.Quantity, Is.EqualTo(1));
+        }
+
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateItemV2_GeneratesRod_WithWeaponProperties(string power)
+        {
+            var url = GetUrl("v2", ItemTypes.Rod.ToString(), power, $"?name={HttpUtility.UrlEncode(RodConstants.Flailing)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Rod.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(weapon.Name, Is.Not.Empty);
+                Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Rod), weapon.Name);
+                Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+                Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+                Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+                Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageSummary, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageSummary, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.IsDoubleWeapon, Is.True.Or.False, weapon.Name);
+                Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+                Assert.That(weapon.ThreatRangeSummary, Is.Not.Empty, weapon.Name);
+            }
+        }
+
+        [TestCase(PowerConstants.Medium)]
+        [TestCase(PowerConstants.Major)]
+        public async Task BUG_GenerateItemV2_GeneratesStaff_WithWeaponProperties(string power)
+        {
+            var url = GetUrl("v2", ItemTypes.Staff.ToString(), power, $"?name={HttpUtility.UrlEncode(StaffConstants.Power)}");
+            var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var response = await function.RunV2(request, ItemTypes.Staff.ToString(), power);
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
+
+            var weapon = StreamHelper.Read<Weapon>(response.Body);
+            Assert.That(weapon, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(weapon.Name, Is.Not.Empty);
+                Assert.That(weapon.ItemType, Is.EqualTo(ItemTypeConstants.Staff), weapon.Name);
+                Assert.That(weapon.Quantity, Is.Positive, weapon.Name);
+                Assert.That(weapon.CanBeUsedAsWeaponOrArmor, Is.True, weapon.Name);
+                Assert.That(weapon.Ammunition, Is.Not.Null, weapon.Name);
+                Assert.That(weapon.CombatTypes, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageSummary, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalDamages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.CriticalMultiplier, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageSummary, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.DamageRoll, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.Damages, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.IsDoubleWeapon, Is.True.Or.False, weapon.Name);
+                Assert.That(weapon.Size, Is.Not.Empty, weapon.Name);
+                Assert.That(weapon.ThreatRange, Is.Positive, weapon.Name);
+                Assert.That(weapon.ThreatRangeSummary, Is.Not.Empty, weapon.Name);
+            }
         }
     }
 }

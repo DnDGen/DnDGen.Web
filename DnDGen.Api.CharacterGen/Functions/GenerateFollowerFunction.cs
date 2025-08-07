@@ -25,13 +25,23 @@ namespace DnDGen.Api.CharacterGen.Functions
         }
 
         [Function("GenerateFollowerFunction")]
-        [OpenApiOperation(operationId: "GenerateFollowerFunctionRun", Summary = "Generate cohort",
+        [OpenApiOperation(operationId: "GenerateFollowerFunctionRun", tags: ["v1"],
+            Summary = "Generate cohort",
             Description = "Generate a follower at the given level.")]
-        [OpenApiParameter(name: "followerLevel", In = ParameterLocation.Path, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "followerLevel",
+            In = ParameterLocation.Path,
+            Required = true,
+            Type = typeof(int),
             Description = "The level of the follower to generate. Valid values are 1 <= level <= 6.")]
-        [OpenApiParameter(name: "leaderAlignment", In = ParameterLocation.Query, Required = true, Type = typeof(int),
+        [OpenApiParameter(name: "leaderAlignment",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(int),
             Description = "The alignment of the leader.")]
-        [OpenApiParameter(name: "leaderClassName", In = ParameterLocation.Query, Required = true, Type = typeof(string),
+        [OpenApiParameter(name: "leaderClassName",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(string),
             Description = "The class name of the leader.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Character),
             Description = "The OK response containing the generated cohort character")]
@@ -58,7 +68,7 @@ namespace DnDGen.Api.CharacterGen.Functions
             _logger.LogInformation($"Generated Follower: {follower.Summary}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(follower);
+            await response.WriteDnDGenModelAsJsonAsync(follower);
             return response;
         }
     }
