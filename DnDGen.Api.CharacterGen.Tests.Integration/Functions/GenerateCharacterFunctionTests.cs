@@ -2442,6 +2442,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         }
 
         [Test]
+        [Repeat(100)]
         public async Task BUG_GenerateCharacter_ReturnsCharacter_SpellsCanHaveMultipleSources()
         {
             var queryString = "abilitiesRandomizerType=Raw";
@@ -2456,29 +2457,39 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
 
             var url = GetUrl(queryString);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
+            var multipleSources = false;
+            var attempts = 10;
+            Character? character = new();
 
-            var response = await function.Run(request);
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-
-            Assert.Multiple(() =>
+            while (attempts-- > 0 && !multipleSources)
             {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Body, Is.Not.Null);
-            });
+                var response = await function.Run(request);
+                Assert.That(response, Is.InstanceOf<HttpResponseData>());
+                using (Assert.EnterMultipleScope())
+                {
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                    Assert.That(response.Body, Is.Not.Null);
+                }
 
-            var character = StreamHelper.Read<Character>(response.Body);
-            Assert.That(character, Is.Not.Null);
+                character = StreamHelper.Read<Character>(response.Body);
+                Assert.That(character, Is.Not.Null);
+
+                multipleSources |= character.Magic.KnownSpells.Any(s => s.Sources.Count > 1)
+                    && character.Magic.PreparedSpells.Any(s => s.Sources.Count > 1);
+            }
+
             using (Assert.EnterMultipleScope())
             {
+                var message = $"Attempts left: {attempts}; {character.Summary}";
                 Assert.That(character.Summary, Is.Not.Empty);
-                Assert.That(character.Alignment.Full, Is.Not.Empty);
-                Assert.That(character.Class.Level, Is.Positive);
-                Assert.That(character.Class.Summary, Is.Not.Empty);
-                Assert.That(character.Race.Summary, Is.Not.Empty);
-                Assert.That(character.Magic.KnownSpells, Is.Not.Empty);
-                Assert.That(character.Magic.KnownSpells.Any(s => s.Sources.Count > 1), Is.True);
-                Assert.That(character.Magic.PreparedSpells, Is.Not.Empty);
-                Assert.That(character.Magic.PreparedSpells.Any(s => s.Sources.Count > 1), Is.True);
+                Assert.That(character.Alignment.Full, Is.Not.Empty, message);
+                Assert.That(character.Class.Level, Is.Positive, message);
+                Assert.That(character.Class.Summary, Is.Not.Empty, message);
+                Assert.That(character.Race.Summary, Is.Not.Empty, message);
+                Assert.That(character.Magic.KnownSpells, Is.Not.Empty, message);
+                Assert.That(character.Magic.KnownSpells.Any(s => s.Sources.Count > 1), Is.True, message);
+                Assert.That(character.Magic.PreparedSpells, Is.Not.Empty, message);
+                Assert.That(character.Magic.PreparedSpells.Any(s => s.Sources.Count > 1), Is.True, message);
             }
         }
 

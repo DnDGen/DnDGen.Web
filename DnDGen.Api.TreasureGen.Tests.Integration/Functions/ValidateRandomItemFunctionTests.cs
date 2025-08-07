@@ -395,7 +395,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(ItemGenerationData))]
         public async Task ValidateItemV1_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
         {
-            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var url = GetUrl("v1", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
@@ -566,7 +566,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration.Functions
         [TestCaseSource(nameof(ItemGenerationData))]
         public async Task ValidateItemV2_ReturnsValidity(string itemTypeInput, string power, string name, bool valid)
         {
-            var url = GetUrl(itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
+            var url = GetUrl("v2", itemTypeInput, power, $"?name={HttpUtility.UrlEncode(name)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV2(request, itemTypeInput, power);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
