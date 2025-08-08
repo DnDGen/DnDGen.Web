@@ -48,10 +48,6 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Armor),
-            Description = "The OK response containing the generated armor")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(WeaponV1),
-            Description = "The OK response containing the generated weapon")]
         public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/generate")] HttpRequestData req,
             string itemType, string power)
@@ -107,10 +103,6 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Armor),
-            Description = "The OK response containing the generated armor")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Weapon),
-            Description = "The OK response containing the generated weapon")]
         public async Task<HttpResponseData> RunV2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/item/{itemType}/power/{power}/generate")] HttpRequestData req,
             string itemType, string power)

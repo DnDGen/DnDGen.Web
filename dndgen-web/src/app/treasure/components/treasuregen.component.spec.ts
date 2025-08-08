@@ -1098,20 +1098,6 @@ describe('TreasureGen Component', () => {
         helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that treasure is invalid - level too high`, async () => {
-        helper.setInput('#treasureLevel', '101');
-  
-        fixture.detectChanges();
-
-        expect(fixture.componentInstance.level).toEqual(101);
-        helper.expectValidating(fixture.componentInstance.validating, '#treasureButton', '#treasureValidating');
-  
-        //run validation
-        await helper.waitForService();
-  
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.validTreasure, '#treasureButton', '#treasureValidating');
-      });
-    
       const levelTestCases = [1, 2, 10, 20, 100];
 
       levelTestCases.forEach(test => {

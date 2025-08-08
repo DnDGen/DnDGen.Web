@@ -28,6 +28,19 @@ jobs:
             appType: 'functionApp'
             appName: 'rollgen-api'
             package: '$(Pipeline.Workspace)/**/rollgen-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
+          displayName: 'Run RollGen API Tests'
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
      
 # The TreasureGen API       
 - deployment: TreasureGen_Api
@@ -46,6 +59,42 @@ jobs:
             appType: 'functionApp'
             appName: 'treasuregen-api'
             package: '$(Pipeline.Workspace)/**/treasuregen-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
+          displayName: 'Run TreasureGen API Tests'
+          condition: always()
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: Run Website Tests
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
 
 # The CharacterGen API       
 - deployment: CharacterGen_Api
@@ -64,6 +113,20 @@ jobs:
             appType: 'functionApp'
             appName: 'charactergen-api'
             package: '$(Pipeline.Workspace)/**/charactergen-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
+          displayName: 'Run CharacterGen API Tests'
+          condition: always()
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
 
 # The EncounterGen API       
 - deployment: EncounterGen_Api
@@ -82,6 +145,20 @@ jobs:
             appType: 'functionApp'
             appName: 'encountergen-api'
             package: '$(Pipeline.Workspace)/**/encountergen-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
+          displayName: 'Run EncounterGen API Tests'
+          condition: always()
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
 
 # The DungeonGen API       
 - deployment: DungeonGen_Api
@@ -100,6 +177,20 @@ jobs:
             appType: 'functionApp'
             appName: 'dungeongen-api'
             package: '$(Pipeline.Workspace)/**/dungeongen-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
+          displayName: 'Run DungeonGen API Tests'
+          condition: always()
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
 
 # The Web API
 - deployment: Web_Api
@@ -118,6 +209,20 @@ jobs:
             appType: 'functionApp'
             appName: 'dndgen-web-api'
             package: '$(Pipeline.Workspace)/**/dndgen-web-api/*.zip'
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
+          displayName: 'Run Web API Tests'
+          condition: always()
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
      
 # The DnDGen Website
 - deployment: Website
@@ -131,6 +236,7 @@ jobs:
   - CharacterGen_Api
   - EncounterGen_Api
   - DungeonGen_Api
+  - Web_Api
   strategy:
     runOnce:
       deploy:
@@ -146,58 +252,14 @@ jobs:
             skip_api_build: true
             verbose: true
             azure_static_web_apps_api_token: '$(deployment_token)'
-
-# Post-Deployment Tests
-- deployment: Tests
-  displayName: Post-Deployment Tests
-  pool:
-    vmImage: 'windows-latest'
-  environment: Prod
-  dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
-  - Website
-  strategy:
-    runOnce:
-      deploy:
-        steps:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
-          displayName: 'Run RollGen API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
-          displayName: 'Run TreasureGen API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
-          displayName: 'Run CharacterGen API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
-          displayName: 'Run EncounterGen API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
-          displayName: 'Run DungeonGen API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
-          displayName: 'Run Web API Tests'
-          condition: always()
-          retryCountOnTaskFailure: 1
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
-          displayName: 'Publish Test Results'
+          displayName: 'Publish Postman Test Results'
           condition: always()
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
