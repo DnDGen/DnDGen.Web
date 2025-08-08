@@ -367,8 +367,14 @@ jobs:
     persistCredentials: true
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    displayName: Publish Post-Deployment Test Artifacts
+    displayName: Publish Post-Deployment API Test Artifacts
     inputs:
       targetPath: '$(System.DefaultWorkingDirectory)/cicd/post-deployment-tests' 
-      artifactName: 'dndgen-deployment-tests'
+      artifactName: 'dndgen-deployment-api-tests'
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: Publish Post-Deployment Website Test Artifacts
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/dndgen-web' 
+      artifactName: 'dndgen-deployment-website-tests'
       
