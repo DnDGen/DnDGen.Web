@@ -100,21 +100,22 @@ jobs:
           inputs:
             testResultsFiles: '**\TESTS-*.xml'
             failTaskOnFailedTests: true
-  onFailureHook:
-    steps:
-    - task: DownloadGitHubRelease@0
-      displayName: 'Download Rollback Release'
-      inputs:
-        connection: 'github.com_cidthecoatrack'
-        repositoryName: 'DnDGen/DnDGen.Web'
-        downloadPath: '$(Pipeline.Workspace)\rollback'
-    - task: AzureFunctionApp@2
-      displayName: 'Rollback Azure Function App'
-      inputs:
-        connectedServiceNameARM: 'Azure - DnDGen'
-        appType: 'functionApp'
-        appName: 'treasuregen-api'
-        package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.TreasureGen.zip'
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              repositoryName: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'treasuregen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.TreasureGen.zip'
 
 # The CharacterGen API       
 - deployment: CharacterGen_Api
