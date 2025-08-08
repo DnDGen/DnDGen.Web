@@ -64,7 +64,6 @@ jobs:
           displayName: 'Install Newman'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
           displayName: 'Run TreasureGen API Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
@@ -83,6 +82,12 @@ jobs:
             verbose: true  
             customCommand: 'install -g @angular/cli'
         - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
           displayName: Run Website Tests
           inputs: 
             command: custom
@@ -95,6 +100,23 @@ jobs:
           inputs:
             testResultsFiles: '**\TESTS-*.xml'
             failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.TreasureGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'treasuregen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.TreasureGen.zip'
 
 # The CharacterGen API       
 - deployment: CharacterGen_Api
@@ -118,7 +140,6 @@ jobs:
           displayName: 'Install Newman'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
           displayName: 'Run CharacterGen API Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
@@ -150,7 +171,6 @@ jobs:
           displayName: 'Install Newman'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
           displayName: 'Run EncounterGen API Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
@@ -182,7 +202,6 @@ jobs:
           displayName: 'Install Newman'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
           displayName: 'Run DungeonGen API Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
@@ -214,7 +233,6 @@ jobs:
           displayName: 'Install Newman'
         - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
           displayName: 'Run Web API Tests'
-          condition: always()
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
@@ -264,3 +282,15 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+        - task: GitHubRelease@1
+          displayName: 'GitHub release (create)'
+          inputs:
+            gitHubConnection: 'github.com_cidthecoatrack'
+            assets: |
+              '$(Pipeline.Workspace)/**/rollgen-api/*.zip'
+              '$(Pipeline.Workspace)/**/treasuregen-api/*.zip'
+              '$(Pipeline.Workspace)/**/charactergen-api/*.zip'
+              '$(Pipeline.Workspace)/**/encountergen-api/*.zip'
+              '$(Pipeline.Workspace)/**/dungeongen-api/*.zip'
+              '$(Pipeline.Workspace)/**/dndgen-web-api/*.zip'
+              '$(Pipeline.Workspace)/**/dndgen-web/browser/*'

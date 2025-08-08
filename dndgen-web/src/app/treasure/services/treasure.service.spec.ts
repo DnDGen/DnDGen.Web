@@ -262,6 +262,7 @@ describe('Treasure Service', () => {
     
         it('validates an invalid treasure - level', done => {
             treasureService.validateTreasure('treasure', 0).subscribe((validity) => {
+            // treasureService.validateTreasure('treasure', 101).subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });
