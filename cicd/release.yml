@@ -107,7 +107,7 @@ jobs:
             displayName: 'Download Rollback Release'
             inputs:
               connection: 'github.com_cidthecoatrack'
-              repositoryName: 'DnDGen/DnDGen.Web'
+              userRepository: 'DnDGen/DnDGen.Web'
               downloadPath: '$(Pipeline.Workspace)\rollback'
           - task: AzureFunctionApp@2
             displayName: 'Rollback Azure Function App'
