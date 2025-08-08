@@ -1,27 +1,34 @@
 ﻿using DnDGen.TreasureGen.Items;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
 
 namespace DnDGen.Api.TreasureGen.Swagger
 {
     public class ItemV2OneOfDocumentFilter : IDocumentFilter
     {
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(IHttpRequestDataObject req, OpenApiDocument swaggerDoc)
         {
             var path = "/v2/item/{itemType}/power/{power}/generate";
+            if (!swaggerDoc.Paths.ContainsKey(path))
+                return;
+
             var operation = swaggerDoc.Paths[path].Operations[OperationType.Get];
 
-            var itemSchema = context.SchemaGenerator.GenerateSchema(typeof(Item), context.SchemaRepository);
-            var weaponSchema = context.SchemaGenerator.GenerateSchema(typeof(Weapon), context.SchemaRepository);
-            var armorSchema = context.SchemaGenerator.GenerateSchema(typeof(Armor), context.SchemaRepository);
+            // Reference existing schemas by name
+            var itemSchema = new OpenApiSchema { Reference = new OpenApiReference { Type = ReferenceType.Schema, Id = nameof(Item) } };
+            var weaponSchema = new OpenApiSchema { Reference = new OpenApiReference { Type = ReferenceType.Schema, Id = nameof(Weapon) } };
+            var armorSchema = new OpenApiSchema { Reference = new OpenApiReference { Type = ReferenceType.Schema, Id = nameof(Armor) } };
 
             var oneOfSchema = new OpenApiSchema
             {
-                OneOf = new List<OpenApiSchema> { itemSchema, weaponSchema, armorSchema }
+                OneOf = [itemSchema, weaponSchema, armorSchema]
             };
 
-            operation.Responses["200"].Content["application/json"].Schema = oneOfSchema;
+            if (operation.Responses.ContainsKey("200") &&
+                operation.Responses["200"].Content.ContainsKey("application/json"))
+            {
+                operation.Responses["200"].Content["application/json"].Schema = oneOfSchema;
+            }
         }
     }
 }

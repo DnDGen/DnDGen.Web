@@ -403,14 +403,13 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
 											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -738,10 +737,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
 											"pm.test(\"Returns generated treasure\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
 											"    var treasure = pm.response.json();\r",
 											"    pm.expect(treasure.isAny).to.be.oneOf([true, false]);\r",
 											"    pm.expect(treasure.coin).to.not.be.null;\r",
@@ -755,7 +753,8 @@
 											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -880,17 +879,30 @@
 							"response": []
 						},
 						{
-							"name": "Level 101 Treasure Returns Bad Request",
+							"name": "Level 101 Treasure Returns Treasure",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
+											"pm.test(\"Returns generated treasure\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    var treasure = pm.response.json();\r",
+											"    pm.expect(treasure.isAny).to.be.equal(true);\r",
+											"    pm.expect(treasure.coin).to.not.be.null;\r",
+											"    pm.expect(treasure.goods).to.not.be.null;\r",
+											"    pm.expect(treasure.items).to.not.be.null;\r",
+											"\r",
+											"    for(var i = 0; i < treasure.items.length; i++) {\r",
+											"        pm.expect(treasure.items[i].name).to.not.be.empty;\r",
+											"        pm.expect(treasure.items[i].itemType).to.not.be.empty;\r",
+											"        pm.expect(treasure.items[i].quantity).to.be.at.least(1);\r",
+											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10058,7 +10070,8 @@
 											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10072,7 +10085,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10106,7 +10119,8 @@
 											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10120,7 +10134,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10154,7 +10168,8 @@
 											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10168,7 +10183,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10202,7 +10217,8 @@
 											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10216,7 +10232,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10250,7 +10266,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10264,7 +10281,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10273,7 +10290,7 @@
 									"variable": [
 										{
 											"key": "treasureType",
-											"value": "invalid"
+											"value": ""
 										},
 										{
 											"key": "level",
@@ -10298,7 +10315,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10312,7 +10330,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10346,7 +10364,8 @@
 											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10360,7 +10379,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10387,14 +10406,14 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
 											"pm.test(\"Returns validity\", function () {\r",
-											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10408,7 +10427,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10457,7 +10476,8 @@
 											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10471,7 +10491,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10515,7 +10535,8 @@
 											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10529,7 +10550,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10569,7 +10590,8 @@
 											"    pm.expect(treasure.items).to.be.empty;\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10583,7 +10605,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10622,7 +10644,8 @@
 											"    pm.expect(treasure.items).to.be.empty;\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10636,7 +10659,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10681,7 +10704,8 @@
 											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10695,7 +10719,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10739,7 +10763,8 @@
 											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10753,7 +10778,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10784,7 +10809,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10798,7 +10824,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10829,7 +10855,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10843,7 +10870,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10864,17 +10891,30 @@
 							"response": []
 						},
 						{
-							"name": "Level 101 Treasure Returns Bad Request",
+							"name": "Level 101 Treasure Returns Treasure",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
+											"pm.test(\"Returns generated treasure\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"\r",
+											"    var treasure = pm.response.json();\r",
+											"    pm.expect(treasure.isAny).to.be.equal(true);\r",
+											"    pm.expect(treasure.coin).to.not.be.null;\r",
+											"    pm.expect(treasure.goods).to.not.be.null;\r",
+											"    pm.expect(treasure.items).to.not.be.null;\r",
+											"\r",
+											"    for(var i = 0; i < treasure.items.length; i++) {\r",
+											"        pm.expect(treasure.items[i].name).to.not.be.empty;\r",
+											"        pm.expect(treasure.items[i].itemType).to.not.be.empty;\r",
+											"        pm.expect(treasure.items[i].quantity).to.be.at.least(1);\r",
+											"    }\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -10888,7 +10928,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										":treasureType",
 										"level",
 										":level",
@@ -10930,7 +10970,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -10944,7 +10985,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -10979,7 +11020,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -10993,7 +11035,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11034,7 +11076,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11048,7 +11091,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11097,7 +11140,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -11152,7 +11195,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -11207,7 +11250,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -11256,7 +11299,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -11302,7 +11345,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11316,7 +11360,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11351,7 +11395,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11365,7 +11410,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11406,7 +11451,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11420,7 +11466,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11461,7 +11507,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11475,7 +11522,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11516,7 +11563,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11530,7 +11578,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11571,7 +11619,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11585,7 +11634,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11620,7 +11669,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11634,7 +11684,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11674,7 +11724,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11688,7 +11739,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11723,7 +11774,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11737,7 +11789,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11778,7 +11830,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11792,7 +11845,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11833,7 +11886,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11847,7 +11901,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11888,7 +11942,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11902,7 +11957,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11943,7 +11998,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -11957,7 +12013,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -11992,7 +12048,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12006,7 +12063,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12046,7 +12103,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12060,7 +12118,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12095,7 +12153,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12109,7 +12168,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12150,7 +12209,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12164,7 +12224,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12205,7 +12265,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12219,7 +12280,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12260,7 +12321,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12274,7 +12336,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12315,7 +12377,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12329,7 +12392,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12364,7 +12427,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12378,7 +12442,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12418,7 +12482,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12432,7 +12497,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12467,7 +12532,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12481,7 +12547,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12522,7 +12588,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12536,7 +12603,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12577,7 +12644,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12591,7 +12659,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12632,7 +12700,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12646,7 +12715,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12687,7 +12756,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12701,7 +12771,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12736,7 +12806,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12750,7 +12821,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12790,7 +12861,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12804,7 +12876,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12839,7 +12911,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12853,7 +12926,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12894,7 +12967,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12908,7 +12982,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12949,7 +13023,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -12963,7 +13038,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -12998,7 +13073,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13012,7 +13088,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13052,7 +13128,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13066,7 +13143,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13101,7 +13178,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13115,7 +13193,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13156,7 +13234,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13170,7 +13249,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13211,7 +13290,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13225,7 +13305,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13260,7 +13340,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13274,7 +13355,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13314,7 +13395,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13328,7 +13410,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13363,7 +13445,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13377,7 +13460,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13418,7 +13501,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13432,7 +13516,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13473,7 +13557,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13487,7 +13572,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13528,7 +13613,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13542,7 +13628,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13583,7 +13669,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13597,7 +13684,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13632,7 +13719,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13646,7 +13734,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13686,7 +13774,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13700,7 +13789,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13735,7 +13824,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13749,7 +13839,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13790,7 +13880,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13804,7 +13895,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13845,7 +13936,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13859,7 +13951,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13900,7 +13992,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13914,7 +14007,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -13955,7 +14048,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -13969,7 +14063,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14004,7 +14098,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14018,7 +14113,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14058,7 +14153,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14072,7 +14168,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14107,7 +14203,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14121,7 +14218,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14156,7 +14253,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14170,7 +14268,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14211,7 +14309,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14225,7 +14324,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14266,7 +14365,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14280,7 +14380,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14321,7 +14421,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14335,7 +14436,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14376,7 +14477,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14390,7 +14492,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14425,7 +14527,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14439,7 +14542,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14480,7 +14583,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14494,7 +14598,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14535,7 +14639,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14549,7 +14654,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14590,7 +14695,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14604,7 +14710,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14650,7 +14756,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14664,7 +14771,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14699,7 +14806,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14713,7 +14821,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14748,7 +14856,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14762,7 +14871,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14803,7 +14912,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14817,7 +14927,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14858,7 +14968,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14872,7 +14983,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14913,7 +15024,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14927,7 +15039,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -14968,7 +15080,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -14982,7 +15095,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15017,7 +15130,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15031,7 +15145,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15072,7 +15186,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15086,7 +15201,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15127,7 +15242,8 @@
 													"    pm.expect(pm.response.json()).to.equal(true);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15141,7 +15257,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15182,7 +15298,8 @@
 													"    pm.expect(pm.response.json()).to.equal(false);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15196,7 +15313,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15239,7 +15356,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -15253,7 +15371,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -15288,7 +15406,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -15302,7 +15421,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -15343,7 +15462,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -15357,7 +15477,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -15392,7 +15512,8 @@
 											"    pm.expect(pm.response.json()).to.equal(false);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -15406,7 +15527,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -15458,7 +15579,8 @@
 													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15472,7 +15594,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15510,7 +15632,8 @@
 													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15524,7 +15647,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15562,7 +15685,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15576,7 +15700,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15614,7 +15738,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15628,7 +15753,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15666,7 +15791,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15680,7 +15806,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15718,7 +15844,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15732,7 +15859,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15764,7 +15891,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15778,7 +15906,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15821,7 +15949,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15835,7 +15964,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15873,7 +16002,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15887,7 +16017,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15925,7 +16055,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15939,7 +16070,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -15977,7 +16108,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -15991,7 +16123,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16029,7 +16161,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16043,7 +16176,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16081,7 +16214,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16095,7 +16229,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16127,7 +16261,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16141,7 +16276,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16178,7 +16313,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16192,7 +16328,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16224,7 +16360,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16238,7 +16375,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16282,7 +16419,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16296,7 +16434,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16334,7 +16472,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16348,7 +16487,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16386,7 +16525,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16400,7 +16540,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16444,7 +16584,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16458,7 +16599,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16490,7 +16631,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16504,7 +16646,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16541,7 +16683,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16555,7 +16698,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16587,7 +16730,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16601,7 +16745,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16645,7 +16789,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16659,7 +16804,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16697,7 +16842,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16711,7 +16857,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16749,7 +16895,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16763,7 +16910,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16807,7 +16954,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16821,7 +16969,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16853,7 +17001,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16867,7 +17016,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16904,7 +17053,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16918,7 +17068,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -16950,7 +17100,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -16964,7 +17115,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17008,7 +17159,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17022,7 +17174,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17060,7 +17212,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17074,7 +17227,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17112,7 +17265,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17126,7 +17280,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17170,7 +17324,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17184,7 +17339,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17216,7 +17371,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17230,7 +17386,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17267,7 +17423,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17281,7 +17438,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17313,7 +17470,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17327,7 +17485,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17372,7 +17530,8 @@
 													"    pm.expect(item.contents).to.not.be.empty;\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17386,7 +17545,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17431,7 +17590,8 @@
 													"    pm.expect(item.contents).to.not.be.empty;\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17445,7 +17605,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17477,7 +17637,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17491,7 +17652,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17528,7 +17689,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17542,7 +17704,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17574,7 +17736,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17588,7 +17751,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17633,7 +17796,8 @@
 													"    pm.expect(item.magic.charges).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17647,7 +17811,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17692,7 +17856,8 @@
 													"    pm.expect(item.magic.charges).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17706,7 +17871,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17738,7 +17903,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17752,7 +17918,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17789,7 +17955,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17803,7 +17970,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17835,7 +18002,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17849,7 +18017,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17893,7 +18061,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17907,7 +18076,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17945,7 +18114,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -17959,7 +18129,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -17997,7 +18167,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18011,7 +18182,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18055,7 +18226,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18069,7 +18241,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18101,7 +18273,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18115,7 +18288,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18152,7 +18325,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18166,7 +18340,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18198,7 +18372,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18212,7 +18387,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18250,7 +18425,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18264,7 +18440,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18308,7 +18484,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18322,7 +18499,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18360,7 +18537,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18374,7 +18552,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18418,7 +18596,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18432,7 +18611,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18464,7 +18643,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18478,7 +18658,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18515,7 +18695,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18529,7 +18710,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18567,7 +18748,8 @@
 													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18581,7 +18763,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18646,7 +18828,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18684,7 +18866,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18698,7 +18881,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18736,7 +18919,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18750,7 +18934,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18788,7 +18972,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18802,7 +18987,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18846,7 +19031,8 @@
 													"    pm.expect(item.quantity).to.be.at.least(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18860,7 +19046,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18901,7 +19087,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18915,7 +19102,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -18963,7 +19150,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -18977,7 +19165,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19015,7 +19203,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19029,7 +19218,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19073,7 +19262,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19087,7 +19277,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19125,7 +19315,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19139,7 +19330,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19182,7 +19373,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19196,7 +19388,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19234,7 +19426,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19248,7 +19441,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19280,7 +19473,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19294,7 +19488,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19365,7 +19559,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19403,7 +19597,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19417,7 +19612,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19455,7 +19650,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19469,7 +19665,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19513,7 +19709,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19527,7 +19724,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19559,7 +19756,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19573,7 +19771,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19620,7 +19818,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19634,7 +19833,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19678,7 +19877,8 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19692,7 +19892,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19730,7 +19930,8 @@
 													"    pm.response.to.have.status(400);\r",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -19744,7 +19945,7 @@
 											],
 											"path": [
 												"api",
-												"v1",
+												"v2",
 												"item",
 												":itemType",
 												"power",
@@ -19784,7 +19985,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -19798,7 +20000,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -19830,7 +20032,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -19844,7 +20047,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -19882,7 +20085,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -19896,7 +20100,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -19928,7 +20132,8 @@
 											"    pm.response.to.have.status(400);\r",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -19942,7 +20147,7 @@
 									],
 									"path": [
 										"api",
-										"v1",
+										"v2",
 										"item",
 										":itemType",
 										"power",
@@ -20016,10 +20221,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
 							"pm.test(\"Returns Swagger data\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
 							"    pm.expect(pm.response.text()).to.include('\"host\": \"treasure.dndgen.com\"');\r",
 							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
@@ -20062,10 +20266,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
 							"pm.test(\"Returns Open API documentation\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
 							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://treasure.dndgen.com/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/validate\");\r",
