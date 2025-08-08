@@ -16,16 +16,10 @@ using System.Threading.Tasks;
 
 namespace DnDGen.Api.TreasureGen.Functions
 {
-    public class GenerateRandomItemFunction
+    public class GenerateRandomItemFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
     {
-        private readonly JustInTimeFactory _justInTimeFactory;
-        private readonly ILogger _logger;
-
-        public GenerateRandomItemFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GenerateRandomItemFunction>();
-            _justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
-        }
+        private readonly JustInTimeFactory _justInTimeFactory = dependencyFactory.Get<JustInTimeFactory>();
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GenerateRandomItemFunction>();
 
         [Function("GenerateRandomItemFunction")]
         [OpenApiOperation(operationId: "GenerateRandomItemFunctionRun", tags: ["v1"],
@@ -48,6 +42,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
+        // TODO: Include models for Weapons and Armor
         public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/generate")] HttpRequestData req,
             string itemType, string power)
@@ -103,6 +98,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Item),
             Description = "The OK response containing the generated item")]
+        // TODO: Include models for Weapons and Armor
         public async Task<HttpResponseData> RunV2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/item/{itemType}/power/{power}/generate")] HttpRequestData req,
             string itemType, string power)
