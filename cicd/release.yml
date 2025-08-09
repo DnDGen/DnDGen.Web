@@ -89,6 +89,7 @@ jobs:
             command: install
         - task: Npm@1  
           displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
           inputs: 
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
@@ -273,7 +274,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results\website.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-api-tests/DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results/website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -282,6 +283,12 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+        - task: ArchiveFiles@2
+          displayName: 'Zip Website Artifacts'
+          inputs:
+            rootFolderOrFile: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web'
+            includeRootFolder: false
+            archiveFile: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web.zip'
         - task: GitHubRelease@1
           displayName: 'GitHub release (create)'
           inputs:
@@ -293,4 +300,4 @@ jobs:
               '$(Pipeline.Workspace)/**/encountergen-api/*.zip'
               '$(Pipeline.Workspace)/**/dungeongen-api/*.zip'
               '$(Pipeline.Workspace)/**/dndgen-web-api/*.zip'
-              '$(Pipeline.Workspace)/**/dndgen-web/browser/*'
+              '$(Pipeline.Workspace)/DnDGen.Web/dndgen-web.zip'
