@@ -89,6 +89,7 @@ jobs:
             command: install
         - task: Npm@1  
           displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
           inputs: 
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'

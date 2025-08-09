@@ -283,7 +283,8 @@ jobs:
       verbose: true  
       command: install
   - task: Npm@1  
-    displayName: Build  
+    displayName: Build
+    retryCountOnTaskFailure: 1
     inputs: 
       command: custom
       workingDir: '$(Build.SourcesDirectory)/dndgen-web'
