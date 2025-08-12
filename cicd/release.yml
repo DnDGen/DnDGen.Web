@@ -40,7 +40,53 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
+          displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.RollGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'rollgen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.RollGen.zip'
      
 # The TreasureGen API       
 - deployment: TreasureGen_Api
@@ -151,7 +197,53 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
+          displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.CharacterGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'charactergen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.CharacterGen.zip'
 
 # The EncounterGen API       
 - deployment: EncounterGen_Api
@@ -182,7 +274,53 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
+          displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.EncounterGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'encountergen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.EncounterGen.zip'
 
 # The DungeonGen API       
 - deployment: DungeonGen_Api
@@ -213,7 +351,53 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
+          displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.DungeonGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'dungeongen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.DungeonGen.zip'
 
 # The Web API
 - deployment: Web_Api
@@ -244,7 +428,53 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        # TODO: RUN THE WEB TESTS after deployment, since contract tests in the website can fail after deployment
+        - task: UseNode@1
+          displayName: 'Install node.js'
+          inputs:
+            version: '20.x'
+        - task: Npm@1  
+          displayName: 'Install Angular CLI'  
+          inputs:  
+            command: custom  
+            verbose: true  
+            customCommand: 'install -g @angular/cli'
+        - task: Npm@1  
+          displayName: 'npm install'  
+          inputs:
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            command: install
+        - task: Npm@1  
+          displayName: Run Website Tests
+          retryCountOnTaskFailure: 1
+          inputs: 
+            command: custom
+            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+            verbose: true  
+            customCommand: 'run test:ci'
+        - task: PublishTestResults@2
+          displayName: 'Publish Website Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**\TESTS-*.xml'
+            failTaskOnFailedTests: true
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.Web.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'dndgen-web-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.Web.zip'
      
 # The DnDGen Website
 - deployment: Website
@@ -304,3 +534,29 @@ jobs:
               $(Pipeline.Workspace)/**/dungeongen-api/*.zip
               $(Pipeline.Workspace)/**/dndgen-web-api/*.zip
               $(Pipeline.Workspace)/DnDGen.Web/dndgen-web.zip
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)/rollback'
+              itemPattern: dndgen-web.zip
+          - task: ExtractFiles@1
+            displayName: 'Extract Website Rollback Artifacts'
+            inputs:
+              archiveFilePatterns: '$(Pipeline.Workspace)/rollback/dndgen-web.zip'
+              destinationFolder: '$(Pipeline.Workspace)/rollback'
+          - task: AzureStaticWebApp@0
+            displayName: 'Rollback dndgen-web'
+            retryCountOnTaskFailure: 3
+            inputs:
+              cwd: '$(Pipeline.Workspace)/rollback/dndgen-web'
+              app_location: '/dndgen-web/browser'
+              output_location: ''
+              skip_app_build: true
+              skip_api_build: true
+              verbose: true
+              azure_static_web_apps_api_token: '$(deployment_token)'
