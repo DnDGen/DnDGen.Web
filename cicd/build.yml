@@ -311,13 +311,23 @@ jobs:
       PathtoPublish: '$(Build.SourcesDirectory)/dndgen-web/dist'
       publishLocation: 'Container'
       
-# The Post-Deployment Tests
-- job: deployTests
-  displayName: Package Post-Deployment Tests
+- job: publish
+  displayName: Publish Artifacts
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  dependsOn:
+  - RollGen_Api
+  - TreasureGen_Api
+  - CharacterGen_Api
+  - EncounterGen_Api
+  - DungeonGen_Api
+  - Web_Api
+  - DnDGen_Web
   steps:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
+
+    # Post-Deployment Tests
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: Publish Post-Deployment API Test Artifacts
@@ -330,4 +340,13 @@ jobs:
     inputs:
       targetPath: '$(System.DefaultWorkingDirectory)/dndgen-web' 
       artifactName: 'dndgen-deployment-website-tests'
+    
+    # Tag the release
+  - script: |
+      echo "Tagging with version $(Build.BuildNumber)"
+      git tag $(Build.BuildNumber)
+      git push origin $(Build.BuildNumber)
+    displayName: 'Tag Release Version'
+    workingDirectory: $(Build.SourcesDirectory)
+
       

@@ -286,12 +286,6 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
-        - script: |
-            echo "Tagging with version $(Build.BuildNumber)"
-            git tag $(Build.BuildNumber)
-            git push origin $(Build.BuildNumber)
-          displayName: 'Tag Release Version'
-          workingDirectory: $(Build.SourcesDirectory)
         - task: ArchiveFiles@2
           displayName: 'Zip Website Artifacts'
           inputs:
