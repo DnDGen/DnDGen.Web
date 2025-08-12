@@ -284,7 +284,6 @@ jobs:
       command: install
   - task: Npm@1  
     displayName: Build
-    retryCountOnTaskFailure: 1
     inputs: 
       command: custom
       workingDir: '$(Build.SourcesDirectory)/dndgen-web'
@@ -292,6 +291,7 @@ jobs:
       customCommand: 'run build:ci'
   - task: Npm@1  
     displayName: Run Tests
+    retryCountOnTaskFailure: 1
     inputs: 
       command: custom
       workingDir: '$(Build.SourcesDirectory)/dndgen-web'
