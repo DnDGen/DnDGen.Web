@@ -62,7 +62,10 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
+        - script: |
+            newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json \
+            --reporters cli,junit \
+            --reporter-junit-export Results\treasuregen.junitReport.xml
           displayName: 'Run TreasureGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -283,6 +286,12 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+        - script: |
+            echo "Tagging with version $(Build.BuildNumber)"
+            git tag $(Build.BuildNumber)
+            git push origin $(Build.BuildNumber)
+          displayName: 'Tag Release Version'
+          workingDirectory: $(Build.SourcesDirectory)
         - task: ArchiveFiles@2
           displayName: 'Zip Website Artifacts'
           inputs:
