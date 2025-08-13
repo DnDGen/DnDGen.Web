@@ -2041,7 +2041,7 @@ describe('TreasureGen Component', () => {
       TestHelper.expectLines(lines, expected);
     });
     
-    it(`BUG - should download weapon`, async () => {
+    it(`BUG - should download weapon v1`, async () => {
       //Even for an integration test, we don't want to create an actual file
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
@@ -2073,6 +2073,43 @@ describe('TreasureGen Component', () => {
           '\t\t' + 'Damage: my damage description',
           '\t\t' + 'Threat Range: my threat range description',
           '\t\t' + 'Critical Damage: my critical damage description',
+          '',
+      ];
+      TestHelper.expectLines(lines, expected);
+    });
+    
+    it(`BUG - should download weapon v2`, async () => {
+      //Even for an integration test, we don't want to create an actual file
+      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+
+      let weapon = new Weapon('my weapon', 'Weapon');
+      weapon.summary = 'my weapon summary';
+      weapon.size = 'Medium';
+      weapon.combatTypes = ['melee', 'ranged'];
+      weapon.damageSummary = 'my damage summary';
+      weapon.threatRangeSummary = 'my threat range summary';
+      weapon.criticalDamageSummary = 'my critical damage summary';
+
+      fixture.componentInstance.item = weapon as Item;
+      fixture.detectChanges();
+
+      helper.clickButton('#downloadItemButton');
+
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(
+        jasmine.any(Blob),
+        jasmine.stringMatching(/^Item \(my weapon summary\)\.txt$/));
+      
+      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const text = await blob.text();
+      const lines = text.split('\r\n');
+      const expected = [
+          'my weapon summary',
+          '\t' + 'Weapon:',
+          '\t\t' + 'Size: Medium',
+          '\t\t' + 'Combat Types: melee, ranged',
+          '\t\t' + 'Damage: my damage summary',
+          '\t\t' + 'Threat Range: my threat range summary',
+          '\t\t' + 'Critical Damage: my critical damage summary',
           '',
       ];
       TestHelper.expectLines(lines, expected);

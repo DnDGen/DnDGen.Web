@@ -336,6 +336,36 @@ describe('Character Service', () => {
                 });
         }));
     
+        it('BUG - generates character with weapon descriptions', waitForAsync(() => {
+            characterService
+                .generate(
+                    'Any',
+                    '',
+                    'Any Player',
+                    '',
+                    'Any',
+                    0,
+                    'Any Base',
+                    '',
+                    'Any Meta',
+                    false,
+                    '',
+                    'Raw',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    true)
+                .subscribe((character) => {
+                    expect(character).toBeTruthy();
+                    expect(character.summary).toBeTruthy();
+                    expect(character.equipment.primaryHand).toBeTruthy();
+                    expect(character.equipment.primaryHand?.damageDescription).toBeTruthy();
+                });
+        }));
+    
         it('generates character with set values', waitForAsync(() => {
             characterService
                 .generate(

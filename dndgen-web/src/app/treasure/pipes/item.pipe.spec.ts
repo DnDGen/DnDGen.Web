@@ -180,7 +180,7 @@ describe('Item Pipe', () => {
             TestHelper.expectLines(lines, expected);
         });
     
-        it('formats weapon', () => {
+        it('formats weapon v1', () => {
             var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
             weapon.size = "weapon size";
             weapon.combatTypes = ["melee", "ranged"];
@@ -204,7 +204,31 @@ describe('Item Pipe', () => {
             TestHelper.expectLines(lines, expected);
         });
     
-        it('formats double weapon', () => {
+        it('formats weapon v2', () => {
+            var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
+            weapon.size = "weapon size";
+            weapon.combatTypes = ["melee", "ranged"];
+            weapon.damageSummary = "damage summary";
+            weapon.threatRangeSummary = "threat range summary";
+            weapon.criticalDamageSummary = "over 9000 summary";
+    
+            var formattedItem = pipe.transform(weapon);
+            var lines = formattedItem.split('\r\n');
+    
+            var expected = [
+                'my weapon summary',
+                '\t' + 'Weapon:',
+                '\t\t' + 'Size: weapon size',
+                '\t\t' + 'Combat Types: melee, ranged',
+                '\t\t' + 'Damage: damage summary',
+                '\t\t' + 'Threat Range: threat range summary',
+                '\t\t' + 'Critical Damage: over 9000 summary',
+                '',
+            ];
+            TestHelper.expectLines(lines, expected);
+        });
+    
+        it('formats double weapon v1', () => {
             var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
             weapon.size = "weapon size";
             weapon.combatTypes = ["melee", "ranged"];
@@ -228,6 +252,35 @@ describe('Item Pipe', () => {
                 '\t\t' + 'Threat Range: threat range description',
                 '\t\t' + 'Critical Damage: over 9000',
                 '\t\t' + 'Secondary Critical Damage: finish him',
+                '',
+            ];
+            TestHelper.expectLines(lines, expected);
+        });
+    
+        it('formats double weapon v2', () => {
+            var weapon = new Weapon('weapon name', 'Weapon', 'my weapon summary');
+            weapon.size = "weapon size";
+            weapon.combatTypes = ["melee", "ranged"];
+            weapon.damageSummary = "damage summary";
+            weapon.threatRangeSummary = "threat range summary";
+            weapon.criticalDamageSummary = "over 9000 summary";
+            weapon.isDoubleWeapon = true;
+            weapon.secondaryDamageSummary = 'secondary damage summary';
+            weapon.secondaryCriticalDamageSummary = 'finish him summary';
+    
+            var formattedItem = pipe.transform(weapon);
+            var lines = formattedItem.split('\r\n');
+    
+            var expected = [
+                'my weapon summary',
+                '\t' + 'Weapon:',
+                '\t\t' + 'Size: weapon size',
+                '\t\t' + 'Combat Types: melee, ranged',
+                '\t\t' + 'Damage: damage summary',
+                '\t\t' + 'Secondary Damage: secondary damage summary',
+                '\t\t' + 'Threat Range: threat range summary',
+                '\t\t' + 'Critical Damage: over 9000 summary',
+                '\t\t' + 'Secondary Critical Damage: finish him summary',
                 '',
             ];
             TestHelper.expectLines(lines, expected);

@@ -91,17 +91,17 @@ export class ItemPipe implements PipeTransform {
 
       formattedWeapon += prefix + '\t' + 'Size: ' + weapon.size + '\r\n';
       formattedWeapon += prefix + '\t' + 'Combat Types: ' + weapon.combatTypes.join(", ") + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Damage: ' + weapon.damageDescription + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Damage: ' + (weapon.damageSummary || weapon.damageDescription) + '\r\n';
 
       if (weapon.isDoubleWeapon)
-          formattedWeapon += prefix + '\t' + 'Secondary Damage: ' + weapon.secondaryDamageDescription + '\r\n';
+          formattedWeapon += prefix + '\t' + 'Secondary Damage: ' + (weapon.secondaryDamageSummary || weapon.secondaryDamageDescription) + '\r\n';
 
-      formattedWeapon += prefix + '\t' + 'Threat Range: ' + weapon.threatRangeDescription + '\r\n';
-      formattedWeapon += prefix + '\t' + 'Critical Damage: ' + weapon.criticalDamageDescription + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Threat Range: ' + (weapon.threatRangeSummary || weapon.threatRangeDescription) + '\r\n';
+      formattedWeapon += prefix + '\t' + 'Critical Damage: ' + (weapon.criticalDamageSummary || weapon.criticalDamageDescription) + '\r\n';
 
       if (weapon.isDoubleWeapon)
-          formattedWeapon += prefix + '\t' + 'Secondary Critical Damage: ' + weapon.secondaryCriticalDamageDescription + '\r\n';
-        
+          formattedWeapon += prefix + '\t' + 'Secondary Critical Damage: ' + (weapon.secondaryCriticalDamageSummary || weapon.secondaryCriticalDamageDescription) + '\r\n';
+
       if (weapon.ammunition) {
           formattedWeapon += prefix + '\t' + 'Ammunition Used: ' + weapon.ammunition + '\r\n';
       }

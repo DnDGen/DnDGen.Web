@@ -65,7 +65,7 @@ describe('Treasure Service', () => {
     
             treasureService.getTreasure('myTreasureType', 90210).subscribe((treasure) => {
                 expect(treasure).toBe(expected);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/generate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/myTreasureType/level/90210/generate');
                 done();
             });
         });
@@ -75,7 +75,7 @@ describe('Treasure Service', () => {
     
             treasureService.validateTreasure('myTreasureType', 90210).subscribe((validity) => {
                 expect(validity).toBe(true);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/myTreasureType/level/90210/validate');
                 done();
             });
         });
@@ -85,7 +85,7 @@ describe('Treasure Service', () => {
     
             treasureService.validateTreasure('myTreasureType', 90210).subscribe((validity) => {
                 expect(validity).toBe(false);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/myTreasureType/level/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/myTreasureType/level/90210/validate');
                 done();
             });
         });
@@ -96,7 +96,7 @@ describe('Treasure Service', () => {
     
             treasureService.getItem("myItemType", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/generate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/item/myItemType/power/super/generate');
                 done();
             });
         });
@@ -109,7 +109,7 @@ describe('Treasure Service', () => {
             treasureService.getItem("myItemType", "super", 'my name').subscribe((item) => {
                 expect(item).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/generate',
+                    'https://treasure.dndgen.com/api/v2/item/myItemType/power/super/generate',
                     { params: params }
                 );
                 done();
@@ -122,7 +122,7 @@ describe('Treasure Service', () => {
     
             treasureService.getItem("armor", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/armor/power/super/generate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/item/armor/power/super/generate');
                 
                 const armor = item as Armor;
                 expect(armor.canBeUsedAsWeaponOrArmor).toBeTruthy();
@@ -134,17 +134,17 @@ describe('Treasure Service', () => {
         });
     
         it('BUG - gets weapon', done => {
-            const expected = new Weapon('my super weapon', 'weapon', 'my weapon description', [], [], [], new Magic(), 1, [], false, 'my size', 'my damage description');
+            const expected = new Weapon('my super weapon', 'weapon', 'my weapon description', [], [], [], new Magic(), 1, [], false, 'my size', '', 'my damage summary');
             httpClientSpy.get.and.returnValue(of(expected));
     
             treasureService.getItem("weapon", "super", '').subscribe((item) => {
                 expect(item).toBe(expected);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/weapon/power/super/generate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/item/weapon/power/super/generate');
                 
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
                 expect(weapon.size).toEqual('my size');
-                expect(weapon.damageDescription).toEqual('my damage description');
+                expect(weapon.damageSummary).toEqual('my damage summary');
 
                 done();
             });
@@ -155,7 +155,7 @@ describe('Treasure Service', () => {
     
             treasureService.validateItem("myItemType", "super", '').subscribe((validity) => {
                 expect(validity).toBe(true);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/item/myItemType/power/super/validate');
                 done();
             });
         });
@@ -167,7 +167,7 @@ describe('Treasure Service', () => {
             treasureService.validateItem("myItemType", "super", 'my name').subscribe((validity) => {
                 expect(validity).toBe(true);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate',
+                    'https://treasure.dndgen.com/api/v2/item/myItemType/power/super/validate',
                     { params: params });
                 done();
             });
@@ -178,7 +178,7 @@ describe('Treasure Service', () => {
     
             treasureService.validateItem("myItemType", "super", '').subscribe((validity) => {
                 expect(validity).toBeFalse();
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://treasure.dndgen.com/api/v2/item/myItemType/power/super/validate');
                 done();
             });
         });
@@ -190,7 +190,7 @@ describe('Treasure Service', () => {
             treasureService.validateItem("myItemType", "super", 'my name').subscribe((validity) => {
                 expect(validity).toBeFalse();
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://treasure.dndgen.com/api/v1/item/myItemType/power/super/validate',
+                    'https://treasure.dndgen.com/api/v2/item/myItemType/power/super/validate',
                     { params: params });
                 done();
             });
@@ -262,7 +262,6 @@ describe('Treasure Service', () => {
     
         it('validates an invalid treasure - level', done => {
             treasureService.validateTreasure('treasure', 0).subscribe((validity) => {
-            // treasureService.validateTreasure('treasure', 101).subscribe((validity) => {
                 expect(validity).toBe(false);
                 done();
             });
@@ -321,7 +320,47 @@ describe('Treasure Service', () => {
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
                 expect(weapon.size).toBeTruthy();
-                expect(weapon.damageDescription).toBeTruthy();
+                expect(weapon.damageSummary).toBeTruthy();
+                expect(weapon.criticalDamageSummary).toBeTruthy();
+                expect(weapon.threatRangeSummary).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets weapon with summaries', done => {
+            treasureService.getItem('weapon', 'mundane', 'longsword').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toBeTruthy();
+                expect(weapon.damageSummary).toBeTruthy();
+                expect(weapon.criticalDamageSummary).toBeTruthy();
+                expect(weapon.secondaryDamageSummary).toBeFalsy();
+                expect(weapon.secondaryCriticalDamageSummary).toBeFalsy();
+                expect(weapon.threatRangeSummary).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets double weapon with summaries', done => {
+            treasureService.getItem('weapon', 'mundane', 'two-bladed sword').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toBeTruthy();
+                expect(weapon.damageSummary).toBeTruthy();
+                expect(weapon.criticalDamageSummary).toBeTruthy();
+                expect(weapon.secondaryDamageSummary).toBeTruthy();
+                expect(weapon.secondaryCriticalDamageSummary).toBeTruthy();
+                expect(weapon.threatRangeSummary).toBeTruthy();
 
                 done();
             });

@@ -18,15 +18,15 @@ export class ItemComponent {
   public get armor() { return this.item as Armor };
   public get weapon() { return this.item as Weapon };
   public get personality() {
-     if (!this.item.magic.intelligence) {
+    if (!this.item.magic.intelligence) {
       return '';
-     }
+    }
 
-     if (this.item.magic.intelligence.personality) {
+    if (this.item.magic.intelligence.personality) {
       return this.item.magic.intelligence.personality
-     }
+    }
 
-     return 'None';
+    return 'None';
   }
 
   public isArmor(): boolean {
@@ -50,7 +50,9 @@ export class ItemComponent {
       || this.item.magic.intelligence.ego > 0;
 
     additionalData ||= this.isArmor() && this.armor.totalArmorBonus != 0;
-    additionalData ||= this.isWeapon() && this.weapon.damageDescription.length > 0;
+    additionalData ||= this.isWeapon() && 
+      ((this.weapon.damageSummary != undefined && this.weapon.damageSummary.length > 0)
+        || (this.weapon.damageDescription != undefined && this.weapon.damageDescription.length > 0));
 
     return additionalData;
   }
