@@ -107,14 +107,14 @@
           <ul class="item-weapon-details">
             <li>Size: {{weapon.size}}</li>
             <li>Combat Types: {{weapon.combatTypes.join(", ")}}</li>
-            <li>Damage: {{weapon.damageDescription}}</li>
+            <li>Damage: {{weapon.damageSummary || weapon.damageDescription}}</li>
             @if (weapon.isDoubleWeapon) {
-              <li class="item-weapon-2nd-damage">Secondary Damage: {{weapon.secondaryDamageDescription}}</li>
+              <li class="item-weapon-2nd-damage">Secondary Damage: {{weapon.secondaryDamageSummary || weapon.secondaryDamageDescription}}</li>
             }
-            <li>Threat Range: {{weapon.threatRangeDescription}}</li>
-            <li>Critical Damage: {{weapon.criticalDamageDescription}}</li>
+            <li>Threat Range: {{weapon.threatRangeSummary || weapon.threatRangeDescription}}</li>
+            <li>Critical Damage: {{weapon.criticalDamageSummary || weapon.criticalDamageDescription}}</li>
             @if (weapon.isDoubleWeapon) {
-              <li class="item-weapon-2nd-crit">Secondary Critical Damage: {{weapon.secondaryCriticalDamageDescription}}</li>
+              <li class="item-weapon-2nd-crit">Secondary Critical Damage: {{weapon.secondaryCriticalDamageSummary || weapon.secondaryCriticalDamageDescription}}</li>
             }
             @if (weapon.ammunition) {
               <li class="item-weapon-ammo">Ammunition Used: {{weapon.ammunition}}</li>

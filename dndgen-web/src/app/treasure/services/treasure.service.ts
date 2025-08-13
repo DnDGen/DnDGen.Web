@@ -20,17 +20,17 @@ export class TreasureService {
   }
   
   public getTreasure(treasureType: string, level: number): Observable<Treasure> {
-    var url = "https://treasure.dndgen.com/api/v1/" + treasureType + "/level/" + level + "/generate";
+    var url = "https://treasure.dndgen.com/api/v2/" + treasureType + "/level/" + level + "/generate";
     return this.http.get<Treasure>(url);
   }
   
   public validateTreasure(treasureType: string, level: number): Observable<boolean> {
-    var url = "https://treasure.dndgen.com/api/v1/" + treasureType + "/level/" + level + "/validate";
+    var url = "https://treasure.dndgen.com/api/v2/" + treasureType + "/level/" + level + "/validate";
     return this.http.get<boolean>(url);
   }
 
   public getItem(itemType: string, power: string, name: string): Observable<Item> {
-    var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/generate";
+    var url = "https://treasure.dndgen.com/api/v2/item/" + itemType + "/power/" + power + "/generate";
 
     if (!name) {
       return this.http.get<Item | Weapon | Armor>(url);
@@ -41,7 +41,7 @@ export class TreasureService {
   }
 
   public validateItem(itemType: string, power: string, name: string): Observable<boolean> {
-    var url = "https://treasure.dndgen.com/api/v1/item/" + itemType + "/power/" + power + "/validate";
+    var url = "https://treasure.dndgen.com/api/v2/item/" + itemType + "/power/" + power + "/validate";
 
     if (!name) {
       return this.http.get<boolean>(url);

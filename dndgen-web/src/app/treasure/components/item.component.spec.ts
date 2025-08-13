@@ -33,7 +33,7 @@ describe('Item Component', () => {
       expect(component.armor.armorBonus).toBe(9266);
     });
   
-    it(`should set the weapon `, () => {
+    it(`should set the weapon V1`, () => {
       let item = new Weapon('my weapon', 'Weapon');
       item.damageDescription = 'my damage description';
 
@@ -43,6 +43,18 @@ describe('Item Component', () => {
       expect(component.weapon).toBe(item);
       expect(component.weapon).toBeInstanceOf(Weapon);
       expect(component.weapon.damageDescription).toEqual('my damage description');
+    });
+  
+    it(`should set the weapon V2`, () => {
+      let item = new Weapon('my weapon', 'Weapon');
+      item.damageSummary = 'my damage summary';
+
+      component.item = item;
+
+      expect(component.item).toBe(item);
+      expect(component.weapon).toBe(item);
+      expect(component.weapon).toBeInstanceOf(Weapon);
+      expect(component.weapon.damageSummary).toEqual('my damage summary');
     });
   
     it(`should say is not armor when item`, () => {
@@ -498,6 +510,22 @@ describe('Item Component', () => {
       weapon.magic.curse = '';
       weapon.magic.intelligence.ego = 0;
       weapon.damageDescription = 'my damage description';
+
+      component.item = weapon;
+
+      expect(component.hasDetails()).toBeTrue();
+    });
+  
+    it(`should say it has details when weapon has damage summary`, () => {
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.contents = [];
+      weapon.traits = [];
+      weapon.magic.bonus = 0;
+      weapon.attributes = ['My Attribute', 'My Other Attribute'];
+      weapon.magic.specialAbilities = [];
+      weapon.magic.curse = '';
+      weapon.magic.intelligence.ego = 0;
+      weapon.damageSummary = 'my damage summary';
 
       component.item = weapon;
 
@@ -987,7 +1015,7 @@ describe('Item Component', () => {
       helper.expectExists('li.item-armor-max-dex', false);
     });
   
-    it(`should render weapon`, () => {
+    it(`should render weapon v1`, () => {
       const component = fixture.componentInstance;
       component.item = getWeapon();
 
@@ -1010,6 +1038,38 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon-2nd-crit', false);
       helper.expectExists('li.item-weapon-ammo', false);
     });
+  
+    it(`should render weapon v2`, () => {
+      const weapon = getWeapon();
+      weapon.damageDescription = '';
+      weapon.damageSummary = 'my damage summary';
+      weapon.threatRangeDescription = '';
+      weapon.threatRangeSummary = 'my threat range summary';
+      weapon.criticalDamageDescription = '';
+      weapon.criticalDamageSummary = 'my critical damage summary';
+
+      const component = fixture.componentInstance;
+      component.item = weapon;
+
+      fixture.detectChanges();
+  
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
+      expectOnlyToShow('li.item-weapon');
+      helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll('li.item-weapon > dndgen-details ul.item-weapon-details > li');
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(5);
+      expect(listItems?.item(0).textContent).toEqual('Size: my size');
+      expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
+      expect(listItems?.item(2).textContent).toEqual('Damage: my damage summary');
+      helper.expectExists('li.item-weapon-2nd-damage', false);
+      expect(listItems?.item(3).textContent).toEqual('Threat Range: my threat range summary');
+      expect(listItems?.item(4).textContent).toEqual('Critical Damage: my critical damage summary');
+      helper.expectExists('li.item-weapon-2nd-crit', false);
+      helper.expectExists('li.item-weapon-ammo', false);
+    });
 
     function getWeapon(): Weapon {
       let weapon = new Weapon('my weapon', 'Weapon');
@@ -1024,7 +1084,7 @@ describe('Item Component', () => {
       return weapon;
     }
   
-    it(`should render double weapon`, () => {
+    it(`should render double weapon v1`, () => {
       const weapon = getWeapon();
       weapon.isDoubleWeapon = true;
       weapon.secondaryDamageDescription = 'my secondary damage description';
@@ -1050,6 +1110,43 @@ describe('Item Component', () => {
       expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range');
       expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage description');
       expect(listItems?.item(6).textContent).toEqual('Secondary Critical Damage: my secondary critical damage description');
+      helper.expectExists('li.item-weapon-ammo', false);
+    });
+  
+    it(`should render double weapon v2`, () => {
+      const weapon = getWeapon();
+      weapon.damageDescription = '';
+      weapon.damageSummary = 'my damage summary';
+      weapon.threatRangeDescription = '';
+      weapon.threatRangeSummary = 'my threat range summary';
+      weapon.criticalDamageDescription = '';
+      weapon.criticalDamageSummary = 'my critical damage summary';
+      weapon.isDoubleWeapon = true;
+      weapon.secondaryDamageDescription = '';
+      weapon.secondaryDamageSummary = 'my secondary damage summary';
+      weapon.secondaryCriticalDamageDescription = '';
+      weapon.secondaryCriticalDamageSummary = 'my secondary critical damage summary';
+
+      const component = fixture.componentInstance;
+      component.item = weapon;
+
+      fixture.detectChanges();
+  
+      helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
+      expectOnlyToShow('li.item-weapon');
+      helper.expectDetails('li.item-weapon > dndgen-details', 'Weapon', true);
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const listItems = compiled.querySelectorAll('li.item-weapon > dndgen-details ul.item-weapon-details > li');
+      expect(listItems).toBeTruthy();
+      expect(listItems?.length).toEqual(7);
+      expect(listItems?.item(0).textContent).toEqual('Size: my size');
+      expect(listItems?.item(1).textContent).toEqual('Combat Types: stabbing, tickling');
+      expect(listItems?.item(2).textContent).toEqual('Damage: my damage summary');
+      expect(listItems?.item(3).textContent).toEqual('Secondary Damage: my secondary damage summary');
+      expect(listItems?.item(4).textContent).toEqual('Threat Range: my threat range summary');
+      expect(listItems?.item(5).textContent).toEqual('Critical Damage: my critical damage summary');
+      expect(listItems?.item(6).textContent).toEqual('Secondary Critical Damage: my secondary critical damage summary');
       helper.expectExists('li.item-weapon-ammo', false);
     });
   
