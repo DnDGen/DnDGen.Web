@@ -14,3 +14,7 @@ This also includes the code for the public-accessible APIs for the various gener
 * [CharacterGen API](https://character.dndgen.com/api/swagger/ui)
 * [EncounterGen API](https://encounter.dndgen.com/api/swagger/ui)
 * [DungeonGen API](https://dungeon.dndgen.com/api/swagger/ui)
+
+APIs run as Azure Function Apps
+
+Website runs on Angular
