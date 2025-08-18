@@ -18051,10 +18051,9 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
 													"pm.test(\"Returns item\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    \r",
 													"    var item = pm.response.json();\r",
 													"    pm.expect(item.name).to.equal('Immovable Rod');\r",
 													"    pm.expect(item.itemType).to.equal('Rod');\r",
@@ -18303,6 +18302,71 @@
 												{
 													"key": "power",
 													"value": "omnipotent"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "BUG - Rod of Alertness is also a weapon",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Returns rod and weapon properties\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    \r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Rod of Alertness');\r",
+													"    pm.expect(item.itemType).to.equal('Rod');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
+													"    pm.expect(item.magic.bonus).to.equal(1);\r",
+													"\r",
+													"    pm.expect(item.size).not.to.be.undefined;\r",
+													"    pm.expect(item.size).not.to.equal('');\r",
+													"    pm.expect(item.damageSummary).not.to.equal('');\r",
+													"    pm.expect(item.criticalDamageSummary).not.to.equal('');\r",
+													"    pm.expect(item.threatRangeSummary).not.to.equal('');\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=rod of alertness",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"item",
+												":itemType",
+												"power",
+												":power",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "rod of alertness"
+												}
+											],
+											"variable": [
+												{
+													"key": "itemType",
+													"value": "rod"
+												},
+												{
+													"key": "power",
+													"value": "major"
 												}
 											]
 										}
@@ -18678,6 +18742,70 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "BUG - Staff of Power returns staff and weapon",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Returns staff and weapon properties\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    \r",
+													"    var item = pm.response.json();\r",
+													"    pm.expect(item.name).to.equal('Staff of Power');\r",
+													"    pm.expect(item.itemType).to.equal('Staff');\r",
+													"    pm.expect(item.quantity).to.equal(1);\r",
+													"\r",
+													"    pm.expect(item.size).not.to.be.undefined;\r",
+													"    pm.expect(item.size).not.to.equal('');\r",
+													"    pm.expect(item.damageSummary).not.to.equal('');\r",
+													"    pm.expect(item.criticalDamageSummary).not.to.equal('');\r",
+													"    pm.expect(item.threatRangeSummary).not.to.equal('');\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20power",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"api",
+												"v2",
+												"item",
+												":itemType",
+												"power",
+												":power",
+												"generate"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "staff%20of%20power"
+												}
+											],
+											"variable": [
+												{
+													"key": "itemType",
+													"value": "Staff"
+												},
+												{
+													"key": "power",
+													"value": "Major"
+												}
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
@@ -18808,9 +18936,9 @@
 													"    pm.expect(item.quantity).to.equal(1);\r",
 													"    pm.expect(item.size).not.to.be.undefined;\r",
 													"    pm.expect(item.size).not.to.equal('');\r",
-													"    pm.expect(item.damageDescription).not.to.equal('');\r",
-													"    pm.expect(item.criticalDamageDescription).not.to.equal('');\r",
-													"    pm.expect(item.threatRangeDescription).not.to.equal('');\r",
+													"    pm.expect(item.damageSummary).not.to.equal('');\r",
+													"    pm.expect(item.criticalDamageSummary).not.to.equal('');\r",
+													"    pm.expect(item.threatRangeSummary).not.to.equal('');\r",
 													"});"
 												],
 												"type": "text/javascript",

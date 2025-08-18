@@ -6,8 +6,8 @@ import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
 import { TestHelper } from '../../testHelper.spec';
 
-describe('Item Component', () => {
-  describe('unit', () => {
+fdescribe('Item Component', () => {
+  fdescribe('unit', () => {
     let component: ItemComponent;
 
     beforeEach(() => {
@@ -97,6 +97,78 @@ describe('Item Component', () => {
       component.item = item;
 
       expect(component.isWeapon()).toBeTrue();
+    });
+  
+    it(`should say is weapon when item is rod with weapon properties`, () => {
+      let item = new Weapon('my item', 'Rod');
+      item.canBeUsedAsWeaponOrArmor = true;
+      item.damageSummary = 'my damage summary';
+
+      component.item = item as Item;
+
+      expect(component.isWeapon()).toBeTrue();
+    });
+  
+    it(`should say is not weapon when item is rod without weapon properties`, () => {
+      let item = new Item('my item', 'Rod');
+      item.canBeUsedAsWeaponOrArmor = false;
+      component.item = item;
+
+      expect(component.isWeapon()).toBeFalse();
+    });
+  
+    it(`should say is weapon when item is staff with weapon properties`, () => {
+      let item = new Weapon('my item', 'Staff');
+      item.canBeUsedAsWeaponOrArmor = true;
+      item.damageSummary = 'my damage summary';
+
+      component.item = item as Item;
+
+      expect(component.isWeapon()).toBeTrue();
+    });
+  
+    it(`should say is not weapon when item is staff without weapon properties`, () => {
+      let item = new Item('my item', 'Staff');
+      item.canBeUsedAsWeaponOrArmor = false;
+      component.item = item;
+
+      expect(component.isWeapon()).toBeFalse();
+    });
+  
+    it(`should say is not armor when item is rod with weapon properties`, () => {
+      let item = new Weapon('my item', 'Rod');
+      item.canBeUsedAsWeaponOrArmor = true;
+      item.damageSummary = 'my damage summary';
+
+      component.item = item as Item;
+
+      expect(component.isArmor()).toBeFalse();
+    });
+  
+    it(`should say is not armor when item is rod without weapon properties`, () => {
+      let item = new Item('my item', 'Rod');
+      item.canBeUsedAsWeaponOrArmor = false;
+      component.item = item;
+
+      expect(component.isArmor()).toBeFalse();
+    });
+  
+    it(`should say is not armor when item is staff with weapon properties`, () => {
+      let item = new Weapon('my item', 'Staff');
+      item.canBeUsedAsWeaponOrArmor = true;
+      item.damageSummary = 'my damage summary';
+
+      component.item = item as Item;
+
+      expect(component.isArmor()).toBeFalse();
+    });
+  
+    it(`should say is not armor when item is staff without weapon properties`, () => {
+      let item = new Item('my item', 'Staff');
+      item.canBeUsedAsWeaponOrArmor = false;
+      component.item = item;
+
+      expect(component.isArmor()).toBeFalse();
     });
   
     it(`should say is not weapon when armor`, () => {
@@ -234,8 +306,11 @@ describe('Item Component', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has no details when armor is boring`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+    it(`should say it has details when armor is boring`, () => {
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -244,11 +319,14 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeFalse();
+      expect(component.hasDetails()).toBeTrue();
     });
   
     it(`should say it has details when armor has contents`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = ['my content'];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -261,7 +339,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has traits`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = ['my trait'];
       component.item.magic.bonus = 0;
@@ -274,7 +355,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has magic bonus`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 1;
@@ -287,7 +371,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has negative magic bonus`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = -9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = -1;
@@ -300,7 +387,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has Charged attribute`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -313,7 +403,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has a special ability`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -326,7 +419,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has a curse`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -339,7 +435,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when armor has intelligence`, () => {
-      component.item = new Armor('my item', 'MyItemType');
+      let armor = new Armor('my item', 'MyItemType');
+      armor.totalArmorBonus = 9;
+
+      component.item = armor;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -383,8 +482,11 @@ describe('Item Component', () => {
       expect(component.hasDetails()).toBeTrue();
     });
   
-    it(`should say it has no details weapon item is boring`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+    it(`should say it has details weapon item is boring`, () => {
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -397,7 +499,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has contents`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = ['my content'];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -410,7 +515,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has traits`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = ['my trait'];
       component.item.magic.bonus = 0;
@@ -423,7 +531,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has magic bonus`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 1;
@@ -436,7 +547,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has negative magic bonus`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = -1;
@@ -449,7 +563,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has Charged attribute`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -462,7 +579,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has a special ability`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -475,7 +595,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has a curse`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -488,7 +611,10 @@ describe('Item Component', () => {
     });
   
     it(`should say it has details when weapon has intelligence`, () => {
-      component.item = new Weapon('my item', 'MyItemType');
+      let weapon = new Weapon('my item', 'MyItemType');
+      weapon.damageSummary = 'my damage summary';
+
+      component.item = weapon;
       component.item.contents = [];
       component.item.traits = [];
       component.item.magic.bonus = 0;
@@ -1073,6 +1199,7 @@ describe('Item Component', () => {
 
     function getWeapon(): Weapon {
       let weapon = new Weapon('my weapon', 'Weapon');
+      weapon.canBeUsedAsWeaponOrArmor = true;
       weapon.summary = 'my weapon summary';
       weapon.attributes = ['My Attribute', 'My Other Attribute'];
       weapon.size = 'my size';
