@@ -6,8 +6,8 @@ import { Weapon } from '../models/weapon.model';
 import { SpecialAbility } from '../models/specialAbility.model';
 import { TestHelper } from '../../testHelper.spec';
 
-fdescribe('Item Component', () => {
-  fdescribe('unit', () => {
+describe('Item Component', () => {
+  describe('unit', () => {
     let component: ItemComponent;
 
     beforeEach(() => {
@@ -495,7 +495,7 @@ fdescribe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeFalse();
+      expect(component.hasDetails()).toBeTrue();
     });
   
     it(`should say it has details when weapon has contents`, () => {

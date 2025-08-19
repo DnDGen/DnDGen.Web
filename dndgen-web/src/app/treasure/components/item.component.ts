@@ -32,7 +32,7 @@ export class ItemComponent {
   public isArmor(): boolean {
     return this.item instanceof Armor 
       || this.item.itemType == 'Armor' 
-      || (this.item.canBeUsedAsWeaponOrArmor && this.armor.totalArmorBonus != 0);
+      || (this.item.canBeUsedAsWeaponOrArmor && this.armor.totalArmorBonus != undefined && this.armor.totalArmorBonus != 0);
   }
 
   public isWeapon(): boolean {

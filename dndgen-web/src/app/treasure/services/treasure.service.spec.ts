@@ -381,6 +381,17 @@ describe('Treasure Service', () => {
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
                 expect(item.itemType).toBe('Rod');
+
+                done();
+            });
+        });
+    
+        it('BUG - gets rod without weapon properties', done => {
+            treasureService.getItem('rod', 'major', 'immovable rod').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Rod');
                 expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
 
                 done();
