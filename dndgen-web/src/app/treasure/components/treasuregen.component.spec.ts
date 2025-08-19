@@ -14,7 +14,7 @@ import { Item } from '../models/item.model';
 import { By } from '@angular/platform-browser';
 import { TreasureComponent } from './treasure.component';
 import { ItemComponent } from './item.component';
-import * as FileSaver from 'file-saver';
+import FileSaver from 'file-saver';
 import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
 import { Size } from '../../shared/components/size.enum';
@@ -1040,15 +1040,13 @@ describe('TreasureGen Component', () => {
     it(`should render the tabs`, () => {
       const compiled = fixture.nativeElement as HTMLElement;
   
+      helper.expectTextContents('ul.nav-tabs a.nav-link', ['Treasure', 'Item']);
+
       const tabLinks = compiled.querySelectorAll('ul.nav-tabs a.nav-link');
       expect(tabLinks).toBeTruthy();
       expect(tabLinks?.length).toEqual(2);
-      expect(tabLinks?.item(0).textContent).toEqual('Treasure');
       expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#treasure');
-      expect(tabLinks?.item(1).textContent).toEqual('Item');
       expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#item');
     });
 
     describe('the treasure tab', () => {
@@ -1301,8 +1299,7 @@ describe('TreasureGen Component', () => {
   
         //item name
         const alchemicalItemNames = fixture.componentInstance.treasureModel.itemNames['AlchemicalItem'];
-        helper.expectSelect('#item #itemNames', false, '', alchemicalItemNames.length + 1, [''].concat(alchemicalItemNames)
-        );
+        helper.expectSelect('#item #itemNames', false, '', alchemicalItemNames.length + 1, [''].concat(alchemicalItemNames));
         helper.expectExists('#itemNames', true);
   
         //Any item name
@@ -1317,6 +1314,7 @@ describe('TreasureGen Component', () => {
   
         fixture.detectChanges();
 
+        helper.expectSelect('#item #itemTypes', true, 'Rod', 11);
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
 
         //run validation

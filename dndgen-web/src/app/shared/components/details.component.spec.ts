@@ -47,7 +47,7 @@ describe('Details Component', () => {
 
       fixture.detectChanges();
   
-      helper.expectElement('span.no-details-header', 'my heading');
+      helper.expectTextContent('span.no-details-header', 'my heading');
       helper.expectExists('span.no-details-header', true);
       
       helper.expectExists('a.details-header', false);
@@ -63,7 +63,7 @@ describe('Details Component', () => {
       helper.expectExists('span.no-details-header', false);
       helper.expectExists('a.details-header', true);
       helper.expectExists('div.details-section', true);
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
     });
 
     it('should toggle the detail visibility', async () => {
@@ -98,46 +98,46 @@ describe('Details Component', () => {
       otherFixture.componentInstance.heading = "my other heading";
       otherFixture.componentInstance.hasDetails = true;
       
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
-      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectTextContent('a.details-header', 'my other heading');
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       helper.clickLink('a.details-header');
       fixture.detectChanges();
       
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section show');
       
-      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectTextContent('a.details-header', 'my other heading');
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       helper.clickLink('a.details-header');
       fixture.detectChanges();
       
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
-      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectTextContent('a.details-header', 'my other heading');
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       otherHelper.clickLink('a.details-header');
       fixture.detectChanges();
       
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
-      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectTextContent('a.details-header', 'my other heading');
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section show');
 
       otherHelper.clickLink('a.details-header');
       fixture.detectChanges();
       
-      helper.expectElement('a.details-header', 'my heading');
+      helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
-      otherHelper.expectElement('a.details-header', 'my other heading');
+      otherHelper.expectTextContent('a.details-header', 'my other heading');
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
     });
   });

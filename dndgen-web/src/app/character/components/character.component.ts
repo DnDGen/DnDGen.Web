@@ -9,6 +9,7 @@ import { SpellQuantityPipe } from '../pipes/spellQuantity.pipe';
 import { MeasurementPipe } from '../pipes/measurement.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
 import { ItemComponent } from '../../treasure/components/item.component';
 import { SpellGroupComponent } from './spellGroup.component';
@@ -21,6 +22,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
     standalone: true,
     providers: [
       DecimalPipe,
+      InchesToFeetPipe,
     ],
     imports: [
       DetailsComponent, 

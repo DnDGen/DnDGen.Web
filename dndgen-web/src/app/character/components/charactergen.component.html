@@ -3,9 +3,10 @@
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
-        <li ngbNavItem>
+        <li ngbNavItem [destroyOnHide]="false">
           <a ngbNavLink>Character</a>
           <ng-template ngbNavContent>
+            <div id="character">
               <form name="characterForm" #characterForm="ngForm" class="form-horizontal top-buffer" role="form">
                   <div class="form-group row">
                       <label for="alignmentRandomizerType" class="col-sm-2 col-form-label">Alignment:</label>
@@ -447,12 +448,13 @@
                       </div>
                     </div>
               </form>
+            </div>
           </ng-template>
         </li>
-        <li ngbNavItem>
+        <li ngbNavItem [destroyOnHide]="false">
           <a ngbNavLink>Leadership</a>
           <ng-template ngbNavContent>
-            
+            <div id="leadership">
               <form name="leadershipForm" #leadershipForm="ngForm" class="form-horizontal top-buffer" role="form">
                   <div class="form-group row">
                       <label for="leaderAlignment" class="col-sm-6 col-form-label">Leader Alignment:</label>
@@ -520,6 +522,7 @@
                       </button>
                   </div>
               </form>
+            </div>
           </ng-template>
         </li>
       </ul>

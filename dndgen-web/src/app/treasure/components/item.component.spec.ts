@@ -704,7 +704,7 @@ describe('Item Component', () => {
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-contents');
       helper.expectDetails('li.item-contents > dndgen-details', 'Contents', true);
-      helper.expectElements('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
+      helper.expectTextContents('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
     });
 
     function expectOnlyToShow(selector: string) {
@@ -737,7 +737,7 @@ describe('Item Component', () => {
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-traits');
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
-      helper.expectElements('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
+      helper.expectTextContents('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
     });
   
     it(`should render an item with magic bonus of 1`, () => {
@@ -749,7 +749,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
-      helper.expectElement('li.item-magic-bonus', 'Bonus: +1');
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: +1');
     });
   
     it(`should render an item with magic bonus of 2`, () => {
@@ -761,7 +761,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
-      helper.expectElement('li.item-magic-bonus', 'Bonus: +2');
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: +2');
     });
   
     it(`should render an item with magic bonus of -1`, () => {
@@ -773,7 +773,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
-      helper.expectElement('li.item-magic-bonus', 'Bonus: -1');
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: -1');
     });
   
     it(`should render an item with magic bonus of -2`, () => {
@@ -785,7 +785,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
-      helper.expectElement('li.item-magic-bonus', 'Bonus: -2');
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: -2');
     });
   
     it(`should render an item with special abilities`, () => {
@@ -801,7 +801,7 @@ describe('Item Component', () => {
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-special-abilities');
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
-      helper.expectElements('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
+      helper.expectTextContents('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
     });
   
     it(`should render an item with magic charges`, () => {
@@ -814,7 +814,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
-      helper.expectElement('li.item-magic-charges', 'Charges: 9266');
+      helper.expectTextContent('li.item-magic-charges', 'Charges: 9266');
     });
   
     it(`should render an item with magic charges, but uncharged`, () => {
@@ -827,7 +827,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
-      helper.expectElement('li.item-magic-charges', 'Charges: 0');
+      helper.expectTextContent('li.item-magic-charges', 'Charges: 0');
     });
   
     it(`should render an item with magic curse`, () => {
@@ -839,7 +839,7 @@ describe('Item Component', () => {
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-curse');
-      helper.expectElement('li.item-magic-curse', 'Curse: my curse');
+      helper.expectTextContent('li.item-magic-curse', 'Curse: my curse');
     });
 
     function getItem(): Item {
@@ -882,7 +882,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
@@ -896,8 +896,8 @@ describe('Item Component', () => {
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('li.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('li.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       helper.expectExists('li.item-magic-intelligence-special-purpose', false);
       helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
@@ -938,7 +938,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication > ul > li');
       expect(communicationListItems).toBeTruthy();
@@ -949,15 +949,15 @@ describe('Item Component', () => {
 
       helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
-      helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
+      helper.expectTextContents('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
       
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       helper.expectExists('li.item-magic-intelligence-special-purpose', false);
       helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
@@ -999,7 +999,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
@@ -1014,16 +1014,16 @@ describe('Item Component', () => {
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectExists('li.item-magic-intelligence-special-purpose', true);
-      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
+      helper.expectTextContent('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
-      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
+      helper.expectTextContent('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
     });
@@ -1060,7 +1060,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication li');
       expect(communicationListItems).toBeTruthy();
@@ -1075,8 +1075,8 @@ describe('Item Component', () => {
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       helper.expectExists('li.item-magic-intelligence-special-purpose', false);
       helper.expectExists('li.item-magic-intelligence-dedicated-power', false);
@@ -1345,12 +1345,12 @@ describe('Item Component', () => {
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
-      helper.expectElements('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
-      helper.expectElements('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
-      helper.expectElement('li.item-magic-bonus', 'Bonus: +90210');
-      helper.expectElements('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
-      helper.expectElement('li.item-magic-charges', 'Charges: 42');
-      helper.expectElement('li.item-magic-curse', 'Curse: my curse');
+      helper.expectTextContents('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
+      helper.expectTextContents('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: +90210');
+      helper.expectTextContents('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
+      helper.expectTextContent('li.item-magic-charges', 'Charges: 42');
+      helper.expectTextContent('li.item-magic-curse', 'Curse: my curse');
 
       const compiled = fixture.nativeElement as HTMLElement;
       let listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
@@ -1365,7 +1365,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('li.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('li.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication ul.item-magic-intelligence-communication-details > li');
       expect(communicationListItems).toBeTruthy();
@@ -1376,23 +1376,23 @@ describe('Item Component', () => {
 
       helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
-      helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
+      helper.expectTextContents('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('li.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('li.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectExists('li.item-magic-intelligence-special-purpose', true);
-      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
+      helper.expectTextContent('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
-      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
+      helper.expectTextContent('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
       helper.expectExists('li.item-armor', false);
@@ -1445,12 +1445,12 @@ describe('Item Component', () => {
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
-      helper.expectElements('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
-      helper.expectElements('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
-      helper.expectElement('li.item-magic-bonus', 'Bonus: +90210');
-      helper.expectElements('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
-      helper.expectElement('li.item-magic-charges', 'Charges: 42');
-      helper.expectElement('li.item-magic-curse', 'Curse: my curse');
+      helper.expectTextContents('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
+      helper.expectTextContents('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: +90210');
+      helper.expectTextContents('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
+      helper.expectTextContent('li.item-magic-charges', 'Charges: 42');
+      helper.expectTextContent('li.item-magic-curse', 'Curse: my curse');
 
       const compiled = fixture.nativeElement as HTMLElement;
       let listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
@@ -1465,7 +1465,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('li.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('li.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication ul.item-magic-intelligence-communication-details > li');
       expect(communicationListItems).toBeTruthy();
@@ -1476,23 +1476,23 @@ describe('Item Component', () => {
 
       helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
-      helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
+      helper.expectTextContents('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('li.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('li.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectExists('li.item-magic-intelligence-special-purpose', true);
-      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
+      helper.expectTextContent('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
-      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
+      helper.expectTextContent('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
       
@@ -1563,12 +1563,12 @@ describe('Item Component', () => {
       helper.expectDetails('li.item-traits > dndgen-details', 'Traits', true);
       helper.expectDetails('li.item-magic-special-abilities > dndgen-details', 'Special Abilities', true);
       helper.expectDetails('li.item-magic-intelligence > dndgen-details', 'Intelligence', true);
-      helper.expectElements('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
-      helper.expectElements('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
-      helper.expectElement('li.item-magic-bonus', 'Bonus: +90210');
-      helper.expectElements('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
-      helper.expectElement('li.item-magic-charges', 'Charges: 42');
-      helper.expectElement('li.item-magic-curse', 'Curse: my curse');
+      helper.expectTextContents('li.item-contents > dndgen-details li.item-content', ['my contents', 'my other contents']);
+      helper.expectTextContents('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
+      helper.expectTextContent('li.item-magic-bonus', 'Bonus: +90210');
+      helper.expectTextContents('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
+      helper.expectTextContent('li.item-magic-charges', 'Charges: 42');
+      helper.expectTextContent('li.item-magic-curse', 'Curse: my curse');
 
       const compiled = fixture.nativeElement as HTMLElement;
       let listItems = compiled.querySelectorAll('li.item-magic-intelligence > dndgen-details ul.item-magic-intelligence-details > li');
@@ -1583,7 +1583,7 @@ describe('Item Component', () => {
       const communication = listItems?.item(5) as HTMLElement;
       expect(communication.getAttribute('class')).toEqual('item-magic-intelligence-communication');
 
-      helper.expectElement('li.item-magic-intelligence-communication span', 'Communication:');
+      helper.expectTextContent('li.item-magic-intelligence-communication span', 'Communication:');
 
       const communicationListItems = compiled.querySelectorAll('li.item-magic-intelligence-communication ul.item-magic-intelligence-communication-details > li');
       expect(communicationListItems).toBeTruthy();
@@ -1594,23 +1594,23 @@ describe('Item Component', () => {
 
       helper.expectExists('li.item-magic-intelligence-languages', true);
       helper.expectDetails('li.item-magic-intelligence-languages > dndgen-details', 'Languages', true);
-      helper.expectElements('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
+      helper.expectTextContents('li.item-magic-intelligence-languages > dndgen-details li', ['English', 'German']);
 
       expect(listItems?.item(6).textContent).toEqual('Senses: spidey-sense');
 
       const powers = listItems?.item(7) as HTMLElement;
       expect(powers.getAttribute('class')).toEqual('item-magic-intelligence-powers');
 
-      helper.expectElement('li.item-magic-intelligence-powers span', 'Powers:');
-      helper.expectElements('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
+      helper.expectTextContent('li.item-magic-intelligence-powers span', 'Powers:');
+      helper.expectTextContents('li.item-magic-intelligence-powers li', ['flight', 'super strength']);
 
       expect(listItems?.item(8).getAttribute('class')).toEqual('item-magic-intelligence-special-purpose');
       helper.expectExists('li.item-magic-intelligence-special-purpose', true);
-      helper.expectElement('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
+      helper.expectTextContent('li.item-magic-intelligence-special-purpose', 'Special Purpose: to fight crime');
 
       expect(listItems?.item(9).getAttribute('class')).toEqual('item-magic-intelligence-dedicated-power');
       helper.expectExists('li.item-magic-intelligence-dedicated-power', true);
-      helper.expectElement('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
+      helper.expectTextContent('li.item-magic-intelligence-dedicated-power', 'Dedicated Power: get really, really mad');
 
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
 

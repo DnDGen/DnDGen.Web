@@ -26,7 +26,6 @@ import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.c
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
 import { provideLocationMocks } from "@angular/common/testing";
-import { RouterTestingModule } from "@angular/router/testing";
 
 export class TestHelper<T> {
   constructor(
@@ -311,21 +310,6 @@ export class TestHelper<T> {
     expect(element!.getAttribute(attribute)).toContain(value);
   }
 
-  public expectElement(selector: string, text: string) {
-    const element = this.expectExists(selector);
-    expect(element!.textContent).toEqual(text);
-  }
-
-  public expectElements(selector: string, text: string[]) {
-    const elements = this.compiled.querySelectorAll(selector);
-    expect(elements).toBeTruthy();
-    expect(elements!.length).toEqual(text.length);
-
-    for(var i = 0; i < elements.length; i++) {
-      expect(elements.item(i).textContent).toEqual(text[i]);
-    }
-  }
-
   public expectCount(selector: string, count: number): NodeListOf<Element> {
     const elements = this.compiled.querySelectorAll(selector);
     expect(elements).toBeTruthy();
@@ -386,14 +370,14 @@ export class TestHelper<T> {
   public expectSelect(selector: string, required: boolean, selectedValue: string, optionCount: number, optionValues?: string[]) {   
     this.expectExists(selector);
     this.expectHasAttribute(selector, 'required', required);
-    this.expectElement(`${selector} > option:checked`, selectedValue);
+    this.expectTextContent(`${selector} > option:checked`, selectedValue);
 
     const options = this.compiled.querySelectorAll(`${selector} > option`);
     expect(options).toBeTruthy();
     expect(options!.length).toEqual(optionCount);
 
     if (optionValues) {
-      this.expectElements(`${selector} > option`, optionValues!);
+      this.expectTextContents(`${selector} > option`, optionValues!);
     }
   }
 
@@ -462,7 +446,7 @@ export class TestHelper<T> {
     const select = this.compiled.querySelector(selector) as HTMLSelectElement;
     expect(index).toBeLessThan(select.options.length);
 
-    select.value = select.options[index].value;
+    select.selectedIndex = index;
     select.dispatchEvent(new Event('change'));
   }
 
@@ -484,7 +468,10 @@ export class TestHelper<T> {
 
   public expectLink(selector: string, text: string, link: string, external: boolean) {
     this.expectTextContent(selector, text);
-    this.expectAttribute(selector, 'href', link);
+
+    if (link) {
+      this.expectAttribute(selector, 'href', link);
+    }
     
     if (external) {
       this.expectAttribute(selector, 'target', '_blank');

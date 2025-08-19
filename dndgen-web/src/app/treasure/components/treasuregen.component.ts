@@ -16,6 +16,7 @@ import { ItemComponent } from './item.component';
 import { TreasureComponent } from './treasure.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-treasuregen',
@@ -28,7 +29,7 @@ import { LoadingComponent } from '../../shared/components/loading.component';
         DecimalPipe,
     ],
     standalone: true,
-    imports: [LoadingComponent, FormsModule, TreasureComponent, ItemComponent]
+    imports: [LoadingComponent, FormsModule, TreasureComponent, ItemComponent, NgbNavModule]
 })
 export class TreasureGenComponent implements OnInit {
   constructor(

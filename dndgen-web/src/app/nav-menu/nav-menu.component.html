@@ -5,19 +5,19 @@
       <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="collapsibleNavbar">
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="mainLinks">
         <ul class="navbar-nav">
-          <li ngbNavItem><a id="rollgenLink" ngbNavLink [routerLink]="['/roll']" (click)="isMenuCollapsed = true">RollGen</a></li>
-          <li ngbNavItem><a id="treasuregenLink" ngbNavLink [routerLink]="['/treasure']" (click)="isMenuCollapsed = true">TreasureGen</a></li>
-          <li ngbNavItem><a id="charactergenLink" ngbNavLink [routerLink]="['/character']" (click)="isMenuCollapsed = true">CharacterGen</a></li>
-          <li ngbNavItem><a id="encountergenLink" ngbNavLink [routerLink]="['/encounter']" (click)="isMenuCollapsed = true">EncounterGen</a></li>
-          <li ngbNavItem><a id="dungeongenLink" ngbNavLink [routerLink]="['/dungeon']" (click)="isMenuCollapsed = true">DungeonGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/roll']" (click)="isMenuCollapsed = true">RollGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/treasure']" (click)="isMenuCollapsed = true">TreasureGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/character']" (click)="isMenuCollapsed = true">CharacterGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/encounter']" (click)="isMenuCollapsed = true">EncounterGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/dungeon']" (click)="isMenuCollapsed = true">DungeonGen</a></li>
         </ul>
       </div>
-      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end">
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end" id="externalLinks">
         <ul class="navbar-nav">
-          <li ngbNavItem ngbDropdown>
-            <a class="nav-link" ngbDropdownToggle role="button" id="githubLinks">GitHub</a>
+          <li ngbNavItem [destroyOnHide]="false" ngbDropdown id="githubLinks">
+            <a class="nav-link" ngbDropdownToggle role="button">GitHub</a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="githubLinks">
               <a id="dndgenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen">The DnDGen Project</a>
               <hr class="dropdown-divider">
@@ -29,8 +29,8 @@
               <a id="websiteCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/DnDGen.Web">This Site</a>
             </div>
           </li>
-          <li ngbNavItem ngbDropdown>
-            <a class="nav-link" ngbDropdownToggle role="button" id="apiLinks">API</a>
+          <li ngbNavItem [destroyOnHide]="false" ngbDropdown id="apiLinks">
+            <a class="nav-link" ngbDropdownToggle role="button">API</a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="apiLinks">
               <a id="rollgenApiLink" ngbDropdownItem target="_blank" href="https://roll.dndgen.com/api/swagger/ui">RollGen</a>
               <a id="treasuregenApiLink" ngbDropdownItem target="_blank" href="https://treasure.dndgen.com/api/swagger/ui">TreasureGen</a>
@@ -39,7 +39,7 @@
               <a id="dungeongenApiLink" ngbDropdownItem target="_blank" href="https://dungeon.dndgen.com/api/swagger/ui">DungeonGen</a>
             </div>
           </li>
-          <li ngbNavItem class="padding-right" id="officialLink">
+          <li ngbNavItem [destroyOnHide]="false" class="padding-right" id="officialLink">
             <!-- For some reason, using the ngbnavlink doesn't work with the external link -->
             <a id="dndOfficialLink" class="nav-link" target="_blank" href="http://dnd.wizards.com/">Official D&D Site</a>
           </li>

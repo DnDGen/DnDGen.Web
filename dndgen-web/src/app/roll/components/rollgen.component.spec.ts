@@ -584,17 +584,14 @@ describe('RollGen Component', () => {
     it(`should render the tabs`, () => {
       const compiled = fixture.nativeElement as HTMLElement;
   
-      helper.expectTextContents('ul.nav-tabs > li > a.nav-link', ['Standard', 'Custom', 'Expression']);
+      helper.expectTextContents('ul.nav-tabs a.nav-link', ['Standard', 'Custom', 'Expression']);
 
-      const tabLinks = compiled.querySelectorAll('ul.nav-tabs > li > a.nav-link');
+      const tabLinks = compiled.querySelectorAll('ul.nav-tabs a.nav-link');
       expect(tabLinks).toBeTruthy();
       expect(tabLinks.length).toEqual(3);
       expect(tabLinks.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks.item(0).getAttribute('href')).toEqual('#standard');
       expect(tabLinks.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks.item(1).getAttribute('href')).toEqual('#custom');
       expect(tabLinks.item(2).getAttribute('class')).not.toContain('active');
-      expect(tabLinks.item(2).getAttribute('href')).toEqual('#expression');
     });
 
     describe('the standard tab', () => {
@@ -1201,7 +1198,7 @@ describe('RollGen Component', () => {
     
       it(`should display examples of expression rolls`, async () => {
         helper.expectExists('#expression');
-        helper.expectElements('#expression span.roll-expression-example', [
+        helper.expectTextContents('#expression span.roll-expression-example', [
           '3d6 - Roll 3 6-sided dice',
           '4d4*1000 - Roll 4 4-sided dice, then multiply by 1000',
           '1d2+3 - Roll 1 2-sided die, then add 3',
@@ -1264,7 +1261,7 @@ describe('RollGen Component', () => {
   
     it(`should render the initial roll`, () => {
       helper.expectExists('#rollSection', true);
-      helper.expectElement('#rollSection', '0');
+      helper.expectTextContent('#rollSection', '0');
       helper.expectLoading('#rollingSection', false, Size.Medium);
     });
     
@@ -1274,7 +1271,7 @@ describe('RollGen Component', () => {
       fixture.detectChanges();
 
       helper.expectExists('#rollSection', true);
-      helper.expectElement('#rollSection', '42');
+      helper.expectTextContent('#rollSection', '42');
     });
     
     it(`should format a large roll`, () => {
@@ -1283,7 +1280,7 @@ describe('RollGen Component', () => {
       fixture.detectChanges();
 
       helper.expectExists('#rollSection', true);
-      helper.expectElement('#rollSection', '9,266');
+      helper.expectTextContent('#rollSection', '9,266');
     });
   });
 });
