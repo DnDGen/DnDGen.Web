@@ -1,6 +1,6 @@
 {
   "name": "dndgen-web",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -28,9 +28,7 @@
     "zone.js": "~0.14.3",
     "sweetalert2": "^11.7.27",
     "file-saver": "^2.0.5",
-    "@types/file-saver": "^2.0.5",
-    "uuid": "10.0.0",
-    "@types/uuid": "10.0.0"
+    "@types/file-saver": "^2.0.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.1.2",
