@@ -3,6 +3,18 @@ import { NavMenuComponent } from './nav-menu.component';
 import { TestHelper } from '../testHelper.spec';
 
 describe('Nav-Menu Component', () => {
+  describe('unit', () => {
+      let component: NavMenuComponent;
+      
+      beforeEach(() => {
+        component = new NavMenuComponent();
+      });
+  
+      it('initializes as collapsed', () => {
+        expect(component.isMenuCollapsed).toBeTrue();
+      });
+  });
+
   describe('integration', () => {
     let fixture: ComponentFixture<NavMenuComponent>;
     let helper: TestHelper<NavMenuComponent>;
@@ -81,16 +93,132 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#officialLink #dndOfficialLink.nav-link', 'Official D&D Site', 'http://dnd.wizards.com/', true);
     });
 
-    it('should test the navbar collapse functionality', () => {
-      // Test that collapsed on load
-      // Test clicking toggles collapse to false, then true again
-      // Test clicking home link toggles collapse from false to true
-      // Test clicking rollgen link toggles collapse from false to true
-      // Test clicking treasuregen link toggles collapse from false to true
-      // Test clicking charactergen link toggles collapse from false to true
-      // Test clicking encountergen link toggles collapse from false to true
-      // Test clicking dungeongen link toggles collapse from false to true
-      expect('not yet written').toBe('');
+    it('should toggle whether the navbar is collapsed', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the home link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#rootLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#rootLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the rollgen link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#rollgenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#rollgenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the treasuregen link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#treasuregenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#treasuregenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the charactergen link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#charactergenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#charactergenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the encountergen link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#encountergenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#encountergenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+    });
+
+    it('should collapse the menu when the dungeongen link is clicked', () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('#dungeongenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
+
+      helper.clickButton('button.navbar-toggler');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeFalse();
+
+      helper.clickButton('#dungeongenLink');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isMenuCollapsed).toBeTrue();
     });
   });
 });

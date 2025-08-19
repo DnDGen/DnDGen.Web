@@ -10,5 +10,5 @@ import { NgbNavModule, NgbDropdownModule, NgbCollapseModule } from '@ng-bootstra
     imports: [RouterLink, NgbNavModule, NgbDropdownModule, NgbCollapseModule]
 })
 export class NavMenuComponent {
-    isMenuCollapsed = true;
+    isMenuCollapsed: boolean = true;
  }
