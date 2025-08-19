@@ -80,5 +80,17 @@ describe('Nav-Menu Component', () => {
     it('should render the link to the official Dungeons & Dragons website', () => {
       helper.expectLink('#officialLink #dndOfficialLink.nav-link', 'Official D&D Site', 'http://dnd.wizards.com/', true);
     });
+
+    it('should test the navbar collapse functionality', () => {
+      // Test that collapsed on load
+      // Test clicking toggles collapse to false, then true again
+      // Test clicking home link toggles collapse from false to true
+      // Test clicking rollgen link toggles collapse from false to true
+      // Test clicking treasuregen link toggles collapse from false to true
+      // Test clicking charactergen link toggles collapse from false to true
+      // Test clicking encountergen link toggles collapse from false to true
+      // Test clicking dungeongen link toggles collapse from false to true
+      expect('not yet written').toBe('');
+    });
   });
 });
