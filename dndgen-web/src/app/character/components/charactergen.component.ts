@@ -23,6 +23,7 @@ import { LeadershipComponent } from './leadership.component';
 import { CharacterComponent } from './character.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-charactergen',
@@ -39,10 +40,10 @@ import { LoadingComponent } from '../../shared/components/loading.component';
         MeasurementPipe,
         InchesToFeetPipe,
         FrequencyPipe,
-        SpellQuantityPipe,
+        SpellQuantityPipe
     ],
     standalone: true,
-    imports: [LoadingComponent, FormsModule, CharacterComponent, LeadershipComponent]
+    imports: [LoadingComponent, FormsModule, CharacterComponent, LeadershipComponent, NgbNavModule]
 })
 
 export class CharacterGenComponent implements OnInit {
