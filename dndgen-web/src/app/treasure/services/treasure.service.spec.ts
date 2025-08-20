@@ -416,8 +416,8 @@ describe('Treasure Service', () => {
             });
         });
     
-        it('BUG - gets staff', done => {
-            treasureService.getItem('staff', 'major', '').subscribe((item) => {
+        it('BUG - gets staff without weapon properties', done => {
+            treasureService.getItem('staff', 'major', 'staff of defense').subscribe((item) => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
@@ -427,7 +427,7 @@ describe('Treasure Service', () => {
                 done();
             });
         });
-    
+
         it('BUG - gets staff with weapon properties', done => {
             treasureService.getItem('staff', 'major', 'staff of power').subscribe((item) => {
                 expect(item).toBeDefined();
