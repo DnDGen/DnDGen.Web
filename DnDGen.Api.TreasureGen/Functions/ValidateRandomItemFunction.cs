@@ -39,7 +39,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             Type = typeof(string),
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
-            Description = "The OK response containing the generated item")]
+            Description = "The OK response containing the validity of the parameter combination")]
         public async Task<HttpResponseData> RunV1(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/item/{itemType}/power/{power}/validate")] HttpRequestData req,
             string itemType, string power)
@@ -79,7 +79,7 @@ namespace DnDGen.Api.TreasureGen.Functions
             Type = typeof(string),
             Description = "The name of the item to generate. Will potentially add random magical powers, ability, curses, and intelligence.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
-            Description = "The OK response containing the generated item")]
+            Description = "The OK response containing the validity of the parameter combination")]
         public async Task<HttpResponseData> RunV2(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v2/item/{itemType}/power/{power}/validate")] HttpRequestData req,
             string itemType, string power) => await RunV1(req, itemType, power);
