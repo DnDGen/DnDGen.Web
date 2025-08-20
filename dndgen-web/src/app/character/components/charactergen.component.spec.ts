@@ -2405,10 +2405,8 @@ describe('CharacterGen Component', () => {
       expect(tabLinks?.length).toEqual(2);
       expect(tabLinks?.item(0).textContent).toEqual('Character');
       expect(tabLinks?.item(0).getAttribute('class')).toContain('active');
-      expect(tabLinks?.item(0).getAttribute('href')).toEqual('#character');
       expect(tabLinks?.item(1).textContent).toEqual('Leadership');
       expect(tabLinks?.item(1).getAttribute('class')).not.toContain('active');
-      expect(tabLinks?.item(1).getAttribute('href')).toEqual('#leadership');
     });
 
     describe('the character tab', () => {

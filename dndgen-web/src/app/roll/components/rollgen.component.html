@@ -2,137 +2,142 @@
 <dndgen-loading [isLoading]="loading" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="nav-item">
-          <a class="nav-link active" href="#standard" area-controls="standard" role="tab" data-bs-toggle="tab" aria-selected="true">Standard</a>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Standard</a>
+          <ng-template ngbNavContent>
+            <div id="standard">
+              <form name="standardRollForm" #standardRollForm="ngForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    @if (rollModel) {
+                      <input id="standardQuantity"
+                            name="standardQuantity"
+                            pattern="^[0-9]+$"
+                            class="form-control"
+                            type="number"
+                            min="{{rollModel.quantityLimit_Lower}}" 
+                            max="{{rollModel.quantityLimit_Upper}}" 
+                            (input)="validateRoll(standardQuantity, standardDie.die)"
+                            [(ngModel)]="standardQuantity"
+                            required />
+                    }
+                  </div>
+                  <label for="standardDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
+                  <div class="col-sm-2 px-0">
+                    <select id="standardDie" 
+                            name="standardDie"
+                            class="form-control" 
+                            (change)="validateRoll(standardQuantity, standardDie.die)"
+                            [(ngModel)]="standardDie"
+                            required>
+                      @for (standardDieOption of standardDice; track $index) {
+                        <option [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
+                      }
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <button id="standardRollButton"
+                            type="button"
+                            class="btn btn-success"
+                            (click)="rollStandard()"
+                            [disabled]="!standardRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                  </div>
+                  <div class="col-sm-2">
+                    <dndgen-loading id="standardValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
         </li>
-        <li role="presentation" class="nav-item">
-          <a class="nav-link" href="#custom" area-controls="custom" role="tab" data-bs-toggle="tab" aria-selected="false">Custom</a>
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Custom</a>
+          <ng-template ngbNavContent>
+            <div id="custom">
+              <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    @if (rollModel) {
+                      <input id="customQuantity"
+                            name="customQuantity"
+                            pattern="^[0-9]+$"
+                            class="form-control"
+                            type="number"
+                            min="{{rollModel.quantityLimit_Lower}}" 
+                            max="{{rollModel.quantityLimit_Upper}}" 
+                            (input)="validateRoll(customQuantity, customDie)"
+                            [(ngModel)]="customQuantity"
+                            required />
+                    }
+                  </div>
+                  <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
+                  <div class="col-sm-2 px-0">
+                    @if (rollModel) {
+                      <input id="customDie"
+                            name="customDie"
+                            pattern="^[0-9]+$"
+                            class="form-control"
+                            type="number"
+                            min="{{rollModel.dieLimit_Lower}}" 
+                            max="{{rollModel.dieLimit_Upper}}" 
+                            (input)="validateRoll(customQuantity, customDie)"
+                            [(ngModel)]="customDie"
+                            required />
+                    }
+                  </div>
+                  <div class="col-sm-2">
+                    <button id="customRollButton"
+                            type="button"
+                            class="btn btn-success"
+                            (click)="rollCustom()"
+                            [disabled]="!customRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                  </div>
+                  <div class="col-sm-2">
+                    <dndgen-loading id="customValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
         </li>
-        <li role="presentation" class="nav-item">
-          <a class="nav-link" href="#expression" area-controls="expression" role="tab" data-bs-toggle="tab" aria-selected="false">Expression</a>
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Expression</a>
+          <ng-template ngbNavContent>
+            <div id="expression">
+              <form name="expressionRollForm" #expressionRollForm="ngForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group row">
+                  <label for="rollExpression" class="col-sm-2 col-form-label">Expression</label>
+                  <div class="col-sm-3 col-sm-offset-1">
+                    <input id="rollExpression" class="form-control" type="text" (keyup)="validateExpression(expression)" [(ngModel)]="expression" name="expression" required />
+                  </div>
+                  <div class="col-sm-2">
+                    <button id="expressionRollButton"
+                            type="button"
+                            class="btn btn-success"
+                            (click)="rollExpression()"
+                            [disabled]="!expressionRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                  </div>
+                  <div class="col-sm-2">
+                    <dndgen-loading id="expressionValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                  </div>
+                  <span class="roll-expression-example">3d6 - Roll 3 6-sided dice</span>
+                  <span class="roll-expression-example">4d4*1000 - Roll 4 4-sided dice, then multiply by 1000</span>
+                  <span class="roll-expression-example">1d2+3 - Roll 1 2-sided die, then add 3</span>
+                  <span class="roll-expression-example">4d6k3 - Roll 4 6-sided dice, keep the highest 3</span>
+                  <span class="roll-expression-example">1d20! - Roll 1 20-sided die, roll again if a 20 is rolled</span>
+                  <span class="roll-expression-example">3d6t1 - Roll 3 6-sided dice, transform 1s into 6s</span>
+                  <span class="roll-expression-example">4d8t2:3 - Roll 4 8-sided dice, transform 2s into 3s</span>
+                  <span class="roll-expression-example">1d2d3 - Roll 1 2-sided die [sum x], then roll x 3-sided dice</span>
+                  <span class="roll-expression-example">1d(2d3) - Roll 2 3-sided dice [sum x], then roll 1 x-sided die</span>
+                  <span class="roll-expression-example">1d2!+3d4k2 - Roll 1 2-sided die, roll again if a 2 is rolled; roll 3 4-sided dice, keep the highest 2</span>
+                </div>
+              </form>
+            </div>
+          </ng-template>
         </li>
       </ul>
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade show active" id="standard">
-          <form name="standardRollForm" #standardRollForm="ngForm" class="form-horizontal top-buffer" role="form">
-            <div class="form-group row">
-              <div class="col-sm-3">
-                @if (rollModel) {
-                  <input id="standardQuantity"
-                         name="standardQuantity"
-                         pattern="^[0-9]+$"
-                         class="form-control"
-                         type="number"
-                         min="{{rollModel.quantityLimit_Lower}}" 
-                         max="{{rollModel.quantityLimit_Upper}}" 
-                         (input)="validateRoll(standardQuantity, standardDie.die)"
-                         [(ngModel)]="standardQuantity"
-                         required />
-                }
-              </div>
-              <label for="standardDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
-              <div class="col-sm-2 px-0">
-                <select id="standardDie" 
-                        name="standardDie"
-                        class="form-control" 
-                        (change)="validateRoll(standardQuantity, standardDie.die)"
-                        [(ngModel)]="standardDie"
-                        required>
-                  @for (standardDieOption of standardDice; track $index) {
-                    <option [ngValue]="standardDieOption">{{standardDieOption.name}}</option>
-                  }
-                </select>
-              </div>
-              <div class="col-sm-2">
-                <button id="standardRollButton"
-                        type="button"
-                        class="btn btn-success"
-                        (click)="rollStandard()"
-                        [disabled]="!standardRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
-              </div>
-              <div class="col-sm-2">
-                <dndgen-loading id="standardValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="custom">
-          <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
-            <div class="form-group row">
-              <div class="col-sm-3">
-                @if (rollModel) {
-                  <input id="customQuantity"
-                         name="customQuantity"
-                         pattern="^[0-9]+$"
-                         class="form-control"
-                         type="number"
-                         min="{{rollModel.quantityLimit_Lower}}" 
-                         max="{{rollModel.quantityLimit_Upper}}" 
-                         (input)="validateRoll(customQuantity, customDie)"
-                         [(ngModel)]="customQuantity"
-                         required />
-                }
-              </div>
-              <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
-              <div class="col-sm-2 px-0">
-                @if (rollModel) {
-                  <input id="customDie"
-                         name="customDie"
-                         pattern="^[0-9]+$"
-                         class="form-control"
-                         type="number"
-                         min="{{rollModel.dieLimit_Lower}}" 
-                         max="{{rollModel.dieLimit_Upper}}" 
-                         (input)="validateRoll(customQuantity, customDie)"
-                         [(ngModel)]="customDie"
-                         required />
-                }
-              </div>
-              <div class="col-sm-2">
-                <button id="customRollButton"
-                        type="button"
-                        class="btn btn-success"
-                        (click)="rollCustom()"
-                        [disabled]="!customRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
-              </div>
-              <div class="col-sm-2">
-                <dndgen-loading id="customValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" id="expression">
-          <form name="expressionRollForm" #expressionRollForm="ngForm" class="form-horizontal top-buffer" role="form">
-            <div class="form-group row">
-              <label for="rollExpression" class="col-sm-2 col-form-label">Expression</label>
-              <div class="col-sm-3 col-sm-offset-1">
-                <input id="rollExpression" class="form-control" type="text" (keyup)="validateExpression(expression)" [(ngModel)]="expression" name="expression" required />
-              </div>
-              <div class="col-sm-2">
-                <button id="expressionRollButton"
-                        type="button"
-                        class="btn btn-success"
-                        (click)="rollExpression()"
-                        [disabled]="!expressionRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
-              </div>
-              <div class="col-sm-2">
-                <dndgen-loading id="expressionValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
-              </div>
-              <span class="roll-expression-example">3d6 - Roll 3 6-sided dice</span>
-              <span class="roll-expression-example">4d4*1000 - Roll 4 4-sided dice, then multiply by 1000</span>
-              <span class="roll-expression-example">1d2+3 - Roll 1 2-sided die, then add 3</span>
-              <span class="roll-expression-example">4d6k3 - Roll 4 6-sided dice, keep the highest 3</span>
-              <span class="roll-expression-example">1d20! - Roll 1 20-sided die, roll again if a 20 is rolled</span>
-              <span class="roll-expression-example">3d6t1 - Roll 3 6-sided dice, transform 1s into 6s</span>
-              <span class="roll-expression-example">4d8t2:3 - Roll 4 8-sided dice, transform 2s into 3s</span>
-              <span class="roll-expression-example">1d2d3 - Roll 1 2-sided die [sum x], then roll x 3-sided dice</span>
-              <span class="roll-expression-example">1d(2d3) - Roll 2 3-sided dice [sum x], then roll 1 x-sided die</span>
-              <span class="roll-expression-example">1d2!+3d4k2 - Roll 1 2-sided die, roll again if a 2 is rolled; roll 3 4-sided dice, keep the highest 2</span>
-            </div>
-          </form>
-        </div>
-      </div>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
     <div class="col-sm-6">
       @if (!rolling) {

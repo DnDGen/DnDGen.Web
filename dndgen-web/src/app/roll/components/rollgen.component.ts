@@ -9,6 +9,7 @@ import { catchError, debounceTime, distinctUntilChanged, of, Subject, switchMap,
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-rollgen',
@@ -18,7 +19,7 @@ import { LoadingComponent } from '../../shared/components/loading.component';
         RollService
     ],
     standalone: true,
-    imports: [LoadingComponent, FormsModule, DecimalPipe]
+    imports: [LoadingComponent, FormsModule, DecimalPipe, NgbNavModule]
 })
 
 export class RollGenComponent implements OnInit {

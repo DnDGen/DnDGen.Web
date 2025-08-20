@@ -30,11 +30,17 @@ export class ItemComponent {
   }
 
   public isArmor(): boolean {
-    return this.item instanceof Armor || this.item.itemType == 'Armor';
+    return this.item instanceof Armor 
+      || this.item.itemType == 'Armor' 
+      || (this.item.canBeUsedAsWeaponOrArmor && this.armor.totalArmorBonus != undefined && this.armor.totalArmorBonus != 0);
   }
 
   public isWeapon(): boolean {
-    return this.item instanceof Weapon || this.item.itemType == 'Weapon';
+    return this.item instanceof Weapon 
+      || this.item.itemType == 'Weapon' 
+      || (this.item.canBeUsedAsWeaponOrArmor 
+        && ((this.weapon.damageSummary != undefined && this.weapon.damageSummary.length > 0)
+          || (this.weapon.damageDescription != undefined && this.weapon.damageDescription.length > 0)));
   }
 
   public hasDetails(): boolean {
@@ -49,10 +55,8 @@ export class ItemComponent {
       || this.item.magic.curse.length > 0
       || this.item.magic.intelligence.ego > 0;
 
-    additionalData ||= this.isArmor() && this.armor.totalArmorBonus != 0;
-    additionalData ||= this.isWeapon() && 
-      ((this.weapon.damageSummary != undefined && this.weapon.damageSummary.length > 0)
-        || (this.weapon.damageDescription != undefined && this.weapon.damageDescription.length > 0));
+    additionalData ||= this.isArmor();
+    additionalData ||= this.isWeapon();
 
     return additionalData;
   }

@@ -1,45 +1,46 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <nav ngbNav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a id="rootLink" class="navbar-brand" [routerLink]="['/']">DnDGen</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <a id="rootLink" class="navbar-brand" [routerLink]="['/']" (click)="isMenuCollapsed = true">DnDGen</a>
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="mainLinks">
         <ul class="navbar-nav">
-          <li class="nav-item"><a id="rollgenLink" class="nav-link" [routerLink]="['/roll']">RollGen</a></li>
-          <li class="nav-item"><a id="treasuregenLink" class="nav-link" [routerLink]="['/treasure']">TreasureGen</a></li>
-          <li class="nav-item"><a id="charactergenLink" class="nav-link" [routerLink]="['/character']">CharacterGen</a></li>
-          <li class="nav-item"><a id="encountergenLink" class="nav-link" [routerLink]="['/encounter']">EncounterGen</a></li>
-          <li class="nav-item"><a id="dungeongenLink" class="nav-link" [routerLink]="['/dungeon']">DungeonGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/roll']" (click)="isMenuCollapsed = true">RollGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/treasure']" (click)="isMenuCollapsed = true">TreasureGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/character']" (click)="isMenuCollapsed = true">CharacterGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/encounter']" (click)="isMenuCollapsed = true">EncounterGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/dungeon']" (click)="isMenuCollapsed = true">DungeonGen</a></li>
         </ul>
       </div>
-      <div class="collapse navbar-collapse justify-content-end">
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse justify-content-end" id="externalLinks">
         <ul class="navbar-nav">
-          <li class="nav-item dropdown" id="githubLinks">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">GitHub <span class="caret"></span></a>
-            <ul class="dropdown-menu dropdown-menu-dark" role="menu">
-              <li><a id="dndgenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen">The DnDGen Project</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a id="rollgenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/RollGen">RollGen</a></li>
-              <li><a id="treasuregenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a></li>
-              <li><a id="charactergenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/CharacterGen">CharacterGen</a></li>
-              <li><a id="encountergenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/EncounterGen">EncounterGen</a></li>
-              <li><a id="dungeongenCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/DungeonGen">DungeonGen</a></li>
-              <li><a id="websiteCodeLink" class="dropdown-item" target="_blank" href="https://github.com/DnDGen/DnDGen.Web">This Site</a></li>
-            </ul>
+          <li ngbNavItem [destroyOnHide]="false" ngbDropdown id="githubLinks">
+            <a class="nav-link" ngbDropdownToggle role="button">GitHub</a>
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="githubLinks">
+              <a id="dndgenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen">The DnDGen Project</a>
+              <hr class="dropdown-divider">
+              <a id="rollgenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/RollGen">RollGen</a>
+              <a id="treasuregenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a>
+              <a id="charactergenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/CharacterGen">CharacterGen</a>
+              <a id="encountergenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/EncounterGen">EncounterGen</a>
+              <a id="dungeongenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/DungeonGen">DungeonGen</a>
+              <a id="websiteCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/DnDGen.Web">This Site</a>
+            </div>
           </li>
-          <li class="nav-item dropdown" id="apiLinks">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">API <span class="caret"></span></a>
-            <ul class="dropdown-menu dropdown-menu-dark" role="menu">
-              <li><a id="rollgenApiLink" class="dropdown-item" target="_blank" href="https://roll.dndgen.com/api/swagger/ui">RollGen</a></li>
-              <li><a id="treasuregenApiLink" class="dropdown-item" target="_blank" href="https://treasure.dndgen.com/api/swagger/ui">TreasureGen</a></li>
-              <li><a id="charactergenApiLink" class="dropdown-item" target="_blank" href="https://character.dndgen.com/api/swagger/ui">CharacterGen</a></li>
-              <li><a id="encountergenApiLink" class="dropdown-item" target="_blank" href="https://encounter.dndgen.com/api/swagger/ui">EncounterGen</a></li>
-              <li><a id="dungeongenApiLink" class="dropdown-item" target="_blank" href="https://dungeon.dndgen.com/api/swagger/ui">DungeonGen</a></li>
-            </ul>
+          <li ngbNavItem [destroyOnHide]="false" ngbDropdown id="apiLinks">
+            <a class="nav-link" ngbDropdownToggle role="button">API</a>
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="apiLinks">
+              <a id="rollgenApiLink" ngbDropdownItem target="_blank" href="https://roll.dndgen.com/api/swagger/ui">RollGen</a>
+              <a id="treasuregenApiLink" ngbDropdownItem target="_blank" href="https://treasure.dndgen.com/api/swagger/ui">TreasureGen</a>
+              <a id="charactergenApiLink" ngbDropdownItem target="_blank" href="https://character.dndgen.com/api/swagger/ui">CharacterGen</a>
+              <a id="encountergenApiLink" ngbDropdownItem target="_blank" href="https://encounter.dndgen.com/api/swagger/ui">EncounterGen</a>
+              <a id="dungeongenApiLink" ngbDropdownItem target="_blank" href="https://dungeon.dndgen.com/api/swagger/ui">DungeonGen</a>
+            </div>
           </li>
-          <li class="nav-item padding-right" id="officialLink">
+          <li ngbNavItem [destroyOnHide]="false" class="padding-right" id="officialLink">
+            <!-- For some reason, using the ngbnavlink doesn't work with the external link -->
             <a id="dndOfficialLink" class="nav-link" target="_blank" href="http://dnd.wizards.com/">Official D&D Site</a>
           </li>
         </ul>

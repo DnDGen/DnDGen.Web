@@ -3,7 +3,6 @@ import { CharacterComponent } from './character.component';
 import { Item } from '../../treasure/models/item.model';
 import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
-import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
 import { Character } from '../models/character.model';
 import { Ability } from '../models/ability.model';

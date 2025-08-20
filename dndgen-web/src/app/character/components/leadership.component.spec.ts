@@ -73,7 +73,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
+      helper.expectTextContent('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
     });
   
     it(`should render leadership with low score`, () => {
@@ -94,7 +94,7 @@ describe('Leadership Component', () => {
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
-      helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
+      helper.expectTextContents('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
     });
   
     it(`should render leadership without modifiers`, () => {
@@ -117,7 +117,7 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
+      helper.expectTextContent('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
       helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
     });
   
@@ -178,13 +178,13 @@ describe('Leadership Component', () => {
       fixture.detectChanges();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
-      helper.expectElement('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
+      helper.expectTextContent('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
       
       helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', true);
       helper.expectDetails('dndgen-details.leadership-heading li.leadership-modifiers > dndgen-details', 'Leadership Modifiers', true);
-      helper.expectElements('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
+      helper.expectTextContents('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
       
-      helper.expectElement('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
+      helper.expectTextContent('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
       helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
       
       helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', true);

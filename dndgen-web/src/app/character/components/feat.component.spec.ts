@@ -57,7 +57,7 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
 
-      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectTextContents('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus'
       ]);
     });
@@ -74,7 +74,7 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
       
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectTextContents('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus',
         'my other focus'
       ]);
@@ -91,7 +91,7 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-power', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', false);
 
-      helper.expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
+      helper.expectTextContent('dndgen-details.feat-heading li.feat-power', 'Power: 92');
     });
   
     it(`should render the feat with frequency`, () => {
@@ -105,7 +105,7 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
 
-      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
+      helper.expectTextContent('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
     });
   
     it(`should render the feat with frequency without quantity`, () => {
@@ -119,7 +119,7 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-power', false);
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
 
-      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
+      helper.expectTextContent('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
     });
   
     it(`should render the full feat`, () => {
@@ -134,12 +134,12 @@ describe('Feat Component', () => {
       helper.expectExists('dndgen-details.feat-heading li.feat-frequency', true);
       
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
-      helper.expectElements('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
+      helper.expectTextContents('dndgen-details.feat-heading li.feat-foci dndgen-details li', [
         'my focus',
         'my other focus'
       ]);
-      helper.expectElement('dndgen-details.feat-heading li.feat-power', 'Power: 92');
-      helper.expectElement('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 66/pay period');
+      helper.expectTextContent('dndgen-details.feat-heading li.feat-power', 'Power: 92');
+      helper.expectTextContent('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 66/pay period');
     });
   });
 });

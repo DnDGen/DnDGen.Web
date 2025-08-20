@@ -271,6 +271,7 @@ describe('Treasure Service', () => {
             treasureService.getItem('ring', 'minor', '').subscribe((item) => {
                 expect(item).toBeTruthy();
                 expect(item.name).toBeTruthy();
+                expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
 
                 done();
             });
@@ -279,17 +280,18 @@ describe('Treasure Service', () => {
         it('gets an item with name', done => {
             treasureService.getItem('wondrousitem', 'medium', 'bracers of armor').subscribe((item) => {
                 expect(item).toBeTruthy();
-                expect(item.name).toBeTruthy();
                 expect(item.name).toEqual('Bracers of Armor');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
                 
                 done();
             });
         });
     
         it('BUG - gets an item summary', done => {
-            treasureService.getItem('staff', 'major', '').subscribe((item) => {
+            treasureService.getItem('wand', 'major', '').subscribe((item) => {
                 expect(item).toBeTruthy();
                 expect(item.summary).toBeTruthy();
+                expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
                 
                 done();
             });
@@ -300,9 +302,10 @@ describe('Treasure Service', () => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Armor');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
 
                 const armor = item as Armor;
-                expect(armor.canBeUsedAsWeaponOrArmor).toBeTruthy();
                 expect(armor.size).toBeTruthy();
                 //Can't assert positive, because some cursed armors will be negative
                 expect(armor.totalArmorBonus).not.toBe(0);
@@ -316,6 +319,8 @@ describe('Treasure Service', () => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Weapon');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
 
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
@@ -333,6 +338,8 @@ describe('Treasure Service', () => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Weapon');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
 
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
@@ -352,6 +359,8 @@ describe('Treasure Service', () => {
                 expect(item).toBeDefined();
                 expect(item).not.toBeNull();
                 expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Weapon');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
 
                 const weapon = item as Weapon;
                 expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
@@ -360,6 +369,77 @@ describe('Treasure Service', () => {
                 expect(weapon.criticalDamageSummary).toBeTruthy();
                 expect(weapon.secondaryDamageSummary).toBeTruthy();
                 expect(weapon.secondaryCriticalDamageSummary).toBeTruthy();
+                expect(weapon.threatRangeSummary).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets rod', done => {
+            treasureService.getItem('rod', 'major', '').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Rod');
+
+                done();
+            });
+        });
+    
+        it('BUG - gets rod without weapon properties', done => {
+            treasureService.getItem('rod', 'major', 'immovable rod').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Rod');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets rod with weapon properties', done => {
+            treasureService.getItem('rod', 'major', 'rod of alertness').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.itemType).toBe('Rod');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
+
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toBeTruthy();
+                expect(weapon.damageSummary).toBeTruthy();
+                expect(weapon.criticalDamageSummary).toBeTruthy();
+                expect(weapon.threatRangeSummary).toBeTruthy();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets staff', done => {
+            treasureService.getItem('staff', 'major', '').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.name).toBeTruthy();
+                expect(item.itemType).toBe('Staff');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeFalse();
+
+                done();
+            });
+        });
+    
+        it('BUG - gets staff with weapon properties', done => {
+            treasureService.getItem('staff', 'major', 'staff of power').subscribe((item) => {
+                expect(item).toBeDefined();
+                expect(item).not.toBeNull();
+                expect(item.itemType).toBe('Staff');
+                expect(item.canBeUsedAsWeaponOrArmor).toBeTrue();
+
+                const weapon = item as Weapon;
+                expect(weapon.canBeUsedAsWeaponOrArmor).toBeTruthy();
+                expect(weapon.size).toBeTruthy();
+                expect(weapon.damageSummary).toBeTruthy();
+                expect(weapon.criticalDamageSummary).toBeTruthy();
                 expect(weapon.threatRangeSummary).toBeTruthy();
 
                 done();

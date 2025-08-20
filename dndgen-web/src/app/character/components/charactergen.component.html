@@ -2,12 +2,11 @@
 <dndgen-loading [isLoading]="loading" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
-      <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="nav-item"><a class="nav-link active" href="#character" aria-controls="character" role="tab" data-bs-toggle="tab">Character</a></li>
-          <li role="presentation" class="nav-item"><a class="nav-link" href="#leadership" aria-controls="leadership" role="tab" data-bs-toggle="tab">Leadership</a></li>
-      </ul>
-      <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade show active" id="character">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Character</a>
+          <ng-template ngbNavContent>
+            <div id="character">
               <form name="characterForm" #characterForm="ngForm" class="form-horizontal top-buffer" role="form">
                   <div class="form-group row">
                       <label for="alignmentRandomizerType" class="col-sm-2 col-form-label">Alignment:</label>
@@ -449,8 +448,13 @@
                       </div>
                     </div>
               </form>
-          </div>
-          <div role="tabpanel" class="tab-pane fade" id="leadership">
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Leadership</a>
+          <ng-template ngbNavContent>
+            <div id="leadership">
               <form name="leadershipForm" #leadershipForm="ngForm" class="form-horizontal top-buffer" role="form">
                   <div class="form-group row">
                       <label for="leaderAlignment" class="col-sm-6 col-form-label">Leader Alignment:</label>
@@ -518,8 +522,11 @@
                       </button>
                   </div>
               </form>
-          </div>
-      </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
     <div class="col-sm-6 clearfix">
       @if (!generating) {

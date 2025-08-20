@@ -4,18 +4,17 @@ import { DecimalPipe } from '@angular/common';
 import { Spell } from '../models/spell.model';
 import { SpellGroupService } from '../services/spellGroup.service';
 import { SpellGroup } from '../models/spellGroup.model';
-import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
 import { Skill } from '../models/skill.model';
 import { SpellQuantityPipe } from '../pipes/spellQuantity.pipe';
 import { MeasurementPipe } from '../pipes/measurement.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { InchesToFeetPipe } from '../pipes/inchesToFeet.pipe';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
 import { ItemComponent } from '../../treasure/components/item.component';
 import { SpellGroupComponent } from './spellGroup.component';
 import { FeatComponent } from './feat.component';
 import { DetailsComponent } from '../../shared/components/details.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'dndgen-character',
@@ -31,7 +30,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       SpellGroupComponent, 
       ItemComponent, 
       TreasureComponent,
-      InchesToFeetPipe,
       MeasurementPipe, 
       SpellQuantityPipe,
       BonusPipe,
