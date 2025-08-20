@@ -40,6 +40,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -70,6 +71,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -117,6 +119,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -147,6 +150,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -194,6 +198,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -224,6 +229,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -271,6 +277,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -301,6 +308,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -348,6 +356,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -378,6 +387,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -425,6 +435,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: UseNode@1
           displayName: 'Install node.js'
           inputs:
@@ -455,6 +466,7 @@ jobs:
           inputs:
             testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
       on:
         failure:
           steps:
@@ -513,6 +525,7 @@ jobs:
           inputs:
             testResultsFiles: '**/*.junitReport.xml'
             failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
         - task: ArchiveFiles@2
           displayName: 'Zip Website Artifacts'
           inputs:
