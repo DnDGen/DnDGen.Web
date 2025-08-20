@@ -108,10 +108,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: |
-            newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json \
-            --reporters cli,junit \
-            --reporter-junit-export Results\treasuregen.junitReport.xml
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
           displayName: 'Run TreasureGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
