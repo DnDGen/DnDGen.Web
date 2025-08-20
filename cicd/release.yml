@@ -68,7 +68,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
@@ -148,7 +148,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
@@ -225,7 +225,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
@@ -302,7 +302,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
@@ -379,7 +379,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
@@ -456,7 +456,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '**/TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
             failTaskOnFailedTests: true
       on:
         failure:
