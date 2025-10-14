@@ -1,4 +1,5 @@
-﻿using DnDGen.CreatureGen.Creatures;
+﻿using DnDGen.CreatureGen.Alignments;
+using DnDGen.CreatureGen.Creatures;
 using DnDGen.CreatureGen.Generators.Creatures;
 
 namespace DnDGen.Api.CreatureGen.Models
@@ -92,80 +93,7 @@ namespace DnDGen.Api.CreatureGen.Models
             RaceRandomizerTypeConstants.BaseRace.StandardBase,
         ];
 
-        private static readonly IEnumerable<string> BaseRaces =
-        [
-            RaceConstants.BaseRaces.Aasimar,
-            RaceConstants.BaseRaces.AquaticElf,
-            RaceConstants.BaseRaces.Azer,
-            RaceConstants.BaseRaces.BlueSlaad,
-            RaceConstants.BaseRaces.Bugbear,
-            RaceConstants.BaseRaces.Centaur,
-            RaceConstants.BaseRaces.CloudGiant,
-            RaceConstants.BaseRaces.DeathSlaad,
-            RaceConstants.BaseRaces.DeepDwarf,
-            RaceConstants.BaseRaces.DeepHalfling,
-            RaceConstants.BaseRaces.Derro,
-            RaceConstants.BaseRaces.Doppelganger,
-            RaceConstants.BaseRaces.Drow,
-            RaceConstants.BaseRaces.DuergarDwarf,
-            RaceConstants.BaseRaces.FireGiant,
-            RaceConstants.BaseRaces.ForestGnome,
-            RaceConstants.BaseRaces.FrostGiant,
-            RaceConstants.BaseRaces.Gargoyle,
-            RaceConstants.BaseRaces.Githyanki,
-            RaceConstants.BaseRaces.Githzerai,
-            RaceConstants.BaseRaces.Gnoll,
-            RaceConstants.BaseRaces.Goblin,
-            RaceConstants.BaseRaces.GrayElf,
-            RaceConstants.BaseRaces.GraySlaad,
-            RaceConstants.BaseRaces.GreenSlaad,
-            RaceConstants.BaseRaces.Grimlock,
-            RaceConstants.BaseRaces.HalfElf,
-            RaceConstants.BaseRaces.HalfOrc,
-            RaceConstants.BaseRaces.Harpy,
-            RaceConstants.BaseRaces.HighElf,
-            RaceConstants.BaseRaces.HillDwarf,
-            RaceConstants.BaseRaces.HillGiant,
-            RaceConstants.BaseRaces.Hobgoblin,
-            RaceConstants.BaseRaces.HoundArchon,
-            RaceConstants.BaseRaces.Human,
-            RaceConstants.BaseRaces.Janni,
-            RaceConstants.BaseRaces.Kapoacinth,
-            RaceConstants.BaseRaces.Kobold,
-            RaceConstants.BaseRaces.KuoToa,
-            RaceConstants.BaseRaces.LightfootHalfling,
-            RaceConstants.BaseRaces.Lizardfolk,
-            RaceConstants.BaseRaces.Locathah,
-            RaceConstants.BaseRaces.Merfolk,
-            RaceConstants.BaseRaces.Merrow,
-            RaceConstants.BaseRaces.MindFlayer,
-            RaceConstants.BaseRaces.Minotaur,
-            RaceConstants.BaseRaces.MountainDwarf,
-            RaceConstants.BaseRaces.Mummy,
-            RaceConstants.BaseRaces.Ogre,
-            RaceConstants.BaseRaces.OgreMage,
-            RaceConstants.BaseRaces.Orc,
-            RaceConstants.BaseRaces.Pixie,
-            RaceConstants.BaseRaces.Rakshasa,
-            RaceConstants.BaseRaces.RedSlaad,
-            RaceConstants.BaseRaces.RockGnome,
-            RaceConstants.BaseRaces.Sahuagin,
-            RaceConstants.BaseRaces.Satyr,
-            RaceConstants.BaseRaces.Scorpionfolk,
-            RaceConstants.BaseRaces.Scrag,
-            RaceConstants.BaseRaces.StoneGiant,
-            RaceConstants.BaseRaces.StormGiant,
-            RaceConstants.BaseRaces.Svirfneblin,
-            RaceConstants.BaseRaces.TallfellowHalfling,
-            RaceConstants.BaseRaces.Tiefling,
-            RaceConstants.BaseRaces.Troglodyte,
-            RaceConstants.BaseRaces.Troll,
-            RaceConstants.BaseRaces.WildElf,
-            RaceConstants.BaseRaces.WoodElf,
-            RaceConstants.BaseRaces.YuanTiAbomination,
-            RaceConstants.BaseRaces.YuanTiHalfblood,
-            RaceConstants.BaseRaces.YuanTiPureblood,
-        ];
+        private static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
 
         private static readonly IEnumerable<string> MetaraceRandomizers =
         [
@@ -212,14 +140,13 @@ namespace DnDGen.Api.CreatureGen.Models
 
         public void SetCreature(string? creature)
         {
-            var allCreatures = CreatureConstants.GetAll();
-            Creature = allCreatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? creature;
+            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
         }
 
-        public void SetAlignmentRandomizer(string randomizerType, string setValue)
+        public void SetAlignmentFilter(string? alignment)
         {
-            AlignmentRandomizerType = AlignmentRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            SetAlignment = Alignments.FirstOrDefault(a => a.Equals(setValue, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
+            Filters ??= new();
+            Filters.Alignment = Alignments.FirstOrDefault(a => a.Equals(alignment, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
         }
 
         public void SetClassNameRandomizer(string randomizerType, string setValue)
@@ -296,12 +223,13 @@ namespace DnDGen.Api.CreatureGen.Models
             if (!valid)
                 return (false, $"AbilitiesRandomizerType is not valid. Should be one of: [{string.Join(", ", AbilitiesRandomizers)}]");
 
-            if (AlignmentRandomizerType == RandomizerTypeConstants.Set)
-            {
-                valid &= SetAlignment != string.Empty;
-                if (!valid)
-                    return (false, $"SetAlignment is not valid. Should be one of: [{string.Join(", ", Alignments)}]");
-            }
+            valid &= Creature != string.Empty;
+            if (!valid)
+                return (false, $"Creature is not valid. Should be one of: [{string.Join(", ", C)}]");
+
+            valid &= Filters?.Alignment != string.Empty;
+            if (!valid)
+                return (false, $"Alignment filter is not valid. Should be one of: [{string.Join(", ", Alignments)}]");
 
             if (ClassNameRandomizerType == RandomizerTypeConstants.Set)
             {
@@ -320,9 +248,6 @@ namespace DnDGen.Api.CreatureGen.Models
 
             if (BaseRaceRandomizerType == RandomizerTypeConstants.Set)
             {
-                valid &= SetBaseRace != string.Empty;
-                if (!valid)
-                    return (false, $"SetBaseRace is not valid. Should be one of: [{string.Join(", ", BaseRaces)}]");
             }
 
             if (MetaraceRandomizerType == RandomizerTypeConstants.Set)
@@ -360,6 +285,21 @@ namespace DnDGen.Api.CreatureGen.Models
             }
 
             return (valid, string.Empty);
+        }
+
+        internal void SetTypeFilter(string? creatureType)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SetChallengeRatingFilter(string? challengeRating)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SetTemplatesFilter(string? templates)
+        {
+            throw new NotImplementedException();
         }
     }
 }
