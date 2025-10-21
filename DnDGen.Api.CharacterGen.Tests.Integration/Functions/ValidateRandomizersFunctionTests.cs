@@ -2,11 +2,12 @@ using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Functions;
 using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -34,17 +35,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
         }
 
-        private string GetUrl(string query = "")
+        private static string GetUrl(string query = "")
         {
             var url = "https://character.dndgen.com/api/v1/character/validate";
-            if (query.Any())
+            if (query.Length != 0)
             {
                 if (!query.StartsWith('?'))
                     url += "?";
@@ -73,8 +77,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -88,8 +95,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -103,8 +113,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -126,8 +139,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -141,8 +157,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -156,8 +175,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -171,8 +193,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -193,8 +218,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -208,8 +236,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -223,8 +254,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -253,8 +287,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -268,8 +305,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -283,8 +323,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -298,8 +341,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -317,8 +363,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -332,8 +381,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -347,8 +399,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -381,8 +436,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -396,8 +454,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -415,8 +476,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -435,8 +499,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -450,8 +517,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -465,8 +535,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -550,8 +623,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -565,8 +641,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -580,8 +659,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -595,8 +677,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -619,8 +704,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -634,8 +722,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -649,11 +740,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -680,11 +771,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -698,8 +789,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -714,8 +808,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -729,8 +826,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -750,8 +850,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -768,8 +871,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -786,8 +892,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -804,8 +913,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -822,8 +934,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -840,8 +955,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -858,8 +976,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -876,8 +997,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -894,8 +1018,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -912,8 +1039,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -941,8 +1071,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -959,8 +1092,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -977,8 +1113,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -995,8 +1134,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -1013,8 +1155,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -1031,8 +1176,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -1049,8 +1197,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -1067,8 +1218,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
@@ -1085,8 +1239,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);
@@ -1103,8 +1260,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.True);

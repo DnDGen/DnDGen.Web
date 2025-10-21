@@ -1,10 +1,13 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
 using DnDGen.Api.CharacterGen.Repositories;
+using DnDGen.CharacterGen.Abilities.Randomizers;
 using DnDGen.CharacterGen.Alignments;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Alignments.Randomizers;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
+using DnDGen.CharacterGen.Races.Randomizers;
+using DnDGen.CharacterGen.Races.Randomizers.BaseRaces;
+using DnDGen.CharacterGen.Races.Randomizers.Metaraces;
 using DnDGen.Infrastructure.Generators;
 using Moq;
 
@@ -55,8 +58,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(alignmentRandomizer, Is.EqualTo(mockSetAlignmentRandomizer.Object));
 
             var setAlignmentRandomizer = alignmentRandomizer as ISetAlignmentRandomizer;
-            Assert.That(setAlignmentRandomizer.SetAlignment.Lawfulness, Is.EqualTo("set"));
-            Assert.That(setAlignmentRandomizer.SetAlignment.Goodness, Is.EqualTo("alignment"));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(setAlignmentRandomizer, Is.Not.Null);
+                Assert.That(setAlignmentRandomizer!.SetAlignment.Lawfulness, Is.EqualTo("set"));
+                Assert.That(setAlignmentRandomizer.SetAlignment.Goodness, Is.EqualTo("alignment"));
+            }
         }
 
         [Test]
@@ -75,8 +82,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(alignmentRandomizer, Is.EqualTo(mockSetAlignmentRandomizer.Object));
 
             var setAlignmentRandomizer = alignmentRandomizer as ISetAlignmentRandomizer;
-            Assert.That(setAlignmentRandomizer.SetAlignment.Lawfulness, Is.EqualTo(AlignmentConstants.Neutral));
-            Assert.That(setAlignmentRandomizer.SetAlignment.Goodness, Is.EqualTo(AlignmentConstants.Neutral));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(setAlignmentRandomizer, Is.Not.Null);
+                Assert.That(setAlignmentRandomizer!.SetAlignment.Lawfulness, Is.EqualTo(AlignmentConstants.Neutral));
+                Assert.That(setAlignmentRandomizer.SetAlignment.Goodness, Is.EqualTo(AlignmentConstants.Neutral));
+            }
         }
 
         [Test]
@@ -107,6 +118,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(classNameRandomizer, Is.EqualTo(mockSetClassNameRandomizer.Object));
 
             var setClassNameRandomizer = classNameRandomizer as ISetClassNameRandomizer;
+            Assert.That(setClassNameRandomizer, Is.Not.Null);
             Assert.That(setClassNameRandomizer.SetClassName, Is.EqualTo("set class name"));
         }
 
@@ -138,6 +150,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(levelRandomizer, Is.EqualTo(mockSetLevelRandomizer.Object));
 
             var setLevelRandomizer = levelRandomizer as ISetLevelRandomizer;
+            Assert.That(setLevelRandomizer, Is.Not.Null);
             Assert.That(setLevelRandomizer.SetLevel, Is.EqualTo(9266));
         }
 
@@ -169,6 +182,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(baseRaceRandomizer, Is.EqualTo(mockSetBaseRaceRandomizer.Object));
 
             var setBaseRaceRandomizer = baseRaceRandomizer as ISetBaseRaceRandomizer;
+            Assert.That(setBaseRaceRandomizer, Is.Not.Null);
             Assert.That(setBaseRaceRandomizer.SetBaseRace, Is.EqualTo("set base race"));
         }
 
@@ -201,6 +215,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(metaraceRandomizer, Is.EqualTo(mockMetaraceRandomizer.Object));
 
             var forcableMetaraceRandomizer = metaraceRandomizer as IForcableMetaraceRandomizer;
+            Assert.That(forcableMetaraceRandomizer, Is.Not.Null);
             Assert.That(forcableMetaraceRandomizer.ForceMetarace, Is.True);
         }
 
@@ -219,6 +234,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(metaraceRandomizer, Is.EqualTo(mockMetaraceRandomizer.Object));
 
             var forcableMetaraceRandomizer = metaraceRandomizer as IForcableMetaraceRandomizer;
+            Assert.That(forcableMetaraceRandomizer, Is.Not.Null);
             Assert.That(forcableMetaraceRandomizer.ForceMetarace, Is.False);
         }
 
@@ -236,6 +252,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(metaraceRandomizer, Is.EqualTo(mockSetMetaraceRandomizer.Object));
 
             var setMetaraceRandomizer = metaraceRandomizer as ISetMetaraceRandomizer;
+            Assert.That(setMetaraceRandomizer, Is.Not.Null);
             Assert.That(setMetaraceRandomizer.SetMetarace, Is.EqualTo("set metarace"));
         }
 
@@ -267,13 +284,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
 
             var setStatsRandomizer = statsRandomizer as ISetAbilitiesRandomizer;
-            Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
-            Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
-            Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
-            Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
-            Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
-            Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
-            Assert.That(setStatsRandomizer.AllowAdjustments, Is.True);
+            Assert.That(setStatsRandomizer, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
+                Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
+                Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
+                Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
+                Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
+                Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
+                Assert.That(setStatsRandomizer.AllowAdjustments, Is.True);
+            }
         }
 
         [Test]
@@ -290,13 +311,17 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
             Assert.That(statsRandomizer, Is.EqualTo(mockSetStatsRandomizer.Object));
 
             var setStatsRandomizer = statsRandomizer as ISetAbilitiesRandomizer;
-            Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
-            Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
-            Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
-            Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
-            Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
-            Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
-            Assert.That(setStatsRandomizer.AllowAdjustments, Is.False);
+            Assert.That(setStatsRandomizer, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(setStatsRandomizer.SetCharisma, Is.EqualTo(23456));
+                Assert.That(setStatsRandomizer.SetConstitution, Is.EqualTo(42));
+                Assert.That(setStatsRandomizer.SetDexterity, Is.EqualTo(600));
+                Assert.That(setStatsRandomizer.SetIntelligence, Is.EqualTo(1337));
+                Assert.That(setStatsRandomizer.SetStrength, Is.EqualTo(90210));
+                Assert.That(setStatsRandomizer.SetWisdom, Is.EqualTo(12345));
+                Assert.That(setStatsRandomizer.AllowAdjustments, Is.False);
+            }
         }
     }
 }

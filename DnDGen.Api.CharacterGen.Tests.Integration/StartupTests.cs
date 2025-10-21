@@ -1,6 +1,6 @@
 ﻿using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Repositories;
-using DnDGen.CharacterGen.Generators.Characters;
+using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Leaders;
 using DnDGen.CharacterGen.Verifiers;
 

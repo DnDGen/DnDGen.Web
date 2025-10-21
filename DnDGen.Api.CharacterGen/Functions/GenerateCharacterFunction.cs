@@ -3,7 +3,6 @@ using DnDGen.Api.CharacterGen.Helpers;
 using DnDGen.Api.CharacterGen.Repositories;
 using DnDGen.Api.CharacterGen.Validators;
 using DnDGen.CharacterGen.Characters;
-using DnDGen.CharacterGen.Generators.Characters;
 using DnDGen.CharacterGen.Verifiers;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -15,20 +14,12 @@ using System.Threading.Tasks;
 
 namespace DnDGen.Api.CharacterGen.Functions
 {
-    public class GenerateCharacterFunction
+    public class GenerateCharacterFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
     {
-        private readonly IRandomizerRepository _randomizerRepository;
-        private readonly ICharacterGenerator _characterGenerator;
-        private readonly IRandomizerVerifier _randomizerVerifier;
-        private readonly ILogger _logger;
-
-        public GenerateCharacterFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GenerateCharacterFunction>();
-            _randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
-            _characterGenerator = dependencyFactory.Get<ICharacterGenerator>();
-            _randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
-        }
+        private readonly IRandomizerRepository _randomizerRepository = dependencyFactory.Get<IRandomizerRepository>();
+        private readonly ICharacterGenerator _characterGenerator = dependencyFactory.Get<ICharacterGenerator>();
+        private readonly IRandomizerVerifier _randomizerVerifier = dependencyFactory.Get<IRandomizerVerifier>();
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GenerateCharacterFunction>();
 
         [Function("GenerateCharacterFunction")]
         [OpenApiOperation(operationId: "GenerateCharacterFunctionRun", tags: ["v1"],
@@ -136,16 +127,16 @@ namespace DnDGen.Api.CharacterGen.Functions
         {
             _logger.LogInformation("C# HTTP trigger function (GenerateCharacterFunction.Run) processed a request.");
 
-            var validatorResult = CharacterValidator.GetValid(req);
-            if (!validatorResult.Valid)
+            var (Valid, Error, CharacterSpecifications) = CharacterValidator.GetValid(req);
+            if (!Valid)
             {
-                _logger.LogError($"Parameters are not a valid combination. Error: {validatorResult.Error}");
+                _logger.LogError($"Parameters are not a valid combination. Error: {Error}");
 
                 var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
                 return invalidResponse;
             }
 
-            var characterSpecifications = validatorResult.CharacterSpecifications;
+            var characterSpecifications = CharacterSpecifications;
 
             var alignmentRandomizer = _randomizerRepository.GetAlignmentRandomizer(characterSpecifications.AlignmentRandomizerType, characterSpecifications.SetAlignment);
             var classNameRandomizer = _randomizerRepository.GetClassNameRandomizer(characterSpecifications.ClassNameRandomizerType, characterSpecifications.SetClassName);

@@ -5,11 +5,12 @@ using DnDGen.Api.CharacterGen.Repositories;
 using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 using DnDGen.CharacterGen.Verifiers;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -62,23 +63,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var mockMetaraceRandomizer = new Mock<RaceRandomizer>();
 
             mockRandomizerRepository
-                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Any, string.Empty))
+                .Setup(r => r.GetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Default, string.Empty))
                 .Returns(mockAlignmentRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.AnyPlayer, string.Empty))
+                .Setup(r => r.GetClassNameRandomizer(ClassNameRandomizerTypeConstants.Default, string.Empty))
                 .Returns(mockClassNameRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetLevelRandomizer(LevelRandomizerTypeConstants.Any, 0))
+                .Setup(r => r.GetLevelRandomizer(LevelRandomizerTypeConstants.Default, 0))
                 .Returns(mockLevelRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.AnyBase, string.Empty))
+                .Setup(r => r.GetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.Default, string.Empty))
                 .Returns(mockBaseRaceRandomizer.Object);
 
             mockRandomizerRepository
-                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.AnyMeta, false, string.Empty))
+                .Setup(r => r.GetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.Default, false, string.Empty))
                 .Returns(mockMetaraceRandomizer.Object);
 
             mockRandomizerVerifier
@@ -95,8 +96,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.EqualTo(validity));
@@ -155,8 +159,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.EqualTo(validity));
@@ -216,8 +223,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.EqualTo(validity));
@@ -281,8 +291,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.EqualTo(validity));
@@ -299,8 +312,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var valid = StreamHelper.Read<bool>(response.Body);
             Assert.That(valid, Is.False);
