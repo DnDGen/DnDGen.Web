@@ -1,10 +1,11 @@
-﻿using DnDGen.CharacterGen.Alignments;
+﻿using DnDGen.CharacterGen.Abilities.Randomizers;
+using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 
 namespace DnDGen.Api.Web.Models
 {
@@ -210,9 +211,8 @@ namespace DnDGen.Api.Web.Models
 
             AbilitiesRandomizerTypes =
             [
-                AbilitiesRandomizerTypeConstants.Raw,
-                AbilitiesRandomizerTypeConstants.Average,
                 AbilitiesRandomizerTypeConstants.BestOfFour,
+                AbilitiesRandomizerTypeConstants.Average,
                 AbilitiesRandomizerTypeConstants.Good,
                 AbilitiesRandomizerTypeConstants.Heroic,
                 AbilitiesRandomizerTypeConstants.OnesAsSixes,

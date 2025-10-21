@@ -1,11 +1,12 @@
 ﻿using DnDGen.Api.Web.Models;
+using DnDGen.CharacterGen.Abilities.Randomizers;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 
 namespace DnDGen.Api.Web.Tests.Unit.Models
 {
@@ -23,8 +24,8 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
         [Test]
         public void ModelHasAlignmentRandomizerTypes()
         {
-            Assert.That(model.AlignmentRandomizerTypes, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.AlignmentRandomizerTypes, Is.EquivalentTo(
+            [
                 AlignmentRandomizerTypeConstants.Any,
                 AlignmentRandomizerTypeConstants.Chaotic,
                 AlignmentRandomizerTypeConstants.Evil,
@@ -37,14 +38,14 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 AlignmentRandomizerTypeConstants.NonLawful,
                 AlignmentRandomizerTypeConstants.NonNeutral,
                 RandomizerTypeConstants.Set,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasAlignments()
         {
-            Assert.That(model.Alignments, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.Alignments, Is.EquivalentTo(
+            [
                 AlignmentConstants.ChaoticEvil,
                 AlignmentConstants.ChaoticGood,
                 AlignmentConstants.ChaoticNeutral,
@@ -54,14 +55,14 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 AlignmentConstants.NeutralEvil,
                 AlignmentConstants.NeutralGood,
                 AlignmentConstants.TrueNeutral,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasClassNameRandomizerTypes()
         {
-            Assert.That(model.ClassNameRandomizerTypes, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.ClassNameRandomizerTypes, Is.EquivalentTo(
+            [
                 ClassNameRandomizerTypeConstants.AnyPlayer,
                 ClassNameRandomizerTypeConstants.AnyNPC,
                 ClassNameRandomizerTypeConstants.DivineSpellcaster,
@@ -71,14 +72,14 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 ClassNameRandomizerTypeConstants.Stealth,
                 ClassNameRandomizerTypeConstants.PhysicalCombat,
                 RandomizerTypeConstants.Set,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasClassNames()
         {
-            Assert.That(model.ClassNames, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.ClassNames, Is.EquivalentTo(
+            [
                 CharacterClassConstants.Barbarian,
                 CharacterClassConstants.Bard,
                 CharacterClassConstants.Cleric,
@@ -95,28 +96,28 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 CharacterClassConstants.Commoner,
                 CharacterClassConstants.Expert,
                 CharacterClassConstants.Warrior,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasLevelRandomizerTypes()
         {
-            Assert.That(model.LevelRandomizerTypes, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.LevelRandomizerTypes, Is.EquivalentTo(
+            [
                 LevelRandomizerTypeConstants.Any,
                 LevelRandomizerTypeConstants.High,
                 LevelRandomizerTypeConstants.Low,
                 LevelRandomizerTypeConstants.Medium,
                 LevelRandomizerTypeConstants.VeryHigh,
                 RandomizerTypeConstants.Set,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasBaseRaceRandomizerTypes()
         {
-            Assert.That(model.BaseRaceRandomizerTypes, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.BaseRaceRandomizerTypes, Is.EquivalentTo(
+            [
                 RaceRandomizerTypeConstants.BaseRace.AnyBase,
                 RaceRandomizerTypeConstants.BaseRace.AquaticBase,
                 RaceRandomizerTypeConstants.BaseRace.MonsterBase,
@@ -124,14 +125,14 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 RaceRandomizerTypeConstants.BaseRace.NonStandardBase,
                 RaceRandomizerTypeConstants.BaseRace.StandardBase,
                 RandomizerTypeConstants.Set,
-            }));
+            ]));
         }
 
         [Test]
         public void ModelHasBaseRaces()
         {
-            Assert.That(model.BaseRaces, Is.EquivalentTo(new[]
-            {
+            Assert.That(model.BaseRaces, Is.EquivalentTo(
+            [
                 RaceConstants.BaseRaces.Aasimar,
                 RaceConstants.BaseRaces.AquaticElf,
                 RaceConstants.BaseRaces.Azer,
@@ -203,7 +204,7 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 RaceConstants.BaseRaces.YuanTiAbomination,
                 RaceConstants.BaseRaces.YuanTiHalfblood,
                 RaceConstants.BaseRaces.YuanTiPureblood,
-            }));
+            ]));
         }
 
         [Test]
@@ -252,7 +253,6 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
                 AbilitiesRandomizerTypeConstants.Heroic,
                 AbilitiesRandomizerTypeConstants.OnesAsSixes,
                 AbilitiesRandomizerTypeConstants.Poor,
-                AbilitiesRandomizerTypeConstants.Raw,
                 AbilitiesRandomizerTypeConstants.TwoTenSidedDice,
                 RandomizerTypeConstants.Set,
             ]));
@@ -261,12 +261,15 @@ namespace DnDGen.Api.Web.Tests.Unit.Models
         [Test]
         public void ModelHasDefaultRandomizerTypeFirst()
         {
-            Assert.That(model.AlignmentRandomizerTypes.First(), Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
-            Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
-            Assert.That(model.LevelRandomizerTypes.First(), Is.EqualTo(LevelRandomizerTypeConstants.Any));
-            Assert.That(model.BaseRaceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
-            Assert.That(model.MetaraceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
-            Assert.That(model.AbilitiesRandomizerTypes.First(), Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(model.AlignmentRandomizerTypes.First(), Is.EqualTo(AlignmentRandomizerTypeConstants.Default));
+                Assert.That(model.ClassNameRandomizerTypes.First(), Is.EqualTo(ClassNameRandomizerTypeConstants.Default));
+                Assert.That(model.LevelRandomizerTypes.First(), Is.EqualTo(LevelRandomizerTypeConstants.Default));
+                Assert.That(model.BaseRaceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.Default));
+                Assert.That(model.MetaraceRandomizerTypes.First(), Is.EqualTo(RaceRandomizerTypeConstants.Metarace.Default));
+                Assert.That(model.AbilitiesRandomizerTypes.First(), Is.EqualTo(AbilitiesRandomizerTypeConstants.Default));
+            }
         }
     }
 }
