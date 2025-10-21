@@ -2429,7 +2429,9 @@ describe('CharacterGen Component', () => {
         helper.expectCheckboxInput('#character #forceMetaraceCheckbox', false, false);
         helper.expectSelect('#character #setMetarace', false, 'Ghost', 13);
 
+        //INFO: Need to figure out how to assert both
         helper.expectSelect('#character #abilitiesRandomizerType', true, 'Raw', 9);
+        helper.expectSelect('#character #abilitiesRandomizerType', true, 'Best of four', 8);
         helper.expectCheckboxInput('#character #abilitiesAdjustCheckbox', false, true);
         helper.expectNumberInput('#character #setStrength', false, 10, 0);
         helper.expectNumberInput('#character #setConstitution', false, 10, 0);
