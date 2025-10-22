@@ -195,6 +195,7 @@ describe('Character Service', () => {
                 expect(viewmodel.metaraces.length).toBe(13);
 
                 //INFO: This allows us to bridge the deployment gap
+                // expect(viewmodel.abilitiesRandomizerTypes.length).toEqual(8);
                 expect([8, 9]).toContain(viewmodel.abilitiesRandomizerTypes.length);
             });
         }));

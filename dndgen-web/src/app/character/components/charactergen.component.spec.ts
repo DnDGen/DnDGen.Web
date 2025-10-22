@@ -2339,7 +2339,8 @@ describe('CharacterGen Component', () => {
       expect(component.characterModel.metaraceRandomizerTypes).toContain('Set');
       expect(component.characterModel.metaraceRandomizerTypes).toContain('No Meta');
       expect(component.characterModel.metaraces.length).toEqual(13);
-      expect(component.characterModel.abilitiesRandomizerTypes.length).toEqual(9);
+      // expect(component.characterModel.abilitiesRandomizerTypes.length).toEqual(8);
+      expect([8, 9]).toContain(component.characterModel.abilitiesRandomizerTypes.length);
       expect(component.characterModel.abilitiesRandomizerTypes).toContain('Set');
     });
   
@@ -2429,6 +2430,7 @@ describe('CharacterGen Component', () => {
         helper.expectCheckboxInput('#character #forceMetaraceCheckbox', false, false);
         helper.expectSelect('#character #setMetarace', false, 'Ghost', 13);
 
+        // helper.expectSelect('#character #abilitiesRandomizerType', true, 'Best of four', 8);
         const compiled = fixture.nativeElement as HTMLElement;
         const options = compiled.querySelectorAll('#character #abilitiesRandomizerType > option');
         expect(options).toBeTruthy();
