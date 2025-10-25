@@ -1,22 +1,18 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
+using DnDGen.CharacterGen.Abilities.Randomizers;
 using DnDGen.CharacterGen.Alignments;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Alignments.Randomizers;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
+using DnDGen.CharacterGen.Races.Randomizers;
+using DnDGen.CharacterGen.Races.Randomizers.BaseRaces;
+using DnDGen.CharacterGen.Races.Randomizers.Metaraces;
 using DnDGen.Infrastructure.Generators;
 
 namespace DnDGen.Api.CharacterGen.Repositories
 {
-    public class RandomizerRepository : IRandomizerRepository
+    public class RandomizerRepository(JustInTimeFactory justInTimeFactory) : IRandomizerRepository
     {
-        private JustInTimeFactory justInTimeFactory;
-
-        public RandomizerRepository(JustInTimeFactory justInTimeFactory)
-        {
-            this.justInTimeFactory = justInTimeFactory;
-        }
-
         public IAlignmentRandomizer GetAlignmentRandomizer(string alignmentRandomizerType, string setAlignment)
         {
             if (alignmentRandomizerType != RandomizerTypeConstants.Set)

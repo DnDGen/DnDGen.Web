@@ -121,7 +121,7 @@
 							"    pm.expect(model.baseRaces.length).to.equal(71);\r",
 							"    pm.expect(model.metaraceRandomizerTypes.length).to.equal(6);\r",
 							"    pm.expect(model.metaraces.length).to.equal(13);\r",
-							"    pm.expect(model.abilitiesRandomizerTypes.length).to.equal(9);\r",
+							"    pm.expect(model.abilitiesRandomizerTypes.length).to.equal(8);\r",
 							"});"
 						],
 						"type": "text/javascript",

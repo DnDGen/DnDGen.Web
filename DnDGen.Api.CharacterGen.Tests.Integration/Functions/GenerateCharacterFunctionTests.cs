@@ -2,14 +2,15 @@ using DnDGen.Api.CharacterGen.Dependencies;
 using DnDGen.Api.CharacterGen.Functions;
 using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.CharacterGen.Abilities;
+using DnDGen.CharacterGen.Abilities.Randomizers;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Characters;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -37,22 +38,28 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
-        private string GetUrl(string query = "")
+        private static string GetUrl(string query = "")
         {
             var url = "https://character.dndgen.com/api/v1/character/generate";
-            if (query.Any())
+            if (query.Length != 0)
                 url += "?" + query;
 
             return url;
@@ -130,16 +137,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(expectedAlignments));
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(expectedAlignments));
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -149,24 +162,30 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.Run(request);
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.LawfulGood,
-                AlignmentConstants.LawfulNeutral,
-                AlignmentConstants.LawfulEvil,
-                AlignmentConstants.NeutralGood,
-                AlignmentConstants.TrueNeutral,
-                AlignmentConstants.NeutralEvil,
-                AlignmentConstants.ChaoticGood,
-                AlignmentConstants.ChaoticNeutral,
-                AlignmentConstants.ChaoticEvil));
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.LawfulGood,
+                    AlignmentConstants.LawfulNeutral,
+                    AlignmentConstants.LawfulEvil,
+                    AlignmentConstants.NeutralGood,
+                    AlignmentConstants.TrueNeutral,
+                    AlignmentConstants.NeutralEvil,
+                    AlignmentConstants.ChaoticGood,
+                    AlignmentConstants.ChaoticNeutral,
+                    AlignmentConstants.ChaoticEvil));
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -177,8 +196,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -200,16 +222,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.EqualTo(alignment));
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.EqualTo(alignment));
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -220,16 +248,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.EqualTo(AlignmentConstants.LawfulGood));
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.EqualTo(AlignmentConstants.LawfulGood));
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -240,8 +274,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -255,8 +292,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -319,17 +359,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(expectedClassNames));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(expectedClassNames));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -340,27 +386,33 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
-                CharacterClassConstants.Bard,
-                CharacterClassConstants.Cleric,
-                CharacterClassConstants.Druid,
-                CharacterClassConstants.Fighter,
-                CharacterClassConstants.Monk,
-                CharacterClassConstants.Paladin,
-                CharacterClassConstants.Ranger,
-                CharacterClassConstants.Rogue,
-                CharacterClassConstants.Sorcerer,
-                CharacterClassConstants.Wizard));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
+                    CharacterClassConstants.Bard,
+                    CharacterClassConstants.Cleric,
+                    CharacterClassConstants.Druid,
+                    CharacterClassConstants.Fighter,
+                    CharacterClassConstants.Monk,
+                    CharacterClassConstants.Paladin,
+                    CharacterClassConstants.Ranger,
+                    CharacterClassConstants.Rogue,
+                    CharacterClassConstants.Sorcerer,
+                    CharacterClassConstants.Wizard));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -371,8 +423,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -401,17 +456,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.EqualTo(className));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.EqualTo(className));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -422,17 +483,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.EqualTo(CharacterClassConstants.Druid));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.EqualTo(CharacterClassConstants.Druid));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -443,8 +510,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -458,8 +528,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -477,16 +550,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(min, max));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(min, max));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -497,16 +576,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(1, 20));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(1, 20));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -517,8 +602,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -551,16 +639,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(level));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(level));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -571,8 +665,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -590,8 +687,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -832,17 +932,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.AnyOf(expectedBaseRaces));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.AnyOf(expectedBaseRaces));
+            }
         }
 
         [Test]
@@ -853,23 +959,29 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.HalfElf,
-                RaceConstants.BaseRaces.HalfOrc,
-                RaceConstants.BaseRaces.HighElf,
-                RaceConstants.BaseRaces.HillDwarf,
-                RaceConstants.BaseRaces.Human,
-                RaceConstants.BaseRaces.LightfootHalfling,
-                RaceConstants.BaseRaces.RockGnome));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.HalfElf,
+                    RaceConstants.BaseRaces.HalfOrc,
+                    RaceConstants.BaseRaces.HighElf,
+                    RaceConstants.BaseRaces.HillDwarf,
+                    RaceConstants.BaseRaces.Human,
+                    RaceConstants.BaseRaces.LightfootHalfling,
+                    RaceConstants.BaseRaces.RockGnome));
+            }
         }
 
         [Test]
@@ -880,8 +992,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -965,17 +1080,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.EqualTo(baseRace));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.EqualTo(baseRace));
+            }
         }
 
         [Test]
@@ -986,17 +1107,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
+            }
         }
 
         [Test]
@@ -1007,8 +1134,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1022,8 +1152,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1104,15 +1237,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(character.Summary, Is.Not.Empty);
                 Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1120,7 +1253,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 Assert.That(character.Class.Summary, Is.Not.Empty);
                 Assert.That(character.Race.Summary, Is.Not.Empty);
                 Assert.That(character.Race.Metarace, Is.AnyOf(expectedMetaraces));
-            });
+            }
         }
 
         [Test]
@@ -1131,15 +1264,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(character.Summary, Is.Not.Empty);
                 Assert.That(character.Alignment.Full, Is.Not.Empty);
@@ -1150,7 +1283,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                     RaceConstants.Metaraces.HalfCelestial,
                     RaceConstants.Metaraces.HalfDragon,
                     RaceConstants.Metaraces.HalfFiend));
-            });
+            }
         }
 
         [Test]
@@ -1161,11 +1294,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1192,20 +1325,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(response.Body, Is.Not.Null);
-            });
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.EqualTo(metarace));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Metarace, Is.EqualTo(metarace));
+            }
         }
 
         [Test]
@@ -1216,17 +1352,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.Vampire));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.Vampire));
+            }
         }
 
         //INFO: This is because an empty metarace registers as None
@@ -1238,17 +1380,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.None));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.None));
+            }
         }
 
         [Test]
@@ -1259,8 +1407,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1272,7 +1423,6 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [TestCase(AbilitiesRandomizerTypeConstants.Heroic, 15, 18)]
         [TestCase(AbilitiesRandomizerTypeConstants.OnesAsSixes, 6, 18)]
         [TestCase(AbilitiesRandomizerTypeConstants.Poor, 3, 9)]
-        [TestCase(AbilitiesRandomizerTypeConstants.Raw, 3, 18)]
         [TestCase(AbilitiesRandomizerTypeConstants.TwoTenSidedDice, 2, 20)]
         public async Task GenerateCharacter_ReturnsCharacter_AbilitiesRandomizers(string abilitiesRandomizerType, int min, int max)
         {
@@ -1286,29 +1436,39 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(min, max));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(min, max));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(min, max));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(min, max));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(min, max));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(min, max));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(min, max));
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(min, max));
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(min, max));
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(min, max));
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(min, max));
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(min, max));
+            }
         }
 
         [Test]
@@ -1324,29 +1484,39 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(6, 18));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(6, 18));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(6, 18));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(6, 18));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(6, 18));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(6, 18));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.InRange(6, 18));
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.InRange(6, 18));
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.InRange(6, 18));
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.InRange(6, 18));
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.InRange(6, 18));
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.InRange(6, 18));
+            }
         }
 
         [Test]
@@ -1357,8 +1527,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1384,29 +1557,39 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            }
         }
 
         [Test]
@@ -1429,33 +1612,42 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty, character.Summary);
-            Assert.That(character.Class.Level, Is.AtLeast(1), character.Summary);
-            Assert.That(character.Class.Summary, Is.Not.Empty, character.Summary);
-            Assert.That(character.Race.Summary, Is.Not.Empty, character.Summary);
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma), character.Summary);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty, character.Summary);
+                Assert.That(character.Class.Level, Is.AtLeast(1), character.Summary);
+                Assert.That(character.Class.Summary, Is.Not.Empty, character.Summary);
+                Assert.That(character.Race.Summary, Is.Not.Empty, character.Summary);
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma), character.Summary);
+            }
 
             //INFO: 10 for Ogre Mage (Str), 8 for Half-Dragon (Str), 5 for leveling up (every 4 levels)
             var sigma = 10 + 8 + 5;
             var abilities = character.Abilities.Values.OrderBy(a => a.Value).ToArray();
-            Assert.That(abilities[0].Value, Is.EqualTo(42).Within(sigma), $"{character.Summary}: {abilities[0].Name}");
-            Assert.That(abilities[1].Value, Is.EqualTo(96).Within(sigma), $"{character.Summary}: {abilities[1].Name}");
-            Assert.That(abilities[2].Value, Is.EqualTo(600).Within(sigma), $"{character.Summary}: {abilities[2].Name}");
-            Assert.That(abilities[3].Value, Is.EqualTo(1337).Within(sigma), $"{character.Summary}: {abilities[3].Name}");
-            Assert.That(abilities[4].Value, Is.EqualTo(9266).Within(sigma), $"{character.Summary}: {abilities[4].Name}");
-            Assert.That(abilities[5].Value, Is.EqualTo(90210).Within(sigma), $"{character.Summary}: {abilities[5].Name}");
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(abilities[0].Value, Is.EqualTo(42).Within(sigma), $"{character.Summary}: {abilities[0].Name}");
+                Assert.That(abilities[1].Value, Is.EqualTo(96).Within(sigma), $"{character.Summary}: {abilities[1].Name}");
+                Assert.That(abilities[2].Value, Is.EqualTo(600).Within(sigma), $"{character.Summary}: {abilities[2].Name}");
+                Assert.That(abilities[3].Value, Is.EqualTo(1337).Within(sigma), $"{character.Summary}: {abilities[3].Name}");
+                Assert.That(abilities[4].Value, Is.EqualTo(9266).Within(sigma), $"{character.Summary}: {abilities[4].Name}");
+                Assert.That(abilities[5].Value, Is.EqualTo(90210).Within(sigma), $"{character.Summary}: {abilities[5].Name}");
+            }
         }
 
         [Test]
@@ -1478,29 +1670,39 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            }
         }
 
         [Test]
@@ -1522,8 +1724,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1550,8 +1755,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1576,8 +1784,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1604,8 +1815,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1630,8 +1844,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1658,8 +1875,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1684,8 +1904,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1712,8 +1935,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1738,8 +1964,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1766,8 +1995,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1792,8 +2024,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1820,8 +2055,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1842,110 +2080,120 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.NeutralGood,
-                AlignmentConstants.TrueNeutral,
-                AlignmentConstants.NeutralEvil,
-                AlignmentConstants.ChaoticGood,
-                AlignmentConstants.ChaoticNeutral,
-                AlignmentConstants.ChaoticEvil));
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(6, 10));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
-                CharacterClassConstants.Fighter,
-                CharacterClassConstants.Monk,
-                CharacterClassConstants.Paladin,
-                CharacterClassConstants.Ranger));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.Aasimar,
-                RaceConstants.BaseRaces.AquaticElf,
-                RaceConstants.BaseRaces.Azer,
-                RaceConstants.BaseRaces.BlueSlaad,
-                RaceConstants.BaseRaces.Bugbear,
-                RaceConstants.BaseRaces.Centaur,
-                RaceConstants.BaseRaces.CloudGiant,
-                RaceConstants.BaseRaces.DeathSlaad,
-                RaceConstants.BaseRaces.DeepDwarf,
-                RaceConstants.BaseRaces.DeepHalfling,
-                RaceConstants.BaseRaces.Derro,
-                RaceConstants.BaseRaces.Doppelganger,
-                RaceConstants.BaseRaces.Drow,
-                RaceConstants.BaseRaces.DuergarDwarf,
-                RaceConstants.BaseRaces.FireGiant,
-                RaceConstants.BaseRaces.ForestGnome,
-                RaceConstants.BaseRaces.FrostGiant,
-                RaceConstants.BaseRaces.Gargoyle,
-                RaceConstants.BaseRaces.Githyanki,
-                RaceConstants.BaseRaces.Githzerai,
-                RaceConstants.BaseRaces.Gnoll,
-                RaceConstants.BaseRaces.Goblin,
-                RaceConstants.BaseRaces.GrayElf,
-                RaceConstants.BaseRaces.GraySlaad,
-                RaceConstants.BaseRaces.GreenSlaad,
-                RaceConstants.BaseRaces.Grimlock,
-                RaceConstants.BaseRaces.Harpy,
-                RaceConstants.BaseRaces.HillGiant,
-                RaceConstants.BaseRaces.Hobgoblin,
-                RaceConstants.BaseRaces.HoundArchon,
-                RaceConstants.BaseRaces.Janni,
-                RaceConstants.BaseRaces.Kapoacinth,
-                RaceConstants.BaseRaces.Kobold,
-                RaceConstants.BaseRaces.KuoToa,
-                RaceConstants.BaseRaces.Lizardfolk,
-                RaceConstants.BaseRaces.Locathah,
-                RaceConstants.BaseRaces.Merfolk,
-                RaceConstants.BaseRaces.Merrow,
-                RaceConstants.BaseRaces.MindFlayer,
-                RaceConstants.BaseRaces.Minotaur,
-                RaceConstants.BaseRaces.MountainDwarf,
-                RaceConstants.BaseRaces.Mummy,
-                RaceConstants.BaseRaces.Ogre,
-                RaceConstants.BaseRaces.OgreMage,
-                RaceConstants.BaseRaces.Orc,
-                RaceConstants.BaseRaces.Pixie,
-                RaceConstants.BaseRaces.Rakshasa,
-                RaceConstants.BaseRaces.RedSlaad,
-                RaceConstants.BaseRaces.Sahuagin,
-                RaceConstants.BaseRaces.Satyr,
-                RaceConstants.BaseRaces.Scorpionfolk,
-                RaceConstants.BaseRaces.Scrag,
-                RaceConstants.BaseRaces.StoneGiant,
-                RaceConstants.BaseRaces.StormGiant,
-                RaceConstants.BaseRaces.Svirfneblin,
-                RaceConstants.BaseRaces.TallfellowHalfling,
-                RaceConstants.BaseRaces.Tiefling,
-                RaceConstants.BaseRaces.Troglodyte,
-                RaceConstants.BaseRaces.Troll,
-                RaceConstants.BaseRaces.WildElf,
-                RaceConstants.BaseRaces.WoodElf,
-                RaceConstants.BaseRaces.YuanTiAbomination,
-                RaceConstants.BaseRaces.YuanTiHalfblood,
-                RaceConstants.BaseRaces.YuanTiPureblood));
-            Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.Werebear,
-                RaceConstants.Metaraces.Wereboar,
-                RaceConstants.Metaraces.Wereboar_Dire,
-                RaceConstants.Metaraces.Wererat,
-                RaceConstants.Metaraces.Weretiger,
-                RaceConstants.Metaraces.Werewolf_Dire,
-                RaceConstants.Metaraces.Werewolf));
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.Positive);
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.Positive);
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.Positive);
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.Positive);
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.Positive);
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.Positive);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty.And.AnyOf(AlignmentConstants.NeutralGood,
+                    AlignmentConstants.TrueNeutral,
+                    AlignmentConstants.NeutralEvil,
+                    AlignmentConstants.ChaoticGood,
+                    AlignmentConstants.ChaoticNeutral,
+                    AlignmentConstants.ChaoticEvil));
+                Assert.That(character.Class.Level, Is.AtLeast(1).And.InRange(6, 10));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.Not.Empty.And.AnyOf(CharacterClassConstants.Barbarian,
+                    CharacterClassConstants.Fighter,
+                    CharacterClassConstants.Monk,
+                    CharacterClassConstants.Paladin,
+                    CharacterClassConstants.Ranger));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.AnyOf(RaceConstants.BaseRaces.Aasimar,
+                    RaceConstants.BaseRaces.AquaticElf,
+                    RaceConstants.BaseRaces.Azer,
+                    RaceConstants.BaseRaces.BlueSlaad,
+                    RaceConstants.BaseRaces.Bugbear,
+                    RaceConstants.BaseRaces.Centaur,
+                    RaceConstants.BaseRaces.CloudGiant,
+                    RaceConstants.BaseRaces.DeathSlaad,
+                    RaceConstants.BaseRaces.DeepDwarf,
+                    RaceConstants.BaseRaces.DeepHalfling,
+                    RaceConstants.BaseRaces.Derro,
+                    RaceConstants.BaseRaces.Doppelganger,
+                    RaceConstants.BaseRaces.Drow,
+                    RaceConstants.BaseRaces.DuergarDwarf,
+                    RaceConstants.BaseRaces.FireGiant,
+                    RaceConstants.BaseRaces.ForestGnome,
+                    RaceConstants.BaseRaces.FrostGiant,
+                    RaceConstants.BaseRaces.Gargoyle,
+                    RaceConstants.BaseRaces.Githyanki,
+                    RaceConstants.BaseRaces.Githzerai,
+                    RaceConstants.BaseRaces.Gnoll,
+                    RaceConstants.BaseRaces.Goblin,
+                    RaceConstants.BaseRaces.GrayElf,
+                    RaceConstants.BaseRaces.GraySlaad,
+                    RaceConstants.BaseRaces.GreenSlaad,
+                    RaceConstants.BaseRaces.Grimlock,
+                    RaceConstants.BaseRaces.Harpy,
+                    RaceConstants.BaseRaces.HillGiant,
+                    RaceConstants.BaseRaces.Hobgoblin,
+                    RaceConstants.BaseRaces.HoundArchon,
+                    RaceConstants.BaseRaces.Janni,
+                    RaceConstants.BaseRaces.Kapoacinth,
+                    RaceConstants.BaseRaces.Kobold,
+                    RaceConstants.BaseRaces.KuoToa,
+                    RaceConstants.BaseRaces.Lizardfolk,
+                    RaceConstants.BaseRaces.Locathah,
+                    RaceConstants.BaseRaces.Merfolk,
+                    RaceConstants.BaseRaces.Merrow,
+                    RaceConstants.BaseRaces.MindFlayer,
+                    RaceConstants.BaseRaces.Minotaur,
+                    RaceConstants.BaseRaces.MountainDwarf,
+                    RaceConstants.BaseRaces.Mummy,
+                    RaceConstants.BaseRaces.Ogre,
+                    RaceConstants.BaseRaces.OgreMage,
+                    RaceConstants.BaseRaces.Orc,
+                    RaceConstants.BaseRaces.Pixie,
+                    RaceConstants.BaseRaces.Rakshasa,
+                    RaceConstants.BaseRaces.RedSlaad,
+                    RaceConstants.BaseRaces.Sahuagin,
+                    RaceConstants.BaseRaces.Satyr,
+                    RaceConstants.BaseRaces.Scorpionfolk,
+                    RaceConstants.BaseRaces.Scrag,
+                    RaceConstants.BaseRaces.StoneGiant,
+                    RaceConstants.BaseRaces.StormGiant,
+                    RaceConstants.BaseRaces.Svirfneblin,
+                    RaceConstants.BaseRaces.TallfellowHalfling,
+                    RaceConstants.BaseRaces.Tiefling,
+                    RaceConstants.BaseRaces.Troglodyte,
+                    RaceConstants.BaseRaces.Troll,
+                    RaceConstants.BaseRaces.WildElf,
+                    RaceConstants.BaseRaces.WoodElf,
+                    RaceConstants.BaseRaces.YuanTiAbomination,
+                    RaceConstants.BaseRaces.YuanTiHalfblood,
+                    RaceConstants.BaseRaces.YuanTiPureblood));
+                Assert.That(character.Race.Metarace, Is.AnyOf(RaceConstants.Metaraces.Werebear,
+                    RaceConstants.Metaraces.Wereboar,
+                    RaceConstants.Metaraces.Wereboar_Dire,
+                    RaceConstants.Metaraces.Wererat,
+                    RaceConstants.Metaraces.Weretiger,
+                    RaceConstants.Metaraces.Werewolf_Dire,
+                    RaceConstants.Metaraces.Werewolf));
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.Positive);
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.Positive);
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.Positive);
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.Positive);
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.Positive);
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.Positive);
+            }
         }
 
         [Test]
@@ -1959,8 +2207,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -1977,16 +2228,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -2000,8 +2257,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -2018,16 +2278,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -2041,8 +2307,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -2059,16 +2328,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test, Ignore("No non-set metarace randomizer can be incompatible with non-set alignment, class name, or non-set base race")]
@@ -2082,8 +2357,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -2099,17 +2377,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.Run(request);
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+                Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -2123,16 +2407,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -2157,32 +2447,42 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty.And.EqualTo(AlignmentConstants.NeutralEvil));
-            Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(9));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Class.Name, Is.Not.Empty.And.EqualTo(CharacterClassConstants.Barbarian));
-            Assert.That(character.Race.Summary, Is.Not.Empty);
-            Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
-            Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
-            Assert.That(character.Abilities, Has.Count.EqualTo(6)
-                .And.ContainKey(AbilityConstants.Strength)
-                .And.ContainKey(AbilityConstants.Constitution)
-                .And.ContainKey(AbilityConstants.Dexterity)
-                .And.ContainKey(AbilityConstants.Intelligence)
-                .And.ContainKey(AbilityConstants.Wisdom)
-                .And.ContainKey(AbilityConstants.Charisma));
-            Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
-            Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
-            Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
-            Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
-            Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
-            Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty.And.EqualTo(AlignmentConstants.NeutralEvil));
+                Assert.That(character.Class.Level, Is.AtLeast(1).And.EqualTo(9));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Class.Name, Is.Not.Empty.And.EqualTo(CharacterClassConstants.Barbarian));
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+                Assert.That(character.Race.BaseRace, Is.EqualTo(RaceConstants.BaseRaces.Tiefling));
+                Assert.That(character.Race.Metarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
+                Assert.That(character.Abilities, Has.Count.EqualTo(6)
+                    .And.ContainKey(AbilityConstants.Strength)
+                    .And.ContainKey(AbilityConstants.Constitution)
+                    .And.ContainKey(AbilityConstants.Dexterity)
+                    .And.ContainKey(AbilityConstants.Intelligence)
+                    .And.ContainKey(AbilityConstants.Wisdom)
+                    .And.ContainKey(AbilityConstants.Charisma));
+            }
+
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Abilities[AbilityConstants.Strength].Value, Is.EqualTo(9266));
+                Assert.That(character.Abilities[AbilityConstants.Constitution].Value, Is.EqualTo(90210));
+                Assert.That(character.Abilities[AbilityConstants.Dexterity].Value, Is.EqualTo(42));
+                Assert.That(character.Abilities[AbilityConstants.Intelligence].Value, Is.EqualTo(600));
+                Assert.That(character.Abilities[AbilityConstants.Wisdom].Value, Is.EqualTo(1337));
+                Assert.That(character.Abilities[AbilityConstants.Charisma].Value, Is.EqualTo(1336));
+            }
         }
 
         [Test]
@@ -2196,8 +2496,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -2214,16 +2517,22 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
-            Assert.That(character.Summary, Is.Not.Empty);
-            Assert.That(character.Alignment.Full, Is.Not.Empty);
-            Assert.That(character.Class.Level, Is.AtLeast(1));
-            Assert.That(character.Class.Summary, Is.Not.Empty);
-            Assert.That(character.Race.Summary, Is.Not.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(character.Summary, Is.Not.Empty);
+                Assert.That(character.Alignment.Full, Is.Not.Empty);
+                Assert.That(character.Class.Level, Is.AtLeast(1));
+                Assert.That(character.Class.Summary, Is.Not.Empty);
+                Assert.That(character.Race.Summary, Is.Not.Empty);
+            }
         }
 
         [Test]
@@ -2237,8 +2546,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var responseBody = StreamHelper.Read(response.Body);
             Assert.That(responseBody, Is.Empty);
@@ -2255,8 +2567,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
             var response = await function.Run(request);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var character = StreamHelper.Read<Character>(response.Body);
             Assert.That(character, Is.Not.Null);
@@ -2397,14 +2712,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Test]
         public async Task BUG_GenerateCharacter_ReturnsCharacter_WithoutMetarace()
         {
-            var queryString = "abilitiesRandomizerType=Raw";
-            queryString += "&alignmentRandomizerType=Any";
-            queryString += "&classNameRandomizerType=Any+Player";
-            queryString += "&levelRandomizerType=Low";
-            queryString += "&baseRaceRandomizerType=Any+Base";
-            queryString += "&metaraceRandomizerType=Any+Meta";
-            queryString += "&forceMetarace=false";
-            queryString += "&allowAbilityAdjustments=true";
+            var queryString = "levelRandomizerType=Low";
 
             var url = GetUrl(queryString);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
@@ -2418,11 +2726,11 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 var response = await function.Run(request);
                 Assert.That(response, Is.InstanceOf<HttpResponseData>());
 
-                Assert.Multiple(() =>
+                using (Assert.EnterMultipleScope())
                 {
                     Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                     Assert.That(response.Body, Is.Not.Null);
-                });
+                }
 
                 var character = StreamHelper.Read<Character>(response.Body);
                 Assert.That(character, Is.Not.Null);
@@ -2445,15 +2753,10 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         [Repeat(100)]
         public async Task BUG_GenerateCharacter_ReturnsCharacter_SpellsCanHaveMultipleSources()
         {
-            var queryString = "abilitiesRandomizerType=Raw";
-            queryString += "&alignmentRandomizerType=Any";
+            var queryString = "abilitiesRandomizerType=Heroic";
             queryString += "&classNameRandomizerType=set";
             queryString += "&setClassName=cleric";
             queryString += "&levelRandomizerType=medium";
-            queryString += "&baseRaceRandomizerType=Any+Base";
-            queryString += "&metaraceRandomizerType=Any+Meta";
-            queryString += "&forceMetarace=false";
-            queryString += "&allowAbilityAdjustments=true";
 
             var url = GetUrl(queryString);
             var request = RequestHelper.BuildRequest(url, serviceProvider);

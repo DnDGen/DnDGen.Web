@@ -1,14 +1,11 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Structure",
-    "NUnit1001:The individual arguments provided by a TestCaseAttribute must match the type of the corresponding parameter of the method",
-    Justification = "NUnit doesn't like passing in null for string parameters")]
     public class CohortSpecificationsTests
     {
         private CohortSpecifications spec;
@@ -131,10 +128,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         {
             SetSpecDefaults();
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            }
         }
 
         private void SetSpecDefaults()
@@ -151,11 +151,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignment("lawful good");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.LeaderAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.LeaderAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
+            }
         }
 
         [Test]
@@ -165,7 +168,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignment("invalid alignment");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var alignments = new[]
             {
                 AlignmentConstants.LawfulGood,
@@ -179,9 +182,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 AlignmentConstants.NeutralEvil,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
-            Assert.That(spec.LeaderAlignment, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"LeaderAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
+                Assert.That(spec.LeaderAlignment, Is.Empty);
+            }
         }
 
         [Test]
@@ -191,11 +197,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassName("barbarian");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.LeaderClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
+            }
         }
 
         [Test]
@@ -205,7 +214,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassName("invalid");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var classes = new[]
             {
                 CharacterClassConstants.Adept,
@@ -226,9 +235,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 CharacterClassConstants.Wizard,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
-            Assert.That(spec.LeaderClassName, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"LeaderClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
+                Assert.That(spec.LeaderClassName, Is.Empty);
+            }
         }
 
         [TestCase(6)]
@@ -252,11 +264,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.LeaderLevel = level;
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.LeaderLevel, Is.EqualTo(level));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.LeaderLevel, Is.EqualTo(level));
+            }
         }
 
         [TestCase(-9266)]
@@ -276,11 +291,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.LeaderLevel = level;
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("LeaderLevel is not valid. Should be 6 <= level <= 20"));
-            Assert.That(spec.LeaderLevel, Is.EqualTo(level));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("LeaderLevel is not valid. Should be 6 <= level <= 20"));
+                Assert.That(spec.LeaderLevel, Is.EqualTo(level));
+            }
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
+using DnDGen.CharacterGen.Abilities.Randomizers;
 using DnDGen.CharacterGen.Alignments;
+using DnDGen.CharacterGen.Alignments.Randomizers;
 using DnDGen.CharacterGen.CharacterClasses;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Races.Randomizers;
 using System.Collections;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
@@ -322,7 +323,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
             Assert.That(spec.SetBaseRace, Is.EqualTo(expected));
         }
 
-        private static IEnumerable<string> BaseRaces =
+        private static readonly IEnumerable<string> BaseRaces =
         [
             RaceConstants.BaseRaces.Aasimar,
             RaceConstants.BaseRaces.AquaticElf,
@@ -503,9 +504,6 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         [TestCase(RandomizerTypeConstants.Set, RandomizerTypeConstants.Set)]
         [TestCase("set", RandomizerTypeConstants.Set)]
         [TestCase("SET", RandomizerTypeConstants.Set)]
-        [TestCase(AbilitiesRandomizerTypeConstants.Raw, AbilitiesRandomizerTypeConstants.Raw)]
-        [TestCase("raw", AbilitiesRandomizerTypeConstants.Raw)]
-        [TestCase("RAW", AbilitiesRandomizerTypeConstants.Raw)]
         [TestCase(AbilitiesRandomizerTypeConstants.Average, AbilitiesRandomizerTypeConstants.Average)]
         [TestCase("average", AbilitiesRandomizerTypeConstants.Average)]
         [TestCase("AVERAGE", AbilitiesRandomizerTypeConstants.Average)]
@@ -596,20 +594,23 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         {
             SetSpecDefaults();
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            }
         }
 
         private void SetSpecDefaults()
         {
-            spec.SetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Any, string.Empty);
-            spec.SetClassNameRandomizer(ClassNameRandomizerTypeConstants.AnyPlayer, string.Empty);
-            spec.SetLevelRandomizer(LevelRandomizerTypeConstants.Any, 0);
-            spec.SetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.AnyBase, string.Empty);
-            spec.SetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.AnyMeta, string.Empty, false);
-            spec.SetAbilitiesRandomizer(AbilitiesRandomizerTypeConstants.Raw, 0, 0, 0, 0, 0, 0, false);
+            spec.SetAlignmentRandomizer(AlignmentRandomizerTypeConstants.Default, string.Empty);
+            spec.SetClassNameRandomizer(ClassNameRandomizerTypeConstants.Default, string.Empty);
+            spec.SetLevelRandomizer(LevelRandomizerTypeConstants.Default, 0);
+            spec.SetBaseRaceRandomizer(RaceRandomizerTypeConstants.BaseRace.Default, string.Empty);
+            spec.SetMetaraceRandomizer(RaceRandomizerTypeConstants.Metarace.Default, string.Empty, false);
+            spec.SetAbilitiesRandomizer(AbilitiesRandomizerTypeConstants.Default, 0, 0, 0, 0, 0, 0, false);
         }
 
         [Test]
@@ -619,11 +620,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignmentRandomizer("any", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(AlignmentRandomizerTypeConstants.Any));
+            }
         }
 
         [Test]
@@ -633,7 +637,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignmentRandomizer("invalid", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var alignmentRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -650,9 +654,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 AlignmentRandomizerTypeConstants.NonNeutral,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"AlignmentRandomizerType is not valid. Should be one of: [{string.Join(", ", alignmentRandomizers)}]"));
-            Assert.That(spec.AlignmentRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"AlignmentRandomizerType is not valid. Should be one of: [{string.Join(", ", alignmentRandomizers)}]"));
+                Assert.That(spec.AlignmentRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -662,11 +669,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassNameRandomizer("any player", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(ClassNameRandomizerTypeConstants.AnyPlayer));
+            }
         }
 
         [Test]
@@ -676,7 +686,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassNameRandomizer("invalid", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var classNameRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -690,9 +700,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 ClassNameRandomizerTypeConstants.Stealth,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"ClassNameRandomizerType is not valid. Should be one of: [{string.Join(", ", classNameRandomizers)}]"));
-            Assert.That(spec.ClassNameRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"ClassNameRandomizerType is not valid. Should be one of: [{string.Join(", ", classNameRandomizers)}]"));
+                Assert.That(spec.ClassNameRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -702,11 +715,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetLevelRandomizer("any", 0);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.LevelRandomizerType, Is.EqualTo(LevelRandomizerTypeConstants.Any));
+            }
         }
 
         [Test]
@@ -716,7 +732,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetLevelRandomizer("invalid", 0);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var levelRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -727,9 +743,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 LevelRandomizerTypeConstants.VeryHigh,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"LevelRandomizerType is not valid. Should be one of: [{string.Join(", ", levelRandomizers)}]"));
-            Assert.That(spec.LevelRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"LevelRandomizerType is not valid. Should be one of: [{string.Join(", ", levelRandomizers)}]"));
+                Assert.That(spec.LevelRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -739,11 +758,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetBaseRaceRandomizer("any base", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.BaseRace.AnyBase));
+            }
         }
 
         [Test]
@@ -753,7 +775,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetBaseRaceRandomizer("invalid", string.Empty);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var baseRaceRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -765,9 +787,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 RaceRandomizerTypeConstants.BaseRace.StandardBase,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"BaseRaceRandomizerType is not valid. Should be one of: [{string.Join(", ", baseRaceRandomizers)}]"));
-            Assert.That(spec.BaseRaceRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"BaseRaceRandomizerType is not valid. Should be one of: [{string.Join(", ", baseRaceRandomizers)}]"));
+                Assert.That(spec.BaseRaceRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -777,11 +802,14 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetMetaraceRandomizer("any meta", string.Empty, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RaceRandomizerTypeConstants.Metarace.AnyMeta));
+            }
         }
 
         [Test]
@@ -791,7 +819,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetMetaraceRandomizer("invalid", string.Empty, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var metaraceRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -802,9 +830,12 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 RaceRandomizerTypeConstants.Metarace.UndeadMeta,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"MetaraceRandomizerType is not valid. Should be one of: [{string.Join(", ", metaraceRandomizers)}]"));
-            Assert.That(spec.MetaraceRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"MetaraceRandomizerType is not valid. Should be one of: [{string.Join(", ", metaraceRandomizers)}]"));
+                Assert.That(spec.MetaraceRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -812,13 +843,16 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
         {
             SetSpecDefaults();
 
-            spec.SetAbilitiesRandomizer("raw", 0, 0, 0, 0, 0, 0, false);
+            spec.SetAbilitiesRandomizer("best of four", 0, 0, 0, 0, 0, 0, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.Raw));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(AbilitiesRandomizerTypeConstants.BestOfFour));
+            }
         }
 
         [Test]
@@ -828,7 +862,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("invalid", 0, 0, 0, 0, 0, 0, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var abilitiesRandomizers = new[]
             {
                 RandomizerTypeConstants.Set,
@@ -838,13 +872,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 AbilitiesRandomizerTypeConstants.Heroic,
                 AbilitiesRandomizerTypeConstants.OnesAsSixes,
                 AbilitiesRandomizerTypeConstants.Poor,
-                AbilitiesRandomizerTypeConstants.Raw,
                 AbilitiesRandomizerTypeConstants.TwoTenSidedDice,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"AbilitiesRandomizerType is not valid. Should be one of: [{string.Join(", ", abilitiesRandomizers)}]"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"AbilitiesRandomizerType is not valid. Should be one of: [{string.Join(", ", abilitiesRandomizers)}]"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.Empty);
+            }
         }
 
         [Test]
@@ -854,12 +890,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignmentRandomizer("set", "lawful good");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetAlignment, Is.EqualTo(AlignmentConstants.LawfulGood));
+            }
         }
 
         [Test]
@@ -869,7 +908,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAlignmentRandomizer("set", "invalid alignment");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var alignments = new[]
             {
                 AlignmentConstants.LawfulGood,
@@ -883,10 +922,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 AlignmentConstants.NeutralEvil,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"SetAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
-            Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetAlignment, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"SetAlignment is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
+                Assert.That(spec.AlignmentRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetAlignment, Is.Empty);
+            }
         }
 
         [Test]
@@ -896,12 +938,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassNameRandomizer("set", "barbarian");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetClassName, Is.EqualTo(CharacterClassConstants.Barbarian));
+            }
         }
 
         [Test]
@@ -911,7 +956,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetClassNameRandomizer("set", "invalid");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var classes = new[]
             {
                 CharacterClassConstants.Adept,
@@ -932,10 +977,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 CharacterClassConstants.Wizard,
             };
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"SetClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
-            Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetClassName, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"SetClassName is not valid. Should be one of: [{string.Join(", ", classes)}]"));
+                Assert.That(spec.ClassNameRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetClassName, Is.Empty);
+            }
         }
 
         [TestCase(1)]
@@ -964,12 +1012,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetLevelRandomizer("set", level);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetLevel, Is.EqualTo(level));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetLevel, Is.EqualTo(level));
+            }
         }
 
         [TestCase(-9266)]
@@ -984,12 +1035,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetLevelRandomizer("set", level);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetLevel is not valid. Should be 1 <= level <= 20"));
-            Assert.That(spec.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetLevel, Is.EqualTo(level));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetLevel is not valid. Should be 1 <= level <= 20"));
+                Assert.That(spec.LevelRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetLevel, Is.EqualTo(level));
+            }
         }
 
         [Test]
@@ -999,12 +1053,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetBaseRaceRandomizer("set", "human");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetBaseRace, Is.EqualTo(RaceConstants.BaseRaces.Human));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetBaseRace, Is.EqualTo(RaceConstants.BaseRaces.Human));
+            }
         }
 
         [Test]
@@ -1014,12 +1071,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetBaseRaceRandomizer("set", "invalid");
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo($"SetBaseRace is not valid. Should be one of: [{string.Join(", ", BaseRaces)}]"));
-            Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetBaseRace, Is.Empty);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"SetBaseRace is not valid. Should be one of: [{string.Join(", ", BaseRaces)}]"));
+                Assert.That(spec.BaseRaceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetBaseRace, Is.Empty);
+            }
         }
 
         [Test]
@@ -1029,15 +1089,15 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetMetaraceRandomizer("set", "half-dragon", false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
-                Assert.That(valid.Valid, Is.True);
-                Assert.That(valid.Error, Is.Empty);
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
                 Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
                 Assert.That(spec.SetMetarace, Is.EqualTo(RaceConstants.Metaraces.HalfDragon));
-            });
+            }
         }
 
         [Test]
@@ -1047,7 +1107,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetMetaraceRandomizer("set", "invalid", false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
             var metaraces = new[]
             {
                 RaceConstants.Metaraces.Ghost,
@@ -1066,13 +1126,13 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
                 RaceConstants.Metaraces.Werewolf_Dire,
             };
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
-                Assert.That(valid.Valid, Is.False);
-                Assert.That(valid.Error, Is.EqualTo($"SetMetarace is not valid. Should be one of: [{string.Join(", ", metaraces)}]"));
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"SetMetarace is not valid. Should be one of: [{string.Join(", ", metaraces)}]"));
                 Assert.That(spec.MetaraceRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
                 Assert.That(spec.SetMetarace, Is.EqualTo(CharacterSpecifications.InvalidMetarace));
-            });
+            }
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]
@@ -1082,17 +1142,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", score, 10, 10, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(score));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(score));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         public static IEnumerable PositiveNumberTestCases => AllNumbers.Where(n => n > 0).Select(n => new TestCaseData(n));
@@ -1104,17 +1167,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", score, 10, 10, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetStrength is not valid. Should be SetStrength > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(score));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetStrength is not valid. Should be SetStrength > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(score));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         public static IEnumerable NotPositiveNumberTestCases => AllNumbers.Where(n => n <= 0).Select(n => new TestCaseData(n));
@@ -1126,17 +1192,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, score, 10, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(score));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(score));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1146,17 +1215,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, score, 10, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetConstitution is not valid. Should be SetConstitution > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(score));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetConstitution is not valid. Should be SetConstitution > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(score));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]
@@ -1166,17 +1238,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, score, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(score));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(score));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1186,17 +1261,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, score, 10, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetDexterity is not valid. Should be SetDexterity > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(score));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetDexterity is not valid. Should be SetDexterity > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(score));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]
@@ -1206,17 +1284,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, score, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(score));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(score));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1226,17 +1307,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, score, 10, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetIntelligence is not valid. Should be SetIntelligence > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(score));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetIntelligence is not valid. Should be SetIntelligence > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(score));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]
@@ -1246,17 +1330,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, 10, score, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(score));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(score));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1266,17 +1353,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, 10, score, 10, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetWisdom is not valid. Should be SetWisdom > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(score));
-            Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetWisdom is not valid. Should be SetWisdom > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(score));
+                Assert.That(spec.SetCharisma, Is.EqualTo(10));
+            }
         }
 
         [TestCaseSource(nameof(PositiveNumberTestCases))]
@@ -1286,17 +1376,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, 10, 10, score, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.True);
-            Assert.That(valid.Error, Is.Empty);
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(score));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(score));
+            }
         }
 
         [TestCaseSource(nameof(NotPositiveNumberTestCases))]
@@ -1306,17 +1399,20 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Models
 
             spec.SetAbilitiesRandomizer("set", 10, 10, 10, 10, 10, score, false);
 
-            var valid = spec.IsValid();
+            var (Valid, Error) = spec.IsValid();
 
-            Assert.That(valid.Valid, Is.False);
-            Assert.That(valid.Error, Is.EqualTo("SetCharisma is not valid. Should be SetCharisma > 0"));
-            Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
-            Assert.That(spec.SetStrength, Is.EqualTo(10));
-            Assert.That(spec.SetConstitution, Is.EqualTo(10));
-            Assert.That(spec.SetDexterity, Is.EqualTo(10));
-            Assert.That(spec.SetIntelligence, Is.EqualTo(10));
-            Assert.That(spec.SetWisdom, Is.EqualTo(10));
-            Assert.That(spec.SetCharisma, Is.EqualTo(score));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo("SetCharisma is not valid. Should be SetCharisma > 0"));
+                Assert.That(spec.AbilitiesRandomizerType, Is.EqualTo(RandomizerTypeConstants.Set));
+                Assert.That(spec.SetStrength, Is.EqualTo(10));
+                Assert.That(spec.SetConstitution, Is.EqualTo(10));
+                Assert.That(spec.SetDexterity, Is.EqualTo(10));
+                Assert.That(spec.SetIntelligence, Is.EqualTo(10));
+                Assert.That(spec.SetWisdom, Is.EqualTo(10));
+                Assert.That(spec.SetCharisma, Is.EqualTo(score));
+            }
         }
     }
 }

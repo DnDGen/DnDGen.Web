@@ -7,7 +7,13 @@
     "build": "ng build --configuration development",
     "build:ci": "ng build --configuration production",
     "test": "ng test --watch=false",
-    "test:ci": "ng test --watch=false --karma-config karma.conf.ci.js"
+    "test:ci": "ng test --watch=false --karma-config karma.conf.ci.js",
+    "test:cd:rollgen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/roll/**/*.spec.ts'",
+    "test:cd:treasuregen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/treasure/**/*.spec.ts'",
+    "test:cd:charactergen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/character/**/*.spec.ts'",
+    "test:cd:encountergen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/encounter/**/*.spec.ts'",
+    "test:cd:dungeongen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/dungeon/**/*.spec.ts'",
+    "test:cd:web": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/{roll,treasure,character,encounter,dungeon}/**/*.spec.ts'"
   },
   "private": true,
   "dependencies": {

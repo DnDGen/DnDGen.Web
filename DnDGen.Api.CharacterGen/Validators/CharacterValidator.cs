@@ -1,8 +1,9 @@
 ﻿using DnDGen.Api.CharacterGen.Models;
-using DnDGen.CharacterGen.Randomizers.Abilities;
-using DnDGen.CharacterGen.Randomizers.Alignments;
-using DnDGen.CharacterGen.Randomizers.CharacterClasses;
-using DnDGen.CharacterGen.Randomizers.Races;
+using DnDGen.CharacterGen.Abilities.Randomizers;
+using DnDGen.CharacterGen.Alignments.Randomizers;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.ClassNames;
+using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
+using DnDGen.CharacterGen.Races.Randomizers;
 using Microsoft.Azure.Functions.Worker.Http;
 
 namespace DnDGen.Api.CharacterGen.Validators
@@ -13,12 +14,12 @@ namespace DnDGen.Api.CharacterGen.Validators
         {
             var spec = new CharacterSpecifications();
 
-            var alignmentRandomizerType = request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Any;
-            var classNameRandomizerType = request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.AnyPlayer;
-            var levelRandomizerType = request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Any;
-            var baseRaceRandomizerType = request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.AnyBase;
-            var metaraceRandomizerType = request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.AnyMeta;
-            var abilitiesRandomizerType = request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Raw;
+            var alignmentRandomizerType = request.Query["alignmentRandomizerType"] ?? AlignmentRandomizerTypeConstants.Default;
+            var classNameRandomizerType = request.Query["classNameRandomizerType"] ?? ClassNameRandomizerTypeConstants.Default;
+            var levelRandomizerType = request.Query["levelRandomizerType"] ?? LevelRandomizerTypeConstants.Default;
+            var baseRaceRandomizerType = request.Query["baseRaceRandomizerType"] ?? RaceRandomizerTypeConstants.BaseRace.Default;
+            var metaraceRandomizerType = request.Query["metaraceRandomizerType"] ?? RaceRandomizerTypeConstants.Metarace.Default;
+            var abilitiesRandomizerType = request.Query["abilitiesRandomizerType"] ?? AbilitiesRandomizerTypeConstants.Default;
 
             var setAlignment = request.Query["setAlignment"] ?? string.Empty;
             var setClassName = request.Query["setClassName"] ?? string.Empty;

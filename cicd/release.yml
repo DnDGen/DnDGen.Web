@@ -64,7 +64,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:rollgen'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -143,7 +143,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:treasuregen'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -222,7 +222,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:charactergen'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -301,7 +301,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:encountergen'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -380,7 +380,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:dungeongen'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -459,7 +459,7 @@ jobs:
             command: custom
             workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
             verbose: true  
-            customCommand: 'run test:ci'
+            customCommand: 'run test:cd:web'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()

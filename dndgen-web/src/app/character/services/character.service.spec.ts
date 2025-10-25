@@ -193,7 +193,10 @@ describe('Character Service', () => {
                 expect(viewmodel.baseRaces.length).toBe(71);
                 expect(viewmodel.metaraceRandomizerTypes.length).toBe(6);
                 expect(viewmodel.metaraces.length).toBe(13);
-                expect(viewmodel.abilitiesRandomizerTypes.length).toBe(9);
+
+                //INFO: This allows us to bridge the deployment gap
+                // expect(viewmodel.abilitiesRandomizerTypes.length).toEqual(8);
+                expect([8, 9]).toContain(viewmodel.abilitiesRandomizerTypes.length);
             });
         }));
     
@@ -211,7 +214,7 @@ describe('Character Service', () => {
                     'Any Meta',
                     false,
                     '',
-                    'Raw',
+                    'Best of four',
                     0,
                     0,
                     0,
@@ -239,7 +242,7 @@ describe('Character Service', () => {
                     'Any Meta',
                     false,
                     '',
-                    'Raw',
+                    'Best of four',
                     0,
                     0,
                     0,
@@ -350,7 +353,7 @@ describe('Character Service', () => {
                     'Any Meta',
                     false,
                     '',
-                    'Raw',
+                    'Best of four',
                     0,
                     0,
                     0,
