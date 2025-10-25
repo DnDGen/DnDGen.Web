@@ -7,24 +7,25 @@ namespace DnDGen.Api.CreatureGen.Models
     public class CreatureSpecifications
     {
         public bool AsCharacter { get; set; }
-        public string? Creature { get; private set; }
+        public string? Creature { get; set; }
         public Filters? Filters { get; private set; }
 
-        private static readonly IEnumerable<string> AlignmentRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            AlignmentRandomizerTypeConstants.Any,
-            AlignmentRandomizerTypeConstants.Chaotic,
-            AlignmentRandomizerTypeConstants.Evil,
-            AlignmentRandomizerTypeConstants.Good,
-            AlignmentRandomizerTypeConstants.Lawful,
-            AlignmentRandomizerTypeConstants.Neutral,
-            AlignmentRandomizerTypeConstants.NonChaotic,
-            AlignmentRandomizerTypeConstants.NonEvil,
-            AlignmentRandomizerTypeConstants.NonGood,
-            AlignmentRandomizerTypeConstants.NonLawful,
-            AlignmentRandomizerTypeConstants.NonNeutral,
-        ];
+        public static readonly IEnumerable<string> CreatureTypes = [
+            CreatureConstants.Types.Aberration,
+            CreatureConstants.Types.Animal,
+            CreatureConstants.Types.Construct,
+            CreatureConstants.Types.Dragon,
+            CreatureConstants.Types.Elemental,
+            CreatureConstants.Types.Fey,
+            CreatureConstants.Types.Giant,
+            CreatureConstants.Types.Humanoid,
+            CreatureConstants.Types.MagicalBeast,
+            CreatureConstants.Types.MonstrousHumanoid,
+            CreatureConstants.Types.Ooze,
+            CreatureConstants.Types.Outsider,
+            CreatureConstants.Types.Plant,
+            CreatureConstants.Types.Undead,
+            CreatureConstants.Types.Vermin];
 
         private static readonly IEnumerable<string> Alignments =
         [
@@ -39,160 +40,65 @@ namespace DnDGen.Api.CreatureGen.Models
             AlignmentConstants.NeutralEvil,
         ];
 
-        private static readonly IEnumerable<string> ClassNameRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            ClassNameRandomizerTypeConstants.AnyNPC,
-            ClassNameRandomizerTypeConstants.AnyPlayer,
-            ClassNameRandomizerTypeConstants.ArcaneSpellcaster,
-            ClassNameRandomizerTypeConstants.DivineSpellcaster,
-            ClassNameRandomizerTypeConstants.NonSpellcaster,
-            ClassNameRandomizerTypeConstants.PhysicalCombat,
-            ClassNameRandomizerTypeConstants.Spellcaster,
-            ClassNameRandomizerTypeConstants.Stealth,
-        ];
-
-        private static readonly IEnumerable<string> ClassNames =
-        [
-            CharacterClassConstants.Adept,
-            CharacterClassConstants.Aristocrat,
-            CharacterClassConstants.Barbarian,
-            CharacterClassConstants.Bard,
-            CharacterClassConstants.Cleric,
-            CharacterClassConstants.Commoner,
-            CharacterClassConstants.Druid,
-            CharacterClassConstants.Expert,
-            CharacterClassConstants.Fighter,
-            CharacterClassConstants.Monk,
-            CharacterClassConstants.Paladin,
-            CharacterClassConstants.Ranger,
-            CharacterClassConstants.Rogue,
-            CharacterClassConstants.Sorcerer,
-            CharacterClassConstants.Warrior,
-            CharacterClassConstants.Wizard,
-        ];
-
-        private static readonly IEnumerable<string> LevelRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            LevelRandomizerTypeConstants.Any,
-            LevelRandomizerTypeConstants.High,
-            LevelRandomizerTypeConstants.Low,
-            LevelRandomizerTypeConstants.Medium,
-            LevelRandomizerTypeConstants.VeryHigh,
-        ];
-
-        private static readonly IEnumerable<string> BaseRaceRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            RaceRandomizerTypeConstants.BaseRace.AnyBase,
-            RaceRandomizerTypeConstants.BaseRace.AquaticBase,
-            RaceRandomizerTypeConstants.BaseRace.MonsterBase,
-            RaceRandomizerTypeConstants.BaseRace.NonMonsterBase,
-            RaceRandomizerTypeConstants.BaseRace.NonStandardBase,
-            RaceRandomizerTypeConstants.BaseRace.StandardBase,
-        ];
-
         private static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
 
-        private static readonly IEnumerable<string> MetaraceRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            RaceRandomizerTypeConstants.Metarace.AnyMeta,
-            RaceRandomizerTypeConstants.Metarace.GeneticMeta,
-            RaceRandomizerTypeConstants.Metarace.LycanthropeMeta,
-            RaceRandomizerTypeConstants.Metarace.NoMeta,
-            RaceRandomizerTypeConstants.Metarace.UndeadMeta,
-        ];
+        private static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
 
-        private static readonly IEnumerable<string> Metaraces =
-        [
-            RaceConstants.Metaraces.Ghost,
-            RaceConstants.Metaraces.HalfCelestial,
-            RaceConstants.Metaraces.HalfDragon,
-            RaceConstants.Metaraces.HalfFiend,
-            RaceConstants.Metaraces.Lich,
-            RaceConstants.Metaraces.None,
-            RaceConstants.Metaraces.Vampire,
-            RaceConstants.Metaraces.Werebear,
-            RaceConstants.Metaraces.Wereboar,
-            RaceConstants.Metaraces.Wereboar_Dire,
-            RaceConstants.Metaraces.Wererat,
-            RaceConstants.Metaraces.Weretiger,
-            RaceConstants.Metaraces.Werewolf,
-            RaceConstants.Metaraces.Werewolf_Dire,
-        ];
+        private static readonly IEnumerable<string> ChallengeRatings = ChallengeRatingConstants.GetOrdered();
 
-        public const string InvalidMetarace = "Invalid Metarace";
-
-        private static readonly IEnumerable<string> AbilitiesRandomizers =
-        [
-            RandomizerTypeConstants.Set,
-            AbilitiesRandomizerTypeConstants.Average,
-            AbilitiesRandomizerTypeConstants.BestOfFour,
-            AbilitiesRandomizerTypeConstants.Good,
-            AbilitiesRandomizerTypeConstants.Heroic,
-            AbilitiesRandomizerTypeConstants.OnesAsSixes,
-            AbilitiesRandomizerTypeConstants.Poor,
-            AbilitiesRandomizerTypeConstants.Raw,
-            AbilitiesRandomizerTypeConstants.TwoTenSidedDice,
-        ];
+        private const string badValue = "BADVALUE";
 
         public void SetCreature(string? creature)
         {
-            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
+            if (creature is null)
+                return;
+
+            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
         public void SetAlignmentFilter(string? alignment)
         {
+            if (alignment is null)
+                return;
+
             Filters ??= new();
-            Filters.Alignment = Alignments.FirstOrDefault(a => a.Equals(alignment, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
+            Filters.Alignment = Alignments.FirstOrDefault(a => a.Equals(alignment, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        public void SetClassNameRandomizer(string randomizerType, string setValue)
+        internal void SetTypeFilter(string? creatureType)
         {
-            ClassNameRandomizerType = ClassNameRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            SetClassName = ClassNames.FirstOrDefault(a => a.Equals(setValue, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
+            if (creatureType is null)
+                return;
+
+            Filters ??= new();
+            Filters.Type = CreatureTypes.FirstOrDefault(a => a.Equals(creatureType, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        public void SetLevelRandomizer(string randomizerType, int setValue)
+        internal void SetChallengeRatingFilter(string? challengeRating)
         {
-            LevelRandomizerType = LevelRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            SetLevel = setValue;
+            if (challengeRating is null)
+                return;
+
+            Filters ??= new();
+            Filters.ChallengeRating = ChallengeRatings.FirstOrDefault(a => a.Equals(challengeRating, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        public void SetBaseRaceRandomizer(string randomizerType, string setValue)
+        internal void SetTemplatesFilter(string[] templates)
         {
-            BaseRaceRandomizerType = BaseRaceRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            SetBaseRace = BaseRaces.FirstOrDefault(a => a.Equals(setValue, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-        }
+            if (templates.Length == 0)
+                return;
 
-        public void SetMetaraceRandomizer(string randomizerType, string setValue, bool forceMetarace)
-        {
-            MetaraceRandomizerType = MetaraceRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            //HACK: Can't use string.Empty, as that is the "None" metarace
-            SetMetarace = Metaraces.FirstOrDefault(a => a.Equals(setValue, StringComparison.CurrentCultureIgnoreCase)) ?? InvalidMetarace;
-            ForceMetarace = forceMetarace;
-        }
+            Filters ??= new();
+            Filters.Templates = [];
 
-        public void SetAbilitiesRandomizer(
-            string randomizerType,
-            int setStrengthValue,
-            int setConstitutionValue,
-            int setDexterityValue,
-            int setIntelligenceValue,
-            int setWisdomValue,
-            int setCharismaValue,
-            bool allowAbilityAdjustments)
-        {
-            AbilitiesRandomizerType = AbilitiesRandomizers.FirstOrDefault(r => r.Equals(randomizerType, StringComparison.CurrentCultureIgnoreCase)) ?? string.Empty;
-            SetStrength = setStrengthValue;
-            SetConstitution = setConstitutionValue;
-            SetDexterity = setDexterityValue;
-            SetIntelligence = setIntelligenceValue;
-            SetWisdom = setWisdomValue;
-            SetCharisma = setCharismaValue;
-            AllowAbilityAdjustments = allowAbilityAdjustments;
+            foreach (var template in templates)
+            {
+                var validTemplate = Templates.FirstOrDefault(t => t.Equals(template, StringComparison.CurrentCultureIgnoreCase));
+                if (validTemplate is null)
+                    Filters.Templates.Add(badValue);
+                else
+                    Filters.Templates.Add(validTemplate);
+            }
         }
 
         public (bool Valid, string Error) IsValid()
@@ -285,21 +191,6 @@ namespace DnDGen.Api.CreatureGen.Models
             }
 
             return (valid, string.Empty);
-        }
-
-        internal void SetTypeFilter(string? creatureType)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void SetChallengeRatingFilter(string? challengeRating)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void SetTemplatesFilter(string? templates)
-        {
-            throw new NotImplementedException();
         }
     }
 }

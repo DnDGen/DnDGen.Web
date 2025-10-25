@@ -5,23 +5,22 @@ namespace DnDGen.Api.CreatureGen.Validators
 {
     public static class CreatureValidator
     {
-        public static (bool Valid, string Error, CreatureSpecifications CharacterSpecifications) GetValid(HttpRequestData request)
+        public static (bool Valid, string Error, CreatureSpecifications CharacterSpecifications) GetValid(string creatureName, HttpRequestData request)
         {
             var spec = new CreatureSpecifications();
 
             var validAsCharacter = bool.TryParse(request.Query["asCharacter"], out var asCharacter);
-            var creature = request.Query["creature"];
             var alignment = request.Query["alignment"];
             var creatureType = request.Query["creatureType"];
             var challengeRating = request.Query["challengeRating"];
-            var templates = request.Query["template"];
+            var templates = request.Query.GetValues("templates") ?? [];
 
             if (!validAsCharacter)
                 asCharacter = false;
 
             spec.AsCharacter = asCharacter;
 
-            spec.SetCreature(creature);
+            spec.SetCreature(creatureName);
             spec.SetAlignmentFilter(alignment);
             spec.SetTypeFilter(creatureType);
             spec.SetChallengeRatingFilter(challengeRating);
