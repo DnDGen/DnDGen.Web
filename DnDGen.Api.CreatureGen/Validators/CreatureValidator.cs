@@ -5,7 +5,7 @@ namespace DnDGen.Api.CreatureGen.Validators
 {
     public static class CreatureValidator
     {
-        public static (bool Valid, string Error, CreatureSpecifications CharacterSpecifications) GetValid(string creatureName, HttpRequestData request)
+        public static (bool Valid, string Error, CreatureSpecifications CreatureSpecifications) GetValid(string creatureName, HttpRequestData request)
         {
             var spec = new CreatureSpecifications();
 

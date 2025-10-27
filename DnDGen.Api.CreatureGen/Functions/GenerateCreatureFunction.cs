@@ -32,11 +32,26 @@ namespace DnDGen.Api.CreatureGen.Functions
             Required = false,
             Type = typeof(bool),
             Description = "Whether to generate the creature as the basis for a character. Defaults to false")]
+        [OpenApiParameter(name: "alignment",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
+            Description = "The desired alignment for the creature")]
+        [OpenApiParameter(name: "creatureType",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
+            Description = "The desired type for the generated creature")]
+        [OpenApiParameter(name: "challengeRating",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string),
+            Description = "The desired challenge rating for the generated creature")]
         [OpenApiParameter(name: "templates",
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string[]),
-            Description = "The templates to apply to the creature. Templates are applied in the order provided.")]
+            Description = "The desired templates to apply to the generated creature. Templates are applied in order set in query.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Creature),
             Description = "The generated creature")]
         public async Task<HttpResponseData> RunV1(
@@ -45,7 +60,7 @@ namespace DnDGen.Api.CreatureGen.Functions
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
 
-            var (Valid, Error, CharacterSpecifications) = CreatureValidator.GetValid(req);
+            var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(creatureName, req);
             if (!Valid)
             {
                 _logger.LogError($"Parameters are not a valid combination. Error: {Error}");
@@ -55,7 +70,7 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var compatible = _creatureVerifier.VerifyCompatibility(CharacterSpecifications.AsCharacter, CharacterSpecifications.Creature, CharacterSpecifications.Filters);
+            var compatible = _creatureVerifier.VerifyCompatibility(CreatureSpecifications.AsCharacter, CreatureSpecifications.Creature, CreatureSpecifications.Filters);
             _logger.LogInformation($"Compatible Creature = {compatible}");
 
             if (!compatible)
@@ -66,8 +81,8 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var templates = CharacterSpecifications.Filters?.Templates.ToArray() ?? [];
-            var creature = _creatureGenerator.GenerateAsync(CharacterSpecifications.AsCharacter, creatureName, templates: templates);
+            var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
+            var creature = _creatureGenerator.GenerateAsync(CreatureSpecifications.AsCharacter, creatureName, templates: templates);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteDnDGenModelAsJsonAsync(creature);
