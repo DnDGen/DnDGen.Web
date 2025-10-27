@@ -82,6 +82,11 @@ namespace DnDGen.Api.CreatureGen.Functions
             }
 
             var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
+
+            // ??? - Should I handle ability generation? If the API allows `asCharacter`, then I think so.
+            // But if you're generating the basis for a character, why not just use the character generator?
+            // But even if not a character
+
             var creature = _creatureGenerator.GenerateAsync(CreatureSpecifications.AsCharacter, creatureName, templates: templates);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
