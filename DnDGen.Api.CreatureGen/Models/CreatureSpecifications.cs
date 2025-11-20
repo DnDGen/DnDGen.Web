@@ -50,7 +50,7 @@ namespace DnDGen.Api.CreatureGen.Models
             Filters.Alignment = Alignments.FirstOrDefault(a => a.Equals(alignment, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        internal void SetTypeFilter(string? creatureType)
+        public void SetTypeFilter(string? creatureType)
         {
             if (creatureType is null)
                 return;
@@ -59,7 +59,7 @@ namespace DnDGen.Api.CreatureGen.Models
             Filters.Type = CreatureTypes.FirstOrDefault(a => a.Equals(creatureType, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        internal void SetChallengeRatingFilter(string? challengeRating)
+        public void SetChallengeRatingFilter(string? challengeRating)
         {
             if (challengeRating is null)
                 return;
@@ -68,7 +68,7 @@ namespace DnDGen.Api.CreatureGen.Models
             Filters.ChallengeRating = ChallengeRatings.FirstOrDefault(a => a.Equals(challengeRating, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        internal void SetTemplatesFilter(string[] templates)
+        public void SetTemplatesFilter(string[] templates)
         {
             if (templates.Length == 0)
                 return;

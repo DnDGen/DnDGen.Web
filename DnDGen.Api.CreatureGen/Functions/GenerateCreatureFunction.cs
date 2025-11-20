@@ -85,7 +85,10 @@ namespace DnDGen.Api.CreatureGen.Functions
 
             // ??? - Should I handle ability generation? If the API allows `asCharacter`, then I think so.
             // But if you're generating the basis for a character, why not just use the character generator?
-            // But even if not a character
+            // But even if not a character, you might want to have specific abilities for certain creatures.
+            // But ALSO also, altering abilities for a creature advances them and changes their CR,
+            // and creaturegen doesn't adjust the CR based on the abilities just yet.
+            // So, won't support for now
 
             var creature = _creatureGenerator.GenerateAsync(CreatureSpecifications.AsCharacter, creatureName, templates: templates);
 
