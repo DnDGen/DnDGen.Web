@@ -34,6 +34,10 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase(CreatureConstants.MindFlayer, CreatureConstants.MindFlayer)]
         [TestCase("mind flayer (illithid)", CreatureConstants.MindFlayer)]
         [TestCase("MIND FLAYER (ILLITHID)", CreatureConstants.MindFlayer)]
+        [TestCase("mind flayer", CreatureConstants.MindFlayer)]
+        [TestCase("illithid", CreatureConstants.MindFlayer)]
+        [TestCase("barbed devil", CreatureConstants.BarbedDevil_Hamatula)]
+        [TestCase("hamatula", CreatureConstants.BarbedDevil_Hamatula)]
         [TestCase(CreatureConstants.Templates.Lich, "BADVALUE")]
         [TestCase("lich", "BADVALUE")]
         [TestCase("LICH", "BADVALUE")]
@@ -149,6 +153,37 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 creatureSpecifications.SetTypeFilter(creatureType);
                 Assert.That(creatureSpecifications.Filters, Is.Not.Null, creatureType);
                 Assert.That(creatureSpecifications.Filters.Type, Is.EqualTo(creatureType), creatureType);
+            }
+        }
+
+        [TestCase(ChallengeRatingConstants.CR1, ChallengeRatingConstants.CR1)]
+        [TestCase(ChallengeRatingConstants.CR1_2nd, ChallengeRatingConstants.CR1_2nd)]
+        [TestCase("-1", "BADVALUE")]
+        [TestCase("30", "BADVALUE")]
+        [TestCase("1/5", "BADVALUE")]
+        [TestCase("2/3", "BADVALUE")]
+        [TestCase("0.5", "BADVALUE")]
+        [TestCase("Invalid", "BADVALUE")]
+        [TestCase("invalid", "BADVALUE")]
+        [TestCase("INVALID", "BADVALUE")]
+        [TestCase("", "BADVALUE")]
+        [TestCase(null, null)]
+        public void SetChallengeRatingFilter_SetsCROnFilters(string? input, string? expected)
+        {
+            creatureSpecifications.SetChallengeRatingFilter(input);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            Assert.That(creatureSpecifications.Filters.ChallengeRating, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void SetChallengeRatingFilter_AllCRsAreValid()
+        {
+            var crs = ChallengeRatingConstants.GetOrdered();
+            foreach (var cr in crs)
+            {
+                creatureSpecifications.SetChallengeRatingFilter(cr);
+                Assert.That(creatureSpecifications.Filters, Is.Not.Null, cr);
+                Assert.That(creatureSpecifications.Filters.ChallengeRating, Is.EqualTo(cr), cr);
             }
         }
 
