@@ -11,6 +11,10 @@ namespace DnDGen.Api.CreatureGen.Models
         public Filters? Filters { get; private set; }
 
         private static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
+        private static readonly Dictionary<string, string> PartialCreatures = CreatureConstants.GetAll()
+            .Where(c => c.Contains('('))
+            .SelectMany(c => c.Split('(').Select(x => (x.Trim().Trim(')'), c)))
+            .ToDictionary(g => g.Item1, g => g.c);
 
         private static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
 
@@ -38,7 +42,8 @@ namespace DnDGen.Api.CreatureGen.Models
             if (creature is null)
                 return;
 
-            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
+            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase))
+                ?? PartialCreatures.GetValueOrDefault(creature, badValue);
         }
 
         public void SetAlignmentFilter(string? alignment)

@@ -187,171 +187,250 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             }
         }
 
+        [TestCase(CreatureConstants.Templates.None, CreatureConstants.Templates.None)]
+        [TestCase("none", CreatureConstants.Templates.None)]
+        [TestCase("NONE", CreatureConstants.Templates.None)]
+        [TestCase(CreatureConstants.Templates.Ghost, CreatureConstants.Templates.Ghost)]
+        [TestCase("ghost", CreatureConstants.Templates.Ghost)]
+        [TestCase("GHOST", CreatureConstants.Templates.Ghost)]
+        [TestCase(CreatureConstants.Templates.FiendishCreature, CreatureConstants.Templates.FiendishCreature)]
+        [TestCase("fiendish creature", CreatureConstants.Templates.FiendishCreature)]
+        [TestCase("FIENDISH CREATURE", CreatureConstants.Templates.FiendishCreature)]
+        [TestCase(CreatureConstants.Templates.HalfDragon_Black, CreatureConstants.Templates.HalfDragon_Black)]
+        [TestCase("half-dragon (black)", CreatureConstants.Templates.HalfDragon_Black)]
+        [TestCase("HALF-DRAGON (BLACK)", CreatureConstants.Templates.HalfDragon_Black)]
+        [TestCase(CreatureConstants.Templates.Lycanthrope_Wolf_Natural, CreatureConstants.Templates.Lycanthrope_Wolf_Natural)]
+        [TestCase("lycanthrope, wolf (werewolf, natural)", CreatureConstants.Templates.Lycanthrope_Wolf_Natural)]
+        [TestCase("LYCANTHROPE, WOLF (WEREWOLF, NATURAL)", CreatureConstants.Templates.Lycanthrope_Wolf_Natural)]
+        [TestCase("half-dragon", "BADVALUE")]
+        [TestCase("black", "BADVALUE")]
+        [TestCase(CreatureConstants.Goblin, "BADVALUE")]
+        [TestCase("goblin", "BADVALUE")]
+        [TestCase("GOBLIN", "BADVALUE")]
+        [TestCase("Invalid", "BADVALUE")]
+        [TestCase("invalid", "BADVALUE")]
+        [TestCase("INVALID", "BADVALUE")]
+        [TestCase("", "BADVALUE")]
+        [TestCase(null, "BADVALUE")]
+        public void SetTemplatesFilter_SetsTemplatesOnFilters(string? input, string? expected)
+        {
+            creatureSpecifications.SetTemplatesFilter([input]);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            Assert.That(creatureSpecifications.Filters.Type, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void SetTemplatesFilter_EmptyTemplatesAreNull()
+        {
+            creatureSpecifications.SetTemplatesFilter([]);
+            Assert.That(creatureSpecifications.Filters, Is.Null);
+        }
+
+        [Test]
+        public void SetTemplatesFilter_AllTemplatesAreValid()
+        {
+            var allTemplates = CreatureConstants.Templates.GetAll();
+            foreach (var template in allTemplates)
+            {
+                creatureSpecifications.SetTemplatesFilter([template]);
+                Assert.That(creatureSpecifications.Filters, Is.Not.Null, template);
+                Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo(new[] { template }), template);
+            }
+        }
+
+        [Test]
+        public void SetTemplatesFilter_MultipleTemplatesAreValid()
+        {
+            creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold]);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo(new[] { CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold }));
+        }
+
         [Test]
         public void SpecificationsAreValid()
         {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
+            creatureSpecifications.Creature = "my creature";
 
-            Assert.That(creatureSpecifications.IsValid(), Is.True);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfEnvironmentMissing()
-        {
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfTemperatureMissing()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.TimeOfDay = "time of day";
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfTimeOfDayMissing()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfCreatureFiltersAreNull()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
-            creatureSpecifications.CreatureTypeFilters = null;
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfLevelIsLessThanMinimumLevel()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = EncounterSpecifications.MinimumLevel - 1;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreInvalidIfLevelIsMoreThanMaximumLevel()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = EncounterSpecifications.MaximumLevel + 1;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
-
-            Assert.That(creatureSpecifications.IsValid(), Is.False);
-        }
-
-        [Test]
-        public void SpecificationsAreValidIfLevelIsBetweenMinAndMax()
-        {
-            for (var level = EncounterSpecifications.MinimumLevel; level <= EncounterSpecifications.MaximumLevel; level++)
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
             {
-                creatureSpecifications.Environment = "environment";
-                creatureSpecifications.Level = level;
-                creatureSpecifications.Temperature = "temperature";
-                creatureSpecifications.TimeOfDay = "time of day";
-
-                Assert.That(creatureSpecifications.IsValid(), Is.True, level.ToString());
-            }
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
         }
 
         [Test]
-        public void SpecificationsHaveDescription()
+        public void SpecificationsAreInvalid_CreatureIsBad()
         {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
+            creatureSpecifications.Creature = "BADVALUE";
 
-            Assert.That(creatureSpecifications.Description, Is.EqualTo("Level 15 temperature environment time of day"));
-        }
-
-        [Test]
-        public void SpecificationsHaveFullDescription()
-        {
-            creatureSpecifications.Environment = "environment";
-            creatureSpecifications.Level = 15;
-            creatureSpecifications.Temperature = "temperature";
-            creatureSpecifications.TimeOfDay = "time of day";
-            creatureSpecifications.AllowAquatic = true;
-            creatureSpecifications.AllowUnderground = true;
-            creatureSpecifications.CreatureTypeFilters = new[] { "filter 1", "filter 2" };
-
-            Assert.That(creatureSpecifications.Description, Is.EqualTo("Level 15 temperature environment time of day, allowing aquatic, allowing underground, allowing [filter 1, filter 2]"));
-        }
-
-        [Test]
-        public void LevelIsInvalidIfLevelIsLessThanMinimumLevel()
-        {
-            Assert.That(EncounterSpecifications.LevelIsValid(EncounterSpecifications.MinimumLevel - 1), Is.False);
-        }
-
-        [Test]
-        public void LevelIsInvalidIfLevelIsMoreThanMaximumLevel()
-        {
-            Assert.That(EncounterSpecifications.LevelIsValid(EncounterSpecifications.MaximumLevel + 1), Is.False);
-        }
-
-        [Test]
-        public void LevelIsValidIfLevelIsBetweenMinAndMax()
-        {
-            for (var level = EncounterSpecifications.MinimumLevel; level <= EncounterSpecifications.MaximumLevel; level++)
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
             {
-                Assert.That(EncounterSpecifications.LevelIsValid(level), Is.True, level.ToString());
-            }
+                var creatures = CreatureConstants.GetAll();
+
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"Creature is not valid. Should be one of: [{string.Join(", ", creatures)}]"));
+            });
         }
 
         [Test]
-        public void CloneSpecifications()
+        public void SpecificationsAreValid_WithOneTemplate()
         {
-            creatureSpecifications.AllowAquatic = Convert.ToBoolean(random.Next(2));
-            creatureSpecifications.AllowUnderground = Convert.ToBoolean(random.Next(2));
-            creatureSpecifications.CreatureTypeFilters = new[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
-            creatureSpecifications.Environment = Guid.NewGuid().ToString();
-            creatureSpecifications.Level = random.Next();
-            creatureSpecifications.Temperature = Guid.NewGuid().ToString();
-            creatureSpecifications.TimeOfDay = Guid.NewGuid().ToString();
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.Ghost]);
 
-            var clone = creatureSpecifications.Clone();
-            Assert.That(clone, Is.Not.EqualTo(creatureSpecifications));
-            Assert.That(clone.AllowAquatic, Is.EqualTo(creatureSpecifications.AllowAquatic));
-            Assert.That(clone.AllowUnderground, Is.EqualTo(creatureSpecifications.AllowUnderground));
-            Assert.That(clone.Environment, Is.EqualTo(creatureSpecifications.Environment));
-            Assert.That(clone.Level, Is.EqualTo(creatureSpecifications.Level));
-            Assert.That(clone.Temperature, Is.EqualTo(creatureSpecifications.Temperature));
-            Assert.That(clone.TimeOfDay, Is.EqualTo(creatureSpecifications.TimeOfDay));
-            Assert.That(clone.CreatureTypeFilters, Is.EquivalentTo(creatureSpecifications.CreatureTypeFilters));
-            Assert.That(clone.CreatureTypeFilters, Is.Not.SameAs(creatureSpecifications.CreatureTypeFilters));
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
         }
 
         [Test]
-        public void SpecificEnvironmentIsTemperatureAndEnvironment()
+        public void SpecificationsAreValid_WithTwoTemplates()
         {
-            creatureSpecifications.Temperature = "temp";
-            creatureSpecifications.Environment = "environment";
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.HalfDragon_Bronze, CreatureConstants.Templates.Ghost]);
 
-            Assert.That(creatureSpecifications.SpecificEnvironment, Is.EqualTo("tempenvironment"));
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreValid_WithNoneTemplate()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.None]);
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreInvalid_TemplateIsBad()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.Ghost, "bad template"]);
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                var templates = CreatureConstants.Templates.GetAll();
+
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be one of: [{string.Join(", ", templates)}]"));
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreValid_WithAlignment()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetAlignmentFilter(AlignmentConstants.LawfulGood);
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreInvalid_AlignmentIsBad()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetAlignmentFilter("chaotic lawful");
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                var alignments = new[]
+                {
+                    AlignmentConstants.LawfulGood,
+                    AlignmentConstants.LawfulNeutral,
+                    AlignmentConstants.LawfulEvil,
+                    AlignmentConstants.ChaoticGood,
+                    AlignmentConstants.ChaoticNeutral,
+                    AlignmentConstants.ChaoticEvil,
+                    AlignmentConstants.NeutralGood,
+                    AlignmentConstants.TrueNeutral,
+                    AlignmentConstants.NeutralEvil,
+                };
+
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"Alignment filter is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreValid_WithChallengeRating()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetChallengeRatingFilter(ChallengeRatingConstants.CR11);
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreInvalid_ChallengeRatingIsBad()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetChallengeRatingFilter("666");
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                var crs = ChallengeRatingConstants.GetOrdered();
+
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", crs)}]"));
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreValid_WithCreatureType()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTypeFilter(CreatureConstants.Types.Aberration);
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                Assert.That(Valid, Is.True);
+                Assert.That(Error, Is.Empty);
+            });
+        }
+
+        [Test]
+        public void SpecificationsAreInvalid_CreatureTypeIsBad()
+        {
+            creatureSpecifications.Creature = "my creature";
+            creatureSpecifications.SetTypeFilter("extraterrestrial");
+
+            var (Valid, Error) = creatureSpecifications.IsValid();
+            Assert.Multiple(() =>
+            {
+                var types = CreatureConstants.Types.GetAll().Concat(CreatureConstants.Types.Subtypes.GetAll());
+
+                Assert.That(Valid, Is.False);
+                Assert.That(Error, Is.EqualTo($"Creature Type filter is not valid. Should be one of: [{string.Join(", ", types)}]"));
+            });
         }
     }
 }
