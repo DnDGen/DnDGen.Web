@@ -59,14 +59,17 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var expectedCreature = new Creature { Name = "My creature name" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateAsync(false, creatureName, null, It.IsAny<string[]>()))
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
 
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.Body, Is.Not.Null);
+            }
 
             var creature = StreamHelper.Read<Creature>(response.Body);
             Assert.That(creature.Name, Is.EqualTo(expectedCreature.Name));

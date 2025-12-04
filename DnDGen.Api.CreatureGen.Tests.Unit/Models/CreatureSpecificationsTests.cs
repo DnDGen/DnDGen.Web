@@ -8,24 +8,68 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
     public class CreatureSpecificationsTests
     {
         private CreatureSpecifications creatureSpecifications;
-        private Random random;
 
         [SetUp]
         public void Setup()
         {
             creatureSpecifications = new CreatureSpecifications();
-            random = new Random();
         }
 
         [Test]
         public void CreatureSpecificationsInitialized()
         {
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(creatureSpecifications.AsCharacter, Is.False);
                 Assert.That(creatureSpecifications.Creature, Is.Null);
                 Assert.That(creatureSpecifications.Filters, Is.Null);
-            });
+            }
+        }
+
+        [Test]
+        public void CreatureSpecification_AllCreatures()
+        {
+            var allCreatures = CreatureConstants.GetAll();
+            Assert.That(CreatureSpecifications.Creatures, Is.EquivalentTo(allCreatures));
+        }
+
+        [Test]
+        public void CreatureSpecification_AllTemplates()
+        {
+            var allTemplates = CreatureConstants.Templates.GetAll();
+            Assert.That(CreatureSpecifications.Templates, Is.EquivalentTo(allTemplates));
+        }
+
+        [Test]
+        public void CreatureSpecification_AllChallengeRatings()
+        {
+            var allCrs = ChallengeRatingConstants.GetOrdered();
+            Assert.That(CreatureSpecifications.ChallengeRatings, Is.EquivalentTo(allCrs));
+        }
+
+        [Test]
+        public void CreatureSpecification_AllCreatureTypes()
+        {
+            var allTypes = CreatureConstants.Types.GetAll();
+            var allSubtypes = CreatureConstants.Types.Subtypes.GetAll();
+            Assert.That(CreatureSpecifications.CreatureTypes, Is.EquivalentTo(allTypes.Concat(allSubtypes)));
+        }
+
+        [Test]
+        public void CreatureSpecification_AllAlignments()
+        {
+            Assert.That(CreatureSpecifications.Alignments, Is.EquivalentTo(
+                [
+                    AlignmentConstants.LawfulGood,
+                    AlignmentConstants.LawfulNeutral,
+                    AlignmentConstants.LawfulEvil,
+                    AlignmentConstants.ChaoticGood,
+                    AlignmentConstants.ChaoticNeutral,
+                    AlignmentConstants.ChaoticEvil,
+                    AlignmentConstants.NeutralGood,
+                    AlignmentConstants.TrueNeutral,
+                    AlignmentConstants.NeutralEvil,
+                ]));
         }
 
         [TestCase(CreatureConstants.Human, CreatureConstants.Human)]
@@ -34,10 +78,12 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase(CreatureConstants.MindFlayer, CreatureConstants.MindFlayer)]
         [TestCase("mind flayer (illithid)", CreatureConstants.MindFlayer)]
         [TestCase("MIND FLAYER (ILLITHID)", CreatureConstants.MindFlayer)]
-        [TestCase("mind flayer", CreatureConstants.MindFlayer)]
-        [TestCase("illithid", CreatureConstants.MindFlayer)]
-        [TestCase("barbed devil", CreatureConstants.BarbedDevil_Hamatula)]
-        [TestCase("hamatula", CreatureConstants.BarbedDevil_Hamatula)]
+        [TestCase("mind flayer", "BADVALUE")]
+        [TestCase("illithid", "BADVALUE")]
+        [TestCase(CreatureConstants.BarbedDevil_Hamatula, CreatureConstants.BarbedDevil_Hamatula)]
+        [TestCase("barbed devil (hamatula)", CreatureConstants.BarbedDevil_Hamatula)]
+        [TestCase("barbed devil", "BADVALUE")]
+        [TestCase("hamatula", "BADVALUE")]
         [TestCase(CreatureConstants.Templates.Lich, "BADVALUE")]
         [TestCase("lich", "BADVALUE")]
         [TestCase("LICH", "BADVALUE")]
@@ -97,12 +143,31 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase("invalid", "BADVALUE")]
         [TestCase("INVALID", "BADVALUE")]
         [TestCase("", "BADVALUE")]
-        [TestCase(null, null)]
         public void SetAlignmentFilter_SetsAlignmentOnFilters(string? input, string? expected)
         {
             creatureSpecifications.SetAlignmentFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
             Assert.That(creatureSpecifications.Filters.Alignment, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void SetAlignmentFilter_SetsNullAlignmentOnFilters()
+        {
+            creatureSpecifications.SetAlignmentFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Null);
+        }
+
+        [Test]
+        public void SetAlignmentFilter_SetsNullAlignmentOnFilters_WithExistingFilters()
+        {
+            creatureSpecifications.SetTypeFilter("humanoid");
+            creatureSpecifications.SetAlignmentFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(creatureSpecifications.Filters.Type, Is.EqualTo(CreatureConstants.Types.Humanoid));
+                Assert.That(creatureSpecifications.Filters.Alignment, Is.Null);
+            }
         }
 
         [TestCase(CreatureConstants.Types.Humanoid, CreatureConstants.Types.Humanoid)]
@@ -124,12 +189,31 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase("invalid", "BADVALUE")]
         [TestCase("INVALID", "BADVALUE")]
         [TestCase("", "BADVALUE")]
-        [TestCase(null, null)]
         public void SetTypeFilter_SetsTypeOnFilters(string? input, string? expected)
         {
             creatureSpecifications.SetTypeFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
             Assert.That(creatureSpecifications.Filters.Type, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void SetTypeFilter_SetsNullTypeOnFilters()
+        {
+            creatureSpecifications.SetTypeFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Null);
+        }
+
+        [Test]
+        public void SetTypeFilter_SetsNullTypeOnFilters_WithExistingFilters()
+        {
+            creatureSpecifications.SetAlignmentFilter("chaotic good");
+            creatureSpecifications.SetTypeFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(creatureSpecifications.Filters.Alignment, Is.EqualTo(AlignmentConstants.ChaoticGood));
+                Assert.That(creatureSpecifications.Filters.Type, Is.Null);
+            }
         }
 
         [Test]
@@ -167,12 +251,28 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase("invalid", "BADVALUE")]
         [TestCase("INVALID", "BADVALUE")]
         [TestCase("", "BADVALUE")]
-        [TestCase(null, null)]
         public void SetChallengeRatingFilter_SetsCROnFilters(string? input, string? expected)
         {
             creatureSpecifications.SetChallengeRatingFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
             Assert.That(creatureSpecifications.Filters.ChallengeRating, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void SetChallengeRatingFilter_SetsNullCROnFilters()
+        {
+            creatureSpecifications.SetChallengeRatingFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Null);
+        }
+
+        [Test]
+        public void SetChallengeRatingFilter_SetsNullCROnFilters_WithExistingFilters()
+        {
+            creatureSpecifications.SetAlignmentFilter("true neutral");
+            creatureSpecifications.SetChallengeRatingFilter(null);
+            Assert.That(creatureSpecifications.Filters, Is.Not.Null);
+            Assert.That(creatureSpecifications.Filters.Alignment, Is.EqualTo(AlignmentConstants.TrueNeutral));
+            Assert.That(creatureSpecifications.Filters.ChallengeRating, Is.Null);
         }
 
         [Test]
@@ -216,7 +316,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetTemplatesFilter([input]);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.Type, Is.EqualTo(expected));
+            Assert.That(creatureSpecifications.Filters.Templates, Is.EqualTo([expected]));
         }
 
         [Test]
@@ -234,7 +334,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             {
                 creatureSpecifications.SetTemplatesFilter([template]);
                 Assert.That(creatureSpecifications.Filters, Is.Not.Null, template);
-                Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo(new[] { template }), template);
+                Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo([template]), template);
             }
         }
 
@@ -243,7 +343,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold]);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo(new[] { CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold }));
+            Assert.That(creatureSpecifications.Filters.Templates, Is.EquivalentTo([CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold]));
         }
 
         [Test]
@@ -252,11 +352,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.Creature = "my creature";
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -265,13 +365,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.Creature = "BADVALUE";
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 var creatures = CreatureConstants.GetAll();
 
                 Assert.That(Valid, Is.False);
                 Assert.That(Error, Is.EqualTo($"Creature is not valid. Should be one of: [{string.Join(", ", creatures)}]"));
-            });
+            }
         }
 
         [Test]
@@ -281,11 +381,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.Ghost]);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -295,11 +395,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.HalfDragon_Bronze, CreatureConstants.Templates.Ghost]);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -309,11 +409,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.None]);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -323,13 +423,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.Ghost, "bad template"]);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 var templates = CreatureConstants.Templates.GetAll();
 
                 Assert.That(Valid, Is.False);
                 Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be one of: [{string.Join(", ", templates)}]"));
-            });
+            }
         }
 
         [Test]
@@ -339,11 +439,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetAlignmentFilter(AlignmentConstants.LawfulGood);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -353,7 +453,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetAlignmentFilter("chaotic lawful");
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 var alignments = new[]
                 {
@@ -370,7 +470,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
 
                 Assert.That(Valid, Is.False);
                 Assert.That(Error, Is.EqualTo($"Alignment filter is not valid. Should be one of: [{string.Join(", ", alignments)}]"));
-            });
+            }
         }
 
         [Test]
@@ -380,11 +480,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetChallengeRatingFilter(ChallengeRatingConstants.CR11);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -394,13 +494,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetChallengeRatingFilter("666");
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 var crs = ChallengeRatingConstants.GetOrdered();
 
                 Assert.That(Valid, Is.False);
                 Assert.That(Error, Is.EqualTo($"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", crs)}]"));
-            });
+            }
         }
 
         [Test]
@@ -410,11 +510,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTypeFilter(CreatureConstants.Types.Aberration);
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.True);
                 Assert.That(Error, Is.Empty);
-            });
+            }
         }
 
         [Test]
@@ -424,13 +524,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetTypeFilter("extraterrestrial");
 
             var (Valid, Error) = creatureSpecifications.IsValid();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 var types = CreatureConstants.Types.GetAll().Concat(CreatureConstants.Types.Subtypes.GetAll());
 
                 Assert.That(Valid, Is.False);
                 Assert.That(Error, Is.EqualTo($"Creature Type filter is not valid. Should be one of: [{string.Join(", ", types)}]"));
-            });
+            }
         }
     }
 }

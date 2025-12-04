@@ -10,20 +10,16 @@ namespace DnDGen.Api.CreatureGen.Models
         public string? Creature { get; set; }
         public Filters? Filters { get; private set; }
 
-        private static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
-        private static readonly Dictionary<string, string> PartialCreatures = CreatureConstants.GetAll()
-            .Where(c => c.Contains('('))
-            .SelectMany(c => c.Split('(').Select(x => (x.Trim().Trim(')'), c)))
-            .GroupBy(g => g.Item1)
-            .ToDictionary(g => g.Key, g => g.First().c);
+        public static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
 
-        private static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
+        public static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
 
-        private static readonly IEnumerable<string> ChallengeRatings = ChallengeRatingConstants.GetOrdered();
+        public static readonly IEnumerable<string> ChallengeRatings = ChallengeRatingConstants.GetOrdered();
 
-        private static readonly IEnumerable<string> CreatureTypes = CreatureConstants.Types.GetAll();
+        public static readonly IEnumerable<string> CreatureTypes = CreatureConstants.Types.GetAll()
+            .Concat(CreatureConstants.Types.Subtypes.GetAll());
 
-        private static readonly IEnumerable<string> Alignments =
+        public static readonly IEnumerable<string> Alignments =
         [
             AlignmentConstants.LawfulGood,
             AlignmentConstants.LawfulNeutral,
@@ -43,8 +39,7 @@ namespace DnDGen.Api.CreatureGen.Models
             if (creature is null)
                 return;
 
-            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase))
-                ?? PartialCreatures.GetValueOrDefault(creature, badValue);
+            Creature = Creatures.FirstOrDefault(c => c.Equals(creature, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
         public void SetAlignmentFilter(string? alignment)
@@ -105,21 +100,13 @@ namespace DnDGen.Api.CreatureGen.Models
             if (!valid)
                 return (false, $"Alignment filter is not valid. Should be one of: [{string.Join(", ", Alignments)}]");
 
-            // ChallengeRating and Type filters are only validated for random generation
-            // For specific creature generation, these filters are ignored
-            if (Filters?.ChallengeRating != null)
-            {
-                valid &= Filters?.ChallengeRating != badValue;
-                if (!valid)
-                    return (false, $"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", ChallengeRatings)}]");
-            }
+            valid &= Filters?.ChallengeRating != badValue;
+            if (!valid)
+                return (false, $"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", ChallengeRatings)}]");
 
-            if (Filters?.Type != null)
-            {
-                valid &= Filters?.Type != badValue;
-                if (!valid)
-                    return (false, $"Creature Type filter is not valid. Should be one of: [{string.Join(", ", CreatureTypes)}]");
-            }
+            valid &= Filters?.Type != badValue;
+            if (!valid)
+                return (false, $"Creature Type filter is not valid. Should be one of: [{string.Join(", ", CreatureTypes)}]");
 
             return (valid, string.Empty);
         }
