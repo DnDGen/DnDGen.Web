@@ -9,21 +9,11 @@ namespace DnDGen.Api.CreatureGen.Validators
         {
             var spec = new CreatureSpecifications();
 
-            var validAsCharacter = bool.TryParse(request.Query["asCharacter"], out var asCharacter);
             var alignment = request.Query["alignment"];
-            var creatureType = request.Query["creatureType"];
-            var challengeRating = request.Query["challengeRating"];
             var templates = request.Query.GetValues("templates") ?? [];
-
-            if (!validAsCharacter)
-                asCharacter = false;
-
-            spec.AsCharacter = asCharacter;
 
             spec.SetCreature(creatureName);
             spec.SetAlignmentFilter(alignment);
-            spec.SetTypeFilter(creatureType);
-            spec.SetChallengeRatingFilter(challengeRating);
             spec.SetTemplatesFilter(templates);
 
             var (Valid, Error) = spec.IsValid();

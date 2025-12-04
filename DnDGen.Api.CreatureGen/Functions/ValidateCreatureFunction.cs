@@ -24,26 +24,11 @@ namespace DnDGen.Api.CreatureGen.Functions
             Required = true,
             Type = typeof(string),
             Description = "The creature to generate")]
-        [OpenApiParameter(name: "asCharacter",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(bool),
-            Description = "Whether to generate the creature as the basis for a character. Defaults to false")]
         [OpenApiParameter(name: "alignment",
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string),
             Description = "The desired alignment for the creature")]
-        [OpenApiParameter(name: "creatureType",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(string),
-            Description = "The desired type for the generated creature")]
-        [OpenApiParameter(name: "challengeRating",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(string),
-            Description = "The desired challenge rating for the generated creature")]
         [OpenApiParameter(name: "templates",
             In = ParameterLocation.Query,
             Required = false,
@@ -63,11 +48,11 @@ namespace DnDGen.Api.CreatureGen.Functions
                 _logger.LogError($"Parameters are not a valid combination. Error: {Error}");
 
                 var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
-                await invalidResponse.WriteAsJsonAsync(Valid);
+                await invalidResponse.WriteAsJsonAsync(false);
                 return invalidResponse;
             }
 
-            var valid = _creatureVerifier.VerifyCompatibility(CreatureSpecifications.AsCharacter, CreatureSpecifications.Creature, CreatureSpecifications.Filters);
+            var valid = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications.Creature, CreatureSpecifications.Filters);
 
             _logger.LogInformation($"Validated Creature = {valid}");
 

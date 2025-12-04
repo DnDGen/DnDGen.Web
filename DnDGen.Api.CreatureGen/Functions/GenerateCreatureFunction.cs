@@ -27,26 +27,11 @@ namespace DnDGen.Api.CreatureGen.Functions
             Required = true,
             Type = typeof(string),
             Description = "The creature to generate")]
-        [OpenApiParameter(name: "asCharacter",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(bool),
-            Description = "Whether to generate the creature as the basis for a character. Defaults to false")]
         [OpenApiParameter(name: "alignment",
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string),
             Description = "The desired alignment for the creature")]
-        [OpenApiParameter(name: "creatureType",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(string),
-            Description = "The desired type for the generated creature")]
-        [OpenApiParameter(name: "challengeRating",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(string),
-            Description = "The desired challenge rating for the generated creature")]
         [OpenApiParameter(name: "templates",
             In = ParameterLocation.Query,
             Required = false,
@@ -58,19 +43,18 @@ namespace DnDGen.Api.CreatureGen.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/{creatureName}/generate")] HttpRequestData req,
             string creatureName)
         {
-            _logger.LogInformation("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
 
             var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(creatureName, req);
             if (!Valid)
             {
                 _logger.LogError($"Parameters are not a valid combination. Error: {Error}");
 
-                var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
-                await invalidResponse.WriteAsJsonAsync(Valid);
+                var invalidResponse = req.CreateResponse(HttpStatusCode.BadRequest);
                 return invalidResponse;
             }
 
-            var compatible = _creatureVerifier.VerifyCompatibility(CreatureSpecifications.AsCharacter, CreatureSpecifications.Creature, CreatureSpecifications.Filters);
+            var compatible = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications.Creature, CreatureSpecifications.Filters);
             _logger.LogInformation($"Compatible Creature = {compatible}");
 
             if (!compatible)
@@ -83,14 +67,9 @@ namespace DnDGen.Api.CreatureGen.Functions
 
             var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
 
-            // ??? - Should I handle ability generation? If the API allows `asCharacter`, then I think so.
-            // But if you're generating the basis for a character, why not just use the character generator?
-            // But even if not a character, you might want to have specific abilities for certain creatures.
-            // But ALSO also, altering abilities for a creature advances them and changes their CR,
-            // and creaturegen doesn't adjust the CR based on the abilities just yet.
-            // So, won't support for now
+            var creature = await _creatureGenerator.GenerateAsync(false, creatureName, templates: templates);
 
-            var creature = _creatureGenerator.GenerateAsync(CreatureSpecifications.AsCharacter, creatureName, templates: templates);
+            _logger.LogInformation($"Generated Creature: {creature.Summary}");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteDnDGenModelAsJsonAsync(creature);

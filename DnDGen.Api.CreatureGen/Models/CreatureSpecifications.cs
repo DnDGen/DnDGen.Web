@@ -14,7 +14,8 @@ namespace DnDGen.Api.CreatureGen.Models
         private static readonly Dictionary<string, string> PartialCreatures = CreatureConstants.GetAll()
             .Where(c => c.Contains('('))
             .SelectMany(c => c.Split('(').Select(x => (x.Trim().Trim(')'), c)))
-            .ToDictionary(g => g.Item1, g => g.c);
+            .GroupBy(g => g.Item1)
+            .ToDictionary(g => g.Key, g => g.First().c);
 
         private static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
 
@@ -104,13 +105,21 @@ namespace DnDGen.Api.CreatureGen.Models
             if (!valid)
                 return (false, $"Alignment filter is not valid. Should be one of: [{string.Join(", ", Alignments)}]");
 
-            valid &= Filters?.ChallengeRating != badValue;
-            if (!valid)
-                return (false, $"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", ChallengeRatings)}]");
+            // ChallengeRating and Type filters are only validated for random generation
+            // For specific creature generation, these filters are ignored
+            if (Filters?.ChallengeRating != null)
+            {
+                valid &= Filters?.ChallengeRating != badValue;
+                if (!valid)
+                    return (false, $"Challenge Rating filter is not valid. Should be one of: [{string.Join(", ", ChallengeRatings)}]");
+            }
 
-            valid &= Filters?.Type != badValue;
-            if (!valid)
-                return (false, $"Creature Type filter is not valid. Should be one of: [{string.Join(", ", CreatureTypes)}]");
+            if (Filters?.Type != null)
+            {
+                valid &= Filters?.Type != badValue;
+                if (!valid)
+                    return (false, $"Creature Type filter is not valid. Should be one of: [{string.Join(", ", CreatureTypes)}]");
+            }
 
             return (valid, string.Empty);
         }
