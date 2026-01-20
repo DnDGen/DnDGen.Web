@@ -69,7 +69,7 @@ namespace DnDGen.Api.CreatureGen.Models
             Filters.ChallengeRating = ChallengeRatings.FirstOrDefault(a => a.Equals(challengeRating, StringComparison.CurrentCultureIgnoreCase)) ?? badValue;
         }
 
-        public void SetTemplatesFilter(string[] templates)
+        public void SetTemplatesFilter(string?[] templates)
         {
             if (templates.Length == 0)
                 return;

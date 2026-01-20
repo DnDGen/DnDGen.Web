@@ -25,7 +25,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration
 
         protected T GetService<T>()
         {
-            return serviceProvider.GetService<T>();
+            return serviceProvider.GetService<T>()!;
         }
     }
 }

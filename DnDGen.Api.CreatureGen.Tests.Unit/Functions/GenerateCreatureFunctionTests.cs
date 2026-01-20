@@ -3,6 +3,7 @@ using DnDGen.Api.CreatureGen.Functions;
 using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CreatureGen.Creatures;
+using DnDGen.CreatureGen.Defenses;
 using DnDGen.CreatureGen.Generators.Creatures;
 using DnDGen.CreatureGen.Verifiers;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -56,7 +57,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 .Setup(v => v.VerifyCompatibility(false, creatureName, null))
                 .Returns(true);
 
-            var expectedCreature = new Creature { Name = "My creature name" };
+            var expectedCreature = new Creature { Name = "My creature name", HitPoints = new() };
 
             mockCreatureGenerator
                 .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => !t.Any())))
@@ -231,32 +232,6 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog("Creature parameters are not a valid combination.", LogLevel.Error);
-        }
-
-        [Test]
-        public async Task RunV1_CallsGenerateAsyncWithCorrectParameters()
-        {
-            var creatureName = CreatureConstants.Dragon_Red_Ancient;
-            var request = requestHelper.BuildRequest();
-
-            mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.IsAny<Filters>()))
-                .Returns(true);
-
-            var expectedCreature = new Creature { Name = "My dragon" };
-
-            mockCreatureGenerator
-                .Setup(g => g.GenerateAsync(false, creatureName, null, It.IsAny<string[]>()))
-                .ReturnsAsync(expectedCreature);
-
-            var response = await function.RunV1(request, creatureName);
-
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Body, Is.Not.Null);
-
-            var creature = StreamHelper.Read<Creature>(response.Body);
-            Assert.That(creature.Name, Is.EqualTo(expectedCreature.Name));
         }
     }
 }
