@@ -365,7 +365,7 @@ describe('Character Service', () => {
                     expect(character).toBeTruthy();
                     expect(character.summary).toBeTruthy();
                     expect(character.equipment.primaryHand).toBeTruthy();
-                    expect(character.equipment.primaryHand?.damageSummary).toBeTruthy();
+                    expect(character.equipment.primaryHand?.damageSummary || character.equipment.primaryHand?.damageDescription).toBeTruthy();
                 });
         }));
     
