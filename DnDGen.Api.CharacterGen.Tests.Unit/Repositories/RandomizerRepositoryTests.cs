@@ -8,7 +8,7 @@ using DnDGen.CharacterGen.CharacterClasses.Randomizers.Levels;
 using DnDGen.CharacterGen.Races.Randomizers;
 using DnDGen.CharacterGen.Races.Randomizers.BaseRaces;
 using DnDGen.CharacterGen.Races.Randomizers.Metaraces;
-using DnDGen.Infrastructure.Generators;
+using DnDGen.Infrastructure.Factories;
 using Moq;
 
 namespace DnDGen.Api.CharacterGen.Tests.Unit.Repositories
