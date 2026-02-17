@@ -339,7 +339,7 @@ describe('Character Service', () => {
                 });
         }));
     
-        it('BUG - generates character with weapon descriptions', waitForAsync(() => {
+        it('BUG - generates character with weapon summaries', waitForAsync(() => {
             characterService
                 .generate(
                     'Any',
@@ -365,7 +365,7 @@ describe('Character Service', () => {
                     expect(character).toBeTruthy();
                     expect(character.summary).toBeTruthy();
                     expect(character.equipment.primaryHand).toBeTruthy();
-                    expect(character.equipment.primaryHand?.damageDescription).toBeTruthy();
+                    expect(character.equipment.primaryHand?.damageSummary).toBeTruthy();
                 });
         }));
     
