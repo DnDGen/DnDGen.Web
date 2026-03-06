@@ -1,5 +1,5 @@
 <h1>RollGen</h1>
-<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
+<dndgen-loading [isLoading]="loading()" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
@@ -10,14 +10,14 @@
               <form name="standardRollForm" #standardRollForm="ngForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group row">
                   <div class="col-sm-3">
-                    @if (rollModel) {
+                    @if (rollModel()) {
                       <input id="standardQuantity"
                             name="standardQuantity"
                             pattern="^[0-9]+$"
                             class="form-control"
                             type="number"
-                            min="{{rollModel.quantityLimit_Lower}}" 
-                            max="{{rollModel.quantityLimit_Upper}}" 
+                            min="{{rollModel()!.quantityLimit_Lower}}" 
+                            max="{{rollModel()!.quantityLimit_Upper}}" 
                             (input)="validateRoll(standardQuantity, standardDie.die)"
                             [(ngModel)]="standardQuantity"
                             required />
@@ -41,10 +41,10 @@
                             type="button"
                             class="btn btn-success"
                             (click)="rollStandard()"
-                            [disabled]="!standardRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                            [disabled]="!standardRollForm.form.valid || rolling() || validating() || !rollIsValid()">Roll</button>
                   </div>
                   <div class="col-sm-2">
-                    <dndgen-loading id="standardValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                    <dndgen-loading id="standardValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
                   </div>
                 </div>
               </form>
@@ -58,14 +58,14 @@
               <form name="customRollForm" #customRollForm="ngForm" class="form-horizontal top-buffer" role="form">
                 <div class="form-group row">
                   <div class="col-sm-3">
-                    @if (rollModel) {
+                    @if (rollModel()) {
                       <input id="customQuantity"
                             name="customQuantity"
                             pattern="^[0-9]+$"
                             class="form-control"
                             type="number"
-                            min="{{rollModel.quantityLimit_Lower}}" 
-                            max="{{rollModel.quantityLimit_Upper}}" 
+                            min="{{rollModel()!.quantityLimit_Lower}}" 
+                            max="{{rollModel()!.quantityLimit_Upper}}" 
                             (input)="validateRoll(customQuantity, customDie)"
                             [(ngModel)]="customQuantity"
                             required />
@@ -73,14 +73,14 @@
                   </div>
                   <label for="customDie" class="col-sm-1 col-form-label px-0 text-center">d</label>
                   <div class="col-sm-2 px-0">
-                    @if (rollModel) {
+                    @if (rollModel()) {
                       <input id="customDie"
                             name="customDie"
                             pattern="^[0-9]+$"
                             class="form-control"
                             type="number"
-                            min="{{rollModel.dieLimit_Lower}}" 
-                            max="{{rollModel.dieLimit_Upper}}" 
+                            min="{{rollModel()!.dieLimit_Lower}}" 
+                            max="{{rollModel()!.dieLimit_Upper}}" 
                             (input)="validateRoll(customQuantity, customDie)"
                             [(ngModel)]="customDie"
                             required />
@@ -91,10 +91,10 @@
                             type="button"
                             class="btn btn-success"
                             (click)="rollCustom()"
-                            [disabled]="!customRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                            [disabled]="!customRollForm.form.valid || rolling() || validating() || !rollIsValid()">Roll</button>
                   </div>
                   <div class="col-sm-2">
-                    <dndgen-loading id="customValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                    <dndgen-loading id="customValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
                   </div>
                 </div>
               </form>
@@ -116,10 +116,10 @@
                             type="button"
                             class="btn btn-success"
                             (click)="rollExpression()"
-                            [disabled]="!expressionRollForm.form.valid || rolling || validating || !rollIsValid">Roll</button>
+                            [disabled]="!expressionRollForm.form.valid || rolling() || validating() || !rollIsValid()">Roll</button>
                   </div>
                   <div class="col-sm-2">
-                    <dndgen-loading id="expressionValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                    <dndgen-loading id="expressionValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
                   </div>
                   <span class="roll-expression-example">3d6 - Roll 3 6-sided dice</span>
                   <span class="roll-expression-example">4d4*1000 - Roll 4 4-sided dice, then multiply by 1000</span>
@@ -140,10 +140,10 @@
       <div [ngbNavOutlet]="nav"></div>
     </div>
     <div class="col-sm-6">
-      @if (!rolling) {
-        <span id="rollSection" class="font-green font-big">{{roll | number}}</span>
+      @if (!rolling()) {
+        <span id="rollSection" class="font-green font-big">{{roll() | number}}</span>
       }
-      <dndgen-loading id="rollingSection" [isLoading]="rolling" [size]="sizes.Medium"></dndgen-loading>
+      <dndgen-loading id="rollingSection" [isLoading]="rolling()" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

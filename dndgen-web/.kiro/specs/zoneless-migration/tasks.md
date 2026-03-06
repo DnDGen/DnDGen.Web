@@ -1,6 +1,8 @@
 # Implementation Plan
 
-- [-] 1. Create automated diagnostic tests
+- [x] 1. Create automated diagnostic tests
+
+
 
 
 
@@ -8,62 +10,79 @@
   - Tests will run via `npm test` and output clear diagnostic information
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [-] 1.1 Create Zone.js health check test
+- [x] 1.1 Create Zone.js health check test
+
 
   - Write test that verifies Zone.js is loaded and active
   - Test that Zone.js intercepts async operations (setTimeout, Promise, etc.)
   - Output diagnostic information to console
   - _Requirements: 1.1_
 
-- [ ] 1.2 Create change detection diagnostic test for RollGen
+- [x] 1.2 Create change detection diagnostic test for RollGen
+
+
   - Write test that reproduces the loading indicator freeze issue
   - Test simulates API call and verifies loading state updates automatically
   - Test checks if DOM updates without manual `detectChanges()` call
   - Output diagnostic information indicating whether Zone.js triggers change detection
   - _Requirements: 1.2, 1.3, 1.4_
 
-- [ ] 1.3 Run diagnostic tests and determine root cause
+- [x] 1.3 Run diagnostic tests and determine root cause
+
+
   - Execute diagnostic tests via `npm test`
   - Review test output and console logs
   - Determine whether to implement Option A (Zone.js fix) or Option B (zoneless migration)
   - Document findings
   - _Requirements: 1.5_
 
-- [ ] 2. Implement fix for RollGen based on diagnostic results
+- [x] 2. Implement fix for RollGen based on diagnostic results
+
+
+
+
+
   - Apply the appropriate solution (Option A or B) to RollGen component
   - Ensure all loading states update correctly
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 2.1 Implement Option A: Zone.js fix for RollGen (if diagnostics indicate Zone.js is working)
+- [x] 2.1 Implement Option A: Zone.js fix for RollGen (if diagnostics indicate Zone.js is working)
+
   - Inject `ChangeDetectorRef` and `NgZone` into RollGen component
   - Add explicit `detectChanges()` calls after async operations complete
   - Ensure operations run inside Angular's zone with `ngZone.run()`
   - _Requirements: 2.2, 2.3_
 
-- [ ] 2.2 Implement Option B: Zoneless migration for RollGen (if diagnostics indicate Zone.js is broken)
+- [x] 2.2 Implement Option B: Zoneless migration for RollGen (if diagnostics indicate Zone.js is broken)
+
+
   - Convert component properties to signals (`loading`, `rolling`, `validating`, `roll`, `rollIsValid`, `rollModel`)
   - Update component methods to use signal setters (`.set()`, `.update()`)
   - Update RollGen template to use signal syntax with `()` for all signal references
   - _Requirements: 2.2, 2.3, 2.4_
 
-- [ ] 2.3 Update RollGen error handling
+- [x] 2.3 Update RollGen error handling
+
+
   - Ensure all error handlers reset loading states correctly
   - Verify error states trigger UI updates immediately
   - _Requirements: 2.3_
 
-- [ ] 2.4 Update RollGen tests for the implemented solution
+- [x] 2.4 Update RollGen tests for the implemented solution
+
+
   - Update unit tests to match new implementation (property access syntax if signals)
   - Update integration tests to verify loading indicators work correctly
   - Ensure all existing tests pass
   - _Requirements: 2.5_
 
-- [ ] 3. Verify RollGen fix works correctly
+- [x] 3. Verify RollGen fix works correctly
   - Run all RollGen tests to ensure they pass
   - Manually test RollGen in browser
   - Verify loading indicators appear and disappear without tab switching
   - _Requirements: 2.2, 2.3, 2.4_
 
-- [ ] 4. Checkpoint - Ensure all tests pass
+- [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 5. Replicate fix to TreasureGen
