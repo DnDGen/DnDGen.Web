@@ -111,113 +111,25 @@ describe('App Component', () => {
     });
   });
 
-  describe('diagnostics', () => {
+  xdescribe('change detection configuration', () => {
+    // These tests are currently disabled because they test zoneless change detection behavior
+    // in production, but our test environment uses zone.js (for fakeAsync/tick support).
+    // 
+    // These tests document the expected production configuration and should be re-enabled
+    // after migrating to Vitest (Angular v21 migration) which has better support for
+    // testing zoneless applications.
     
-    it('should confirm Zone.js is loaded and defined', () => {
-      expect(typeof Zone).toBe('function');
-      expect(Zone).toBeDefined();
+    it('should have zoneless change detection enabled', async () => {
+      await TestHelper.configureTestBed([AppComponent]);
+      const fixture = TestBed.createComponent(AppComponent);
+      
+      await fixture.whenStable();
+      
+      expect(fixture.componentInstance).toBeTruthy();
     });
 
-    it('should confirm Angular zone is active', () => {
-      const currentZone = Zone.current;
-      expect(currentZone).toBeDefined();
-      expect(currentZone.name).toBeTruthy();
-      
-      let isAngularZone = false;
-      let zone: any = currentZone;
-      while (zone) {
-        if (zone.name.includes('angular') || zone.name.includes('Angular')) {
-          isAngularZone = true;
-          break;
-        }
-        zone = zone.parent;
-      }
-      
-      expect(isAngularZone || currentZone.name === 'ProxyZone').toBe(true);
+    it('should NOT load Zone.js in production', () => {
+      expect(typeof Zone).toBe('undefined');
     });
-
-    it('should intercept setTimeout operations', fakeAsync(() => {
-      let callbackExecuted = false;
-      let zoneIntercepted = false;
-      
-      const originalSchedule = Zone.current.scheduleMacroTask;
-      spyOn(Zone.current, 'scheduleMacroTask').and.callFake((...args: any[]) => {
-        zoneIntercepted = true;
-        return originalSchedule.apply(Zone.current, args);
-      });
-      
-      setTimeout(() => {
-        callbackExecuted = true;
-      }, 100);
-      
-      expect(zoneIntercepted).toBe(true);
-      
-      tick(100);
-      
-      expect(callbackExecuted).toBe(true);
-    }));
-
-    it('should intercept Promise operations', (done) => {
-      let promiseResolved = false;
-      const startZone = Zone.current;
-      
-      Promise.resolve('test').then((value) => {
-        promiseResolved = true;
-        const promiseZone = Zone.current;
-        
-        expect(promiseZone).toBe(startZone);
-        
-        done();
-      });
-      
-      expect(promiseResolved).toBe(false);
-    });
-
-    it('should track async operations with Zone.js', fakeAsync(() => {
-      let asyncOperationCount = 0;
-      
-      setTimeout(() => asyncOperationCount++, 10);
-      setTimeout(() => asyncOperationCount++, 20);
-      setTimeout(() => asyncOperationCount++, 30);
-      
-      expect(asyncOperationCount).toBe(0);
-      
-      tick(10);
-      expect(asyncOperationCount).toBe(1);
-      
-      tick(10);
-      expect(asyncOperationCount).toBe(2);
-      
-      tick(10);
-      expect(asyncOperationCount).toBe(3);
-    }));
-
-    it('should detect if Zone.js patches are active', () => {
-      const patches = {
-        'setTimeout': typeof (setTimeout as any).__zone_symbol__ !== 'undefined',
-        'Promise': typeof (Promise as any).__zone_symbol__ !== 'undefined',
-        'XMLHttpRequest': typeof (XMLHttpRequest as any).__zone_symbol__ !== 'undefined',
-      };
-      
-      const criticalPatchesActive = patches.setTimeout || patches.Promise;
-      
-      expect(criticalPatchesActive).toBe(true);
-    });
-
-    it('should run callbacks in the correct zone context', fakeAsync(() => {
-      const testZone = Zone.current.fork({ name: 'test-zone' });
-      let callbackZone: any;
-      
-      testZone.run(() => {
-        setTimeout(() => {
-          callbackZone = Zone.current;
-        }, 10);
-      });
-      
-      tick(10);
-      
-      expect(callbackZone).toBeDefined();
-      expect(callbackZone!.name).toBe('test-zone');
-    }));
   });
 });

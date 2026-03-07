@@ -44,6 +44,7 @@
     "karma-chrome-launcher": "^3.2.0",
     "karma-jasmine": "^5.1.0",
     "karma-junit-reporter": "^2.0.1",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "zone.js": "^0.16.1"
   }
 }

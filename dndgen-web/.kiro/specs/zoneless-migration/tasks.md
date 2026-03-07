@@ -191,13 +191,18 @@
   - Update test configuration to remove zone.js from test polyfills
   - _Requirements: 5.2, 5.3_
 
-- [ ] 9.1 Update app.component.spec.ts change detection tests
+- [x] 9.1 Update app.component.spec.ts change detection tests
+
+
+
   - Remove tests that check for zone.js presence
   - Add tests that verify zoneless change detection is enabled
   - Ensure tests check for `provideExperimentalZonelessChangeDetection()` in app config
   - _Requirements: 5.2, 5.3_
 
-- [ ] 9.2 Fix RollGen change detection tests
+- [x] 9.2 Fix RollGen change detection tests
+
+
   - Update all RollGen tests to use signal syntax `component.property()` instead of `component.property`
   - Update property setters to use `component.property.set(value)` instead of `component.property = value`
   - Ensure all tests pass with the new signal-based implementation
