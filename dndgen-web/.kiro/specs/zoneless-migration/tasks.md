@@ -101,7 +101,12 @@
   - Update tests
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 5.1 Apply fix to TreasureGen component
+- [x] 5.1 Apply fix to TreasureGen component
+
+
+
+
+
   - Implement same pattern as RollGen (zoneless with signals)
   - Convert reactive state properties to signals (loading, generating, validating, etc.)
   - Keep regular properties for inputs (`@Input()` decorated)
