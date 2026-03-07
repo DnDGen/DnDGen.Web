@@ -117,19 +117,32 @@
   - Ensure error handlers reset all loading signals
   - _Requirements: 4.1, 4.2_
 
-- [ ] 5.2 Update TreasureGen error handling
+- [x] 5.2 Update TreasureGen error handling
+
+
+
+
   - Ensure error handlers reset all loading states
   - Verify error states trigger UI updates
   - _Requirements: 4.3_
 
-- [ ] 5.3 Update TreasureGen tests
+- [x] 5.3 Update TreasureGen tests
+
+
+
+
   - Update unit tests to use signal syntax: `component.property()` and `component.property.set(value)`
   - Keep regular property access unchanged for inputs and constants
   - Update integration tests to use signal setters
   - Verify all tests pass
   - _Requirements: 4.1_
 
-- [ ] 5.4 Run TreasureGen automated tests
+- [x] 5.4 Run TreasureGen automated tests
+
+
+
+
+
   - Run TreasureGen tests via `npm test`
   - Verify all tests pass
   - _Requirements: 4.1_

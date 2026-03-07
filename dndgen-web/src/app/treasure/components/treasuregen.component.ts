@@ -79,21 +79,17 @@ export class TreasureGenComponent implements OnInit {
 
     this.treasureService.getViewModel()
       .pipe(
-        tap(data => this.setViewModel(data)),
+        tap(data => this.treasureModel.set(data)),
         tap(() => this.setInitialValues()),
         switchMap(() => this.treasureService.validateTreasure(this.treasureType, this.level)),
-        tap(data => this.setTreasureValidity(data)),
+        tap(data => this.validTreasure.set(data)),
         switchMap(() => this.treasureService.validateItem(this.itemType!.itemType, this.power, this.itemName)),
-        tap(data => this.setItemValidity(data)),
+        tap(data => this.validItem.set(data)),
       )
       .subscribe({
         complete: () => this.finishInit(),
         error: error => this.handleError(error)
       });
-  }
-
-  private setViewModel(data: TreasureGenViewModel): void {
-    this.treasureModel.set(data);
   }
 
   private finishInit(): void {
@@ -103,11 +99,10 @@ export class TreasureGenComponent implements OnInit {
 
   private setInitialValues(): void {
     const model = this.treasureModel();
-    if (!model) return;
-    
-    this.treasureType = model.treasureTypes[0];
-    this.power = model.powers[0];
-    this.itemType = model.itemTypeViewModels[0];
+
+    this.treasureType = model!.treasureTypes[0];
+    this.power = model!.powers[0];
+    this.itemType = model!.itemTypeViewModels[0];
     this.itemName = '';
   }
 
