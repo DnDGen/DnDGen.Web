@@ -205,12 +205,17 @@
   - Confirm no loading indicator freeze issues
   - _Requirements: 4.2, 4.4_
 
-- [ ] 7. Replicate fix to EncounterGen
+- [x] 7. Replicate fix to EncounterGen
+
+
+
   - Apply the same solution pattern
   - Update component, template, and tests
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 7.1 Apply fix to EncounterGen component
+
+- [x] 7.1 Apply fix to EncounterGen component
+
   - Implement same pattern as RollGen (zoneless with signals)
   - Convert reactive state properties to signals
   - Keep regular properties for inputs and constants
@@ -218,22 +223,29 @@
   - Update EncounterGen template to add `()` to all signal references
   - _Requirements: 4.1, 4.2_
 
-- [ ] 7.2 Update EncounterGen error handling
+- [x] 7.2 Update EncounterGen error handling
+
+
   - Ensure error handlers reset all loading signals
   - _Requirements: 4.3_
 
-- [ ] 7.3 Update EncounterGen tests
+- [x] 7.3 Update EncounterGen tests
+
+
   - Update unit tests to use signal syntax
   - Update integration tests to use signal setters
   - Verify all tests pass
   - _Requirements: 4.1_
 
-- [ ] 7.4 Run EncounterGen automated tests
+
+
+
+- [x] 7.4 Run EncounterGen automated tests
   - Run EncounterGen tests via `npm test`
   - Verify all tests pass
   - _Requirements: 4.1_
 
-- [ ] 7.5 Manual browser testing for EncounterGen (USER ONLY - DO NOT AUTO-COMPLETE)
+- [x] 7.5 Manual browser testing for EncounterGen (USER ONLY - DO NOT AUTO-COMPLETE)
   - **IMPORTANT**: This task can ONLY be checked off by the user after manual testing
   - Open EncounterGen in browser
   - Test encounter generation with various inputs
@@ -295,14 +307,6 @@
   - Add tests that verify zoneless change detection is enabled
   - Ensure tests check for `provideExperimentalZonelessChangeDetection()` in app config
   - _Requirements: 5.2, 5.3_
-
-- [x] 9.2 Fix RollGen change detection tests
-
-
-  - Update all RollGen tests to use signal syntax `component.property()` instead of `component.property`
-  - Update property setters to use `component.property.set(value)` instead of `component.property = value`
-  - Ensure all tests pass with the new signal-based implementation
-  - _Requirements: 2.5_
 
 - [ ] 10. Final verification and testing
   - Run complete test suite across all generators via `npm test`
@@ -444,14 +448,6 @@ expect(model.alignmentRandomizerTypes).toContain('Set');
 expect(fixture.componentInstance.characterModel()!.alignmentRandomizerTypes).toContain('Set');
 ```
 
-**Disabled Tests:**
-```typescript
-// ✅ REQUIRED - Copy xdescribe block to ALL generators
-xdescribe('change detection', () => {
-  // Copy from RollGen, update selectors
-});
-```
-
 ### Task Execution Rules
 
 **For Tasks 5.1, 6.1, 7.1, 8.1 (Component Migration):**
@@ -478,7 +474,6 @@ xdescribe('change detection', () => {
 3. Update ALL signal setters: `component.signal.set(value)`
 4. Keep regular property access unchanged: `component.property`
 5. Update test helper calls: pass signal VALUES `component.signal()`
-6. **CRITICAL**: Add xdescribe block for change detection tests (copy from TreasureGen)
 7. **CRITICAL**: Extract model to const before accessing properties - never chain `component.model()!.property`
 8. Run tests and fix any syntax errors
 
@@ -528,7 +523,6 @@ xdescribe('change detection', () => {
 - Using `component.signal = value` instead of `component.signal.set(value)`
 - Using `component.property()` on regular properties
 - Passing signal references instead of values to helpers
-- **Forgetting to add xdescribe block for change detection tests**
 - **Chaining property access on method calls** (e.g., `component.model()!.property` - extract to const first)
 
 ### Verification Before Completing Tasks
