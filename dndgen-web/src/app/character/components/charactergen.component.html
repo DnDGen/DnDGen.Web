@@ -1,5 +1,5 @@
 <h1>CharacterGen</h1>
-<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
+<dndgen-loading [isLoading]="loading()" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
@@ -11,7 +11,7 @@
                   <div class="form-group row">
                       <label for="alignmentRandomizerType" class="col-sm-2 col-form-label">Alignment:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="alignmentRandomizerType" 
                                   name="alignmentRandomizerType"
                                   class="form-select" 
@@ -25,7 +25,7 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (alignmentRandomizerTypeOption of characterModel.alignmentRandomizerTypes; track $index) {
+                            @for (alignmentRandomizerTypeOption of characterModel()!.alignmentRandomizerTypes; track $index) {
                               <option [ngValue]="alignmentRandomizerTypeOption">{{alignmentRandomizerTypeOption}}</option>
                             }
                           </select>
@@ -33,7 +33,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="setAlignment" 
                                   name="setAlignment"
                                   class="form-select"
@@ -48,7 +48,7 @@
                                   )"
                                   [hidden]="alignmentRandomizerType != 'Set'"
                                   [required]="alignmentRandomizerType == 'Set'">
-                            @for (alignment of characterModel.alignments; track $index) {
+                            @for (alignment of characterModel()!.alignments; track $index) {
                               <option [ngValue]="alignment">{{alignment}}</option>
                             }
                           </select>
@@ -58,7 +58,7 @@
                   <div class="form-group row">
                       <label for="classNameRandomizerType" class="col-sm-2 col-form-label">Class:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="classNameRandomizerType" 
                                   name="classNameRandomizerType"
                                   class="form-select" 
@@ -72,7 +72,7 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (classNameRandomizerTypeOption of characterModel.classNameRandomizerTypes; track $index) {
+                            @for (classNameRandomizerTypeOption of characterModel()!.classNameRandomizerTypes; track $index) {
                               <option [ngValue]="classNameRandomizerTypeOption">{{classNameRandomizerTypeOption}}</option>
                             }
                           </select>
@@ -80,7 +80,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="setClassName" 
                                   name="setClassName"
                                   class="form-select"
@@ -95,7 +95,7 @@
                                   )"
                                   [hidden]="classNameRandomizerType != 'Set'"
                                   [required]="classNameRandomizerType == 'Set'">
-                            @for (className of characterModel.classNames; track $index) {
+                            @for (className of characterModel()!.classNames; track $index) {
                               <option [ngValue]="className">{{className}}</option>
                             }
                           </select>
@@ -105,7 +105,7 @@
                   <div class="form-group row">
                       <label for="levelRandomizerType" class="col-sm-2 col-form-label">Level:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="levelRandomizerType"
                                   name="levelRandomizerType"
                                   class="form-select" 
@@ -119,7 +119,7 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (levelRandomizerTypeOption of characterModel.levelRandomizerTypes; track $index) {
+                            @for (levelRandomizerTypeOption of characterModel()!.levelRandomizerTypes; track $index) {
                               <option [ngValue]="levelRandomizerTypeOption">{{levelRandomizerTypeOption}}</option>
                             }
                           </select>
@@ -149,7 +149,7 @@
                   <div class="form-group row">
                       <label for="baseRaceRandomizerType" class="col-sm-2 col-form-label">Base Race:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="baseRaceRandomizerType" 
                                   name="baseRaceRandomizerType" 
                                   class="form-select" 
@@ -163,7 +163,7 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (baseRaceRandomizerTypeOption of characterModel.baseRaceRandomizerTypes; track $index) {
+                            @for (baseRaceRandomizerTypeOption of characterModel()!.baseRaceRandomizerTypes; track $index) {
                               <option [ngValue]="baseRaceRandomizerTypeOption">{{baseRaceRandomizerTypeOption}}</option>
                             }
                           </select>
@@ -171,7 +171,7 @@
                       </div>
                       <div class="col-sm-4">
                         <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="setBaseRace" 
                                   name="setBaseRace"
                                   class="form-select"
@@ -186,7 +186,7 @@
                                   )"
                                   [hidden]="baseRaceRandomizerType != 'Set'"
                                   [required]="baseRaceRandomizerType == 'Set'">
-                            @for (baseRace of characterModel.baseRaces; track $index) {
+                            @for (baseRace of characterModel()!.baseRaces; track $index) {
                               <option [ngValue]="baseRace">{{baseRace}}</option>
                             }
                           </select>
@@ -196,7 +196,7 @@
                   <div class="form-group row">
                       <label for="metaraceRandomizerTypes" class="col-sm-2 col-form-label">Metarace:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="metaraceRandomizerType" 
                                   name="metaraceRandomizerType"
                                   class="form-select" 
@@ -210,14 +210,14 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (metaraceRandomizerTypeOption of characterModel.metaraceRandomizerTypes; track $index) {
+                            @for (metaraceRandomizerTypeOption of characterModel()!.metaraceRandomizerTypes; track $index) {
                               <option [ngValue]="metaraceRandomizerTypeOption">{{metaraceRandomizerTypeOption}}</option>
                             }
                           </select>
                         }
                       </div>
                       <!-- INFO: Inputs can't be in user-dependent if blocks, it breaks the ngmodel bindings, have to use hidden instead -->
-                      @if (characterModel) {
+                      @if (characterModel()) {
                         <div class="col-sm-4">
                           <div class="checkbox-inline" id="force-metarace-col" [hidden]="metaraceRandomizerType == 'Set' || metaraceRandomizerType == 'No Meta'">
                             <label>
@@ -249,7 +249,7 @@
                                   )"
                                   [hidden]="metaraceRandomizerType != 'Set'"
                                   [required]="metaraceRandomizerType == 'Set'">
-                            @for (metarace of characterModel.metaraces; track $index) {
+                            @for (metarace of characterModel()!.metaraces; track $index) {
                               <option [ngValue]="metarace">{{metarace}}</option>
                             }
                           </select>
@@ -259,7 +259,7 @@
                   <div class="form-group row">
                       <label for="abilitiesRandomizerType" class="col-sm-2 col-form-label">Abilities:</label>
                       <div class="col-sm-4">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="abilitiesRandomizerType" 
                                   name="abilitiesRandomizerType"
                                   class="form-select" 
@@ -273,7 +273,7 @@
                                     abilitiesRandomizerType, setStrength, setConstitution, setDexterity, setIntelligence, setWisdom, setCharisma
                                   )"
                                   required>
-                            @for (abilitiesRandomizerTypeOption of characterModel.abilitiesRandomizerTypes; track $index) {
+                            @for (abilitiesRandomizerTypeOption of characterModel()!.abilitiesRandomizerTypes; track $index) {
                               <option [ngValue]="abilitiesRandomizerTypeOption">{{abilitiesRandomizerTypeOption}}</option>
                             }
                           </select>
@@ -438,13 +438,13 @@
                                   type="button" 
                                   class="btn btn-success" 
                                   (click)="generateCharacter()" 
-                                  [disabled]="!characterForm.form.valid || generating || validating || !valid">
+                                  [disabled]="!characterForm.form.valid || generating() || validating() || !valid()">
                             Generate
                           </button>
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <dndgen-loading id="characterValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                        <dndgen-loading id="characterValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
                       </div>
                     </div>
               </form>
@@ -459,9 +459,9 @@
                   <div class="form-group row">
                       <label for="leaderAlignment" class="col-sm-6 col-form-label">Leader Alignment:</label>
                       <div class="col-sm-6">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="leaderAlignment" name="leaderAlignment" class="form-select" [(ngModel)]="leaderAlignment" required>
-                            @for (alignment of characterModel.alignments; track $index) {
+                            @for (alignment of characterModel()!.alignments; track $index) {
                               <option [ngValue]="alignment">{{alignment}}</option>
                             }
                           </select>
@@ -471,9 +471,9 @@
                   <div class="form-group row">
                       <label for="leaderClassName" class="col-sm-6 col-form-label">Leader Class Name:</label>
                       <div class="col-sm-6">
-                        @if (characterModel) {
+                        @if (characterModel()) {
                           <select id="leaderClassName" name="leaderClassName" class="form-select" [(ngModel)]="leaderClassName" required>
-                            @for (className of characterModel.classNames; track $index) {
+                            @for (className of characterModel()!.classNames; track $index) {
                               <option [ngValue]="className">{{className}}</option>
                             }
                           </select>
@@ -517,7 +517,7 @@
                               type="button" 
                               class="btn btn-success" 
                               (click)="generateLeadership()" 
-                              [disabled]="!leadershipForm.form.valid || generating || validating || !valid">
+                              [disabled]="!leadershipForm.form.valid || generating() || validating() || !valid()">
                         Generate Leadership
                       </button>
                   </div>
@@ -529,28 +529,28 @@
       <div [ngbNavOutlet]="nav"></div>
     </div>
     <div class="col-sm-6 clearfix">
-      @if (!generating) {
-        @if (character || leadership) {
+      @if (!generating()) {
+        @if (character() || leadership()) {
           <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
         }
         <div id="characterSection">
-          @if (!character && !leadership) {
+          @if (!character() && !leadership()) {
             <span id="noCharacter" class="italicize">No character has been generated</span>
           }
-          @if (character) {
-            <dndgen-character [character]="character!"></dndgen-character>
+          @if (character()) {
+            <dndgen-character [character]="character()!"></dndgen-character>
           }
-          @if (leadership) {
+          @if (leadership()) {
             <div>
-              <dndgen-leadership [leadership]="leadership!" [cohort]="cohort" [followers]="followers"></dndgen-leadership>
+              <dndgen-leadership [leadership]="leadership()!" [cohort]="cohort()" [followers]="followers()"></dndgen-leadership>
             </div>
           }
         </div>
       } @else {
         <div id="generatingSection">
-          <span>{{generatingMessage}}</span>
+          <span>{{generatingMessage()}}</span>
           <div>
-            <dndgen-loading [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
+            <dndgen-loading [isLoading]="generating()" [size]="sizes.Medium"></dndgen-loading>
           </div>
         </div>
       }

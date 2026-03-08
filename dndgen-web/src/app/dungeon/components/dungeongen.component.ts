@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, signal } from '@angular/core';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -53,7 +53,7 @@ export class DungeonGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public dungeonModel!: DungeonGenViewModel;
+  public dungeonModel = signal<DungeonGenViewModel | undefined>(undefined);
   public sizes = Size;
   public creatureTypeFilters: CreatureTypeFilter[] = [];
 
@@ -65,19 +65,19 @@ export class DungeonGenComponent implements OnInit {
   @Input() allowAquatic = false;
   @Input() allowUnderground = false;
 
-  public loading = false;
-  public areas: Area[] = [];
-  public valid: boolean = false;
-  public validating: boolean = false;
-  public generating: boolean = false;
+  public loading = signal(false);
+  public areas = signal<Area[]>([]);
+  public valid = signal(false);
+  public validating = signal(false);
+  public generating = signal(false);
 
   ngOnInit(): void {
-    this.loading = true;
-    this.validating = true;
+    this.loading.set(true);
+    this.validating.set(true);
 
     this.dungeonService.getViewModel()
       .pipe(
-        tap(data => this.dungeonModel = data),
+        tap(data => this.dungeonModel.set(data)),
         tap(() => this.setInitialValues()),
         switchMap(() => this.encounterService
           .validate(
@@ -88,7 +88,7 @@ export class DungeonGenComponent implements OnInit {
             this.checkedFilters,
             this.allowAquatic,
             this.allowUnderground)),
-        tap(data => this.valid = data),
+        tap(data => this.valid.set(data)),
       )
       .subscribe({
         complete: () => this.finishInit(),
@@ -97,22 +97,24 @@ export class DungeonGenComponent implements OnInit {
   }
 
   private finishInit(): void {
-    this.validating = false;
-    this.loading = false;
+    this.validating.set(false);
+    this.loading.set(false);
   }
 
   private setInitialValues(): void {
-    this.temperature = this.dungeonModel.defaults.temperature;
-    this.environment = this.dungeonModel.defaults.environment;
-    this.timeOfDay = this.dungeonModel.defaults.timeOfDay;
-    this.level = this.dungeonModel.defaults.level;
-    this.allowAquatic = this.dungeonModel.defaults.allowAquatic;
-    this.allowUnderground = this.dungeonModel.defaults.allowUnderground;
+    const model = this.dungeonModel()!;
+
+    this.temperature = model.defaults.temperature;
+    this.environment = model.defaults.environment;
+    this.timeOfDay = model.defaults.timeOfDay;
+    this.level = model.defaults.level;
+    this.allowAquatic = model.defaults.allowAquatic;
+    this.allowUnderground = model.defaults.allowUnderground;
     
-    for (var i = 0; i < this.dungeonModel.creatureTypes.length; i++) {
+    for (var i = 0; i < model.creatureTypes.length; i++) {
       this.creatureTypeFilters.push({ 
-          id: this.dungeonModel.creatureTypes[i].replaceAll(' ', '_'),
-          displayName: this.dungeonModel.creatureTypes[i],
+          id: model.creatureTypes[i].replaceAll(' ', '_'),
+          displayName: model.creatureTypes[i],
           checked: false
       });
     }
@@ -121,11 +123,11 @@ export class DungeonGenComponent implements OnInit {
   private handleError(error: any): void {
     this.logger.logError(error.message);
 
-    this.areas = [];
+    this.areas.set([]);
 
-    this.loading = false;
-    this.generating = false;
-    this.validating = false;
+    this.loading.set(false);
+    this.generating.set(false);
+    this.validating.set(false);
     
     this.sweetAlertService.showError();
   }
@@ -143,8 +145,8 @@ export class DungeonGenComponent implements OnInit {
   }
 
   public generateFromHall(): void {
-    this.generating = true;
-    this.areas = [];
+    this.generating.set(true);
+    this.areas.set([]);
 
     this.dungeonService
       .generateAreasFromHall(
@@ -158,7 +160,7 @@ export class DungeonGenComponent implements OnInit {
         this.allowUnderground,
       )
       .pipe(
-        tap(data => this.areas = data),
+        tap(data => this.areas.set(data)),
       )
       .subscribe({
         complete: () => this.finishGeneration(),
@@ -167,8 +169,8 @@ export class DungeonGenComponent implements OnInit {
   }
 
   public generateFromDoor(): void {
-    this.generating = true;
-    this.areas = [];
+    this.generating.set(true);
+    this.areas.set([]);
 
     this.dungeonService
       .generateAreasFromDoor(
@@ -182,7 +184,7 @@ export class DungeonGenComponent implements OnInit {
         this.allowUnderground,
       )
       .pipe(
-        tap(data => this.areas = data),
+        tap(data => this.areas.set(data)),
       )
       .subscribe({
         complete: () => this.finishGeneration(),
@@ -191,8 +193,8 @@ export class DungeonGenComponent implements OnInit {
   }
 
   private setValidity(data: boolean) {
-    this.valid = data;
-    this.validating = false;
+    this.valid.set(data);
+    this.validating.set(false);
   }
 
   public validate(
@@ -204,7 +206,7 @@ export class DungeonGenComponent implements OnInit {
     allowAquatic: boolean,
     allowUnderground: boolean,
   ): void {
-    this.validating = true;
+    this.validating.set(true);
 
     if (!dungeonLevel || !level) {
       this.setValidity(false);
@@ -231,15 +233,16 @@ export class DungeonGenComponent implements OnInit {
   }
 
   private finishGeneration(): void {
-    this.generating = false;
+    this.generating.set(false);
   }
 
   public download(): void {
-    if (!this.areas.length) {
+    const currentAreas = this.areas();
+    if (!currentAreas.length) {
       return;
     }
 
-    var formattedDungeon = this.dungeonPipe.transform(this.areas);
-    this.fileSaverService.save(formattedDungeon, this.areas[0].type);
+    var formattedDungeon = this.dungeonPipe.transform(currentAreas);
+    this.fileSaverService.save(formattedDungeon, currentAreas[0].type);
   }
 }
