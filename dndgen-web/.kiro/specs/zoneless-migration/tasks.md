@@ -255,12 +255,16 @@
   - Confirm no loading indicator freeze issues
   - _Requirements: 4.2, 4.4_
 
-- [ ] 8. Replicate fix to DungeonGen
+- [x] 8. Replicate fix to DungeonGen
+
+
   - Apply the same solution pattern
   - Update component, template, and tests
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 8.1 Apply fix to DungeonGen component
+- [x] 8.1 Apply fix to DungeonGen component
+
+
   - Implement same pattern as RollGen (zoneless with signals)
   - Convert reactive state properties to signals
   - Keep regular properties for inputs and constants
@@ -268,22 +272,29 @@
   - Update DungeonGen template to add `()` to all signal references
   - _Requirements: 4.1, 4.2_
 
-- [ ] 8.2 Update DungeonGen error handling
+- [x] 8.2 Update DungeonGen error handling
+
+
   - Ensure error handlers reset all loading signals
   - _Requirements: 4.3_
 
-- [ ] 8.3 Update DungeonGen tests
+- [x] 8.3 Update DungeonGen tests
+
+
   - Update unit tests to use signal syntax
   - Update integration tests to use signal setters
   - Verify all tests pass
   - _Requirements: 4.1_
 
-- [ ] 8.4 Run DungeonGen automated tests
+- [x] 8.4 Run DungeonGen automated tests
+
+
+
   - Run DungeonGen tests via `npm test`
   - Verify all tests pass
   - _Requirements: 4.1_
 
-- [ ] 8.5 Manual browser testing for DungeonGen (USER ONLY - DO NOT AUTO-COMPLETE)
+- [x] 8.5 Manual browser testing for DungeonGen (USER ONLY - DO NOT AUTO-COMPLETE)
   - **IMPORTANT**: This task can ONLY be checked off by the user after manual testing
   - Open DungeonGen in browser
   - Test dungeon generation with various inputs
