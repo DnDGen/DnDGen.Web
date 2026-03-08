@@ -378,6 +378,26 @@ private handleError(error: any): void {
 }
 ```
 
+**RxJS Pipe Chains:**
+```typescript
+// ✅ REQUIRED - Use direct signal.set() in pipe chains, NOT private helper methods
+this.service.getData()
+  .pipe(
+    tap(data => this.result.set(data)),  // Direct set, not this.setResult(data)
+    tap(() => this.loading.set(false)),
+    catchError(error => this.handleError(error))  // Only use helpers at end of chain
+  )
+  .subscribe();
+
+// ❌ WRONG - Don't call private helper methods in the middle of pipe chains
+this.service.getData()
+  .pipe(
+    tap(data => this.setResult(data)),  // WRONG! This sets loading.set(false) too early
+    tap(() => this.doSomethingElse())
+  )
+  .subscribe();
+```
+
 ### Mandatory Patterns for Template Migration
 
 **Signal Syntax:**
@@ -415,6 +435,13 @@ component.quantity = 42;
 
 // ✅ REQUIRED - Test helper usage
 helper.expectLoading('selector', component.loading(), Size.Large);
+
+// ✅ REQUIRED - Extract model before accessing properties (no chaining on property access)
+const model = fixture.componentInstance.characterModel()!;
+expect(model.alignmentRandomizerTypes).toContain('Set');
+
+// ❌ WRONG - Don't chain property access on method calls
+expect(fixture.componentInstance.characterModel()!.alignmentRandomizerTypes).toContain('Set');
 ```
 
 **Disabled Tests:**
@@ -432,9 +459,10 @@ xdescribe('change detection', () => {
 2. Identify all reactive UI state → convert to signals
 3. Keep all `@Input()` properties as regular properties
 4. Keep all constants/enums as regular properties
-5. Create private helper methods for signal updates
-6. Ensure error handler resets ALL loading signals
-7. Verify RxJS integration uses signal setters
+5. Create private helper methods for signal updates (use at END of chains only)
+6. **CRITICAL**: In RxJS pipe chains, use direct `signal.set()` NOT private helper methods
+7. Ensure error handler resets ALL loading signals
+8. Verify RxJS integration uses signal setters
 
 **For Tasks 5.1, 6.1, 7.1, 8.1 (Template Migration):**
 1. Open rollgen.component.html side-by-side with target template
@@ -450,8 +478,9 @@ xdescribe('change detection', () => {
 3. Update ALL signal setters: `component.signal.set(value)`
 4. Keep regular property access unchanged: `component.property`
 5. Update test helper calls: pass signal VALUES `component.signal()`
-6. Copy and adapt `xdescribe` block from RollGen
-7. Run tests and fix any syntax errors
+6. **CRITICAL**: Add xdescribe block for change detection tests (copy from TreasureGen)
+7. **CRITICAL**: Extract model to const before accessing properties - never chain `component.model()!.property`
+8. Run tests and fix any syntax errors
 
 **For Tasks 5.4, 6.4, 7.4, 8.4 (Automated Test Verification):**
 1. Run `npm test` for the specific generator
@@ -487,6 +516,7 @@ xdescribe('change detection', () => {
 - Using signals for constants/enums
 - Forgetting to reset all loading signals in error handler
 - Not using private helper methods for signal updates
+- **Calling private helper methods in the middle of RxJS pipe chains** (use direct `signal.set()` instead)
 
 ❌ **Component Template:**
 - Forgetting `()` on signal references
@@ -498,6 +528,8 @@ xdescribe('change detection', () => {
 - Using `component.signal = value` instead of `component.signal.set(value)`
 - Using `component.property()` on regular properties
 - Passing signal references instead of values to helpers
+- **Forgetting to add xdescribe block for change detection tests**
+- **Chaining property access on method calls** (e.g., `component.model()!.property` - extract to const first)
 
 ### Verification Before Completing Tasks
 

@@ -372,13 +372,14 @@ describe('TreasureGen Component', () => {
     }));
 
     function setupOnInit() {
-      component.treasureModel.set(getViewModel());
+      const viewModel = getViewModel();
+      component.treasureModel.set(viewModel);
 
-      component.treasureType = component.treasureModel()!.treasureTypes[0];
+      component.treasureType = viewModel.treasureTypes[0];
       component.level = 1;
 
-      component.itemType = component.treasureModel()!.itemTypeViewModels[0];
-      component.power = component.treasureModel()!.powers[0];
+      component.itemType = viewModel.itemTypeViewModels[0];
+      component.power = viewModel.powers[0];
 
       component.validTreasure.set(true);
       component.validItem.set(true);
@@ -410,7 +411,8 @@ describe('TreasureGen Component', () => {
       let treasure = new Treasure(true, new Coin('munny', 9266));
       treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
 
-      component.treasureType = component.treasureModel()!.treasureTypes[1];
+      const viewModel = component.treasureModel()!;
+      component.treasureType = viewModel.treasureTypes[1];
       component.level = 90210;
 
       component.generateTreasure();
@@ -698,8 +700,9 @@ describe('TreasureGen Component', () => {
       let item = new Item('my item', 'my item type');
       treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
 
-      component.itemType = component.treasureModel()!.itemTypeViewModels[1];
-      component.power = component.treasureModel()!.powers[1];
+      const viewModel = component.treasureModel()!;
+      component.itemType = viewModel.itemTypeViewModels[1];
+      component.power = viewModel.powers[1];
 
       component.generateItem();
 
@@ -721,9 +724,10 @@ describe('TreasureGen Component', () => {
       let item = new Item('my item', 'my item type');
       treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
 
-      component.itemType = component.treasureModel()!.itemTypeViewModels[1];
-      component.power = component.treasureModel()!.powers[1];
-      component.itemName = component.treasureModel()!.itemNames['it2'][1];
+      const viewModel = component.treasureModel()!;
+      component.itemType = viewModel.itemTypeViewModels[1];
+      component.power = viewModel.powers[1];
+      component.itemName = viewModel.itemNames['it2'][1];
 
       component.generateItem();
 
@@ -784,7 +788,8 @@ describe('TreasureGen Component', () => {
 
       treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
 
-      component.validateItemAndResetName(component.treasureModel()!.itemTypeViewModels[1].itemType, 'my power', '');
+      const viewModel = component.treasureModel()!;
+      component.validateItemAndResetName(viewModel.itemTypeViewModels[1].itemType, 'my power', '');
 
       expect(component.itemName).toEqual('');
 
@@ -802,7 +807,8 @@ describe('TreasureGen Component', () => {
 
       treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
 
-      component.validateItemAndResetName(component.treasureModel()!.itemTypeViewModels[1].itemType, 'my power', '');
+      const viewModel = component.treasureModel()!;
+      component.validateItemAndResetName(viewModel.itemTypeViewModels[1].itemType, 'my power', '');
 
       expect(component.itemName).toEqual('');
 
@@ -944,8 +950,9 @@ describe('TreasureGen Component', () => {
 
       treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
 
-      const itemType = component.treasureModel()!.itemTypeViewModels[1];
-      let power = component.treasureModel()!.powers[0];
+      const viewModel = component.treasureModel()!;
+      const itemType = viewModel.itemTypeViewModels[1];
+      let power = viewModel.powers[0];
       
       component.validateItemAndResetName(itemType.itemType, power, '');
       component.itemType = itemType;
@@ -961,7 +968,7 @@ describe('TreasureGen Component', () => {
       expect(component.validItem()).toBeFalse();
       expect(component.validating()).toBeFalse();
   
-      power = component.treasureModel()!.powers[1];
+      power = viewModel.powers[1];
       component.validateItemAndResetName(itemType.itemType, power, '');
       component.power = power;
       
@@ -1017,15 +1024,17 @@ describe('TreasureGen Component', () => {
     it(`should set the treasure model on init`, () => {
       const component = fixture.componentInstance;
       expect(component.treasureModel()).toBeTruthy();
-      expect(component.treasureModel()!.treasureTypes).toEqual(['Treasure', 'Coin', 'Goods', 'Items']);
-      expect(component.treasureModel()!.maxTreasureLevel).toEqual(100);
-      expect(component.treasureModel()!.powers).toEqual(['Mundane', 'Minor', 'Medium', 'Major']);
-      expect(component.treasureModel()!.itemTypeViewModels.length).toEqual(11);
+      
+      const viewModel = component.treasureModel()!;
+      expect(viewModel.treasureTypes).toEqual(['Treasure', 'Coin', 'Goods', 'Items']);
+      expect(viewModel.maxTreasureLevel).toEqual(100);
+      expect(viewModel.powers).toEqual(['Mundane', 'Minor', 'Medium', 'Major']);
+      expect(viewModel.itemTypeViewModels.length).toEqual(11);
 
-      for(var i = 0; i < component.treasureModel()!.itemTypeViewModels.length; i++) {
-        let itemType = component.treasureModel()!.itemTypeViewModels[i].itemType;
-        expect(component.treasureModel()!.itemNames[itemType]).toBeTruthy();
-        expect(component.treasureModel()!.itemNames[itemType].length).toBeGreaterThan(0);
+      for(var i = 0; i < viewModel.itemTypeViewModels.length; i++) {
+        let itemType = viewModel.itemTypeViewModels[i].itemType;
+        expect(viewModel.itemNames[itemType]).toBeTruthy();
+        expect(viewModel.itemNames[itemType].length).toBeGreaterThan(0);
       }
     });
   
@@ -2113,6 +2122,94 @@ describe('TreasureGen Component', () => {
           '',
       ];
       TestHelper.expectLines(lines, expected);
+    });
+
+    xdescribe('change detection', () => {
+      // These tests are currently disabled because they test zoneless change detection behavior
+      // in production, but our test environment uses zone.js (for fakeAsync/tick support).
+      // 
+      // IMPORTANT: The loading indicator bug was ONLY reproducible in production, not in tests.
+      // This is because:
+      // - Tests explicitly call fixture.detectChanges() 
+      // - Production relied on zone.js to automatically trigger change detection
+      // - Zone.js was broken/not working properly in production with Angular 21
+      //
+      // The fix (zoneless + signals) has been manually verified in production to resolve the bug.
+      // These tests document the expected production behavior.
+      //
+      // These tests should be re-enabled after migrating to Vitest (Angular v21 migration)
+      // which has better support for testing zoneless applications.
+      
+      it('should update DOM automatically after loading completes', async () => {
+        // This test verifies that in production, when loading() signal changes,
+        // the DOM updates automatically without calling fixture.detectChanges()
+        
+        // In production: signals trigger automatic updates
+        // In tests with zone.js: we need fixture.detectChanges()
+        
+        await fixture.whenStable();
+        
+        let compiled = fixture.nativeElement as HTMLElement;
+        let loadingElement = compiled.querySelector('dndgen-loading');
+        
+        expect(loadingElement).not.toBeNull();
+        
+        await helper.waitForService();
+        // In production, the DOM would update here automatically
+        // In tests, we need detectChanges() which waitForService() calls
+        
+        compiled = fixture.nativeElement as HTMLElement;
+        loadingElement = compiled.querySelector('dndgen-loading');
+        
+        expect(loadingElement).toBeNull();
+        expect(fixture.componentInstance.loading()).toBe(false);
+      });
+
+      it('should update DOM automatically after generation completes', async () => {
+        // This test verifies that in production, when generating() signal changes,
+        // the DOM updates automatically without calling fixture.detectChanges()
+        
+        helper.clickButton('#standardRollButton');
+        await fixture.whenStable();
+        
+        let compiled = fixture.nativeElement as HTMLElement;
+        let rollingElement = compiled.querySelector('#rollingSection dndgen-loading');
+        
+        expect(rollingElement).not.toBeNull();
+        
+        await helper.waitForService();
+        // In production, the DOM would update here automatically
+        
+        compiled = fixture.nativeElement as HTMLElement;
+        rollingElement = compiled.querySelector('#rollingSection dndgen-loading');
+        const rollSection = compiled.querySelector('#rollSection');
+        
+        expect(rollingElement).toBeNull();
+        expect(rollSection).not.toBeNull();
+        expect(fixture.componentInstance.generating()).toBe(false);
+      });
+
+      it('should update DOM automatically after validation completes', async () => {
+        // This test verifies that in production, when validating() signal changes,
+        // the DOM updates automatically without calling fixture.detectChanges()
+        
+        helper.setInput('#standardQuantity', '100');
+        await fixture.whenStable();
+        
+        let compiled = fixture.nativeElement as HTMLElement;
+        let validatingElement = compiled.querySelector('#standardValidating dndgen-loading');
+        
+        expect(validatingElement).not.toBeNull();
+        
+        await helper.waitForService();
+        // In production, the DOM would update here automatically
+        
+        compiled = fixture.nativeElement as HTMLElement;
+        validatingElement = compiled.querySelector('#standardValidating dndgen-loading');
+        
+        expect(validatingElement).toBeNull();
+        expect(fixture.componentInstance.validating()).toBe(false);
+      });
     });
   });
 });

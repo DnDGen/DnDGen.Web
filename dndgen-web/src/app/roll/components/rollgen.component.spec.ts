@@ -574,11 +574,12 @@ describe('RollGen Component', () => {
   
     it(`should set the roll model on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.rollModel()).toBeDefined();
-      expect(component.rollModel()!.quantityLimit_Lower).toEqual(1);
-      expect(component.rollModel()!.quantityLimit_Upper).toEqual(10000);
-      expect(component.rollModel()!.dieLimit_Lower).toEqual(1);
-      expect(component.rollModel()!.dieLimit_Upper).toEqual(10000);
+      const viewModel = component.rollModel();
+      expect(viewModel).toBeDefined();
+      expect(viewModel!.quantityLimit_Lower).toEqual(1);
+      expect(viewModel!.quantityLimit_Upper).toEqual(10000);
+      expect(viewModel!.dieLimit_Lower).toEqual(1);
+      expect(viewModel!.dieLimit_Upper).toEqual(10000);
     });
   
     it(`should render the tabs`, () => {
