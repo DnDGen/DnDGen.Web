@@ -98,11 +98,10 @@ export default defineConfig({
       exclude: ['**/*.spec.ts', '**/*.config.ts']
     },
     
-    // JUnit reporter for CI (equivalent to karma-junit-reporter)
+    // JUnit reporter for CI
+    // Note: outputFile is specified via CLI argument (--outputFile.junit) in package.json scripts
+    // This allows each test command to specify its own output filename
     reporters: ['default', 'junit'],
-    outputFile: {
-      junit: './Results/junit.xml'  // Matches karma junitReporter.outputDir
-    },
     
     server: {
       deps: {
@@ -118,7 +117,7 @@ export default defineConfig({
 });
 ```
 
-**Note**: Vitest doesn't need separate browser configurations like Karma (Firefox vs Chrome). It runs in jsdom, which is faster and more consistent across environments.
+**Note**: Output file is not configured here - it's specified via CLI argument in each npm script for explicit control.
 
 ### Configuration File Usage
 
@@ -131,22 +130,30 @@ This approach mirrors the Karma setup exactly:
 {
   "scripts": {
     "test": "vitest run",
-    "test:ci": "vitest run --config vitest.config.ci.ts",
-    "test:cd:rollgen": "vitest run --config vitest.config.ci.ts src/app/roll",
-    "test:cd:treasuregen": "vitest run --config vitest.config.ci.ts src/app/treasure",
-    "test:cd:charactergen": "vitest run --config vitest.config.ci.ts src/app/character",
-    "test:cd:encountergen": "vitest run --config vitest.config.ci.ts src/app/encounter",
-    "test:cd:dungeongen": "vitest run --config vitest.config.ci.ts src/app/dungeon",
-    "test:cd:web": "vitest run --config vitest.config.ci.ts src/app/roll src/app/treasure src/app/character src/app/encounter src/app/dungeon"
+    "test:ci": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-DnDGen-Website.xml",
+    "test:cd:rollgen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-RollGen-Website.xml src/app/roll",
+    "test:cd:treasuregen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-TreasureGen-Website.xml src/app/treasure",
+    "test:cd:charactergen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-CharacterGen-Website.xml src/app/character",
+    "test:cd:encountergen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-EncounterGen-Website.xml src/app/encounter",
+    "test:cd:dungeongen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-DungeonGen-Website.xml src/app/dungeon",
+    "test:cd:web": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-AllGenerators-Website.xml src/app/roll src/app/treasure src/app/character src/app/encounter src/app/dungeon"
   }
 }
 ```
+
+**Note on explicit output files**:
+- Each test command explicitly specifies its output filename via `--outputFile.junit`
+- Naming follows pattern: `TestResults-{Component}-Website.xml`
+- Consistent with Postman test naming convention (e.g., `RollGen-API.postman_collection.json`)
+- Eliminates ambiguity about where test results are written
+- Makes it easy to identify which test suite produced which results
 
 **Note on test:cd:web syntax**:
 - **Karma/Angular CLI**: Used `--include='**/app/{roll,treasure,...}/**/*.spec.ts'` (Angular CLI flag with glob pattern)
 - **Vitest**: Accepts multiple directory paths as space-separated arguments
 - Both approaches achieve the same result: running tests from multiple feature directories
 - Vitest will automatically find all `*.spec.ts` files in the specified directories (based on the `include` pattern in vitest.config.ts)
+- **test:cd:web runs all generator tests** (roll, treasure, character, encounter, dungeon) - equivalent to the Web_Api deployment validation in the release pipeline
 
 **Rationale for two config files**:
 - Mirrors existing Karma setup (familiar to team)
@@ -157,11 +164,18 @@ This approach mirrors the Karma setup exactly:
 
 **CI/CD Pipeline Usage**:
 ```bash
-# Simply use the npm script
+# Build pipeline - runs all tests
 npm run test:ci
+# Outputs: TestResults-DnDGen-Website.xml
 
-# Or directly
-vitest run --config vitest.config.ci.ts
+# Release pipeline - runs subset tests per deployment
+npm run test:cd:rollgen
+# Outputs: TestResults-RollGen-Website.xml
+
+npm run test:cd:treasuregen
+# Outputs: TestResults-TreasureGen-Website.xml
+
+# etc.
 ```
 
 #### src/test-setup.ts
@@ -583,9 +597,111 @@ Integration tests require more careful migration:
 - Verify zone.js is not loaded in tests
 - Run full test suite with Vitest
 - Verify all test commands work (test, test:ci, test:cd:*)
-- Update CI/CD pipelines
+- Update CI/CD pipelines (if needed - see CI/CD Pipeline Compatibility section)
 - Update README.md and documentation
 - Final validation of all tests passing
+
+### CI/CD Pipeline Compatibility
+
+**Analysis**: The migration requires explicit test result file naming and pipeline updates to eliminate ambiguity and follow existing naming conventions.
+
+**Current State**:
+- Build pipeline: Uses npm scripts with pattern `**/TESTS-*.xml`
+- Release pipeline: Uses npm scripts with pattern `...\**\TESTS-*.xml`
+- Karma outputs: `Results/TESTS-FirefoxHeadless.xml`, `Results/TESTS-ChromeHeadless.xml`
+- Postman tests: Use explicit naming like `rollgen.junitReport.xml`, `treasuregen.junitReport.xml`
+
+**Proposed Changes**:
+
+**1. Explicit Test Result Filenames** (via Vitest CLI `--outputFile.junit` argument):
+
+Following Postman test naming convention pattern:
+- `test:ci` → `TestResults-DnDGen-Website.xml`
+- `test:cd:rollgen` → `TestResults-RollGen-Website.xml`
+- `test:cd:treasuregen` → `TestResults-TreasureGen-Website.xml`
+- `test:cd:charactergen` → `TestResults-CharacterGen-Website.xml`
+- `test:cd:encountergen` → `TestResults-EncounterGen-Website.xml`
+- `test:cd:dungeongen` → `TestResults-DungeonGen-Website.xml`
+- `test:cd:web` → `TestResults-AllGenerators-Website.xml`
+
+**Naming Convention Rationale**:
+- Follows pattern similar to Postman tests (e.g., `RollGen-API.postman_collection.json`, `DnDGen-Website.postman_collection.json`)
+- Explicit component identification in filename
+- `-Website` suffix distinguishes website tests from API tests
+- `TestResults-` prefix clearly identifies as test output
+- No ambiguity about which test suite produced which file
+
+**2. Update build.yml** (DnDGen_Web job, line ~304):
+
+Change from:
+```yaml
+testResultsFiles: '**/TESTS-*.xml'
+```
+
+To:
+```yaml
+testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'
+```
+
+Full task:
+```yaml
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  condition: always()
+  inputs:
+    testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'
+    failTaskOnFailedTests: true
+    failTaskOnMissingResultsFile: true
+```
+
+**3. Update release.yml** (6 deployment jobs):
+
+Each deployment job has a "Publish Website Test Results" task that needs updating:
+
+- **RollGen_Api** (line ~72): 
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-RollGen-Website.xml'`
+
+- **TreasureGen_Api** (line ~151):
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-TreasureGen-Website.xml'`
+
+- **CharacterGen_Api** (line ~230):
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CharacterGen-Website.xml'`
+
+- **EncounterGen_Api** (line ~309):
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-EncounterGen-Website.xml'`
+
+- **DungeonGen_Api** (line ~388):
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-DungeonGen-Website.xml'`
+
+- **Web_Api** (line ~467):
+  - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
+  - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'`
+
+**Benefits**:
+- Explicit configuration eliminates reliance on defaults
+- Clear identification of which test suite produced which results
+- Consistent with existing Postman test naming patterns
+- No future mystery about test result locations
+- Each deployment validates its specific generator subset
+
+**Action Items for Phase 8**:
+1. Update package.json scripts to use explicit `--outputFile.junit` arguments
+2. Update build.yml PublishTestResults task to use explicit file path
+3. Update release.yml (6 PublishTestResults tasks) to use explicit file paths
+4. Verify test results are published correctly in CI/CD after migration
+- Web_Api: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'`
+
+**Benefits**:
+- Explicit configuration eliminates reliance on defaults
+- Clear identification of which test suite produced which results
+- Consistent with existing Postman test naming patterns
+- No future mystery about test result locations
+- Each deployment validates its specific generator subset
 
 ### Test Execution Commands
 
@@ -674,17 +790,51 @@ For files with nested describe blocks:
 - **Target**: 200-500 lines per task (manageable chunk size)
 - **Maximum**: 800 lines per task (absolute limit)
 - **Minimum**: 1 complete describe block (maintain logical grouping)
+- **Exception**: For files >2000 lines without nested describes, break by logical test groups (e.g., initialization tests, validation tests, generation tests)
 
-**Example Breakdown for rollgen.component.spec.ts (~1288 lines)**:
+**Example Breakdown for charactergen.component.spec.ts (~3490 lines)**:
 ```
-Task 1: Migrate RollGen unit tests - setup and basic tests (lines 1-100)
-Task 2: Migrate RollGen unit tests - validation tests (lines 101-200)
-Task 3: Migrate RollGen unit tests - rolling tests (lines 201-400)
-Task 4: Migrate RollGen unit tests - expression tests (lines 401-537)
-Task 5: Migrate RollGen integration tests - setup and basic rendering (lines 538-650)
-Task 6: Migrate RollGen integration tests - standard tab (lines 651-822)
-Task 7: Migrate RollGen integration tests - custom tab (lines 823-1048)
-Task 8: Migrate RollGen integration tests - expression tab (lines 1049-1288)
+Unit tests (lines 21-2288, 2268 lines total) - break into logical groups:
+  Task 1: Unit tests - setup, initialization, and validation tests (lines 21-600, ~580 lines)
+  Task 2: Unit tests - validation with randomizers (lines 601-1200, ~600 lines)
+  Task 3: Unit tests - generation setup and basic generation (lines 1201-1800, ~600 lines)
+  Task 4: Unit tests - leadership generation and download (lines 1801-2288, ~488 lines)
+
+Integration tests (lines 2289-3490, 1201 lines total):
+  Task 5: Integration - setup and basic rendering (lines 2289-2414, ~126 lines)
+  Task 6: Integration - character tab (lines 2415-3547, ~1133 lines) - STILL TOO BIG, break further:
+    Task 6a: Integration - character tab - form controls and validation (lines 2415-2900, ~485 lines)
+    Task 6b: Integration - character tab - generation and display (lines 2901-3547, ~647 lines)
+  Task 7: Integration - leadership tab (lines 3548-3490, ~60 lines at end, but check actual end)
+```
+
+**Example Breakdown for character.pipe.spec.ts (~2780 lines)**:
+```
+Single unit describe block (lines 27-2780, 2753 lines) - 27 test cases:
+  Task 1: Character pipe - tests 1-7 (lines 27-900, ~873 lines)
+  Task 2: Character pipe - tests 8-14 (lines 901-1700, ~800 lines)
+  Task 3: Character pipe - tests 15-21 (lines 1701-2400, ~700 lines)
+  Task 4: Character pipe - tests 22-27 (lines 2401-2780, ~380 lines)
+```
+
+**Example Breakdown for treasuregen.component.spec.ts (~1761 lines)**:
+```
+Task 1: Unit tests (lines 26-986, 961 lines) - break into 2 chunks:
+  Task 1a: Unit tests - initialization and validation (lines 26-500, ~475 lines)
+  Task 1b: Unit tests - generation and operations (lines 501-986, ~486 lines)
+Task 2: Integration - setup (lines 987-1060, ~74 lines)
+Task 3: Integration - treasure tab (lines 1061-1281, ~221 lines)
+Task 4: Integration - item tab (lines 1282-1761, ~480 lines)
+```
+
+**Example Breakdown for rollgen.component.spec.ts (~1092 lines)**:
+```
+Task 1: Unit tests - part 1 (lines 12-300, ~289 lines)
+Task 2: Unit tests - part 2 (lines 301-537, ~237 lines)
+Task 3: Integration - setup (lines 538-597, ~60 lines)
+Task 4: Integration - standard tab (lines 598-822, ~225 lines)
+Task 5: Integration - custom tab (lines 823-1048, ~226 lines)
+Task 6: Integration - expression tab (lines 1049-1092, ~44 lines)
 ```
 
 **Benefits of This Approach**:
