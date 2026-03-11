@@ -230,13 +230,37 @@ it('should handle async operation', async () => {
   component.doAsyncThing();
   
   await fixture.whenStable(); // Wait for all async operations
-  fixture.detectChanges();
   
   expect(component.result()).toBe(expected);
 });
 ```
 
-#### Pattern 3: Jasmine Spies to Vitest Mocks
+#### Pattern 3: Zoneless Change Detection (Critical for Zoneless Apps)
+**Before (with zone.js - automatic change detection)**:
+```typescript
+it('should update view', async () => {
+  component.value.set('new value');
+  
+  fixture.detectChanges(); // Manually trigger change detection
+  
+  expect(compiled.querySelector('div')?.textContent).toBe('new value');
+});
+```
+
+**After (zoneless - use whenStable instead of detectChanges)**:
+```typescript
+it('should update view', async () => {
+  component.value.set('new value');
+  
+  await fixture.whenStable(); // Wait for change detection and async operations
+  
+  expect(compiled.querySelector('div')?.textContent).toBe('new value');
+});
+```
+
+**Important**: Angular recommends avoiding `fixture.detectChanges()` in zoneless applications. Use `await fixture.whenStable()` instead, which properly handles change detection in zoneless mode.
+
+#### Pattern 4: Jasmine Spies to Vitest Mocks
 **Before (Jasmine)**:
 ```typescript
 const serviceSpy = jasmine.createSpyObj('Service', ['method1', 'method2']);
@@ -258,7 +282,7 @@ expect(serviceSpy.method1).toHaveBeenCalledWith(arg);
 expect(serviceSpy.method1).toHaveBeenCalledTimes(1);
 ```
 
-#### Pattern 4: Router Navigation Tests
+#### Pattern 5: Router Navigation Tests
 **Before**:
 ```typescript
 it('routes to page', async () => {
@@ -281,21 +305,28 @@ it('routes to page', async () => {
 
 ### TestHelper Updates
 
-The TestHelper class needs minimal updates:
-- `waitForService()` method already uses `fixture.whenStable()` which works with Vitest
-- No changes needed for DOM query methods
-- Assertion methods remain the same (Vitest's expect API is compatible)
+The TestHelper class needs updates for zoneless compatibility:
 
-Potential addition for timing control:
+**Current waitForService() method**:
 ```typescript
-public async waitForTimers(ms: number = 0) {
-  if (ms > 0) {
-    await vi.advanceTimersByTimeAsync(ms);
-  }
+public async waitForService() {
+  this.fixture.detectChanges();
   await this.fixture.whenStable();
+
+  //update view
   this.fixture.detectChanges();
 }
 ```
+
+**Updated for zoneless (remove detectChanges)**:
+```typescript
+public async waitForService() {
+  await this.fixture.whenStable();
+  // No detectChanges needed - whenStable handles change detection in zoneless mode
+}
+```
+
+**Rationale**: In zoneless applications, `fixture.detectChanges()` should be avoided. `fixture.whenStable()` properly handles both async operations and change detection.
 
 ## Data Models
 
@@ -397,7 +428,7 @@ Property 13: Test subset filtering works
 
 1. **Timing Issues**
    - **Problem**: Tests fail due to async operations not completing
-   - **Solution**: Use `await fixture.whenStable()` and `fixture.detectChanges()` after async operations
+   - **Solution**: Use `await fixture.whenStable()` after async operations
    - **Fallback**: Use `vi.advanceTimersByTimeAsync()` for specific timing control
 
 2. **Spy/Mock Incompatibilities**
@@ -455,8 +486,7 @@ Integration tests require more careful migration:
 1. **Component Tests with TestBed**:
    - Keep TestBed configuration (already compatible)
    - Replace fakeAsync/tick with async/await
-   - Use `fixture.whenStable()` for async operations
-   - Add `fixture.detectChanges()` after state changes
+   - Use `fixture.whenStable()` for async operations and state changes, preferrably via the test helper (the waitForService function)
 
 2. **Router Tests**:
    - Keep RouterTestingHarness usage
@@ -472,34 +502,90 @@ Integration tests require more careful migration:
 
 **Phase 1: Configuration Setup**
 - Install Vitest and dependencies
-- Create vitest.config.ts
+- Create vitest.config.ts and vitest.config.ci.ts
+- Create src/test-setup.ts
 - Update angular.json
 - Update tsconfig.spec.json
 - Update package.json scripts
+- Verify basic Vitest execution works
 
-**Phase 2: Sample Migration**
-- Migrate 3-5 representative test files:
-  - 1 simple unit test (pipe or service)
-  - 1 component test with TestBed
-  - 1 test with heavy fakeAsync/tick usage
-  - 1 router test
-- Document patterns and solutions
-- Validate approach
+**Phase 2: Foundation Tests (TestHelper, App, Shared)**
+- Migrate testHelper.spec.ts
+- Update TestHelper class for zoneless compatibility (remove detectChanges)
+- Migrate app.component.spec.ts
+- Migrate app.routes.spec.ts
+- Migrate shared component tests (loading.component.spec.ts, details.component.spec.ts)
+- Migrate shared service tests (logger.service.spec.ts, sweetAlert.service.spec.ts, fileSaver.service.spec.ts)
+- Migrate shared pipe tests (bonus.pipe.spec.ts, bonuses.pipe.spec.ts)
+- Migrate nav-menu tests
+- Migrate home and error page tests
+- Document patterns and solutions discovered
+- Validate TestHelper changes work correctly
 
-**Phase 3: Bulk Migration**
-- Migrate remaining test files by category:
-  - Low complexity first (pipes, models, simple services)
-  - Medium complexity next (services with HTTP, simple components)
-  - High complexity last (generator components with debouncing)
-- Run tests frequently to catch issues early
+**Phase 3: RollGen Migration**
+- Migrate roll service tests (roll.service.spec.ts)
+- Migrate rollgen.component.spec.ts in chunks:
+  - Unit tests - setup and validation
+  - Unit tests - rolling operations
+  - Unit tests - expression handling
+  - Integration tests - setup and rendering
+  - Integration tests - standard tab
+  - Integration tests - custom tab
+  - Integration tests - expression tab
+- Run rollgen tests to verify
+- Document any rollgen-specific patterns
 
-**Phase 4: Cleanup and Verification**
-- Remove Karma configuration files
-- Remove Karma dependencies
-- Remove zone.js from test configuration
-- Verify all test commands work
+**Phase 4: TreasureGen Migration**
+- Migrate treasure service tests (treasure.service.spec.ts)
+- Migrate treasure pipe tests (treasure.pipe.spec.ts, item.pipe.spec.ts)
+- Migrate treasure model tests (treasuregenViewModel.model.spec.ts)
+- Migrate treasuregen.component.spec.ts in chunks:
+  - Unit tests
+  - Integration tests - treasure tab
+  - Integration tests - item tab
+- Migrate treasure.component.spec.ts
+- Migrate item.component.spec.ts
+- Run treasuregen tests to verify
+
+**Phase 5: CharacterGen Migration**
+- Migrate character service tests
+- Migrate character model tests
+- Migrate charactergen.component.spec.ts in chunks:
+  - Unit tests (describe('unit'))
+  - Integration tests - setup and basic tests (describe('integration') - before nested describes)
+  - Integration tests - character tab (describe('the character tab'))
+  - Integration tests - leadership tab (describe('the leadership tab'))
+- Migrate character.component.spec.ts
+- Run charactergen tests to verify
+
+**Phase 6: EncounterGen Migration**
+- Migrate encounter service tests
+- Migrate encounter model tests
+- Migrate encountergen.component.spec.ts in chunks:
+  - Unit tests (describe('unit'))
+  - Integration tests (describe('integration'))
+- Migrate encounter.component.spec.ts
+- Run encountergen tests to verify
+
+**Phase 7: DungeonGen Migration**
+- Migrate dungeon service tests
+- Migrate dungeon model tests
+- Migrate dungeongen.component.spec.ts in chunks:
+  - Unit tests (describe('unit'))
+  - Integration tests (describe('integration'))
+- Migrate dungeon component tests (dungeonTreasure.component.spec.ts, area.component.spec.ts)
+- Run dungeongen tests to verify
+
+**Phase 8: Cleanup and Verification**
+- Remove Karma configuration files (karma.conf.js, karma.conf.ci.js)
+- Remove Karma dependencies from package.json
+- Remove zone.js from test configuration (angular.json polyfills)
+- Verify zone.js is not loaded in tests
+- Run full test suite with Vitest
+- Verify all test commands work (test, test:ci, test:cd:*)
 - Update CI/CD pipelines
-- Run full test suite
+- Update README.md and documentation
+- Final validation of all tests passing
 
 ### Test Execution Commands
 
@@ -546,21 +632,11 @@ npm run test:cd:web         # Run all generator tests
     "karma-firefox-launcher": "^2.1.3",
     "karma-chrome-launcher": "^3.2.0",
     "karma-jasmine": "^5.1.0",
-    "karma-junit-reporter": "^2.0.1"
+    "karma-junit-reporter": "^2.0.1",
+    "zone.js": "^0.16.1"
   }
 }
 ```
-
-**Keep** (still needed for Angular testing):
-```json
-{
-  "devDependencies": {
-    "zone.js": "^0.16.1"  // May be needed for some Angular testing utilities
-  }
-}
-```
-
-Note: zone.js might still be needed as a dev dependency for Angular's testing utilities, but it should NOT be loaded in the test environment polyfills.
 
 ## Implementation Notes
 
@@ -571,6 +647,69 @@ Note: zone.js might still be needed as a dev dependency for Angular's testing ut
 3. **Test Frequently**: Run tests after each file migration to catch regressions
 4. **Preserve Behavior**: Ensure migrated tests verify the same functionality
 5. **CI/CD Validation**: Verify all CI/CD commands work before considering migration complete
+
+### Large Test File Strategy
+
+**Problem**: Some test files are very large (3000+ lines, e.g., rollgen.component.spec.ts, treasuregen.component.spec.ts). Attempting to migrate entire files at once has historically caused:
+- Compilation errors from incomplete replacements
+- Lost context in the middle of large edits
+- Difficult-to-debug issues spanning multiple describe blocks
+
+**Solution**: Break large test file migrations into small, digestible chunks.
+
+**Recommended Approach - Per Describe Block**:
+
+For files with multiple top-level describe blocks:
+1. **Task per top-level describe block**
+   - Example: "Migrate RollGen Component - unit tests describe block"
+   - Example: "Migrate RollGen Component - integration tests describe block"
+
+For files with nested describe blocks:
+2. **Task per nested describe block**
+   - Example: "Migrate RollGen Component - integration tests - standard tab describe block"
+   - Example: "Migrate RollGen Component - integration tests - custom tab describe block"
+   - Example: "Migrate RollGen Component - integration tests - expression tab describe block"
+
+**Task Granularity Guidelines**:
+- **Target**: 200-500 lines per task (manageable chunk size)
+- **Maximum**: 800 lines per task (absolute limit)
+- **Minimum**: 1 complete describe block (maintain logical grouping)
+
+**Example Breakdown for rollgen.component.spec.ts (~1288 lines)**:
+```
+Task 1: Migrate RollGen unit tests - setup and basic tests (lines 1-100)
+Task 2: Migrate RollGen unit tests - validation tests (lines 101-200)
+Task 3: Migrate RollGen unit tests - rolling tests (lines 201-400)
+Task 4: Migrate RollGen unit tests - expression tests (lines 401-537)
+Task 5: Migrate RollGen integration tests - setup and basic rendering (lines 538-650)
+Task 6: Migrate RollGen integration tests - standard tab (lines 651-822)
+Task 7: Migrate RollGen integration tests - custom tab (lines 823-1048)
+Task 8: Migrate RollGen integration tests - expression tab (lines 1049-1288)
+```
+
+**Benefits of This Approach**:
+- Smaller, focused edits reduce error risk
+- Each task can be tested independently
+- Easier to identify and fix issues
+- Clear progress tracking
+- Can pause/resume migration more easily
+- Compilation errors are isolated to specific sections
+
+**Implementation Pattern for Each Task**:
+1. Read the specific describe block section
+2. Identify patterns to migrate (fakeAsync, tick, spies, detectChanges)
+3. Apply migrations using targeted string replacements
+4. Run tests for that file to verify
+5. Fix any issues before moving to next describe block
+6. Mark task complete only when tests pass
+
+**Verification After Each Task**:
+```bash
+# Run tests for the specific file being migrated
+vitest run src/app/roll/components/rollgen.component.spec.ts
+```
+
+This ensures each chunk is working before moving to the next.
 
 ### Known Challenges
 
