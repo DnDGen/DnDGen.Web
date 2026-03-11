@@ -30,7 +30,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Do NOT create separate vitest.config.ts (Angular handles configuration)
     - _Requirements: 1.1, 1.3, 2.4, 2.5, 3.1, 3.5_
 
-  - [ ] 1.4 Update tsconfig.spec.json
+  - [x] 1.4 Update tsconfig.spec.json
     - Change types array from ["jasmine"] to ["vitest"]
     - Keep "@angular/localize" in types
     - Add "src/test-shims.d.ts" to files array (temporary, removed in Phase 8)

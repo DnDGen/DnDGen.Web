@@ -5,9 +5,13 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
+      "vitest",
       "@angular/localize"
     ]
   },
+  "files": [
+    "src/test-shims.d.ts"
+  ],
   "include": [
     "src/**/*.spec.ts",
     "src/**/test-helper.ts",
