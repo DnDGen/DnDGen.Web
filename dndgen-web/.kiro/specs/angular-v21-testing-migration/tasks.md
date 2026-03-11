@@ -32,7 +32,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 2.4, 2.5, 3.1_
 
 
-  - [ ] 1.5 Update tsconfig.spec.json
+  - [x] 1.5 Update tsconfig.spec.json
     - Replace Jasmine types with Vitest types
     - Update types array to include "vitest/globals"
     - Remove "@types/jasmine" reference
