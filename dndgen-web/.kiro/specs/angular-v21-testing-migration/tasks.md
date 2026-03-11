@@ -38,7 +38,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Remove "@types/jasmine" reference
     - _Requirements: 3.2_
 
-  - [ ] 1.6 Update package.json test scripts
+  - [x] 1.6 Update package.json test scripts
     - Add scripts: test, test:watch, test:ui, test:coverage
     - Add CI scripts: test:ci with explicit output file `--outputFile.junit=./TestResults-DnDGen-Website.xml`
     - Add subset scripts: test:cd:rollgen, test:cd:treasuregen, test:cd:charactergen, test:cd:encountergen, test:cd:dungeongen, test:cd:web
