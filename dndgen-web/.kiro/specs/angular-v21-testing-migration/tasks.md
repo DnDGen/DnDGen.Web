@@ -25,7 +25,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Do not import zone.js (zoneless architecture)
     - _Requirements: 2.4, 2.5, 3.5_
 
-  - [ ] 1.4 Update angular.json for Vitest
+  - [x] 1.4 Update angular.json for Vitest
     - Change test builder to use Vitest
     - Remove zone.js from test polyfills
     - Update test configuration to reference vitest.config.ts
