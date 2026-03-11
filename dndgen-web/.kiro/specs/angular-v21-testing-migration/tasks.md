@@ -36,7 +36,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add "src/test-shims.d.ts" to files array (temporary, removed in Phase 8)
     - _Requirements: 3.2_
 
-  - [ ] 1.5 Update package.json test scripts
+  - [x] 1.5 Update package.json test scripts
     - Update scripts to use `ng test` (NOT `vitest` directly)
     - Add: test, test:watch, test:ui, test:coverage
     - Add CI script: test:ci with explicit `--outputFile.junit=./TestResults-DnDGen-Website.xml`
