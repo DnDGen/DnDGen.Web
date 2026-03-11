@@ -22,7 +22,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Content: Global declarations for describe, it, expect, beforeEach, afterEach, vi
     - _Requirements: 1.1, 3.2_
 
-  - [ ] 1.3 Update angular.json for Vitest
+  - [x] 1.3 Update angular.json for Vitest
     - Change test builder to `@angular/build:unit-test`
     - Remove zone.js from test polyfills
     - Add test options: include, testTimeout, hookTimeout, bail, reporters, coverage

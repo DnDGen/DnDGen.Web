@@ -82,7 +82,7 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "watch": false
+            "include": ["src/**/*.spec.ts"]
           }
         }
       }
