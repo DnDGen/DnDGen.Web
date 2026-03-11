@@ -14,7 +14,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run: `npm uninstall @types/jasmine karma karma-chrome-launcher karma-coverage karma-jasmine karma-jasmine-html-reporter`
     - _Requirements: 1.1, 1.5, 3.3_
 
-  - [ ] 1.2 Create temporary test shims file for compilation during migration
+  - [x] 1.2 Create temporary test shims file for compilation during migration
     - Create `dndgen-web/src/test-shims.d.ts` with global type definitions
     - Shims provide type definitions for UNMIGRATED files that still use Jasmine syntax
     - Migrated files will have explicit Vitest imports and won't use the shims
