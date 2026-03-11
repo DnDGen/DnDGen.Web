@@ -19,7 +19,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Configure asset handling, coverage, reporters, and test patterns per design
     - _Requirements: 1.1, 1.3, 3.5_
 
-  - [ ] 1.3 Create test setup file
+  - [x] 1.3 Create test setup file
     - Create `dndgen-web/src/test-setup.ts`
     - Initialize Angular testing environment for zoneless applications
     - Do not import zone.js (zoneless architecture)
