@@ -20,123 +20,73 @@ Source of changes: https://angular.dev/update-guide?v=20.0-21.0&l=3
 - **Test Runner**: Vitest (fast, modern test runner with native ESM)
 - **Test Framework**: Vitest (compatible API with Jasmine for most assertions)
 - **Async Testing**: Native async/await with Vitest timing utilities
-- **Test Configuration**: angular.json with Vitest builder, vitest.config.ts
+- **Test Configuration**: angular.json with Vitest builder (no separate vitest.config.ts needed)
 - **Test Utilities**: Updated TestHelper class compatible with Vitest
-- **Asset Handling**: Vitest configuration for static assets
+- **Asset Handling**: Configured through angular.json test options
+- **Test Execution**: Always use `ng test` (never vitest directly)
 
 ## Components and Interfaces
 
-### Configuration Files
+### Configuration Approach
 
-#### vitest.config.ts (Local/Development)
+**CRITICAL**: Per Angular documentation, Vitest configuration is handled through angular.json. Separate vitest.config.ts files are NOT needed and should NOT be created.
 
-Replaces karma.conf.js - default configuration for local development
+#### angular.json Configuration
 
-```typescript
-import { defineConfig } from 'vitest/config';
-import angular from '@analogjs/vite-plugin-angular';
+All Vitest configuration is specified in the test target options:
 
-export default defineConfig({
-  plugins: [angular()],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
-    
-    // Local settings (from karma.conf.js):
-    testTimeout: 10000,  // 10 seconds
-    hookTimeout: 10000,
-    bail: 1,  // Fail fast (equivalent to oneFailurePerSpec, stopSpecOnExpectationFailure, failFast)
-    
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: ['**/*.spec.ts', '**/*.config.ts']
-    },
-    
-    reporters: ['default'],  // Progress only
-    
-    server: {
-      deps: {
-        inline: ['@angular/**', '@ng-bootstrap/**']
+```json
+{
+  "projects": {
+    "dndgen-web": {
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:vitest",
+          "options": {
+            "include": ["src/**/*.spec.ts"],
+            "testTimeout": 10000,
+            "hookTimeout": 10000,
+            "bail": 1,
+            "reporters": ["default"],
+            "coverage": {
+              "provider": "v8",
+              "reporter": ["text", "json", "html"],
+              "exclude": ["**/*.spec.ts", "**/*.config.ts"]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "testTimeout": 60000,
+              "hookTimeout": 60000,
+              "bail": false,
+              "reporters": ["default", "junit"]
+            }
+          }
+        }
       }
     }
-  },
-  resolve: {
-    alias: {
-      '@': '/src'
-    }
   }
-});
+}
 ```
 
-#### vitest.config.ci.ts (CI/CD)
+**Note**: Angular handles the Vitest plugin and environment setup automatically. No manual configuration needed.
 
-Replaces karma.conf.ci.js - configuration for CI/CD pipelines
+### Test Execution Commands
 
-```typescript
-import { defineConfig } from 'vitest/config';
-import angular from '@analogjs/vite-plugin-angular';
-
-export default defineConfig({
-  plugins: [angular()],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
-    
-    // CI settings (from karma.conf.ci.js):
-    testTimeout: 60000,  // 60 seconds (1000 * 60)
-    hookTimeout: 60000,
-    // No bail - run all tests (equivalent to disabling oneFailurePerSpec, etc.)
-    
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: ['**/*.spec.ts', '**/*.config.ts']
-    },
-    
-    // JUnit reporter for CI
-    // Note: outputFile is specified via CLI argument (--outputFile.junit) in package.json scripts
-    // This allows each test command to specify its own output filename
-    reporters: ['default', 'junit'],
-    
-    server: {
-      deps: {
-        inline: ['@angular/**', '@ng-bootstrap/**']
-      }
-    }
-  },
-  resolve: {
-    alias: {
-      '@': '/src'
-    }
-  }
-});
-```
-
-**Note**: Output file is not configured here - it's specified via CLI argument in each npm script for explicit control.
-
-### Configuration File Usage
-
-This approach mirrors the Karma setup exactly:
-- **vitest.config.ts** - Default config for local development (like karma.conf.js)
-- **vitest.config.ci.ts** - CI/CD config (like karma.conf.ci.js)
+**CRITICAL**: Always use `ng test`, never `vitest` directly. This ensures proper Angular integration.
 
 **Usage in package.json scripts**:
 ```json
 {
   "scripts": {
-    "test": "vitest run",
-    "test:ci": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-DnDGen-Website.xml",
-    "test:cd:rollgen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-RollGen-Website.xml src/app/roll",
-    "test:cd:treasuregen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-TreasureGen-Website.xml src/app/treasure",
-    "test:cd:charactergen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-CharacterGen-Website.xml src/app/character",
-    "test:cd:encountergen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-EncounterGen-Website.xml src/app/encounter",
-    "test:cd:dungeongen": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-DungeonGen-Website.xml src/app/dungeon",
-    "test:cd:web": "vitest run --config vitest.config.ci.ts --reporter=default --reporter=junit --outputFile.junit=./TestResults-AllGenerators-Website.xml src/app/roll src/app/treasure src/app/character src/app/encounter src/app/dungeon"
+    "test": "ng test",
+    "test:ci": "ng test --configuration=ci --outputFile.junit=./TestResults-DnDGen-Website.xml",
+    "test:cd:rollgen": "ng test --configuration=ci --outputFile.junit=./TestResults-RollGen-Website.xml --include='src/app/roll/**/*.spec.ts'",
+    "test:cd:treasuregen": "ng test --configuration=ci --outputFile.junit=./TestResults-TreasureGen-Website.xml --include='src/app/treasure/**/*.spec.ts'",
+    "test:cd:charactergen": "ng test --configuration=ci --outputFile.junit=./TestResults-CharacterGen-Website.xml --include='src/app/character/**/*.spec.ts'",
+    "test:cd:encountergen": "ng test --configuration=ci --outputFile.junit=./TestResults-EncounterGen-Website.xml --include='src/app/encounter/**/*.spec.ts'",
+    "test:cd:dungeongen": "ng test --configuration=ci --outputFile.junit=./TestResults-DungeonGen-Website.xml --include='src/app/dungeon/**/*.spec.ts'",
+    "test:cd:web": "ng test --configuration=ci --outputFile.junit=./TestResults-AllGenerators-Website.xml --include='src/app/{roll,treasure,character,encounter,dungeon}/**/*.spec.ts'"
   }
 }
 ```
@@ -147,20 +97,6 @@ This approach mirrors the Karma setup exactly:
 - Consistent with Postman test naming convention (e.g., `RollGen-API.postman_collection.json`)
 - Eliminates ambiguity about where test results are written
 - Makes it easy to identify which test suite produced which results
-
-**Note on test:cd:web syntax**:
-- **Karma/Angular CLI**: Used `--include='**/app/{roll,treasure,...}/**/*.spec.ts'` (Angular CLI flag with glob pattern)
-- **Vitest**: Accepts multiple directory paths as space-separated arguments
-- Both approaches achieve the same result: running tests from multiple feature directories
-- Vitest will automatically find all `*.spec.ts` files in the specified directories (based on the `include` pattern in vitest.config.ts)
-- **test:cd:web runs all generator tests** (roll, treasure, character, encounter, dungeon) - equivalent to the Web_Api deployment validation in the release pipeline
-
-**Rationale for two config files**:
-- Mirrors existing Karma setup (familiar to team)
-- No environment variable complexity
-- Explicit and clear which config is being used
-- Easy to test CI config locally: `npm run test:ci`
-- No additional dependencies needed (no cross-env)
 
 **CI/CD Pipeline Usage**:
 ```bash
@@ -178,24 +114,17 @@ npm run test:cd:treasuregen
 # etc.
 ```
 
-#### src/test-setup.ts
-```typescript
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+### Test Syntax Migration Patterns
 
-// Initialize Angular testing environment for zoneless applications
-getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
-);
+**CRITICAL**: When migrating a test file, always add explicit Vitest imports to that file.
+
+#### Required Imports in Every Migrated Spec File
+
+```typescript
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 ```
 
-**Note**: No zone.js import needed since the application is zoneless. Angular's testing utilities work without zone.js when using async/await patterns.
-
-### Test Syntax Migration Patterns
+**Rationale**: Explicit imports make dependencies clear and prevent naming conflicts. The test-shims.d.ts file allows unmigrated files to compile, but every migrated file must have explicit imports.
 
 #### Pattern 1: Basic Test Structure
 **Before (Jasmine)**:
@@ -211,7 +140,20 @@ describe('Component', () => {
 });
 ```
 
-**After (Vitest)**: Same syntax - no changes needed
+**After (Vitest)**: Same syntax, but with explicit imports
+```typescript
+import { describe, it, expect, beforeEach } from 'vitest';
+
+describe('Component', () => {
+  beforeEach(() => {
+    // setup
+  });
+  
+  it('should do something', () => {
+    expect(value).toBe(expected);
+  });
+});
+```
 
 #### Pattern 2: Async Tests with fakeAsync/tick
 **Before (Jasmine + zone.js)**:
@@ -227,8 +169,10 @@ it('should handle async operation', fakeAsync(() => {
 }));
 ```
 
-**After (Vitest + native async)**:
+**After (Vitest + native async)**: With explicit imports
 ```typescript
+import { describe, it, expect, vi } from 'vitest';
+
 it('should handle async operation', async () => {
   component.doAsyncThing();
   
@@ -240,6 +184,8 @@ it('should handle async operation', async () => {
 
 Or using fixture.whenStable():
 ```typescript
+import { describe, it, expect } from 'vitest';
+
 it('should handle async operation', async () => {
   component.doAsyncThing();
   
@@ -261,8 +207,10 @@ it('should update view', async () => {
 });
 ```
 
-**After (zoneless - use whenStable instead of detectChanges)**:
+**After (zoneless - use whenStable instead of detectChanges)**: With explicit imports
 ```typescript
+import { describe, it, expect } from 'vitest';
+
 it('should update view', async () => {
   component.value.set('new value');
   
@@ -285,8 +233,10 @@ expect(serviceSpy.method1).toHaveBeenCalledWith(arg);
 expect(serviceSpy.method1).toHaveBeenCalledTimes(1);
 ```
 
-**After (Vitest)**:
+**After (Vitest)**: With explicit imports
 ```typescript
+import { describe, it, expect, vi } from 'vitest';
+
 const serviceSpy = {
   method1: vi.fn().mockReturnValue(of(data)),
   method2: vi.fn().mockImplementation(() => getFakeDelay(result))
@@ -306,8 +256,10 @@ it('routes to page', async () => {
 });
 ```
 
-**After (with additional microtask handling)**:
+**After (with additional microtask handling)**: With explicit imports
 ```typescript
+import { describe, it, expect, vi } from 'vitest';
+
 it('routes to page', async () => {
   await harness.navigateByUrl('/path');
   await vi.waitFor(() => {
@@ -316,6 +268,108 @@ it('routes to page', async () => {
   });
 });
 ```
+
+### Compilation Error Shimming Strategy
+
+**CRITICAL ISSUE**: `ng test` requires all TypeScript compilation errors to be resolved before tests can run. This creates a chicken-and-egg problem during migration.
+
+**The Problem**:
+1. You migrate test syntax (remove fakeAsync, tick, etc.)
+2. TypeScript compilation fails due to missing Vitest imports
+3. `ng test` refuses to run until compilation succeeds
+4. You can't validate your changes until tests run
+5. Large-scale changes accumulate without validation
+
+**The Solution**: Temporary shimming to allow unmigrated files to compile
+
+#### Step 1: Create Temporary Shim File
+
+Create `src/test-shims.d.ts`:
+
+```typescript
+// TEMPORARY SHIMS - Remove after migration complete
+// These shims provide type definitions for UNMIGRATED files that still use Jasmine globals
+// As each file is migrated, add explicit Vitest imports to that file
+
+import type { ExpectStatic, Vi } from 'vitest';
+
+declare global {
+  const describe: typeof import('vitest').describe;
+  const it: typeof import('vitest').it;
+  const expect: ExpectStatic;
+  const beforeEach: typeof import('vitest').beforeEach;
+  const afterEach: typeof import('vitest').afterEach;
+  const beforeAll: typeof import('vitest').beforeAll;
+  const afterAll: typeof import('vitest').afterAll;
+  const vi: Vi;
+}
+
+export {};
+```
+
+#### Step 2: Reference Shim in tsconfig.spec.json
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["vitest"]
+  },
+  "files": [
+    "src/test-shims.d.ts"
+  ],
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+```
+
+#### Step 3: Migrate Tests WITH Explicit Imports
+
+**CRITICAL**: Each migrated file MUST add explicit Vitest imports. The shims are only for unmigrated files.
+
+When migrating a test file:
+
+```typescript
+// ADD THIS IMPORT when migrating the file
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+
+describe('Component', () => {
+  beforeEach(() => {
+    // setup
+  });
+  
+  it('should work', () => {
+    expect(true).toBe(true);
+  });
+});
+```
+
+**How This Works**:
+- **Unmigrated files**: Still use Jasmine syntax, compile thanks to shims
+- **Migrated files**: Have explicit Vitest imports, use Vitest syntax
+- **Incremental migration**: You can migrate one file at a time
+- **Validation**: `ng test` runs after each file migration
+
+#### Step 4: Clean Up After Migration
+
+Once all tests are migrated and passing:
+
+1. **Remove test-shims.d.ts** (no longer needed)
+2. **Remove test-shims.d.ts from tsconfig.spec.json files array**
+3. **Verify all tests still pass** (they should - imports are already there)
+
+**Why This Approach Works**:
+- Shims prevent compilation errors from unmigrated files
+- Each migrated file gets explicit imports immediately
+- Allows incremental validation during migration
+- `ng test` can compile and run after each change
+- No "add imports later" step needed - they're added during migration
+- Final cleanup just removes scaffolding
+
+**Important**: The shims are temporary scaffolding. Every migrated file must have explicit imports.
 
 ### TestHelper Updates
 
@@ -462,24 +516,29 @@ Property 13: Test subset filtering works
 
 5. **Asset Loading**
    - **Problem**: Tests fail to load static assets
-   - **Solution**: Configure Vitest to serve assets from src/assets directory
-   - **Configuration**: Add to vitest.config.ts server.fs.allow
+   - **Solution**: Configure asset handling in angular.json test options
+   - **Configuration**: Add assets array to test target options
 
 ### Test Execution Errors
 
-1. **Import Errors**
-   - **Problem**: Cannot find module errors for Angular packages
-   - **Solution**: Configure Vitest to inline Angular dependencies
-   - **Configuration**: `server.deps.inline: ['@angular/**', '@ng-bootstrap/**']`
+1. **Compilation Errors During Migration**
+   - **Problem**: `ng test` won't run until all TypeScript errors are resolved
+   - **Solution**: Use temporary test-shims.d.ts to provide global type definitions
+   - **Cleanup**: Remove shims and add explicit imports in Phase 8
 
-2. **Zone.js Conflicts**
+2. **Import Errors**
+   - **Problem**: Cannot find module errors for Angular packages
+   - **Solution**: Configure angular.json test options properly
+   - **Verification**: Check that @angular-devkit/build-angular:vitest builder is configured
+
+3. **Zone.js Conflicts**
    - **Problem**: Zone.js loaded when it shouldn't be
    - **Solution**: Remove zone.js from test polyfills in angular.json
    - **Verification**: Check `typeof Zone === 'undefined'` in tests
 
-3. **Coverage Reporting**
+4. **Coverage Reporting**
    - **Problem**: Coverage reports include test files
-   - **Solution**: Exclude test files in vitest.config.ts coverage configuration
+   - **Solution**: Exclude test files in angular.json coverage configuration
    - **Pattern**: `exclude: ['**/*.spec.ts', '**/*.config.ts']`
 
 ## Testing Strategy
@@ -514,31 +573,34 @@ Integration tests require more careful migration:
 
 ### Migration Phases
 
+### Migration Phases
+
 **Phase 1: Configuration Setup**
 - Install Vitest and dependencies
-- Create vitest.config.ts and vitest.config.ci.ts
-- Create src/test-setup.ts
-- Update angular.json
-- Update tsconfig.spec.json
-- Update package.json scripts
-- Verify basic Vitest execution works
+- Configure angular.json test target with Vitest builder and options
+- Update tsconfig.spec.json (add Vitest types, remove Jasmine types)
+- Create temporary test-shims.d.ts to allow unmigrated files to compile
+- Update package.json scripts (use `ng test`, not `vitest`)
+- Update package.json dependencies (add Vitest, remove Karma/Jasmine)
+- Verify basic test execution works with `ng test`
+- Document that shims provide types for unmigrated files only
 
 **Phase 2: Foundation Tests (TestHelper, App, Shared)**
-- Migrate testHelper.spec.ts
+- Migrate testHelper.spec.ts (add explicit Vitest imports)
 - Update TestHelper class for zoneless compatibility (remove detectChanges)
-- Migrate app.component.spec.ts
-- Migrate app.routes.spec.ts
-- Migrate shared component tests (loading.component.spec.ts, details.component.spec.ts)
-- Migrate shared service tests (logger.service.spec.ts, sweetAlert.service.spec.ts, fileSaver.service.spec.ts)
-- Migrate shared pipe tests (bonus.pipe.spec.ts, bonuses.pipe.spec.ts)
-- Migrate nav-menu tests
-- Migrate home and error page tests
+- Migrate app.component.spec.ts (add explicit Vitest imports)
+- Migrate app.routes.spec.ts (add explicit Vitest imports)
+- Migrate shared component tests (add explicit Vitest imports to each)
+- Migrate shared service tests (add explicit Vitest imports to each)
+- Migrate shared pipe tests (add explicit Vitest imports to each)
+- Migrate nav-menu tests (add explicit Vitest imports)
+- Migrate home and error page tests (add explicit Vitest imports)
 - Document patterns and solutions discovered
 - Validate TestHelper changes work correctly
 
 **Phase 3: RollGen Migration**
-- Migrate roll service tests (roll.service.spec.ts)
-- Migrate rollgen.component.spec.ts in chunks:
+- Migrate roll service tests (add explicit Vitest imports)
+- Migrate rollgen.component.spec.ts in chunks (add explicit Vitest imports once at file start):
   - Unit tests - setup and validation
   - Unit tests - rolling operations
   - Unit tests - expression handling
@@ -550,52 +612,55 @@ Integration tests require more careful migration:
 - Document any rollgen-specific patterns
 
 **Phase 4: TreasureGen Migration**
-- Migrate treasure service tests (treasure.service.spec.ts)
-- Migrate treasure pipe tests (treasure.pipe.spec.ts, item.pipe.spec.ts)
-- Migrate treasure model tests (treasuregenViewModel.model.spec.ts)
-- Migrate treasuregen.component.spec.ts in chunks:
+- Migrate treasure service tests (add explicit Vitest imports)
+- Migrate treasure pipe tests (add explicit Vitest imports to each)
+- Migrate treasure model tests (add explicit Vitest imports)
+- Migrate treasuregen.component.spec.ts in chunks (add explicit Vitest imports once at file start):
   - Unit tests
   - Integration tests - treasure tab
   - Integration tests - item tab
-- Migrate treasure.component.spec.ts
-- Migrate item.component.spec.ts
+- Migrate treasure.component.spec.ts (add explicit Vitest imports)
+- Migrate item.component.spec.ts (add explicit Vitest imports)
 - Run treasuregen tests to verify
 
 **Phase 5: CharacterGen Migration**
-- Migrate character service tests
-- Migrate character model tests
-- Migrate charactergen.component.spec.ts in chunks:
+- Migrate character service tests (add explicit Vitest imports)
+- Migrate character model tests (add explicit Vitest imports)
+- Migrate charactergen.component.spec.ts in chunks (add explicit Vitest imports once at file start):
   - Unit tests (describe('unit'))
   - Integration tests - setup and basic tests (describe('integration') - before nested describes)
   - Integration tests - character tab (describe('the character tab'))
   - Integration tests - leadership tab (describe('the leadership tab'))
-- Migrate character.component.spec.ts
+- Migrate character.component.spec.ts (add explicit Vitest imports)
 - Run charactergen tests to verify
 
 **Phase 6: EncounterGen Migration**
-- Migrate encounter service tests
-- Migrate encounter model tests
-- Migrate encountergen.component.spec.ts in chunks:
+- Migrate encounter service tests (add explicit Vitest imports)
+- Migrate encounter model tests (add explicit Vitest imports)
+- Migrate encountergen.component.spec.ts in chunks (add explicit Vitest imports once at file start):
   - Unit tests (describe('unit'))
   - Integration tests (describe('integration'))
-- Migrate encounter.component.spec.ts
+- Migrate encounter.component.spec.ts (add explicit Vitest imports)
 - Run encountergen tests to verify
 
 **Phase 7: DungeonGen Migration**
-- Migrate dungeon service tests
-- Migrate dungeon model tests
-- Migrate dungeongen.component.spec.ts in chunks:
+- Migrate dungeon service tests (add explicit Vitest imports)
+- Migrate dungeon model tests (add explicit Vitest imports)
+- Migrate dungeongen.component.spec.ts in chunks (add explicit Vitest imports once at file start):
   - Unit tests (describe('unit'))
   - Integration tests (describe('integration'))
-- Migrate dungeon component tests (dungeonTreasure.component.spec.ts, area.component.spec.ts)
+- Migrate dungeon component tests (add explicit Vitest imports to each)
 - Run dungeongen tests to verify
 
 **Phase 8: Cleanup and Verification**
+- Remove test-shims.d.ts (all files now have explicit imports)
+- Remove test-shims.d.ts reference from tsconfig.spec.json
+- Verify all tests still pass without shims
 - Remove Karma configuration files (karma.conf.js, karma.conf.ci.js)
 - Remove Karma dependencies from package.json
 - Remove zone.js from test configuration (angular.json polyfills)
 - Verify zone.js is not loaded in tests
-- Run full test suite with Vitest
+- Run full test suite with `ng test`
 - Verify all test commands work (test, test:ci, test:cd:*)
 - Update CI/CD pipelines (if needed - see CI/CD Pipeline Compatibility section)
 - Update README.md and documentation
@@ -705,12 +770,14 @@ Each deployment job has a "Publish Website Test Results" task that needs updatin
 
 ### Test Execution Commands
 
+**CRITICAL**: Always use `ng test`, never `vitest` directly.
+
 **Development**:
 ```bash
-npm test                    # Run all tests once
-npm run test:watch          # Run tests in watch mode
-npm run test:ui             # Run tests with Vitest UI
-npm run test:coverage       # Run tests with coverage
+ng test                     # Run all tests once
+ng test --watch             # Run tests in watch mode
+ng test --ui                # Run tests with Vitest UI
+ng test --coverage          # Run tests with coverage
 ```
 
 **CI/CD**:
@@ -730,14 +797,15 @@ npm run test:cd:web         # Run all generator tests
 ```json
 {
   "devDependencies": {
-    "@analogjs/vite-plugin-angular": "^1.x.x",
-    "@vitest/ui": "^2.x.x",
+    "@angular-devkit/build-angular": "^21.x.x",
     "jsdom": "^25.x.x",
     "vite": "^6.x.x",
     "vitest": "^2.x.x"
   }
 }
 ```
+
+**Note**: No need for @analogjs/vite-plugin-angular - Angular's build system handles Vitest integration automatically.
 
 **Remove**:
 ```json
@@ -758,11 +826,14 @@ npm run test:cd:web         # Run all generator tests
 
 ### Critical Success Factors
 
-1. **Incremental Approach**: Migrate in phases to catch issues early
-2. **Pattern Documentation**: Document solutions to common problems as they're discovered
-3. **Test Frequently**: Run tests after each file migration to catch regressions
-4. **Preserve Behavior**: Ensure migrated tests verify the same functionality
-5. **CI/CD Validation**: Verify all CI/CD commands work before considering migration complete
+1. **Always Use `ng test`**: Never run `vitest` directly - Angular integration requires `ng test`
+2. **Use Temporary Shims**: Create test-shims.d.ts to allow unmigrated files to compile
+3. **Add Imports During Migration**: Each migrated file must have explicit Vitest imports added
+4. **Incremental Validation**: Run `ng test` after each file migration to catch issues early
+5. **Pattern Documentation**: Document solutions to common problems as they're discovered
+6. **Remove Shims Last**: Only remove test-shims.d.ts after all tests are migrated and passing
+7. **Preserve Behavior**: Ensure migrated tests verify the same functionality
+8. **CI/CD Validation**: Verify all CI/CD commands work before considering migration complete
 
 ### Large Test File Strategy
 
@@ -856,7 +927,7 @@ Task 6: Integration - expression tab (lines 1049-1092, ~44 lines)
 **Verification After Each Task**:
 ```bash
 # Run tests for the specific file being migrated
-vitest run src/app/roll/components/rollgen.component.spec.ts
+ng test --include='src/app/roll/components/rollgen.component.spec.ts'
 ```
 
 This ensures each chunk is working before moving to the next.
