@@ -6,7 +6,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
 ## Tasks
 
-- [ ] 1. Phase 1: Configuration Setup
+- [x] 1. Phase 1: Configuration Setup
   - [x] 1.1 Install Vitest dependencies and remove Karma dependencies
     - Run: `npm install -D @analogjs/vite-plugin-angular @vitest/ui jsdom vite vitest`
     - Run: `npm uninstall @types/jasmine karma karma-firefox-launcher karma-chrome-launcher karma-jasmine karma-junit-reporter`
