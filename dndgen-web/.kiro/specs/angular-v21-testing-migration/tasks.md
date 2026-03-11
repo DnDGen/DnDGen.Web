@@ -13,7 +13,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Note: Keep zone.js for now (removed in Phase 8)
     - _Requirements: 1.1, 1.5, 3.3_
 
-  - [ ] 1.2 Create Vitest configuration files
+  - [x] 1.2 Create Vitest configuration files
     - Create `dndgen-web/vitest.config.ts` for local development
     - Create `dndgen-web/vitest.config.ci.ts` for CI/CD pipelines
     - Configure asset handling, coverage, reporters, and test patterns per design
