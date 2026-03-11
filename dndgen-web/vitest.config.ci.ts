@@ -8,6 +8,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     include: ['src/**/*.spec.ts'],
+    watch: false,
     
     // CI settings (from karma.conf.ci.js):
     testTimeout: 60000,  // 60 seconds (1000 * 60)
