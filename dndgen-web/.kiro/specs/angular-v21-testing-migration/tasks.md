@@ -52,7 +52,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 1.2_
 
 - [ ] 2. Phase 2: Foundation Tests (TestHelper, App, Shared)
-  - [ ] 2.1 Update TestHelper class for zoneless compatibility
+  - [x] 2.1 Update TestHelper class for zoneless compatibility
     - Remove `fixture.detectChanges()` calls from `waitForService()` method
     - Keep only `await fixture.whenStable()` (handles change detection in zoneless mode)
     - Update any other methods that use `detectChanges()`

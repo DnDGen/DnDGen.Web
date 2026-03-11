@@ -489,15 +489,12 @@ export class TestHelper<T> {
   }
 
   public async waitForService() {
-    this.fixture.detectChanges();
     await this.fixture.whenStable();
 
-    //update view
-    this.fixture.detectChanges();
+    //HACK: There was another detectChanges() here before zoneless. We'll see how tests do to see if it's needed again
   }
 
   public waitForDebounce(sleep: number = 500) {
-    this.fixture.detectChanges();
     setTimeout(() => { }, sleep);
   }
 
