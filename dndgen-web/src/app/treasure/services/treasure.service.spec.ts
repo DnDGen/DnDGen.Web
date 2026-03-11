@@ -12,7 +12,7 @@ import { Item } from '../models/item.model';
 import { Weapon } from '../models/weapon.model';
 import { Armor } from '../models/armor.model';
 import { Magic } from '../models/magic.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Treasure Service', () => {
     describe('unit', () => {

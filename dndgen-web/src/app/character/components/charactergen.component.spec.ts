@@ -14,7 +14,7 @@ import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
 import { LeadershipComponent } from './leadership.component';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
 
 describe('CharacterGen Component', () => {

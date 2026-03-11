@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Area } from '../models/area.model';
 import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
 

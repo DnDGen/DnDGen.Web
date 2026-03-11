@@ -3,7 +3,7 @@ import { Leadership } from "../models/leadership.model";
 import { LeaderPipe } from "./leader.pipe";
 import { CharacterPipe } from "./character.pipe";
 import { LeadershipPipe } from "./leadership.pipe";
-import { TestHelper } from "../../testHelper.spec";
+import { TestHelper } from "../../test-helper";
 
 describe('Leader Pipe', () => {
     describe('unit', () => {

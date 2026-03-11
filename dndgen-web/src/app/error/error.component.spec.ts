@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorComponent } from './error.component';
-import { TestHelper } from '../testHelper.spec';
+import { TestHelper } from '../test-helper';
 
 describe('ErrorComponent', () => {
   describe('integration', () => {

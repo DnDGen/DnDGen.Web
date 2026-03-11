@@ -8,7 +8,7 @@ import * as FileSaver from 'file-saver';
 import { EncounterService } from '../services/encounter.service';
 import { EncounterPipe } from '../pipes/encounter.pipe';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';

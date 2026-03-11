@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Roll Service', () => {
     describe('unit', () => {

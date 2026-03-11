@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { TestHelper } from './testHelper.spec';
+import { TestHelper } from './test-helper';
 import { RouterTestingHarness } from '@angular/router/testing';
 
 // Declare Zone type for TypeScript

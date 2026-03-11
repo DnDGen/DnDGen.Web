@@ -1,4 +1,4 @@
-﻿import { TestHelper } from "../../testHelper.spec";
+﻿import { TestHelper } from "../../test-helper";
 import { Character } from "../models/character.model";
 import { Leadership } from "../models/leadership.model";
 import { CharacterPipe } from "./character.pipe";

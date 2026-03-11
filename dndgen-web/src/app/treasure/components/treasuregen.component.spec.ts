@@ -18,7 +18,7 @@ import FileSaver from 'file-saver';
 import { Good } from '../models/good.model';
 import { ItemPipe } from '../pipes/item.pipe';
 import { Size } from '../../shared/components/size.enum';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
 

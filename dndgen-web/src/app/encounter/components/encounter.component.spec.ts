@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Character } from '../../character/models/character.model';
 import { Treasure } from '../../treasure/models/treasure.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { EncounterComponent } from './encounter.component';
 import { Encounter } from '../models/encounter.model';
 import { EncounterCreature } from '../models/encounterCreature.model';

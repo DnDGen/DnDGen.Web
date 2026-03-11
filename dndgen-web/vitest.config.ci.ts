@@ -4,7 +4,7 @@ import angular from '@analogjs/vite-plugin-angular';
 export default defineConfig({
   plugins: [angular()],
   test: {
-    globals: true,
+    globals: false,
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     include: ['src/**/*.spec.ts'],

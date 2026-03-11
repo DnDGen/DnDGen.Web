@@ -17,6 +17,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Create `dndgen-web/vitest.config.ts` for local development
     - Create `dndgen-web/vitest.config.ci.ts` for CI/CD pipelines
     - Configure asset handling, coverage, reporters, and test patterns per design
+    - Set `globals: false` to require explicit imports (Vitest best practice)
     - _Requirements: 1.1, 1.3, 3.5_
 
   - [x] 1.3 Create test setup file
@@ -33,9 +34,9 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
 
   - [x] 1.5 Update tsconfig.spec.json
-    - Replace Jasmine types with Vitest types
-    - Update types array to include "vitest/globals"
-    - Remove "@types/jasmine" reference
+    - Remove "vitest/globals" from types array (using explicit imports instead)
+    - Keep "@angular/localize" in types
+    - Add test-helper.ts to include patterns
     - _Requirements: 3.2_
 
   - [x] 1.6 Update package.json test scripts
@@ -52,16 +53,26 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 1.2_
 
 - [ ] 2. Phase 2: Foundation Tests (TestHelper, App, Shared)
+  
+  **Note**: All test files must add explicit Vitest imports at the top:
+  ```typescript
+  import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+  ```
+  This replaces the globals approach for better clarity and to avoid namespace pollution.
+
   - [x] 2.1 Update TestHelper class for zoneless compatibility
     - Remove `fixture.detectChanges()` calls from `waitForService()` method
     - Keep only `await fixture.whenStable()` (handles change detection in zoneless mode)
     - Update any other methods that use `detectChanges()`
+    - Add explicit Vitest imports: `import { describe, expect, vi } from 'vitest'`
     - _Requirements: 8.1, 8.2, 8.3, 8.5, 9.3_
 
-  - [ ] 2.2 Migrate testHelper.spec.ts
+  - [x] 2.2 Migrate testHelper.spec.ts
     - Replace Jasmine spies with Vitest mocks (vi.fn(), vi.spyOn())
     - Replace fakeAsync/tick with async/await patterns
     - Update assertions to use Vitest expect API
+    - Add explicit Vitest imports: `import { describe, expect, vi } from 'vitest'`
+    - Rename to test-helper.ts (kebab-case, no .spec suffix since it's a utility)
     - _Requirements: 2.1, 2.2, 4.1, 4.4, 8.4_
 
   - [ ]* 2.3 Write property test for TestHelper
@@ -511,3 +522,194 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 - CI/CD pipeline updates use explicit test result filenames following pattern: `TestResults-{Component}-Website.xml`
 - TestHelper changes in Phase 2 are critical - all subsequent phases depend on zoneless compatibility
 - Checkpoints ensure incremental validation and provide opportunities to address issues before proceeding
+
+- [ ] 9. Phase 9: Kebab-Case File Naming Standardization
+  - [ ] 9.1 Rename shared service files to kebab-case
+    - [ ] 9.1.1 Rename fileSaver.service.ts → file-saver.service.ts
+      - Rename src/app/shared/services/fileSaver.service.ts
+      - Rename src/app/shared/services/fileSaver.service.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.1.2 Rename sweetAlert.service.ts → sweet-alert.service.ts
+      - Rename src/app/shared/services/sweetAlert.service.ts
+      - Rename src/app/shared/services/sweetAlert.service.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.2 Rename character component files to kebab-case
+    - [ ] 9.2.1 Rename spellGroup.component.ts → spell-group.component.ts
+      - Rename src/app/character/components/spellGroup.component.ts
+      - Rename src/app/character/components/spellGroup.component.spec.ts
+      - Rename src/app/character/components/spellGroup.component.html
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.3 Rename character model files to kebab-case
+    - [ ] 9.3.1 Rename armorClass.model.ts → armor-class.model.ts
+      - Rename src/app/character/models/armorClass.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.2 Rename baseAttack.model.ts → base-attack.model.ts
+      - Rename src/app/character/models/baseAttack.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.3 Rename characterClass.model.ts → character-class.model.ts
+      - Rename src/app/character/models/characterClass.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.4 Rename charactergenViewModel.model.ts → charactergen-view-model.model.ts
+      - Rename src/app/character/models/charactergenViewModel.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.5 Rename featCollection.model.ts → feat-collection.model.ts
+      - Rename src/app/character/models/featCollection.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.6 Rename followerQuantities.model.ts → follower-quantities.model.ts
+      - Rename src/app/character/models/followerQuantities.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.7 Rename savingThrows.model.ts → saving-throws.model.ts
+      - Rename src/app/character/models/savingThrows.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.8 Rename spellGroup.model.ts → spell-group.model.ts
+      - Rename src/app/character/models/spellGroup.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.3.9 Rename spellQuantity.model.ts → spell-quantity.model.ts
+      - Rename src/app/character/models/spellQuantity.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.4 Rename character pipe files to kebab-case
+    - [ ] 9.4.1 Rename inchesToFeet.pipe.ts → inches-to-feet.pipe.ts
+      - Rename src/app/character/pipes/inchesToFeet.pipe.ts
+      - Rename src/app/character/pipes/inchesToFeet.pipe.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.4.2 Rename spellQuantity.pipe.ts → spell-quantity.pipe.ts
+      - Rename src/app/character/pipes/spellQuantity.pipe.ts
+      - Rename src/app/character/pipes/spellQuantity.pipe.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.5 Rename character service files to kebab-case
+    - [ ] 9.5.1 Rename spellGroup.service.ts → spell-group.service.ts
+      - Rename src/app/character/services/spellGroup.service.ts
+      - Rename src/app/character/services/spellGroup.service.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.6 Rename dungeon component files to kebab-case
+    - [ ] 9.6.1 Rename dungeonTreasure.component.ts → dungeon-treasure.component.ts
+      - Rename src/app/dungeon/components/dungeonTreasure.component.ts
+      - Rename src/app/dungeon/components/dungeonTreasure.component.spec.ts
+      - Rename src/app/dungeon/components/dungeonTreasure.component.html
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.7 Rename dungeon model files to kebab-case
+    - [ ] 9.7.1 Rename dungeongenViewModel.model.ts → dungeongen-view-model.model.ts
+      - Rename src/app/dungeon/models/dungeongenViewModel.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.7.2 Rename dungeonTreasure.model.ts → dungeon-treasure.model.ts
+      - Rename src/app/dungeon/models/dungeonTreasure.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.8 Rename encounter model files to kebab-case
+    - [ ] 9.8.1 Rename creatureTypeFilter.model.ts → creature-type-filter.model.ts
+      - Rename src/app/encounter/models/creatureTypeFilter.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.8.2 Rename encounterCreature.model.ts → encounter-creature.model.ts
+      - Rename src/app/encounter/models/encounterCreature.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.8.3 Rename encounterDefaults.model.ts → encounter-defaults.model.ts
+      - Rename src/app/encounter/models/encounterDefaults.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.8.4 Rename encountergenViewModel.model.ts → encountergen-view-model.model.ts
+      - Rename src/app/encounter/models/encountergenViewModel.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.9 Rename encounter pipe files to kebab-case
+    - [ ] 9.9.1 Rename encounterCreature.pipe.ts → encounter-creature.pipe.ts
+      - Rename src/app/encounter/pipes/encounterCreature.pipe.ts
+      - Rename src/app/encounter/pipes/encounterCreature.pipe.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.10 Rename roll model files to kebab-case
+    - [ ] 9.10.1 Rename rollgenViewModel.model.ts → rollgen-view-model.model.ts
+      - Rename src/app/roll/models/rollgenViewModel.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.10.2 Rename standardDie.model.ts → standard-die.model.ts
+      - Rename src/app/roll/models/standardDie.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.11 Rename treasure model files to kebab-case
+    - [ ] 9.11.1 Rename itemTypeViewModel.model.ts → item-type-view-model.model.ts
+      - Rename src/app/treasure/models/itemTypeViewModel.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.11.2 Rename specialAbility.model.ts → special-ability.model.ts
+      - Rename src/app/treasure/models/specialAbility.model.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.11.3 Rename treasuregenViewModel.model.ts → treasuregen-view-model.model.ts
+      - Rename src/app/treasure/models/treasuregenViewModel.model.ts
+      - Rename src/app/treasure/models/treasuregenViewModel.model.spec.ts
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+  - [ ] 9.12 Rename nav-menu to navigation-menu for clarity
+    - [ ] 9.12.1 Rename nav-menu directory to navigation-menu
+      - Rename src/app/nav-menu → src/app/navigation-menu
+      - All component files will move with directory
+      - Imports will be updated automatically via smartRelocate
+      - _Requirements: 7.5_
+
+    - [ ] 9.12.2 Rename nav-menu component files
+      - Rename navigation-menu.component.ts (if needed after directory rename)
+      - Rename navigation-menu.component.spec.ts (if needed)
+      - Rename navigation-menu.component.html (if needed)
+      - Rename navigation-menu.component.css (if needed)
+      - Update component selector from 'app-nav-menu' to 'app-navigation-menu' in component decorator
+      - Update selector usage in app.component.html
+      - _Requirements: 7.5_
+
+  - [ ] 9.13 Verify all renames and run tests
+    - Run `npm test` to verify all tests still pass after renaming
+    - Verify no broken imports remain
+    - Check that production build works: `npm run build:ci`
+    - _Requirements: 7.4, 7.5_
+
+  - [ ] 9.14 Update documentation for naming conventions
+    - Document kebab-case standard in README.md or contributing guide
+    - Note that all file names should use kebab-case per Angular style guide
+    - _Requirements: 7.5_
+

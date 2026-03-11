@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavMenuComponent } from './nav-menu.component';
-import { TestHelper } from '../testHelper.spec';
+import { TestHelper } from '../test-helper';
 
 describe('Nav-Menu Component', () => {
   describe('unit', () => {

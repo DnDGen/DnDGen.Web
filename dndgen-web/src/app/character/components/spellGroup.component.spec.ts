@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { SpellGroupComponent } from './spellGroup.component';
 import { SpellGroup } from '../models/spellGroup.model';
 import { Spell } from '../models/spell.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('SpellGroup Component', () => {
   describe('unit', () => {

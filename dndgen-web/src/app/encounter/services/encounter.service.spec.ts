@@ -6,7 +6,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Encounter Service', () => {
     describe('unit', () => {
