@@ -38,19 +38,20 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
   - [x] 1.5 Update package.json test scripts
     - Update scripts to use `ng test` (NOT `vitest` directly)
-    - Add: test, test:watch, test:ui, test:coverage
-    - Add CI script: test:ci with explicit `--outputFile.junit=./TestResults-DnDGen-Website.xml`
+    - Add: test, test:watch, test:ui, test:coverage (use angular.json defaults)
+    - Add CI script: test:ci with `--config vitest.config.ci.ts --outputFile.junit=./TestResults-DnDGen-Website.xml`
     - Add subset scripts: test:cd:rollgen, test:cd:treasuregen, test:cd:charactergen, test:cd:encountergen, test:cd:dungeongen, test:cd:web
-    - Each subset script uses explicit `--outputFile.junit` with pattern `TestResults-{Component}-Website.xml`
+    - Each subset script uses `--config vitest.config.ci.ts` and explicit `--outputFile.junit` with pattern `TestResults-{Component}-Website.xml`
+    - Config files (vitest.config.ts and vitest.config.ci.ts) serve as documentation and single source of truth for settings
     - _Requirements: 1.2, 3.4, 10.1, 10.2, 10.3_
 
-  - [ ] 1.6 Verify basic Vitest execution with ng test
+  - [x] 1.6 Verify basic Vitest execution with ng test
     - Run `ng test` to verify Vitest can execute through Angular CLI
     - Verify test discovery works
     - This confirms the compilation shim approach works
     - _Requirements: 1.2_
 
-  - [ ] 1.7 Verify basic Vitest execution with sample test
+  - [-] 1.7 Verify basic Vitest execution with sample test
     - Create `dndgen-web/src/app/dummy.spec.ts` with explicit Vitest imports
     - Include: `import { describe, it, expect } from 'vitest';`
     - Add simple test: `describe('Dummy', () => { it('should pass', () => { expect(true).toBe(true); }); });`
@@ -554,41 +555,61 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Verify zone.js is not imported anywhere in test files
     - _Requirements: 2.4, 2.5_
 
-  - [ ] 8.13 Run full test suite verification
+  - [ ] 8.13 Verify Vitest config files are properly documented
+    - Ensure vitest.config.ts and vitest.config.ci.ts have clear header comments
+    - Comments should explain they're only used when explicitly referenced via --config flag
+    - Keep both files as they provide clean, maintainable configuration for different environments
+    - _Requirements: 1.3, 7.5_
+
+  - [ ] 8.14 Remove Karma/Jasmine references from config files
+    - Remove all comments referencing "karma.conf.js" or "karma.conf.ci.js" from vitest.config.ts and vitest.config.ci.ts
+    - Remove comments like "from karma.conf.js" or "equivalent to oneFailurePerSpec"
+    - After migration, the Vitest config files are the source of truth
+    - Keep only comments that explain the current Vitest configuration
+    - _Requirements: 1.5, 7.5_
+
+  - [ ] 8.15 Re-enable strict TypeScript mode
+    - Remove `"noImplicitAny": false` from tsconfig.spec.json
+    - This was temporarily disabled for Jasmine test migration
+    - All tests are now migrated to Vitest with proper typing
+    - Run `ng test` to verify no type errors
+    - _Requirements: 3.2_
+
+  - [ ] 8.16 Run full test suite verification
     - Run `ng test` to verify all tests pass
     - Run `npm run test:ci` to verify CI configuration works
     - Verify test result file is created: TestResults-DnDGen-Website.xml
     - _Requirements: 7.4, 10.1_
 
-  - [ ] 8.14 Verify test subset commands
+  - [ ] 8.17 Verify test subset commands
     - Run each test:cd:* command to verify subset filtering works
     - Verify each command creates its specific output file
     - Commands: test:cd:rollgen, test:cd:treasuregen, test:cd:charactergen, test:cd:encountergen, test:cd:dungeongen, test:cd:web
     - _Requirements: 10.3_
 
-  - [ ]* 8.15 Write property test for test subset filtering
+  - [ ]* 8.18 Write property test for test subset filtering
     - **Property 13: Test subset filtering works**
     - **Validates: Requirements 10.3**
 
-  - [ ] 8.16 Verify zone.js is not loaded in tests
+  - [ ] 8.19 Verify zone.js is not loaded in tests
     - Add verification test: `expect(typeof Zone).toBe('undefined')`
     - Ensure no zone.js imports in test files
     - _Requirements: 2.5_
 
-  - [ ] 8.17 Run coverage report
+  - [ ] 8.20 Run coverage report
     - Run `ng test --coverage` to generate coverage report
     - Verify coverage excludes test files
     - Review coverage to ensure no regression
     - _Requirements: 1.3_
 
-  - [ ] 8.18 Update documentation
+  - [ ] 8.21 Update documentation
     - Update README.md with new test commands
     - Document migration patterns and solutions
     - Update any developer documentation referencing Karma
     - Document that `ng test` should always be used (not `vitest` directly)
     - _Requirements: 7.5_
 
-  - [ ] 8.19 Final validation checkpoint
+  - [ ] 8.22 Final validation checkpoint
     - Verify all tests pass: `ng test`
     - Verify CI commands work: `npm run test:ci`
     - Verify subset commands work: all `npm run test:cd:*` commands

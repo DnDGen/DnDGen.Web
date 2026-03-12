@@ -241,7 +241,7 @@ describe('EncounterGen Component', () => {
     ];
 
     function getCheckedFilters(c0: boolean, c1: boolean): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
 
       if (c0)
         checkedFilters.push(component.creatureTypeFilters[0].displayName);
@@ -936,7 +936,7 @@ describe('EncounterGen Component', () => {
     });
     
     function getCheckedFilters(): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
   
       for (var i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
           if (fixture.componentInstance.creatureTypeFilters[i].checked) {
