@@ -51,11 +51,11 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - This confirms the compilation shim approach works
     - _Requirements: 1.2_
 
-  - [-] 1.7 Verify basic Vitest execution with sample test
+  - [x] 1.7 Verify basic Vitest execution with sample test
     - Create `dndgen-web/src/app/dummy.spec.ts` with explicit Vitest imports
     - Include: `import { describe, it, expect } from 'vitest';`
     - Add simple test: `describe('Dummy', () => { it('should pass', () => { expect(true).toBe(true); }); });`
-    - Run `ng test --include='src/app/dummy.spec.ts'` to verify Vitest can find, compile, and execute the test
+    - Run `ng test --no-watch --include='src/app/dummy.spec.ts'` to verify Vitest can find, compile, and execute the test
     - Test MUST PASS - if it fails, fix configuration issues before proceeding
     - Delete dummy.spec.ts after verification
     - _Requirements: 1.2_
@@ -140,7 +140,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 2.1, 4.1, 9.3_
 
   - [ ] 2.12 Checkpoint - Verify foundation tests pass
-    - Run `ng test --include='src/app/shared/**/*.spec.ts' --include='src/app/nav-menu/**/*.spec.ts' --include='src/app/home/**/*.spec.ts' --include='src/app/error/**/*.spec.ts' --include='src/app/app.*.spec.ts'` to verify all foundation tests pass
+    - Run `ng test --no-watch --include='src/app/shared/**/*.spec.ts' --include='src/app/nav-menu/**/*.spec.ts' --include='src/app/home/**/*.spec.ts' --include='src/app/error/**/*.spec.ts' --include='src/app/app.*.spec.ts'` to verify all foundation tests pass
     - Ensure TestHelper changes work correctly
     - Document any patterns discovered
     - Ask user if questions arise
@@ -200,7 +200,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Validates: Requirements 4.5, 7.4**
 
   - [ ] 3.9 Checkpoint - Verify RollGen tests pass
-    - Run `ng test --include='src/app/roll/**/*.spec.ts'` to verify all RollGen tests pass
+    - Run `ng test --no-watch --include='src/app/roll/**/*.spec.ts'` to verify all RollGen tests pass
     - Document any RollGen-specific patterns
     - Ask user if questions arise
     - _Requirements: 6.3_
@@ -278,7 +278,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Validates: Requirements 7.1**
 
   - [ ] 4.12 Checkpoint - Verify TreasureGen tests pass
-    - Run `ng test --include='src/app/treasure/**/*.spec.ts'` to verify all TreasureGen tests pass
+    - Run `ng test --no-watch --include='src/app/treasure/**/*.spec.ts'` to verify all TreasureGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
 
@@ -382,7 +382,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Validates: Requirements 7.2**
 
   - [ ] 5.17 Checkpoint - Verify CharacterGen tests pass
-    - Run `ng test --include='src/app/character/**/*.spec.ts'` to verify all CharacterGen tests pass
+    - Run `ng test --no-watch --include='src/app/character/**/*.spec.ts'` to verify all CharacterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
 
@@ -429,7 +429,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Validates: Requirements 9.3**
 
   - [ ] 6.7 Checkpoint - Verify EncounterGen tests pass
-    - Run `ng test --include='src/app/encounter/**/*.spec.ts'` to verify all EncounterGen tests pass
+    - Run `ng test --no-watch --include='src/app/encounter/**/*.spec.ts'` to verify all EncounterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
 
@@ -477,7 +477,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Validates: Requirements 9.5**
 
   - [ ] 7.7 Checkpoint - Verify DungeonGen tests pass
-    - Run `ng test --include='src/app/dungeon/**/*.spec.ts'` to verify all DungeonGen tests pass
+    - Run `ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'` to verify all DungeonGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
 
@@ -597,7 +597,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 2.5_
 
   - [ ] 8.20 Run coverage report
-    - Run `ng test --coverage` to generate coverage report
+    - Run `ng test --no-watch --coverage` to generate coverage report
     - Verify coverage excludes test files
     - Review coverage to ensure no regression
     - _Requirements: 1.3_
@@ -817,7 +817,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 - Each phase builds on the previous phase - complete phases in order
 - Large test files are broken into chunks (200-800 lines) to ensure reliable migrations
 - Run tests after each file migration to catch issues early
-- Use `ng test --include='<path>'` to test specific files or directories (NOT `vitest` directly)
+- Use `ng test --no-watch --include='<path>'` to test specific files or directories (NOT `vitest` directly)
 - CI/CD pipeline updates use explicit test result filenames following pattern: `TestResults-{Component}-Website.xml`
 - TestHelper changes in Phase 2 are critical - all subsequent phases depend on zoneless compatibility
 - Checkpoints ensure incremental validation and provide opportunities to address issues before proceeding
