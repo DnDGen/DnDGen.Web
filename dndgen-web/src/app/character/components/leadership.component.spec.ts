@@ -3,7 +3,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
 import { LeadershipComponent } from './leadership.component';
 import { Leadership } from '../models/leadership.model';
 import { Character } from '../models/character.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Leadership Component', () => {
   describe('unit', () => {

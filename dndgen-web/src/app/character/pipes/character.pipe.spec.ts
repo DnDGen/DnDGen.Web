@@ -21,7 +21,7 @@ import { Measurement } from "../models/measurement.model";
 import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 import { SpellQuantityPipe } from "./spellQuantity.pipe";
-import { TestHelper } from "../../testHelper.spec";
+import { TestHelper } from "../../test-helper";
 
 describe('Character Pipe', () => {
     describe('unit', () => {

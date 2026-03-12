@@ -6,14 +6,14 @@
     "start": "ng serve",
     "build": "ng build --configuration development",
     "build:ci": "ng build --configuration production",
-    "test": "ng test --watch=false",
-    "test:ci": "ng test --watch=false --karma-config karma.conf.ci.js",
-    "test:cd:rollgen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/roll/**/*.spec.ts'",
-    "test:cd:treasuregen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/treasure/**/*.spec.ts'",
-    "test:cd:charactergen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/character/**/*.spec.ts'",
-    "test:cd:encountergen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/encounter/**/*.spec.ts'",
-    "test:cd:dungeongen": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/dungeon/**/*.spec.ts'",
-    "test:cd:web": "ng test --watch=false --karma-config karma.conf.ci.js --include='**/app/{roll,treasure,character,encounter,dungeon}/**/*.spec.ts'"
+    "test": "ng test --no-watch",
+    "test:ci": "ng test --no-watch --config vitest.config.ci.ts --outputFile.junit=./TestResults-DnDGen-Website.xml",
+    "test:cd:rollgen": "ng test --no-watch --config vitest.config.ci.ts src/app/roll --outputFile.junit=./TestResults-RollGen-Website.xml",
+    "test:cd:treasuregen": "ng test --no-watch --config vitest.config.ci.ts src/app/treasure --outputFile.junit=./TestResults-TreasureGen-Website.xml",
+    "test:cd:charactergen": "ng test --no-watch --config vitest.config.ci.ts src/app/character --outputFile.junit=./TestResults-CharacterGen-Website.xml",
+    "test:cd:encountergen": "ng test --no-watch --config vitest.config.ci.ts src/app/encounter --outputFile.junit=./TestResults-EncounterGen-Website.xml",
+    "test:cd:dungeongen": "ng test --no-watch --config vitest.config.ci.ts src/app/dungeon --outputFile.junit=./TestResults-DungeonGen-Website.xml",
+    "test:cd:web": "ng test --no-watch --config vitest.config.ci.ts src/app --outputFile.junit=./TestResults-AllGenerators-Website.xml"
   },
   "private": true,
   "dependencies": {
@@ -26,25 +26,24 @@
     "@angular/router": "^21.1.5",
     "@ng-bootstrap/ng-bootstrap": "^20.0.0",
     "@popperjs/core": "^2.11.8",
+    "@types/file-saver": "^2.0.7",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.0.0",
-    "rxjs": "^7.8.2",
-    "sweetalert2": "^11.26.20",
     "file-saver": "^2.0.5",
-    "@types/file-saver": "^2.0.7"
+    "rxjs": "^7.8.2",
+    "sweetalert2": "^11.26.20"
   },
   "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.3.1",
     "@angular-devkit/build-angular": "^21.1.5",
     "@angular/cli": "^21.1.5",
     "@angular/compiler-cli": "^21.1.5",
     "@angular/localize": "^21.1.5",
-    "@types/jasmine": "^6.0.0",
-    "karma": "^6.4.4",
-    "karma-firefox-launcher": "^2.1.3",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-jasmine": "^5.1.0",
-    "karma-junit-reporter": "^2.0.1",
+    "@vitest/ui": "^4.0.18",
+    "jsdom": "^28.1.0",
     "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18",
     "zone.js": "^0.16.1"
   }
 }

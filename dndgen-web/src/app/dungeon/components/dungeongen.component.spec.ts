@@ -8,7 +8,7 @@ import * as FileSaver from 'file-saver';
 import { DungeonService } from '../services/dungeon.service';
 import { DungeonPipe } from '../pipes/dungeon.pipe';
 import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
 import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
 import { EncounterService } from '../../encounter/services/encounter.service';
@@ -250,7 +250,7 @@ describe('DungeonGen Component', () => {
     ];
 
     function getCheckedFilters(c0: boolean, c1: boolean): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
 
       if (c0)
         checkedFilters.push(component.creatureTypeFilters[0].displayName);
@@ -1324,7 +1324,7 @@ describe('DungeonGen Component', () => {
     });
     
     function getCheckedFilters(): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
   
       for (var i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
           if (fixture.componentInstance.creatureTypeFilters[i].checked) {

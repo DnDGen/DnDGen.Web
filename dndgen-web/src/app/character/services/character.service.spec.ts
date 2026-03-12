@@ -5,7 +5,7 @@ import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Character Service', () => {
     describe('unit', () => {

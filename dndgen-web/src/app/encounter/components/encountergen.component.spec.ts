@@ -8,7 +8,7 @@ import * as FileSaver from 'file-saver';
 import { EncounterService } from '../services/encounter.service';
 import { EncounterPipe } from '../pipes/encounter.pipe';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
 import { EncounterDefaults } from '../models/encounterDefaults.model';
 import { Encounter } from '../models/encounter.model';
@@ -241,7 +241,7 @@ describe('EncounterGen Component', () => {
     ];
 
     function getCheckedFilters(c0: boolean, c1: boolean): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
 
       if (c0)
         checkedFilters.push(component.creatureTypeFilters[0].displayName);
@@ -936,7 +936,7 @@ describe('EncounterGen Component', () => {
     });
     
     function getCheckedFilters(): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
   
       for (var i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
           if (fixture.componentInstance.creatureTypeFilters[i].checked) {

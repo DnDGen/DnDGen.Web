@@ -1,4 +1,4 @@
-﻿import { TestHelper } from "../../testHelper.spec";
+﻿import { TestHelper } from "../../test-helper";
 import { Armor } from "../models/armor.model";
 import { Item } from "../models/item.model";
 import { SpecialAbility } from "../models/specialAbility.model";

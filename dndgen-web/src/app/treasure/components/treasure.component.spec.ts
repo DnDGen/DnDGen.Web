@@ -7,7 +7,7 @@ import { Treasure } from '../models/treasure.model';
 import { Coin } from '../models/coin.model';
 import { Good } from '../models/good.model';
 import { ItemComponent } from './item.component';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Treasure Component', () => {
   describe('unit', () => {

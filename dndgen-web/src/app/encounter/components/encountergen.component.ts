@@ -163,7 +163,7 @@ export class EncounterGenComponent implements OnInit {
   }
   
   private get checkedFilters(): string[] {
-    var checkedFilters = [];
+    var checkedFilters: string[] = [];
 
     for (var i = 0; i < this.creatureTypeFilters.length; i++) {
         if (this.creatureTypeFilters[i].checked) {

@@ -6,7 +6,7 @@ import { LoggerService } from '../../shared/services/logger.service';
 import { Observable, of } from 'rxjs';
 import { RollGenViewModel } from '../models/rollgenViewModel.model';
 import { Size } from '../../shared/components/size.enum';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('RollGen Component', () => {
   describe('unit', () => {

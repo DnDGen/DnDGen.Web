@@ -1,5 +1,5 @@
 import { EncounterPipe } from "../../encounter/pipes/encounter.pipe";
-import { TestHelper } from "../../testHelper.spec";
+import { TestHelper } from "../../test-helper";
 import { Good } from "../../treasure/models/good.model";
 import { Item } from "../../treasure/models/item.model";
 import { Treasure } from "../../treasure/models/treasure.model";

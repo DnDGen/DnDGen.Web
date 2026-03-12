@@ -1,3 +1,4 @@
+import { describe, expect } from 'vitest';
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { BrowserModule, By } from "@angular/platform-browser";
 import { LoadingComponent } from "./shared/components/loading.component";
@@ -260,13 +261,13 @@ export class TestHelper<T> {
   }
 
   public expectValidating(validating: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeTrue();
+    expect(validating).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, true, Size.Small);
   }
 
   public expectGenerating(generating: boolean, buttonSelector: string, resultSelector: string, generatingSelector: string, validatingSelector?: string | null, downloadSelector?: string) {
-    expect(generating).toBeTrue();
+    expect(generating).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     
     if (validatingSelector)
@@ -327,7 +328,7 @@ export class TestHelper<T> {
     downloadSelector?: string | null,
     generatingExists: boolean = true) {
 
-    expect(generating).toBeFalse();
+    expect(generating).toBe(false);
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     
     if (validatingSelector)
@@ -346,15 +347,15 @@ export class TestHelper<T> {
   }
 
   public expectInvalid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeFalse();
-    expect(validProperty).toBeFalse();
+    expect(validating).toBe(false);
+    expect(validProperty).toBe(false);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, false, Size.Small);
   }
 
   public expectValid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeFalse();
-    expect(validProperty).toBeTrue();
+    expect(validating).toBe(false);
+    expect(validProperty).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     this.expectLoading(validatingSelector, false, Size.Small);
   }
@@ -489,15 +490,12 @@ export class TestHelper<T> {
   }
 
   public async waitForService() {
-    this.fixture.detectChanges();
     await this.fixture.whenStable();
 
-    //update view
-    this.fixture.detectChanges();
+    //HACK: There was another detectChanges() here before zoneless. We'll see how tests do to see if it's needed again
   }
 
   public waitForDebounce(sleep: number = 500) {
-    this.fixture.detectChanges();
     setTimeout(() => { }, sleep);
   }
 

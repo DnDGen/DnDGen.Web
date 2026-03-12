@@ -3,7 +3,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
 import { Feat } from '../models/feat.model';
 import { FeatComponent } from './feat.component';
 import { Frequency } from '../models/frequency.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Feat Component', () => {
   describe('unit', () => {
