@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorComponent } from './error.component';
 import { TestHelper } from '../test-helper';
@@ -17,8 +18,8 @@ describe('ErrorComponent', () => {
       expect(error).toBeTruthy();
     });
   
-    it('should render the "Critical Miss" header', () => {
-      fixture.detectChanges();
+    it('should render the "Critical Miss" header', async () => {
+      await fixture.whenStable();
       const compiled = fixture.nativeElement as HTMLElement;
   
       const header = compiled.querySelector('h1');

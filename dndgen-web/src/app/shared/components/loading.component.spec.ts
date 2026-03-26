@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoadingComponent } from './loading.component';
 import { Size } from './size.enum';
@@ -33,17 +34,17 @@ describe('Loading Component', () => {
 
     it('should return that large is large', () => {
       component.size = Size.Large;
-      expect(component.isLarge).toBeTrue();
+      expect(component.isLarge).toBe(true);
     });
 
     it('should return that medium is not large', () => {
       component.size = Size.Medium;
-      expect(component.isLarge).toBeFalse();
+      expect(component.isLarge).toBe(false);
     });
 
     it('should return that small is not large', () => {
       component.size = Size.Small;
-      expect(component.isLarge).toBeFalse();
+      expect(component.isLarge).toBe(false);
     });
   });
 
@@ -61,9 +62,9 @@ describe('Loading Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should show the default loading image', () => {
+    it('should show the default loading image', async () => {
       fixture.componentInstance.isLoading = true;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', true);
       expectToExist('img.large-image', false);
@@ -77,19 +78,19 @@ describe('Loading Component', () => {
       expect(loadingImage?.getAttribute('src')).toEqual('/assets/loadingDice.svg');
     });
   
-    it('should hide the default loading image', () => {
+    it('should hide the default loading image', async () => {
       fixture.componentInstance.isLoading = false;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', false);
       expectToExist('img.large-image', false);
       expectToExist('div.not-loading', false);
     });
   
-    it('should show the small loading image', () => {
+    it('should show the small loading image', async () => {
       fixture.componentInstance.isLoading = true;
       fixture.componentInstance.size = Size.Small;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', true);
       expectToExist('img.large-image', false);
@@ -103,20 +104,20 @@ describe('Loading Component', () => {
       expect(loadingImage?.getAttribute('src')).toEqual('/assets/loadingDice.svg');
     });
   
-    it('should hide the small loading image', () => {
+    it('should hide the small loading image', async () => {
       fixture.componentInstance.isLoading = false;
       fixture.componentInstance.size = Size.Small;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', false);
       expectToExist('img.large-image', false);
       expectToExist('div.not-loading', false);
     });
   
-    it('should show the medium loading image', () => {
+    it('should show the medium loading image', async () => {
       fixture.componentInstance.isLoading = true;
       fixture.componentInstance.size = Size.Medium;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', true);
       expectToExist('img.large-image', false);
@@ -130,20 +131,20 @@ describe('Loading Component', () => {
       expect(loadingImage?.getAttribute('src')).toEqual('/assets/loadingDice.svg');
     });
   
-    it('should hide the medium loading image', () => {
+    it('should hide the medium loading image', async () => {
       fixture.componentInstance.isLoading = false;
       fixture.componentInstance.size = Size.Medium;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', false);
       expectToExist('img.large-image', false);
       expectToExist('div.not-loading', false);
     });
   
-    it('should show the large loading image', () => {
+    it('should show the large loading image', async () => {
       fixture.componentInstance.isLoading = true;
       fixture.componentInstance.size = Size.Large;
-      fixture.detectChanges();
+      await fixture.whenStable();
 
       expectToExist('img.not-large-image', false);
       expectToExist('img.large-image', true);
@@ -167,10 +168,10 @@ describe('Loading Component', () => {
       }
     }
   
-    it('should show the loaded content', () => {
+    it('should show the loaded content', async () => {
       fixture.componentInstance.isLoading = false;
       fixture.componentInstance.size = Size.Large;
-      fixture.detectChanges();
+      await fixture.whenStable();
       
       expectToExist('img.not-large-image', false);
       expectToExist('img.large-image', false);

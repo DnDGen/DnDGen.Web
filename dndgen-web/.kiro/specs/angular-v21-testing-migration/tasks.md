@@ -61,18 +61,18 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 1.2_
 
 
-- [ ] 2. Phase 2: Foundation Tests (TestHelper, App, Shared)
+- [x] 2. Phase 2: Foundation Tests (TestHelper, App, Shared)
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
-  - [ ] 2.1 Update TestHelper class for zoneless compatibility
+  - [x] 2.1 Update TestHelper class for zoneless compatibility
     - Remove `fixture.detectChanges()` calls from `waitForService()` method
     - Keep only `await fixture.whenStable()` (handles change detection in zoneless mode)
     - Update any other methods that use `detectChanges()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 8.1, 8.2, 8.3, 8.5, 9.3_
 
-  - [ ] 2.2 Update test-helper.ts for Vitest compatibility
+  - [x] 2.2 Update test-helper.ts for Vitest compatibility
     - File is already named test-helper.ts (utility class, not a test file)
     - Update any Jasmine-specific code if present
     - Ensure compatibility with Vitest testing environment
@@ -83,7 +83,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 9: TestHelper compatibility**
     - **Validates: Requirements 8.1, 8.4**
 
-  - [ ] 2.4 Migrate app.component.spec.ts
+  - [x] 2.4 Migrate app.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Update router test patterns for Angular v21 timing
     - Use `await vi.waitFor()` around navigation assertions if needed
@@ -91,7 +91,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.4, 5.1, 5.4, 9.3_
 
-  - [ ] 2.5 Migrate app.routes.spec.ts
+  - [x] 2.5 Migrate app.routes.spec.ts
     - Update RouterTestingHarness usage for Angular v21
     - Ensure navigation completes before assertions
     - Use `await harness.navigateByUrl()` followed by `await vi.waitFor()`
@@ -102,7 +102,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 5: Navigation completion before assertions**
     - **Validates: Requirements 5.1, 5.4**
 
-  - [ ] 2.7 Migrate shared component tests
+  - [x] 2.7 Migrate shared component tests
     - Migrate loading.component.spec.ts
     - Migrate details.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
@@ -110,7 +110,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 2.8 Migrate shared service tests
+  - [x] 2.8 Migrate shared service tests
     - Migrate logger.service.spec.ts
     - Migrate sweetAlert.service.spec.ts
     - Migrate fileSaver.service.spec.ts
@@ -118,28 +118,28 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1, 4.4_
 
-  - [ ] 2.9 Migrate shared pipe tests
+  - [x] 2.9 Migrate shared pipe tests
     - Migrate bonus.pipe.spec.ts
     - Migrate bonuses.pipe.spec.ts
     - Update assertions to use Vitest expect API
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 2.10 Migrate nav-menu tests
+  - [x] 2.10 Migrate nav-menu tests
     - Migrate nav-menu component tests
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 2.11 Migrate home and error page tests
+  - [x] 2.11 Migrate home and error page tests
     - Migrate home page component tests
     - Migrate error page component tests
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 2.12 Checkpoint - Verify foundation tests pass
+  - [x] 2.12 Checkpoint - Verify foundation tests pass
     - Run `ng test --no-watch --include='src/app/shared/**/*.spec.ts' --include='src/app/nav-menu/**/*.spec.ts' --include='src/app/home/**/*.spec.ts' --include='src/app/error/**/*.spec.ts' --include='src/app/app.*.spec.ts'` to verify all foundation tests pass
     - Ensure TestHelper changes work correctly
     - Document any patterns discovered

@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { TestHelper } from '../test-helper';
@@ -17,8 +18,8 @@ describe('Home Component', () => {
       expect(home).toBeTruthy();
     });
   
-    it('should render the "Welcome" header', () => {
-      fixture.detectChanges();
+    it('should render the "Welcome" header', async () => {
+      await fixture.whenStable();
       const compiled = fixture.nativeElement as HTMLElement;
   
       const navbarBrand = compiled.querySelector('h1');

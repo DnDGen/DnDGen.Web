@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from './details.component';
 import { TestHelper } from '../../test-helper';
@@ -12,12 +13,12 @@ describe('Details Component', () => {
     });
 
     it('initializes the inputs', () => {
-      expect(component.hasDetails).toBeFalse();
+      expect(component.hasDetails).toBe(false);
       expect(component.heading).toBe('');
     });
 
     it('initializes as collapsed', () => {
-      expect(component.collapsed).toBeTrue();
+      expect(component.collapsed).toBe(true);
     });
   });
 
@@ -38,14 +39,14 @@ describe('Details Component', () => {
     });
   
     it('should be collapsed on init', () => {
-      expect(fixture.componentInstance.collapsed).toBeTrue();
+      expect(fixture.componentInstance.collapsed).toBe(true);
     });
   
-    it('should set the heading - no details', () => {
+    it('should set the heading - no details', async () => {
       fixture.componentInstance.heading = "my heading";
       fixture.componentInstance.hasDetails = false;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectTextContent('span.no-details-header', 'my heading');
       helper.expectExists('span.no-details-header', true);
@@ -54,11 +55,11 @@ describe('Details Component', () => {
       helper.expectExists('div.details-section', false);
     });
   
-    it('should set the heading - has details', () => {
+    it('should set the heading - has details', async () => {
       fixture.componentInstance.heading = "my heading";
       fixture.componentInstance.hasDetails = true;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectExists('span.no-details-header', false);
       helper.expectExists('a.details-header', true);
@@ -70,7 +71,7 @@ describe('Details Component', () => {
       fixture.componentInstance.heading = "my heading";
       fixture.componentInstance.hasDetails = true;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
       
       helper.expectExists('span.no-details-header', false);
       helper.expectExists('a.details-header', true);
@@ -78,20 +79,20 @@ describe('Details Component', () => {
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
       
       helper.clickLink('a.details-header');
-      fixture.detectChanges();
+      await fixture.whenStable();
       
       // TODO: Figure out how to disable the ng-bootstrap animations. NoopAnimationsModule doesn't seem to work
       // helper.expectAttribute(`div.details-section`, 'class', 'details-section show');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapsing');
       
       // helper.clickLink('a.details-header');
-      // fixture.detectChanges();
+      // await fixture.whenStable();
       
       // helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
     });
 
     // TODO: Do this after figuring out how to properly disable animations
-    xit('should distinctly toggle the detail visibility', () => {
+    it.skip('should distinctly toggle the detail visibility', () => {
       const otherFixture = TestBed.createComponent(DetailsComponent);
       const otherHelper = new TestHelper(otherFixture);
 
@@ -105,7 +106,6 @@ describe('Details Component', () => {
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       helper.clickLink('a.details-header');
-      fixture.detectChanges();
       
       helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section show');
@@ -114,7 +114,6 @@ describe('Details Component', () => {
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       helper.clickLink('a.details-header');
-      fixture.detectChanges();
       
       helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
@@ -123,7 +122,6 @@ describe('Details Component', () => {
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
 
       otherHelper.clickLink('a.details-header');
-      fixture.detectChanges();
       
       helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
@@ -132,7 +130,6 @@ describe('Details Component', () => {
       otherHelper.expectAttribute(`div.details-section`, 'class', 'details-section show');
 
       otherHelper.clickLink('a.details-header');
-      fixture.detectChanges();
       
       helper.expectTextContent('a.details-header', 'my heading');
       helper.expectAttribute(`div.details-section`, 'class', 'details-section collapse');
