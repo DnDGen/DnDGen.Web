@@ -1029,20 +1029,20 @@ describe('TreasureGen Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should show the loading component when loading', () => {
+    it('should show the loading component when loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', true, Size.Large);
     });
   
-    it('should hide the loading component when not loading', () => {
+    it('should hide the loading component when not loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(false);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
@@ -1066,10 +1066,10 @@ describe('TreasureGen Component', () => {
   
     it(`should validate inputs on init/changes`, async () => {
       const component = fixture.componentInstance;
-      expect(component.validating()).toBeFalse();
-      expect(component.generating()).toBeFalse();
-      expect(component.validTreasure()).toBeTrue();
-      expect(component.validItem()).toBeTrue();
+      expect(component.validating()).toBe(false);
+      expect(component.generating()).toBe(false);
+      expect(component.validTreasure()).toBe(true);
+      expect(component.validItem()).toBe(true);
     });
   
     it(`should render the tabs`, () => {
