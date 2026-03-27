@@ -239,7 +239,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 4.4 Migrate treasuregen.component.spec.ts - Unit tests part 1 (lines 26-500)
+  - [x] 4.4 Migrate treasuregen.component.spec.ts - Unit tests part 1 (lines 26-500)
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle debouncing and timing tests

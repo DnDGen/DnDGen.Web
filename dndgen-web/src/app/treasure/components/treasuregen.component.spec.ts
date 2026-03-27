@@ -1,4 +1,5 @@
-﻿import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { TreasureGenComponent } from './treasuregen.component';
 import { TreasureService } from '../services/treasure.service';
 import { TreasurePipe } from '../pipes/treasure.pipe';
@@ -25,31 +26,56 @@ import { Weapon } from '../models/weapon.model';
 describe('TreasureGen Component', () => {
   describe('unit', () => {
     let component: TreasureGenComponent;
-    let treasureServiceSpy: jasmine.SpyObj<TreasureService>;
-    let itemPipeSpy: jasmine.SpyObj<ItemPipe>;
-    let treasurePipeSpy: jasmine.SpyObj<TreasurePipe>;
-    let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
-    let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
-    let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
+    let treasureServiceSpy: {
+      getViewModel: ReturnType<typeof vi.fn>,
+      getTreasure: ReturnType<typeof vi.fn>,
+      validateTreasure: ReturnType<typeof vi.fn>,
+      getItem: ReturnType<typeof vi.fn>,
+      validateItem: ReturnType<typeof vi.fn>
+    };
+    let itemPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let treasurePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let sweetAlertServiceSpy: { showError: ReturnType<typeof vi.fn> };
+    let loggerServiceSpy: { logError: ReturnType<typeof vi.fn> };
+    let fileSaverServiceSpy: { save: ReturnType<typeof vi.fn> };
 
     const delay = 10;
   
     beforeEach(() => {
-      treasureServiceSpy = jasmine.createSpyObj('TreasureService', ['getViewModel', 'getTreasure', 'validateTreasure', 'getItem', 'validateItem']);
-      itemPipeSpy = jasmine.createSpyObj('ItemPipe', ['transform']);
-      treasurePipeSpy = jasmine.createSpyObj('TreasurePipe', ['transform']);
-      sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
-      loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
-      fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
+      vi.useFakeTimers();
 
-      component = new TreasureGenComponent(treasureServiceSpy, sweetAlertServiceSpy, fileSaverServiceSpy, itemPipeSpy, treasurePipeSpy, loggerServiceSpy);
+      treasureServiceSpy = {
+        getViewModel: vi.fn(),
+        getTreasure: vi.fn(),
+        validateTreasure: vi.fn(),
+        getItem: vi.fn(),
+        validateItem: vi.fn()
+      };
+      itemPipeSpy = { transform: vi.fn() };
+      treasurePipeSpy = { transform: vi.fn() };
+      sweetAlertServiceSpy = { showError: vi.fn() };
+      loggerServiceSpy = { logError: vi.fn() };
+      fileSaverServiceSpy = { save: vi.fn() };
+
+      component = new TreasureGenComponent(
+        treasureServiceSpy as unknown as TreasureService,
+        sweetAlertServiceSpy as unknown as SweetAlertService,
+        fileSaverServiceSpy as unknown as FileSaverService,
+        itemPipeSpy as unknown as ItemPipe,
+        treasurePipeSpy as unknown as TreasurePipe,
+        loggerServiceSpy as unknown as LoggerService
+      );
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
       expect(component.itemNames).toEqual([]);
@@ -79,11 +105,11 @@ describe('TreasureGen Component', () => {
       );
     }
 
-    it('should be validating and loading while fetching the treasure model', fakeAsync(() => {
+    it('should be validating and loading while fetching the treasure model', async () => {
       const model = getViewModel();
-      treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
 
@@ -92,73 +118,73 @@ describe('TreasureGen Component', () => {
       expect(component.power).toEqual('');
       expect(component.itemType).toBeNull();
       expect(component.itemNames).toEqual([]);
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.treasureModel()).not.toBeTruthy();
       expect(component.treasureType).toEqual('');
       expect(component.power).toEqual('');
       expect(component.itemType).toBeNull();
       expect(component.itemNames).toEqual([]);
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
       
-      tick(1);
-      
-      expect(component.treasureModel()).toEqual(model);
-      expect(component.treasureType).toEqual('treasure type 1');
-      expect(component.power).toEqual('power 1');
-      expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
-      expect(component.itemNames).toEqual(['item 1', 'item 2']);
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
-
-      tick(delay - 1);
-
-      expect(component.treasureModel()).toEqual(model);
-      expect(component.treasureType).toEqual('treasure type 1');
-      expect(component.power).toEqual('power 1');
-      expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
-      expect(component.itemNames).toEqual(['item 1', 'item 2']);
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
-
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
       
       expect(component.treasureModel()).toEqual(model);
       expect(component.treasureType).toEqual('treasure type 1');
       expect(component.power).toEqual('power 1');
       expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
-      expect(component.validTreasure()).toBeTrue();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
 
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.treasureModel()).toEqual(model);
       expect(component.treasureType).toEqual('treasure type 1');
       expect(component.power).toEqual('power 1');
       expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
       expect(component.itemNames).toEqual(['item 1', 'item 2']);
-      expect(component.validTreasure()).toBeTrue();
-      expect(component.validItem()).toBeFalse();
-      expect(component.loading()).toBeTrue();
-      expect(component.validating()).toBeTrue();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.advanceTimersByTimeAsync(1);
+      
+      expect(component.treasureModel()).toEqual(model);
+      expect(component.treasureType).toEqual('treasure type 1');
+      expect(component.power).toEqual('power 1');
+      expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
+      expect(component.itemNames).toEqual(['item 1', 'item 2']);
+      expect(component.validTreasure()).toBe(true);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay - 1);
+
+      expect(component.treasureModel()).toEqual(model);
+      expect(component.treasureType).toEqual('treasure type 1');
+      expect(component.power).toEqual('power 1');
+      expect(component.itemType).toEqual(new ItemTypeViewModel('it1', 'Item Type 1'));
+      expect(component.itemNames).toEqual(['item 1', 'item 2']);
+      expect(component.validTreasure()).toBe(true);
+      expect(component.validItem()).toBe(false);
+      expect(component.loading()).toBe(true);
+      expect(component.validating()).toBe(true);
+
+      await vi.runAllTimersAsync();
+    });
 
     function getFakeDelay<T>(response: T): Observable<T> {
       return new Observable((observer) => {
@@ -172,23 +198,23 @@ describe('TreasureGen Component', () => {
     let initValidations = [{ t: true, i: true }, { t: true, i: false }, { t: false, i: true }, { t: false, i: false }];
 
     initValidations.forEach(test => {
-      it(`should set the treasure model on init - validity: treasure ${test.t}, item ${test.i}`, fakeAsync(() => {
+      it(`should set the treasure model on init - validity: treasure ${test.t}, item ${test.i}`, async () => {
         const model = getViewModel();
-        treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-        treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(test.t));
-        treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(test.i));
+        treasureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+        treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(test.t));
+        treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(test.i));
   
         component.ngOnInit();
   
         expect(component.treasureModel()).not.toBeTruthy();
-        expect(component.loading()).toBeTrue();
-        expect(component.validating()).toBeTrue();
+        expect(component.loading()).toBe(true);
+        expect(component.validating()).toBe(true);
   
-        tick(delay * 3);
+        await vi.advanceTimersByTimeAsync(delay * 3);
   
         expect(component.treasureModel()).toEqual(model);
-        expect(component.loading()).toBeFalse();
-        expect(component.validating()).toBeFalse();
+        expect(component.loading()).toBe(false);
+        expect(component.validating()).toBe(false);
   
         expect(component.level).toEqual(1);
         expect(component.treasureType).toEqual('treasure type 1');
@@ -204,67 +230,67 @@ describe('TreasureGen Component', () => {
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
     });
 
-    it('should display error from getting treasure model', fakeAsync(() => {
-      treasureServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+    it('should display error from getting treasure model', async () => {
+      treasureServiceSpy.getViewModel.mockImplementation(() => getFakeError('I failed'));
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
-      tick(delay * 3);
+      await vi.advanceTimersByTimeAsync(delay * 3);
 
       expect(component.treasureModel()).not.toBeTruthy();
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from validating treasure on init', fakeAsync(() => {
+    it('should display error from validating treasure on init', async () => {
       const model = getViewModel();
-      treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeError('I failed'));
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeError('I failed'));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
-      tick(delay * 3);
+      await vi.advanceTimersByTimeAsync(delay * 3);
 
       expect(component.treasureModel()).toEqual(model);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from validating item on init', fakeAsync(() => {
+    it('should display error from validating item on init', async () => {
       const model = getViewModel();
-      treasureServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeError('I failed'));
 
       component.ngOnInit();
-      tick(delay * 3);
+      await vi.advanceTimersByTimeAsync(delay * 3);
 
       expect(component.treasureModel()).toEqual(model);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     function getFakeError<T>(message: string): Observable<T> {
       return new Observable((observer) => {
@@ -276,100 +302,100 @@ describe('TreasureGen Component', () => {
 
     it('should validate treasure - invalid if no treasure type', () => {
       component.validateTreasure('', 9266);
-      expect(component.validating()).toBeFalse();
-      expect(component.validTreasure()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.validTreasure()).toBe(false);
     });
 
     it('should validate treasure - invalid if no level', () => {
       component.validateTreasure('my treasure type', 0);
-      expect(component.validating()).toBeFalse();
-      expect(component.validTreasure()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.validTreasure()).toBe(false);
     });
 
-    it('should be validating while validating the treasure', fakeAsync(() => {
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
+    it('should be validating while validating the treasure', async () => {
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(true));
 
       component.validateTreasure('my treasure type', 9266);
 
       expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
-    it('should validate valid treasure', fakeAsync(() => {
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(true));
-
-      component.validateTreasure('my treasure type', 9266);
-
-      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating()).toBeTrue();
-
-      tick(delay);
-
-      expect(component.validTreasure()).toBeTrue();
-      expect(component.validating()).toBeFalse();
-      
-      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
-
-    it('should validate invalid treasure', fakeAsync(() => {
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeDelay(false));
+    it('should validate valid treasure', async () => {
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(true));
 
       component.validateTreasure('my treasure type', 9266);
 
       expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.validTreasure()).toBe(true);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from validating treasure', fakeAsync(() => {
-      treasureServiceSpy.validateTreasure.and.callFake(() => getFakeError('I failed'));
+    it('should validate invalid treasure', async () => {
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeDelay(false));
 
       component.validateTreasure('my treasure type', 9266);
-      tick(delay);
 
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
+      expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
+      expect(component.validating()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay);
+
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validating()).toBe(false);
+      
+      expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
+      expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
+    });
+
+    it('should display error from validating treasure', async () => {
+      treasureServiceSpy.validateTreasure.mockImplementation(() => getFakeError('I failed'));
+
+      component.validateTreasure('my treasure type', 9266);
+      await vi.advanceTimersByTimeAsync(delay);
+
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.validateTreasure).toHaveBeenCalledWith('my treasure type', 9266);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should be generating while generating treasure', fakeAsync(() => {
+    it('should be generating while generating treasure', async () => {
       setupOnInit();
 
-      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(new Treasure(true, new Coin('munny', 9266))));
+      treasureServiceSpy.getTreasure.mockImplementation(() => getFakeDelay(new Treasure(true, new Coin('munny', 9266))));
 
       component.generateTreasure();
 
       expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
     function setupOnInit() {
       const viewModel = getViewModel();
@@ -385,31 +411,31 @@ describe('TreasureGen Component', () => {
       component.validItem.set(true);
     }
 
-    it('should generate the default treasure', fakeAsync(() => {
+    it('should generate the default treasure', async () => {
       setupOnInit();
 
       let treasure = new Treasure(true, new Coin('munny', 9266));
-      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+      treasureServiceSpy.getTreasure.mockImplementation(() => getFakeDelay(treasure));
 
       component.generateTreasure();
 
       expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.treasure()).toBe(treasure);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default treasure`, fakeAsync(() => {
+    it(`should generate a non-default treasure`, async () => {
       setupOnInit();
 
       let treasure = new Treasure(true, new Coin('munny', 9266));
-      treasureServiceSpy.getTreasure.and.callFake(() => getFakeDelay(treasure));
+      treasureServiceSpy.getTreasure.mockImplementation(() => getFakeDelay(treasure));
 
       const viewModel = component.treasureModel()!;
       component.treasureType = viewModel.treasureTypes[1];
@@ -418,287 +444,287 @@ describe('TreasureGen Component', () => {
       component.generateTreasure();
 
       expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 2', 90210);
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.treasure()).toBe(treasure);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from generating treasure', fakeAsync(() => {
+    it('should display error from generating treasure', async () => {
       setupOnInit();
 
-      treasureServiceSpy.getTreasure.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.getTreasure.mockImplementation(() => getFakeError('I failed'));
 
       component.generateTreasure();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.getTreasure).toHaveBeenCalledWith('treasure type 1', 1);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should validate an item - invalid if no item type', fakeAsync(() => {
+    it('should validate an item - invalid if no item type', () => {
       setupOnInit();
 
       component.validateItem('', 'my power', '');
-      expect(component.validating()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-    }));
+      expect(component.validating()).toBe(false);
+      expect(component.validItem()).toBe(false);
+    });
 
-    it('should validate an item - invalid if no power', fakeAsync(() => {
+    it('should validate an item - invalid if no power', () => {
       setupOnInit();
 
       component.validateItem('my item type', '', '');
-      expect(component.validating()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
-    }));
+      expect(component.validating()).toBe(false);
+      expect(component.validItem()).toBe(false);
+    });
 
-    it('should be validating while validating an item', fakeAsync(() => {
+    it('should be validating while validating an item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.validateItem('my item type', 'my power', '');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
-    it('should be validating while validating an item with name', fakeAsync(() => {
+    it('should be validating while validating an item with name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.validateItem('my item type', 'my power', 'my name');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
-    it('should validate a valid item', fakeAsync(() => {
+    it('should validate a valid item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.validateItem('my item type', 'my power', '');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeTrue();
-      expect(component.validating()).toBeFalse();
+      expect(component.validItem()).toBe(true);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should validate a valid item with name', fakeAsync(() => {
+    it('should validate a valid item with name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       component.validateItem('my item type', 'my power', 'my name');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeTrue();
-      expect(component.validating()).toBeFalse();
+      expect(component.validItem()).toBe(true);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should validate an invalid item', fakeAsync(() => {
+    it('should validate an invalid item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(false));
 
       component.validateItem('my item type', 'my power', '');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.validItem()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should validate an invalid item with name', fakeAsync(() => {
+    it('should validate an invalid item with name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(false));
 
       component.validateItem('my item type', 'my power', 'my name');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.validItem()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from validating item', fakeAsync(() => {
+    it('should display error from validating item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeError('I failed'));
 
       component.validateItem('my item type', 'my power', '');
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', '');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from validating item with name', fakeAsync(() => {
+    it('should display error from validating item with name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeError('I failed'));
 
       component.validateItem('my item type', 'my power', 'my name');
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validTreasure()).toBeFalse();
-      expect(component.validItem()).toBeFalse();
+      expect(component.validTreasure()).toBe(false);
+      expect(component.validItem()).toBe(false);
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('my item type', 'my power', 'my name');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should be generating while generating an item', fakeAsync(() => {
+    it('should be generating while generating an item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(new Item('my item', 'my item type')));
 
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
-    it('should be generating while generating an item with name', fakeAsync(() => {
+    it('should be generating while generating an item with name', async () => {
       setupOnInit();
       
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(new Item('my item', 'my item type')));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(new Item('my item', 'my item type')));
 
       component.itemName = component.itemNames[0];
 
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
-    it('should generate the default item', fakeAsync(() => {
+    it('should generate the default item', async () => {
       setupOnInit();
 
       let item = new Item('my item', 'my item type');
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(item));
 
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.item()).toBe(item);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should generate the default item with name', fakeAsync(() => {
+    it('should generate the default item with name', async () => {
       setupOnInit();
 
       let item = new Item('my item', 'my item type');
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(item));
 
       component.itemName = component.itemNames[0];
 
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 1');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.item()).toBe(item);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default item`, fakeAsync(() => {
+    it(`should generate a non-default item`, async () => {
       setupOnInit();
 
       let item = new Item('my item', 'my item type');
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(item));
 
       const viewModel = component.treasureModel()!;
       component.itemType = viewModel.itemTypeViewModels[1];
@@ -707,22 +733,22 @@ describe('TreasureGen Component', () => {
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', '');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.item()).toBe(item);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default item with name`, fakeAsync(() => {
+    it(`should generate a non-default item with name`, async () => {
       setupOnInit();
 
       let item = new Item('my item', 'my item type');
-      treasureServiceSpy.getItem.and.callFake(() => getFakeDelay(item));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeDelay(item));
 
       const viewModel = component.treasureModel()!;
       component.itemType = viewModel.itemTypeViewModels[1];
@@ -732,61 +758,61 @@ describe('TreasureGen Component', () => {
       component.generateItem();
 
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it2', 'power 2', 'item 4');
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.item()).toBe(item);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from generating an item', fakeAsync(() => {
+    it('should display error from generating an item', async () => {
       setupOnInit();
 
-      treasureServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeError('I failed'));
 
       component.generateItem();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', '');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating an item with name', fakeAsync(() => {
+    it('should display error from generating an item with name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.getItem.and.callFake(() => getFakeError('I failed'));
+      treasureServiceSpy.getItem.mockImplementation(() => getFakeError('I failed'));
 
       component.itemName = component.itemNames[1];
 
       component.generateItem();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.treasure()).toBeNull();
       expect(component.item()).toBeNull();
-      expect(component.generating()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(treasureServiceSpy.getItem).toHaveBeenCalledWith('it1', 'power 1', 'item 2');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should validate valid item and reset name', fakeAsync(() => {
+    it('should validate valid item and reset name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(true));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(true));
 
       const viewModel = component.treasureModel()!;
       component.validateItemAndResetName(viewModel.itemTypeViewModels[1].itemType, 'my power', '');
@@ -794,18 +820,18 @@ describe('TreasureGen Component', () => {
       expect(component.itemName).toEqual('');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeTrue();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.validItem()).toBe(true);
+      expect(component.validating()).toBe(false);
+    });
 
-    it('should validate invalid item and reset name', fakeAsync(() => {
+    it('should validate invalid item and reset name', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(false));
 
       const viewModel = component.treasureModel()!;
       component.validateItemAndResetName(viewModel.itemTypeViewModels[1].itemType, 'my power', '');
@@ -813,19 +839,19 @@ describe('TreasureGen Component', () => {
       expect(component.itemName).toEqual('');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'my power', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.validItem()).toBe(false);
+      expect(component.validating()).toBe(false);
+    });
 
     it('should download treasure - with coin', () => {
       let treasure = new Treasure(true, new Coin('munny', 9266));
       component.treasure.set(treasure);
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
+      treasurePipeSpy.transform.mockReturnValue('my formatted treasure');
 
       component.downloadTreasure();
 
@@ -838,7 +864,7 @@ describe('TreasureGen Component', () => {
       treasure.goods = [new Good('good 1', 90210), new Good('good 2', 42)];
       component.treasure.set(treasure);
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
+      treasurePipeSpy.transform.mockReturnValue('my formatted treasure');
 
       component.downloadTreasure();
 
@@ -851,7 +877,7 @@ describe('TreasureGen Component', () => {
       treasure.items = [new Item('item 1', 'itemtype'), new Item('item 2', 'itemtype')];
       component.treasure.set(treasure);
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
+      treasurePipeSpy.transform.mockReturnValue('my formatted treasure');
 
       component.downloadTreasure();
 
@@ -865,7 +891,7 @@ describe('TreasureGen Component', () => {
       treasure.items = [new Item('item 1', 'itemtype')];
       component.treasure.set(treasure);
 
-      treasurePipeSpy.transform.and.returnValue('my formatted treasure');
+      treasurePipeSpy.transform.mockReturnValue('my formatted treasure');
 
       component.downloadTreasure();
 
@@ -886,7 +912,7 @@ describe('TreasureGen Component', () => {
       let treasure = new Treasure(false, new Coin(), [], []);
       component.treasure.set(treasure);
 
-      treasurePipeSpy.transform.and.returnValue('my empty treasure');
+      treasurePipeSpy.transform.mockReturnValue('my empty treasure');
 
       component.downloadTreasure();
 
@@ -900,7 +926,7 @@ describe('TreasureGen Component', () => {
 
       component.item.set(item);
 
-      itemPipeSpy.transform.and.returnValue('my formatted item');
+      itemPipeSpy.transform.mockReturnValue('my formatted item');
 
       component.downloadItem();
 
@@ -914,7 +940,7 @@ describe('TreasureGen Component', () => {
 
       component.item.set(item);
 
-      itemPipeSpy.transform.and.returnValue('my formatted armor');
+      itemPipeSpy.transform.mockReturnValue('my formatted armor');
 
       component.downloadItem();
 
@@ -928,7 +954,7 @@ describe('TreasureGen Component', () => {
 
       component.item.set(item);
 
-      itemPipeSpy.transform.and.returnValue('my formatted weapon');
+      itemPipeSpy.transform.mockReturnValue('my formatted weapon');
 
       component.downloadItem();
 
@@ -945,10 +971,10 @@ describe('TreasureGen Component', () => {
       expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
 
-    it('BUG - should show an item is invalid - not a valid matching power', fakeAsync(() => {
+    it('BUG - should show an item is invalid - not a valid matching power', async () => {
       setupOnInit();
 
-      treasureServiceSpy.validateItem.and.callFake(() => getFakeDelay(false));
+      treasureServiceSpy.validateItem.mockImplementation(() => getFakeDelay(false));
 
       const viewModel = component.treasureModel()!;
       const itemType = viewModel.itemTypeViewModels[1];
@@ -961,12 +987,12 @@ describe('TreasureGen Component', () => {
       expect(component.itemName).toEqual('');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 1', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.validItem()).toBe(false);
+      expect(component.validating()).toBe(false);
   
       power = viewModel.powers[1];
       component.validateItemAndResetName(itemType.itemType, power, '');
@@ -975,13 +1001,13 @@ describe('TreasureGen Component', () => {
       expect(component.power).toEqual('power 2');
 
       expect(treasureServiceSpy.validateItem).toHaveBeenCalledWith('it2', 'power 2', '');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.validItem()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.validItem()).toBe(false);
+      expect(component.validating()).toBe(false);
+    });
   });
 
   describe('integration', () => {
@@ -1151,7 +1177,7 @@ describe('TreasureGen Component', () => {
         });
       });
 
-      xit(`should show that treasure is invalid - validation fails`, () => {
+      it.skip(`should show that treasure is invalid - validation fails`, () => {
         expect('there are no invalid treasure combinations').toBe('');
       });
     
