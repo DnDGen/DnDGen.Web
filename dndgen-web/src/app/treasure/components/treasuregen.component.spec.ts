@@ -1,5 +1,5 @@
 ﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TreasureGenComponent } from './treasuregen.component';
 import { TreasureService } from '../services/treasure.service';
 import { TreasurePipe } from '../pipes/treasure.pipe';
