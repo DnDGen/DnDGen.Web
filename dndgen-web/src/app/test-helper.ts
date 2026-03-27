@@ -420,6 +420,8 @@ export class TestHelper<T> {
 
     if (extraEvent)
       input.dispatchEvent(new Event(extraEvent));
+
+    this.triggerChangeDetection();
   }
 
   public setCheckbox(selector: string, value: boolean) {
@@ -429,6 +431,8 @@ export class TestHelper<T> {
     checkbox.checked = value;
 
     checkbox.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public setSelectByValue(selector: string, value: string) {
@@ -438,6 +442,8 @@ export class TestHelper<T> {
     select.value = value;
 
     select.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public setSelectByIndex(selector: string, index: number) {
@@ -449,6 +455,8 @@ export class TestHelper<T> {
 
     select.selectedIndex = index;
     select.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public clickButton(selector: string) {
@@ -457,6 +465,8 @@ export class TestHelper<T> {
     const button = this.compiled.querySelector(selector) as HTMLButtonElement;
 
     button.click();
+
+    this.triggerChangeDetection();
   }
 
   public clickCheckbox(selector: string) {
@@ -465,6 +475,8 @@ export class TestHelper<T> {
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
 
     checkbox.click();
+
+    this.triggerChangeDetection();
   }
 
   public expectLink(selector: string, text: string, link: string, external: boolean) {
@@ -489,14 +501,33 @@ export class TestHelper<T> {
     link.click();
   }
 
-  public async waitForService() {
-    await this.fixture.whenStable();
-
-    //HACK: There was another detectChanges() here before zoneless. We'll see how tests do to see if it's needed again
+  /**
+   * Manually triggers a change detection cycle.
+   *
+   * In Angular v21 zoneless mode, change detection is not triggered automatically
+   * by DOM events or signal mutations during tests. Call this after dispatching
+   * DOM events (via setInput, setSelectByIndex, clickButton, etc.) to kick off
+   * the change detection cycle, then follow with `await waitForChangeDetection()`
+   * to wait for async work to settle.
+   *
+   * Note: This is intentional and correct for zoneless tests. The Angular v21
+   * guideline to avoid detectChanges() refers to not relying on automatic
+   * zone-based detection, not to avoiding manual triggers.
+   *
+   * @see https://angular.dev/guide/testing/components-scenarios
+   */
+  public triggerChangeDetection() {
+    this.fixture.detectChanges();
   }
 
-  public waitForDebounce(sleep: number = 500) {
-    setTimeout(() => { }, sleep);
+  public async waitForChangeDetection() {
+    await this.fixture.whenStable();
+  }
+
+  public async waitForDebounce(ms: number = 500) {
+    // Actually wait for the debounce timer to fire, then wait for Angular to settle
+    await new Promise(resolve => setTimeout(resolve, ms + 50));
+    await this.waitForChangeDetection();
   }
 
   public static expectLines(actual: string[], expected: string[]) {

@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+﻿import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { DungeonGenComponent } from './dungeongen.component';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -736,7 +736,7 @@ describe('DungeonGen Component', () => {
       helper = new TestHelper(fixture);
       
       //run ngOnInit
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
     });
 
     it('should create the component', () => {
@@ -992,7 +992,7 @@ describe('DungeonGen Component', () => {
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.valid()).toBeFalse();
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
@@ -1003,12 +1003,12 @@ describe('DungeonGen Component', () => {
       helper.setCheckbox('#Ooze', true);
       
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.setCheckbox('#allowUnderground', true);
       
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.setInput('#level', '7');
 
@@ -1025,7 +1025,7 @@ describe('DungeonGen Component', () => {
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
       helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
@@ -1118,7 +1118,7 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
         fixture.componentInstance.generating(),
@@ -1161,7 +1161,7 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
         fixture.componentInstance.generating(),
@@ -1210,7 +1210,7 @@ describe('DungeonGen Component', () => {
         expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
   
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.clickButton('#generateFromDoorButton');
   
@@ -1232,7 +1232,7 @@ describe('DungeonGen Component', () => {
           '#downloadButton');
   
         //run generate encounter
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectGenerated(
           fixture.componentInstance.generating(),
@@ -1280,7 +1280,7 @@ describe('DungeonGen Component', () => {
       expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#generateFromHallButton');
 
@@ -1302,7 +1302,7 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
         fixture.componentInstance.generating(),

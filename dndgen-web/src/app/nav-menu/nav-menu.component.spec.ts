@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+﻿import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavMenuComponent } from './nav-menu.component';
 import { TestHelper } from '../test-helper';
@@ -26,7 +26,7 @@ describe('Nav-Menu Component', () => {
       fixture = TestBed.createComponent(NavMenuComponent);
       helper = new TestHelper(fixture);
       
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
     });
   
     it('should create the navigation menu', () => {
@@ -99,12 +99,12 @@ describe('Nav-Menu Component', () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
 
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
 
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -113,17 +113,17 @@ describe('Nav-Menu Component', () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
 
       helper.clickLink('#rootLink');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
 
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
 
       helper.clickLink('#rootLink');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -133,17 +133,17 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#mainLinks li:nth-of-type(1) a', 'RollGen', '/roll', false);
 
       helper.clickLink('#mainLinks li:nth-of-type(1) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
 
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
 
       helper.clickLink('#mainLinks li:nth-of-type(1) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -153,17 +153,17 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#mainLinks li:nth-of-type(2) a', 'TreasureGen', '/treasure', false);
       
       helper.clickLink('#mainLinks li:nth-of-type(2) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
 
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
 
       helper.clickLink('#mainLinks li:nth-of-type(2) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -173,17 +173,17 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#mainLinks li:nth-of-type(3) a', 'CharacterGen', '/character', false);
       
       helper.clickLink('#mainLinks li:nth-of-type(3) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
       
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
       helper.clickLink('#mainLinks li:nth-of-type(3) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -193,17 +193,17 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#mainLinks li:nth-of-type(4) a', 'EncounterGen', '/encounter', false);
       
       helper.clickLink('#mainLinks li:nth-of-type(4) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
       
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
       helper.clickLink('#mainLinks li:nth-of-type(4) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
@@ -213,17 +213,17 @@ describe('Nav-Menu Component', () => {
       helper.expectLink('#mainLinks li:nth-of-type(5) a', 'DungeonGen', '/dungeon', false);
       
       helper.clickLink('#mainLinks li:nth-of-type(5) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
       
       helper.clickButton('button.navbar-toggler');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
       helper.clickLink('#mainLinks li:nth-of-type(5) a');
-      await fixture.whenStable();
+      await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });

@@ -559,7 +559,7 @@ Integration tests require more careful migration:
 1. **Component Tests with TestBed**:
    - Keep TestBed configuration (already compatible)
    - Replace fakeAsync/tick with async/await
-   - Use `fixture.whenStable()` for async operations and state changes, preferrably via the test helper (the waitForService function)
+   - Use `fixture.whenStable()` for async operations and state changes, preferably via `helper.waitForChangeDetection()`
 
 2. **Router Tests**:
    - Keep RouterTestingHarness usage
@@ -939,6 +939,100 @@ This ensures each chunk is working before moving to the next.
 3. **flush() Usage**: Need to identify what flush() is waiting for and use appropriate alternative
 4. **Spy Chaining**: Jasmine's `and.returnValue().and.callFake()` chaining needs to be split
 5. **Router Timing**: Angular v21 router timing changes may require additional awaits
+
+### Discovered Migration Patterns (from Phase 3)
+
+These patterns were discovered during RollGen migration and apply to all subsequent phases:
+
+#### Unit Tests with setTimeout-based Observables
+
+When unit tests use `getFakeDelay`/`getFakeError` helpers that wrap `setTimeout`, fake timers must be enabled:
+
+```typescript
+beforeEach(() => {
+  vi.useFakeTimers();
+  // ... setup
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+```
+
+Use `await vi.advanceTimersByTimeAsync(delay)` instead of `tick(delay)`. The `+ 1` pattern (e.g., `delay + 1`) advances just past the threshold to ensure the timer fires.
+
+#### Boolean Assertions
+
+Vitest does not have `toBeTrue()`/`toBeFalse()` (those are Jasmine-only). Use:
+- `toBe(true)` / `toBe(false)` for exact boolean checks
+- `toBeTruthy()` / `toBeFalsy()` for truthy/falsy checks
+
+#### Number Assertions from DOM Text
+
+`new Number(text)` creates a boxed Number object. Vitest's `toBeGreaterThanOrEqual` requires primitives. Use:
+```typescript
+// Wrong - creates object
+const n = new Number(rollSection?.textContent);
+
+// Correct - creates primitive, also strips commas from formatted numbers
+const n = Number(rollSection?.textContent?.replace(/,/g, ''));
+```
+
+#### Change Detection After DOM Events
+
+In zoneless mode, dispatching DOM events does not automatically trigger Angular change detection. The `TestHelper` `setX` and `clickButton` methods handle this automatically - they call `triggerChangeDetection()` internally after dispatching the event.
+
+**Do not call `helper.triggerChangeDetection()` manually after `setX`/`clickButton` calls** - it's already done for you:
+
+```typescript
+// Correct - triggerChangeDetection is implicit
+helper.setInput('#quantity', '42');
+await helper.waitForChangeDetection();
+
+// Wrong - double-triggers change detection unnecessarily
+helper.setInput('#quantity', '42');
+helper.triggerChangeDetection(); // redundant
+await helper.waitForChangeDetection();
+```
+
+When chaining multiple `setX` calls, each one triggers change detection individually, which is fine - Angular batches them:
+
+```typescript
+helper.setInput('#customQuantity', '9266');
+helper.setInput('#customDie', '42');
+// Both inputs are set, change detection ran twice (harmless)
+await helper.waitForChangeDetection();
+```
+
+`triggerChangeDetection()` is still available as a public method for the rare case where you need to manually trigger a cycle outside of a `setX`/`clickButton` call (e.g., after directly mutating a signal in a test).
+
+#### Debounced Validation (Expression Tab Pattern)
+
+When a component uses `debounceTime(500)` in an RxJS pipeline, `waitForChangeDetection()` (which wraps `fixture.whenStable()`) will NOT wait for the debounce timer - it only waits for microtasks, not macrotasks (setTimeout).
+
+Use `helper.waitForDebounce()` which actually waits for the debounce period plus Angular settling:
+
+```typescript
+helper.setInput('#rollExpression', 'my expression', 'keyup');
+// No detectChanges needed - the keyup event triggers validateExpression which sets validating=true immediately
+
+// Wait for debounce (500ms) + HTTP call to complete
+await helper.waitForDebounce();
+
+// Now check the result
+helper.expectValid(...);
+```
+
+The `waitForDebounce()` method in TestHelper uses a real `setTimeout` to wait past the debounce period, then calls `fixture.whenStable()` to wait for Angular to settle.
+
+#### TestHelper Method Reference
+
+| Method | When to use |
+|--------|-------------|
+| `await helper.waitForChangeDetection()` | After setting signals directly, after `setX`/`clickButton` calls (to wait for async work), after service calls complete |
+| `await helper.waitForDebounce(ms?)` | After triggering debounced operations (default 500ms debounce + 50ms buffer) |
+| `helper.triggerChangeDetection()` | Rarely needed directly - only when mutating state outside of `setX`/`clickButton` (e.g., `component.signal.set(...)`) |
+| `helper.setInput()`, `setSelectByIndex()`, etc. | Automatically call `triggerChangeDetection()` internally - do not add a manual call after |
 
 ### Performance Expectations
 

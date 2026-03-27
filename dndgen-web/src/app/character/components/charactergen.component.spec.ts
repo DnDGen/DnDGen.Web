@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+﻿import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CharacterGenComponent } from './charactergen.component';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -2297,7 +2297,7 @@ describe('CharacterGen Component', () => {
       helper = new TestHelper(fixture);
       
       //run ngOnInit
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
     });
 
     it('should create the component', () => {
@@ -2696,7 +2696,7 @@ describe('CharacterGen Component', () => {
         helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.setInput('#setLevel', '21');
   
@@ -2708,7 +2708,7 @@ describe('CharacterGen Component', () => {
         helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
         
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         expect(fixture.componentInstance.valid()).toBeFalse();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
@@ -3295,12 +3295,12 @@ describe('CharacterGen Component', () => {
         helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Good'));
         
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Set'));
         
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.setSelectByIndex('#setMetarace', viewModel.metaraces.indexOf('Lich'));
   
@@ -3313,7 +3313,7 @@ describe('CharacterGen Component', () => {
         helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
   
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
         
         expect(fixture.componentInstance.valid()).toBeFalse();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
@@ -3334,7 +3334,7 @@ describe('CharacterGen Component', () => {
         helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
   
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
@@ -3394,7 +3394,7 @@ describe('CharacterGen Component', () => {
           '#downloadButton');
 
         //run generate character
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
@@ -3431,7 +3431,7 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.abilitiesRandomizerType).toEqual('Ones as sixes');
 
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.clickButton('#generateCharacterButton');
   
@@ -3445,7 +3445,7 @@ describe('CharacterGen Component', () => {
           '#downloadButton');
 
         //run generate character
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
@@ -3514,7 +3514,7 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setCharisma).toEqual(3);
 
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.clickButton('#generateCharacterButton');
   
@@ -3528,7 +3528,7 @@ describe('CharacterGen Component', () => {
           '#downloadButton');
 
         //run generate character
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
@@ -3589,7 +3589,7 @@ describe('CharacterGen Component', () => {
             '#downloadButton');
 
           //run generate leadership
-          await helper.waitForService();
+          await helper.waitForChangeDetection();
     
           helper.expectGenerated(fixture.componentInstance.generating(),
             '#generateCharacterButton', 
@@ -3682,7 +3682,7 @@ describe('CharacterGen Component', () => {
               '#downloadButton');
     
             //run generation
-            await helper.waitForService();
+            await helper.waitForChangeDetection();
       
             helper.expectGenerated(fixture.componentInstance.generating(),
               '#generateCharacterButton', 

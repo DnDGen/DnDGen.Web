@@ -1,10 +1,19 @@
-# Implementation Plan: Angular v21 Testing Migration
+﻿# Implementation Plan: Angular v21 Testing Migration
 
 ## Overview
 
 This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to Vitest for Angular v21. The migration follows 9 phases: configuration setup with temporary shims, foundation tests, then each generator module (RollGen, TreasureGen, CharacterGen, EncounterGen, DungeonGen), cleanup including shim removal, and finally file naming standardization. Large test files are broken into manageable chunks (200-800 lines per task) to ensure reliable migrations.
 
 **Shimming Strategy**: test-shims.d.ts allows unmigrated files to compile (they still use Jasmine globals). As each file is migrated, explicit Vitest imports are added to that file immediately. The shims prevent compilation errors from unmigrated files while you work incrementally. Once all files are migrated, the shims are removed (they're no longer needed).
+
+**Migration Patterns** (discovered during Phase 3, apply to all phases):
+- Unit tests using `setTimeout`-based observables: add `vi.useFakeTimers()` in `beforeEach` and `vi.useRealTimers()` in `afterEach`
+- Use `toBe(true)`/`toBe(false)` not `toBeTrue()`/`toBeFalse()` (Jasmine-only)
+- Use `Number(text?.replace(/,/g, ''))` not `new Number(text)` for DOM number assertions
+- After `setInput`/`setSelectByIndex`/`clickButton`: these helper methods call `triggerChangeDetection()` internally - just follow with `await helper.waitForChangeDetection()` if you need to wait for async work
+- For debounced validation (e.g., expression input): use `await helper.waitForDebounce()` instead of `waitForChangeDetection()`
+- Never use `fixture.whenStable()` directly - always use `helper.waitForChangeDetection()`
+- Never use `waitForService()` - it has been renamed to `waitForChangeDetection()`
 
 ## Tasks
 
@@ -66,9 +75,9 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
   - [x] 2.1 Update TestHelper class for zoneless compatibility
-    - Remove `fixture.detectChanges()` calls from `waitForService()` method
-    - Keep only `await fixture.whenStable()` (handles change detection in zoneless mode)
-    - Update any other methods that use `detectChanges()`
+    - Rename `waitForService()` to `waitForChangeDetection()` - wraps `fixture.whenStable()`
+    - Update `waitForDebounce()` to actually await the debounce period: `await new Promise(resolve => setTimeout(resolve, ms + 50))` then `fixture.whenStable()`
+    - Keep only `await fixture.whenStable()` inside `waitForChangeDetection()` (no detectChanges)
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 8.1, 8.2, 8.3, 8.5, 9.3_
 
@@ -147,49 +156,49 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 6.3, 6.5_
 
 
-- [ ] 3. Phase 3: RollGen Migration
+- [x] 3. Phase 3: RollGen Migration
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
-  - [ ] 3.1 Migrate roll.service.spec.ts
+  - [x] 3.1 Migrate roll.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Update HTTP mock patterns for Vitest
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 3.2 Migrate rollgen.component.spec.ts - Unit tests part 1 (lines 12-300)
+  - [x] 3.2 Migrate rollgen.component.spec.ts - Unit tests part 1 (lines 12-300)
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle debouncing tests (tick(500) → await vi.advanceTimersByTimeAsync(500))
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 3.3 Migrate rollgen.component.spec.ts - Unit tests part 2 (lines 301-537)
+  - [x] 3.3 Migrate rollgen.component.spec.ts - Unit tests part 2 (lines 301-537)
     - Continue spy and async pattern replacements
     - Handle multiple tick() calls with multiple awaits
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 3.4 Migrate rollgen.component.spec.ts - Integration setup (lines 538-597)
+  - [x] 3.4 Migrate rollgen.component.spec.ts - Integration setup (lines 538-597)
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
 
-  - [ ] 3.5 Migrate rollgen.component.spec.ts - Integration standard tab (lines 598-822)
+  - [x] 3.5 Migrate rollgen.component.spec.ts - Integration standard tab (lines 598-822)
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Update async test patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 3.6 Migrate rollgen.component.spec.ts - Integration custom tab (lines 823-1048)
+  - [x] 3.6 Migrate rollgen.component.spec.ts - Integration custom tab (lines 823-1048)
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Update async test patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 3.7 Migrate rollgen.component.spec.ts - Integration expression tab (lines 1049-1092)
+  - [x] 3.7 Migrate rollgen.component.spec.ts - Integration expression tab (lines 1049-1092)
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Update async test patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
@@ -199,7 +208,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 4: All tests pass with Vitest**
     - **Validates: Requirements 4.5, 7.4**
 
-  - [ ] 3.9 Checkpoint - Verify RollGen tests pass
+  - [x] 3.9 Checkpoint - Verify RollGen tests pass
     - Run `ng test --no-watch --include='src/app/roll/**/*.spec.ts'` to verify all RollGen tests pass
     - Document any RollGen-specific patterns
     - Ask user if questions arise
