@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ItemTypeViewModel } from './itemTypeViewModel.model';
 import { TreasureGenViewModel } from './treasuregenViewModel.model';
 
