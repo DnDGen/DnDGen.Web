@@ -71,6 +71,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
 
 - [x] 2. Phase 2: Foundation Tests (TestHelper, App, Shared)
+
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
@@ -258,13 +259,13 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
 
-  - [ ] 4.7 Migrate treasuregen.component.spec.ts - Integration treasure tab (lines 1061-1281)
+  - [x] 4.7 Migrate treasuregen.component.spec.ts - Integration treasure tab (lines 1061-1281)
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Update async test patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 4.8 Migrate treasuregen.component.spec.ts - Integration item tab (lines 1282-1761)
+  - [x] 4.8 Migrate treasuregen.component.spec.ts - Integration item tab (lines 1282-1761)
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Update async test patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`

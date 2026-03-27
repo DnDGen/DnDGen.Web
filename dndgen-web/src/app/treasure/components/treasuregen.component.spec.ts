@@ -1024,6 +1024,10 @@ describe('TreasureGen Component', () => {
       await helper.waitForChangeDetection();
     });
 
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it('should create the component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
@@ -1095,37 +1099,31 @@ describe('TreasureGen Component', () => {
         helper.expectLoading('#treasure #treasureValidating', false, Size.Small);
       });
     
-      it(`should show when validating treasure`, () => {
+      it(`should show when validating treasure`, async () => {
         const component = fixture.componentInstance;
         component.validating.set(true);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
 
         helper.expectValidating(component.validating(), '#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that treasure is invalid - missing level`, () => {
+      it(`should show that treasure is invalid - missing level`, async () => {
         helper.setInput('#treasureLevel', '');
   
-        fixture.detectChanges();
-  
         expect(fixture.componentInstance.level).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validTreasure(), '#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that treasure is invalid - level invalid`, () => {
+      it(`should show that treasure is invalid - level invalid`, async () => {
         helper.setInput('#treasureLevel', 'wrong');
   
-        fixture.detectChanges();
-  
         expect(fixture.componentInstance.level).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validTreasure(), '#treasureButton', '#treasureValidating');
       });
     
-      it(`should show that treasure is invalid - level too low`, () => {
+      it(`should show that treasure is invalid - level too low`, async () => {
         helper.setInput('#treasureLevel', '0');
-  
-        fixture.detectChanges();
   
         expect(fixture.componentInstance.level).toEqual(0);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validTreasure(), '#treasureButton', '#treasureValidating');
@@ -1137,8 +1135,6 @@ describe('TreasureGen Component', () => {
         it(`should show that treasure is valid - level ${test}`, async () => {
           helper.setInput('#treasureLevel', test.toString());
     
-          fixture.detectChanges();
-    
           expect(fixture.componentInstance.level).toEqual(test);
           helper.expectValidating(fixture.componentInstance.validating(), '#treasureButton', '#treasureValidating');
     
@@ -1149,10 +1145,8 @@ describe('TreasureGen Component', () => {
         });
       });
     
-      it(`should show that treasure is invalid - missing treasure type`, () => {
+      it(`should show that treasure is invalid - missing treasure type`, async () => {
         helper.setSelectByValue('#treasureTypes', '');
-  
-        fixture.detectChanges();
   
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validTreasure(), '#treasureButton', '#treasureValidating');
       });
@@ -1164,8 +1158,6 @@ describe('TreasureGen Component', () => {
           it(`should show that treasure is valid - treasure type index ${test}`, async () => {
             helper.setSelectByIndex('#treasureTypes', test);
       
-            fixture.detectChanges();
-            
             expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[test]);
             helper.expectValidating(fixture.componentInstance.validating(), '#treasureButton', '#treasureValidating');
 
@@ -1185,8 +1177,6 @@ describe('TreasureGen Component', () => {
         helper.setInput('#treasureLevel', '42');
         helper.setSelectByIndex('#treasureTypes', 3);
   
-        fixture.detectChanges();
-  
         expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[3]);
         helper.expectValidating(fixture.componentInstance.validating(), '#treasureButton', '#treasureValidating');
   
@@ -1196,11 +1186,11 @@ describe('TreasureGen Component', () => {
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validTreasure(), '#treasureButton', '#treasureValidating');
       });
     
-      it(`should show when generating treasure`, () => {
+      it(`should show when generating treasure`, async () => {
         const component = fixture.componentInstance;
         component.generating.set(true);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
 
         helper.expectGenerating(
           fixture.componentInstance.generating(), 
@@ -1214,8 +1204,6 @@ describe('TreasureGen Component', () => {
       it(`should generate the default treasure`, async () => {
         helper.clickButton('#treasureButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(
           fixture.componentInstance.generating(), 
           '#treasureButton', 
@@ -1253,8 +1241,6 @@ describe('TreasureGen Component', () => {
         helper.setInput('#treasureLevel', '42');
         helper.setSelectByIndex('#treasureTypes', 2);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.level).toEqual(42);
         expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[2]);
 
@@ -1263,8 +1249,6 @@ describe('TreasureGen Component', () => {
 
         helper.clickButton('#treasureButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(
           fixture.componentInstance.generating(), 
           '#treasureButton', 
@@ -1296,7 +1280,7 @@ describe('TreasureGen Component', () => {
         const treasureComp = element.componentInstance as TreasureComponent;
         expect(treasureComp.treasure).toBeTruthy();
         expect(treasureComp.treasure).not.toBeNull();
-        expect(treasureComp.treasure.isAny).toBeTrue();
+        expect(treasureComp.treasure.isAny).toBe(true);
         expect(treasureComp.treasure.coin).toBeTruthy();
         expect(treasureComp.treasure.coin.currency).toBe('');
         expect(treasureComp.treasure.coin.quantity).toBe(0);
@@ -1347,8 +1331,6 @@ describe('TreasureGen Component', () => {
       it(`should update item names when item type changes`, async () => {
         helper.setSelectByIndex('#itemTypes', 4);
   
-        fixture.detectChanges();
-
         helper.expectSelect('#item #itemTypes', true, 'Rod', 11);
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
 
@@ -1366,8 +1348,6 @@ describe('TreasureGen Component', () => {
       it(`should un-set an item name back to empty`, async () => {
         helper.setSelectByIndex('#itemNames', 4);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual('Everburning Torch');
 
         //run validation
@@ -1377,8 +1357,6 @@ describe('TreasureGen Component', () => {
 
         helper.setSelectByIndex('#itemNames', 0);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual('');
         
         //run validation
@@ -1390,8 +1368,6 @@ describe('TreasureGen Component', () => {
       it(`should un-set an item name back to empty when item type changes`, async () => {
         helper.setSelectByIndex('#itemNames', 4);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual('Everburning Torch');
 
         //run validation
@@ -1399,8 +1375,6 @@ describe('TreasureGen Component', () => {
 
         helper.setSelectByIndex('#itemTypes', 6);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Staff');
         
         //run validation
@@ -1415,19 +1389,17 @@ describe('TreasureGen Component', () => {
         helper.expectExists('#itemNames', true);
       });
     
-      it(`should show when validating an item`, () => {
+      it(`should show when validating an item`, async () => {
         const component = fixture.componentInstance;
         component.validating.set(true);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
 
         helper.expectValidating(fixture.componentInstance.validating(), '#itemButton', '#itemValidating');
       });
     
       it(`should show that an item is invalid - missing item type`, () => {
         helper.setSelectByValue('#itemTypes', '');
-  
-        fixture.detectChanges();
   
         expect(fixture.componentInstance.itemType).toBeFalsy();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validItem(), '#itemButton', '#itemValidating');
@@ -1444,16 +1416,12 @@ describe('TreasureGen Component', () => {
 
           helper.setSelectByIndex('#powers', powerIndex);
           
-          fixture.detectChanges();
-    
           expect(fixture.componentInstance.power).toEqual(fixture.componentInstance.treasureModel()!.powers[powerIndex]);
 
           //run validation
           await helper.waitForChangeDetection();
     
           helper.setSelectByIndex('#itemTypes', itemTypeIndex);
-    
-          fixture.detectChanges();
     
           expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
           expect(fixture.componentInstance.itemName).toEqual('');
@@ -1485,8 +1453,6 @@ describe('TreasureGen Component', () => {
           helper.setSelectByIndex('#powers', powerIndex);
           helper.setSelectByIndex('#itemTypes', itemTypeIndex);
           
-          fixture.detectChanges();
-  
           expect(fixture.componentInstance.itemType).toEqual(itemTypeViewModel);
           expect(fixture.componentInstance.itemNames).toEqual(itemNames);
             
@@ -1503,8 +1469,6 @@ describe('TreasureGen Component', () => {
           helper.expectExists('#anyItemName', true);
 
           helper.setInput('#anyItemName', `My ${itemTypeViewModel.displayName}`);
-    
-          fixture.detectChanges();
     
           expect(fixture.componentInstance.itemName).toEqual(`My ${itemTypeViewModel.displayName}`);
           helper.expectValidating(fixture.componentInstance.validating(), '#itemButton', '#itemValidating');
@@ -1526,8 +1490,6 @@ describe('TreasureGen Component', () => {
           helper.setSelectByIndex('#powers', powerIndex);
           helper.setSelectByIndex('#itemTypes', itemTypeIndex);
           
-          fixture.detectChanges();
-
           expect(fixture.componentInstance.itemNames).toEqual(itemNames);
           
           //run validation
@@ -1543,8 +1505,6 @@ describe('TreasureGen Component', () => {
           helper.expectExists('#anyItemName', false);
 
           helper.setSelectByIndex('#itemNames', 2);
-    
-          fixture.detectChanges();
     
           expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel()!.itemTypeViewModels[itemTypeIndex]);
           expect(fixture.componentInstance.itemName).toEqual(itemNames[1]);
@@ -1567,8 +1527,6 @@ describe('TreasureGen Component', () => {
           helper.setSelectByIndex('#powers', powerIndex);
           helper.setSelectByIndex('#itemTypes', itemTypeIndex);
             
-          fixture.detectChanges();
-  
           expect(fixture.componentInstance.itemNames).toEqual(itemNames);
           
           //run validation
@@ -1584,8 +1542,6 @@ describe('TreasureGen Component', () => {
           helper.expectExists('#anyItemName', false);
   
           helper.setSelectByValue('#itemNames', 'not a name');
-    
-          fixture.detectChanges();
     
           expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel()!.itemTypeViewModels[itemTypeIndex]);
           expect(fixture.componentInstance.itemName).toEqual('');
@@ -1609,8 +1565,6 @@ describe('TreasureGen Component', () => {
           helper.setSelectByIndex('#powers', powerIndex);
           helper.setSelectByIndex('#itemTypes', itemTypeIndex);
             
-          fixture.detectChanges();
-  
           expect(fixture.componentInstance.itemNames).toEqual(itemNames);
           
           //run validation
@@ -1630,8 +1584,6 @@ describe('TreasureGen Component', () => {
           let wrongName = fixture.componentInstance.treasureModel()!.itemNames[wrongItemType.itemType][0];
           helper.setSelectByValue('#itemNames', wrongName);
     
-          fixture.detectChanges();
-    
           expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel()!.itemTypeViewModels[itemTypeIndex]);
           expect(fixture.componentInstance.itemName).toEqual('');
           helper.expectValidating(fixture.componentInstance.validating(), '#itemButton', '#itemValidating');
@@ -1645,8 +1597,6 @@ describe('TreasureGen Component', () => {
 
       it('should show an item is invalid - missing power', () => {
         helper.setSelectByValue('#powers', '');
-          
-        fixture.detectChanges();
     
         expect(fixture.componentInstance.power).toEqual('');
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validItem(), '#itemButton', '#itemValidating');
@@ -1654,8 +1604,6 @@ describe('TreasureGen Component', () => {
 
       it('should show an item is invalid - not a valid power', () => {
         helper.setSelectByValue('#powers', 'Omnipotent');
-          
-        fixture.detectChanges();
     
         expect(fixture.componentInstance.power).toEqual('');
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validItem(), '#itemButton', '#itemValidating');
@@ -1669,35 +1617,31 @@ describe('TreasureGen Component', () => {
         expect(minorIndex).toBe(1);
         helper.setSelectByIndex('#itemTypes', rodIndex);
         
-        fixture.detectChanges();
-    
         const compiled = fixture.nativeElement as HTMLElement;
         const selectedPower = compiled!.querySelector('#itemTypes > option:checked');
         helper.expectExists('#itemTypes > option:checked', true);
         expect(selectedPower?.textContent).toEqual('Rod');
 
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Rod');
-        expect(fixture.componentInstance.validating()).toBeTrue();
+        expect(fixture.componentInstance.validating()).toBe(true);
         helper.expectValidating(fixture.componentInstance.validating(), '#itemButton', '#itemValidating');
 
         //run validation
         await helper.waitForChangeDetection();
   
-        expect(fixture.componentInstance.validating()).toBeFalse();
+        expect(fixture.componentInstance.validating()).toBe(false);
 
         helper.setSelectByIndex('#powers', minorIndex);
-          
-        fixture.detectChanges();
     
         expect(fixture.componentInstance.power).toEqual('Minor');
-        expect(fixture.componentInstance.validating()).toBeTrue();
+        expect(fixture.componentInstance.validating()).toBe(true);
         helper.expectValidating(fixture.componentInstance.validating(), '#itemButton', '#itemValidating');
 
         //run validation
         await helper.waitForChangeDetection();
   
-        expect(fixture.componentInstance.validating()).toBeFalse();
-        expect(fixture.componentInstance.validItem()).toBeFalse();
+        expect(fixture.componentInstance.validating()).toBe(false);
+        expect(fixture.componentInstance.validItem()).toBe(false);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validItem(), '#itemButton', '#itemValidating');
       });
 
@@ -1710,8 +1654,6 @@ describe('TreasureGen Component', () => {
           helper.setSelectByIndex('#itemTypes', armorIndex);
           helper.setSelectByIndex('#powers', powerIndex);
 
-          fixture.detectChanges();
-    
           expect(fixture.componentInstance.itemType).toEqual(fixture.componentInstance.treasureModel()!.itemTypeViewModels[armorIndex]);
           expect(fixture.componentInstance.power).toEqual(fixture.componentInstance.treasureModel()!.powers[powerIndex]);
           expect(fixture.componentInstance.itemName).toEqual('');
@@ -1720,17 +1662,17 @@ describe('TreasureGen Component', () => {
           //run validation
           await helper.waitForChangeDetection();
     
-          expect(fixture.componentInstance.validating()).toBeFalse();
-          expect(fixture.componentInstance.validItem()).toBeTrue();
+          expect(fixture.componentInstance.validating()).toBe(false);
+          expect(fixture.componentInstance.validItem()).toBe(true);
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validItem(), '#itemButton', '#itemValidating');
         });
       });
     
-      it(`should show when generating an item`, () => {
+      it(`should show when generating an item`, async () => {
         const component = fixture.componentInstance;
         component.generating.set(true);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
 
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
@@ -1739,8 +1681,6 @@ describe('TreasureGen Component', () => {
       it(`should generate the default item`, async () => {
         helper.clickButton('#itemButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
 
@@ -1768,22 +1708,18 @@ describe('TreasureGen Component', () => {
       it(`should generate the default item with name`, async () => {
         helper.setSelectByIndex('#itemNames', 1);
 
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual("Acid");
-        expect(fixture.componentInstance.validating()).toBeTrue();
+        expect(fixture.componentInstance.validating()).toBe(true);
         
 
         //run validation
         await helper.waitForChangeDetection();
   
-        expect(fixture.componentInstance.validating()).toBeFalse();
-        expect(fixture.componentInstance.validItem()).toBeTrue();
+        expect(fixture.componentInstance.validating()).toBe(false);
+        expect(fixture.componentInstance.validItem()).toBe(true);
 
         helper.clickButton('#itemButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
 
@@ -1813,21 +1749,17 @@ describe('TreasureGen Component', () => {
         helper.setSelectByIndex('#itemTypes', 1);
         helper.setSelectByIndex('#powers', 2);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Armor');
         expect(fixture.componentInstance.power).toEqual('Medium');
 
         //run validation
         await helper.waitForChangeDetection();
 
-        expect(fixture.componentInstance.validItem()).toBeTrue();
-        expect(fixture.componentInstance.validating()).toBeFalse();
+        expect(fixture.componentInstance.validItem()).toBe(true);
+        expect(fixture.componentInstance.validating()).toBe(false);
 
         helper.clickButton('#itemButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
 
@@ -1857,30 +1789,24 @@ describe('TreasureGen Component', () => {
         helper.setSelectByIndex('#itemTypes', 1);
         helper.setSelectByIndex('#powers', 2);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Armor');
         expect(fixture.componentInstance.power).toEqual('Medium');
 
         //run validation
         await helper.waitForChangeDetection();
 
-        expect(fixture.componentInstance.validItem()).toBeTrue();
+        expect(fixture.componentInstance.validItem()).toBe(true);
         expect(fixture.componentInstance.itemNames).toEqual(fixture.componentInstance.treasureModel()!.itemNames['Armor']);
         helper.setSelectByIndex('#itemNames', 3);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual('Banded mail');
 
         //run validation
         await helper.waitForChangeDetection();
 
-        expect(fixture.componentInstance.validItem()).toBeTrue();
+        expect(fixture.componentInstance.validItem()).toBe(true);
         helper.clickButton('#itemButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
 
@@ -1911,8 +1837,6 @@ describe('TreasureGen Component', () => {
         helper.setSelectByIndex('#itemTypes', wandIndex);
         helper.setSelectByIndex('#powers', 3);
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemType?.itemType).toEqual('Wand');
         expect(fixture.componentInstance.power).toEqual('Major');
 
@@ -1921,8 +1845,6 @@ describe('TreasureGen Component', () => {
 
         helper.setInput('#anyItemName', 'Wand of Awesomeness');
   
-        fixture.detectChanges();
-
         expect(fixture.componentInstance.itemName).toEqual('Wand of Awesomeness');
 
         //run validation
@@ -1930,8 +1852,6 @@ describe('TreasureGen Component', () => {
 
         helper.clickButton('#itemButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(fixture.componentInstance.generating(), '#itemButton', '#treasureSection', '#generatingSection', '#itemValidating', '#downloadItemButton');
         helper.expectExists('#downloadTreasureButton', false);
 
@@ -1955,7 +1875,7 @@ describe('TreasureGen Component', () => {
         expect(itemComp.item).not.toBeNull();
         expect(itemComp.item?.name).toEqual('Wand of Awesomeness');
         expect(itemComp.item?.itemType).toEqual('Wand');
-        expect(itemComp.item?.isMagical).toBeTrue();
+        expect(itemComp.item?.isMagical).toBe(true);
         expect(itemComp.item?.magic.charges).toBeGreaterThan(0);
       });
     });
@@ -1971,10 +1891,10 @@ describe('TreasureGen Component', () => {
       expect(element).toBeNull();
     });
     
-    it(`should render treasure`, () => {
+    it(`should render treasure`, async () => {
       fixture.componentInstance.treasure.set(new Treasure());
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#noTreasure', false);
       helper.expectExists('#treasureSection dndgen-treasure', true);
@@ -1984,10 +1904,10 @@ describe('TreasureGen Component', () => {
       expect(element).toBeNull();
     });
     
-    it(`should render item`, () => {
+    it(`should render item`, async () => {
       fixture.componentInstance.item.set(new Item('my item', 'my item type'));
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#noTreasure', false);
       helper.expectExists('#treasureSection dndgen-item', true);
@@ -1999,21 +1919,21 @@ describe('TreasureGen Component', () => {
     
     it(`should download treasure`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       let treasure = new Treasure(true, new Coin('munny', 9266));
       treasure.isAny = true;
       fixture.componentInstance.treasure.set(treasure);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadTreasureButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
-        jasmine.any(Blob),
-        jasmine.stringMatching(/^Treasure \(.+, [0-9] goods, [0-9] items\)\.txt$/));
+        expect.any(Blob),
+        expect.stringMatching(/^Treasure \(.+, [0-9] goods, [0-9] items\)\.txt$/));
         
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       expect(text).toEqual('9,266 munny\r\n' +
         'Goods (x0)\r\n' +
@@ -2022,28 +1942,28 @@ describe('TreasureGen Component', () => {
     
     it(`should download item`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       let item = new Item('my item', 'my item type');
       item.summary = 'my item summary';
       fixture.componentInstance.item.set(item);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadItemButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
-        jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my item summary\)\.txt$/));
+        expect.any(Blob),
+        expect.stringMatching(/^Item \(my item summary\)\.txt$/));
       
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       expect(text).toEqual('my item summary\r\n');
     });
     
     it(`BUG - should download armor`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       let armor = new Armor('my armor', 'Armor');
       armor.summary = 'my armor summary';
@@ -2053,15 +1973,16 @@ describe('TreasureGen Component', () => {
       armor.totalMaxDexterityBonus = 6;
 
       fixture.componentInstance.item.set(armor as Item);
-      fixture.detectChanges();
+
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadItemButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
-        jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my armor summary\)\.txt$/));
+        expect.any(Blob),
+        expect.stringMatching(/^Item \(my armor summary\)\.txt$/));
       
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
@@ -2078,7 +1999,7 @@ describe('TreasureGen Component', () => {
     
     it(`BUG - should download weapon v1`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       let weapon = new Weapon('my weapon', 'Weapon');
       weapon.summary = 'my weapon summary';
@@ -2089,15 +2010,16 @@ describe('TreasureGen Component', () => {
       weapon.criticalDamageDescription = 'my critical damage description';
 
       fixture.componentInstance.item.set(weapon as Item);
-      fixture.detectChanges();
+
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadItemButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
-        jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my weapon summary\)\.txt$/));
+        expect.any(Blob),
+        expect.stringMatching(/^Item \(my weapon summary\)\.txt$/));
       
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
@@ -2115,7 +2037,7 @@ describe('TreasureGen Component', () => {
     
     it(`BUG - should download weapon v2`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       let weapon = new Weapon('my weapon', 'Weapon');
       weapon.summary = 'my weapon summary';
@@ -2126,15 +2048,16 @@ describe('TreasureGen Component', () => {
       weapon.criticalDamageSummary = 'my critical damage summary';
 
       fixture.componentInstance.item.set(weapon as Item);
-      fixture.detectChanges();
+
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadItemButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(
-        jasmine.any(Blob),
-        jasmine.stringMatching(/^Item \(my weapon summary\)\.txt$/));
+        expect.any(Blob),
+        expect.stringMatching(/^Item \(my weapon summary\)\.txt$/));
       
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       const lines = text.split('\r\n');
       const expected = [
