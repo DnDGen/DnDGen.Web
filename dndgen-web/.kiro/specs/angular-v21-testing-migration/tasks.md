@@ -218,7 +218,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 6.3_
 
 
-- [ ] 4. Phase 4: TreasureGen Migration
+- [x] 4. Phase 4: TreasureGen Migration
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
@@ -289,7 +289,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 7: Consistent migration patterns**
     - **Validates: Requirements 7.1**
 
-  - [ ] 4.12 Checkpoint - Verify TreasureGen tests pass
+  - [x] 4.12 Checkpoint - Verify TreasureGen tests pass
     - Run `ng test --no-watch --include='src/app/treasure/**/*.spec.ts'` to verify all TreasureGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
