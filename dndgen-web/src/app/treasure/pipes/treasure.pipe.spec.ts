@@ -1,4 +1,5 @@
-﻿import { DecimalPipe } from "@angular/common";
+﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { DecimalPipe } from "@angular/common";
 import { Good } from "../models/good.model";
 import { Item } from "../models/item.model";
 import { Treasure } from "../models/treasure.model";
@@ -9,17 +10,17 @@ describe('Treasure Pipe', () => {
     describe('unit', () => {
         let pipe: TreasurePipe;
         let treasure: Treasure;
-        let itemPipeSpy: jasmine.SpyObj<ItemPipe>;
+        let itemPipeSpy: { transform: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
             treasure = new Treasure();
 
             const numberPipe = new DecimalPipe('en-US');
-            itemPipeSpy = jasmine.createSpyObj('ItemPipe', ['transform']);
+            itemPipeSpy = { transform: vi.fn() };
 
-            pipe = new TreasurePipe(itemPipeSpy, numberPipe);
+            pipe = new TreasurePipe(itemPipeSpy as unknown as ItemPipe, numberPipe);
 
-            itemPipeSpy.transform.and.callFake(formatItem);
+            itemPipeSpy.transform.mockImplementation(formatItem);
         });
     
         function formatItem(item: Item, prefix: string): string {

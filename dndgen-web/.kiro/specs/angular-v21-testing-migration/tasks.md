@@ -226,7 +226,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 4.2 Migrate treasure pipe tests
+  - [x] 4.2 Migrate treasure pipe tests
     - Migrate treasure.pipe.spec.ts
     - Migrate item.pipe.spec.ts
     - Update assertions to use Vitest expect API
