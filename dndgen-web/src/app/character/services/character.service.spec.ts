@@ -1,8 +1,9 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CharacterService } from './character.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
 import { Character } from '../models/character.model';
 import { TestHelper } from '../../test-helper';
@@ -10,15 +11,15 @@ import { TestHelper } from '../../test-helper';
 describe('Character Service', () => {
     describe('unit', () => {
         let characterService: CharacterService;
-        let httpClientSpy: jasmine.SpyObj<HttpClient>;
+        let httpClientSpy: { get: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
-            httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+            httpClientSpy = { get: vi.fn() };
     
-            characterService = new CharacterService(httpClientSpy);
+            characterService = new CharacterService(httpClientSpy as unknown as HttpClient);
         });
 
-        it('gets the character view model', done => {
+        it('gets the character view model', () => new Promise<void>(resolve => {
             const model = new CharacterGenViewModel(
                 ['alignment randomizer 1', 'alignment randomizer 2'],
                 ['alignment 1', 'alignment 2'],
@@ -31,14 +32,14 @@ describe('Character Service', () => {
                 ['metarace 1', 'metarace 2'],
                 ['abilities randomizer 1', 'abilities randomizer 2'],
             );
-            httpClientSpy.get.and.returnValue(of(model));
+            httpClientSpy.get.mockReturnValue(of(model));
     
             characterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/character/viewmodel');
-                done();
+                resolve();
             });
-        });
+        }));
     
         let booleanCombos = [
             {m: true, a: true},
@@ -48,9 +49,9 @@ describe('Character Service', () => {
         ];
 
         booleanCombos.forEach(test => {
-            it(`generates character - metarace ${test.m}, abilities ${test.a}`, done => {
+            it(`generates character - metarace ${test.m}, abilities ${test.a}`, () => new Promise<void>(resolve => {
                 const expected = new Character('my character summary');
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams()
                     .set('alignmentRandomizerType', 'my alignment randomizer')
                     .set('setAlignment', 'my alignment')
@@ -96,12 +97,12 @@ describe('Character Service', () => {
                     .subscribe((character) => {
                         expect(character).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/generate', { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
             
-            it(`validates a valid character - metarace ${test.m}, abilities ${test.a}`, done => {
-                httpClientSpy.get.and.returnValue(of(true));
+            it(`validates a valid character - metarace ${test.m}, abilities ${test.a}`, () => new Promise<void>(resolve => {
+                httpClientSpy.get.mockReturnValue(of(true));
                 let params = new HttpParams()
                     .set('alignmentRandomizerType', 'my alignment randomizer')
                     .set('setAlignment', 'my alignment')
@@ -131,12 +132,12 @@ describe('Character Service', () => {
                     .subscribe((validity) => {
                         expect(validity).toBe(true);
                         expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/validate', { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
         
-            it(`validates an invalid character - metarace ${test.m}, abilities ${test.a}`, done => {
-                httpClientSpy.get.and.returnValue(of(false));
+            it(`validates an invalid character - metarace ${test.m}, abilities ${test.a}`, () => new Promise<void>(resolve => {
+                httpClientSpy.get.mockReturnValue(of(false));
                 let params = new HttpParams()
                     .set('alignmentRandomizerType', 'my alignment randomizer')
                     .set('setAlignment', 'my alignment')
@@ -166,9 +167,9 @@ describe('Character Service', () => {
                     .subscribe((validity) => {
                         expect(validity).toBe(false);
                         expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/validate', { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
         });
     });
     
@@ -181,7 +182,7 @@ describe('Character Service', () => {
             characterService = TestBed.inject(CharacterService);
         });
 
-        it('gets the character view model', waitForAsync(() => {
+        it('gets the character view model', () => new Promise<void>(resolve => {
             characterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeTruthy();
                 expect(viewmodel.alignmentRandomizerTypes.length).toBe(12);
@@ -197,10 +198,11 @@ describe('Character Service', () => {
                 //INFO: This allows us to bridge the deployment gap
                 // expect(viewmodel.abilitiesRandomizerTypes.length).toEqual(8);
                 expect([8, 9]).toContain(viewmodel.abilitiesRandomizerTypes.length);
+                resolve();
             });
         }));
     
-        it('generates character', waitForAsync(() => {
+        it('generates character', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Any',
@@ -225,10 +227,11 @@ describe('Character Service', () => {
                 .subscribe((character) => {
                     expect(character).toBeTruthy();
                     expect(character.summary).toBeTruthy();
+                    resolve();
                 });
         }));
     
-        it('BUG - generates character with skills', waitForAsync(() => {
+        it('BUG - generates character with skills', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Any',
@@ -264,10 +267,11 @@ describe('Character Service', () => {
                     }
 
                     expect(foundClassSkill).toBe(true);
+                    resolve();
                 });
         }));
     
-        it('BUG - generates character with correct known spell sources', waitForAsync(() => {
+        it('BUG - generates character with correct known spell sources', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Any',
@@ -300,10 +304,11 @@ describe('Character Service', () => {
                     let keys = Object.keys(character.magic.knownSpells[0].sources);
                     expect(keys.length).toBeTruthy();
                     expect(character.magic.knownSpells[0].sources[keys[0]]).toBeGreaterThanOrEqual(0);
+                    resolve();
                 });
         }));
     
-        it('BUG - generates character with correct prepared spell sources', waitForAsync(() => {
+        it('BUG - generates character with correct prepared spell sources', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Any',
@@ -336,10 +341,11 @@ describe('Character Service', () => {
                     let keys = Object.keys(character.magic.preparedSpells[0].sources);
                     expect(keys.length).toBeTruthy();
                     expect(character.magic.preparedSpells[0].sources[keys[0]]).toBeGreaterThanOrEqual(0);
+                    resolve();
                 });
         }));
     
-        it('BUG - generates character with weapon summaries', waitForAsync(() => {
+        it('BUG - generates character with weapon summaries', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Any',
@@ -366,10 +372,11 @@ describe('Character Service', () => {
                     expect(character.summary).toBeTruthy();
                     expect(character.equipment.primaryHand).toBeTruthy();
                     expect(character.equipment.primaryHand?.damageSummary || character.equipment.primaryHand?.damageDescription).toBeTruthy();
+                    resolve();
                 });
         }));
     
-        it('generates character with set values', waitForAsync(() => {
+        it('generates character with set values', () => new Promise<void>(resolve => {
             characterService
                 .generate(
                     'Set',
@@ -394,10 +401,11 @@ describe('Character Service', () => {
                 .subscribe((character) => {
                     expect(character).toBeTruthy();
                     expect(character.summary).toBeTruthy();
+                    resolve();
                 });
         }));
     
-        it('validates a valid character', done => {
+        it('validates a valid character', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -413,11 +421,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad alignment randomizer', done => {
+        it('validates an invalid character - bad alignment randomizer', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Invalid',
@@ -433,11 +441,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad alignment', done => {
+        it('validates an invalid character - bad alignment', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -453,11 +461,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad class name randomizer', done => {
+        it('validates an invalid character - bad class name randomizer', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -473,11 +481,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad class name', done => {
+        it('validates an invalid character - bad class name', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -493,11 +501,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad level randomizer', done => {
+        it('validates an invalid character - bad level randomizer', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -513,11 +521,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad level', done => {
+        it('validates an invalid character - bad level', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -533,11 +541,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('BUG - validates an invalid character - level too high', done => {
+        it('BUG - validates an invalid character - level too high', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Any',
@@ -553,11 +561,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('BUG - validates an valid character - level at max', done => {
+        it('BUG - validates an valid character - level at max', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -573,11 +581,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('BUG - validates an invalid character - Good Lich', done => {
+        it('BUG - validates an invalid character - Good Lich', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Good',
@@ -593,11 +601,11 @@ describe('Character Service', () => {
                     'Lich')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('BUG - validates an valid character - Evil Lich', done => {
+        it('BUG - validates an valid character - Evil Lich', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Evil',
@@ -613,11 +621,11 @@ describe('Character Service', () => {
                     'Lich')
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad base race randomizer', done => {
+        it('validates an invalid character - bad base race randomizer', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -633,11 +641,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad base race', done => {
+        it('validates an invalid character - bad base race', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -653,11 +661,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad metarace randomizer', done => {
+        it('validates an invalid character - bad metarace randomizer', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -673,11 +681,11 @@ describe('Character Service', () => {
                     'Ghost')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad metarace', done => {
+        it('validates an invalid character - bad metarace', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -693,11 +701,11 @@ describe('Character Service', () => {
                     'Bad Metarace')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid character - bad combo', done => {
+        it('validates an invalid character - bad combo', () => new Promise<void>(resolve => {
             characterService
                 .validate(
                     'Set',
@@ -713,8 +721,8 @@ describe('Character Service', () => {
                     'Vampire')
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     });
 });
