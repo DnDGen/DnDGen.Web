@@ -209,8 +209,8 @@ describe('Dungeon Service', () => {
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
                 expect(viewmodel.defaults.level).toBe(1);
-                expect(viewmodel.defaults.allowAquatic).toBeFalse();
-                expect(viewmodel.defaults.allowUnderground).toBeTrue();
+                expect(viewmodel.defaults.allowAquatic).toBe(false);
+                expect(viewmodel.defaults.allowUnderground).toBe(true);
             });
         }));
     

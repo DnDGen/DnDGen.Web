@@ -432,7 +432,7 @@ this.service.getData()
 **Unit Tests:**
 ```typescript
 // ✅ REQUIRED - Signal access
-expect(component.loading()).toBeTrue();
+expect(component.loading()).toBe(true);
 expect(component.result()).toEqual(data);
 
 // ✅ REQUIRED - Regular property access

@@ -263,7 +263,7 @@ describe('Character Service', () => {
                         foundClassSkill ||= character.skills[i].classSkill;
                     }
 
-                    expect(foundClassSkill).toBeTrue();
+                    expect(foundClassSkill).toBe(true);
                 });
         }));
     

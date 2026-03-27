@@ -62,7 +62,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeTrue();
+      expect(component.isTwoHanded()).toBe(true);
     });
 
     it('should say primary weapon is not two-handed - one-handed', () => {
@@ -72,7 +72,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeFalse();
+      expect(component.isTwoHanded()).toBe(false);
     });
 
     it('should say primary weapon is not two-handed - no primary weapon', () => {
@@ -81,7 +81,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeFalse();
+      expect(component.isTwoHanded()).toBe(false);
     });
 
     it('should sort spells into groups', () => {
@@ -174,7 +174,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeTrue();
+      expect(component.offHandDetails).toBe(true);
     });
 
     it('should return off-hand details - two-handed', () => {
@@ -186,7 +186,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeFalse();
+      expect(component.offHandDetails).toBe(false);
     });
 
     it('should return off-hand details - none', () => {
@@ -195,7 +195,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeFalse();
+      expect(component.offHandDetails).toBe(false);
     });
 
     it('should get skill display name', () => {

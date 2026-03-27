@@ -38,9 +38,9 @@ describe('DungeonGen Component', () => {
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
       expect(component.areas()).toBeTruthy();
       expect(component.areas().length).toBeFalsy();
     });
@@ -65,16 +65,16 @@ describe('DungeonGen Component', () => {
       expect(component.environment).toEqual('environment 2');
       expect(component.timeOfDay).toEqual('time of day 2');
       expect(component.level).toEqual(10);
-      expect(component.allowAquatic).toBeFalse();
-      expect(component.allowUnderground).toBeTrue();
+      expect(component.allowAquatic).toBe(false);
+      expect(component.allowUnderground).toBe(true);
 
       expect(component.creatureTypeFilters.length).toBe(2);
       expect(component.creatureTypeFilters[0].id).toBe('creature_type_1');
       expect(component.creatureTypeFilters[0].displayName).toBe('creature type 1');
-      expect(component.creatureTypeFilters[0].checked).toBeFalse();
+      expect(component.creatureTypeFilters[0].checked).toBe(false);
       expect(component.creatureTypeFilters[1].id).toBe('creature_type_2');
       expect(component.creatureTypeFilters[1].displayName).toBe('creature type 2');
-      expect(component.creatureTypeFilters[1].checked).toBeFalse();
+      expect(component.creatureTypeFilters[1].checked).toBe(false);
     }
 
     function getViewModel(): DungeonGenViewModel {
@@ -94,14 +94,14 @@ describe('DungeonGen Component', () => {
 
       component.ngOnInit();
 
-      expect(component.loading()).toBeTrue();
+      expect(component.loading()).toBe(true);
       expect(component.dungeonModel()).toBeFalsy();
       
       expectInitialInputValues();
 
-      expect(component.loading()).toBeTrue();
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
       tick(delay - 1);
 
@@ -109,9 +109,9 @@ describe('DungeonGen Component', () => {
 
       expectInitialInputValues();
 
-      expect(component.loading()).toBeTrue();
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
       tick(1);
       
@@ -120,9 +120,9 @@ describe('DungeonGen Component', () => {
       
       expectDefaultInputValues();
       
-      expect(component.loading()).toBeTrue();
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
 
       tick(delay - 1);
 
@@ -130,9 +130,9 @@ describe('DungeonGen Component', () => {
       
       expectDefaultInputValues();
       
-      expect(component.loading()).toBeTrue();
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
 
       flush();
     }));
@@ -156,15 +156,15 @@ describe('DungeonGen Component', () => {
   
         component.ngOnInit();
   
-        expect(component.loading()).toBeTrue();
+        expect(component.loading()).toBe(true);
         expect(component.dungeonModel()).toBeFalsy();
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay * 2);
   
-        expect(component.loading()).toBeFalse();
+        expect(component.loading()).toBe(false);
         expect(component.dungeonModel()).toEqual(model);
-        expect(component.validating()).toBeFalse();
+        expect(component.validating()).toBe(false);
   
         expectDefaultInputValues();
       
@@ -194,10 +194,10 @@ describe('DungeonGen Component', () => {
 
       expect(component.dungeonModel()).toBeFalsy();
       expect(component.areas()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
-      expect(component.loading()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
+      expect(component.loading()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -213,10 +213,10 @@ describe('DungeonGen Component', () => {
 
       expect(component.dungeonModel()).toEqual(model);
       expect(component.areas()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
-      expect(component.loading()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
+      expect(component.loading()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -272,8 +272,8 @@ describe('DungeonGen Component', () => {
   
         component.validate(0, 'my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
   
-        expect(component.validating()).toBeFalse();
-        expect(component.valid()).toBeFalse();
+        expect(component.validating()).toBe(false);
+        expect(component.valid()).toBe(false);
       }));
       
       it(`should show invalid when level is missing - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
@@ -286,8 +286,8 @@ describe('DungeonGen Component', () => {
   
         component.validate(90210, 'my environment', 'my temperature', 'my time of day', 0, test.a, test.u);
         
-        expect(component.validating()).toBeFalse();
-        expect(component.valid()).toBeFalse();
+        expect(component.validating()).toBe(false);
+        expect(component.valid()).toBe(false);
       }));
 
       it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
@@ -309,11 +309,11 @@ describe('DungeonGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
         
         tick(delay - 1);
   
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         flush();
       }));
@@ -337,12 +337,12 @@ describe('DungeonGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay);
   
-        expect(component.valid()).toBeTrue();
-        expect(component.validating()).toBeFalse();
+        expect(component.valid()).toBe(true);
+        expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -367,12 +367,12 @@ describe('DungeonGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay);
   
-        expect(component.valid()).toBeFalse();
-        expect(component.validating()).toBeFalse();
+        expect(component.valid()).toBe(false);
+        expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -391,10 +391,10 @@ describe('DungeonGen Component', () => {
 
         tick(delay);
   
-        expect(component.valid()).toBeFalse();
+        expect(component.valid()).toBe(false);
         expect(component.areas()).toEqual([]);
-        expect(component.generating()).toBeFalse();
-        expect(component.validating()).toBeFalse();
+        expect(component.generating()).toBe(false);
+        expect(component.validating()).toBe(false);
         
         expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
@@ -440,12 +440,12 @@ describe('DungeonGen Component', () => {
           test.a,
           test.u);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.areas()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.areas()).toEqual([]);
 
         flush();
@@ -484,12 +484,12 @@ describe('DungeonGen Component', () => {
           test.a,
           test.u);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.areas()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.areas()).toEqual([]);
 
         flush();
@@ -539,12 +539,12 @@ describe('DungeonGen Component', () => {
         false,
         true,
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.areas()).toBe(areas);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -571,12 +571,12 @@ describe('DungeonGen Component', () => {
         false,
         true,
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.areas()).toBe(areas);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -614,12 +614,12 @@ describe('DungeonGen Component', () => {
         true,
         false,
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.areas()).toBe(areas);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -657,12 +657,12 @@ describe('DungeonGen Component', () => {
         true,
         false,
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.areas()).toBe(areas);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -677,8 +677,8 @@ describe('DungeonGen Component', () => {
       tick(delay);
 
       expect(component.areas()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -693,8 +693,8 @@ describe('DungeonGen Component', () => {
       tick(delay);
 
       expect(component.areas()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -779,8 +779,8 @@ describe('DungeonGen Component', () => {
       expect(model!.defaults.temperature).toBe('Temperate');
       expect(model!.defaults.timeOfDay).toBe('Day');
       expect(model!.defaults.level).toBe(1);
-      expect(model!.defaults.allowAquatic).toBeFalse();
-      expect(model!.defaults.allowUnderground).toBeTrue();
+      expect(model!.defaults.allowAquatic).toBe(false);
+      expect(model!.defaults.allowUnderground).toBe(true);
     });
   
     it(`should set initial values on init`, () => {
@@ -798,16 +798,16 @@ describe('DungeonGen Component', () => {
         expect(component.creatureTypeFilters[i].id).not.toContain(' ');
         expect(component.creatureTypeFilters[i].id).toBe(model!.creatureTypes[i].replaceAll(' ', '_'));
         expect(component.creatureTypeFilters[i].displayName).toBe(model!.creatureTypes[i]);
-        expect(component.creatureTypeFilters[i].checked).toBeFalse();
+        expect(component.creatureTypeFilters[i].checked).toBe(false);
       }
     });
   
     it(`should initialize public properties`, async () => {
       const component = fixture.componentInstance;
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.generating()).toBeFalse();
-      expect(component.valid()).toBeTrue();
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.generating()).toBe(false);
+      expect(component.valid()).toBe(true);
     });
   
     it(`should be ready to generate dungeon areas on load`, async () => {
@@ -815,10 +815,10 @@ describe('DungeonGen Component', () => {
     });
 
     function expectReady() {
-      expect(fixture.componentInstance.loading()).toBeFalse();
-      expect(fixture.componentInstance.validating()).toBeFalse();
-      expect(fixture.componentInstance.generating()).toBeFalse();
-      expect(fixture.componentInstance.valid()).toBeTrue();
+      expect(fixture.componentInstance.loading()).toBe(false);
+      expect(fixture.componentInstance.validating()).toBe(false);
+      expect(fixture.componentInstance.generating()).toBe(false);
+      expect(fixture.componentInstance.valid()).toBe(true);
 
       helper.expectHasAttribute('#generateFromDoorButton', 'disabled', false);
       helper.expectHasAttribute('#generateFromHallButton', 'disabled', false);
@@ -986,7 +986,7 @@ describe('DungeonGen Component', () => {
 
       const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
-      expect(oozeFilter?.checked).toBeTrue();
+      expect(oozeFilter?.checked).toBe(true);
 
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
@@ -994,7 +994,7 @@ describe('DungeonGen Component', () => {
       //run validation
       await helper.waitForChangeDetection();
       
-      expect(fixture.componentInstance.valid()).toBeFalse();
+      expect(fixture.componentInstance.valid()).toBe(false);
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     }));
@@ -1014,12 +1014,12 @@ describe('DungeonGen Component', () => {
 
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
       expect(fixture.componentInstance.level).toEqual(7);
 
       const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
-      expect(oozeFilter?.checked).toBeTrue();
+      expect(oozeFilter?.checked).toBe(true);
 
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
       helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
@@ -1032,46 +1032,46 @@ describe('DungeonGen Component', () => {
     });
   
     it(`should bind allowing aquatic`, () => {
-      expect(fixture.componentInstance.allowAquatic).toBeFalse();
+      expect(fixture.componentInstance.allowAquatic).toBe(false);
 
       helper.clickCheckbox('#allowAquatic');
 
       fixture.detectChanges();
-      expect(fixture.componentInstance.allowAquatic).toBeTrue();
+      expect(fixture.componentInstance.allowAquatic).toBe(true);
 
       helper.clickCheckbox('#allowAquatic');
 
       fixture.detectChanges();
-      expect(fixture.componentInstance.allowAquatic).toBeFalse();
+      expect(fixture.componentInstance.allowAquatic).toBe(false);
     });
   
     it(`should bind allowing underground`, () => {
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
 
       helper.clickCheckbox('#allowUnderground');
 
       fixture.detectChanges();
-      expect(fixture.componentInstance.allowUnderground).toBeFalse();
+      expect(fixture.componentInstance.allowUnderground).toBe(false);
 
       helper.clickCheckbox('#allowUnderground');
 
       fixture.detectChanges();
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
     });
 
     for(let i = 0; i < expectedCreatureTypeCount; i++) {
       it(`should bind creature type filters - index ${i}`, () => {
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
         fixture.detectChanges();
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeTrue();
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(true);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
         fixture.detectChanges();
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
       });
     }
   
@@ -1203,8 +1203,8 @@ describe('DungeonGen Component', () => {
         expect(fixture.componentInstance.temperature).toEqual('Cold');
         expect(fixture.componentInstance.timeOfDay).toEqual('Night');
         expect(fixture.componentInstance.level).toEqual(10);
-        expect(fixture.componentInstance.allowAquatic).toBeTrue();
-        expect(fixture.componentInstance.allowUnderground).toBeFalse();
+        expect(fixture.componentInstance.allowAquatic).toBe(true);
+        expect(fixture.componentInstance.allowUnderground).toBe(false);
   
         const checkedfilters = getCheckedFilters();
         expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
@@ -1273,8 +1273,8 @@ describe('DungeonGen Component', () => {
       expect(fixture.componentInstance.temperature).toEqual('Cold');
       expect(fixture.componentInstance.timeOfDay).toEqual('Night');
       expect(fixture.componentInstance.level).toEqual(10);
-      expect(fixture.componentInstance.allowAquatic).toBeTrue();
-      expect(fixture.componentInstance.allowUnderground).toBeFalse();
+      expect(fixture.componentInstance.allowAquatic).toBe(true);
+      expect(fixture.componentInstance.allowUnderground).toBe(false);
 
       const checkedfilters = getCheckedFilters();
       expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);

@@ -164,8 +164,8 @@ describe('Encounter Service', () => {
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
                 expect(viewmodel.defaults.level).toBe(1);
-                expect(viewmodel.defaults.allowAquatic).toBeFalse();
-                expect(viewmodel.defaults.allowUnderground).toBeFalse();
+                expect(viewmodel.defaults.allowAquatic).toBe(false);
+                expect(viewmodel.defaults.allowUnderground).toBe(false);
             });
         }));
     

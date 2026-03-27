@@ -41,9 +41,9 @@ describe('CharacterGen Component', () => {
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
       expect(component.character()).toBeFalsy();
       expect(component.leadership()).toBeFalsy();
       expect(component.cohort()).toBeFalsy();
@@ -125,8 +125,8 @@ describe('CharacterGen Component', () => {
       
       expectInitialInputValues();
 
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
       tick(delay - 1);
 
@@ -134,8 +134,8 @@ describe('CharacterGen Component', () => {
 
       expectInitialInputValues();
 
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
       tick(1);
       
@@ -143,8 +143,8 @@ describe('CharacterGen Component', () => {
       
       expectDefaultInputValues();
       
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
 
       tick(delay - 1);
 
@@ -152,8 +152,8 @@ describe('CharacterGen Component', () => {
       
       expectDefaultInputValues();
       
-      expect(component.valid()).toBeFalse();
-      expect(component.validating()).toBeTrue();
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
 
       flush();
     }));
@@ -178,12 +178,12 @@ describe('CharacterGen Component', () => {
         component.ngOnInit();
   
         expect(component.characterModel()).not.toBeDefined();
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay * 2);
   
         expect(component.characterModel()).toEqual(model);
-        expect(component.validating()).toBeFalse();
+        expect(component.validating()).toBe(false);
   
         expectDefaultInputValues();
       
@@ -220,8 +220,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -240,8 +240,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -262,8 +262,8 @@ describe('CharacterGen Component', () => {
       component.setLevel = 0;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set strength', () => {
@@ -278,8 +278,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set constitution', () => {
@@ -294,8 +294,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set dexterity', () => {
@@ -310,8 +310,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set intelligence', () => {
@@ -326,8 +326,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set wisdom', () => {
@@ -342,8 +342,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set charisma', () => {
@@ -358,8 +358,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 0;
 
       component.validateRandomizers();
-      expect(component.validating()).toBeFalse();
-      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
     });
 
     const randomizerBooleans = [
@@ -401,11 +401,11 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
         
         tick(delay - 1);
   
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         flush();
       }));
@@ -441,12 +441,12 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay);
   
-        expect(component.valid()).toBeTrue();
-        expect(component.validating()).toBeFalse();
+        expect(component.valid()).toBe(true);
+        expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -483,12 +483,12 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating()).toBeTrue();
+        expect(component.validating()).toBe(true);
   
         tick(delay);
   
-        expect(component.valid()).toBeFalse();
-        expect(component.validating()).toBeFalse();
+        expect(component.valid()).toBe(false);
+        expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -515,13 +515,13 @@ describe('CharacterGen Component', () => {
 
         tick(delay);
   
-        expect(component.valid()).toBeFalse();
+        expect(component.valid()).toBe(false);
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
-        expect(component.generating()).toBeFalse();
-        expect(component.validating()).toBeFalse();
+        expect(component.generating()).toBe(false);
+        expect(component.validating()).toBe(false);
         
         expect(characterServiceSpy.validate).toHaveBeenCalledWith(
           'my alignment randomizer',
@@ -592,7 +592,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -601,7 +601,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -674,7 +674,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -683,7 +683,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -769,7 +769,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -778,7 +778,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -872,7 +872,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -881,7 +881,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -979,7 +979,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -988,7 +988,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1090,7 +1090,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1099,7 +1099,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1206,7 +1206,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1215,7 +1215,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1328,7 +1328,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1337,7 +1337,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1457,7 +1457,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1466,7 +1466,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
         expect(component.character()).toBeNull();
         expect(component.leadership()).toBeNull();
@@ -1544,12 +1544,12 @@ describe('CharacterGen Component', () => {
         10,
         true
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.character()).toBe(character);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -1605,12 +1605,12 @@ describe('CharacterGen Component', () => {
         96,
         false
       );
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
 
       tick(delay);
 
       expect(component.character()).toBe(character);
-      expect(component.generating()).toBeFalse();
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -1628,8 +1628,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1655,8 +1655,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1686,8 +1686,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1722,8 +1722,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1758,8 +1758,8 @@ describe('CharacterGen Component', () => {
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
-      expect(component.generating()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1791,7 +1791,7 @@ describe('CharacterGen Component', () => {
       expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
       expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating leadership...');
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
@@ -1799,7 +1799,7 @@ describe('CharacterGen Component', () => {
       
       tick(delay - 1);
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating leadership...');
       expect(component.leadership()).toBeNull();
       expect(component.cohort()).toBeNull();
@@ -1812,7 +1812,7 @@ describe('CharacterGen Component', () => {
       expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
       expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating cohort...');
       expect(component.leadership()).toBe(leadership);
       expect(component.cohort()).toBeNull();
@@ -1820,7 +1820,7 @@ describe('CharacterGen Component', () => {
       
       tick(delay - 1);
 
-      expect(component.generating()).toBeTrue();
+      expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating cohort...');
       expect(component.leadership()).toBe(leadership);
       expect(component.cohort()).toBeNull();
@@ -1841,7 +1841,7 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
         expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.followers()).toEqual(followers.slice(0, i));
         expect(component.generatingMessage()).toEqual(message);
         expect(component.leadership()).toBe(leadership);
@@ -1849,7 +1849,7 @@ describe('CharacterGen Component', () => {
         
         tick(delay - 1);
 
-        expect(component.generating()).toBeTrue();
+        expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual(message);
         expect(component.leadership()).toBe(leadership);
         expect(component.cohort()).toBe(cohort);
@@ -2381,10 +2381,10 @@ describe('CharacterGen Component', () => {
   
     it(`should initialize public properties`, async () => {
       const component = fixture.componentInstance;
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      expect(component.generating()).toBeFalse();
-      expect(component.valid()).toBeTrue();
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.generating()).toBe(false);
+      expect(component.valid()).toBe(true);
     });
   
     it(`should be ready to generate a character on load`, async () => {
@@ -2392,10 +2392,10 @@ describe('CharacterGen Component', () => {
     });
 
     function expectReady() {
-      expect(fixture.componentInstance.loading()).toBeFalse();
-      expect(fixture.componentInstance.validating()).toBeFalse();
-      expect(fixture.componentInstance.generating()).toBeFalse();
-      expect(fixture.componentInstance.valid()).toBeTrue();
+      expect(fixture.componentInstance.loading()).toBe(false);
+      expect(fixture.componentInstance.validating()).toBe(false);
+      expect(fixture.componentInstance.generating()).toBe(false);
+      expect(fixture.componentInstance.valid()).toBe(true);
 
       helper.expectHasAttribute('#generateCharacterButton', 'disabled', false);
     }
@@ -2710,7 +2710,7 @@ describe('CharacterGen Component', () => {
         //run validation
         await helper.waitForChangeDetection();
   
-        expect(fixture.componentInstance.valid()).toBeFalse();
+        expect(fixture.componentInstance.valid()).toBe(false);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       }));
     
@@ -2749,7 +2749,7 @@ describe('CharacterGen Component', () => {
         
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.forceMetarace).toBeTrue();
+        expect(fixture.componentInstance.forceMetarace).toBe(true);
 
         helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
       }));
@@ -3285,7 +3285,7 @@ describe('CharacterGen Component', () => {
   
         fixture.detectChanges();
   
-        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeFalse();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBe(false);
 
         helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
       }));
@@ -3315,7 +3315,7 @@ describe('CharacterGen Component', () => {
         //run validation
         await helper.waitForChangeDetection();
         
-        expect(fixture.componentInstance.valid()).toBeFalse();
+        expect(fixture.componentInstance.valid()).toBe(false);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       }));
     
@@ -3340,31 +3340,31 @@ describe('CharacterGen Component', () => {
       });
     
       it(`should bind forcing metaraces`, async () => {
-        expect(fixture.componentInstance.forceMetarace).toBeFalse();
+        expect(fixture.componentInstance.forceMetarace).toBe(false);
 
         helper.clickCheckbox('#forceMetaraceCheckbox');
 
         fixture.detectChanges();
-        expect(fixture.componentInstance.forceMetarace).toBeTrue();
+        expect(fixture.componentInstance.forceMetarace).toBe(true);
 
         helper.clickCheckbox('#forceMetaraceCheckbox');
 
         fixture.detectChanges();
-        expect(fixture.componentInstance.forceMetarace).toBeFalse();
+        expect(fixture.componentInstance.forceMetarace).toBe(false);
       });
     
       it(`should bind allowing ability adjustments`, async () => {
-        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeTrue();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBe(true);
 
         helper.clickCheckbox('#abilitiesAdjustCheckbox');
 
         fixture.detectChanges();
-        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeFalse();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBe(false);
 
         helper.clickCheckbox('#abilitiesAdjustCheckbox');
 
         fixture.detectChanges();
-        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeTrue();
+        expect(fixture.componentInstance.allowAbilitiesAdjustments).toBe(true);
       });
     
       it(`should show when generating a character`, () => {
