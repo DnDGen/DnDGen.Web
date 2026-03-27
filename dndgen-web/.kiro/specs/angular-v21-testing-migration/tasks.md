@@ -219,7 +219,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
-  - [ ] 4.1 Migrate treasure.service.spec.ts
+  - [x] 4.1 Migrate treasure.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Update HTTP mock patterns for Vitest
