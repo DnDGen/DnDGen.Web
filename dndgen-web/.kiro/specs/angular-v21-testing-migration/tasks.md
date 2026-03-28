@@ -359,7 +359,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [-] 5.6 Migrate charactergen.component.integration.spec.ts - Integration setup and top-level tests
+  - [x] 5.6 Migrate charactergen.component.integration.spec.ts - Integration setup and top-level tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle setup and basic rendering tests

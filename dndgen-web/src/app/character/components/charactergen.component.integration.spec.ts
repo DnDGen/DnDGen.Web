@@ -24,20 +24,20 @@ describe('CharacterGen Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should show the loading component when loading', () => {
+    it('should show the loading component when loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', true, Size.Large);
     });
   
-    it('should hide the loading component when not loading', () => {
+    it('should hide the loading component when not loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(false);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
