@@ -299,6 +299,14 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
+  **File Split Pattern**: `charactergen.component.spec.ts` is split into multiple files by describe block. Naming convention mirrors the describe block hierarchy using kebab-case, appended before `.spec.ts`:
+  - Top-level `describe('CharacterGen Component')` → base name `charactergen.component`
+  - Nested `describe('unit')` → `charactergen.component.unit.spec.ts`
+  - Nested `describe('integration')` → `charactergen.component.integration.spec.ts`
+  - Further nested `describe('the character tab')` inside integration → `charactergen.component.integration.character-tab.spec.ts`
+  - Further nested `describe('the leadership tab')` inside integration → `charactergen.component.integration.leadership-tab.spec.ts`
+  - Shared helpers/setup used across files → `charactergen.component.test-helper.ts` (not a spec file, no `describe` at root)
+
   - [x] 5.1 Migrate character service tests
     - Migrate character.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
@@ -325,75 +333,92 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 5.5 Migrate charactergen.component.spec.ts - Unit tests part 3 (lines 1201-1800)
-    - Continue spy and async pattern replacements
-    - Handle generation setup and basic generation tests
+  - [x] 5.4a Split charactergen.component.spec.ts into describe-block-based files
+    - Extract shared helpers and setup into `charactergen.component.test-helper.ts` (not a spec file)
+      - Includes: `getViewModel()`, `getFakeDelay()`, `getFakeError()`, `setupOnInit()`, and any other shared helper functions
+    - Create `charactergen.component.unit.spec.ts` from the `describe('unit')` block (lines ~29-2317)
+      - Import shared helpers from `charactergen.component.spec-helpers.ts`
+      - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Create `charactergen.component.integration.spec.ts` as the integration shell (lines ~2318-end, excluding nested describe blocks)
+      - Contains only the integration `beforeEach`/`afterEach` and top-level integration tests
+      - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Create `charactergen.component.integration.character-tab.spec.ts` from `describe('the character tab')` (lines ~2444-3576)
+      - Import shared TestBed setup from integration shell or helpers
+      - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Create `charactergen.component.integration.leadership-tab.spec.ts` from `describe('the leadership tab')` (lines ~3577-end)
+      - Import shared TestBed setup from integration shell or helpers
+      - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Delete the original `charactergen.component.spec.ts` once all split files are verified passing
+    - Run `ng test --no-watch --include='src/app/character/components/charactergen.component*.spec.ts'` to verify all split files pass
+      - There may be some test failures still from not-yet-migrated tests (5.5-5.8), but tests from prior migrations (5.3-5.4) must pass
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 5.5 Migrate charactergen.component.unit.spec.ts - remaining unit tests (lines 1201-2317)
+    - Continue spy and async pattern replacements in the unit spec file
+    - Handle generation setup, basic generation, leadership generation, and download tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 5.6 Migrate charactergen.component.spec.ts - Unit tests part 4 (lines 1801-2288)
-    - Continue spy and async pattern replacements
-    - Handle leadership generation and download tests
-    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
-    - _Requirements: 2.1, 2.2, 4.1, 4.4_
-
-  - [ ] 5.7 Migrate charactergen.component.spec.ts - Integration setup (lines 2289-2414)
+  - [ ] 5.6 Migrate charactergen.component.integration.spec.ts - Integration setup and top-level tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle setup and basic rendering tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
 
-  - [ ] 5.8 Migrate charactergen.component.spec.ts - Integration character tab part 1 (lines 2415-2900)
+  - [ ] 5.7 Migrate charactergen.component.integration.character-tab.spec.ts - Character tab tests
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
-    - Handle form controls and validation tests
+    - Handle form controls, validation, generation, and display tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 5.9 Migrate charactergen.component.spec.ts - Integration character tab part 2 (lines 2901-3547)
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
-    - Handle generation and display tests
-    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
-    - _Requirements: 2.1, 4.1, 9.3_
-
-  - [ ] 5.10 Migrate charactergen.component.spec.ts - Integration leadership tab (lines 3548-end)
+  - [ ] 5.8 Migrate charactergen.component.integration.leadership-tab.spec.ts - Leadership tab tests
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle leadership tab tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 5.11 Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
+  - [ ] 5.8a Extract character.pipe.spec.ts helpers into character.pipe.test-helper.ts
+    - Create `character.pipe.test-helper.ts` (not a spec file) with all shared factory and helper functions:
+      - `createCharacter()`, `createAbility()`, `createSkill()`, `createFeat()`
+      - `createItem()`, `createWeapon()`, `createArmor()`, `createTreasure()`
+      - `formatItem()`
+    - Update `character.pipe.spec.ts` to import helpers from `character.pipe.test-helper.ts`
+    - Run `ng test --no-watch --include='src/app/character/pipes/character.pipe.spec.ts'` to verify nothing broke
+    - _Requirements: 4.1_
+
+  - [ ] 5.9 Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
     - Update test syntax for Vitest
     - Replace any Jasmine-specific patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.12 Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
+  - [ ] 5.10 Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.13 Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
+  - [ ] 5.11 Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.14 Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
+  - [ ] 5.12 Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
     - Complete test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.15 Migrate character.component.spec.ts
+  - [ ] 5.13 Migrate character.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ]* 5.16 Write property test for CharacterGen test coverage
+  - [ ]* 5.14 Write property test for CharacterGen test coverage
     - **Property 8: Test coverage preservation**
     - **Validates: Requirements 7.2**
 
-  - [ ] 5.17 MANUAL - Checkpoint - Verify CharacterGen tests pass
+  - [ ] 5.15 MANUAL - Checkpoint - Verify CharacterGen tests pass
     - Run `ng test --no-watch --include='src/app/character/**/*.spec.ts'` to verify all CharacterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
@@ -824,11 +849,52 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 7.5_
 
 
+- [ ] 10. Phase 10: Large Spec File Refactor
+
+  **Goal**: Split large spec files that were migrated using line-range chunking into separate files by describe block, matching the pattern established in Phase 5 for `charactergen.component.spec.ts`. This improves iteration speed by allowing targeted test runs against a single describe block.
+
+  **File Split Pattern** (same as Phase 5):
+  - Describe block hierarchy maps to dot-separated kebab-case segments appended before `.spec.ts`
+  - e.g. `describe('RollGen Component') > describe('integration') > describe('the standard tab')` → `rollgen.component.integration.standard-tab.spec.ts`
+  - Shared helpers/setup → `<component>.test-helper.ts` (not a spec file)
+
+  - [ ] 10.1 Split rollgen.component.spec.ts by describe block
+    - Inspect shared helpers and setup in `rollgen.component.spec.ts` and extract to `rollgen.component.test-helper.ts` if warranted
+    - Create `rollgen.component.unit.spec.ts` from `describe('unit')` block
+    - Create `rollgen.component.integration.spec.ts` from integration shell (TestBed setup, `beforeEach`/`afterEach`, top-level integration tests only)
+    - Create `rollgen.component.integration.standard-tab.spec.ts` from `describe('the standard tab')`
+    - Create `rollgen.component.integration.custom-tab.spec.ts` from `describe('the custom tab')`
+    - Create `rollgen.component.integration.expression-tab.spec.ts` from `describe('the expression tab')`
+    - Delete original `rollgen.component.spec.ts` once all split files pass
+    - Run `ng test --no-watch --include='src/app/roll/components/rollgen.component*.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 9.3_
+
+  - [ ] 10.2 Split treasuregen.component.spec.ts by describe block
+    - Inspect shared helpers and setup in `treasuregen.component.spec.ts` and extract to `treasuregen.component.test-helper.ts` if warranted
+    - Create `treasuregen.component.unit.spec.ts` from `describe('unit')` block
+    - Create `treasuregen.component.integration.spec.ts` from integration shell (TestBed setup, `beforeEach`/`afterEach`, top-level integration tests only)
+    - Create `treasuregen.component.integration.treasure-tab.spec.ts` from `describe('the treasure tab')`
+    - Create `treasuregen.component.integration.item-tab.spec.ts` from `describe('the item tab')`
+    - Delete original `treasuregen.component.spec.ts` once all split files pass
+    - Run `ng test --no-watch --include='src/app/treasure/components/treasuregen.component*.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 9.3_
+
+  - [ ] 10.3 Split charactergen.component.spec.ts by describe block (if not already done in Phase 5)
+    - This is a no-op if task 5.4a was completed — verify split files exist and original is deleted
+    - If 5.4a was skipped, apply the same split pattern documented in Phase 5
+    - Run `ng test --no-watch --include='src/app/character/components/charactergen.component*.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 9.3_
+
+  - [ ] 10.4 Verify full test suite still passes after all splits
+    - Run `ng test --no-watch` to verify no regressions across all phases
+    - _Requirements: 7.4_
+
+
 ## Notes
 
 - Tasks marked with `*` are optional and can be skipped for faster completion
 - Each phase builds on the previous phase - complete phases in order
-- Large test files are broken into chunks (200-800 lines) to ensure reliable migrations
+- Large test files are broken into chunks (200-800 lines) to ensure reliable migrations; for `charactergen.component.spec.ts` the split is by describe block instead (see Phase 5 file split pattern)
 - Run tests after each file migration to catch issues early
 - Use `ng test --no-watch --include='<path>'` to test specific files or directories (NOT `vitest` directly)
 - CI/CD pipeline updates use explicit test result filenames following pattern: `TestResults-{Component}-Website.xml`
