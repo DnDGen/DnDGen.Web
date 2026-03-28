@@ -366,7 +366,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
 
-  - [ ] 5.7 Migrate charactergen.component.integration.character-tab.spec.ts - Character tab tests
+  - [x] 5.7 Migrate charactergen.component.integration.character-tab.spec.ts - Character tab tests
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle form controls, validation, generation, and display tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
