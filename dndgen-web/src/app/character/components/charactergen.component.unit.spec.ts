@@ -1,21 +1,10 @@
 ﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { CharacterGenComponent } from './charactergen.component';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
-import { LoggerService } from '../../shared/services/logger.service';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
-import { CharacterService } from '../services/character.service';
-import { LeadershipService } from '../services/leadership.service';
-import { LeaderPipe } from '../pipes/leader.pipe';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
 import { getViewModel, getFakeDelay, getFakeError, delay } from './charactergen.component.test-helper';
 
-// Temporary stubs for unmigrated tests (fakeAsync/tick/flush require zone.js which is not available in Vitest)
-// These stubs allow the file to load while unmigrated tests are skipped
-const fakeAsync = (fn: (...args: any[]) => void): (...args: any[]) => void => fn;
-const tick = (_ms?: number) => {};
-const flush = () => {};
 
 describe('CharacterGen Component', () => {
   describe('unit', () => {
@@ -118,8 +107,6 @@ describe('CharacterGen Component', () => {
       expect(component.allowAbilitiesAdjustments).toEqual(true);
     }
 
-
-
     it('should be validating while fetching the character model', async () => {
       const model = getViewModel();
       characterServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
@@ -163,7 +150,6 @@ describe('CharacterGen Component', () => {
 
       await vi.runAllTimersAsync();
     });
-
 
     let initValidations = [true, false];
 
@@ -244,7 +230,6 @@ describe('CharacterGen Component', () => {
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
     });
-
 
     it('should validate randomizers - invalid if set level randomizer, but no set level', () => {
       setupOnInit();
@@ -1228,7 +1213,7 @@ describe('CharacterGen Component', () => {
         await vi.runAllTimersAsync();
       });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1326,7 +1311,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -1335,7 +1320,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -1344,13 +1329,13 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 6 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1455,7 +1440,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -1464,7 +1449,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -1473,11 +1458,11 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
     });
 
     function setupOnInit() {
@@ -1506,7 +1491,7 @@ describe('CharacterGen Component', () => {
       component.valid.set(true);
     }
 
-    it('should generate the default character', fakeAsync(() => {
+    it('should generate the default character', async () => {
       setupOnInit();
 
       let character = new Character('my character summary');
@@ -1537,16 +1522,16 @@ describe('CharacterGen Component', () => {
       );
       expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.character()).toBe(character);
       expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default character`, fakeAsync(() => {
+    it(`should generate a non-default character`, async () => {
       setupOnInit();
 
       let character = new Character('my character summary');
@@ -1598,22 +1583,22 @@ describe('CharacterGen Component', () => {
       );
       expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.character()).toBe(character);
       expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from generating character', fakeAsync(() => {
+    it('should display error from generating character', async () => {
       setupOnInit();
 
       characterServiceSpy.generate.mockImplementation(() => getFakeError('I failed'));
 
       component.generateCharacter();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.character()).toBeNull();
       expect(component.leadership()).toBeNull();
@@ -1624,9 +1609,9 @@ describe('CharacterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating leadership', fakeAsync(() => {
+    it('should display error from generating leadership', async () => {
       setupOnInit();
 
       let character = new Character('my character summary');
@@ -1640,7 +1625,7 @@ describe('CharacterGen Component', () => {
       leadershipServiceSpy.generate.mockImplementation(() => getFakeError('I failed'));
 
       component.generateCharacter();
-      tick(delay * 2);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
       expect(component.character()).toBeNull();
       expect(component.leadership()).toBeNull();
@@ -1651,9 +1636,9 @@ describe('CharacterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating cohort', fakeAsync(() => {
+    it('should display error from generating cohort', async () => {
       setupOnInit();
 
       const character = new Character('my character summary');
@@ -1671,7 +1656,7 @@ describe('CharacterGen Component', () => {
       leadershipServiceSpy.generateCohort.mockImplementation(() => getFakeError('I failed'));
 
       component.generateCharacter();
-      tick(delay * 3);
+      await vi.advanceTimersByTimeAsync(delay * 3);
 
       expect(component.character()).toBeNull();
       expect(component.leadership()).toBeNull();
@@ -1682,9 +1667,9 @@ describe('CharacterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating follower', fakeAsync(() => {
+    it('should display error from generating follower', async () => {
       setupOnInit();
 
       const character = new Character('my character summary');
@@ -1703,11 +1688,10 @@ describe('CharacterGen Component', () => {
       const cohort = new Character('my cohort summary');
       leadershipServiceSpy.generateCohort.mockImplementation(() => getFakeDelay(cohort));
       
-      const follower = new Character('my follower summary');
       leadershipServiceSpy.generateFollower.mockImplementation(() => getFakeError('I failed'));
 
       component.generateCharacter();
-      tick(delay * 4);
+      await vi.advanceTimersByTimeAsync(delay * 4);
 
       expect(component.character()).toBeNull();
       expect(component.leadership()).toBeNull();
@@ -1718,9 +1702,9 @@ describe('CharacterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating any follower', fakeAsync(() => {
+    it('should display error from generating any follower', async () => {
       setupOnInit();
 
       const character = new Character('my character summary');
@@ -1740,10 +1724,10 @@ describe('CharacterGen Component', () => {
       leadershipServiceSpy.generateCohort.mockImplementation(() => getFakeDelay(cohort));
       
       const follower = new Character('my follower summary');
-      leadershipServiceSpy.generateFollower.and.returnValues(getFakeDelay(follower), getFakeError('I failed'));
+      leadershipServiceSpy.generateFollower.mockReturnValueOnce(getFakeDelay(follower)).mockReturnValueOnce(getFakeError('I failed'));
 
       component.generateCharacter();
-      tick(delay * 5);
+      await vi.advanceTimersByTimeAsync(delay * 5);
 
       expect(component.character()).toBeNull();
       expect(component.leadership()).toBeNull();
@@ -1754,9 +1738,9 @@ describe('CharacterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
       
-    it(`should be generating while generating leadership - without cohort or followers`, fakeAsync(() => {
+    it(`should be generating while generating leadership - without cohort or followers`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -1771,10 +1755,10 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, null, []);
+      await expectLeadershipGenerating(leadership, null, []);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
     async function expectLeadershipGenerating(leadership: Leadership, cohort: Character | null, followers: Character[]) {
       expect(leadershipServiceSpy.generate).toHaveBeenCalledWith(7, 8, 'my animal');
@@ -1848,7 +1832,7 @@ describe('CharacterGen Component', () => {
       }
     }
     
-    it(`should be generating while generating leadership - with cohort but without followers`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort but without followers`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -1865,12 +1849,12 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, []);
+      await expectLeadershipGenerating(leadership, cohort, []);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 1`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 1`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -1895,11 +1879,11 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
     function expectFollowerCalls(quantities: FollowerQuantities) {
       const total = quantities.level1 + quantities.level2 + quantities.level3 + quantities.level4 + quantities.level5 + quantities.level6;
@@ -1942,7 +1926,7 @@ describe('CharacterGen Component', () => {
       }
     }
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 2`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 2`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -1970,13 +1954,13 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 3`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 3`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -2008,13 +1992,13 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 4`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 4`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -2051,13 +2035,13 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 5`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 5`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -2100,13 +2084,13 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should be generating while generating leadership - with cohort and followers <= lvl 6`, fakeAsync(() => {
+    it(`should be generating while generating leadership - with cohort and followers <= lvl 6`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -2156,13 +2140,13 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
     
-    it(`should generate full leadership`, fakeAsync(() => {
+    it(`should generate full leadership`, async () => {
       setupOnInit();
 
       component.leaderLevel = 7;
@@ -2212,21 +2196,21 @@ describe('CharacterGen Component', () => {
 
       component.generateLeadership();
 
-      expectLeadershipGenerating(leadership, cohort, followers);
+      await expectLeadershipGenerating(leadership, cohort, followers);
       expectFollowerCalls(followerQuantities);
 
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
 
       expect(component.leadership()).toBe(leadership);
       expect(component.cohort()).toBe(cohort);
       expect(component.followers()).toEqual(followers);
-    }));
+    });
 
     it('should download character', () => {
       const character = new Character('my character summary');
       component.character.set(character);
 
-      leaderPipeSpy.transform.and.returnValue('my formatted character');
+      leaderPipeSpy.transform.mockReturnValue('my formatted character');
 
       component.download();
 
@@ -2259,7 +2243,7 @@ describe('CharacterGen Component', () => {
       ];
       component.followers.set(followers);
 
-      leaderPipeSpy.transform.and.returnValue('my formatted leader');
+      leaderPipeSpy.transform.mockReturnValue('my formatted leader');
 
       component.download();
 
