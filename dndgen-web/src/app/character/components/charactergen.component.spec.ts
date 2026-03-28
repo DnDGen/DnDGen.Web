@@ -640,7 +640,7 @@ describe('CharacterGen Component', () => {
         await vi.runAllTimersAsync();
       });
       
-      it(`should be generating while generating character - leader without cohort or followers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader without cohort or followers - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -710,7 +710,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -719,7 +719,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -728,12 +728,12 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, null, []);
+        await expectLeadershipGenerating(leadership, null, []);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort but without followers - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort but without followers - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -805,7 +805,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -814,7 +814,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -823,12 +823,12 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, []);
+        await expectLeadershipGenerating(leadership, cohort, []);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 1 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -908,7 +908,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -917,7 +917,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -926,13 +926,13 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 2 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1015,7 +1015,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -1024,7 +1024,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -1033,13 +1033,13 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 3 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1126,7 +1126,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -1135,7 +1135,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -1144,13 +1144,13 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
+      it(`should be generating while generating character - leader with cohort and followers <= lvl 4 - metarace ${test.m}, abilities ${test.a}`, async () => {
         setupOnInit();
 
         const character = new Character('my character summary');
@@ -1242,7 +1242,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual('Generating character...');
@@ -1251,7 +1251,7 @@ describe('CharacterGen Component', () => {
         expect(component.cohort()).toBeNull();
         expect(component.followers()).toEqual([]);
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
@@ -1260,11 +1260,11 @@ describe('CharacterGen Component', () => {
         expect(component.leaderClassName).toEqual('my leader class');
         expect(component.leaderLevel).toEqual(7);
 
-        expectLeadershipGenerating(leadership, cohort, followers);
+        await expectLeadershipGenerating(leadership, cohort, followers);
         expectFollowerCalls(followerQuantities);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
       it(`should be generating while generating character - leader with cohort and followers <= lvl 5 - metarace ${test.m}, abilities ${test.a}`, fakeAsync(() => {
         setupOnInit();
@@ -1814,7 +1814,7 @@ describe('CharacterGen Component', () => {
       flush();
     }));
 
-    function expectLeadershipGenerating(leadership: Leadership, cohort: Character | null, followers: Character[]) {
+    async function expectLeadershipGenerating(leadership: Leadership, cohort: Character | null, followers: Character[]) {
       expect(leadershipServiceSpy.generate).toHaveBeenCalledWith(7, 8, 'my animal');
       expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
       expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
@@ -1826,7 +1826,7 @@ describe('CharacterGen Component', () => {
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating leadership...');
@@ -1834,7 +1834,7 @@ describe('CharacterGen Component', () => {
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
 
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
 
       expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
       expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledWith(7, leadership.cohortScore, 'my leader alignment', 'my leader class');
@@ -1847,7 +1847,7 @@ describe('CharacterGen Component', () => {
       expect(component.cohort()).toBeNull();
       expect(component.followers()).toEqual([]);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.generating()).toBe(true);
       expect(component.generatingMessage()).toEqual('Generating cohort...');
@@ -1864,11 +1864,11 @@ describe('CharacterGen Component', () => {
       for(let i = 0; i < followerCount; i++) {
         const message = `Generating follower ${i + 1} of ${followerCount}...`;
 
-        tick(1);
+        await vi.advanceTimersByTimeAsync(1);
 
         expect(leadershipServiceSpy.generate).toHaveBeenCalledTimes(1);
         expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
-        expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
+        expect(leadershipServiceSpy.generateFollower).toHaveBeenCalledTimes(i + 1);
 
         expect(component.generating()).toBe(true);
         expect(component.followers()).toEqual(followers.slice(0, i));
@@ -1876,7 +1876,7 @@ describe('CharacterGen Component', () => {
         expect(component.leadership()).toBe(leadership);
         expect(component.cohort()).toBe(cohort);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.generatingMessage()).toEqual(message);
@@ -1946,37 +1946,37 @@ describe('CharacterGen Component', () => {
       expect(leadershipServiceSpy.generateFollower).toHaveBeenCalledTimes(total);
 
       for(let i = 0; i < quantities.level1; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([1, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([1, 'my leader alignment', 'my leader class']);
       }
 
       callIndex += quantities.level1;
 
       for(let i = 0; i < quantities.level2; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([2, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([2, 'my leader alignment', 'my leader class']);
       }
 
       callIndex += quantities.level2;
 
       for(let i = 0; i < quantities.level3; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([3, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([3, 'my leader alignment', 'my leader class']);
       }
 
       callIndex += quantities.level3;
 
       for(let i = 0; i < quantities.level4; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([4, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([4, 'my leader alignment', 'my leader class']);
       }
 
       callIndex += quantities.level4;
 
       for(let i = 0; i < quantities.level5; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([5, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([5, 'my leader alignment', 'my leader class']);
       }
 
       callIndex += quantities.level5;
 
       for(let i = 0; i < quantities.level6; i++) {
-        expect(leadershipServiceSpy.generateFollower.calls.argsFor(i + callIndex)).toEqual([6, 'my leader alignment', 'my leader class']);
+        expect(leadershipServiceSpy.generateFollower.mock.calls[i + callIndex]).toEqual([6, 'my leader alignment', 'my leader class']);
       }
     }
     

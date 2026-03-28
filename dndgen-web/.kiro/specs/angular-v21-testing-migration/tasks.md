@@ -319,7 +319,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 5.4 Migrate charactergen.component.spec.ts - Unit tests part 2 (lines 601-1200)
+  - [x] 5.4 Migrate charactergen.component.spec.ts - Unit tests part 2 (lines 601-1200)
     - Continue spy and async pattern replacements
     - Handle validation with randomizers tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
@@ -393,7 +393,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 8: Test coverage preservation**
     - **Validates: Requirements 7.2**
 
-  - [ ] 5.17 Checkpoint - Verify CharacterGen tests pass
+  - [ ] 5.17 MANUAL - Checkpoint - Verify CharacterGen tests pass
     - Run `ng test --no-watch --include='src/app/character/**/*.spec.ts'` to verify all CharacterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
@@ -440,7 +440,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 11: TestBed component creation works**
     - **Validates: Requirements 9.3**
 
-  - [ ] 6.7 Checkpoint - Verify EncounterGen tests pass
+  - [ ] 6.7 MANUAL - Checkpoint - Verify EncounterGen tests pass
     - Run `ng test --no-watch --include='src/app/encounter/**/*.spec.ts'` to verify all EncounterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
@@ -488,7 +488,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 12: Component tests pass**
     - **Validates: Requirements 9.5**
 
-  - [ ] 7.7 Checkpoint - Verify DungeonGen tests pass
+  - [ ] 7.7 MANUAL - Checkpoint - Verify DungeonGen tests pass
     - Run `ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'` to verify all DungeonGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
@@ -498,66 +498,66 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Critical Phase**: Remove temporary shims and verify explicit imports work correctly.
 
-  - [ ] 8.1 Remove test-shims.d.ts file
+  - [ ] 8.1 MANUAL - Remove test-shims.d.ts file
     - Delete `dndgen-web/src/test-shims.d.ts`
     - This file was temporary scaffolding for migration
     - All spec files now have explicit Vitest imports
     - _Requirements: 3.2_
 
-  - [ ] 8.2 Remove test-shims.d.ts from tsconfig.spec.json
+  - [ ] 8.2 MANUAL - Remove test-shims.d.ts from tsconfig.spec.json
     - Remove "src/test-shims.d.ts" from files array in tsconfig.spec.json
     - Keep other entries in files array
     - _Requirements: 3.2_
 
-  - [ ] 8.3 Verify tests still pass after shim removal
+  - [ ] 8.3 MANUAL - Verify tests still pass after shim removal
     - Run `ng test` to verify all tests pass with explicit imports
     - If any tests fail, add missing imports to those files
     - This confirms explicit imports are working correctly
     - _Requirements: 7.4_
 
-  - [ ] 8.4 Update CI/CD pipeline - build.yml
+  - [ ] 8.4 MANUAL - Update CI/CD pipeline - build.yml
     - Update build.yml PublishTestResults task (line ~304)
     - Change from: `testResultsFiles: '**/TESTS-*.xml'`
     - To: `testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.5 Update CI/CD pipeline - release.yml RollGen_Api
+  - [ ] 8.5 MANUAL - Update CI/CD pipeline - release.yml RollGen_Api
     - Update RollGen_Api PublishTestResults task (line ~72)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-RollGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.6 Update CI/CD pipeline - release.yml TreasureGen_Api
+  - [ ] 8.6 MANUAL - Update CI/CD pipeline - release.yml TreasureGen_Api
     - Update TreasureGen_Api PublishTestResults task (line ~151)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-TreasureGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.7 Update CI/CD pipeline - release.yml CharacterGen_Api
+  - [ ] 8.7 MANUAL - Update CI/CD pipeline - release.yml CharacterGen_Api
     - Update CharacterGen_Api PublishTestResults task (line ~230)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CharacterGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.8 Update CI/CD pipeline - release.yml EncounterGen_Api
+  - [ ] 8.8 MANUAL - Update CI/CD pipeline - release.yml EncounterGen_Api
     - Update EncounterGen_Api PublishTestResults task (line ~309)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-EncounterGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.9 Update CI/CD pipeline - release.yml DungeonGen_Api
+  - [ ] 8.9 MANUAL - Update CI/CD pipeline - release.yml DungeonGen_Api
     - Update DungeonGen_Api PublishTestResults task (line ~388)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-DungeonGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.10 Update CI/CD pipeline - release.yml Web_Api
+  - [ ] 8.10 MANUAL - Update CI/CD pipeline - release.yml Web_Api
     - Update Web_Api PublishTestResults task (line ~467)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.11 Remove Karma configuration files
+  - [ ] 8.11 MANUAL - Remove Karma configuration files
     - Delete karma.conf.js
     - Delete karma.conf.ci.js
     - _Requirements: 1.5_
@@ -573,27 +573,27 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Keep both files as they provide clean, maintainable configuration for different environments
     - _Requirements: 1.3, 7.5_
 
-  - [ ] 8.14 Remove Karma/Jasmine references from config files
+  - [ ] 8.14 MANUAL - Remove Karma/Jasmine references from config files
     - Remove all comments referencing "karma.conf.js" or "karma.conf.ci.js" from vitest.config.ts and vitest.config.ci.ts
     - Remove comments like "from karma.conf.js" or "equivalent to oneFailurePerSpec"
     - After migration, the Vitest config files are the source of truth
     - Keep only comments that explain the current Vitest configuration
     - _Requirements: 1.5, 7.5_
 
-  - [ ] 8.15 Re-enable strict TypeScript mode
+  - [ ] 8.15 MANUAL - Re-enable strict TypeScript mode
     - Remove `"noImplicitAny": false` from tsconfig.spec.json
     - This was temporarily disabled for Jasmine test migration
     - All tests are now migrated to Vitest with proper typing
     - Run `ng test` to verify no type errors
     - _Requirements: 3.2_
 
-  - [ ] 8.16 Run full test suite verification
+  - [ ] 8.16 MANUAL - Run full test suite verification
     - Run `ng test` to verify all tests pass
     - Run `npm run test:ci` to verify CI configuration works
     - Verify test result file is created: TestResults-DnDGen-Website.xml
     - _Requirements: 7.4, 10.1_
 
-  - [ ] 8.17 Verify test subset commands
+  - [ ] 8.17 MANUAL - Verify test subset commands
     - Run each test:cd:* command to verify subset filtering works
     - Verify each command creates its specific output file
     - Commands: test:cd:rollgen, test:cd:treasuregen, test:cd:charactergen, test:cd:encountergen, test:cd:dungeongen, test:cd:web
@@ -603,9 +603,10 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 13: Test subset filtering works**
     - **Validates: Requirements 10.3**
 
-  - [ ] 8.19 Verify zone.js is not loaded in tests
+  - [ ] 8.19 MANUAL - Verify zone.js is not loaded in tests
     - Add verification test: `expect(typeof Zone).toBe('undefined')`
     - Ensure no zone.js imports in test files
+      - The terms to grep for are `zone.js`, `Zone`, and `import 'zone.js'` across `src/**/*.spec.ts`. If nothing comes back, you're clean.
     - _Requirements: 2.5_
 
   - [ ] 8.20 Run coverage report
@@ -621,13 +622,13 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Document that `ng test` should always be used (not `vitest` directly)
     - _Requirements: 7.5_
 
-  - [ ] 8.22 Final validation checkpoint
+  - [ ] 8.22 MANUAL - Final validation checkpoint
     - Verify all tests pass: `ng test`
     - Verify CI commands work: `npm run test:ci`
     - Verify subset commands work: all `npm run test:cd:*` commands
-    - Verify CI/CD pipeline changes are correct
-    - Verify explicit imports are in all spec files
+    - Verify CI/CD pipeline changes are correct (done via the manual tasks earlier)
     - Verify test-shims.d.ts is deleted
+    - Verify explicit imports are in all spec files (if tests pass, this implicitly proved)
     - Ask user for final approval before considering migration complete
     - _Requirements: 7.4, 7.5, 10.4, 10.5_
 
