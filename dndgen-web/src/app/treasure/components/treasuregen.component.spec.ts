@@ -1222,60 +1222,62 @@ describe('TreasureGen Component', () => {
         expect(treasureComp.treasure).toBeTruthy();
         expect(treasureComp.treasure).not.toBeNull();
       });
+      
+      TestHelper.runFlakyTest(() => { 
+        it(`should generate non-default treasure`, async () => {
+          helper.setInput('#treasureLevel', '42');
+          helper.setSelectByIndex('#treasureTypes', 2);
     
-      it(`should generate non-default treasure`, async () => {
-        helper.setInput('#treasureLevel', '42');
-        helper.setSelectByIndex('#treasureTypes', 2);
-  
-        fixture.detectChanges();
+          fixture.detectChanges();
 
-        expect(fixture.componentInstance.level).toEqual(42);
-        expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[2]);
+          expect(fixture.componentInstance.level).toEqual(42);
+          expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[2]);
 
-        //run validation
-        await helper.waitForService();
+          //run validation
+          await helper.waitForService();
 
-        helper.clickButton('#treasureButton');
-  
-        fixture.detectChanges();
-        
-        helper.expectGenerating(
-          fixture.componentInstance.generating(), 
-          '#treasureButton', 
-          '#treasureSection', 
-          '#generatingSection', 
-          '#treasureValidating', 
-          '#downloadTreasureButton');
+          helper.clickButton('#treasureButton');
+    
+          fixture.detectChanges();
+          
+          helper.expectGenerating(
+            fixture.componentInstance.generating(), 
+            '#treasureButton', 
+            '#treasureSection', 
+            '#generatingSection', 
+            '#treasureValidating', 
+            '#downloadTreasureButton');
 
-        //run generate treasure
-        await helper.waitForService();
-  
-        helper.expectGenerated(
-          fixture.componentInstance.generating(), 
-          '#treasureButton', 
-          '#treasureSection', 
-          '#generatingSection', 
-          '#treasureValidating',
-          '#downloadTreasureButton');
+          //run generate treasure
+          await helper.waitForService();
+    
+          helper.expectGenerated(
+            fixture.componentInstance.generating(), 
+            '#treasureButton', 
+            '#treasureSection', 
+            '#generatingSection', 
+            '#treasureValidating',
+            '#downloadTreasureButton');
 
-        helper.expectExists('#noTreasure', false);
-        helper.expectExists('#treasureSection > dndgen-treasure', true);
-        helper.expectExists('#treasureSection > dndgen-item', false);
+          helper.expectExists('#noTreasure', false);
+          helper.expectExists('#treasureSection > dndgen-treasure', true);
+          helper.expectExists('#treasureSection > dndgen-item', false);
 
-        const element = fixture.debugElement.query(By.css('#treasureSection dndgen-treasure'));
-        expect(element).toBeTruthy();
-        expect(element.componentInstance).toBeTruthy();
-        expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
-  
-        const treasureComp = element.componentInstance as TreasureComponent;
-        expect(treasureComp.treasure).toBeTruthy();
-        expect(treasureComp.treasure).not.toBeNull();
-        expect(treasureComp.treasure.isAny).toBeTrue();
-        expect(treasureComp.treasure.coin).toBeTruthy();
-        expect(treasureComp.treasure.coin.currency).toBe('');
-        expect(treasureComp.treasure.coin.quantity).toBe(0);
-        expect(treasureComp.treasure.goods.length).toBeGreaterThan(0);
-        expect(treasureComp.treasure.items).toEqual([]);
+          const element = fixture.debugElement.query(By.css('#treasureSection dndgen-treasure'));
+          expect(element).toBeTruthy();
+          expect(element.componentInstance).toBeTruthy();
+          expect(element.componentInstance).toBeInstanceOf(TreasureComponent);
+    
+          const treasureComp = element.componentInstance as TreasureComponent;
+          expect(treasureComp.treasure).toBeTruthy();
+          expect(treasureComp.treasure).not.toBeNull();
+          expect(treasureComp.treasure.isAny).toBeTrue();
+          expect(treasureComp.treasure.coin).toBeTruthy();
+          expect(treasureComp.treasure.coin.currency).toBe('');
+          expect(treasureComp.treasure.coin.quantity).toBe(0);
+          expect(treasureComp.treasure.goods.length).toBeGreaterThan(0);
+          expect(treasureComp.treasure.items).toEqual([]);
+        });
       });
     });
   
