@@ -1,9 +1,8 @@
-﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+﻿import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterGenComponent } from './charactergen.component';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
-import { FollowerQuantities } from '../models/followerQuantities.model';
 import { LeadershipComponent } from './leadership.component';
 import { TestHelper } from '../../test-helper';
 import { By } from '@angular/platform-browser';
