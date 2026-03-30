@@ -7,9 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DnDGen.CharacterGen" Version="16.0.3" />
-    <PackageReference Include="DnDGen.DungeonGen" Version="5.0.3" />
-    <PackageReference Include="DnDGen.EncounterGen" Version="6.0.3" />
     <PackageReference Include="DnDGen.CharacterGen" Version="16.0.4" />
     <PackageReference Include="DnDGen.DungeonGen" Version="5.0.4" />
     <PackageReference Include="DnDGen.EncounterGen" Version="6.0.5" />
