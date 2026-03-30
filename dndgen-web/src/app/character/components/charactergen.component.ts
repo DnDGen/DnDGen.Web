@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, signal } from '@angular/core';
 import { CharacterService } from '../services/character.service';
 import { LeadershipService } from '../services/leadership.service';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
@@ -55,7 +55,7 @@ export class CharacterGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public characterModel!: CharacterGenViewModel;
+  public characterModel = signal<CharacterGenViewModel | undefined>(undefined);
   public sizes = Size;
 
   @Input() alignmentRandomizerType = '';
@@ -89,23 +89,23 @@ export class CharacterGenComponent implements OnInit {
   @Input() leaderCharismaBonus = 0;
   @Input() leaderAnimal = '';
 
-  public loading = false;
-  public character: Character | null = null;
-  public valid: boolean = false;
-  public validating: boolean = false;
-  public generating: boolean = false;
-  public leadership: Leadership | null = null;
-  public cohort: Character | null = null;
-  public followers: Character[] = [];
-  public generatingMessage: string = '';
+  public loading = signal(false);
+  public character = signal<Character | null>(null);
+  public valid = signal(false);
+  public validating = signal(false);
+  public generating = signal(false);
+  public leadership = signal<Leadership | null>(null);
+  public cohort = signal<Character | null>(null);
+  public followers = signal<Character[]>([]);
+  public generatingMessage = signal('');
 
   ngOnInit(): void {
-    this.loading = true;
-    this.validating = true;
+    this.loading.set(true);
+    this.validating.set(true);
 
     this.characterService.getViewModel()
       .pipe(
-        tap(data => this.characterModel = data),
+        tap(data => this.characterModel.set(data)),
         tap(() => this.setInitialValues()),
         switchMap(() => this.characterService
           .validate(
@@ -120,7 +120,7 @@ export class CharacterGenComponent implements OnInit {
             this.metaraceRandomizerType,
             this.forceMetarace,
             this.setMetarace)),
-        tap(data => this.valid = data),
+        tap(data => this.valid.set(data)),
       )
       .subscribe({
         complete: () => this.finishInit(),
@@ -129,55 +129,58 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private get followersTotal(): number {
-    if (!this.leadership)
+    const leadershipValue = this.leadership();
+    if (!leadershipValue)
       return 0;
 
-    return this.leadership.followerQuantities.level1 +
-      this.leadership.followerQuantities.level2 +
-      this.leadership.followerQuantities.level3 +
-      this.leadership.followerQuantities.level4 +
-      this.leadership.followerQuantities.level5 +
-      this.leadership.followerQuantities.level6;
+    return leadershipValue.followerQuantities.level1 +
+      leadershipValue.followerQuantities.level2 +
+      leadershipValue.followerQuantities.level3 +
+      leadershipValue.followerQuantities.level4 +
+      leadershipValue.followerQuantities.level5 +
+      leadershipValue.followerQuantities.level6;
   }
 
   private finishInit(): void {
-    this.validating = false;
-    this.loading = false;
+    this.validating.set(false);
+    this.loading.set(false);
   }
 
   private setInitialValues(): void {
-    this.alignmentRandomizerType = this.characterModel.alignmentRandomizerTypes[0];
-    this.setAlignment = this.characterModel.alignments[0];
+    const model = this.characterModel()!;
 
-    this.classNameRandomizerType = this.characterModel.classNameRandomizerTypes[0];
-    this.setClassName = this.characterModel.classNames[0];
+    this.alignmentRandomizerType = model.alignmentRandomizerTypes[0];
+    this.setAlignment = model.alignments[0];
 
-    this.levelRandomizerType = this.characterModel.levelRandomizerTypes[0];
+    this.classNameRandomizerType = model.classNameRandomizerTypes[0];
+    this.setClassName = model.classNames[0];
 
-    this.baseRaceRandomizerType = this.characterModel.baseRaceRandomizerTypes[0];
-    this.setBaseRace = this.characterModel.baseRaces[0];
+    this.levelRandomizerType = model.levelRandomizerTypes[0];
 
-    this.metaraceRandomizerType = this.characterModel.metaraceRandomizerTypes[0];
-    this.setMetarace = this.characterModel.metaraces[0];
+    this.baseRaceRandomizerType = model.baseRaceRandomizerTypes[0];
+    this.setBaseRace = model.baseRaces[0];
 
-    this.abilitiesRandomizerType = this.characterModel.abilitiesRandomizerTypes[0];
+    this.metaraceRandomizerType = model.metaraceRandomizerTypes[0];
+    this.setMetarace = model.metaraces[0];
+
+    this.abilitiesRandomizerType = model.abilitiesRandomizerTypes[0];
     
-    this.leaderAlignment = this.characterModel.alignments[0];
-    this.leaderClassName = this.characterModel.classNames[0];
+    this.leaderAlignment = model.alignments[0];
+    this.leaderClassName = model.classNames[0];
   }
 
   private handleError(error: any): void {
     this.logger.logError(error.message);
 
-    this.character = null;
-    this.leadership = null;
-    this.cohort = null;
-    this.followers = [];
+    this.character.set(null);
+    this.leadership.set(null);
+    this.cohort.set(null);
+    this.followers.set([]);
 
-    this.loading = false;
-    this.generating = false;
-    this.validating = false;
-    this.generatingMessage = '';
+    this.loading.set(false);
+    this.generating.set(false);
+    this.validating.set(false);
+    this.generatingMessage.set('');
     
     this.sweetAlertService.showError();
   }
@@ -190,7 +193,7 @@ export class CharacterGenComponent implements OnInit {
     metaraceRandomizerType?: string, setMetarace?: string, forceMetarace?: boolean,
     abilitiesRandomizerType?: string, setStrength?: number, setConstitution?: number, setDexterity?: number, setIntelligence?: number, setWisdom?: number, setCharisma?: number,
   ): void {
-    this.validating = true;
+    this.validating.set(true);
 
     if ((!(alignmentRandomizerType ?? this.alignmentRandomizerType))
       || (!(setAlignment ?? this.setAlignment))
@@ -238,18 +241,18 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private setValidity(data: boolean) {
-    this.valid = data;
-    this.validating = false;
+    this.valid.set(data);
+    this.validating.set(false);
   }
 
   public generateCharacter(): void {
-    this.generating = true;
-    this.character = null;
-    this.leadership = null;
-    this.cohort = null;
-    this.followers = [];
+    this.generating.set(true);
+    this.character.set(null);
+    this.leadership.set(null);
+    this.cohort.set(null);
+    this.followers.set([]);
 
-    this.generatingMessage = 'Generating character...';
+    this.generatingMessage.set('Generating character...');
 
     this.characterService
       .generate(
@@ -273,9 +276,9 @@ export class CharacterGenComponent implements OnInit {
         this.setCharisma,
         this.allowAbilitiesAdjustments)
       .pipe(
-        tap(data => this.character = data),
-        filter(() => this.character != null && this.character.isLeader),
-        tap(() => this.generatingMessage = 'Generating leadership...'),
+        tap(data => this.character.set(data)),
+        filter(() => this.character() != null && this.character()!.isLeader),
+        tap(() => this.generatingMessage.set('Generating leadership...')),
         tap(() => this.setLeadershipInputsFromCharacter()),
         switchMap(() => this.getFullLeadership()),
       )
@@ -286,22 +289,24 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private finishGeneration(): void {
-    this.generating = false;
+    this.generating.set(false);
   }
 
   private setLeadershipInputsFromCharacter() {
-    this.leaderAlignment = this.character?.alignment.full ?? '';
-    this.leaderAnimal = this.character?.magic.animal ?? '';
-    this.leaderCharismaBonus = this.character?.abilities.Charisma.bonus ?? 0;
-    this.leaderClassName = this.character?.class.name ?? '';
-    this.leaderLevel = this.character?.class.level ?? 0;
+    const characterSource = this.character();
+
+    this.leaderAlignment = characterSource?.alignment.full ?? '';
+    this.leaderAnimal = characterSource?.magic.animal ?? '';
+    this.leaderCharismaBonus = characterSource?.abilities.Charisma.bonus ?? 0;
+    this.leaderClassName = characterSource?.class.name ?? '';
+    this.leaderLevel = characterSource?.class.level ?? 0;
   }
 
   public generateLeadership(): void {
-    this.generating = true;
-    this.leadership = null;
-    this.cohort = null;
-    this.followers = [];
+    this.generating.set(true);
+    this.leadership.set(null);
+    this.cohort.set(null);
+    this.followers.set([]);
     
     this.getFullLeadership()
       .subscribe({
@@ -311,42 +316,43 @@ export class CharacterGenComponent implements OnInit {
   }
 
   private getFullLeadership(): Observable<any> {
-    this.generatingMessage = 'Generating leadership...';
+    this.generatingMessage.set('Generating leadership...');
 
     return this.leadershipService.generate(this.leaderLevel, this.leaderCharismaBonus, this.leaderAnimal)
       .pipe(
-        tap(data => this.leadership = data),
-        filter(() => this.leadership != null),
-        tap(() => this.generatingMessage = 'Generating cohort...'),
+        tap(data => this.leadership.set(data)),
+        filter(() => this.leadership() != null),
+        tap(() => this.generatingMessage.set('Generating cohort...')),
         switchMap(() => this.leadershipService.generateCohort(
           this.leaderLevel,
-          this.leadership!.cohortScore,
+          this.leadership()!.cohortScore,
           this.leaderAlignment,
           this.leaderClassName)),
-        tap(data => this.cohort = data),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level1 > 0),
-        switchMap(() => this.getFollowers(1, this.leadership!.followerQuantities.level1)),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level2 > 0),
-        switchMap(() => this.getFollowers(2, this.leadership!.followerQuantities.level2)),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level3 > 0),
-        switchMap(() => this.getFollowers(3, this.leadership!.followerQuantities.level3)),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level4 > 0),
-        switchMap(() => this.getFollowers(4, this.leadership!.followerQuantities.level4)),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level5 > 0),
-        switchMap(() => this.getFollowers(5, this.leadership!.followerQuantities.level5)),
-        filter(() => this.leadership != null && this.leadership!.followerQuantities.level6 > 0),
-        switchMap(() => this.getFollowers(6, this.leadership!.followerQuantities.level6)),
-        map(() => this.leadership)
+        tap(data => this.cohort.set(data)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level1 > 0),
+        switchMap(() => this.getFollowers(1, this.leadership()!.followerQuantities.level1)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level2 > 0),
+        switchMap(() => this.getFollowers(2, this.leadership()!.followerQuantities.level2)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level3 > 0),
+        switchMap(() => this.getFollowers(3, this.leadership()!.followerQuantities.level3)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level4 > 0),
+        switchMap(() => this.getFollowers(4, this.leadership()!.followerQuantities.level4)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level5 > 0),
+        switchMap(() => this.getFollowers(5, this.leadership()!.followerQuantities.level5)),
+        filter(() => this.leadership() != null && this.leadership()!.followerQuantities.level6 > 0),
+        switchMap(() => this.getFollowers(6, this.leadership()!.followerQuantities.level6)),
+        map(() => this.leadership())
       );
   }
 
   private getFollowers(level: number, quantity: number): Observable<Character[]> {
     let followers: Character[] = [];
-    this.generatingMessage = `Generating follower ${this.followers.length + 1} of ${this.followersTotal}...`;
+    const currentFollowers = this.followers();
+    this.generatingMessage.set(`Generating follower ${currentFollowers.length + 1} of ${this.followersTotal}...`);
 
     return this.leadershipService.generateFollower(level, this.leaderAlignment, this.leaderClassName)
       .pipe(
-        tap(data => this.followers.push(data)),
+        tap(data => this.followers.update(current => [...current, data])),
         switchMap(character => 
           quantity - 1 <= 0 ?
           of(character) :
@@ -359,11 +365,12 @@ export class CharacterGenComponent implements OnInit {
   }
 
   public download(): void {
-    if (!this.character) {
+    const characterSource = this.character();
+    if (!characterSource) {
       return;
     }
 
-    var formattedCharacter = this.leaderPipe.transform(this.character, this.leadership, this.cohort, this.followers);
-    this.fileSaverService.save(formattedCharacter, this.character.summary);
+    var formattedCharacter = this.leaderPipe.transform(characterSource, this.leadership(), this.cohort(), this.followers());
+    this.fileSaverService.save(formattedCharacter, characterSource.summary);
   }
 }

@@ -41,14 +41,14 @@ describe('CharacterGen Component', () => {
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
-      expect(component.character).toBeFalsy();
-      expect(component.leadership).toBeFalsy();
-      expect(component.cohort).toBeFalsy();
-      expect(component.followers).toEqual([]);
-      expect(component.generatingMessage).toEqual('');
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
+      expect(component.character()).toBeFalsy();
+      expect(component.leadership()).toBeFalsy();
+      expect(component.cohort()).toBeFalsy();
+      expect(component.followers()).toEqual([]);
+      expect(component.generatingMessage()).toEqual('');
     });
   
     it(`should initialize the input values`, () => {
@@ -121,39 +121,39 @@ describe('CharacterGen Component', () => {
 
       component.ngOnInit();
 
-      expect(component.characterModel).not.toBeDefined();
+      expect(component.characterModel()).not.toBeDefined();
       
       expectInitialInputValues();
 
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
       
       tick(delay - 1);
 
-      expect(component.characterModel).not.toBeDefined();
+      expect(component.characterModel()).not.toBeDefined();
 
       expectInitialInputValues();
 
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
       
       tick(1);
       
-      expect(component.characterModel).toEqual(model);
+      expect(component.characterModel()).toEqual(model);
       
       expectDefaultInputValues();
       
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
 
       tick(delay - 1);
 
-      expect(component.characterModel).toEqual(model);
+      expect(component.characterModel()).toEqual(model);
       
       expectDefaultInputValues();
       
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
 
       flush();
     }));
@@ -177,13 +177,13 @@ describe('CharacterGen Component', () => {
   
         component.ngOnInit();
   
-        expect(component.characterModel).not.toBeDefined();
-        expect(component.validating).toBeTrue();
+        expect(component.characterModel()).not.toBeDefined();
+        expect(component.validating()).toBeTrue();
   
         tick(delay * 2);
   
-        expect(component.characterModel).toEqual(model);
-        expect(component.validating).toBeFalse();
+        expect(component.characterModel()).toEqual(model);
+        expect(component.validating()).toBeFalse();
   
         expectDefaultInputValues();
       
@@ -201,7 +201,7 @@ describe('CharacterGen Component', () => {
           'metarace 1'
         );
 
-        expect(component.valid).toEqual(test);
+        expect(component.valid()).toEqual(test);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -215,13 +215,13 @@ describe('CharacterGen Component', () => {
       component.ngOnInit();
       tick(delay * 2);
 
-      expect(component.characterModel).not.toBeDefined();
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.characterModel()).not.toBeDefined();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -235,13 +235,13 @@ describe('CharacterGen Component', () => {
       component.ngOnInit();
       tick(delay * 2);
 
-      expect(component.characterModel).toEqual(model);
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.characterModel()).toEqual(model);
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -262,8 +262,8 @@ describe('CharacterGen Component', () => {
       component.setLevel = 0;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set strength', () => {
@@ -278,8 +278,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set constitution', () => {
@@ -294,8 +294,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set dexterity', () => {
@@ -310,8 +310,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set intelligence', () => {
@@ -326,8 +326,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set wisdom', () => {
@@ -342,8 +342,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 6;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     it('should validate randomizers - invalid if set abilities randomizer, but no set charisma', () => {
@@ -358,8 +358,8 @@ describe('CharacterGen Component', () => {
       component.setCharisma = 0;
 
       component.validateRandomizers();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
     });
 
     const randomizerBooleans = [
@@ -401,11 +401,11 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
         
         tick(delay - 1);
   
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         flush();
       }));
@@ -441,12 +441,12 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         tick(delay);
   
-        expect(component.valid).toBeTrue();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeTrue();
+        expect(component.validating()).toBeFalse();
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -483,12 +483,12 @@ describe('CharacterGen Component', () => {
           'my metarace randomizer',
           test.m,
           'my metarace');
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         tick(delay);
   
-        expect(component.valid).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeFalse();
+        expect(component.validating()).toBeFalse();
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -515,13 +515,13 @@ describe('CharacterGen Component', () => {
 
         tick(delay);
   
-        expect(component.valid).toBeFalse();
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
-        expect(component.generating).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeFalse();
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
+        expect(component.generating()).toBeFalse();
+        expect(component.validating()).toBeFalse();
         
         expect(characterServiceSpy.validate).toHaveBeenCalledWith(
           'my alignment randomizer',
@@ -592,21 +592,21 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         flush();
       }));
@@ -674,25 +674,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -769,25 +769,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -872,25 +872,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -979,25 +979,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -1090,25 +1090,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -1206,25 +1206,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -1328,25 +1328,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -1457,25 +1457,25 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
         expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual('Generating character...');
-        expect(component.character).toBeNull();
-        expect(component.leadership).toBeNull();
-        expect(component.cohort).toBeNull();
-        expect(component.followers).toEqual([]);
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual('Generating character...');
+        expect(component.character()).toBeNull();
+        expect(component.leadership()).toBeNull();
+        expect(component.cohort()).toBeNull();
+        expect(component.followers()).toEqual([]);
 
         tick(1);
 
-        expect(component.character).toBe(character);
+        expect(component.character()).toBe(character);
         expect(component.leaderAlignment).toEqual('my leader alignment');
         expect(component.leaderAnimal).toEqual('my animal');
         expect(component.leaderCharismaBonus).toEqual(8);
@@ -1490,28 +1490,29 @@ describe('CharacterGen Component', () => {
     });
 
     function setupOnInit() {
-      component.characterModel = getViewModel();
+      const viewModel = getViewModel();
+      component.characterModel.set(viewModel);
 
-      component.alignmentRandomizerType = component.characterModel.alignmentRandomizerTypes[0];
-      component.setAlignment = component.characterModel.alignments[0];
+      component.alignmentRandomizerType = viewModel.alignmentRandomizerTypes[0];
+      component.setAlignment = viewModel.alignments[0];
   
-      component.classNameRandomizerType = component.characterModel.classNameRandomizerTypes[0];
-      component.setClassName = component.characterModel.classNames[0];
+      component.classNameRandomizerType = viewModel.classNameRandomizerTypes[0];
+      component.setClassName = viewModel.classNames[0];
   
-      component.levelRandomizerType = component.characterModel.levelRandomizerTypes[0];
+      component.levelRandomizerType = viewModel.levelRandomizerTypes[0];
   
-      component.baseRaceRandomizerType = component.characterModel.baseRaceRandomizerTypes[0];
-      component.setBaseRace = component.characterModel.baseRaces[0];
+      component.baseRaceRandomizerType = viewModel.baseRaceRandomizerTypes[0];
+      component.setBaseRace = viewModel.baseRaces[0];
   
-      component.metaraceRandomizerType = component.characterModel.metaraceRandomizerTypes[0];
-      component.setMetarace = component.characterModel.metaraces[0];
+      component.metaraceRandomizerType = viewModel.metaraceRandomizerTypes[0];
+      component.setMetarace = viewModel.metaraces[0];
   
-      component.abilitiesRandomizerType = component.characterModel.abilitiesRandomizerTypes[0];
+      component.abilitiesRandomizerType = viewModel.abilitiesRandomizerTypes[0];
       
-      component.leaderAlignment = component.characterModel.alignments[0];
-      component.leaderClassName = component.characterModel.classNames[0];
+      component.leaderAlignment = viewModel.alignments[0];
+      component.leaderClassName = viewModel.classNames[0];
 
-      component.valid = true;
+      component.valid.set(true);
     }
 
     it('should generate the default character', fakeAsync(() => {
@@ -1543,12 +1544,12 @@ describe('CharacterGen Component', () => {
         10,
         true
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBeTrue();
 
       tick(delay);
 
-      expect(component.character).toBe(character);
-      expect(component.generating).toBeFalse();
+      expect(component.character()).toBe(character);
+      expect(component.generating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -1560,18 +1561,19 @@ describe('CharacterGen Component', () => {
       let character = new Character('my character summary');
       characterServiceSpy.generate.and.callFake(() => getFakeDelay(character));
 
-      component.alignmentRandomizerType = component.characterModel.alignmentRandomizerTypes[1];
-      component.setAlignment = component.characterModel.alignments[1];
-      component.classNameRandomizerType = component.characterModel.classNameRandomizerTypes[1];
-      component.setClassName = component.characterModel.classNames[1];
-      component.levelRandomizerType = component.characterModel.levelRandomizerTypes[1];
+      const viewModel = component.characterModel()!;
+      component.alignmentRandomizerType = viewModel.alignmentRandomizerTypes[1];
+      component.setAlignment = viewModel.alignments[1];
+      component.classNameRandomizerType = viewModel.classNameRandomizerTypes[1];
+      component.setClassName = viewModel.classNames[1];
+      component.levelRandomizerType = viewModel.levelRandomizerTypes[1];
       component.setLevel = 9266;
-      component.baseRaceRandomizerType = component.characterModel.baseRaceRandomizerTypes[1];
-      component.setBaseRace = component.characterModel.baseRaces[1];
-      component.metaraceRandomizerType = component.characterModel.metaraceRandomizerTypes[1];
-      component.setMetarace = component.characterModel.metaraces[1];
+      component.baseRaceRandomizerType = viewModel.baseRaceRandomizerTypes[1];
+      component.setBaseRace = viewModel.baseRaces[1];
+      component.metaraceRandomizerType = viewModel.metaraceRandomizerTypes[1];
+      component.setMetarace = viewModel.metaraces[1];
       component.forceMetarace = true;
-      component.abilitiesRandomizerType = component.characterModel.abilitiesRandomizerTypes[1];
+      component.abilitiesRandomizerType = viewModel.abilitiesRandomizerTypes[1];
       component.setStrength = 90210;
       component.setConstitution = 42;
       component.setDexterity = 600;
@@ -1603,12 +1605,12 @@ describe('CharacterGen Component', () => {
         96,
         false
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBeTrue();
 
       tick(delay);
 
-      expect(component.character).toBe(character);
-      expect(component.generating).toBeFalse();
+      expect(component.character()).toBe(character);
+      expect(component.generating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -1622,12 +1624,12 @@ describe('CharacterGen Component', () => {
       component.generateCharacter();
       tick(delay);
 
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1649,12 +1651,12 @@ describe('CharacterGen Component', () => {
       component.generateCharacter();
       tick(delay * 2);
 
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1680,12 +1682,12 @@ describe('CharacterGen Component', () => {
       component.generateCharacter();
       tick(delay * 3);
 
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1716,12 +1718,12 @@ describe('CharacterGen Component', () => {
       component.generateCharacter();
       tick(delay * 4);
 
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1752,12 +1754,12 @@ describe('CharacterGen Component', () => {
       component.generateCharacter();
       tick(delay * 5);
 
-      expect(component.character).toBeNull();
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.character()).toBeNull();
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -1789,19 +1791,19 @@ describe('CharacterGen Component', () => {
       expect(leadershipServiceSpy.generateCohort).not.toHaveBeenCalled();
       expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-      expect(component.generating).toBeTrue();
-      expect(component.generatingMessage).toEqual('Generating leadership...');
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
+      expect(component.generating()).toBeTrue();
+      expect(component.generatingMessage()).toEqual('Generating leadership...');
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
       
       tick(delay - 1);
 
-      expect(component.generating).toBeTrue();
-      expect(component.generatingMessage).toEqual('Generating leadership...');
-      expect(component.leadership).toBeNull();
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
+      expect(component.generating()).toBeTrue();
+      expect(component.generatingMessage()).toEqual('Generating leadership...');
+      expect(component.leadership()).toBeNull();
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
 
       tick(1);
 
@@ -1810,19 +1812,19 @@ describe('CharacterGen Component', () => {
       expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
       expect(leadershipServiceSpy.generateFollower).not.toHaveBeenCalled();
 
-      expect(component.generating).toBeTrue();
-      expect(component.generatingMessage).toEqual('Generating cohort...');
-      expect(component.leadership).toBe(leadership);
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
+      expect(component.generating()).toBeTrue();
+      expect(component.generatingMessage()).toEqual('Generating cohort...');
+      expect(component.leadership()).toBe(leadership);
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
       
       tick(delay - 1);
 
-      expect(component.generating).toBeTrue();
-      expect(component.generatingMessage).toEqual('Generating cohort...');
-      expect(component.leadership).toBe(leadership);
-      expect(component.cohort).toBeNull();
-      expect(component.followers).toEqual([]);
+      expect(component.generating()).toBeTrue();
+      expect(component.generatingMessage()).toEqual('Generating cohort...');
+      expect(component.leadership()).toBe(leadership);
+      expect(component.cohort()).toBeNull();
+      expect(component.followers()).toEqual([]);
 
       const followerCount = followers.length;
 
@@ -1839,19 +1841,19 @@ describe('CharacterGen Component', () => {
         expect(leadershipServiceSpy.generateCohort).toHaveBeenCalledTimes(1);
         expect(leadershipServiceSpy.generateFollower.calls.count()).toBe(i + 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.followers).toEqual(followers.slice(0, i));
-        expect(component.generatingMessage).toEqual(message);
-        expect(component.leadership).toBe(leadership);
-        expect(component.cohort).toBe(cohort);
+        expect(component.generating()).toBeTrue();
+        expect(component.followers()).toEqual(followers.slice(0, i));
+        expect(component.generatingMessage()).toEqual(message);
+        expect(component.leadership()).toBe(leadership);
+        expect(component.cohort()).toBe(cohort);
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.generatingMessage).toEqual(message);
-        expect(component.leadership).toBe(leadership);
-        expect(component.cohort).toBe(cohort);
-        expect(component.followers).toEqual(followers.slice(0, i));  
+        expect(component.generating()).toBeTrue();
+        expect(component.generatingMessage()).toEqual(message);
+        expect(component.leadership()).toBe(leadership);
+        expect(component.cohort()).toBe(cohort);
+        expect(component.followers()).toEqual(followers.slice(0, i));  
       }
     }
     
@@ -2224,14 +2226,14 @@ describe('CharacterGen Component', () => {
 
       tick(1);
 
-      expect(component.leadership).toBe(leadership);
-      expect(component.cohort).toBe(cohort);
-      expect(component.followers).toEqual(followers);
+      expect(component.leadership()).toBe(leadership);
+      expect(component.cohort()).toBe(cohort);
+      expect(component.followers()).toEqual(followers);
     }));
 
     it('should download character', () => {
       const character = new Character('my character summary');
-      component.character = character;
+      component.character.set(character);
 
       leaderPipeSpy.transform.and.returnValue('my formatted character');
 
@@ -2243,11 +2245,11 @@ describe('CharacterGen Component', () => {
 
     it('should download leader', () => {
       const character = new Character('my leader summary');
-      component.character = character;
+      component.character.set(character);
       const leadership = new Leadership(3, [], 8);
-      component.leadership = leadership;
+      component.leadership.set(leadership);
       const cohort = new Character('my cohort summary');
-      component.cohort = cohort;
+      component.cohort.set(cohort);
       const followers = [
         new Character('my follower summary 1.1'),
         new Character('my follower summary 1.2'),
@@ -2264,7 +2266,7 @@ describe('CharacterGen Component', () => {
         new Character('my follower summary 4.1'),
         new Character('my follower summary 4.2'),
       ];
-      component.followers = followers;
+      component.followers.set(followers);
 
       leaderPipeSpy.transform.and.returnValue('my formatted leader');
 
@@ -2275,7 +2277,7 @@ describe('CharacterGen Component', () => {
     });
 
     it('should not download missing character', () => {
-      component.character = null;
+      component.character.set(null);
 
       component.download();
       
@@ -2305,7 +2307,7 @@ describe('CharacterGen Component', () => {
   
     it('should show the loading component when loading', () => {
       const component = fixture.componentInstance;
-      component.loading = true;
+      component.loading.set(true);
 
       fixture.detectChanges();
 
@@ -2314,7 +2316,7 @@ describe('CharacterGen Component', () => {
   
     it('should hide the loading component when not loading', () => {
       const component = fixture.componentInstance;
-      component.loading = false;
+      component.loading.set(false);
 
       fixture.detectChanges();
 
@@ -2323,46 +2325,46 @@ describe('CharacterGen Component', () => {
   
     it(`should set the character model on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.characterModel).toBeDefined();
-      expect(component.characterModel.alignmentRandomizerTypes.length).toEqual(12);
-      expect(component.characterModel.alignmentRandomizerTypes).toContain('Set');
-      expect(component.characterModel.alignments.length).toEqual(9);
-      expect(component.characterModel.classNameRandomizerTypes.length).toEqual(9);
-      expect(component.characterModel.classNameRandomizerTypes).toContain('Set');
-      expect(component.characterModel.classNames.length).toEqual(16);
-      expect(component.characterModel.levelRandomizerTypes.length).toEqual(6);
-      expect(component.characterModel.levelRandomizerTypes).toContain('Set');
-      expect(component.characterModel.baseRaceRandomizerTypes.length).toEqual(7);
-      expect(component.characterModel.baseRaceRandomizerTypes).toContain('Set');
-      expect(component.characterModel.baseRaces.length).toEqual(71);
-      expect(component.characterModel.metaraceRandomizerTypes.length).toEqual(6);
-      expect(component.characterModel.metaraceRandomizerTypes).toContain('Set');
-      expect(component.characterModel.metaraceRandomizerTypes).toContain('No Meta');
-      expect(component.characterModel.metaraces.length).toEqual(13);
-      // expect(component.characterModel.abilitiesRandomizerTypes.length).toEqual(8);
-      expect([8, 9]).toContain(component.characterModel.abilitiesRandomizerTypes.length);
-      expect(component.characterModel.abilitiesRandomizerTypes).toContain('Set');
+      const viewModel = component.characterModel();
+      expect(viewModel).toBeDefined();
+      expect(viewModel!.alignmentRandomizerTypes.length).toEqual(12);
+      expect(viewModel!.alignmentRandomizerTypes).toContain('Set');
+      expect(viewModel!.alignments.length).toEqual(9);
+      expect(viewModel!.classNameRandomizerTypes.length).toEqual(9);
+      expect(viewModel!.classNameRandomizerTypes).toContain('Set');
+      expect(viewModel!.classNames.length).toEqual(16);
+      expect(viewModel!.levelRandomizerTypes.length).toEqual(6);
+      expect(viewModel!.levelRandomizerTypes).toContain('Set');
+      expect(viewModel!.baseRaceRandomizerTypes.length).toEqual(7);
+      expect(viewModel!.baseRaceRandomizerTypes).toContain('Set');
+      expect(viewModel!.baseRaces.length).toEqual(71);
+      expect(viewModel!.metaraceRandomizerTypes.length).toEqual(6);
+      expect(viewModel!.metaraceRandomizerTypes).toContain('Set');
+      expect(viewModel!.metaraceRandomizerTypes).toContain('No Meta');
+      expect(viewModel!.metaraces.length).toEqual(13);
+      expect(viewModel!.abilitiesRandomizerTypes.length).toEqual(8);
+      expect(viewModel!.abilitiesRandomizerTypes).toContain('Set');
     });
   
     it(`should set initial values on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.alignmentRandomizerType).toEqual(component.characterModel.alignmentRandomizerTypes[0]);
-      expect(component.setAlignment).toEqual(component.characterModel.alignments[0]);
+      expect(component.alignmentRandomizerType).toEqual(component.characterModel()!.alignmentRandomizerTypes[0]);
+      expect(component.setAlignment).toEqual(component.characterModel()!.alignments[0]);
 
-      expect(component.classNameRandomizerType).toEqual(component.characterModel.classNameRandomizerTypes[0]);
-      expect(component.setClassName).toEqual(component.characterModel.classNames[0]);
+      expect(component.classNameRandomizerType).toEqual(component.characterModel()!.classNameRandomizerTypes[0]);
+      expect(component.setClassName).toEqual(component.characterModel()!.classNames[0]);
 
-      expect(component.levelRandomizerType).toEqual(component.characterModel.levelRandomizerTypes[0]);
+      expect(component.levelRandomizerType).toEqual(component.characterModel()!.levelRandomizerTypes[0]);
       expect(component.setLevel).toEqual(1);
 
-      expect(component.baseRaceRandomizerType).toEqual(component.characterModel.baseRaceRandomizerTypes[0]);
-      expect(component.setBaseRace).toEqual(component.characterModel.baseRaces[0]);
+      expect(component.baseRaceRandomizerType).toEqual(component.characterModel()!.baseRaceRandomizerTypes[0]);
+      expect(component.setBaseRace).toEqual(component.characterModel()!.baseRaces[0]);
 
-      expect(component.metaraceRandomizerType).toEqual(component.characterModel.metaraceRandomizerTypes[0]);
+      expect(component.metaraceRandomizerType).toEqual(component.characterModel()!.metaraceRandomizerTypes[0]);
       expect(component.forceMetarace).toEqual(false);
-      expect(component.setMetarace).toEqual(component.characterModel.metaraces[0]);
+      expect(component.setMetarace).toEqual(component.characterModel()!.metaraces[0]);
 
-      expect(component.abilitiesRandomizerType).toEqual(component.characterModel.abilitiesRandomizerTypes[0]);
+      expect(component.abilitiesRandomizerType).toEqual(component.characterModel()!.abilitiesRandomizerTypes[0]);
       expect(component.setStrength).toEqual(10);
       expect(component.setConstitution).toEqual(10);
       expect(component.setDexterity).toEqual(10);
@@ -2370,8 +2372,8 @@ describe('CharacterGen Component', () => {
       expect(component.setWisdom).toEqual(10);
       expect(component.setCharisma).toEqual(10);
       
-      expect(component.leaderAlignment).toEqual(component.characterModel.alignments[0]);
-      expect(component.leaderClassName).toEqual(component.characterModel.classNames[0]);
+      expect(component.leaderAlignment).toEqual(component.characterModel()!.alignments[0]);
+      expect(component.leaderClassName).toEqual(component.characterModel()!.classNames[0]);
       expect(component.leaderLevel).toEqual(6);
       expect(component.leaderCharismaBonus).toEqual(0);
       expect(component.leaderAnimal).toEqual('');
@@ -2379,10 +2381,10 @@ describe('CharacterGen Component', () => {
   
     it(`should initialize public properties`, async () => {
       const component = fixture.componentInstance;
-      expect(component.loading).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.generating).toBeFalse();
-      expect(component.valid).toBeTrue();
+      expect(component.loading()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBeFalse();
+      expect(component.valid()).toBeTrue();
     });
   
     it(`should be ready to generate a character on load`, async () => {
@@ -2390,10 +2392,10 @@ describe('CharacterGen Component', () => {
     });
 
     function expectReady() {
-      expect(fixture.componentInstance.loading).toBeFalse();
-      expect(fixture.componentInstance.validating).toBeFalse();
-      expect(fixture.componentInstance.generating).toBeFalse();
-      expect(fixture.componentInstance.valid).toBeTrue();
+      expect(fixture.componentInstance.loading()).toBeFalse();
+      expect(fixture.componentInstance.validating()).toBeFalse();
+      expect(fixture.componentInstance.generating()).toBeFalse();
+      expect(fixture.componentInstance.valid()).toBeTrue();
 
       helper.expectHasAttribute('#generateCharacterButton', 'disabled', false);
     }
@@ -2454,13 +2456,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set alignment, except for Set alignment randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.alignmentRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.alignmentRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#alignmentRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.alignmentRandomizerTypes[i];
-          helper.expectSelect('#alignmentRandomizerType', true, randomizer, fixture.componentInstance.characterModel.alignmentRandomizerTypes.length);
+          const randomizer = viewModel.alignmentRandomizerTypes[i];
+          helper.expectSelect('#alignmentRandomizerType', true, randomizer, viewModel.alignmentRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#setAlignment', 'hidden', !isSet);
@@ -2469,13 +2472,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set class name, except for Set class name randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.classNameRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.classNameRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#classNameRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.classNameRandomizerTypes[i];
-          helper.expectSelect('#classNameRandomizerType', true, randomizer, fixture.componentInstance.characterModel.classNameRandomizerTypes.length);
+          const randomizer = viewModel.classNameRandomizerTypes[i];
+          helper.expectSelect('#classNameRandomizerType', true, randomizer, viewModel.classNameRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#setClassName', 'hidden', !isSet);
@@ -2484,13 +2488,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set level, except for Set level randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.levelRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.levelRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#levelRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.levelRandomizerTypes[i];
-          helper.expectSelect('#levelRandomizerType', true, randomizer, fixture.componentInstance.characterModel.levelRandomizerTypes.length);
+          const randomizer = viewModel.levelRandomizerTypes[i];
+          helper.expectSelect('#levelRandomizerType', true, randomizer, viewModel.levelRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#setLevel', 'hidden', !isSet);
@@ -2499,13 +2504,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set base race, except for Set base race randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.baseRaceRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.baseRaceRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#baseRaceRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.baseRaceRandomizerTypes[i];
-          helper.expectSelect('#baseRaceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.baseRaceRandomizerTypes.length);
+          const randomizer = viewModel.baseRaceRandomizerTypes[i];
+          helper.expectSelect('#baseRaceRandomizerType', true, randomizer, viewModel.baseRaceRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#setBaseRace', 'hidden', !isSet);
@@ -2514,13 +2520,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set metarace, except for Set metarace randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.metaraceRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.metaraceRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#metaraceRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.metaraceRandomizerTypes[i];
-          helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
+          const randomizer = viewModel.metaraceRandomizerTypes[i];
+          helper.expectSelect('#metaraceRandomizerType', true, randomizer, viewModel.metaraceRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#setMetarace', 'hidden', !isSet);
@@ -2529,13 +2536,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide force metarace for Set and None metarace randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.metaraceRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.metaraceRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#metaraceRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.metaraceRandomizerTypes[i];
-          helper.expectSelect('#metaraceRandomizerType', true, randomizer, fixture.componentInstance.characterModel.metaraceRandomizerTypes.length);
+          const randomizer = viewModel.metaraceRandomizerTypes[i];
+          helper.expectSelect('#metaraceRandomizerType', true, randomizer, viewModel.metaraceRandomizerTypes.length);
 
           const isSetOrNone = randomizer == 'Set' || randomizer == 'No Meta';
           helper.expectHasAttribute('#force-metarace-col', 'hidden', isSetOrNone);
@@ -2544,13 +2552,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide set abilities, except for Set abilities randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.abilitiesRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#abilitiesRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.abilitiesRandomizerTypes[i];
-          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
+          const randomizer = viewModel.abilitiesRandomizerTypes[i];
+          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, viewModel.abilitiesRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#set-abilities-row-1', 'hidden', !isSet);
@@ -2565,13 +2574,14 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should hide allow ability adjustments, except for Set abilities randomizer`, () => {
-        for(let i = 0; i < fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length; i++) {
+        const viewModel = fixture.componentInstance.characterModel()!;
+        for(let i = 0; i < viewModel.abilitiesRandomizerTypes.length; i++) {
           helper.setSelectByIndex('#abilitiesRandomizerType', i);
 
           fixture.detectChanges();
   
-          const randomizer = fixture.componentInstance.characterModel.abilitiesRandomizerTypes[i];
-          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, fixture.componentInstance.characterModel.abilitiesRandomizerTypes.length);
+          const randomizer = viewModel.abilitiesRandomizerTypes[i];
+          helper.expectSelect('#abilitiesRandomizerType', true, randomizer, viewModel.abilitiesRandomizerTypes.length);
 
           const isSet = randomizer == 'Set';
           helper.expectHasAttribute('#adjust-abilities-col', 'hidden', !isSet);
@@ -2581,11 +2591,11 @@ describe('CharacterGen Component', () => {
     
       it(`should show when validating character`, () => {
         const component = fixture.componentInstance;
-        component.validating = true;
+        component.validating.set(true);
   
         fixture.detectChanges();
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing alignment randomizer`, async () => {
@@ -2594,13 +2604,14 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.alignmentRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set alignment`, async () => {
         expectReady();
 
-        helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Set'));
         helper.setSelectByValue('#setAlignment', '');
   
         fixture.detectChanges();
@@ -2608,7 +2619,7 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.alignmentRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setAlignment).toEqual('');
         
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing class name randomizer`, async () => {
@@ -2617,20 +2628,21 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.classNameRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set class name`, async () => {
         expectReady();
 
-        helper.setSelectByIndex('#classNameRandomizerType', fixture.componentInstance.characterModel.classNameRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#classNameRandomizerType', viewModel.classNameRandomizerTypes.indexOf('Set'));
         helper.setSelectByValue('#setClassName', '');
   
         fixture.detectChanges();
   
         expect(fixture.componentInstance.classNameRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setClassName).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing level randomizer`, async () => {
@@ -2639,22 +2651,24 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.levelRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set level`, async () => {
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         helper.setInput('#setLevel', '');
   
         fixture.detectChanges();
   
         expect(fixture.componentInstance.levelRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setLevel).toBeNull();
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set level invalid`, () => {
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         helper.setInput('#setLevel', 'wrong');
   
         fixture.detectChanges();
@@ -2662,22 +2676,24 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.levelRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setLevel).toBeNull();
         
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set level too low`, () => {
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         helper.setInput('#setLevel', '-1');
   
         fixture.detectChanges();
   
         expect(fixture.componentInstance.levelRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setLevel).toEqual(-1);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set level too high`, waitForAsync(async () => {
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         
         //run validation
         await helper.waitForService();
@@ -2689,13 +2705,13 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.levelRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setLevel).toEqual(21);
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
         
         //run validation
         await helper.waitForService();
   
-        expect(fixture.componentInstance.valid).toBeFalse();
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        expect(fixture.componentInstance.valid()).toBeFalse();
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       }));
     
       it(`should show that character is invalid - missing base race randomizer`, async () => {
@@ -2704,18 +2720,19 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.baseRaceRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set base race`, async () => {
-        helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#baseRaceRandomizerType', viewModel.baseRaceRandomizerTypes.indexOf('Set'));
         helper.setSelectByValue('#setBaseRace', '');
   
         fixture.detectChanges();
   
         expect(fixture.componentInstance.baseRaceRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setBaseRace).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing metarace randomizer`, async () => {
@@ -2724,7 +2741,7 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should validate when force metarace changes`, waitForAsync(async () => {
@@ -2734,20 +2751,21 @@ describe('CharacterGen Component', () => {
   
         expect(fixture.componentInstance.forceMetarace).toBeTrue();
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
       }));
     
       it(`should show that character is invalid - missing set metarace`, async () => {
         expectReady();
 
-        helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Set'));
         helper.setSelectByValue('#setMetarace', '');
   
         fixture.detectChanges();
   
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setMetarace).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing abilities randomizer`, async () => {
@@ -2756,11 +2774,12 @@ describe('CharacterGen Component', () => {
         fixture.detectChanges();
   
         expect(fixture.componentInstance.abilitiesRandomizerType).toEqual('');
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`BUG - should set set level`, () => {
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2776,7 +2795,8 @@ describe('CharacterGen Component', () => {
       });
     
       it(`BUG - should set set abilities`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2807,7 +2827,8 @@ describe('CharacterGen Component', () => {
       });
 
       it(`should show that character is invalid - missing set strength`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2827,11 +2848,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set strength invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2851,11 +2873,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set strength too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2876,11 +2899,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
 
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set constitution`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2900,11 +2924,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set constitution invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2924,11 +2949,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set constitution too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2948,11 +2974,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set dexterity`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2972,11 +2999,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set dexterity invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -2997,11 +3025,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
         
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set dexterity too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3021,11 +3050,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set intelligence`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3045,11 +3075,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toBeNull();
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set intelligence invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3069,11 +3100,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toBeNull();
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set intelligence too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3093,11 +3125,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(-1);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set wisdom`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3117,11 +3150,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toBeNull();
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set wisdom invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3141,11 +3175,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toBeNull();
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set wisdom too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3165,11 +3200,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(-1);
         expect(fixture.componentInstance.setCharisma).toEqual(4);
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - missing set charisma`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3190,11 +3226,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toBeNull();
 
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set charisma invalid`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3214,11 +3251,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setIntelligence).toEqual(2);
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toBeNull();
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should show that character is invalid - set charisma too low`, () => {
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         
         fixture.detectChanges();
   
@@ -3239,7 +3277,7 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.setWisdom).toEqual(10);
         expect(fixture.componentInstance.setCharisma).toEqual(-1);
 
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should validate when allow ability adjustments changes`, waitForAsync(async () => {
@@ -3249,21 +3287,22 @@ describe('CharacterGen Component', () => {
   
         expect(fixture.componentInstance.allowAbilitiesAdjustments).toBeFalse();
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
       }));
 
       it(`should show that character is invalid - validation fails`, waitForAsync(async () => {
-        helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Good'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Good'));
         
         //run validation
         await helper.waitForService();
 
-        helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Set'));
         
         //run validation
         await helper.waitForService();
 
-        helper.setSelectByIndex('#setMetarace', fixture.componentInstance.characterModel.metaraces.indexOf('Lich'));
+        helper.setSelectByIndex('#setMetarace', viewModel.metaraces.indexOf('Lich'));
   
         fixture.detectChanges();
   
@@ -3271,19 +3310,20 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setMetarace).toEqual('Lich');
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
   
         //run validation
         await helper.waitForService();
         
-        expect(fixture.componentInstance.valid).toBeFalse();
-        helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        expect(fixture.componentInstance.valid()).toBeFalse();
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       }));
     
       it(`should show that character is valid - validation succeeds`, async () => {
-        helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Evil'));
-        helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
-        helper.setSelectByIndex('#setMetarace', fixture.componentInstance.characterModel.metaraces.indexOf('Lich'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Evil'));
+        helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#setMetarace', viewModel.metaraces.indexOf('Lich'));
   
         fixture.detectChanges();
   
@@ -3291,12 +3331,12 @@ describe('CharacterGen Component', () => {
         expect(fixture.componentInstance.metaraceRandomizerType).toEqual('Set');
         expect(fixture.componentInstance.setMetarace).toEqual('Lich');
 
-        helper.expectValidating(fixture.componentInstance.validating, '#generateCharacterButton', '#characterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateCharacterButton', '#characterValidating');
   
         //run validation
         await helper.waitForService();
   
-        helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateCharacterButton', '#characterValidating');
+        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateCharacterButton', '#characterValidating');
       });
     
       it(`should bind forcing metaraces`, async () => {
@@ -3329,12 +3369,11 @@ describe('CharacterGen Component', () => {
     
       it(`should show when generating a character`, () => {
         const component = fixture.componentInstance;
-        component.generating = true;
+        component.generating.set(true);
   
         fixture.detectChanges();
 
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
+        helper.expectGenerating(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3347,8 +3386,7 @@ describe('CharacterGen Component', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
+        helper.expectGenerating(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3358,8 +3396,7 @@ describe('CharacterGen Component', () => {
         //run generate character
         await helper.waitForService();
   
-        helper.expectGenerated(
-          fixture.componentInstance.generating,
+        helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3375,13 +3412,14 @@ describe('CharacterGen Component', () => {
       });
     
       it(`should generate non-default character`, async () => {
-        helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Non-evil'));
-        helper.setSelectByIndex('#classNameRandomizerType', fixture.componentInstance.characterModel.classNameRandomizerTypes.indexOf('Physical Combat'));
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Low'));
-        helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Non-Monster Base'));
-        helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Lycanthrope Meta'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Non-evil'));
+        helper.setSelectByIndex('#classNameRandomizerType', viewModel.classNameRandomizerTypes.indexOf('Physical Combat'));
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Low'));
+        helper.setSelectByIndex('#baseRaceRandomizerType', viewModel.baseRaceRandomizerTypes.indexOf('Non-Monster Base'));
+        helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Lycanthrope Meta'));
         helper.setCheckbox('#forceMetaraceCheckbox', true);
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Ones as sixes'));
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Ones as sixes'));
   
         fixture.detectChanges();
 
@@ -3399,8 +3437,7 @@ describe('CharacterGen Component', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
+        helper.expectGenerating(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3410,8 +3447,7 @@ describe('CharacterGen Component', () => {
         //run generate character
         await helper.waitForService();
   
-        helper.expectGenerated(
-          fixture.componentInstance.generating,
+        helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3426,27 +3462,28 @@ describe('CharacterGen Component', () => {
       });
     
       it(`should generate non-default character - set values`, async () => {
-        helper.setSelectByIndex('#alignmentRandomizerType', fixture.componentInstance.characterModel.alignmentRandomizerTypes.indexOf('Set'));
+        const viewModel = fixture.componentInstance.characterModel()!;
+        helper.setSelectByIndex('#alignmentRandomizerType', viewModel.alignmentRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
-        helper.setSelectByIndex('#setAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Neutral Good'));
-        helper.setSelectByIndex('#classNameRandomizerType', fixture.componentInstance.characterModel.classNameRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#setAlignment', viewModel.alignments.indexOf('Neutral Good'));
+        helper.setSelectByIndex('#classNameRandomizerType', viewModel.classNameRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
-        helper.setSelectByIndex('#setClassName', fixture.componentInstance.characterModel.classNames.indexOf('Fighter'));
-        helper.setSelectByIndex('#levelRandomizerType', fixture.componentInstance.characterModel.levelRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#setClassName', viewModel.classNames.indexOf('Fighter'));
+        helper.setSelectByIndex('#levelRandomizerType', viewModel.levelRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
         helper.setInput('#setLevel', '4');
-        helper.setSelectByIndex('#baseRaceRandomizerType', fixture.componentInstance.characterModel.baseRaceRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#baseRaceRandomizerType', viewModel.baseRaceRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
-        helper.setSelectByIndex('#setBaseRace', fixture.componentInstance.characterModel.baseRaces.indexOf('Mountain Dwarf'));
-        helper.setSelectByIndex('#metaraceRandomizerType', fixture.componentInstance.characterModel.metaraceRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#setBaseRace', viewModel.baseRaces.indexOf('Mountain Dwarf'));
+        helper.setSelectByIndex('#metaraceRandomizerType', viewModel.metaraceRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
-        helper.setSelectByIndex('#setMetarace', fixture.componentInstance.characterModel.metaraces.indexOf('Half-Dragon'));
-        helper.setSelectByIndex('#abilitiesRandomizerType', fixture.componentInstance.characterModel.abilitiesRandomizerTypes.indexOf('Set'));
+        helper.setSelectByIndex('#setMetarace', viewModel.metaraces.indexOf('Half-Dragon'));
+        helper.setSelectByIndex('#abilitiesRandomizerType', viewModel.abilitiesRandomizerTypes.indexOf('Set'));
         fixture.detectChanges();
 
         helper.setInput('#setStrength', '9');
@@ -3483,8 +3520,7 @@ describe('CharacterGen Component', () => {
   
         fixture.detectChanges();
         
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
+        helper.expectGenerating(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3494,8 +3530,7 @@ describe('CharacterGen Component', () => {
         //run generate character
         await helper.waitForService();
   
-        helper.expectGenerated(
-          fixture.componentInstance.generating,
+        helper.expectGenerated(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3528,12 +3563,11 @@ describe('CharacterGen Component', () => {
     
       it(`should show when generating leadership`, () => {
         const component = fixture.componentInstance;
-        component.generating = true;
+        component.generating.set(true);
   
         fixture.detectChanges();
 
-        helper.expectGenerating(
-          fixture.componentInstance.generating,
+        helper.expectGenerating(fixture.componentInstance.generating(),
           '#generateCharacterButton', 
           '#characterSection', 
           '#generatingSection dndgen-loading', 
@@ -3547,8 +3581,7 @@ describe('CharacterGen Component', () => {
     
           fixture.detectChanges();
           
-          helper.expectGenerating(
-            fixture.componentInstance.generating,
+          helper.expectGenerating(fixture.componentInstance.generating(),
             '#generateCharacterButton', 
             '#characterSection', 
             '#generatingSection dndgen-loading', 
@@ -3558,8 +3591,7 @@ describe('CharacterGen Component', () => {
           //run generate leadership
           await helper.waitForService();
     
-          helper.expectGenerated(
-            fixture.componentInstance.generating,
+          helper.expectGenerated(fixture.componentInstance.generating(),
             '#generateCharacterButton', 
             '#characterSection', 
             '#generatingSection dndgen-loading', 
@@ -3623,8 +3655,9 @@ describe('CharacterGen Component', () => {
       leadershipTests.forEach(test => {
         TestHelper.runFlakyTest(() => {
           it(`should generate non-default leadership - leader level ${test.lvl}, CHA bonus ${test.cha}`, async () => {
-            helper.setSelectByIndex('#leaderAlignment', fixture.componentInstance.characterModel.alignments.indexOf('Chaotic Neutral'));
-            helper.setSelectByIndex('#leaderClassName', fixture.componentInstance.characterModel.classNames.indexOf('Sorcerer'));
+            const viewModel = fixture.componentInstance.characterModel()!;
+            helper.setSelectByIndex('#leaderAlignment', viewModel.alignments.indexOf('Chaotic Neutral'));
+            helper.setSelectByIndex('#leaderClassName', viewModel.classNames.indexOf('Sorcerer'));
             helper.setInput('#leaderLevel', `${test.lvl}`);
             helper.setInput('#leaderCharismaBonus', `${test.cha}`);
             helper.setInput('#leaderAnimal', 'Weasel');
@@ -3641,8 +3674,7 @@ describe('CharacterGen Component', () => {
       
             fixture.detectChanges();
             
-            helper.expectGenerating(
-              fixture.componentInstance.generating,
+            helper.expectGenerating(fixture.componentInstance.generating(),
               '#generateCharacterButton', 
               '#characterSection', 
               '#generatingSection dndgen-loading', 
@@ -3652,8 +3684,7 @@ describe('CharacterGen Component', () => {
             //run generation
             await helper.waitForService();
       
-            helper.expectGenerated(
-              fixture.componentInstance.generating,
+            helper.expectGenerated(fixture.componentInstance.generating(),
               '#generateCharacterButton', 
               '#characterSection', 
               '#generatingSection dndgen-loading', 
@@ -3688,7 +3719,7 @@ describe('CharacterGen Component', () => {
     
     it(`should render character`, () => {
       const character = new Character('my character summary');
-      fixture.componentInstance.character = character;
+      fixture.componentInstance.character.set(character);
 
       fixture.detectChanges();
 
@@ -3700,7 +3731,7 @@ describe('CharacterGen Component', () => {
     
     it(`should render leadership`, () => {
       const leadership = new Leadership(90210, ['has a castle', 'smelly']);
-      fixture.componentInstance.leadership = leadership;
+      fixture.componentInstance.leadership.set(leadership);
 
       fixture.detectChanges();
 
@@ -3724,12 +3755,12 @@ describe('CharacterGen Component', () => {
       const leadership = new Leadership(90210, ['has a castle', 'smelly']);
       const cohort = new Character('my cohort summary');
 
-      fixture.componentInstance.leadership = leadership;
-      fixture.componentInstance.cohort = cohort;
+      fixture.componentInstance.leadership.set(leadership);
+      fixture.componentInstance.cohort.set(cohort);
 
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.character).toBeNull();
+      expect(fixture.componentInstance.character()).toBeNull();
       helper.expectExists('#noCharacter', false);
       helper.expectExists('#characterSection dndgen-leadership', true);
       
@@ -3754,9 +3785,9 @@ describe('CharacterGen Component', () => {
         new Character('my follower summary 2'),
       ];
 
-      fixture.componentInstance.leadership = leadership;
-      fixture.componentInstance.cohort = cohort;
-      fixture.componentInstance.followers = followers;
+      fixture.componentInstance.leadership.set(leadership);
+      fixture.componentInstance.cohort.set(cohort);
+      fixture.componentInstance.followers.set(followers);
 
       fixture.detectChanges();
 
@@ -3780,8 +3811,8 @@ describe('CharacterGen Component', () => {
       const character = new Character('my character summary');
       const leadership = new Leadership(90210, ['has a castle', 'smelly']);
 
-      fixture.componentInstance.character = character;
-      fixture.componentInstance.leadership = leadership;
+      fixture.componentInstance.character.set(character);
+      fixture.componentInstance.leadership.set(leadership);
 
       fixture.detectChanges();
 
@@ -3810,10 +3841,10 @@ describe('CharacterGen Component', () => {
         new Character('my follower summary 2'),
       ];
 
-      fixture.componentInstance.character = character;
-      fixture.componentInstance.leadership = leadership;
-      fixture.componentInstance.cohort = cohort;
-      fixture.componentInstance.followers = followers;
+      fixture.componentInstance.character.set(character);
+      fixture.componentInstance.leadership.set(leadership);
+      fixture.componentInstance.cohort.set(cohort);
+      fixture.componentInstance.followers.set(followers);
 
       fixture.detectChanges();
 
@@ -3838,7 +3869,7 @@ describe('CharacterGen Component', () => {
       //Even for an integration test, we don't want to create an actual file
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
-      fixture.componentInstance.character = new Character('my character summary');
+      fixture.componentInstance.character.set(new Character('my character summary'));
 
       fixture.detectChanges();
 
@@ -3855,13 +3886,13 @@ describe('CharacterGen Component', () => {
       //Even for an integration test, we don't want to create an actual file
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
-      fixture.componentInstance.character = new Character('my character summary');
-      fixture.componentInstance.leadership = new Leadership(90210, ['has a castle', 'smelly']);
-      fixture.componentInstance.cohort = new Character('my cohort summary');
-      fixture.componentInstance.followers = [
+      fixture.componentInstance.character.set(new Character('my character summary'));
+      fixture.componentInstance.leadership.set(new Leadership(90210, ['has a castle', 'smelly']));
+      fixture.componentInstance.cohort.set(new Character('my cohort summary'));
+      fixture.componentInstance.followers.set([
         new Character('my follower summary 1'),
         new Character('my follower summary 2'),
-      ];
+      ]);
 
       fixture.detectChanges();
 

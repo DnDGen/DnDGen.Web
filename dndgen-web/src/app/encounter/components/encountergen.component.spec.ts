@@ -35,10 +35,10 @@ describe('EncounterGen Component', () => {
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
-      expect(component.encounter).toBeFalsy();
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.valid()).toBeFalse();
+      expect(component.encounter()).toBeFalsy();
     });
   
     it(`should initialize the input values`, () => {
@@ -88,44 +88,44 @@ describe('EncounterGen Component', () => {
 
       component.ngOnInit();
 
-      expect(component.loading).toBeTrue();
-      expect(component.encounterModel).toBeFalsy();
+      expect(component.loading()).toBeTrue();
+      expect(component.encounterModel()).toBeFalsy();
       
       expectInitialInputValues();
 
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
       
       tick(delay - 1);
 
-      expect(component.encounterModel).toBeFalsy();
+      expect(component.encounterModel()).toBeFalsy();
 
       expectInitialInputValues();
 
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
       
       tick(1);
       
-      expect(component.encounterModel).toEqual(model);
+      expect(component.encounterModel()).toEqual(model);
       
       expectDefaultInputValues();
       
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
 
       tick(delay - 1);
 
-      expect(component.encounterModel).toEqual(model);
+      expect(component.encounterModel()).toEqual(model);
       
       expectDefaultInputValues();
       
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBeTrue();
+      expect(component.valid()).toBeFalse();
+      expect(component.validating()).toBeTrue();
 
       flush();
     }));
@@ -149,15 +149,15 @@ describe('EncounterGen Component', () => {
   
         component.ngOnInit();
   
-        expect(component.loading).toBeTrue();
-        expect(component.encounterModel).toBeFalsy();
-        expect(component.validating).toBeTrue();
+        expect(component.loading()).toBeTrue();
+        expect(component.encounterModel()).toBeFalsy();
+        expect(component.validating()).toBeTrue();
   
         tick(delay * 2);
   
-        expect(component.loading).toBeFalse();
-        expect(component.encounterModel).toEqual(model);
-        expect(component.validating).toBeFalse();
+        expect(component.loading()).toBeFalse();
+        expect(component.encounterModel()).toEqual(model);
+        expect(component.validating()).toBeFalse();
   
         expectDefaultInputValues();
       
@@ -171,7 +171,7 @@ describe('EncounterGen Component', () => {
           false,
         );
 
-        expect(component.valid).toEqual(test);
+        expect(component.valid()).toEqual(test);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -185,11 +185,11 @@ describe('EncounterGen Component', () => {
       component.ngOnInit();
       tick(delay * 2);
 
-      expect(component.encounterModel).toBeFalsy();
-      expect(component.encounter).toBeFalsy();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.loading).toBeFalse();
+      expect(component.encounterModel()).toBeFalsy();
+      expect(component.encounter()).toBeFalsy();
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.loading()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -203,11 +203,11 @@ describe('EncounterGen Component', () => {
       component.ngOnInit();
       tick(delay * 2);
 
-      expect(component.encounterModel).toEqual(model);
-      expect(component.encounter).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.loading).toBeFalse();
+      expect(component.encounterModel()).toEqual(model);
+      expect(component.encounter()).toBeNull();
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.loading()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -272,11 +272,11 @@ describe('EncounterGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
         
         tick(delay - 1);
   
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         flush();
       }));
@@ -300,12 +300,12 @@ describe('EncounterGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         tick(delay);
   
-        expect(component.valid).toBeTrue();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeTrue();
+        expect(component.validating()).toBeFalse();
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -330,12 +330,12 @@ describe('EncounterGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBeTrue();
   
         tick(delay);
   
-        expect(component.valid).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeFalse();
+        expect(component.validating()).toBeFalse();
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -354,10 +354,10 @@ describe('EncounterGen Component', () => {
 
         tick(delay);
   
-        expect(component.valid).toBeFalse();
-        expect(component.encounter).toBeNull();
-        expect(component.generating).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBeFalse();
+        expect(component.encounter()).toBeNull();
+        expect(component.generating()).toBeFalse();
+        expect(component.validating()).toBeFalse();
         
         expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
@@ -398,35 +398,36 @@ describe('EncounterGen Component', () => {
           test.a,
           test.u);
 
-        expect(component.generating).toBeTrue();
-        expect(component.encounter).toBeNull();
+        expect(component.generating()).toBeTrue();
+        expect(component.encounter()).toBeNull();
         
         tick(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.encounter).toBeNull();
+        expect(component.generating()).toBeTrue();
+        expect(component.encounter()).toBeNull();
 
         flush();
       }));
     });
 
     function setupOnInit() {
-      component.encounterModel = getViewModel();
+      const model = getViewModel();
+      component.encounterModel.set(model);
 
-      component.environment = component.encounterModel.defaults.environment;
-      component.temperature = component.encounterModel.defaults.temperature;
-      component.timeOfDay = component.encounterModel.defaults.timeOfDay;
-      component.level = component.encounterModel.defaults.level;
+      component.environment = model.defaults.environment;
+      component.temperature = model.defaults.temperature;
+      component.timeOfDay = model.defaults.timeOfDay;
+      component.level = model.defaults.level;
 
-      for (var i = 0; i < component.encounterModel.creatureTypes.length; i++) {
+      for (var i = 0; i < model.creatureTypes.length; i++) {
         component.creatureTypeFilters.push({ 
-            id: component.encounterModel.creatureTypes[i].replaceAll(' ', '_'),
-            displayName: component.encounterModel.creatureTypes[i],
+            id: model.creatureTypes[i].replaceAll(' ', '_'),
+            displayName: model.creatureTypes[i],
             checked: false
         });
       }
 
-      component.valid = true;
+      component.valid.set(true);
     }
 
     it('should generate the default encounter', fakeAsync(() => {
@@ -446,12 +447,12 @@ describe('EncounterGen Component', () => {
         false,
         false,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBeTrue();
 
       tick(delay);
 
-      expect(component.encounter).toBe(encounter);
-      expect(component.generating).toBeFalse();
+      expect(component.encounter()).toBe(encounter);
+      expect(component.generating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -463,10 +464,11 @@ describe('EncounterGen Component', () => {
       let encounter = new Encounter('my encounter description');
       encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
 
-      component.environment = component.encounterModel.environments.find(e => e != component.encounterModel.defaults.environment)!;
-      component.temperature = component.encounterModel.temperatures.find(e => e != component.encounterModel.defaults.temperature)!;
-      component.timeOfDay = component.encounterModel.timesOfDay.find(e => e != component.encounterModel.defaults.timeOfDay)!;
-      component.level = component.encounterModel.defaults.level + 1;
+      const model = component.encounterModel()!;
+      component.environment = model.environments.find(e => e != model.defaults.environment)!;
+      component.temperature = model.temperatures.find(e => e != model.defaults.temperature)!;
+      component.timeOfDay = model.timesOfDay.find(e => e != model.defaults.timeOfDay)!;
+      component.level = model.defaults.level + 1;
       component.allowAquatic = true;
       component.allowUnderground = true;
       component.creatureTypeFilters[0].checked = true;
@@ -483,12 +485,12 @@ describe('EncounterGen Component', () => {
         true,
         true,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBeTrue();
 
       tick(delay);
 
-      expect(component.encounter).toBe(encounter);
-      expect(component.generating).toBeFalse();
+      expect(component.encounter()).toBe(encounter);
+      expect(component.generating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
@@ -502,9 +504,9 @@ describe('EncounterGen Component', () => {
       component.generateEncounter();
       tick(delay);
 
-      expect(component.encounter).toBeNull();
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.encounter()).toBeNull();
+      expect(component.generating()).toBeFalse();
+      expect(component.validating()).toBeFalse();
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -512,7 +514,7 @@ describe('EncounterGen Component', () => {
 
     it('should download encounter', () => {
       const encounter = new Encounter('my encounter description');
-      component.encounter = encounter;
+      component.encounter.set(encounter);
 
       encounterPipeSpy.transform.and.returnValue('my formatted encounter');
 
@@ -523,7 +525,7 @@ describe('EncounterGen Component', () => {
     });
 
     it('should not download missing encounter', () => {
-      component.encounter = null;
+      component.encounter.set(null);
 
       component.download();
       
@@ -553,7 +555,7 @@ describe('EncounterGen Component', () => {
   
     it('should show the loading component when loading', () => {
       const component = fixture.componentInstance;
-      component.loading = true;
+      component.loading.set(true);
 
       fixture.detectChanges();
 
@@ -562,7 +564,7 @@ describe('EncounterGen Component', () => {
   
     it('should hide the loading component when not loading', () => {
       const component = fixture.componentInstance;
-      component.loading = false;
+      component.loading.set(false);
 
       fixture.detectChanges();
 
@@ -573,46 +575,48 @@ describe('EncounterGen Component', () => {
 
     it(`should set the encounter model on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.encounterModel).toBeTruthy();
-      expect(component.encounterModel.environments.length).toEqual(9);
-      expect(component.encounterModel.environments).toContain(component.encounterModel.defaults.environment);
-      expect(component.encounterModel.temperatures.length).toEqual(3);
-      expect(component.encounterModel.temperatures).toContain(component.encounterModel.defaults.temperature);
-      expect(component.encounterModel.timesOfDay.length).toEqual(2);
-      expect(component.encounterModel.timesOfDay).toContain(component.encounterModel.defaults.timeOfDay);
-      expect(component.encounterModel.creatureTypes.length).toEqual(expectedCreatureTypeCount);
-      expect(component.encounterModel.defaults.environment).toBe('Plains');
-      expect(component.encounterModel.defaults.temperature).toBe('Temperate');
-      expect(component.encounterModel.defaults.timeOfDay).toBe('Day');
-      expect(component.encounterModel.defaults.level).toBe(1);
-      expect(component.encounterModel.defaults.allowAquatic).toBeFalse();
-      expect(component.encounterModel.defaults.allowUnderground).toBeFalse();
+      const model = component.encounterModel();
+      expect(model).toBeTruthy();
+      expect(model!.environments.length).toEqual(9);
+      expect(model!.environments).toContain(model!.defaults.environment);
+      expect(model!.temperatures.length).toEqual(3);
+      expect(model!.temperatures).toContain(model!.defaults.temperature);
+      expect(model!.timesOfDay.length).toEqual(2);
+      expect(model!.timesOfDay).toContain(model!.defaults.timeOfDay);
+      expect(model!.creatureTypes.length).toEqual(expectedCreatureTypeCount);
+      expect(model!.defaults.environment).toBe('Plains');
+      expect(model!.defaults.temperature).toBe('Temperate');
+      expect(model!.defaults.timeOfDay).toBe('Day');
+      expect(model!.defaults.level).toBe(1);
+      expect(model!.defaults.allowAquatic).toBeFalse();
+      expect(model!.defaults.allowUnderground).toBeFalse();
     });
   
     it(`should set initial values on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.environment).toEqual(component.encounterModel.defaults.environment);
-      expect(component.temperature).toEqual(component.encounterModel.defaults.temperature);
-      expect(component.timeOfDay).toEqual(component.encounterModel.defaults.timeOfDay);
-      expect(component.level).toEqual(component.encounterModel.defaults.level);
-      expect(component.allowAquatic).toEqual(component.encounterModel.defaults.allowAquatic);
-      expect(component.allowUnderground).toEqual(component.encounterModel.defaults.allowUnderground);
-      expect(component.creatureTypeFilters.length).toEqual(component.encounterModel.creatureTypes.length);
+      const model = component.encounterModel()!;
+      expect(component.environment).toEqual(model.defaults.environment);
+      expect(component.temperature).toEqual(model.defaults.temperature);
+      expect(component.timeOfDay).toEqual(model.defaults.timeOfDay);
+      expect(component.level).toEqual(model.defaults.level);
+      expect(component.allowAquatic).toEqual(model.defaults.allowAquatic);
+      expect(component.allowUnderground).toEqual(model.defaults.allowUnderground);
+      expect(component.creatureTypeFilters.length).toEqual(model.creatureTypes.length);
 
-      for(let i = 0; i < component.encounterModel.creatureTypes.length; i++) {
+      for(let i = 0; i < model.creatureTypes.length; i++) {
         expect(component.creatureTypeFilters[i].id).not.toContain(' ');
-        expect(component.creatureTypeFilters[i].id).toBe(component.encounterModel.creatureTypes[i].replaceAll(' ', '_'));
-        expect(component.creatureTypeFilters[i].displayName).toBe(component.encounterModel.creatureTypes[i]);
+        expect(component.creatureTypeFilters[i].id).toBe(model.creatureTypes[i].replaceAll(' ', '_'));
+        expect(component.creatureTypeFilters[i].displayName).toBe(model.creatureTypes[i]);
         expect(component.creatureTypeFilters[i].checked).toBeFalse();
       }
     });
   
     it(`should initialize public properties`, async () => {
       const component = fixture.componentInstance;
-      expect(component.loading).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.generating).toBeFalse();
-      expect(component.valid).toBeTrue();
+      expect(component.loading()).toBeFalse();
+      expect(component.validating()).toBeFalse();
+      expect(component.generating()).toBeFalse();
+      expect(component.valid()).toBeTrue();
     });
   
     it(`should be ready to generate an encounter on load`, async () => {
@@ -620,10 +624,10 @@ describe('EncounterGen Component', () => {
     });
 
     function expectReady() {
-      expect(fixture.componentInstance.loading).toBeFalse();
-      expect(fixture.componentInstance.validating).toBeFalse();
-      expect(fixture.componentInstance.generating).toBeFalse();
-      expect(fixture.componentInstance.valid).toBeTrue();
+      expect(fixture.componentInstance.loading()).toBeFalse();
+      expect(fixture.componentInstance.validating()).toBeFalse();
+      expect(fixture.componentInstance.generating()).toBeFalse();
+      expect(fixture.componentInstance.valid()).toBeTrue();
 
       helper.expectHasAttribute('#generateButton', 'disabled', false);
     }
@@ -646,11 +650,11 @@ describe('EncounterGen Component', () => {
   
     it(`should show when validating encounter`, () => {
       const component = fixture.componentInstance;
-      component.validating = true;
+      component.validating.set(true);
 
       fixture.detectChanges();
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - missing environment`, async () => {
@@ -659,7 +663,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.environment).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - missing temperature`, async () => {
@@ -668,7 +672,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.temperature).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - missing time of day`, async () => {
@@ -677,7 +681,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.timeOfDay).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - missing level`, async () => {
@@ -686,7 +690,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.level).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - level invalid`, () => {
@@ -695,7 +699,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.level).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should show that encounter is invalid - level too low`, () => {
@@ -704,7 +708,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
 
       expect(fixture.componentInstance.level).toEqual(0);
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
 
     const checkboxValues = [ true, false ];
@@ -716,7 +720,7 @@ describe('EncounterGen Component', () => {
         fixture.detectChanges();
   
         helper.expectCheckboxInput('#allowAquatic', false, v);
-        helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
       }));
       
       it(`should validate when allow underground changes - value ${v}`, waitForAsync(async () => {
@@ -725,7 +729,7 @@ describe('EncounterGen Component', () => {
         fixture.detectChanges();
   
         helper.expectCheckboxInput('#allowUnderground', false, v);
-        helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
       }));
       
       for(let i = 0; i < expectedCreatureTypeCount; i++) {
@@ -736,7 +740,7 @@ describe('EncounterGen Component', () => {
           fixture.detectChanges();
     
           helper.expectCheckboxInput(selector, false, v);
-          helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+          helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
         });
       }
     });
@@ -750,13 +754,13 @@ describe('EncounterGen Component', () => {
       expect(oozeFilter).toBeTruthy();
       expect(oozeFilter?.checked).toBeTrue();
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
 
       //run validation
       await helper.waitForService();
       
-      expect(fixture.componentInstance.valid).toBeFalse();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      expect(fixture.componentInstance.valid()).toBeFalse();
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     }));
   
     it(`should show that encounter is valid - validation succeeds`, async () => {
@@ -781,12 +785,12 @@ describe('EncounterGen Component', () => {
       expect(oozeFilter).toBeTruthy();
       expect(oozeFilter?.checked).toBeTrue();
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateButton', '#encounterValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
 
       //run validation
       await helper.waitForService();
 
-      helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateButton', '#encounterValidating');
+      helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
     it(`should bind allowing aquatic`, () => {
@@ -835,12 +839,12 @@ describe('EncounterGen Component', () => {
   
     it(`should show when generating an encounter`, () => {
       const component = fixture.componentInstance;
-      component.generating = true;
+      component.generating.set(true);
 
       fixture.detectChanges();
 
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection', 
@@ -854,7 +858,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
       
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection', 
@@ -865,7 +869,7 @@ describe('EncounterGen Component', () => {
       await helper.waitForService();
 
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection', 
@@ -878,9 +882,10 @@ describe('EncounterGen Component', () => {
     });
   
     it(`should generate non-default encounter`, async () => {
-      helper.setSelectByIndex('#environment', fixture.componentInstance.encounterModel.environments.indexOf('Mountain'));
-      helper.setSelectByIndex('#temperature', fixture.componentInstance.encounterModel.temperatures.indexOf('Cold'));
-      helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.encounterModel.timesOfDay.indexOf('Night'));
+      const model = fixture.componentInstance.encounterModel()!;
+      helper.setSelectByIndex('#environment', model.environments.indexOf('Mountain'));
+      helper.setSelectByIndex('#temperature', model.temperatures.indexOf('Cold'));
+      helper.setSelectByIndex('#timeOfDay', model.timesOfDay.indexOf('Night'));
       helper.setInput('#level', '10');
       helper.setCheckbox('#allowAquatic', true);
       helper.setCheckbox('#allowUnderground', true);
@@ -908,7 +913,7 @@ describe('EncounterGen Component', () => {
       fixture.detectChanges();
       
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection', 
@@ -919,7 +924,7 @@ describe('EncounterGen Component', () => {
       await helper.waitForService();
 
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateButton', 
         '#encounterSection', 
         '#generatingSection', 
@@ -950,7 +955,7 @@ describe('EncounterGen Component', () => {
     
     it(`should render encounter`, () => {
       const encounter = new Encounter('my encounter description');
-      fixture.componentInstance.encounter = encounter;
+      fixture.componentInstance.encounter.set(encounter);
 
       fixture.detectChanges();
 
@@ -964,7 +969,7 @@ describe('EncounterGen Component', () => {
       //Even for an integration test, we don't want to create an actual file
       let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
 
-      fixture.componentInstance.encounter = new Encounter('my encounter description');
+      fixture.componentInstance.encounter.set(new Encounter('my encounter description'));
 
       fixture.detectChanges();
 

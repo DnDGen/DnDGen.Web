@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, signal } from '@angular/core';
 import { RollService } from '../services/roll.service';
 import { StandardDie } from '../models/standardDie.model';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
@@ -28,7 +28,7 @@ export class RollGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public rollModel!: RollGenViewModel;
+  public rollModel = signal<RollGenViewModel | undefined>(undefined);
   public sizes = Size;
 
   private expressionText$ = new Subject<string>();
@@ -38,12 +38,12 @@ export class RollGenComponent implements OnInit {
   @Input() customDie = 5;
   @Input() expression = '4d6k3+2';
 
-  public rolling = false;
-  public loading = false;
-  public validating = false;
-  public rollIsValid = true;
+  public rolling = signal(false);
+  public loading = signal(false);
+  public validating = signal(false);
+  public rollIsValid = signal(true);
 
-  public roll = 0;
+  public roll = signal(0);
 
   public standardDice: StandardDie[] = [
     new StandardDie('2', 2),
@@ -60,7 +60,7 @@ export class RollGenComponent implements OnInit {
   @Input() standardDie = this.standardDice[7];
 
   ngOnInit(): void {
-    this.loading = true;
+    this.loading.set(true);
 
     this.rollService.getViewModel()
       .subscribe({
@@ -83,12 +83,12 @@ export class RollGenComponent implements OnInit {
   }
 
   private setViewModel(data: RollGenViewModel): void {
-    this.rollModel = data;
-    this.loading = false;
+    this.rollModel.set(data);
+    this.loading.set(false);
   }
 
   public rollStandard() {
-    this.rolling = true;
+    this.rolling.set(true);
 
     this.rollService.getRoll(this.standardQuantity, this.standardDie.die)
       .subscribe({
@@ -98,23 +98,23 @@ export class RollGenComponent implements OnInit {
   };
 
   private setRoll(rollResult: number) {
-    this.roll = rollResult;
-    this.rolling = false;
+    this.roll.set(rollResult);
+    this.rolling.set(false);
   }
 
   private handleError(error: any) {
     this.logger.logError(error.message);
 
-    this.roll = 0;
-    this.rolling = false;
-    this.validating = false;
-    this.loading = false;
+    this.roll.set(0);
+    this.rolling.set(false);
+    this.validating.set(false);
+    this.loading.set(false);
 
     this.sweetAlertService.showError();
   }
 
   public rollCustom() {
-    this.rolling = true;
+    this.rolling.set(true);
 
     this.rollService.getRoll(this.customQuantity, this.customDie)
       .subscribe({
@@ -124,7 +124,7 @@ export class RollGenComponent implements OnInit {
   };
 
   public rollExpression() {
-    this.rolling = true;
+    this.rolling.set(true);
 
     this.rollService.getExpressionRoll(this.expression)
       .subscribe({
@@ -134,11 +134,11 @@ export class RollGenComponent implements OnInit {
   };
   
   public validateRoll(quantity: number, die: number) {
-    this.validating = true;
+    this.validating.set(true);
 
     if (!quantity || !die) {
-      this.rollIsValid = false;
-      this.validating = false;
+      this.rollIsValid.set(false);
+      this.validating.set(false);
       return;
     }
 
@@ -150,22 +150,22 @@ export class RollGenComponent implements OnInit {
   }
 
   private setRollValidity(data: boolean) {
-    this.rollIsValid = data;
-    this.validating = false;
+    this.rollIsValid.set(data);
+    this.validating.set(false);
   }
 
   private handleValidationError(error: any) {
-    this.rollIsValid = false;
+    this.rollIsValid.set(false);
 
     this.handleError(error);
   }
 
   public validateExpression(expression: string) {
-    this.validating = true;
+    this.validating.set(true);
 
     if (!expression || expression === '') {
-      this.rollIsValid = false;
-      this.validating = false;
+      this.rollIsValid.set(false);
+      this.validating.set(false);
       return;
     }
 

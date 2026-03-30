@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, signal } from '@angular/core';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
@@ -48,7 +48,15 @@ export class EncounterGenComponent implements OnInit {
     private sweetAlertService: SweetAlertService,
     private logger: LoggerService) { }
 
-  public encounterModel!: EncounterGenViewModel;
+  // Signals for reactive UI state
+  public encounterModel = signal<EncounterGenViewModel | undefined>(undefined);
+  public encounter = signal<Encounter | null>(null);
+  public valid = signal(false);
+  public validating = signal(false);
+  public generating = signal(false);
+  public loading = signal(false);
+
+  // Regular properties for constants and inputs
   public sizes = Size;
   public creatureTypeFilters: CreatureTypeFilter[] = [];
 
@@ -59,19 +67,13 @@ export class EncounterGenComponent implements OnInit {
   @Input() allowAquatic = false;
   @Input() allowUnderground = false;
 
-  public loading = false;
-  public encounter: Encounter | null = null;
-  public valid: boolean = false;
-  public validating: boolean = false;
-  public generating: boolean = false;
-
   ngOnInit(): void {
-    this.loading = true;
-    this.validating = true;
+    this.loading.set(true);
+    this.validating.set(true);
 
     this.encounterService.getViewModel()
       .pipe(
-        tap(data => this.encounterModel = data),
+        tap(data => this.encounterModel.set(data)),
         tap(() => this.setInitialValues()),
         switchMap(() => this.encounterService
           .validate(
@@ -82,7 +84,7 @@ export class EncounterGenComponent implements OnInit {
             this.checkedFilters,
             this.allowAquatic,
             this.allowUnderground)),
-        tap(data => this.valid = data),
+        tap(data => this.valid.set(data)),
       )
       .subscribe({
         complete: () => this.finishInit(),
@@ -91,22 +93,24 @@ export class EncounterGenComponent implements OnInit {
   }
 
   private finishInit(): void {
-    this.validating = false;
-    this.loading = false;
+    this.validating.set(false);
+    this.loading.set(false);
   }
 
   private setInitialValues(): void {
-    this.temperature = this.encounterModel.defaults.temperature;
-    this.environment = this.encounterModel.defaults.environment;
-    this.timeOfDay = this.encounterModel.defaults.timeOfDay;
-    this.level = this.encounterModel.defaults.level;
-    this.allowAquatic = this.encounterModel.defaults.allowAquatic;
-    this.allowUnderground = this.encounterModel.defaults.allowUnderground;
+    const model = this.encounterModel()!;
+
+    this.temperature = model.defaults.temperature;
+    this.environment = model.defaults.environment;
+    this.timeOfDay = model.defaults.timeOfDay;
+    this.level = model.defaults.level;
+    this.allowAquatic = model.defaults.allowAquatic;
+    this.allowUnderground = model.defaults.allowUnderground;
     
-    for (var i = 0; i < this.encounterModel.creatureTypes.length; i++) {
+    for (var i = 0; i < model.creatureTypes.length; i++) {
       this.creatureTypeFilters.push({ 
-          id: this.encounterModel.creatureTypes[i].replaceAll(' ', '_'),
-          displayName: this.encounterModel.creatureTypes[i],
+          id: model.creatureTypes[i].replaceAll(' ', '_'),
+          displayName: model.creatureTypes[i],
           checked: false
       });
     }
@@ -115,11 +119,11 @@ export class EncounterGenComponent implements OnInit {
   private handleError(error: any): void {
     this.logger.logError(error.message);
 
-    this.encounter = null;
+    this.encounter.set(null);
 
-    this.loading = false;
-    this.generating = false;
-    this.validating = false;
+    this.loading.set(false);
+    this.generating.set(false);
+    this.validating.set(false);
     
     this.sweetAlertService.showError();
   }
@@ -132,7 +136,7 @@ export class EncounterGenComponent implements OnInit {
     allowAquatic: boolean,
     allowUnderground: boolean,
   ): void {
-    this.validating = true;
+    this.validating.set(true);
 
     if (!level) {
       this.setValidity(false);
@@ -171,13 +175,13 @@ export class EncounterGenComponent implements OnInit {
   }
 
   private setValidity(data: boolean) {
-    this.valid = data;
-    this.validating = false;
+    this.valid.set(data);
+    this.validating.set(false);
   }
 
   public generateEncounter(): void {
-    this.generating = true;
-    this.encounter = null;
+    this.generating.set(true);
+    this.encounter.set(null);
 
     this.encounterService
       .generate(
@@ -190,7 +194,7 @@ export class EncounterGenComponent implements OnInit {
         this.allowUnderground,
       )
       .pipe(
-        tap(data => this.encounter = data),
+        tap(data => this.encounter.set(data)),
       )
       .subscribe({
         complete: () => this.finishGeneration(),
@@ -199,15 +203,16 @@ export class EncounterGenComponent implements OnInit {
   }
 
   private finishGeneration(): void {
-    this.generating = false;
+    this.generating.set(false);
   }
 
   public download(): void {
-    if (!this.encounter) {
+    const encounter = this.encounter();
+    if (!encounter) {
       return;
     }
 
-    var formattedEncounter = this.encounterPipe.transform(this.encounter);
-    this.fileSaverService.save(formattedEncounter, this.encounter.description);
+    var formattedEncounter = this.encounterPipe.transform(encounter);
+    this.fileSaverService.save(formattedEncounter, encounter.description);
   }
 }
