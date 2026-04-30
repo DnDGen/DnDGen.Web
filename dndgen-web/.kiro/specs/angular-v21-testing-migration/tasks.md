@@ -372,13 +372,13 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 5.8 Migrate charactergen.component.integration.leadership-tab.spec.ts - Leadership tab tests
+  - [x] 5.8 Migrate charactergen.component.integration.leadership-tab.spec.ts - Leadership tab tests
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle leadership tab tests
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 4.1, 9.3_
 
-  - [ ] 5.8a Extract character.pipe.spec.ts helpers into character.pipe.test-helper.ts
+  - [x] 5.9a Extract character.pipe.spec.ts helpers into character.pipe.test-helper.ts
     - Create `character.pipe.test-helper.ts` (not a spec file) with all shared factory and helper functions:
       - `createCharacter()`, `createAbility()`, `createSkill()`, `createFeat()`
       - `createItem()`, `createWeapon()`, `createArmor()`, `createTreasure()`
@@ -387,31 +387,95 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run `ng test --no-watch --include='src/app/character/pipes/character.pipe.spec.ts'` to verify nothing broke
     - _Requirements: 4.1_
 
-  - [ ] 5.9 Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
+  - [ ] 5.9b Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
     - Update test syntax for Vitest
     - Replace any Jasmine-specific patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.10 Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
+  - [ ] 5.9c Migrate frequency.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/frequency.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9d Migrate inchesToFeet.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/inchesToFeet.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9e Migrate leader.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/leader.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9f Migrate leadership.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/leadership.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9g Migrate measurement.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/measurement.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9h Migrate spellQuantity.pipe.spec.ts
+    - Update test syntax for Vitest
+    - Replace any Jasmine-specific patterns
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/pipes/spellQuantity.pipe.spec.ts'` to verify
+    - _Requirements: 4.1_
+
+  - [ ] 5.9i Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.11 Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
+  - [ ] 5.9j Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.12 Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
+  - [ ] 5.9k Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
     - Complete test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
+
+  - [ ] 5.10 Migrate feat.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/components/feat.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 5.11 Migrate leadership.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/components/leadership.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 5.12 Migrate spellGroup.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/components/spellGroup.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
   - [ ] 5.13 Migrate character.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/character/components/character.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
   - [ ]* 5.14 Write property test for CharacterGen test coverage
@@ -428,38 +492,43 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
-  - [ ] 6.1 Migrate encounter service tests
-    - Migrate encounter.service.spec.ts
+  - [ ] 6.1 Migrate encounter.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
+    - Update HTTP mock patterns for Vitest
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/encounter/services/encounter.service.spec.ts'` to verify
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 6.2 Migrate encounter model tests
-    - Migrate encounter model spec files
-    - Update test syntax for Vitest
+  - [ ] 6.2 Migrate encounter pipe tests
+    - Migrate creature.pipe.spec.ts
+    - Migrate encounterCreature.pipe.spec.ts
+    - Migrate encounter.pipe.spec.ts
+    - Update assertions to use Vitest expect API
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/encounter/pipes/**/*.spec.ts'` to verify
     - _Requirements: 4.1_
 
-  - [ ] 6.3 Migrate encountergen.component.spec.ts - Unit tests
+  - [ ] 6.3 Migrate encounter.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/encounter/components/encounter.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 6.4 Migrate encountergen.component.spec.ts - Unit tests
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle all unit test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 6.4 Migrate encountergen.component.spec.ts - Integration tests
+  - [ ] 6.5 Migrate encountergen.component.spec.ts - Integration tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle all integration test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
-
-  - [ ] 6.5 Migrate encounter.component.spec.ts
-    - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
-    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
-    - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
   - [ ]* 6.6 Write property test for EncounterGen TestBed compatibility
     - **Property 11: TestBed component creation works**
@@ -474,46 +543,53 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
-  - [ ] 7.1 Migrate dungeon service tests
-    - Migrate dungeon.service.spec.ts
+  - [ ] 7.1 Migrate dungeon.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
+    - Update HTTP mock patterns for Vitest
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/dungeon/services/dungeon.service.spec.ts'` to verify
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 7.2 Migrate dungeon model tests
-    - Migrate dungeon model spec files
-    - Update test syntax for Vitest
+  - [ ] 7.2 Migrate dungeon.pipe.spec.ts
+    - Update assertions to use Vitest expect API
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/dungeon/pipes/dungeon.pipe.spec.ts'` to verify
     - _Requirements: 4.1_
 
-  - [ ] 7.3 Migrate dungeongen.component.spec.ts - Unit tests
+  - [ ] 7.3 Migrate area.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/dungeon/components/area.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 7.4 Migrate dungeonTreasure.component.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - Run `ng test --no-watch --include='src/app/dungeon/components/dungeonTreasure.component.spec.ts'` to verify
+    - _Requirements: 2.1, 4.1, 4.4, 9.3_
+
+  - [ ] 7.5 Migrate dungeongen.component.spec.ts - Unit tests
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle all unit test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 7.4 Migrate dungeongen.component.spec.ts - Integration tests
+  - [ ] 7.6 Migrate dungeongen.component.spec.ts - Integration tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle all integration test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_
 
-  - [ ] 7.5 Migrate dungeon component tests
-    - Migrate dungeonTreasure.component.spec.ts
-    - Migrate area.component.spec.ts
-    - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
-    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
-    - _Requirements: 2.1, 4.1, 4.4, 9.3_
-
-  - [ ]* 7.6 Write property test for DungeonGen component tests
+  - [ ]* 7.7 Write property test for DungeonGen component tests
     - **Property 12: Component tests pass**
     - **Validates: Requirements 9.5**
 
-  - [ ] 7.7 MANUAL - Checkpoint - Verify DungeonGen tests pass
+  - [ ] 7.8 MANUAL - Checkpoint - Verify DungeonGen tests pass
     - Run `ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'` to verify all DungeonGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_

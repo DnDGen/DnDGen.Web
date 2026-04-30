@@ -1248,7 +1248,7 @@ describe('TreasureGen Component', () => {
           expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[3]);
 
           //run validation
-          await helper.waitForService();
+          await helper.waitForChangeDetection();
 
           helper.clickButton('#treasureButton');
     
@@ -1263,7 +1263,7 @@ describe('TreasureGen Component', () => {
             '#downloadTreasureButton');
 
           //run generate treasure
-          await helper.waitForService();
+          await helper.waitForChangeDetection();
     
           helper.expectGenerated(
             fixture.componentInstance.generating(), 
@@ -1285,7 +1285,7 @@ describe('TreasureGen Component', () => {
           const treasureComp = element.componentInstance as TreasureComponent;
           expect(treasureComp.treasure).toBeTruthy();
           expect(treasureComp.treasure).not.toBeNull();
-          expect(treasureComp.treasure.isAny).toBeTrue();
+          expect(treasureComp.treasure.isAny).toBe(true);
           expect(treasureComp.treasure.coin).toBeTruthy();
           expect(treasureComp.treasure.coin.currency).toBe('');
           expect(treasureComp.treasure.coin.quantity).toBe(0);
