@@ -1,4 +1,5 @@
-﻿import { Character } from "../models/character.model";
+﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { Character } from "../models/character.model";
 import { Leadership } from "../models/leadership.model";
 import { LeaderPipe } from "./leader.pipe";
 import { CharacterPipe } from "./character.pipe";
@@ -8,8 +9,8 @@ import { TestHelper } from "../../test-helper";
 describe('Leader Pipe', () => {
     describe('unit', () => {
         let pipe: LeaderPipe;
-        let characterPipeSpy: jasmine.SpyObj<CharacterPipe>;
-        let leadershipPipeSpy: jasmine.SpyObj<LeadershipPipe>;
+        let characterPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let leadershipPipeSpy: { transform: ReturnType<typeof vi.fn> };
 
         let leader: Character;
         let leadership: Leadership | null;
@@ -18,8 +19,8 @@ describe('Leader Pipe', () => {
         let characterCount: number;
     
         beforeEach(() => {
-            characterPipeSpy = jasmine.createSpyObj('CharacterPipe', ['transform']);
-            leadershipPipeSpy = jasmine.createSpyObj('LeadershipPipe', ['transform']);
+            characterPipeSpy = { transform: vi.fn() };
+            leadershipPipeSpy = { transform: vi.fn() };
 
             characterCount = 0;
             leader = createCharacter();
@@ -27,9 +28,9 @@ describe('Leader Pipe', () => {
             cohort = null;
             followers = [];
 
-            pipe = new LeaderPipe(leadershipPipeSpy, characterPipeSpy);
+            pipe = new LeaderPipe(leadershipPipeSpy as unknown as LeadershipPipe, characterPipeSpy as unknown as CharacterPipe);
 
-            characterPipeSpy.transform.and.callFake((character, prefix) => {
+            characterPipeSpy.transform.mockImplementation((character: Character, prefix: string) => {
                 if (!prefix)
                     prefix = '';
 
@@ -38,7 +39,7 @@ describe('Leader Pipe', () => {
 
                 return formattedCharacter;
             });
-            leadershipPipeSpy.transform.and.callFake((leadership, cohort, followers, prefix) => {
+            leadershipPipeSpy.transform.mockImplementation((leadership: Leadership, cohort: Character | null, followers: Character[], prefix: string) => {
                 if (!prefix)
                     prefix = '';
 
