@@ -14,7 +14,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 - Use `Number(text?.replace(/,/g, ''))` not `new Number(text)` for DOM number assertions
 - After `setInput`/`setSelectByIndex`/`clickButton`: these helper methods call `triggerChangeDetection()` internally - just follow with `await helper.waitForChangeDetection()` if you need to wait for async work
 - For debounced validation (e.g., expression input): use `await helper.waitForDebounce()` instead of `waitForChangeDetection()`
-- Only call `fixture.whenStable()` directly when a `TestHelper` is not already in use in the test file; if a `TestHelper` is present, always use `helper.waitForChangeDetection()` instead for consistency
+- **NEVER call `fixture.whenStable()` directly when a `TestHelper` is in scope** — always use `await helper.waitForChangeDetection()` instead. Only use `fixture.whenStable()` directly in files that have no `TestHelper` at all.
 - Never use `waitForService()` - it has been renamed to `waitForChangeDetection()`
 
 ## Tasks
@@ -450,14 +450,14 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.10 Migrate feat.component.spec.ts
+  - [x] 5.10 Migrate feat.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/character/components/feat.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 5.11 Migrate leadership.component.spec.ts
+  - [x] 5.11 Migrate leadership.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`

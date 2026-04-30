@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsComponent } from '../../shared/components/details.component';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { LeadershipComponent } from './leadership.component';
 import { Leadership } from '../models/leadership.model';
 import { Character } from '../models/character.model';
@@ -66,30 +66,30 @@ describe('Leadership Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should render leadership`, () => {
+    it(`should render leadership`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectTextContent('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
     });
   
-    it(`should render leadership with low score`, () => {
+    it(`should render leadership with low score`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(0, []);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectExists('dndgen-details.leadership-heading', false);
     });
   
-    it(`should render leadership with modifiers`, () => {
+    it(`should render leadership with modifiers`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, ['my modifier', 'my other modifier']);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', true);
@@ -97,42 +97,42 @@ describe('Leadership Component', () => {
       helper.expectTextContents('li.leadership-modifiers dndgen-details li', ['my modifier', 'my other modifier']);
     });
   
-    it(`should render leadership without modifiers`, () => {
+    it(`should render leadership without modifiers`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-modifiers', false);
     });
   
-    it(`should render cohort`, () => {
+    it(`should render cohort`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
 
       const cohort = new Character('my cohort summary');
       component.cohort = cohort;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectTextContent('dndgen-details.leadership-heading li.leadership-cohort span', 'Cohort:');
       helper.expectCharacter('dndgen-details.leadership-heading li.leadership-cohort dndgen-character', true, cohort);
     });
   
-    it(`should render cohort - null`, () => {
+    it(`should render cohort - null`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
       component.cohort = null;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-cohort', false);
     });
   
-    it(`should render followers`, () => {
+    it(`should render followers`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
 
@@ -142,7 +142,7 @@ describe('Leadership Component', () => {
       ];
       component.followers = followers;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', true);
@@ -150,19 +150,19 @@ describe('Leadership Component', () => {
       helper.expectCharacters('dndgen-details.leadership-heading li.leadership-followers dndgen-details dndgen-character', followers);
     });
   
-    it(`should render followers - none`, () => {
+    it(`should render followers - none`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, []);
 
       component.followers = [];
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectExists('dndgen-details.leadership-heading li.leadership-followers', false);
     });
   
-    it(`should render full leadership`, () => {
+    it(`should render full leadership`, async () => {
       const component = fixture.componentInstance;
       component.leadership = new Leadership(9266, ['my modifier', 'my other modifier']);
 
@@ -175,7 +175,7 @@ describe('Leadership Component', () => {
       ];
       component.followers = followers;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.leadership-heading', 'Leadership', true);
       helper.expectTextContent('dndgen-details.leadership-heading li.leadership-score', 'Score: 9,266');
