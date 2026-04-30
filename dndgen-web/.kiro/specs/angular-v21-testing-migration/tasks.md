@@ -435,17 +435,17 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run `ng test --no-watch --include='src/app/character/pipes/spellQuantity.pipe.spec.ts'` to verify
     - _Requirements: 4.1_
 
-  - [ ] 5.9i Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
+  - [x] 5.9i Migrate character.pipe.spec.ts - Tests 8-14 (lines 901-1700)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.9j Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
+  - [x] 5.9j Migrate character.pipe.spec.ts - Tests 15-21 (lines 1701-2400)
     - Continue test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
 
-  - [ ] 5.9k Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
+  - [x] 5.9k Migrate character.pipe.spec.ts - Tests 22-27 (lines 2401-2780)
     - Complete test syntax updates
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 4.1_
