@@ -1,4 +1,5 @@
-﻿import { Frequency } from "../models/frequency.model";
+﻿import { describe, it, expect, beforeEach } from 'vitest';
+import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 
 describe('Frequency Pipe', () => {
