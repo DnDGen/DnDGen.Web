@@ -307,8 +307,22 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   - Further nested `describe('the leadership tab')` inside integration → `charactergen.component.integration.leadership-tab.spec.ts`
   - Shared helpers/setup used across files → `charactergen.component.test-helper.ts` (not a spec file, no `describe` at root)
 
-  - [x] 5.1 Migrate character service tests
+  - [x] 5.1a Migrate character service tests
     - Migrate character.service.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace fakeAsync/tick with async/await
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - _Requirements: 2.1, 2.2, 4.1, 4.4_
+
+  - [x] 5.1b Migrate leadership service tests
+    - Migrate leadership.service.spec.ts
+    - Replace Jasmine spies with Vitest mocks
+    - Replace fakeAsync/tick with async/await
+    - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
+    - _Requirements: 2.1, 2.2, 4.1, 4.4_
+
+  - [x] 5.1c Migrate spellGroup service tests
+    - Migrate spellGroup.service.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`

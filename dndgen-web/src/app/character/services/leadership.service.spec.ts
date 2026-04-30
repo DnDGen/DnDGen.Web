@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { LeadershipService } from './leadership.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
@@ -11,21 +12,21 @@ import { TestHelper } from '../../test-helper';
 describe('Leadership Service', () => {
     describe('unit', () => {
         let leadershipService: LeadershipService;
-        let httpClientSpy: jasmine.SpyObj<HttpClient>;
+        let httpClientSpy: { get: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
-            httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+            httpClientSpy = { get: vi.fn() };
     
-            leadershipService = new LeadershipService(httpClientSpy);
+            leadershipService = new LeadershipService(httpClientSpy as unknown as HttpClient);
         });
 
-        it('generates leadership', done => {
+        it('generates leadership', () => new Promise<void>(resolve => {
             const expected = new Leadership(
                 42, 
                 ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
-            httpClientSpy.get.and.returnValue(of(expected));
+            httpClientSpy.get.mockReturnValue(of(expected));
             const params = new HttpParams()
                 .set('leaderCharismaBonus', 90210)
                 .set('leaderAnimal', 'leader animal');
@@ -35,17 +36,17 @@ describe('Leadership Service', () => {
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://character.dndgen.com/api/v1/leadership/level/9266/generate',
                     { params: params });
-                done();
+                resolve();
             });
-        });
+        }));
 
-        it('generates leadership without animal', done => {
+        it('generates leadership without animal', () => new Promise<void>(resolve => {
             const expected = new Leadership(
                 42, 
                 ['super awesome', 'a little lazy'],
                 600,
                 new FollowerQuantities(1337, 1336, 96, 783, 8245, 9));
-            httpClientSpy.get.and.returnValue(of(expected));
+            httpClientSpy.get.mockReturnValue(of(expected));
             const params = new HttpParams()
                 .set('leaderCharismaBonus', 90210)
                 .set('leaderAnimal', '');
@@ -55,13 +56,13 @@ describe('Leadership Service', () => {
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://character.dndgen.com/api/v1/leadership/level/9266/generate',
                     { params: params });
-                done();
+                resolve();
             });
-        });
+        }));
 
-        it('generates cohort', done => {
+        it('generates cohort', () => new Promise<void>(resolve => {
             const expected = new Character('my cohort summary');
-            httpClientSpy.get.and.returnValue(of(expected));
+            httpClientSpy.get.mockReturnValue(of(expected));
             const params = new HttpParams()
                 .set('leaderLevel', 9266)
                 .set('leaderAlignment', 'leader alignment')
@@ -72,12 +73,12 @@ describe('Leadership Service', () => {
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://character.dndgen.com/api/v1/cohort/score/90210/generate',
                     { params: params });
-                done();
+                resolve();
             });
-        });
+        }));
 
-        it('generates no cohort', done => {
-            httpClientSpy.get.and.returnValue(of(''));
+        it('generates no cohort', () => new Promise<void>(resolve => {
+            httpClientSpy.get.mockReturnValue(of(''));
             const params = new HttpParams()
                 .set('leaderLevel', 9266)
                 .set('leaderAlignment', 'leader alignment')
@@ -88,13 +89,13 @@ describe('Leadership Service', () => {
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://character.dndgen.com/api/v1/cohort/score/90210/generate',
                     { params: params });
-                done();
+                resolve();
             });
-        });
+        }));
 
-        it('generates follower', done => {
+        it('generates follower', () => new Promise<void>(resolve => {
             const expected = new Character('my follower summary');
-            httpClientSpy.get.and.returnValue(of(expected));
+            httpClientSpy.get.mockReturnValue(of(expected));
             const params = new HttpParams()
                 .set('leaderAlignment', 'leader alignment')
                 .set('leaderClassName', 'leader class');
@@ -104,9 +105,9 @@ describe('Leadership Service', () => {
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
                     'https://character.dndgen.com/api/v1/follower/level/9266/generate',
                     { params: params });
-                done();
+                resolve();
             });
-        });
+        }));
     });
     
     describe('integration', () => {
@@ -118,7 +119,7 @@ describe('Leadership Service', () => {
             leadershipService = TestBed.inject(LeadershipService);
         });
 
-        it('generates leadership', waitForAsync(() => {
+        it('generates leadership', () => new Promise<void>(resolve => {
             leadershipService.generate(15, 5, 'Heavy warhorse').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
                 expect(leadership.score).toBeCloseTo(20, -1);
@@ -135,10 +136,12 @@ describe('Leadership Service', () => {
                 expect(leadership.followerQuantities.level5).toBeLessThanOrEqual(leadership.followerQuantities.level4);
                 expect(leadership.followerQuantities.level6).toBeGreaterThanOrEqual(0);
                 expect(leadership.followerQuantities.level6).toBeLessThanOrEqual(leadership.followerQuantities.level5);
+
+                resolve();
             });
         }));
 
-        it('generates leadership without animal', waitForAsync(() => {
+        it('generates leadership without animal', () => new Promise<void>(resolve => {
             leadershipService.generate(15, 5, '').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
                 expect(leadership.score).toBeCloseTo(20, -1);
@@ -155,10 +158,12 @@ describe('Leadership Service', () => {
                 expect(leadership.followerQuantities.level5).toBeLessThanOrEqual(leadership.followerQuantities.level4);
                 expect(leadership.followerQuantities.level6).toBeGreaterThanOrEqual(0);
                 expect(leadership.followerQuantities.level6).toBeLessThanOrEqual(leadership.followerQuantities.level5);
+
+                resolve();
             });
         }));
 
-        it('generates poor leadership', waitForAsync(() => {
+        it('generates poor leadership', () => new Promise<void>(resolve => {
             leadershipService.generate(6, -5, 'Heavy warhorse').subscribe((leadership) => {
                 expect(leadership).toBeTruthy();
                 expect(leadership.score).toBeCloseTo(1, -1);
@@ -170,36 +175,44 @@ describe('Leadership Service', () => {
                 expect(leadership.followerQuantities.level4).toEqual(0);
                 expect(leadership.followerQuantities.level5).toEqual(0);
                 expect(leadership.followerQuantities.level6).toEqual(0);
+
+                resolve();
             });
         }));
     
-        it('generates cohort', waitForAsync(() => {
+        it('generates cohort', () => new Promise<void>(resolve => {
             leadershipService
                 .generateCohort(15, 20, 'Lawful Good', 'Paladin')
                 .subscribe((cohort) => {
                     expect(cohort).toBeTruthy();
                     expect(cohort!.summary).toBeTruthy();
+
+                    resolve();
                 });
         }));
     
-        it('generates no cohort', waitForAsync(() => {
+        it('generates no cohort', () => new Promise<void>(resolve => {
             leadershipService
                 .generateCohort(6, 1, 'Neutral Good', 'Fighter')
                 .subscribe((cohort) => {
                     expect(cohort).toBeNull();
+
+                    resolve();
                 });
         }));
     
         const followerLevels = [1,2,3,4,5,6];
 
         followerLevels.forEach(test => {
-            it(`generates follower - level ${test}`, waitForAsync(() => {
+            it(`generates follower - level ${test}`, () => new Promise<void>(resolve => {
                 leadershipService
                     .generateFollower(test, 'Lawful Good', 'Paladin')
                     .subscribe((follower) => {
                         expect(follower).toBeTruthy();
                         expect(follower.summary).toBeTruthy();
                         expect(follower.class.level).toBe(test);
+
+                        resolve();
                     });
             }));
         });
