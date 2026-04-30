@@ -536,7 +536,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Unit.Functions
                 Assert.That(encounter.Description, Is.EqualTo(expectedEncounter.Description));
                 Assert.That(encounter.Characters.Count(), Is.EqualTo(1));
                 Assert.That(encounter.Characters.Single().Equipment.PrimaryHand, Is.Not.Null);
-                Assert.That(encounter.Characters.Single().Equipment.PrimaryHand.DamageDescription, Is.Not.Empty);
+                Assert.That(encounter.Characters.Single().Equipment.PrimaryHand.DamageSummary, Is.Not.Empty);
             }
         }
     }
