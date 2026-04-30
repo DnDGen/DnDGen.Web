@@ -452,28 +452,28 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
   - [x] 5.10 Migrate feat.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/character/components/feat.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
   - [x] 5.11 Migrate leadership.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/character/components/leadership.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 5.12 Migrate spellGroup.component.spec.ts
+  - [x] 5.12 Migrate spellGroup.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/character/components/spellGroup.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
   - [ ] 5.13 Migrate character.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/character/components/character.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_

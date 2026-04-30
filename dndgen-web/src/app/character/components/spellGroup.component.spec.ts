@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsComponent } from '../../shared/components/details.component';
 import { By } from '@angular/platform-browser';
@@ -24,11 +25,13 @@ describe('SpellGroup Component', () => {
 
   describe('integration', () => {
     let fixture: ComponentFixture<SpellGroupComponent>;
+    let helper: TestHelper<SpellGroupComponent>;
   
     beforeEach(async () => {
       await TestHelper.configureTestBed([SpellGroupComponent]);
   
       fixture = TestBed.createComponent(SpellGroupComponent);
+      helper = new TestHelper(fixture);
     });
   
     it('should create the component', () => {
@@ -36,7 +39,7 @@ describe('SpellGroup Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should render the spell group`, () => {
+    it(`should render the spell group`, async () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
         new Spell({'my source': 9}, 'my spell'),
@@ -44,13 +47,13 @@ describe('SpellGroup Component', () => {
       ]);
       component.group = group;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
-      expectDetails('dndgen-details.spell-group-heading', 'my group name', true);
-      expectListItems('dndgen-details.spell-group-heading li', ['my spell', 'my other spell'])
+      helper.expectDetails('dndgen-details.spell-group-heading', 'my group name', true);
+      helper.expectTextContents('dndgen-details.spell-group-heading li', ['my spell', 'my other spell'])
     });
   
-    it(`should render the spell group - with duplicates`, () => {
+    it(`should render the spell group - with duplicates`, async () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', [
         new Spell({'my source': 9}, 'my spell'),
@@ -59,42 +62,20 @@ describe('SpellGroup Component', () => {
       ]);
       component.group = group;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
-      expectDetails('dndgen-details.spell-group-heading', 'my group name', true);
-      expectListItems('dndgen-details.spell-group-heading li', ['my spell', 'my other spell', 'my other spell'])
+      helper.expectDetails('dndgen-details.spell-group-heading', 'my group name', true);
+      helper.expectTextContents('dndgen-details.spell-group-heading li', ['my spell', 'my other spell', 'my other spell'])
     });
   
-    it(`should render the spell group - empty`, () => {
+    it(`should render the spell group - empty`, async () => {
       const component = fixture.componentInstance;
       const group = new SpellGroup('my group name', []);
       component.group = group;
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
-      expectDetails('dndgen-details.spell-group-heading', 'my group name', false);
+      helper.expectDetails('dndgen-details.spell-group-heading', 'my group name', false);
     });
-
-    function expectDetails(selector: string, heading: string, hasDetails: boolean) {
-      const element = fixture.debugElement.query(By.css(selector));
-      expect(element).toBeTruthy();
-      expect(element.componentInstance).toBeTruthy();
-      expect(element.componentInstance).toBeInstanceOf(DetailsComponent);
-
-      const details = element.componentInstance as DetailsComponent;
-      expect(details.heading).toEqual(heading);
-      expect(details.hasDetails).toBe(hasDetails);
-    }
-
-    function expectListItems(selector: string, text: string[]) {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const listItems = compiled.querySelectorAll(selector);
-      expect(listItems).toBeTruthy();
-      expect(listItems?.length).toEqual(text.length);
-
-      for(var i = 0; i < listItems.length; i++) {
-        expect(listItems?.item(i).textContent).toEqual(text[i]);
-      }
-    }
   });
 });
