@@ -1226,12 +1226,12 @@ describe('TreasureGen Component', () => {
       TestHelper.runFlakyTest(() => { 
         it(`should generate non-default treasure`, async () => {
           helper.setInput('#treasureLevel', '42');
-          helper.setSelectByIndex('#treasureTypes', 2);
+          helper.setSelectByIndex('#treasureTypes', 3);
     
           fixture.detectChanges();
 
           expect(fixture.componentInstance.level).toEqual(42);
-          expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[2]);
+          expect(fixture.componentInstance.treasureType).toEqual(fixture.componentInstance.treasureModel()!.treasureTypes[3]);
 
           //run validation
           await helper.waitForService();
@@ -1271,16 +1271,14 @@ describe('TreasureGen Component', () => {
           const treasureComp = element.componentInstance as TreasureComponent;
           expect(treasureComp.treasure).toBeTruthy();
           expect(treasureComp.treasure).not.toBeNull();
-
-          //HACK: sometimes this fails? For level 42, that shouldn't even be possible...
           expect(treasureComp.treasure.isAny).toBeTrue();
-          // expect(treasureComp.treasure.coin).toBeTruthy();
-          // expect(treasureComp.treasure.coin.currency).toBe('');
-          // expect(treasureComp.treasure.coin.quantity).toBe(0);
-          // expect(treasureComp.treasure.goods.length).toBeGreaterThan(0);
-          // expect(treasureComp.treasure.items).toEqual([]);
+          expect(treasureComp.treasure.coin).toBeTruthy();
+          expect(treasureComp.treasure.coin.currency).toBe('');
+          expect(treasureComp.treasure.coin.quantity).toBe(0);
+          expect(treasureComp.treasure.goods).toEqual([]);
+          expect(treasureComp.treasure.items.length).toBeGreaterThan(0);
         });
-      }, 250);
+      });
     });
   
     describe('the item tab', () => {
