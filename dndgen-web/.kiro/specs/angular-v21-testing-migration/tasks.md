@@ -387,7 +387,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run `ng test --no-watch --include='src/app/character/pipes/character.pipe.spec.ts'` to verify nothing broke
     - _Requirements: 4.1_
 
-  - [ ] 5.9b Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
+  - [x] 5.9b Migrate character.pipe.spec.ts - Tests 1-7 (lines 27-900)
     - Update test syntax for Vitest
     - Replace any Jasmine-specific patterns
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`

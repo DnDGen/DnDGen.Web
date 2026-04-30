@@ -1,4 +1,5 @@
-﻿import { ItemPipe } from "../../treasure/pipes/item.pipe";
+﻿import { describe, it, beforeEach, vi } from 'vitest';
+import { ItemPipe } from "../../treasure/pipes/item.pipe";
 import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Character } from "../models/character.model";
 import { Item } from "../../treasure/models/item.model";
@@ -15,12 +16,10 @@ import { Measurement } from "../models/measurement.model";
 import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 import { SpellQuantityPipe } from "./spellQuantity.pipe";
+import { Treasure } from "../../treasure/models/treasure.model";
 import { TestHelper } from "../../test-helper";
 import {
     createCharacter,
-    createAbility,
-    createSkill,
-    createFeat,
     createItem,
     createWeapon,
     createArmor,
@@ -31,40 +30,40 @@ import {
 describe('Character Pipe', () => {
     describe('unit', () => {
         let pipe: CharacterPipe;
-        let itemPipeSpy: jasmine.SpyObj<ItemPipe>;
-        let treasurePipeSpy: jasmine.SpyObj<TreasurePipe>;
-        let bonusPipeSpy: jasmine.SpyObj<BonusPipe>;
-        let bonusesPipeSpy: jasmine.SpyObj<BonusesPipe>;
-        let measurementPipeSpy: jasmine.SpyObj<MeasurementPipe>;
-        let frequencyPipeSpy: jasmine.SpyObj<FrequencyPipe>;
-        let spellQuantityPipeSpy: jasmine.SpyObj<SpellQuantityPipe>;
-        let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
+        let itemPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let treasurePipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let bonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let bonusesPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let measurementPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let frequencyPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let spellQuantityPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let spellGroupServiceSpy: { sortIntoGroups: ReturnType<typeof vi.fn>, getSpellGroupName: ReturnType<typeof vi.fn> };
 
         let character: Character;
     
         beforeEach(() => {
-            itemPipeSpy = jasmine.createSpyObj('ItemPipe', ['transform']);
-            treasurePipeSpy = jasmine.createSpyObj('TreasurePipe', ['transform']);
-            bonusPipeSpy = jasmine.createSpyObj('BonusPipe', ['transform']);
-            bonusesPipeSpy = jasmine.createSpyObj('BonusesPipe', ['transform']);
-            measurementPipeSpy = jasmine.createSpyObj('MeasurementPipe', ['transform']);
-            frequencyPipeSpy = jasmine.createSpyObj('FrequencyPipe', ['transform']);
-            spellQuantityPipeSpy = jasmine.createSpyObj('SpellQuantityPipe', ['transform']);
-            spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups', 'getSpellGroupName']);
+            itemPipeSpy = { transform: vi.fn() };
+            treasurePipeSpy = { transform: vi.fn() };
+            bonusPipeSpy = { transform: vi.fn() };
+            bonusesPipeSpy = { transform: vi.fn() };
+            measurementPipeSpy = { transform: vi.fn() };
+            frequencyPipeSpy = { transform: vi.fn() };
+            spellQuantityPipeSpy = { transform: vi.fn() };
+            spellGroupServiceSpy = { sortIntoGroups: vi.fn(), getSpellGroupName: vi.fn() };
             character = createCharacter();
 
             pipe = new CharacterPipe(
-                itemPipeSpy, 
-                treasurePipeSpy, 
-                bonusPipeSpy, 
-                bonusesPipeSpy, 
-                measurementPipeSpy,
-                frequencyPipeSpy,
-                spellQuantityPipeSpy, 
-                spellGroupServiceSpy);
+                itemPipeSpy as unknown as ItemPipe, 
+                treasurePipeSpy as unknown as TreasurePipe, 
+                bonusPipeSpy as unknown as BonusPipe, 
+                bonusesPipeSpy as unknown as BonusesPipe, 
+                measurementPipeSpy as unknown as MeasurementPipe,
+                frequencyPipeSpy as unknown as FrequencyPipe,
+                spellQuantityPipeSpy as unknown as SpellQuantityPipe, 
+                spellGroupServiceSpy as unknown as SpellGroupService);
 
-            itemPipeSpy.transform.and.callFake(formatItem);
-            treasurePipeSpy.transform.and.callFake((treasure, prefix) => {
+            itemPipeSpy.transform.mockImplementation(formatItem);
+            treasurePipeSpy.transform.mockImplementation((treasure: Treasure, prefix: string) => {
                 if (!prefix)
                     prefix = '';
 
@@ -75,25 +74,25 @@ describe('Character Pipe', () => {
 
                 return formattedTreasure;
             });
-            bonusPipeSpy.transform.and.callFake((input: number) => {
+            bonusPipeSpy.transform.mockImplementation((input: number) => {
                 return `${input} formatted`;
             });
-            bonusesPipeSpy.transform.and.callFake((input: number[]) => {
+            bonusesPipeSpy.transform.mockImplementation((input: number[]) => {
                 return `${input[0]} formatted x${input.length}`;
             });
-            measurementPipeSpy.transform.and.callFake((input: Measurement) => {
+            measurementPipeSpy.transform.mockImplementation((input: Measurement) => {
                 return `${input.value} ${input.unit} formatted`;
             });
-            frequencyPipeSpy.transform.and.callFake((input: Frequency) => {
+            frequencyPipeSpy.transform.mockImplementation((input: Frequency) => {
                 return `${input.quantity} per ${input.timePeriod} formatted`;
             });
-            spellQuantityPipeSpy.transform.and.callFake((input: SpellQuantity) => {
-                return `${spellGroupServiceSpy.getSpellGroupName(input.level, input.source)}: ${input.quantity} formatted`;
+            spellQuantityPipeSpy.transform.mockImplementation((input: SpellQuantity) => {
+                return `${(spellGroupServiceSpy.getSpellGroupName as Function)(input.level, input.source)}: ${input.quantity} formatted`;
             });
-            spellGroupServiceSpy.getSpellGroupName.and.callFake((level, source) => {
+            spellGroupServiceSpy.getSpellGroupName.mockImplementation((level: number, source: string) => {
                 return `${source} lvl ${level}`;
             });
-            spellGroupServiceSpy.sortIntoGroups.and.callFake((spells) => {
+            spellGroupServiceSpy.sortIntoGroups.mockImplementation((spells: Spell[]) => {
                 if (!spells || spells.length == 0)
                     return [];
 
