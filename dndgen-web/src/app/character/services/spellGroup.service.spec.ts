@@ -1,4 +1,5 @@
-﻿import { Spell } from "../models/spell.model";
+﻿import { describe, it, expect, beforeEach } from 'vitest';
+import { Spell } from "../models/spell.model";
 import { SpellGroupService } from "./spellGroup.service";
 
 describe('SpellGroup Service', () => {

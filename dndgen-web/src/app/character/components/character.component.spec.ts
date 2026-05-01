@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterComponent } from './character.component';
 import { Item } from '../../treasure/models/item.model';
@@ -25,13 +26,13 @@ import { ItemComponent } from '../../treasure/components/item.component';
 describe('Character Component', () => {
   describe('unit', () => {
     let component: CharacterComponent;
-    let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
+    let spellGroupServiceSpy: { sortIntoGroups: ReturnType<typeof vi.fn> };
 
     beforeEach(() => {
-      spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups']);
-      component = new CharacterComponent(spellGroupServiceSpy);
+      spellGroupServiceSpy = { sortIntoGroups: vi.fn() };
+      component = new CharacterComponent(spellGroupServiceSpy as unknown as SpellGroupService);
       
-      spellGroupServiceSpy.sortIntoGroups.and.callFake((spells) => {
+      spellGroupServiceSpy.sortIntoGroups.mockImplementation((spells) => {
         if (!spells || spells.length == 0)
             return [];
 
@@ -45,7 +46,7 @@ describe('Character Component', () => {
             new SpellGroup('first spell group', spells.slice(0, 1)),
             new SpellGroup('other spell group', spells.slice(1)),
         ];
-    });
+      });
     });
   
     it(`should set the character `, () => {

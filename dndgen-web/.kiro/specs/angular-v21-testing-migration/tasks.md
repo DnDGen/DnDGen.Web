@@ -485,7 +485,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run `ng test --no-watch --include='src/app/character/components/spellGroup.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 5.13 Migrate character.component.spec.ts
+  - [x] 5.13 Migrate character.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
     - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
@@ -496,7 +496,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 8: Test coverage preservation**
     - **Validates: Requirements 7.2**
 
-  - [ ] 5.15 MANUAL - Checkpoint - Verify CharacterGen tests pass
+  - [x] 5.15 MANUAL - Checkpoint - Verify CharacterGen tests pass
     - Run `ng test --no-watch --include='src/app/character/**/*.spec.ts'` to verify all CharacterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_

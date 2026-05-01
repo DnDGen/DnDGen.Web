@@ -24,6 +24,10 @@ describe('CharacterGen Component', () => {
       await helper.waitForChangeDetection();
     });
 
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it('should create the component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
@@ -309,22 +313,27 @@ describe('CharacterGen Component', () => {
     
     it(`should download character with leadership`, async () => {
       //Even for an integration test, we don't want to create an actual file
+      const component = fixture.componentInstance;
       const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
-
-      fixture.componentInstance.character.set(new Character('my character summary'));
-      fixture.componentInstance.leadership.set(new Leadership(90210, ['has a castle', 'smelly']));
-      fixture.componentInstance.cohort.set(new Character('my cohort summary'));
-      fixture.componentInstance.followers.set([
+      const character = new Character('my character summary');
+      const leadership = new Leadership(90210, ['has a castle', 'smelly']);
+      const cohort = new Character('my cohort summary');
+      const followers = [
         new Character('my follower summary 1'),
         new Character('my follower summary 2'),
-      ]);
+      ];
+
+      component.character.set(character);
+      component.leadership.set(leadership);
+      component.cohort.set(cohort);
+      component.followers.set(followers);
 
       await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'my character summary.txt');
-        
+
       const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
 

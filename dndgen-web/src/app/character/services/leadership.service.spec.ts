@@ -3,7 +3,7 @@ import { LeadershipService } from './leadership.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/followerQuantities.model';
