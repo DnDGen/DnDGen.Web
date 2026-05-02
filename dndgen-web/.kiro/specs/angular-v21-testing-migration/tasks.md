@@ -525,12 +525,12 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
   - [x] 6.3 Migrate encounter.component.spec.ts
     - Replace Jasmine spies with Vitest mocks
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - Run `ng test --no-watch --include='src/app/encounter/components/encounter.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 6.4 Migrate encountergen.component.spec.ts - Unit tests
+  - [x] 6.4 Migrate encountergen.component.spec.ts - Unit tests
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle all unit test describe blocks
@@ -539,7 +539,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
 
   - [ ] 6.5 Migrate encountergen.component.spec.ts - Integration tests
     - Update TestBed configuration for zoneless
-    - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
+    - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Handle all integration test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 9.3, 9.5_

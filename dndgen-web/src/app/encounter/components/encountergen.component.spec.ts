@@ -1,10 +1,11 @@
-﻿import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EncounterGenComponent } from './encountergen.component';
 import { SweetAlertService } from '../../shared/services/sweetAlert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
 import { FileSaverService } from '../../shared/services/fileSaver.service';
-import * as FileSaver from 'file-saver';
+import FileSaver from 'file-saver';
 import { EncounterService } from '../services/encounter.service';
 import { EncounterPipe } from '../pipes/encounter.pipe';
 import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
@@ -16,22 +17,37 @@ import { Encounter } from '../models/encounter.model';
 describe('EncounterGen Component', () => {
   describe('unit', () => {
     let component: EncounterGenComponent;
-    let encounterServiceSpy: jasmine.SpyObj<EncounterService>;
-    let encounterPipeSpy: jasmine.SpyObj<EncounterPipe>;
-    let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
-    let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
-    let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
+    let encounterServiceSpy: {
+        getViewModel: ReturnType<typeof vi.fn>,
+        generate: ReturnType<typeof vi.fn>,
+        validate: ReturnType<typeof vi.fn>
+      };
+    let encounterPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let sweetAlertServiceSpy: { showError: ReturnType<typeof vi.fn> };
+    let loggerServiceSpy: { logError: ReturnType<typeof vi.fn> };
+    let fileSaverServiceSpy: { save: ReturnType<typeof vi.fn> };
 
     const delay = 10;
   
     beforeEach(() => {
-      encounterServiceSpy = jasmine.createSpyObj('EncounterService', ['getViewModel', 'generate', 'validate']);
-      encounterPipeSpy = jasmine.createSpyObj('EncounterPipe', ['transform']);
-      sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
-      loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
-      fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
+      vi.useFakeTimers();
 
-      component = new EncounterGenComponent(encounterServiceSpy, encounterPipeSpy, fileSaverServiceSpy, sweetAlertServiceSpy, loggerServiceSpy);
+      encounterServiceSpy = { getViewModel: vi.fn(), generate: vi.fn(), validate: vi.fn() };
+      encounterPipeSpy = { transform: vi.fn() };
+      sweetAlertServiceSpy = { showError: vi.fn() };
+      loggerServiceSpy = { logError: vi.fn() };
+      fileSaverServiceSpy = { save: vi.fn() };
+
+      component = new EncounterGenComponent(
+        encounterServiceSpy as unknown as EncounterService, 
+        encounterPipeSpy as unknown as EncounterPipe, 
+        fileSaverServiceSpy as unknown as FileSaverService, 
+        sweetAlertServiceSpy as unknown as SweetAlertService, 
+        loggerServiceSpy as unknown as LoggerService);
+    });
+  
+    afterEach(() => {
+      vi.useRealTimers();
     });
   
     it(`should initialize the public properties`, () => {
@@ -81,10 +97,10 @@ describe('EncounterGen Component', () => {
       );
     }
 
-    it('should be validating while fetching the encounter model', fakeAsync(() => {
+    it('should be validating while fetching the encounter model', async () => {
       const model = getViewModel();
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+      encounterServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
 
@@ -97,7 +113,7 @@ describe('EncounterGen Component', () => {
       expect(component.valid()).toBe(false);
       expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.encounterModel()).toBeFalsy();
 
@@ -107,7 +123,7 @@ describe('EncounterGen Component', () => {
       expect(component.valid()).toBe(false);
       expect(component.validating()).toBe(true);
       
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
       
       expect(component.encounterModel()).toEqual(model);
       
@@ -117,7 +133,7 @@ describe('EncounterGen Component', () => {
       expect(component.valid()).toBe(false);
       expect(component.validating()).toBe(true);
 
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.encounterModel()).toEqual(model);
       
@@ -127,8 +143,8 @@ describe('EncounterGen Component', () => {
       expect(component.valid()).toBe(false);
       expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.runAllTimersAsync();
+    });
 
     function getFakeDelay<T>(response: T): Observable<T> {
       return new Observable((observer) => {
@@ -142,10 +158,10 @@ describe('EncounterGen Component', () => {
     let initValidations = [true, false];
 
     initValidations.forEach(test => {
-      it(`should set the encounter model on init - validity: ${test}`, fakeAsync(() => {
+      it(`should set the encounter model on init - validity: ${test}`, async () => {
         const model = getViewModel();
-        encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(test));
+        encounterServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(test));
   
         component.ngOnInit();
   
@@ -153,7 +169,7 @@ describe('EncounterGen Component', () => {
         expect(component.encounterModel()).toBeFalsy();
         expect(component.validating()).toBe(true);
   
-        tick(delay * 2);
+        await vi.advanceTimersByTimeAsync(delay * 2);
   
         expect(component.loading()).toBe(false);
         expect(component.encounterModel()).toEqual(model);
@@ -175,15 +191,15 @@ describe('EncounterGen Component', () => {
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
     });
 
-    it('should display error from getting encounter model', fakeAsync(() => {
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+    it('should display error from getting encounter model', async () => {
+      encounterServiceSpy.getViewModel.mockImplementation(() => getFakeError('I failed'));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
-      tick(delay * 2);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
       expect(component.encounterModel()).toBeFalsy();
       expect(component.encounter()).toBeFalsy();
@@ -193,15 +209,15 @@ describe('EncounterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from validating on init', fakeAsync(() => {
+    it('should display error from validating on init', async () => {
       const model = getViewModel();
-      encounterServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+      encounterServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeError('I failed'));
 
       component.ngOnInit();
-      tick(delay * 2);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
       expect(component.encounterModel()).toEqual(model);
       expect(component.encounter()).toBeNull();
@@ -211,7 +227,7 @@ describe('EncounterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     function getFakeError<T>(message: string): Observable<T> {
       return new Observable((observer) => {
@@ -253,10 +269,10 @@ describe('EncounterGen Component', () => {
     }
 
     parameterBooleans.forEach(test => {
-      it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
   
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -274,17 +290,17 @@ describe('EncounterGen Component', () => {
           test.u);
         expect(component.validating()).toBe(true);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
   
         expect(component.validating()).toBe(true);
   
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
   
-      it(`should validate valid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should validate valid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -302,19 +318,19 @@ describe('EncounterGen Component', () => {
           test.u);
         expect(component.validating()).toBe(true);
   
-        tick(delay);
+        await vi.advanceTimersByTimeAsync(delay);
   
         expect(component.valid()).toBe(true);
         expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
   
-      it(`should validate invalid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should validate invalid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(false));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(false));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -332,19 +348,19 @@ describe('EncounterGen Component', () => {
           test.u);
         expect(component.validating()).toBe(true);
   
-        tick(delay);
+        await vi.advanceTimersByTimeAsync(delay);
   
         expect(component.valid()).toBe(false);
         expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
   
-      it(`should display error from validating parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should display error from validating parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeError('I failed'));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -352,7 +368,7 @@ describe('EncounterGen Component', () => {
         component.validate('my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
 
-        tick(delay);
+        await vi.advanceTimersByTimeAsync(delay);
   
         expect(component.valid()).toBe(false);
         expect(component.encounter()).toBeNull();
@@ -369,13 +385,13 @@ describe('EncounterGen Component', () => {
           test.u);
         expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
         expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-      }));
+      });
       
-      it(`should be generating while generating encounter - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should be generating while generating encounter - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
         const encounter = new Encounter('my encounter description');
-        encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+        encounterServiceSpy.generate.mockImplementation(() => getFakeDelay(encounter));
 
         component.environment = 'my environment';
         component.temperature = 'my temperature';
@@ -401,13 +417,13 @@ describe('EncounterGen Component', () => {
         expect(component.generating()).toBe(true);
         expect(component.encounter()).toBeNull();
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
         expect(component.generating()).toBe(true);
         expect(component.encounter()).toBeNull();
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
     });
 
     function setupOnInit() {
@@ -430,11 +446,11 @@ describe('EncounterGen Component', () => {
       component.valid.set(true);
     }
 
-    it('should generate the default encounter', fakeAsync(() => {
+    it('should generate the default encounter', async () => {
       setupOnInit();
 
       let encounter = new Encounter('my encounter description');
-      encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+      encounterServiceSpy.generate.mockImplementation(() => getFakeDelay(encounter));
 
       component.generateEncounter();
 
@@ -449,20 +465,20 @@ describe('EncounterGen Component', () => {
       );
       expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.encounter()).toBe(encounter);
       expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default encounter`, fakeAsync(() => {
+    it(`should generate a non-default encounter`, async () => {
       setupOnInit();
 
       let encounter = new Encounter('my encounter description');
-      encounterServiceSpy.generate.and.callFake(() => getFakeDelay(encounter));
+      encounterServiceSpy.generate.mockImplementation(() => getFakeDelay(encounter));
 
       const model = component.encounterModel()!;
       component.environment = model.environments.find(e => e != model.defaults.environment)!;
@@ -487,22 +503,22 @@ describe('EncounterGen Component', () => {
       );
       expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.encounter()).toBe(encounter);
       expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from generating encounter', fakeAsync(() => {
+    it('should display error from generating encounter', async () => {
       setupOnInit();
 
-      encounterServiceSpy.generate.and.callFake(() => getFakeError('I failed'));
+      encounterServiceSpy.generate.mockImplementation(() => getFakeError('I failed'));
 
       component.generateEncounter();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.encounter()).toBeNull();
       expect(component.generating()).toBe(false);
@@ -510,13 +526,13 @@ describe('EncounterGen Component', () => {
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     it('should download encounter', () => {
       const encounter = new Encounter('my encounter description');
       component.encounter.set(encounter);
 
-      encounterPipeSpy.transform.and.returnValue('my formatted encounter');
+      encounterPipeSpy.transform.mockReturnValue('my formatted encounter');
 
       component.download();
 
@@ -553,20 +569,20 @@ describe('EncounterGen Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should show the loading component when loading', () => {
+    it('should show the loading component when loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', true, Size.Large);
     });
   
-    it('should hide the loading component when not loading', () => {
+    it('should hide the loading component when not loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(false);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
@@ -648,11 +664,11 @@ describe('EncounterGen Component', () => {
       helper.expectLoading('#encounterValidating', false, Size.Small);
     });
   
-    it(`should show when validating encounter`, () => {
+    it(`should show when validating encounter`, async () => {
       const component = fixture.componentInstance;
       component.validating.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
     });
@@ -660,7 +676,7 @@ describe('EncounterGen Component', () => {
     it(`should show that encounter is invalid - missing environment`, async () => {
       helper.setSelectByValue('#environment', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.environment).toEqual('');
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
@@ -669,7 +685,7 @@ describe('EncounterGen Component', () => {
     it(`should show that encounter is invalid - missing temperature`, async () => {
       helper.setSelectByValue('#temperature', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.temperature).toEqual('');
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
@@ -678,7 +694,7 @@ describe('EncounterGen Component', () => {
     it(`should show that encounter is invalid - missing time of day`, async () => {
       helper.setSelectByValue('#timeOfDay', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.timeOfDay).toEqual('');
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
@@ -687,25 +703,25 @@ describe('EncounterGen Component', () => {
     it(`should show that encounter is invalid - missing level`, async () => {
       helper.setInput('#level', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toBeNull();
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
-    it(`should show that encounter is invalid - level invalid`, () => {
+    it(`should show that encounter is invalid - level invalid`, async () => {
       helper.setInput('#level', 'wrong');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toBeNull();
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
-    it(`should show that encounter is invalid - level too low`, () => {
+    it(`should show that encounter is invalid - level too low`, async () => {
       helper.setInput('#level', '0');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toEqual(0);
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
@@ -714,42 +730,34 @@ describe('EncounterGen Component', () => {
     const checkboxValues = [ true, false ];
 
     checkboxValues.forEach(v => {
-      it(`should validate when allow aquatic changes - value ${v}`, waitForAsync(async () => {
+      it(`should validate when allow aquatic changes - value ${v}`, async () => {
         helper.setCheckbox('#allowAquatic', v);
         
-        fixture.detectChanges();
-  
         helper.expectCheckboxInput('#allowAquatic', false, v);
         helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
-      }));
+      });
       
-      it(`should validate when allow underground changes - value ${v}`, waitForAsync(async () => {
+      it(`should validate when allow underground changes - value ${v}`, async () => {
         helper.setCheckbox('#allowUnderground', v);
         
-        fixture.detectChanges();
-  
         helper.expectCheckboxInput('#allowUnderground', false, v);
         helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
-      }));
+      });
       
       for(let i = 0; i < expectedCreatureTypeCount; i++) {
         it(`should validate when creature type filter changes - value ${v}, index ${i}`, async () => {
           const selector = `#${fixture.componentInstance.creatureTypeFilters[i].id}`;
           helper.setCheckbox(selector, v);
           
-          fixture.detectChanges();
-    
           helper.expectCheckboxInput(selector, false, v);
           helper.expectValidating(fixture.componentInstance.validating(), '#generateButton', '#encounterValidating');
         });
       }
     });
 
-    it(`should show that encounter is invalid - validation fails`, waitForAsync(async () => {
+    it(`should show that encounter is invalid - validation fails`, async () => {
       helper.setCheckbox('#Ooze', true);
       
-      fixture.detectChanges();
-
       const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
       expect(oozeFilter?.checked).toBe(true);
@@ -761,7 +769,7 @@ describe('EncounterGen Component', () => {
       
       expect(fixture.componentInstance.valid()).toBe(false);
       helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
-    }));
+    });
   
     it(`should show that encounter is valid - validation succeeds`, async () => {
       helper.setCheckbox('#Ooze', true);
@@ -775,8 +783,6 @@ describe('EncounterGen Component', () => {
       await helper.waitForChangeDetection();
 
       helper.setInput('#level', '7');
-
-      fixture.detectChanges();
 
       expect(fixture.componentInstance.allowUnderground).toBe(true);
       expect(fixture.componentInstance.level).toEqual(7);
@@ -793,55 +799,55 @@ describe('EncounterGen Component', () => {
       helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateButton', '#encounterValidating');
     });
   
-    it(`should bind allowing aquatic`, () => {
+    it(`should bind allowing aquatic`, async () => {
       expect(fixture.componentInstance.allowAquatic).toBe(false);
 
       helper.clickCheckbox('#allowAquatic');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
       expect(fixture.componentInstance.allowAquatic).toBe(true);
 
       helper.clickCheckbox('#allowAquatic');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
       expect(fixture.componentInstance.allowAquatic).toBe(false);
     });
   
-    it(`should bind allowing underground`, () => {
+    it(`should bind allowing underground`, async () => {
       expect(fixture.componentInstance.allowUnderground).toBe(false);
 
       helper.clickCheckbox('#allowUnderground');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
       expect(fixture.componentInstance.allowUnderground).toBe(true);
 
       helper.clickCheckbox('#allowUnderground');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
       expect(fixture.componentInstance.allowUnderground).toBe(false);
     });
 
     for(let i = 0; i < expectedCreatureTypeCount; i++) {
-      it(`should bind creature type filters - index ${i}`, () => {
+      it(`should bind creature type filters - index ${i}`, async () => {
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(true);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
         expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
       });
     }
   
-    it(`should show when generating an encounter`, () => {
+    it(`should show when generating an encounter`, async () => {
       const component = fixture.componentInstance;
       component.generating.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerating(
         fixture.componentInstance.generating(),
@@ -855,8 +861,6 @@ describe('EncounterGen Component', () => {
     it(`should generate the default encounter`, async () => {
       helper.clickButton('#generateButton');
 
-      fixture.detectChanges();
-      
       helper.expectGenerating(
         fixture.componentInstance.generating(),
         '#generateButton', 
@@ -893,7 +897,7 @@ describe('EncounterGen Component', () => {
       helper.setCheckbox('#Giant', true);
       helper.setCheckbox('#Humanoid', true);
       
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.environment).toEqual('Mountain');
       expect(fixture.componentInstance.temperature).toEqual('Cold');
@@ -910,8 +914,6 @@ describe('EncounterGen Component', () => {
 
       helper.clickButton('#generateButton');
 
-      fixture.detectChanges();
-      
       helper.expectGenerating(
         fixture.componentInstance.generating(),
         '#generateButton', 
@@ -953,11 +955,11 @@ describe('EncounterGen Component', () => {
       helper.expectExists('#encounterSection dndgen-leadership', false);
     });
     
-    it(`should render encounter`, () => {
+    it(`should render encounter`, async () => {
       const encounter = new Encounter('my encounter description');
       fixture.componentInstance.encounter.set(encounter);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#noEncounter', false);
       helper.expectExists('#encounterSection dndgen-encounter', true);
@@ -967,17 +969,17 @@ describe('EncounterGen Component', () => {
     
     it(`should download encounter`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       fixture.componentInstance.encounter.set(new Encounter('my encounter description'));
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadButton');
 
-      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my encounter description.txt');
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'my encounter description.txt');
         
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       expect(text).toMatch(/^my encounter description[\r\n]+[\S\s]+[\r\n\s]+$/);
     });
