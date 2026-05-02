@@ -537,7 +537,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 6.5 Migrate encountergen.component.spec.ts - Integration tests
+  - [x] 6.5 Migrate encountergen.component.spec.ts - Integration tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await helper.waitForChangeDetection()`
     - Handle all integration test describe blocks
@@ -548,7 +548,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 11: TestBed component creation works**
     - **Validates: Requirements 9.3**
 
-  - [ ] 6.7 MANUAL - Checkpoint - Verify EncounterGen tests pass
+  - [x] 6.7 MANUAL - Checkpoint - Verify EncounterGen tests pass
     - Run `ng test --no-watch --include='src/app/encounter/**/*.spec.ts'` to verify all EncounterGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
