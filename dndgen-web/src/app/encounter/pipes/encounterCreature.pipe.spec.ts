@@ -6,13 +6,13 @@ import { EncounterCreaturePipe } from "./encounterCreature.pipe";
 describe('EncounterCreature Pipe', () => {
     describe('unit', () => {
         let pipe: EncounterCreaturePipe;
-        let creaturePipeSpy: jasmine.SpyObj<CreaturePipe>;
+        let creaturePipeSpy: { transform: ReturnType<typeof vi.fn> };
 
         beforeEach(() => {
-            creaturePipeSpy = jasmine.createSpyObj('CreaturePipe', ['transform']);
-            pipe = new EncounterCreaturePipe(creaturePipeSpy);
+            creaturePipeSpy = { transform: vi.fn() };
+            pipe = new EncounterCreaturePipe(creaturePipeSpy as unknown as CreaturePipe);
             
-            creaturePipeSpy.transform.and.callFake((creature) => {
+            creaturePipeSpy.transform.mockImplementation((creature) => {
                 return `formatted ${creature.name}`;
             });
         });
