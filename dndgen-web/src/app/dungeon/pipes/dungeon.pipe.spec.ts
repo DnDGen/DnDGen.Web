@@ -1,3 +1,4 @@
+import { describe, it, beforeEach } from 'vitest';
 import { EncounterPipe } from "../../encounter/pipes/encounter.pipe";
 import { TestHelper } from "../../test-helper";
 import { Good } from "../../treasure/models/good.model";
@@ -15,8 +16,8 @@ import { DungeonPipe } from "./dungeon.pipe";
 describe('Dungeon Pipe', () => {
     describe('unit', () => {
         let pipe: DungeonPipe;
-        let encounterPipeSpy: jasmine.SpyObj<EncounterPipe>;
-        let treasurePipeSpy: jasmine.SpyObj<TreasurePipe>;
+        let encounterPipeSpy: { transform: ReturnType<typeof vi.fn> };
+        let treasurePipeSpy: { transform: ReturnType<typeof vi.fn> };
         let encounterCount: number;
         let dungeonTreasureCount: number;
         let trapCount: number;
@@ -24,11 +25,13 @@ describe('Dungeon Pipe', () => {
         let areas: Area[];
 
         beforeEach(() => {
-            treasurePipeSpy = jasmine.createSpyObj('TreasurePipe', ['transform']);
-            encounterPipeSpy = jasmine.createSpyObj('EncounterPipe', ['transform']);
-            pipe = new DungeonPipe(encounterPipeSpy, treasurePipeSpy);
+            treasurePipeSpy = { transform: vi.fn() };
+            encounterPipeSpy = { transform: vi.fn() };
+            pipe = new DungeonPipe(
+                encounterPipeSpy as unknown as EncounterPipe, 
+                treasurePipeSpy as unknown as TreasurePipe);
 
-            treasurePipeSpy.transform.and.callFake((treasure, prefix) => {
+            treasurePipeSpy.transform.mockImplementation((treasure, prefix) => {
                 if (!prefix)
                     prefix = '';
 
@@ -38,7 +41,7 @@ describe('Dungeon Pipe', () => {
                 return formattedTreasure;
             });
 
-            encounterPipeSpy.transform.and.callFake((encounter, prefix) => {
+            encounterPipeSpy.transform.mockImplementation((encounter, prefix) => {
                 if (!prefix)
                     prefix = '';
 
