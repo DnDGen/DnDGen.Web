@@ -585,14 +585,14 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Run `ng test --no-watch --include='src/app/dungeon/components/dungeonTreasure.component.spec.ts'` to verify
     - _Requirements: 2.1, 4.1, 4.4, 9.3_
 
-  - [ ] 7.5 Migrate dungeongen.component.spec.ts - Unit tests
+  - [x] 7.5 Migrate dungeongen.component.spec.ts - Unit tests
     - Replace Jasmine spies with Vitest mocks
     - Replace fakeAsync/tick with async/await
     - Handle all unit test describe blocks
     - Add explicit Vitest imports: `import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';`
     - _Requirements: 2.1, 2.2, 4.1, 4.4_
 
-  - [ ] 7.6 Migrate dungeongen.component.spec.ts - Integration tests
+  - [x] 7.6 Migrate dungeongen.component.spec.ts - Integration tests
     - Update TestBed configuration for zoneless
     - Replace `fixture.detectChanges()` with `await fixture.whenStable()`
     - Handle all integration test describe blocks
