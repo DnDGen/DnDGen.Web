@@ -1,9 +1,7 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Character } from '../../character/models/character.model';
-import { Treasure } from '../../treasure/models/treasure.model';
 import { TestHelper } from '../../test-helper';
 import { Encounter } from '../../encounter/models/encounter.model';
-import { Coin } from '../../treasure/models/coin.model';
 import { AreaComponent } from './area.component';
 import { Area } from '../models/area.model';
 import { Pool } from '../models/pool.model';
