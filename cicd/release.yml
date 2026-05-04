@@ -69,7 +69,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-RollGen-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:
@@ -148,7 +148,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-TreasureGen-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:
@@ -227,7 +227,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CharacterGen-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:
@@ -306,7 +306,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-EncounterGen-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:
@@ -385,7 +385,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-DungeonGen-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:
@@ -464,7 +464,7 @@ jobs:
           displayName: 'Publish Website Test Results'
           condition: always()
           inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'
+            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'
             failTaskOnFailedTests: true
             failTaskOnMissingResultsFile: true
       on:

@@ -559,7 +559,7 @@ describe('EncounterGen Component', () => {
   
       fixture = TestBed.createComponent(EncounterGenComponent);
       helper = new TestHelper(fixture);
-      
+       
       //run ngOnInit
       await helper.waitForChangeDetection();
     });
@@ -935,7 +935,7 @@ describe('EncounterGen Component', () => {
 
       helper.expectExists('#noEncounter', false);
       helper.expectEncounter('#encounterSection dndgen-encounter', true);
-    });
+    }, 10000);
     
     function getCheckedFilters(): string[] {
       var checkedFilters: string[] = [];

@@ -295,7 +295,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 6.3_
 
 
-- [ ] 5. Phase 5: CharacterGen Migration
+- [x] 5. Phase 5: CharacterGen Migration
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
@@ -502,7 +502,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - _Requirements: 6.3_
 
 
-- [ ] 6. Phase 6: EncounterGen Migration
+- [x] 6. Phase 6: EncounterGen Migration
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
@@ -624,78 +624,78 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Keep other entries in files array
     - _Requirements: 3.2_
 
-  - [ ] 8.3 MANUAL - Verify tests still pass after shim removal
+  - [x] 8.3 MANUAL - Verify tests still pass after shim removal
     - Run `ng test` to verify all tests pass with explicit imports
     - If any tests fail, add missing imports to those files
     - This confirms explicit imports are working correctly
     - _Requirements: 7.4_
 
-  - [ ] 8.4 MANUAL - Update CI/CD pipeline - build.yml
+  - [x] 8.4 MANUAL - Update CI/CD pipeline - build.yml
     - Update build.yml PublishTestResults task (line ~304)
     - Change from: `testResultsFiles: '**/TESTS-*.xml'`
     - To: `testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.5 MANUAL - Update CI/CD pipeline - release.yml RollGen_Api
+  - [x] 8.5 MANUAL - Update CI/CD pipeline - release.yml RollGen_Api
     - Update RollGen_Api PublishTestResults task (line ~72)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-RollGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.6 MANUAL - Update CI/CD pipeline - release.yml TreasureGen_Api
+  - [x] 8.6 MANUAL - Update CI/CD pipeline - release.yml TreasureGen_Api
     - Update TreasureGen_Api PublishTestResults task (line ~151)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-TreasureGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.7 MANUAL - Update CI/CD pipeline - release.yml CharacterGen_Api
+  - [x] 8.7 MANUAL - Update CI/CD pipeline - release.yml CharacterGen_Api
     - Update CharacterGen_Api PublishTestResults task (line ~230)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CharacterGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.8 MANUAL - Update CI/CD pipeline - release.yml EncounterGen_Api
+  - [x] 8.8 MANUAL - Update CI/CD pipeline - release.yml EncounterGen_Api
     - Update EncounterGen_Api PublishTestResults task (line ~309)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-EncounterGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.9 MANUAL - Update CI/CD pipeline - release.yml DungeonGen_Api
+  - [x] 8.9 MANUAL - Update CI/CD pipeline - release.yml DungeonGen_Api
     - Update DungeonGen_Api PublishTestResults task (line ~388)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-DungeonGen-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.10 MANUAL - Update CI/CD pipeline - release.yml Web_Api
+  - [x] 8.10 MANUAL - Update CI/CD pipeline - release.yml Web_Api
     - Update Web_Api PublishTestResults task (line ~467)
     - Change from: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\**\TESTS-*.xml'`
     - To: `testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'`
     - _Requirements: 10.1, 10.2, 10.5_
 
-  - [ ] 8.11 MANUAL - Remove Karma configuration files
+  - [x] 8.11 MANUAL - Remove Karma configuration files
     - Delete karma.conf.js
     - Delete karma.conf.ci.js
     - _Requirements: 1.5_
 
-  - [ ] 8.12 Remove zone.js dependency
+  - [x] 8.12 Remove zone.js dependency
     - Remove zone.js from package.json devDependencies
     - Verify zone.js is not imported anywhere in test files
     - _Requirements: 2.4, 2.5_
 
-  - [ ] 8.13 Verify Vitest config files are properly documented
+  - [x] 8.13 Verify Vitest config files are properly documented
     - Ensure vitest.config.ts and vitest.config.ci.ts have clear header comments
     - Comments should explain they're only used when explicitly referenced via --config flag
     - Keep both files as they provide clean, maintainable configuration for different environments
     - _Requirements: 1.3, 7.5_
 
-  - [ ] 8.14 MANUAL - Remove Karma/Jasmine references from config files
+  - [x] 8.14 MANUAL - Remove Karma/Jasmine references from config files
     - Remove all comments referencing "karma.conf.js" or "karma.conf.ci.js" from vitest.config.ts and vitest.config.ci.ts
     - Remove comments like "from karma.conf.js" or "equivalent to oneFailurePerSpec"
     - After migration, the Vitest config files are the source of truth
     - Keep only comments that explain the current Vitest configuration
     - _Requirements: 1.5, 7.5_
 
-  - [ ] 8.15 MANUAL - Re-enable strict TypeScript mode
+  - [x] 8.15 MANUAL - Re-enable strict TypeScript mode
     - Remove `"noImplicitAny": false` from tsconfig.spec.json
     - This was temporarily disabled for Jasmine test migration
     - All tests are now migrated to Vitest with proper typing

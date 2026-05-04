@@ -8,10 +8,7 @@
       "vitest",
       "@angular/localize"
     ],
-    // TEMPORARY: Disable noImplicitAny during Jasmine->Vitest migration
-    // Unmigrated Jasmine tests use loose typing in spy callbacks
-    // This will be re-enabled in Phase 8 after all tests are migrated
-    "noImplicitAny": false
+    "noImplicitAny": true
   },
   "include": [
     "src/**/*.spec.ts",

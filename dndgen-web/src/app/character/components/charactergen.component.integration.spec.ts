@@ -19,7 +19,7 @@ describe('CharacterGen Component', () => {
   
       fixture = TestBed.createComponent(CharacterGenComponent);
       helper = new TestHelper(fixture);
-      
+         
       //run ngOnInit
       await helper.waitForChangeDetection();
     });

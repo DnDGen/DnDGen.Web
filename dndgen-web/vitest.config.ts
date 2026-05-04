@@ -18,8 +18,6 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.spec.ts'],
     watch: false,
-    
-    // Local settings (from karma.conf.js):
     testTimeout: 10000,  // 10 seconds
     hookTimeout: 10000,
     bail: 1,  // Fail fast (equivalent to oneFailurePerSpec, stopSpecOnExpectationFailure, failFast)

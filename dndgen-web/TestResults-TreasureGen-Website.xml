@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="356" failures="5" errors="0" time="23.4454566">
+    <testsuite name="src/app/treasure/components/item.component.spec.ts" timestamp="2026-05-04T21:04:24.023Z" hostname="KarlLaptop" tests="79" failures="0" errors="0" skipped="0" time="0.4668638">
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should set the item " time="0.0025743">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should set the armor " time="0.0010759">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should set the weapon V1" time="0.0013027">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should set the weapon V2" time="0.0003991">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when item" time="0.0003759">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is armor when item is armor" time="0.0002113">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when weapon" time="0.0001974">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is armor when armor" time="0.0002515">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not weapon when item" time="0.0005453">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is weapon when item is weapon" time="0.0002279">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is weapon when item is rod with weapon properties" time="0.0001457">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not weapon when item is rod without weapon properties" time="0.0001697">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is weapon when item is staff with weapon properties" time="0.000127">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not weapon when item is staff without weapon properties" time="0.0001032">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when item is rod with weapon properties" time="0.0000964">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when item is rod without weapon properties" time="0.0000835">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when item is staff with weapon properties" time="0.0001088">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not armor when item is staff without weapon properties" time="0.0000742">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is not weapon when armor" time="0.000091">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say is weapon when weapon" time="0.0000804">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has no details when no item" time="0.0001176">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has no details when item is boring" time="0.0001053">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has contents" time="0.0000964">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has traits" time="0.0001101">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has magic bonus" time="0.0001021">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has negative magic bonus" time="0.0000977">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has Charged attribute" time="0.0000991">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has a special ability" time="0.0001655">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has a curse" time="0.0002013">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when item has intelligence" time="0.0001233">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor is boring" time="0.000148">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has contents" time="0.0001257">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has traits" time="0.0001298">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has magic bonus" time="0.000148">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has negative magic bonus" time="0.0001176">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has Charged attribute" time="0.0001147">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has a special ability" time="0.0001534">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has a curse" time="0.0001215">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has intelligence" time="0.0000897">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when armor has armor bonus" time="0.0000838">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; BUG - should say it has details when armor has cursed armor bonus" time="0.0000814">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details weapon item is boring" time="0.0001894">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has contents" time="0.000137">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has traits" time="0.0000999">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has magic bonus" time="0.0000883">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has negative magic bonus" time="0.000082">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has Charged attribute" time="0.000083">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has a special ability" time="0.0000975">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has a curse" time="0.0000903">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has intelligence" time="0.0000883">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has damage description" time="0.0000919">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; unit &gt; should say it has details when weapon has damage summary" time="0.0001121">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should create the component" time="0.071398">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render a boring item" time="0.0160439">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render a boring item with quantity of 2" time="0.0127973">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with contents" time="0.0299864">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with traits" time="0.0093661">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic bonus of 1" time="0.0166806">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic bonus of 2" time="0.0071922">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic bonus of -1" time="0.0107689">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic bonus of -2" time="0.0109626">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with special abilities" time="0.0185203">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic charges" time="0.0132979">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic charges, but uncharged" time="0.0045407">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic curse" time="0.0108251">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic intelligence" time="0.0244868">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic intelligence with languages" time="0.0121618">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic intelligence with special purpose" time="0.0121686">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with magic intelligence with no personality" time="0.0177858">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render armor" time="0.0063251">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render armor without max dexterity bonus" time="0.0121308">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render weapon v1" time="0.0128329">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render weapon v2" time="0.0055873">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render double weapon v1" time="0.0095659">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render double weapon v2" time="0.0127976">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render weapon requiring ammunition" time="0.0154175">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render an item with everything" time="0.0305691">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render armor with everything" time="0.0245402">
+        </testcase>
+        <testcase classname="src/app/treasure/components/item.component.spec.ts" name="Item Component &gt; integration &gt; should render weapon with everything" time="0.023707">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/components/treasure.component.spec.ts" timestamp="2026-05-04T21:04:24.037Z" hostname="KarlLaptop" tests="7" failures="0" errors="0" skipped="0" time="0.1785453">
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; unit &gt; should set the treasure " time="0.0028294">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should create the component" time="0.0772803">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should render no treasure" time="0.0225186">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should render coins" time="0.0143466">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should render goods" time="0.0182575">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should render items" time="0.016183">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasure.component.spec.ts" name="Treasure Component &gt; integration &gt; should render all treasure" time="0.0256178">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/components/treasuregen.component.spec.ts" timestamp="2026-05-04T21:04:24.038Z" hostname="KarlLaptop" tests="204" failures="5" errors="0" skipped="1" time="21.8005291">
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should initialize the public properties" time="0.0058843">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should initialize the input values" time="0.0010797">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be validating and loading while fetching the treasure model" time="0.0044969">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should set the treasure model on init - validity: treasure true, item true" time="0.0026322">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should set the treasure model on init - validity: treasure true, item false" time="0.0021021">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should set the treasure model on init - validity: treasure false, item true" time="0.00178">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should set the treasure model on init - validity: treasure false, item false" time="0.0028402">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from getting treasure model" time="0.0023215">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from validating treasure on init" time="0.0022705">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from validating item on init" time="0.0018862">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate treasure - invalid if no treasure type" time="0.0007255">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate treasure - invalid if no level" time="0.0004977">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be validating while validating the treasure" time="0.0008561">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate valid treasure" time="0.0008531">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate invalid treasure" time="0.0010043">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from validating treasure" time="0.0013527">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be generating while generating treasure" time="0.0013271">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate the default treasure" time="0.000982">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate a non-default treasure" time="0.000698">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from generating treasure" time="0.0006176">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate an item - invalid if no item type" time="0.0004783">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate an item - invalid if no power" time="0.0003903">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be validating while validating an item" time="0.0005971">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be validating while validating an item with name" time="0.0005799">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate a valid item" time="0.0007639">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate a valid item with name" time="0.0006761">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate an invalid item" time="0.0007599">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate an invalid item with name" time="0.0007292">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from validating item" time="0.0007707">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from validating item with name" time="0.0009032">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be generating while generating an item" time="0.0023353">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should be generating while generating an item with name" time="0.0006619">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate the default item" time="0.0044173">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate the default item with name" time="0.0009544">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate a non-default item" time="0.0006436">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should generate a non-default item with name" time="0.0005992">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from generating an item" time="0.0008179">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should display error from generating an item with name" time="0.0006449">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate valid item and reset name" time="0.0004742">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should validate invalid item and reset name" time="0.00039">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download treasure - with coin" time="0.0006258">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download treasure - with goods" time="0.0003921">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download treasure - with items" time="0.0003807">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download treasure - all" time="0.0003658">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should not download missing treasure" time="0.0002651">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download empty treasure" time="0.0003141">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should download item" time="0.0003826">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; BUG - should download armor" time="0.0004042">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; BUG - should download weapon" time="0.0005326">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; should not download missing item" time="0.0003122">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; unit &gt; BUG - should show an item is invalid - not a valid matching power" time="0.0005248">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should create the component" time="0.3757137">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should show the loading component when loading" time="0.1090527">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should hide the loading component when not loading" time="0.0964603">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should set the treasure model on init" time="0.0854222">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should validate inputs on init/changes" time="0.0778881">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should render the tabs" time="0.0791702">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should render the treasure tab" time="0.1037871">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show when validating treasure" time="0.0881015">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is invalid - missing level" time="0.1100921">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is invalid - level invalid" time="0.0784236">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is invalid - level too low" time="0.0922056">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - level 1" time="0.1095231">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - level 2" time="0.108623">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - level 10" time="0.124103">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - level 20" time="0.1241525">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - level 100" time="0.1410813">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is invalid - missing treasure type" time="0.0848184">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 0) &gt; should show that treasure is valid - treasure type index 0" time="0.1017861">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 1) &gt; should show that treasure is valid - treasure type index 0" time="0.1070369">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 2) &gt; should show that treasure is valid - treasure type index 0" time="0.1160355">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 3) &gt; should show that treasure is valid - treasure type index 0" time="0.1097121">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 4) &gt; should show that treasure is valid - treasure type index 0" time="0.1299031">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 5) &gt; should show that treasure is valid - treasure type index 0" time="0.1100248">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 6) &gt; should show that treasure is valid - treasure type index 0" time="0.1263361">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 7) &gt; should show that treasure is valid - treasure type index 0" time="0.1220096">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 8) &gt; should show that treasure is valid - treasure type index 0" time="0.1102965">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 9) &gt; should show that treasure is valid - treasure type index 0" time="0.1214088">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 0) &gt; should show that treasure is valid - treasure type index 1" time="0.100755">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 1) &gt; should show that treasure is valid - treasure type index 1" time="0.1091702">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 2) &gt; should show that treasure is valid - treasure type index 1" time="0.1260512">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 3) &gt; should show that treasure is valid - treasure type index 1" time="0.122897">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 4) &gt; should show that treasure is valid - treasure type index 1" time="0.0942138">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 5) &gt; should show that treasure is valid - treasure type index 1" time="0.1105493">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 6) &gt; should show that treasure is valid - treasure type index 1" time="0.1054096">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 7) &gt; should show that treasure is valid - treasure type index 1" time="0.1106943">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 8) &gt; should show that treasure is valid - treasure type index 1" time="0.1120169">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 9) &gt; should show that treasure is valid - treasure type index 1" time="0.0993411">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 0) &gt; should show that treasure is valid - treasure type index 2" time="0.1526014">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 1) &gt; should show that treasure is valid - treasure type index 2" time="0.1133325">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 2) &gt; should show that treasure is valid - treasure type index 2" time="0.1170152">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 3) &gt; should show that treasure is valid - treasure type index 2" time="0.1107977">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 4) &gt; should show that treasure is valid - treasure type index 2" time="0.1118016">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 5) &gt; should show that treasure is valid - treasure type index 2" time="0.1090318">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 6) &gt; should show that treasure is valid - treasure type index 2" time="0.1113006">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 7) &gt; should show that treasure is valid - treasure type index 2" time="0.1178886">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 8) &gt; should show that treasure is valid - treasure type index 2" time="0.1242622">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 9) &gt; should show that treasure is valid - treasure type index 2" time="0.1052814">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 0) &gt; should show that treasure is valid - treasure type index 3" time="0.1082387">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 1) &gt; should show that treasure is valid - treasure type index 3" time="0.1075245">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 2) &gt; should show that treasure is valid - treasure type index 3" time="0.1065053">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 3) &gt; should show that treasure is valid - treasure type index 3" time="0.1074434">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 4) &gt; should show that treasure is valid - treasure type index 3" time="0.1244954">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 5) &gt; should show that treasure is valid - treasure type index 3" time="0.1086522">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 6) &gt; should show that treasure is valid - treasure type index 3" time="0.0996041">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 7) &gt; should show that treasure is valid - treasure type index 3" time="0.1044326">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 8) &gt; should show that treasure is valid - treasure type index 3" time="0.1074999">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 9) &gt; should show that treasure is valid - treasure type index 3" time="0.1113361">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is invalid - validation fails" time="0">
+            <skipped/>
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show that treasure is valid - validation succeeds" time="0.187208">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should show when generating treasure" time="0.0947477">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; should generate the default treasure" time="0.1176745">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 0) &gt; should generate non-default treasure" time="0.4249569">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 1) &gt; should generate non-default treasure" time="0.4157191">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 2) &gt; should generate non-default treasure" time="0.390947">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 3) &gt; should generate non-default treasure" time="0.6900765">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 4) &gt; should generate non-default treasure" time="0.431905">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 5) &gt; should generate non-default treasure" time="0.3388448">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 6) &gt; should generate non-default treasure" time="0.4002456">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 7) &gt; should generate non-default treasure" time="0.4301678">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 8) &gt; should generate non-default treasure" time="0.4212882">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the treasure tab &gt; FLAKY (run 9) &gt; should generate non-default treasure" time="0.3822503">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should render the item tab" time="0.1061545">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should update item names when item type changes" time="0.1033063">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should un-set an item name back to empty" time="0.1404518">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should un-set an item name back to empty when item type changes" time="0.1522096">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show when validating an item" time="0.0964867">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that an item is invalid - missing item type" time="0.0929979">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 0" time="0.1478991">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 0" time="0.0945469">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 0" time="0.161889">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 0" time="0.1433798">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 0" time="0.136621">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 1" time="0.1453379">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 1" time="0.1165785">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 1" time="0.1476713">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 1" time="0.1415667">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 1" time="0.1442665">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 2" time="0.157972">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 2" time="0.1056206">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 2" time="0.1452354">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 2" time="0.1142942">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 2" time="0.1505317">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 3" time="0.1432424">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 3" time="0.107093">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 3" time="0.1453715">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 3" time="0.1799654">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 3" time="0.1336968">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 4" time="0.1420625">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 4" time="0.1198248">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 4" time="0.1454157">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 4" time="0.1412227">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 4" time="0.1388806">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 5" time="0.141509">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 5" time="0.170162">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 5" time="0.1127074">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 5" time="0.1079018">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 5" time="0.108741">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 6" time="0.1467265">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 6" time="0.091045">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 6" time="0.1981567">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 6" time="0.1465143">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 6" time="0.1438687">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 7" time="0.1427297">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 7" time="0.1100618">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 7" time="0.1490473">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 7" time="0.1422214">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 7" time="0.1544701">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 8" time="0.1263382">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 8" time="0.139562">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 8" time="0.1070542">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 8" time="0.1165359">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 8" time="0.1097419">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 9" time="0.1463368">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 9" time="0.1102643">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 9" time="0.1287324">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 9" time="0.1435359">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 9" time="0.1379813">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - item type index 10" time="0.1649387">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with any name is valid - item type index 10" time="0.100503">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item with non-empty name is valid - item type index 10" time="0.1518684">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid name - item type index 10" time="0.1549109">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should not allow an invalid name - item type index 10" time="0.1411954">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - missing power" time="0.0705706">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid power" time="0.0938862">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show an item is invalid - not a valid matching power" time="0.1551521">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - power index 0" time="0.1107326">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - power index 1" time="0.1100618">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - power index 2" time="0.1128744">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show that item is valid - power index 3" time="0.1073926">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should show when generating an item" time="0.0954006">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should generate the default item" time="0.111848">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should generate the default item with name" time="0.1461239">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should generate a non-default item" time="0.1556353">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should generate a non-default item with name" time="0.1618698">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; the item tab &gt; should generate a non-default item with any name" time="0.1966063">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should render no treasure" time="0.0696327">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should render treasure" time="0.0815967">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should render item" time="0.09324">
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should download treasure" time="0.0975245">
+            <failure message="expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ][90m
+
+Number of calls: [1m0[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ]
+
+Number of calls: 0
+
+ ❯ src/app/treasure/components/treasuregen.component.spec.ts:1938:32
+            </failure>
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; should download item" time="0.0791132">
+            <failure message="expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ][90m
+
+Number of calls: [1m0[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ]
+
+Number of calls: 0
+
+ ❯ src/app/treasure/components/treasuregen.component.spec.ts:1961:32
+            </failure>
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; BUG - should download armor" time="0.0920288">
+            <failure message="expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ][90m
+
+Number of calls: [1m0[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ]
+
+Number of calls: 0
+
+ ❯ src/app/treasure/components/treasuregen.component.spec.ts:1987:32
+            </failure>
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; BUG - should download weapon v1" time="0.0927442">
+            <failure message="expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ][90m
+
+Number of calls: [1m0[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ]
+
+Number of calls: 0
+
+ ❯ src/app/treasure/components/treasuregen.component.spec.ts:2024:32
+            </failure>
+        </testcase>
+        <testcase classname="src/app/treasure/components/treasuregen.component.spec.ts" name="TreasureGen Component &gt; integration &gt; BUG - should download weapon v2" time="0.0946385">
+            <failure message="expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ][90m
+
+Number of calls: [1m0[22m
+[39m" type="AssertionError">
+AssertionError: expected &quot;Mock&quot; to be called with arguments: [ Any&lt;Blob&gt;, StringMatching{…} ]
+
+Number of calls: 0
+
+ ❯ src/app/treasure/components/treasuregen.component.spec.ts:2062:32
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/models/treasuregenViewModel.model.spec.ts" timestamp="2026-05-04T21:04:24.063Z" hostname="KarlLaptop" tests="2" failures="0" errors="0" skipped="0" time="0.007074">
+        <testcase classname="src/app/treasure/models/treasuregenViewModel.model.spec.ts" name="TreasureGenViewModel &gt; unit &gt; initializes the treasure view model" time="0.0039864">
+        </testcase>
+        <testcase classname="src/app/treasure/models/treasuregenViewModel.model.spec.ts" name="TreasureGenViewModel &gt; integration &gt; initializes the treasure view model" time="0.0015696">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/pipes/item.pipe.spec.ts" timestamp="2026-05-04T21:04:24.064Z" hostname="KarlLaptop" tests="22" failures="0" errors="0" skipped="0" time="0.0136521">
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item" time="0.002896">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item with quantity greater than 1" time="0.0007987">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item contents" time="0.000726">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item traits" time="0.0003566">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item magic bonus" time="0.0003299">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item magic special abilities" time="0.0004731">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item charges" time="0.0002425">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item charges of 0" time="0.000303">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item curse" time="0.0007225">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats armor" time="0.000569">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats armor with no max dexterity limitation" time="0.0001771">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats weapon v1" time="0.0004138">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats weapon v2" time="0.0001838">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats double weapon v1" time="0.0001532">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats double weapon v2" time="0.0001375">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats weapon requiring ammunition" time="0.0001233">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item intelligence" time="0.0003957">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item intelligence languages" time="0.0004773">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats item intelligence special purpose" time="0.000453">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats intelligence personality" time="0.0004552">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats full item" time="0.0006996">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/item.pipe.spec.ts" name="Item Pipe &gt; unit &gt; formats full item with prefix" time="0.0005424">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/pipes/treasure.pipe.spec.ts" timestamp="2026-05-04T21:04:24.067Z" hostname="KarlLaptop" tests="6" failures="0" errors="0" skipped="0" time="0.0112502">
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats empty treaure" time="0.0037997">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats coin" time="0.0023031">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats goods" time="0.0009058">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats items" time="0.0006976">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats all treasure" time="0.0007543">
+        </testcase>
+        <testcase classname="src/app/treasure/pipes/treasure.pipe.spec.ts" name="Treasure Pipe &gt; unit &gt; formats all treasure with prefix" time="0.0006799">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/app/treasure/services/treasure.service.spec.ts" timestamp="2026-05-04T21:04:24.068Z" hostname="KarlLaptop" tests="36" failures="0" errors="0" skipped="0" time="0.9675421">
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; gets the treasure view model" time="0.0052824">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; gets treasure" time="0.0013819">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates a valid treasure" time="0.0006522">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates an invalid treasure" time="0.0004917">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; gets an item" time="0.0004547">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; gets an item with a name" time="0.00099">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; BUG - gets armor" time="0.0006258">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; BUG - gets weapon" time="0.0007494">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates a valid item" time="0.0010705">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates a valid item with name" time="0.0005587">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates an invalid item" time="0.0002673">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; unit &gt; validates an invalid item with name" time="0.0004319">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; gets the treasure view model" time="0.2037181">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; gets treasure" time="0.1734956">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates a valid treasure" time="0.0228104">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid treasure - treasure type" time="0.0219349">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid treasure - level" time="0.0259913">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; gets an item" time="0.0291244">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; gets an item with name" time="0.0317968">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets an item summary" time="0.0255552">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets armor" time="0.0319928">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets weapon" time="0.0257969">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets weapon with summaries" time="0.026344">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets double weapon with summaries" time="0.0256521">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets rod" time="0.0277895">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets rod without weapon properties" time="0.0277216">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets rod with weapon properties" time="0.0294623">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets staff without weapon properties" time="0.0269725">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; BUG - gets staff with weapon properties" time="0.0354785">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates a valid item" time="0.0216611">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates a valid item with name" time="0.0214337">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid item - item type" time="0.023076">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid item - power" time="0.0222397">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid item - name" time="0.0254334">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid item - bad combo" time="0.0247909">
+        </testcase>
+        <testcase classname="src/app/treasure/services/treasure.service.spec.ts" name="Treasure Service &gt; integration &gt; validates an invalid item - bad name combo" time="0.0218728">
+        </testcase>
+    </testsuite>
+</testsuites>

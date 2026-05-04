@@ -1,5 +1,24 @@
 import { describe, expect } from 'vitest';
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+
+// sweetalert2 calls window.matchMedia when rendering icons (e.g. to detect dark mode).
+// jsdom does not implement matchMedia, so we provide a minimal stub to prevent
+// "window.matchMedia is not a function" unhandled errors during tests.
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string): MediaQueryList => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+}
 import { BrowserModule, By } from "@angular/platform-browser";
 import { LoadingComponent } from "./shared/components/loading.component";
 import { Size } from "./shared/components/size.enum";

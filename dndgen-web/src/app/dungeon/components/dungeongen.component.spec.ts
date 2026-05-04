@@ -1251,7 +1251,7 @@ describe('DungeonGen Component', () => {
   
         helper.expectExists('#noAreas', false);
         helper.expectAreas('#areasSection dndgen-area', true);
-      });
+      }, 10000);
     });
   
     it(`should generate non-default dungeon from hall`, async () => {
