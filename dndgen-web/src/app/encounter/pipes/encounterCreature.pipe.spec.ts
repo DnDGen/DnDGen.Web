@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Creature } from "../models/creature.model";
 import { EncounterCreature } from "../models/encounterCreature.model";
 import { CreaturePipe } from "./creature.pipe";

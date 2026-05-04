@@ -4,17 +4,17 @@ import { LoggerService } from './logger.service';
 describe('Logger Service', () => {
   describe('unit', () => {
     let service: LoggerService;
-    let spy: ReturnType<typeof vi.spyOn>;
+    let consoleSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       service = new LoggerService();
     });
 
     it('should log the error to the console', () => {
         service.logError('this is my error');
-        expect(spy).toHaveBeenCalledWith('this is my error');
+        expect(consoleSpy).toHaveBeenCalledWith('this is my error');
     });
   });
 });

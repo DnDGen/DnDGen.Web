@@ -1,4 +1,4 @@
-import { describe, it, beforeEach } from 'vitest';
+import { describe, it, beforeEach, vi } from 'vitest';
 import { EncounterPipe } from "../../encounter/pipes/encounter.pipe";
 import { TestHelper } from "../../test-helper";
 import { Good } from "../../treasure/models/good.model";
