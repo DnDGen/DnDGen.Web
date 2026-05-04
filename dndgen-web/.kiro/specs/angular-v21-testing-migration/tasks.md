@@ -603,7 +603,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 12: Component tests pass**
     - **Validates: Requirements 9.5**
 
-  - [ ] 7.8 MANUAL - Checkpoint - Verify DungeonGen tests pass
+  - [x] 7.8 MANUAL - Checkpoint - Verify DungeonGen tests pass
     - Run `ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'` to verify all DungeonGen tests pass
     - Ask user if questions arise
     - _Requirements: 6.3_
