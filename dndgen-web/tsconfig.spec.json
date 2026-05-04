@@ -13,9 +13,6 @@
     // This will be re-enabled in Phase 8 after all tests are migrated
     "noImplicitAny": false
   },
-  "files": [
-    "src/test-shims.d.ts"
-  ],
   "include": [
     "src/**/*.spec.ts",
     "src/**/test-helper.ts",

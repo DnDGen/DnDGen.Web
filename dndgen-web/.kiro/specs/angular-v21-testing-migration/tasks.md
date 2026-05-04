@@ -553,7 +553,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Ask user if questions arise
     - _Requirements: 6.3_
 
-- [ ] 7. Phase 7: DungeonGen Migration
+- [x] 7. Phase 7: DungeonGen Migration
   
   **Note**: Add explicit Vitest imports to each file as you migrate it. Shims allow unmigrated files to compile.
 
@@ -613,13 +613,13 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
   
   **Critical Phase**: Remove temporary shims and verify explicit imports work correctly.
 
-  - [ ] 8.1 MANUAL - Remove test-shims.d.ts file
+  - [x] 8.1 MANUAL - Remove test-shims.d.ts file
     - Delete `dndgen-web/src/test-shims.d.ts`
     - This file was temporary scaffolding for migration
     - All spec files now have explicit Vitest imports
     - _Requirements: 3.2_
 
-  - [ ] 8.2 MANUAL - Remove test-shims.d.ts from tsconfig.spec.json
+  - [x] 8.2 MANUAL - Remove test-shims.d.ts from tsconfig.spec.json
     - Remove "src/test-shims.d.ts" from files array in tsconfig.spec.json
     - Keep other entries in files array
     - _Requirements: 3.2_
