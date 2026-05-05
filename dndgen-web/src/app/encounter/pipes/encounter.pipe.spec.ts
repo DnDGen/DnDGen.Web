@@ -6,7 +6,7 @@ import { Treasure } from "../../treasure/models/treasure.model";
 import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Creature } from "../models/creature.model";
 import { Encounter } from "../models/encounter.model";
-import { EncounterCreature } from "../models/encounterCreature.model";
+import { EncounterCreature } from "../models/encounter-creature.model";
 import { EncounterPipe } from "./encounter.pipe";
 
 describe('Encounter Pipe', () => {

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { CharacterGenViewModel } from '../models/charactergen-view-model.model';
 
 const delay = 10;
 

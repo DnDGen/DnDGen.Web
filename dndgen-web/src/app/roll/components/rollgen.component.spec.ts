@@ -2,10 +2,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
 import { RollService } from '../services/roll.service';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable, of } from 'rxjs';
-import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { RollGenViewModel } from '../models/rollgen-view-model.model';
 import { Size } from '../../shared/components/size.enum';
 import { TestHelper } from '../../test-helper';
 

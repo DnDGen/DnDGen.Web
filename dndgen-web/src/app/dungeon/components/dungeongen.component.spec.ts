@@ -1,17 +1,17 @@
 ﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DungeonGenComponent } from './dungeongen.component';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { FileSaverService } from '../../shared/services/file-saver.service';
 import FileSaver from 'file-saver';
 import { DungeonService } from '../services/dungeon.service';
 import { DungeonPipe } from '../pipes/dungeon.pipe';
-import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
 import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
-import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
+import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
 import { EncounterService } from '../../encounter/services/encounter.service';
 import { Area } from '../models/area.model';
 

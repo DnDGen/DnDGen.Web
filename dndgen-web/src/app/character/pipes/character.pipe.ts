@@ -3,24 +3,24 @@ import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Character } from '../models/character.model';
 import { Skill } from '../models/skill.model';
 import { Feat } from '../models/feat.model';
-import { FeatCollection } from '../models/featCollection.model';
-import { SpellQuantity } from '../models/spellQuantity.model';
+import { FeatCollection } from '../models/feat-collection.model';
+import { SpellQuantity } from '../models/spell-quantity.model';
 import { Spell } from '../models/spell.model';
 import { Item } from '../../treasure/models/item.model';
 import { Equipment } from '../models/equipment.model';
 import { Treasure } from '../../treasure/models/treasure.model';
-import { ArmorClass } from '../models/armorClass.model';
-import { BaseAttack } from '../models/baseAttack.model';
+import { ArmorClass } from '../models/armor-class.model';
+import { BaseAttack } from '../models/base-attack.model';
 import { Abilities } from '../models/abilities.model';
 import { Armor } from '../../treasure/models/armor.model';
 import { Weapon } from '../../treasure/models/weapon.model';
-import { SpellGroupService } from '../services/spellGroup.service';
+import { SpellGroupService } from '../services/spell-group.service';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
 import { MeasurementPipe } from './measurement.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { FrequencyPipe } from './frequency.pipe';
-import { SpellQuantityPipe } from './spellQuantity.pipe';
+import { SpellQuantityPipe } from './spell-quantity.pipe';
 
 @Pipe({ 
     name: 'character',

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { SweetAlertService } from './sweetAlert.service';
+import { SweetAlertService } from './sweet-alert.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 describe('SweetAlert Service', () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { DecimalPipe } from '@angular/common';
-import { InchesToFeetPipe } from './inchesToFeet.pipe';
+import { InchesToFeetPipe } from './inches-to-feet.pipe';
 
 describe('InchesToFeetPipe', () => {
   describe('unit', () => {

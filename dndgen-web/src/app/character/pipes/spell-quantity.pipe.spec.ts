@@ -1,7 +1,7 @@
 ﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { SpellQuantity } from "../models/spellQuantity.model";
-import { SpellGroupService } from "../services/spellGroup.service";
-import { SpellQuantityPipe } from "./spellQuantity.pipe";
+import { SpellQuantity } from "../models/spell-quantity.model";
+import { SpellGroupService } from "../services/spell-group.service";
+import { SpellQuantityPipe } from "./spell-quantity.pipe";
 
 describe('Spell Quantity Pipe', () => {
     describe('unit', () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { ItemTypeViewModel } from './itemTypeViewModel.model';
-import { TreasureGenViewModel } from './treasuregenViewModel.model';
+import { ItemTypeViewModel } from './item-type-view-model.model';
+import { TreasureGenViewModel } from './treasuregen-view-model.model';
 
 describe('TreasureGenViewModel', () => {
   describe('unit', () => {

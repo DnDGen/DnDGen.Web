@@ -6,7 +6,7 @@ import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
-import { FollowerQuantities } from '../models/followerQuantities.model';
+import { FollowerQuantities } from '../models/follower-quantities.model';
 import { TestHelper } from '../../test-helper';
 
 describe('Leadership Service', () => {

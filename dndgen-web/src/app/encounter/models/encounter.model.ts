@@ -1,6 +1,6 @@
 import { Character } from "../../character/models/character.model";
 import { Treasure } from "../../treasure/models/treasure.model";
-import { EncounterCreature } from "./encounterCreature.model";
+import { EncounterCreature } from "./encounter-creature.model";
 
 export class Encounter {
     constructor(

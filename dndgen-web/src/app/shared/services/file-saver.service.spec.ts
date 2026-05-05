@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { FileSaverService } from './fileSaver.service';
+import { FileSaverService } from './file-saver.service';
 import FileSaver from 'file-saver';
 
 describe('FileSaver Service', () => {

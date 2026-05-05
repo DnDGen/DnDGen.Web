@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
-import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { CharacterGenViewModel } from '../models/charactergen-view-model.model';
 import { Character } from '../models/character.model';
 import { TestHelper } from '../../test-helper';
 

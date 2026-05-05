@@ -1,6 +1,6 @@
-import { ArmorClass } from "./armorClass.model";
-import { BaseAttack } from "./baseAttack.model";
-import { SavingThrows } from "./savingThrows.model";
+import { ArmorClass } from "./armor-class.model";
+import { BaseAttack } from "./base-attack.model";
+import { SavingThrows } from "./saving-throws.model";
 
 export class Combat {
   constructor(

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Observable } from 'rxjs';
-import type { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
+import type { TreasureGenViewModel } from '../models/treasuregen-view-model.model';
 import type { Treasure } from '../models/treasure.model';
 import type { Item } from '../models/item.model';
 import { Weapon } from '../models/weapon.model';

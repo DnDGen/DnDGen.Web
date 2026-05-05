@@ -4,8 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { EncounterDefaults } from '../models/encounterDefaults.model';
+import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
+import { EncounterDefaults } from '../models/encounter-defaults.model';
 import { Encounter } from '../models/encounter.model';
 import { TestHelper } from '../../test-helper';
 

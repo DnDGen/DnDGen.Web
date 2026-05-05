@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Treasure } from '../../treasure/models/treasure.model';
 import { TestHelper } from '../../test-helper';
-import { DungeonTreasureComponent } from './dungeonTreasure.component';
+import { DungeonTreasureComponent } from './dungeon-treasure.component';
 import { Coin } from '../../treasure/models/coin.model';
-import { DungeonTreasure } from '../models/dungeonTreasure.model';
+import { DungeonTreasure } from '../models/dungeon-treasure.model';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
 
 describe('Dungeon Treasure Component', () => {

@@ -1,4 +1,4 @@
-import { FollowerQuantities } from "./followerQuantities.model";
+import { FollowerQuantities } from "./follower-quantities.model";
 
 export class Leadership {
   constructor(

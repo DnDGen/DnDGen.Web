@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SpellQuantity } from '../models/spellQuantity.model';
-import { SpellGroupService } from '../services/spellGroup.service';
+import { SpellQuantity } from '../models/spell-quantity.model';
+import { SpellGroupService } from '../services/spell-group.service';
 
 @Pipe({
     name: 'spellQuantity',

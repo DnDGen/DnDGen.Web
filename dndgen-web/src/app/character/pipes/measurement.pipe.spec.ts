@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { DecimalPipe } from '@angular/common';
 import { MeasurementPipe } from './measurement.pipe';
-import { InchesToFeetPipe } from './inchesToFeet.pipe';
+import { InchesToFeetPipe } from './inches-to-feet.pipe';
 import { Measurement } from '../../character/models/measurement.model';
 
 describe('MeasurementPipe', () => {

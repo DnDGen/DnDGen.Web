@@ -5,7 +5,7 @@ import { Encounter } from '../../encounter/models/encounter.model';
 import { AreaComponent } from './area.component';
 import { Area } from '../models/area.model';
 import { Pool } from '../models/pool.model';
-import { DungeonTreasure } from '../models/dungeonTreasure.model';
+import { DungeonTreasure } from '../models/dungeon-treasure.model';
 import { Trap } from '../models/trap.model';
 
 describe('Area Component', () => {

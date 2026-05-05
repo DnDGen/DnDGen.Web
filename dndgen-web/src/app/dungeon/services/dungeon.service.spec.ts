@@ -4,10 +4,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
 import { TestHelper } from '../../test-helper';
 import { Area } from '../models/area.model';
-import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
+import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
 
 describe('Dungeon Service', () => {
     describe('unit', () => {

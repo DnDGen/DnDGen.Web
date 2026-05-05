@@ -1,10 +1,10 @@
 import { Input, Component, OnInit, signal } from '@angular/core';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { FileSaverService } from '../../shared/services/file-saver.service';
 import { TreasureService } from '../services/treasure.service';
-import { TreasureGenViewModel } from '../models/treasuregenViewModel.model';
-import { ItemTypeViewModel } from '../models/itemTypeViewModel.model';
+import { TreasureGenViewModel } from '../models/treasuregen-view-model.model';
+import { ItemTypeViewModel } from '../models/item-type-view-model.model';
 import { Treasure } from '../models/treasure.model';
 import { Item } from '../models/item.model';
 import { ItemPipe } from '../pipes/item.pipe';

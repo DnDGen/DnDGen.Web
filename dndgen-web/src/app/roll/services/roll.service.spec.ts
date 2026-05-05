@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
-import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { RollGenViewModel } from '../models/rollgen-view-model.model';
 import { TestHelper } from '../../test-helper';
 
 describe('Roll Service', () => {

@@ -41,8 +41,8 @@ import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http"
 import { routes } from "./app.routes";
 import { BonusPipe } from "./shared/pipes/bonus.pipe";
 import { BonusesPipe } from "./shared/pipes/bonuses.pipe";
-import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
-import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
+import { DungeonTreasure } from "./dungeon/models/dungeon-treasure.model";
+import { DungeonTreasureComponent } from "./dungeon/components/dungeon-treasure.component";
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
 import { provideLocationMocks } from "@angular/common/testing";

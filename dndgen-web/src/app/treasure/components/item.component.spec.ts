@@ -4,7 +4,7 @@ import { ItemComponent } from './item.component';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
-import { SpecialAbility } from '../models/specialAbility.model';
+import { SpecialAbility } from '../models/special-ability.model';
 import { TestHelper } from '../../test-helper';
 
 describe('Item Component', () => {

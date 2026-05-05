@@ -15,11 +15,11 @@ import { Measurement } from '../models/measurement.model';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { FeatComponent } from './feat.component';
 import { DebugElement } from '@angular/core';
-import { SpellQuantity } from '../models/spellQuantity.model';
+import { SpellQuantity } from '../models/spell-quantity.model';
 import { Spell } from '../models/spell.model';
-import { SpellGroupService } from '../services/spellGroup.service';
-import { SpellGroup } from '../models/spellGroup.model';
-import { SpellGroupComponent } from './spellGroup.component';
+import { SpellGroupService } from '../services/spell-group.service';
+import { SpellGroup } from '../models/spell-group.model';
+import { SpellGroupComponent } from './spell-group.component';
 import { TestHelper } from '../../test-helper';
 import { ItemComponent } from '../../treasure/components/item.component';
 

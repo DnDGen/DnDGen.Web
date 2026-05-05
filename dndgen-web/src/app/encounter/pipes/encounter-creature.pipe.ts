@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import { CreaturePipe } from "./creature.pipe";
-import { EncounterCreature } from "../models/encounterCreature.model";
+import { EncounterCreature } from "../models/encounter-creature.model";
 
 @Pipe({
     name: 'encounterCreature',

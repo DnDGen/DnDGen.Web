@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TreasurePipe } from '../../treasure/pipes/treasure.pipe';
 import { Area } from '../models/area.model';
 import { Contents } from '../models/contents.model';
-import { DungeonTreasure } from '../models/dungeonTreasure.model';
+import { DungeonTreasure } from '../models/dungeon-treasure.model';
 import { EncounterPipe } from '../../encounter/pipes/encounter.pipe';
 
 @Pipe({ 

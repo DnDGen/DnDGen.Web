@@ -1,9 +1,9 @@
 import { Input, Component, OnInit, signal } from '@angular/core';
 import { RollService } from '../services/roll.service';
-import { StandardDie } from '../models/standardDie.model';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { StandardDie } from '../models/standard-die.model';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
-import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { RollGenViewModel } from '../models/rollgen-view-model.model';
 import { Size } from '../../shared/components/size.enum';
 import { catchError, debounceTime, distinctUntilChanged, of, Subject, switchMap, tap } from 'rxjs';
 import { DecimalPipe } from '@angular/common';

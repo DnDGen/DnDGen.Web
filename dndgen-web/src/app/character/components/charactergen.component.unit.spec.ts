@@ -2,7 +2,7 @@
 import { CharacterGenComponent } from './charactergen.component';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
-import { FollowerQuantities } from '../models/followerQuantities.model';
+import { FollowerQuantities } from '../models/follower-quantities.model';
 import { getViewModel, getFakeDelay, getFakeError, delay } from './charactergen.component.test-helper';
 
 

@@ -2,7 +2,7 @@
 import { TestHelper } from "../../test-helper";
 import { Armor } from "../models/armor.model";
 import { Item } from "../models/item.model";
-import { SpecialAbility } from "../models/specialAbility.model";
+import { SpecialAbility } from "../models/special-ability.model";
 import { Weapon } from "../models/weapon.model";
 import { ItemPipe } from "./item.pipe";
 

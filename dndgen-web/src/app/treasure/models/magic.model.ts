@@ -1,5 +1,5 @@
 import { Intelligence } from "./intelligence.model";
-import { SpecialAbility } from "./specialAbility.model";
+import { SpecialAbility } from "./special-ability.model";
 
 export class Magic {
   constructor(

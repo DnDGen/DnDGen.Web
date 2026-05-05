@@ -1,17 +1,17 @@
 ﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EncounterGenComponent } from './encountergen.component';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
+import { FileSaverService } from '../../shared/services/file-saver.service';
 import FileSaver from 'file-saver';
 import { EncounterService } from '../services/encounter.service';
 import { EncounterPipe } from '../pipes/encounter.pipe';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
+import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
 import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
-import { EncounterDefaults } from '../models/encounterDefaults.model';
+import { EncounterDefaults } from '../models/encounter-defaults.model';
 import { Encounter } from '../models/encounter.model';
 
 describe('EncounterGen Component', () => {

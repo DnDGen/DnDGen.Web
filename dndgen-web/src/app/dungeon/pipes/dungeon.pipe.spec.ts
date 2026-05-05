@@ -7,7 +7,7 @@ import { Treasure } from "../../treasure/models/treasure.model";
 import { TreasurePipe } from "../../treasure/pipes/treasure.pipe";
 import { Area } from "../models/area.model";
 import { Contents } from "../models/contents.model";
-import { DungeonTreasure } from "../models/dungeonTreasure.model";
+import { DungeonTreasure } from "../models/dungeon-treasure.model";
 import { Encounter } from "../../encounter/models/encounter.model";
 import { Pool } from "../models/pool.model";
 import { Trap } from "../models/trap.model";

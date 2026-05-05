@@ -1,6 +1,6 @@
 ﻿import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavMenuComponent } from './nav-menu.component';
+import { NavMenuComponent } from './navigation-menu.component';
 import { TestHelper } from '../test-helper';
 
 describe('Nav-Menu Component', () => {

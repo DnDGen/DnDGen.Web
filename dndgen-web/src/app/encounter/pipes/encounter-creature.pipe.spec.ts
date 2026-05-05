@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Creature } from "../models/creature.model";
-import { EncounterCreature } from "../models/encounterCreature.model";
+import { EncounterCreature } from "../models/encounter-creature.model";
 import { CreaturePipe } from "./creature.pipe";
-import { EncounterCreaturePipe } from "./encounterCreature.pipe";
+import { EncounterCreaturePipe } from "./encounter-creature.pipe";
 
 describe('EncounterCreature Pipe', () => {
     describe('unit', () => {
