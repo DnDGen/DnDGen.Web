@@ -1,19 +1,20 @@
-﻿import { SpellQuantity } from "../models/spellQuantity.model";
-import { SpellGroupService } from "../services/spellGroup.service";
-import { SpellQuantityPipe } from "./spellQuantity.pipe";
+﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { SpellQuantity } from "../models/spell-quantity.model";
+import { SpellGroupService } from "../services/spell-group.service";
+import { SpellQuantityPipe } from "./spell-quantity.pipe";
 
 describe('Spell Quantity Pipe', () => {
     describe('unit', () => {
         let pipe: SpellQuantityPipe;
         let spellQuantity: SpellQuantity;
-        let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
+        let spellGroupServiceSpy: { getSpellGroupName: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
-            spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['getSpellGroupName']);
+            spellGroupServiceSpy = { getSpellGroupName: vi.fn() };
             spellQuantity = new SpellQuantity('my source', 9, 2);
-            pipe = new SpellQuantityPipe(spellGroupServiceSpy);
+            pipe = new SpellQuantityPipe(spellGroupServiceSpy as unknown as SpellGroupService);
             
-            spellGroupServiceSpy.getSpellGroupName.and.callFake((level, source) => {
+            spellGroupServiceSpy.getSpellGroupName.mockImplementation((level: number, source: string) => {
                 return `${source} lvl ${level}`;
             });
         });

@@ -1,35 +1,81 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+﻿﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RollGenComponent } from './rollgen.component';
 import { RollService } from '../services/roll.service';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable, of } from 'rxjs';
-import { RollGenViewModel } from '../models/rollgenViewModel.model';
+import { RollGenViewModel } from '../models/rollgen-view-model.model';
 import { Size } from '../../shared/components/size.enum';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('RollGen Component', () => {
   describe('unit', () => {
     let component: RollGenComponent;
-    let rollServiceSpy: jasmine.SpyObj<RollService>;
-    let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
-    let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
+    let rollServiceSpy: {
+      getViewModel: ReturnType<typeof vi.fn>,
+      getRoll: ReturnType<typeof vi.fn>,
+      validateRoll: ReturnType<typeof vi.fn>,
+      getExpressionRoll: ReturnType<typeof vi.fn>,
+      validateExpression: ReturnType<typeof vi.fn>
+    };
+    let sweetAlertServiceSpy: { showError: ReturnType<typeof vi.fn> };
+    let loggerServiceSpy: { logError: ReturnType<typeof vi.fn> };
 
     const delay = 10;
-  
-    beforeEach(() => {
-      rollServiceSpy = jasmine.createSpyObj('RollService', ['getViewModel', 'getRoll', 'validateRoll', 'getExpressionRoll', 'validateExpression']);
-      sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
-      loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
 
-      component = new RollGenComponent(rollServiceSpy, sweetAlertServiceSpy, loggerServiceSpy);
+    function getFakeDelay<T>(response: T): Observable<T> {
+      return new Observable((observer) => {
+        setTimeout(() => {
+          observer.next(response);
+          observer.complete();
+        }, delay);
+      });
+    }
+
+    function getFakeError<T>(message: string): Observable<T> {
+      return new Observable((observer) => {
+        setTimeout(() => {
+          observer.error(new Error(message));
+        }, delay);
+      });
+    }
+
+    function setupInit() {
+      const model = new RollGenViewModel(9266, 90210, 42, 600);
+      rollServiceSpy.getViewModel.mockReturnValue(of(model));
+      component.ngOnInit();
+    }
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+
+      rollServiceSpy = {
+        getViewModel: vi.fn(),
+        getRoll: vi.fn(),
+        validateRoll: vi.fn(),
+        getExpressionRoll: vi.fn(),
+        validateExpression: vi.fn(),
+      };
+      sweetAlertServiceSpy = { showError: vi.fn() };
+      loggerServiceSpy = { logError: vi.fn() };
+
+      component = new RollGenComponent(
+        rollServiceSpy as unknown as RollService,
+        sweetAlertServiceSpy as unknown as SweetAlertService,
+        loggerServiceSpy as unknown as LoggerService
+      );
     });
-  
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it(`should initialize the public properties`, () => {
-      expect(component.rolling()).toEqual(false);
-      expect(component.loading()).toEqual(false);
-      expect(component.validating()).toEqual(false);
-      expect(component.rollIsValid()).toEqual(true);
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(true);
       expect(component.roll()).toEqual(0);
       expect(component.standardDice.length).toEqual(9);
       expect(component.standardDice[0].die).toEqual(2);
@@ -51,7 +97,7 @@ describe('RollGen Component', () => {
       expect(component.standardDice[8].die).toEqual(100);
       expect(component.standardDice[8].name).toEqual('Percentile');
     });
-  
+
     it(`should initialize the input values`, () => {
       expect(component.standardQuantity).toEqual(1);
       expect(component.standardDie).toEqual(component.standardDice[7]);
@@ -60,240 +106,223 @@ describe('RollGen Component', () => {
       expect(component.expression).toEqual('4d6k3+2');
     });
 
-    it('should be loading while fetching the roll model', fakeAsync(() => {
+    it('should be loading while fetching the roll model', async () => {
       const model = new RollGenViewModel(9266, 90210, 42, 600);
-      rollServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
+      rollServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
 
       component.ngOnInit();
 
       expect(component.rollModel()).not.toBeDefined();
-      expect(component.loading()).toBeTrue();
-      
-      tick(delay - 1);
+      expect(component.loading()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
       expect(component.rollModel()).not.toBeDefined();
-      expect(component.loading()).toBeTrue();
+      expect(component.loading()).toBe(true);
 
-      flush();
-    }));
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
 
-    function getFakeDelay<T>(response: T): Observable<T> {
-      return new Observable((observer) => {
-        setTimeout(() => {
-          observer.next(response);
-          observer.complete();
-        }, delay);
-      });
-    }
-
-    it('should set the roll model on init', fakeAsync(() => {
+    it('should set the roll model on init', async () => {
       const model = new RollGenViewModel(9266, 90210, 42, 600);
-      rollServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
+      rollServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
 
       component.ngOnInit();
 
       expect(component.rollModel()).not.toBeDefined();
-      expect(component.loading()).toBeTrue();
+      expect(component.loading()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.rollModel()).toEqual(model);
-      expect(component.loading()).toBeFalse();
-    }));
+      expect(component.loading()).toBe(false);
+    });
 
-    it('should display error from getting roll model', fakeAsync(() => {
-      rollServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
+    it('should display error from getting roll model', async () => {
+      rollServiceSpy.getViewModel.mockImplementation(() => getFakeError('I failed'));
 
       component.ngOnInit();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.rollModel()).not.toBeDefined();
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
-
-    function getFakeError<T>(message: string): Observable<T> {
-      return new Observable((observer) => {
-        setTimeout(() => {
-          observer.error(new Error(message));
-        }, delay);
-      });
-    }
+    });
 
     it('should validate a roll - invalid if no quantity', () => {
       component.validateRoll(0, 90210);
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(false);
     });
 
     it('should validate a roll - invalid if no die', () => {
       component.validateRoll(9266, 0);
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(false);
     });
 
-    it('should be validating while validating the roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(true));
+    it('should be validating while validating the roll', async () => {
+      rollServiceSpy.validateRoll.mockImplementation(() => getFakeDelay(true));
 
       component.validateRoll(9266, 90210);
 
       expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
-      expect(component.validating()).toBeTrue();
-      
-      tick(delay / 2);
+      expect(component.validating()).toBe(true);
 
-      expect(component.validating()).toBeTrue();
+      await vi.advanceTimersByTimeAsync(delay / 2);
 
-      flush();
-    }));
+      expect(component.validating()).toBe(true);
 
-    it('should validate a valid roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(true));
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
 
-      component.validateRoll(9266, 90210);
-
-      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
-      expect(component.validating()).toBeTrue();
-
-      tick(delay);
-
-      expect(component.rollIsValid()).toBeTrue();
-      expect(component.validating()).toBeFalse();
-    }));
-
-    it('should validate an invalid roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeDelay(false));
+    it('should validate a valid roll', async () => {
+      rollServiceSpy.validateRoll.mockImplementation(() => getFakeDelay(true));
 
       component.validateRoll(9266, 90210);
 
       expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.rollIsValid()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.rollIsValid()).toBe(true);
+      expect(component.validating()).toBe(false);
+    });
 
-    it('should display error from validating roll', fakeAsync(() => {
-      rollServiceSpy.validateRoll.and.callFake(() => getFakeError('I failed'));
+    it('should validate an invalid roll', async () => {
+      rollServiceSpy.validateRoll.mockImplementation(() => getFakeDelay(false));
 
       component.validateRoll(9266, 90210);
-      tick(delay);
 
-      expect(component.rollIsValid()).toBeFalse();
+      expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
+      expect(component.validating()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay);
+
+      expect(component.rollIsValid()).toBe(false);
+      expect(component.validating()).toBe(false);
+    });
+
+    it('should display error from validating roll', async () => {
+      rollServiceSpy.validateRoll.mockImplementation(() => getFakeError('I failed'));
+
+      component.validateRoll(9266, 90210);
+      await vi.advanceTimersByTimeAsync(delay);
+
+      expect(component.rollIsValid()).toBe(false);
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(rollServiceSpy.validateRoll).toHaveBeenCalledWith(9266, 90210);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should be rolling while rolling a standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.rollStandard();
-
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling()).toBeTrue();
-      
-      tick(delay / 2);
-
-      expect(component.rolling()).toBeTrue();
-
-      flush();
-    }));
-
-    it('should roll the default standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
+    it('should be rolling while rolling a standard roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
 
       component.rollStandard();
 
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay / 2);
+
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
+
+    it('should roll the default standard roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
+
+      component.rollStandard();
+
+      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse();
-    }));
+      expect(component.rolling()).toBe(false);
+    });
 
     const standardDieIndicesTestCases = Array.from(Array(9).keys());
 
     standardDieIndicesTestCases.forEach(test => {
-      it(`should roll a non-default standard roll - standard die index ${test}`, fakeAsync(() => {
-        rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-  
+      it(`should roll a non-default standard roll - standard die index ${test}`, async () => {
+        rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
+
         component.standardQuantity = 9266;
         component.standardDie = component.standardDice[test];
-  
+
         component.rollStandard();
-  
+
         expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(9266, component.standardDice[test].die);
-        expect(component.rolling()).toBeTrue();
-  
-        tick(delay);
-  
+        expect(component.rolling()).toBe(true);
+
+        await vi.advanceTimersByTimeAsync(delay);
+
         expect(component.roll()).toBe(90210);
-        expect(component.rolling()).toBeFalse();
-      }));
+        expect(component.rolling()).toBe(false);
+      });
     });
 
-    it('should display error from rolling a standard roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeError('I failed'));
+    it('should display error from rolling a standard roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeError('I failed'));
 
       component.rollStandard();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should be rolling while rolling a custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
-
-      component.rollCustom();
-
-      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
-      expect(component.rolling()).toBeTrue();
-      
-      tick(delay / 2);
-
-      expect(component.rolling()).toBeTrue();
-
-      flush();
-    }));
-
-    it('should roll the default custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
+    it('should be rolling while rolling a custom roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
 
       component.rollCustom();
 
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay / 2);
+
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
+
+    it('should roll the default custom roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
+
+      component.rollCustom();
+
+      expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse();
-    }));
+      expect(component.rolling()).toBe(false);
+    });
 
-    it(`should roll a non-default custom roll`, fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeDelay(90210));
+    it(`should roll a non-default custom roll`, async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeDelay(90210));
 
       component.customQuantity = 9266;
       component.customDie = 42;
@@ -301,277 +330,270 @@ describe('RollGen Component', () => {
       component.rollCustom();
 
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(9266, 42);
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse();
-    }));
+      expect(component.rolling()).toBe(false);
+    });
 
-    it('should display error from rolling a custom roll', fakeAsync(() => {
-      rollServiceSpy.getRoll.and.callFake(() => getFakeError('I failed'));
+    it('should display error from rolling a custom roll', async () => {
+      rollServiceSpy.getRoll.mockImplementation(() => getFakeError('I failed'));
 
       component.rollCustom();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 5);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     it('should validate a expression - invalid if empty', () => {
       component.validateExpression('');
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(false);
     });
 
-    it('should pause before submitting expression for validation', fakeAsync(() => {
+    it('should pause before submitting expression for validation', async () => {
       component.validateExpression('my expression');
-      
-      expect(component.validating()).toBeTrue();
+
+      expect(component.validating()).toBe(true);
       expect(rollServiceSpy.validateExpression).not.toHaveBeenCalled();
 
-      tick(500 - 1);
+      await vi.advanceTimersByTimeAsync(500 - 1);
       expect(rollServiceSpy.validateExpression).not.toHaveBeenCalled();
 
-      flush();
-    }));
+      await vi.advanceTimersByTimeAsync(501);
+    });
 
-    function setupInit() {
-      const model = new RollGenViewModel(9266, 90210, 42, 600);
-      rollServiceSpy.getViewModel.and.returnValue(of(model));
-      component.ngOnInit();
-    }
-
-    it('should wait for typing to stop before submitting expression for validation', fakeAsync(() => {
+    it('should wait for typing to stop before submitting expression for validation', async () => {
       setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
-      
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeDelay(true));
+
       component.validateExpression('my expression');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
       expect(rollServiceSpy.validateExpression).not.toHaveBeenCalled();
 
-      tick(500 - 1);
+      await vi.advanceTimersByTimeAsync(500 - 1);
 
       component.validateExpression('my other expression');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
       expect(rollServiceSpy.validateExpression).not.toHaveBeenCalled();
 
-      tick(500 - 1);
-      
-      expect(component.validating()).toBeTrue();
+      await vi.advanceTimersByTimeAsync(500 - 1);
+
+      expect(component.validating()).toBe(true);
       expect(rollServiceSpy.validateExpression).not.toHaveBeenCalled();
 
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
 
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my other expression');
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledTimes(1);
 
-      flush();
-    }));
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
 
-    it('should be validating while validating the expression', fakeAsync(() => {
+    it('should be validating while validating the expression', async () => {
       setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeDelay(true));
 
       component.validateExpression('my expression');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(500);
-
-      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
-      
-      tick(delay / 2);
-
-      expect(component.validating()).toBeTrue();
-
-      flush();
-    }));
-
-    it('should validate a valid expression', fakeAsync(() => {
-      setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
-
-      component.validateExpression('my expression');
-      expect(component.validating()).toBeTrue();
-
-      tick(500);
+      await vi.advanceTimersByTimeAsync(500);
 
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay / 2);
 
-      expect(component.rollIsValid()).toBeTrue();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.validating()).toBe(true);
 
-    it('should validate an invalid expression', fakeAsync(() => {
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
+
+    it('should validate a valid expression', async () => {
       setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(false));
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeDelay(true));
 
       component.validateExpression('my expression');
-      expect(component.validating()).toBeTrue();
+      expect(component.validating()).toBe(true);
 
-      tick(500);
+      await vi.advanceTimersByTimeAsync(500);
 
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.rollIsValid()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-    }));
+      expect(component.rollIsValid()).toBe(true);
+      expect(component.validating()).toBe(false);
+    });
 
-    it('should handle error from validating expression', fakeAsync(() => {
+    it('should validate an invalid expression', async () => {
       setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeError('I failed'));
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeDelay(false));
 
       component.validateExpression('my expression');
-      tick(500 + delay);
+      expect(component.validating()).toBe(true);
 
-      expect(component.rollIsValid()).toBeFalse();
+      await vi.advanceTimersByTimeAsync(500);
+
+      expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
+
+      await vi.advanceTimersByTimeAsync(delay);
+
+      expect(component.rollIsValid()).toBe(false);
+      expect(component.validating()).toBe(false);
+    });
+
+    it('should handle error from validating expression', async () => {
+      setupInit();
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeError('I failed'));
+
+      component.validateExpression('my expression');
+      await vi.advanceTimersByTimeAsync(500 + delay);
+
+      expect(component.rollIsValid()).toBe(false);
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should handle expression validation error, then continue validating', fakeAsync(() => {
+    it('should handle expression validation error, then continue validating', async () => {
       setupInit();
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeError('I failed'));
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeError('I failed'));
 
       component.validateExpression('my bad expression');
-      tick(500 + delay);
+      await vi.advanceTimersByTimeAsync(500 + delay);
 
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my bad expression');
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
 
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(false);
 
-      rollServiceSpy.validateExpression.and.callFake(() => getFakeDelay(true));
+      rollServiceSpy.validateExpression.mockImplementation(() => getFakeDelay(true));
 
       component.validateExpression('my expression');
-      tick(500 + delay);
+      await vi.advanceTimersByTimeAsync(500 + delay);
 
       expect(rollServiceSpy.validateExpression).toHaveBeenCalledWith('my expression');
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeTrue();
-    }));
 
-    it('should be rolling while rolling an expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(true);
+    });
 
-      component.rollExpression();
-
-      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
-      expect(component.rolling()).toBeTrue();
-      
-      tick(delay / 2);
-
-      expect(component.rolling()).toBeTrue();
-
-      flush();
-    }));
-
-    it('should roll the default expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
+    it('should be rolling while rolling an expression', async () => {
+      rollServiceSpy.getExpressionRoll.mockImplementation(() => getFakeDelay(90210));
 
       component.rollExpression();
 
       expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay / 2);
+
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay + 1);
+    });
+
+    it('should roll the default expression', async () => {
+      rollServiceSpy.getExpressionRoll.mockImplementation(() => getFakeDelay(90210));
+
+      component.rollExpression();
+
+      expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
+      expect(component.rolling()).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse();
-    }));
+      expect(component.rolling()).toBe(false);
+    });
 
-    it(`should roll a non-default expression`, fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeDelay(90210));
+    it(`should roll a non-default expression`, async () => {
+      rollServiceSpy.getExpressionRoll.mockImplementation(() => getFakeDelay(90210));
 
       component.expression = 'my custom expression';
 
       component.rollExpression();
 
       expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('my custom expression');
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse();
-    }));
+      expect(component.rolling()).toBe(false);
+    });
 
-    it('should display error from rolling an expression', fakeAsync(() => {
-      rollServiceSpy.getExpressionRoll.and.callFake(() => getFakeError('I failed'));
+    it('should display error from rolling an expression', async () => {
+      rollServiceSpy.getExpressionRoll.mockImplementation(() => getFakeError('I failed'));
 
       component.rollExpression();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
-      
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+
       expect(rollServiceSpy.getExpressionRoll).toHaveBeenCalledWith('4d6k3+2');
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
-
   describe('integration', () => {
     let fixture: ComponentFixture<RollGenComponent>;
     let helper: TestHelper<RollGenComponent>;
-  
+
     beforeEach(async () => {
       await TestHelper.configureTestBed([RollGenComponent]);
-  
+
       fixture = TestBed.createComponent(RollGenComponent);
       helper = new TestHelper(fixture);
-      
+
       //run ngOnInit
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
     });
-  
+
     it('should create the component', () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
     });
-  
-    it('should show the loading component when loading', () => {
+
+    it('should show the loading component when loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', true, Size.Large);
     });
-  
-    it('should hide the loading component when not loading', () => {
+
+    it('should hide the loading component when not loading', async () => {
       const component = fixture.componentInstance;
       component.loading.set(false);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
-  
+
     it(`should set the roll model on init`, () => {
       const component = fixture.componentInstance;
       const viewModel = component.rollModel();
@@ -581,10 +603,10 @@ describe('RollGen Component', () => {
       expect(viewModel!.dieLimit_Lower).toEqual(1);
       expect(viewModel!.dieLimit_Upper).toEqual(10000);
     });
-  
+
     it(`should render the tabs`, () => {
       const compiled = fixture.nativeElement as HTMLElement;
-  
+
       helper.expectTextContents('ul.nav-tabs a.nav-link', ['Standard', 'Custom', 'Expression']);
 
       const tabLinks = compiled.querySelectorAll('ul.nav-tabs a.nav-link');
@@ -606,93 +628,79 @@ describe('RollGen Component', () => {
         helper.expectHasAttribute('#standardRollButton', 'disabled', false);
         helper.expectLoading('#standardValidating', false, Size.Small);
       });
-    
-      it(`should show when validating a standard roll`, () => {
+
+      it(`should show when validating a standard roll`, async () => {
         const component = fixture.componentInstance;
         component.validating.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectValidating(component.validating(), '#standardRollButton', '#standardValidating');
       });
-    
-      it(`should show that a standard roll is invalid - missing standard quantity`, () => {
+
+      it(`should show that a standard roll is invalid - missing standard quantity`, async () => {
         helper.setInput('#standardQuantity', '');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardQuantity).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
-      it(`should show that a standard roll is invalid - standard quantity invalid`, () => {
+
+      it(`should show that a standard roll is invalid - standard quantity invalid`, async () => {
         helper.setInput('#standardQuantity', 'wrong');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardQuantity).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
-      it(`should show that a standard roll is invalid - standard quantity too low`, () => {
+
+      it(`should show that a standard roll is invalid - standard quantity too low`, async () => {
         helper.setInput('#standardQuantity', '0');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardQuantity).toEqual(0);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
+
       it(`should show that a standard roll is invalid - standard quantity too high`, async () => {
         helper.setInput('#standardQuantity', '10001');
-  
-        fixture.detectChanges();
 
         expect(fixture.componentInstance.standardQuantity).toEqual(10001);
         helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
+
       const standardQuantityTestCases = [1, 2, 10, 20, 100, 1000, 10000];
 
       standardQuantityTestCases.forEach(test => {
         it(`should show that a standard roll is valid - standard quantity ${test}`, async () => {
           helper.setInput('#standardQuantity', test.toString());
-    
-          fixture.detectChanges();
-    
+
           expect(fixture.componentInstance.standardQuantity).toEqual(test);
           helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
-    
+
           //run roll validation
-          await helper.waitForService();
-    
+          await helper.waitForChangeDetection();
+
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
         });
       });
-    
-      it(`should show that a standard roll is invalid - missing standard die`, () => {
+
+      it(`should show that a standard roll is invalid - missing standard die`, async () => {
         helper.setSelectByValue('#standardDie', '');
-  
-        fixture.detectChanges();
-  
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
+
       it('should validate a standard roll when standard die changes', async () => {
         helper.setSelectByIndex('#standardDie', 1);
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[1]);
         helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
 
-        await helper.waitForService();
-        
+        await helper.waitForChangeDetection();
+
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
 
@@ -701,13 +709,11 @@ describe('RollGen Component', () => {
       standardDieIndicesTestCases.forEach(test => {
         it(`should show that a standard roll is valid - non-default standard die index ${test}`, async () => {
           helper.setSelectByIndex('#standardDie', test);
-    
-          fixture.detectChanges();
-    
+
           expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[test]);
           helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
 
-          await helper.waitForService();
+          await helper.waitForChangeDetection();
 
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
         });
@@ -716,110 +722,100 @@ describe('RollGen Component', () => {
       it(`should show that a standard roll is invalid - validation fails`, async () => {
         helper.setInput('#standardQuantity', '66666');
         helper.setSelectByIndex('#standardDie', 4);
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[4]);
         helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
+
       it(`should show that a standard roll is valid - validation succeeds`, async () => {
         helper.setInput('#standardQuantity', '9266');
         helper.setSelectByIndex('#standardDie', 5);
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[5]);
         helper.expectValidating(fixture.componentInstance.validating(), '#standardRollButton', '#standardValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#standardRollButton', '#standardValidating');
       });
-    
-      it(`should show when rolling a standard roll`, () => {
+
+      it(`should show when rolling a standard roll`, async () => {
         const component = fixture.componentInstance;
         component.rolling.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectGenerating(
-          fixture.componentInstance.rolling(), 
-          '#standardRollButton', 
-          '#rollSection', 
+          fixture.componentInstance.rolling(),
+          '#standardRollButton',
+          '#rollSection',
           '#rollingSection',
-          '#standardValidating', 
+          '#standardValidating',
         );
       });
-    
+
       it(`should roll the default standard roll`, async () => {
         helper.clickButton('#standardRollButton');
-  
-        fixture.detectChanges();
-        
+
         helper.expectGenerating(
-          fixture.componentInstance.rolling(), 
-          '#standardRollButton', 
-          '#rollSection', 
+          fixture.componentInstance.rolling(),
+          '#standardRollButton',
+          '#rollSection',
           '#rollingSection',
-          '#standardValidating', 
+          '#standardValidating',
         );
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#standardRollButton', '#rollSection', '#rollingSection', '#standardValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(1);
         expect(rolledNumber).toBeLessThanOrEqual(20);
       });
-    
+
       it(`should roll a non-default standard roll`, async () => {
         helper.setInput('#standardQuantity', '42');
         helper.setSelectByIndex('#standardDie', 2);
-  
-        fixture.detectChanges();
 
         expect(fixture.componentInstance.standardQuantity).toEqual(42);
         expect(fixture.componentInstance.standardDie).toEqual(fixture.componentInstance.standardDice[2]);
 
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.clickButton('#standardRollButton');
-  
-        fixture.detectChanges();
-        
+
+
         helper.expectGenerating(
-          fixture.componentInstance.rolling(), 
-          '#standardRollButton', 
-          '#rollSection', 
+          fixture.componentInstance.rolling(),
+          '#standardRollButton',
+          '#rollSection',
           '#rollingSection',
-          '#standardValidating', 
+          '#standardValidating',
         );
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#standardRollButton', '#rollSection', '#rollingSection', '#standardValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(42);
         expect(rolledNumber).toBeLessThanOrEqual(42 * 4);
       });
     });
-  
     describe('the custom tab', () => {
       it(`should render the custom tab`, () => {
         helper.expectExists('#custom');
@@ -829,128 +825,108 @@ describe('RollGen Component', () => {
         helper.expectHasAttribute('#custom #customRollButton', 'disabled', false);
         helper.expectLoading('#custom #customValidating', false, Size.Small);
       });
-    
-      it(`should show when validating a custom roll`, () => {
+
+      it(`should show when validating a custom roll`, async () => {
         const component = fixture.componentInstance;
         component.validating.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show that a custom roll is invalid - missing custom quantity`, () => {
+
+      it(`should show that a custom roll is invalid - missing custom quantity`, async () => {
         helper.setInput('#customQuantity', '');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customQuantity).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show that a custom roll is invalid - custom quantity invalid`, () => {
+
+      it(`should show that a custom roll is invalid - custom quantity invalid`, async () => {
         helper.setInput('#customQuantity', 'wrong');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customQuantity).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show that a custom roll is invalid - custom quantity too low`, () => {
+
+      it(`should show that a custom roll is invalid - custom quantity too low`, async () => {
         helper.setInput('#customQuantity', '0');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customQuantity).toEqual(0);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
+
       it(`should show that a custom roll is invalid - custom quantity too high`, async () => {
         helper.setInput('#customQuantity', '10001');
-  
-        fixture.detectChanges();
 
         expect(fixture.componentInstance.customQuantity).toEqual(10001);
         helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
+
       const validCustomInputTestCases = [1, 2, 10, 20, 100, 1000, 10000];
 
       validCustomInputTestCases.forEach(test => {
         it(`should show that a custom roll is valid - custom quantity ${test}`, async () => {
           helper.setInput('#customQuantity', test.toString());
-    
-          fixture.detectChanges();
-    
+
           expect(fixture.componentInstance.customQuantity).toEqual(test);
           helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-    
+
           //run roll validation
-          await helper.waitForService();
-    
+          await helper.waitForChangeDetection();
+
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
         });
       });
-    
-      it(`should show that a custom roll is invalid - missing custom die`, () => {
+
+      it(`should show that a custom roll is invalid - missing custom die`, async () => {
         helper.setInput('#customDie', '');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customDie).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show that a custom roll is invalid - custom die invalid`, () => {
+
+      it(`should show that a custom roll is invalid - custom die invalid`, async () => {
         helper.setInput('#customDie', 'wrong');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customDie).toBeNull();
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show that a custom roll is invalid - custom die too low`, () => {
+
+      it(`should show that a custom roll is invalid - custom die too low`, async () => {
         helper.setInput('#customDie', '0');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customDie).toEqual(0);
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
+
       it(`should show that a custom roll is invalid - custom die too high`, async () => {
         helper.setInput('#customDie', '10001');
-  
-        fixture.detectChanges();
 
         expect(fixture.componentInstance.customDie).toEqual(10001);
         helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
+
       validCustomInputTestCases.forEach(test => {
         it(`should show that a custom roll is valid - custom die ${test}`, async () => {
           helper.setInput('#customDie', test.toString());
-    
-          fixture.detectChanges();
-    
+
           expect(fixture.componentInstance.customDie).toEqual(test);
           helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-    
+
           //run roll validation
-          await helper.waitForService();
-    
+          await helper.waitForChangeDetection();
+
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
         });
       });
@@ -958,245 +934,221 @@ describe('RollGen Component', () => {
       it(`should show that a custom roll is invalid - validation fails`, async () => {
         helper.setInput('#customQuantity', '66666');
         helper.setInput('#customDie', '666666');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customQuantity).toEqual(66666);
         expect(fixture.componentInstance.customDie).toEqual(666666);
         helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
+
       it(`should show that a custom roll is valid - validation succeeds`, async () => {
         helper.setInput('#customQuantity', '9266');
         helper.setInput('#customDie', '42');
-  
-        fixture.detectChanges();
-  
+
         expect(fixture.componentInstance.customQuantity).toEqual(9266);
         expect(fixture.componentInstance.customDie).toEqual(42);
         helper.expectValidating(fixture.componentInstance.validating(), '#customRollButton', '#customValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#customRollButton', '#customValidating');
       });
-    
-      it(`should show when rolling a custom roll`, () => {
+
+      it(`should show when rolling a custom roll`, async () => {
         const component = fixture.componentInstance;
         component.rolling.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectGenerating(fixture.componentInstance.rolling(), '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
       });
-    
+
       it(`should roll the default custom roll`, async () => {
         helper.clickButton('#customRollButton');
-  
-        fixture.detectChanges();
-        
+
         helper.expectGenerating(fixture.componentInstance.rolling(), '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(1);
         expect(rolledNumber).toBeLessThanOrEqual(5);
       });
-    
+
       it(`should roll a non-default custom roll`, async () => {
         helper.setInput('#customQuantity', '42');
         helper.setInput('#customDie', '7');
-  
-        fixture.detectChanges();
 
         expect(fixture.componentInstance.customQuantity).toEqual(42);
         expect(fixture.componentInstance.customDie).toEqual(7);
 
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
 
         helper.clickButton('#customRollButton');
-  
-        fixture.detectChanges();
-        
+
         helper.expectGenerating(fixture.componentInstance.rolling(), '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#customRollButton', '#rollSection', '#rollingSection', '#customValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(42);
         expect(rolledNumber).toBeLessThanOrEqual(42 * 7);
       });
     });
-  
     describe('the expression tab', () => {
       it(`should render the expression tab`, async () => {
         helper.expectExists('#expression');
         helper.expectInput('#expression #rollExpression', true, '4d6k3+2');
 
-        expect(fixture.componentInstance.rolling()).toBeFalse();
-        expect(fixture.componentInstance.validating()).toBeFalse();
+        expect(fixture.componentInstance.rolling()).toBe(false);
+        expect(fixture.componentInstance.validating()).toBe(false);
 
         helper.expectHasAttribute('#expression #expressionRollButton', 'disabled', false);
         helper.expectLoading('#expression #expressionValidating', false, Size.Small);
       });
-    
-      it(`should show when validating an expression`, () => {
+
+      it(`should show when validating an expression`, async () => {
         const component = fixture.componentInstance;
         component.validating.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
       });
-    
+
       it(`should show that an expression is invalid - empty`, () => {
         helper.setInput('#rollExpression', '', 'keyup');
-        helper.waitForDebounce();
-  
+
         expect(fixture.componentInstance.expression).toEqual('');
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
-    
+
       it(`should show that an expression is invalid - invalid syntax`, async () => {
         helper.setInput('#rollExpression', 'wrong+invalid', 'keyup');
-        helper.waitForDebounce();
-  
+
         expect(fixture.componentInstance.expression).toEqual('wrong+invalid');
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForDebounce();
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
-    
+
       it(`should show that an expression is invalid - too high`, async () => {
         helper.setInput('#rollExpression', '1000d100d2', 'keyup');
-        helper.waitForDebounce();
 
         expect(fixture.componentInstance.expression).toEqual('1000d100d2');
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForDebounce();
+
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
-    
+
       it(`should show that an expression is valid`, async () => {
         helper.setInput('#rollExpression', '100d100d2', 'keyup');
-        helper.waitForDebounce();
-  
+
         expect(fixture.componentInstance.expression).toEqual('100d100d2');
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForDebounce();
+
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
 
       it(`should show that an expression is invalid - validation fails`, async () => {
         helper.setInput('#rollExpression', '3d6t1-x', 'keyup');
-        helper.waitForDebounce();
-  
+
         expect(fixture.componentInstance.expression).toEqual('3d6t1-x');
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
+        await helper.waitForDebounce();
 
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
-    
+
       it(`should show that an expression is valid - validation succeeds`, async () => {
         helper.setInput('#rollExpression', '3d6t1-2', 'keyup');
-        helper.waitForDebounce();
-  
+
         expect(fixture.componentInstance.expression).toEqual('3d6t1-2');
         helper.expectValidating(fixture.componentInstance.validating(), '#expressionRollButton', '#expressionValidating');
-  
+
         //run roll validation
-        await helper.waitForService();
-  
+        await helper.waitForDebounce();
+
         helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
       });
-    
-      it(`should show when rolling an expression`, () => {
+
+      it(`should show when rolling an expression`, async () => {
         const component = fixture.componentInstance;
         component.rolling.set(true);
-  
-        fixture.detectChanges();
+
+        await helper.waitForChangeDetection();
 
         helper.expectGenerating(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
       });
-    
-      it(`should roll the default expression`, async () => {
-        helper.waitForDebounce();
 
+      it(`should roll the default expression`, async () => {
         helper.clickButton('#expressionRollButton');
-  
-        fixture.detectChanges();
-        
+
         helper.expectGenerating(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(5);
         expect(rolledNumber).toBeLessThanOrEqual(20);
       });
-    
+
       it(`should roll a non-default expression`, async () => {
         helper.setInput('#rollExpression', '3d6t1-2', 'keyup');
-        helper.waitForDebounce();
 
         expect(fixture.componentInstance.expression).toEqual('3d6t1-2');
 
         //run validation
-        await helper.waitForService();
+        await helper.waitForDebounce();
 
         helper.clickButton('#expressionRollButton');
-  
-        fixture.detectChanges();
-        
+
         helper.expectGenerating(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         //run roll
-        await helper.waitForService();
-  
+        await helper.waitForChangeDetection();
+
         helper.expectGenerated(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
         const compiled = fixture.nativeElement as HTMLElement;
         const rollSection = compiled.querySelector('#rollSection');
-        const rolledNumber = new Number(rollSection?.textContent);
+        const rolledNumber = Number(rollSection?.textContent?.replace(/,/g, ""));
         expect(rolledNumber).toBeGreaterThanOrEqual(4);
         expect(rolledNumber).toBeLessThanOrEqual(16);
       });
-    
+
       it(`should display examples of expression rolls`, async () => {
         helper.expectExists('#expression');
         helper.expectTextContents('#expression span.roll-expression-example', [
@@ -1229,23 +1181,20 @@ describe('RollGen Component', () => {
       exampleCases.forEach(test => {
         it(`should roll an example expression roll - ${test.e}`, async () => {
           helper.setInput('#rollExpression', test.e, 'keyup');
-          helper.waitForDebounce();
-  
+
           expect(fixture.componentInstance.expression).toEqual(test.e);
-  
+
           //run validation
-          await helper.waitForService();
-  
+          await helper.waitForDebounce();
+
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.rollIsValid(), '#expressionRollButton', '#expressionValidating');
           helper.clickButton('#expressionRollButton');
-    
-          fixture.detectChanges();
-          
+
           helper.expectGenerating(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
-  
+
           //run roll
-          await helper.waitForService();
-    
+          await helper.waitForChangeDetection();
+
           helper.expectGenerated(fixture.componentInstance.rolling(), '#expressionRollButton', '#rollSection', '#rollingSection', '#expressionValidating');
 
           const compiled = fixture.nativeElement as HTMLElement;
@@ -1259,26 +1208,26 @@ describe('RollGen Component', () => {
         });
       });
     });
-  
+
     it(`should render the initial roll`, () => {
       helper.expectExists('#rollSection', true);
       helper.expectTextContent('#rollSection', '0');
       helper.expectLoading('#rollingSection', false, Size.Medium);
     });
-    
-    it(`should format a roll`, () => {
+
+    it(`should format a roll`, async () => {
       fixture.componentInstance.roll.set(42);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#rollSection', true);
       helper.expectTextContent('#rollSection', '42');
     });
-    
-    it(`should format a large roll`, () => {
+
+    it(`should format a large roll`, async () => {
       fixture.componentInstance.roll.set(9266);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#rollSection', true);
       helper.expectTextContent('#rollSection', '9,266');

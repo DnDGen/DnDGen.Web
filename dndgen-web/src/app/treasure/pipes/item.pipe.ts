@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
-import { SpecialAbility } from '../models/specialAbility.model';
+import { SpecialAbility } from '../models/special-ability.model';
 import { Intelligence } from '../models/intelligence.model';
 
 @Pipe({ 

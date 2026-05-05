@@ -1,6 +1,6 @@
 import { Input, Component, OnInit, signal } from '@angular/core';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { FileSaverService } from '../../shared/services/file-saver.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { switchMap, tap } from 'rxjs';
 import { CharacterPipe } from '../../character/pipes/character.pipe';
@@ -9,13 +9,13 @@ import { ItemPipe } from '../../treasure/pipes/item.pipe';
 import { TreasurePipe } from '../../treasure/pipes/treasure.pipe';
 import { DecimalPipe } from '@angular/common';
 import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
-import { InchesToFeetPipe } from '../../character/pipes/inchesToFeet.pipe';
+import { InchesToFeetPipe } from '../../character/pipes/inches-to-feet.pipe';
 import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
-import { SpellQuantityPipe } from '../../character/pipes/spellQuantity.pipe';
+import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
 import { EncounterService } from '../services/encounter.service';
 import { EncounterPipe } from '../pipes/encounter.pipe';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { CreatureTypeFilter } from '../models/creatureTypeFilter.model';
+import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
+import { CreatureTypeFilter } from '../models/creature-type-filter.model';
 import { Encounter } from '../models/encounter.model';
 import { EncounterComponent } from './encounter.component';
 import { FormsModule } from '@angular/forms';
@@ -163,7 +163,7 @@ export class EncounterGenComponent implements OnInit {
   }
   
   private get checkedFilters(): string[] {
-    var checkedFilters = [];
+    var checkedFilters: string[] = [];
 
     for (var i = 0; i < this.creatureTypeFilters.length; i++) {
         if (this.creatureTypeFilters[i].checked) {

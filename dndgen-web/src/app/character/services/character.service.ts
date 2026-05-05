@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Character } from '../models/character.model';
-import { CharacterGenViewModel } from '../models/charactergenViewModel.model';
+import { CharacterGenViewModel } from '../models/charactergen-view-model.model';
 
 @Injectable({
   providedIn: 'root',

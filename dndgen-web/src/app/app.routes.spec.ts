@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { routes } from './app.routes';
 import { CharacterGenComponent } from './character/components/charactergen.component';
 import { DungeonGenComponent } from './dungeon/components/dungeongen.component';

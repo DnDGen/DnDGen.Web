@@ -656,12 +656,12 @@ describe('RollGen Component', () => {
       component.ngOnInit();
 
       expect(component.rollModel()).not.toBeDefined(); // Signal access with ()
-      expect(component.loading()).toBeTrue(); // Signal access with ()
+      expect(component.loading()).toBe(true); // Signal access with ()
       
       tick(delay - 1);
 
       expect(component.rollModel()).not.toBeDefined();
-      expect(component.loading()).toBeTrue(); // Still loading
+      expect(component.loading()).toBe(true); // Still loading
       
       flush();
     }));
@@ -682,18 +682,18 @@ describe('RollGen Component', () => {
       component.ngOnInit();
 
       expect(component.rollModel()).not.toBeDefined();
-      expect(component.loading()).toBeTrue();
+      expect(component.loading()).toBe(true);
 
       tick(delay);
 
       expect(component.rollModel()).toEqual(model);
-      expect(component.loading()).toBeFalse(); // Loading complete
+      expect(component.loading()).toBe(false); // Loading complete
     }));
 
     it('should validate a roll - invalid if no quantity', () => {
       component.validateRoll(0, 90210);
-      expect(component.validating()).toBeFalse();
-      expect(component.rollIsValid()).toBeFalse();
+      expect(component.validating()).toBe(false);
+      expect(component.rollIsValid()).toBe(false);
     });
 
     it('should be rolling while rolling a standard roll', fakeAsync(() => {
@@ -702,11 +702,11 @@ describe('RollGen Component', () => {
       component.rollStandard();
 
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling()).toBeTrue(); // Signal access with ()
+      expect(component.rolling()).toBe(true); // Signal access with ()
       
       tick(delay / 2);
 
-      expect(component.rolling()).toBeTrue(); // Still rolling
+      expect(component.rolling()).toBe(true); // Still rolling
 
       flush();
     }));
@@ -717,12 +717,12 @@ describe('RollGen Component', () => {
       component.rollStandard();
 
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
-      expect(component.rolling()).toBeTrue();
+      expect(component.rolling()).toBe(true);
 
       tick(delay);
 
       expect(component.roll()).toBe(90210);
-      expect(component.rolling()).toBeFalse(); // Rolling complete
+      expect(component.rolling()).toBe(false); // Rolling complete
     }));
 
     const standardDieIndicesTestCases = Array.from(Array(9).keys());
@@ -737,12 +737,12 @@ describe('RollGen Component', () => {
         component.rollStandard();
   
         expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(9266, component.standardDice[test].die);
-        expect(component.rolling()).toBeTrue();
+        expect(component.rolling()).toBe(true);
   
         tick(delay);
   
         expect(component.roll()).toBe(90210);
-        expect(component.rolling()).toBeFalse();
+        expect(component.rolling()).toBe(false);
       }));
     });
 
@@ -753,9 +753,9 @@ describe('RollGen Component', () => {
       tick(delay);
 
       expect(component.roll()).toEqual(0);
-      expect(component.rolling()).toBeFalse();
-      expect(component.loading()).toBeFalse();
-      expect(component.validating()).toBeFalse();
+      expect(component.rolling()).toBe(false);
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(rollServiceSpy.getRoll).toHaveBeenCalledWith(1, 20);
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
@@ -1237,12 +1237,12 @@ it('should be loading while fetching data', fakeAsync(() => {
   
   component.ngOnInit();
   
-  expect(component.loading()).toBeTrue();  // ✅ Signal with ()
+  expect(component.loading()).toBe(true);  // ✅ Signal with ()
   expect(component.model()).not.toBeDefined();  // ✅ Signal with ()
   
   tick(delay);
   
-  expect(component.loading()).toBeFalse();  // ✅ Signal with ()
+  expect(component.loading()).toBe(false);  // ✅ Signal with ()
   expect(component.model()).toEqual(data);  // ✅ Signal with ()
 }));
 
@@ -1253,7 +1253,7 @@ it('should initialize input values', () => {
 });
 
 // ❌ WRONG - Missing () on signals
-expect(component.loading).toBeTrue();  // ❌ Signal needs ()
+expect(component.loading).toBe(true);  // ❌ Signal needs ()
 
 // ❌ WRONG - Adding () to regular properties
 expect(component.quantity()).toEqual(1);  // ❌ Regular property, no ()

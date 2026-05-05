@@ -1,4 +1,24 @@
+import { describe, expect } from 'vitest';
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+
+// sweetalert2 calls window.matchMedia when rendering icons (e.g. to detect dark mode).
+// jsdom does not implement matchMedia, so we provide a minimal stub to prevent
+// "window.matchMedia is not a function" unhandled errors during tests.
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string): MediaQueryList => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+}
 import { BrowserModule, By } from "@angular/platform-browser";
 import { LoadingComponent } from "./shared/components/loading.component";
 import { Size } from "./shared/components/size.enum";
@@ -21,8 +41,8 @@ import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http"
 import { routes } from "./app.routes";
 import { BonusPipe } from "./shared/pipes/bonus.pipe";
 import { BonusesPipe } from "./shared/pipes/bonuses.pipe";
-import { DungeonTreasure } from "./dungeon/models/dungeonTreasure.model";
-import { DungeonTreasureComponent } from "./dungeon/components/dungeonTreasure.component";
+import { DungeonTreasure } from "./dungeon/models/dungeon-treasure.model";
+import { DungeonTreasureComponent } from "./dungeon/components/dungeon-treasure.component";
 import { AreaComponent } from "./dungeon/components/area.component";
 import { Area } from "./dungeon/models/area.model";
 import { provideLocationMocks } from "@angular/common/testing";
@@ -260,13 +280,13 @@ export class TestHelper<T> {
   }
 
   public expectValidating(validating: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeTrue();
+    expect(validating).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, true, Size.Small);
   }
 
   public expectGenerating(generating: boolean, buttonSelector: string, resultSelector: string, generatingSelector: string, validatingSelector?: string | null, downloadSelector?: string) {
-    expect(generating).toBeTrue();
+    expect(generating).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     
     if (validatingSelector)
@@ -327,7 +347,7 @@ export class TestHelper<T> {
     downloadSelector?: string | null,
     generatingExists: boolean = true) {
 
-    expect(generating).toBeFalse();
+    expect(generating).toBe(false);
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     
     if (validatingSelector)
@@ -346,15 +366,15 @@ export class TestHelper<T> {
   }
 
   public expectInvalid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeFalse();
-    expect(validProperty).toBeFalse();
+    expect(validating).toBe(false);
+    expect(validProperty).toBe(false);
     this.expectHasAttribute(buttonSelector, 'disabled', true);
     this.expectLoading(validatingSelector, false, Size.Small);
   }
 
   public expectValid(validating: boolean, validProperty: boolean, buttonSelector: string, validatingSelector: string) {
-    expect(validating).toBeFalse();
-    expect(validProperty).toBeTrue();
+    expect(validating).toBe(false);
+    expect(validProperty).toBe(true);
     this.expectHasAttribute(buttonSelector, 'disabled', false);
     this.expectLoading(validatingSelector, false, Size.Small);
   }
@@ -419,6 +439,8 @@ export class TestHelper<T> {
 
     if (extraEvent)
       input.dispatchEvent(new Event(extraEvent));
+
+    this.triggerChangeDetection();
   }
 
   public setCheckbox(selector: string, value: boolean) {
@@ -428,6 +450,8 @@ export class TestHelper<T> {
     checkbox.checked = value;
 
     checkbox.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public setSelectByValue(selector: string, value: string) {
@@ -437,6 +461,8 @@ export class TestHelper<T> {
     select.value = value;
 
     select.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public setSelectByIndex(selector: string, index: number) {
@@ -448,6 +474,8 @@ export class TestHelper<T> {
 
     select.selectedIndex = index;
     select.dispatchEvent(new Event('change'));
+
+    this.triggerChangeDetection();
   }
 
   public clickButton(selector: string) {
@@ -456,6 +484,8 @@ export class TestHelper<T> {
     const button = this.compiled.querySelector(selector) as HTMLButtonElement;
 
     button.click();
+
+    this.triggerChangeDetection();
   }
 
   public clickCheckbox(selector: string) {
@@ -464,6 +494,8 @@ export class TestHelper<T> {
     const checkbox = this.compiled.querySelector(selector) as HTMLInputElement;
 
     checkbox.click();
+
+    this.triggerChangeDetection();
   }
 
   public expectLink(selector: string, text: string, link: string, external: boolean) {
@@ -488,17 +520,33 @@ export class TestHelper<T> {
     link.click();
   }
 
-  public async waitForService() {
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
-
-    //update view
+  /**
+   * Manually triggers a change detection cycle.
+   *
+   * In Angular v21 zoneless mode, change detection is not triggered automatically
+   * by DOM events or signal mutations during tests. Call this after dispatching
+   * DOM events (via setInput, setSelectByIndex, clickButton, etc.) to kick off
+   * the change detection cycle, then follow with `await waitForChangeDetection()`
+   * to wait for async work to settle.
+   *
+   * Note: This is intentional and correct for zoneless tests. The Angular v21
+   * guideline to avoid detectChanges() refers to not relying on automatic
+   * zone-based detection, not to avoiding manual triggers.
+   *
+   * @see https://angular.dev/guide/testing/components-scenarios
+   */
+  public triggerChangeDetection() {
     this.fixture.detectChanges();
   }
 
-  public waitForDebounce(sleep: number = 500) {
-    this.fixture.detectChanges();
-    setTimeout(() => { }, sleep);
+  public async waitForChangeDetection() {
+    await this.fixture.whenStable();
+  }
+
+  public async waitForDebounce(ms: number = 500) {
+    // Actually wait for the debounce timer to fire, then wait for Angular to settle
+    await new Promise(resolve => setTimeout(resolve, ms + 50));
+    await this.waitForChangeDetection();
   }
 
   public static expectLines(actual: string[], expected: string[]) {

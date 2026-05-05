@@ -1,18 +1,19 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Creature } from "../models/creature.model";
-import { EncounterCreature } from "../models/encounterCreature.model";
+import { EncounterCreature } from "../models/encounter-creature.model";
 import { CreaturePipe } from "./creature.pipe";
-import { EncounterCreaturePipe } from "./encounterCreature.pipe";
+import { EncounterCreaturePipe } from "./encounter-creature.pipe";
 
 describe('EncounterCreature Pipe', () => {
     describe('unit', () => {
         let pipe: EncounterCreaturePipe;
-        let creaturePipeSpy: jasmine.SpyObj<CreaturePipe>;
+        let creaturePipeSpy: { transform: ReturnType<typeof vi.fn> };
 
         beforeEach(() => {
-            creaturePipeSpy = jasmine.createSpyObj('CreaturePipe', ['transform']);
-            pipe = new EncounterCreaturePipe(creaturePipeSpy);
+            creaturePipeSpy = { transform: vi.fn() };
+            pipe = new EncounterCreaturePipe(creaturePipeSpy as unknown as CreaturePipe);
             
-            creaturePipeSpy.transform.and.callFake((creature) => {
+            creaturePipeSpy.transform.mockImplementation((creature) => {
                 return `formatted ${creature.name}`;
             });
         });

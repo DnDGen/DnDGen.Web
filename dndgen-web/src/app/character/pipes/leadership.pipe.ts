@@ -16,7 +16,7 @@ export class LeadershipPipe implements PipeTransform {
 
     private formatLeadership(leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
         if (!prefix)
-        prefix = '';
+            prefix = '';
 
         if (!leadership)
             return '';

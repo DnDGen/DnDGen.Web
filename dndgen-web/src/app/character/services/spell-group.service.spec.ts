@@ -1,5 +1,6 @@
-﻿import { Spell } from "../models/spell.model";
-import { SpellGroupService } from "./spellGroup.service";
+﻿import { describe, it, expect, beforeEach } from 'vitest';
+import { Spell } from "../models/spell.model";
+import { SpellGroupService } from "./spell-group.service";
 
 describe('SpellGroup Service', () => {
     describe('unit', () => {

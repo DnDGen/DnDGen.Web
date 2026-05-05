@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Encounter } from '../models/encounter.model';
 import { CharacterPipe } from '../../character/pipes/character.pipe';
-import { EncounterCreature } from '../models/encounterCreature.model';
+import { EncounterCreature } from '../models/encounter-creature.model';
 import { Creature } from '../models/creature.model';
 import { Treasure } from '../../treasure/models/treasure.model';
 import { TreasurePipe } from '../../treasure/pipes/treasure.pipe';

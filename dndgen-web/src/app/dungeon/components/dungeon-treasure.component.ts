@@ -1,10 +1,10 @@
 import { Input, Component } from '@angular/core';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
-import { DungeonTreasure } from '../models/dungeonTreasure.model';
+import { DungeonTreasure } from '../models/dungeon-treasure.model';
 
 @Component({
     selector: 'dndgen-dungeon-treasure',
-    templateUrl: './dungeonTreasure.component.html',
+    templateUrl: './dungeon-treasure.component.html',
     standalone: true,
     imports: [TreasureComponent]
 })

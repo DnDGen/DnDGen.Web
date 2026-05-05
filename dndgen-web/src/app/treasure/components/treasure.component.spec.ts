@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TreasureComponent } from './treasure.component';
 import { Item } from '../models/item.model';
@@ -7,7 +8,7 @@ import { Treasure } from '../models/treasure.model';
 import { Coin } from '../models/coin.model';
 import { Good } from '../models/good.model';
 import { ItemComponent } from './item.component';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Treasure Component', () => {
   describe('unit', () => {
@@ -44,11 +45,11 @@ describe('Treasure Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should render no treasure`, () => {
+    it(`should render no treasure`, async () => {
       const component = fixture.componentInstance;
       component.treasure = new Treasure();
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       const compiled = fixture.nativeElement as HTMLElement;
       let coin = compiled!.querySelector('span.treasure-coin');
@@ -62,12 +63,12 @@ describe('Treasure Component', () => {
       expectDetails('dndgen-details.treasure-items', 'Items (x0)', false);
     });
   
-    it(`should render coins`, () => {
+    it(`should render coins`, async () => {
       const component = fixture.componentInstance;
       component.treasure = new Treasure();
       component.treasure.coin = new Coin('munny', 9266);
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       const compiled = fixture.nativeElement as HTMLElement;
       let coin = compiled!.querySelector('span.treasure-coin');
@@ -81,7 +82,7 @@ describe('Treasure Component', () => {
       expectDetails('dndgen-details.treasure-items', 'Items (x0)', false);
     });
   
-    it(`should render goods`, () => {
+    it(`should render goods`, async () => {
       const component = fixture.componentInstance;
       component.treasure = new Treasure();
       component.treasure.goods = [
@@ -89,7 +90,7 @@ describe('Treasure Component', () => {
         new Good('my other good', 42),
       ];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       const compiled = fixture.nativeElement as HTMLElement;
       let coin = compiled!.querySelector('span.treasure-coin');
@@ -120,7 +121,7 @@ describe('Treasure Component', () => {
       expect(details.hasDetails).toBe(hasDetails);
     }
   
-    it(`should render items`, () => {
+    it(`should render items`, async () => {
       const component = fixture.componentInstance;
       component.treasure = new Treasure();
       component.treasure.items = [
@@ -128,7 +129,7 @@ describe('Treasure Component', () => {
         new Item('my other item', 'my other item type'),
       ];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       const compiled = fixture.nativeElement as HTMLElement;
       let coin = compiled!.querySelector('span.treasure-coin');
@@ -178,7 +179,7 @@ describe('Treasure Component', () => {
       return elements;
     }
   
-    it(`should render all treasure`, () => {
+    it(`should render all treasure`, async () => {
       const component = fixture.componentInstance;
       component.treasure = new Treasure();
       component.treasure.coin = new Coin('munny', 9266);
@@ -191,7 +192,7 @@ describe('Treasure Component', () => {
         new Item('my other item', 'my other item type'),
       ];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       const compiled = fixture.nativeElement as HTMLElement;
       let coin = compiled!.querySelector('span.treasure-coin');

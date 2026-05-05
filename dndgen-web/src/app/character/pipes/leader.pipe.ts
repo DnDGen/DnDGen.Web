@@ -19,7 +19,7 @@ export class LeaderPipe implements PipeTransform {
 
     private formatLeader(character: Character, leadership: Leadership | null, cohort: Character | null, followers: Character[], prefix?: string): string {
         if (!prefix)
-        prefix = '';
+            prefix = '';
 
         let formattedLeader = this.characterPipe.transform(character, prefix);
         formattedLeader += '\r\n';

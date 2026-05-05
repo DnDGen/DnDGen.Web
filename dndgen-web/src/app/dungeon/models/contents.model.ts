@@ -1,5 +1,5 @@
 import { Encounter } from "../../encounter/models/encounter.model";
-import { DungeonTreasure } from "./dungeonTreasure.model";
+import { DungeonTreasure } from "./dungeon-treasure.model";
 import { Pool } from "./pool.model";
 import { Trap } from "./trap.model";
 

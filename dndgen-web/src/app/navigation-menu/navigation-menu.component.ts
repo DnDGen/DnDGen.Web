@@ -3,9 +3,9 @@ import { RouterLink } from '@angular/router';
 import { NgbNavModule, NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'dndgen-nav-menu',
-    templateUrl: './nav-menu.component.html',
-    styleUrls: ['./nav-menu.component.css'],
+    selector: 'dndgen-navigation-menu',
+    templateUrl: './navigation-menu.component.html',
+    styleUrls: ['./navigation-menu.component.css'],
     standalone: true,
     imports: [RouterLink, NgbNavModule, NgbDropdownModule, NgbCollapseModule]
 })

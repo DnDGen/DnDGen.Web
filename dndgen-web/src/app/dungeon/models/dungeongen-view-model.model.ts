@@ -1,6 +1,6 @@
-import { EncounterDefaults } from "./encounterDefaults.model";
+import { EncounterDefaults } from "../../encounter/models/encounter-defaults.model";
 
-export class EncounterGenViewModel {
+export class DungeonGenViewModel {
   constructor(
     public environments: string[],
     public temperatures: string[],

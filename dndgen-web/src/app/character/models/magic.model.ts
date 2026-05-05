@@ -1,5 +1,5 @@
 import { Spell } from "./spell.model";
-import { SpellQuantity } from "./spellQuantity.model";
+import { SpellQuantity } from "./spell-quantity.model";
 
 export class Magic {
   constructor(

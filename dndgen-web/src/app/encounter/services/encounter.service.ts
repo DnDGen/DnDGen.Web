@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
+import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
 import { Encounter } from '../models/encounter.model';
 
 @Injectable({

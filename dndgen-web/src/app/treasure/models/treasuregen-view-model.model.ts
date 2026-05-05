@@ -1,4 +1,4 @@
-import type { ItemTypeViewModel } from './itemTypeViewModel.model';
+import type { ItemTypeViewModel } from './item-type-view-model.model';
 
 export class TreasureGenViewModel {
   constructor(

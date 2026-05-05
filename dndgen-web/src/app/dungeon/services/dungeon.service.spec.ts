@@ -1,25 +1,26 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DungeonService } from './dungeon.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
+import { TestHelper } from '../../test-helper';
 import { Area } from '../models/area.model';
-import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
+import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
 
 describe('Dungeon Service', () => {
     describe('unit', () => {
         let dungeonService: DungeonService;
-        let httpClientSpy: jasmine.SpyObj<HttpClient>;
+        let httpClientSpy: { get: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
-            httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+            httpClientSpy = { get: vi.fn() };
     
-            dungeonService = new DungeonService(httpClientSpy);
+            dungeonService = new DungeonService(httpClientSpy as unknown as HttpClient);
         });
 
-        it('gets the dungeon view model', done => {
+        it('gets the dungeon view model', () => new Promise<void>(resolve => {
             const model = new DungeonGenViewModel(
                 ['environment 1', 'default environment', 'environment 2'],
                 ['default temp', 'temp 1', 'temp 2'],
@@ -32,14 +33,14 @@ describe('Dungeon Service', () => {
                     9266
                 ),
             );
-            httpClientSpy.get.and.returnValue(of(model));
+            httpClientSpy.get.mockReturnValue(of(model));
     
             dungeonService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/dungeon/viewmodel');
-                done();
+                resolve();
             });
-        });
+        }));
     
         let parameters = [
             { f: [], a: true, u: true},
@@ -57,11 +58,11 @@ describe('Dungeon Service', () => {
         ];
 
         parameters.forEach(test => {
-            it(`generates 1 area from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
+            it(`generates 1 area from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
                 const expected = [
                     new Area('my area'),
                 ];
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -85,16 +86,16 @@ describe('Dungeon Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
 
-            it(`generates 2 areas from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
+            it(`generates 2 areas from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
                 const expected = [
                     new Area('my area'),
                     new Area('my other area'),
                 ];
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -118,15 +119,15 @@ describe('Dungeon Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
             
-            it(`generates 1 area from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
+            it(`generates 1 area from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
                 const expected = [
                     new Area('my area'),
                 ];
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -150,16 +151,16 @@ describe('Dungeon Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
 
-            it(`generates 2 areas from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
+            it(`generates 2 areas from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
                 const expected = [
                     new Area('my area'),
                     new Area('my other area'),
                 ];
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -183,9 +184,9 @@ describe('Dungeon Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
         });
     });
     
@@ -198,7 +199,7 @@ describe('Dungeon Service', () => {
             dungeonService = TestBed.inject(DungeonService);
         });
 
-        it('gets the dungeon view model', waitForAsync(() => {
+        it('gets the dungeon view model', () => new Promise<void>(resolve => {
             dungeonService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeTruthy();
                 expect(viewmodel.environments.length).toBe(9);
@@ -209,12 +210,13 @@ describe('Dungeon Service', () => {
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
                 expect(viewmodel.defaults.level).toBe(1);
-                expect(viewmodel.defaults.allowAquatic).toBeFalse();
-                expect(viewmodel.defaults.allowUnderground).toBeTrue();
+                expect(viewmodel.defaults.allowAquatic).toBe(false);
+                expect(viewmodel.defaults.allowUnderground).toBe(true);
+                resolve();
             });
         }));
     
-        it('generates default areas from door', waitForAsync(() => {
+        it('generates default areas from door', () => new Promise<void>(resolve => {
             dungeonService
                 .generateAreasFromDoor(
                     1,
@@ -232,10 +234,11 @@ describe('Dungeon Service', () => {
                     for(let i = 0; i < areas.length; i++) {
                         expect(areas[i].type).toBeTruthy();
                     }
+                    resolve();
                 });
         }));
     
-        it('generates non-default dungeon areas from door', waitForAsync(() => {
+        it('generates non-default dungeon areas from door', () => new Promise<void>(resolve => {
             dungeonService
                 .generateAreasFromDoor(
                     2,
@@ -253,10 +256,11 @@ describe('Dungeon Service', () => {
                     for(let i = 0; i < areas.length; i++) {
                         expect(areas[i].type).toBeTruthy();
                     }
+                    resolve();
                 });
         }));
     
-        it('generates default areas from hall', waitForAsync(() => {
+        it('generates default areas from hall', () => new Promise<void>(resolve => {
             dungeonService
                 .generateAreasFromHall(
                     1,
@@ -274,10 +278,11 @@ describe('Dungeon Service', () => {
                     for(let i = 0; i < areas.length; i++) {
                         expect(areas[i].type).toBeTruthy();
                     }
+                    resolve();
                 });
         }));
     
-        it('generates non-default areas from hall', waitForAsync(() => {
+        it('generates non-default areas from hall', () => new Promise<void>(resolve => {
             dungeonService
                 .generateAreasFromHall(
                     2,
@@ -295,11 +300,12 @@ describe('Dungeon Service', () => {
                     for(let i = 0; i < areas.length; i++) {
                         expect(areas[i].type).toBeTruthy();
                     }
+                    resolve();
                 });
         }));
         
         TestHelper.runFlakyTest(() => {
-            it('BUG - returns data for generated traps', waitForAsync(() => {
+            it('BUG - returns data for generated traps', () => new Promise<void>(resolve => {
                 dungeonService
                     .generateAreasFromDoor(
                         2,
@@ -333,6 +339,7 @@ describe('Dungeon Service', () => {
                                 expect(trap.disableDeviceDC).toBeTruthy();
                             }
                         }
+                        resolve();
                     });
             }));
         }, 100);

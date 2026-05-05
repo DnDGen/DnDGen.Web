@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsComponent } from '../../shared/components/details.component';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { Feat } from '../models/feat.model';
 import { FeatComponent } from './feat.component';
 import { Frequency } from '../models/frequency.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Feat Component', () => {
   describe('unit', () => {
@@ -37,20 +37,20 @@ describe('Feat Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it(`should render the basic feat`, () => {
+    it(`should render the basic feat`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', false);
     });
   
-    it(`should render the feat with focus`, () => {
+    it(`should render the feat with focus`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', ['my focus']);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectDetails('dndgen-details.feat-heading li.feat-foci dndgen-details', 'Foci', true);
@@ -62,11 +62,11 @@ describe('Feat Component', () => {
       ]);
     });
   
-    it(`should render the feat with foci`, () => {
+    it(`should render the feat with foci`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', ['my focus', 'my other focus']);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-foci', true);
@@ -80,11 +80,11 @@ describe('Feat Component', () => {
       ]);
     });
   
-    it(`should render the feat with power`, () => {
+    it(`should render the feat with power`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', [], 92);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
@@ -94,11 +94,11 @@ describe('Feat Component', () => {
       helper.expectTextContent('dndgen-details.feat-heading li.feat-power', 'Power: 92');
     });
   
-    it(`should render the feat with frequency`, () => {
+    it(`should render the feat with frequency`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', [], 0, new Frequency(92, 'fortnight'));
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
@@ -108,11 +108,11 @@ describe('Feat Component', () => {
       helper.expectTextContent('dndgen-details.feat-heading li.feat-frequency', 'Frequency: 92/fortnight');
     });
   
-    it(`should render the feat with frequency without quantity`, () => {
+    it(`should render the feat with frequency without quantity`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', [], 0, new Frequency(0, 'when I want'));
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-foci', false);
@@ -122,11 +122,11 @@ describe('Feat Component', () => {
       helper.expectTextContent('dndgen-details.feat-heading li.feat-frequency', 'Frequency: when I want');
     });
   
-    it(`should render the full feat`, () => {
+    it(`should render the full feat`, async () => {
       const component = fixture.componentInstance;
       component.feat = new Feat('my feat', ['my focus', 'my other focus'], 92, new Frequency(66, 'pay period'));
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
   
       helper.expectDetails('dndgen-details.feat-heading', 'my feat', true);
       helper.expectExists('dndgen-details.feat-heading li.feat-foci', true);

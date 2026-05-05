@@ -3,7 +3,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
 import { Area } from '../models/area.model';
 import { DecimalPipe } from '@angular/common';
 import { EncounterComponent } from '../../encounter/components/encounter.component';
-import { DungeonTreasureComponent } from './dungeonTreasure.component';
+import { DungeonTreasureComponent } from './dungeon-treasure.component';
 
 @Component({
     selector: 'dndgen-area',
