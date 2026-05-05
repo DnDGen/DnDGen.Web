@@ -34,7 +34,7 @@ namespace DnDGen.Api.TreasureGen.Tests.Integration
             return instance;
         }
 
-        protected T InjectServiceAndAssertDuration<T>()
+        protected T? InjectServiceAndAssertDuration<T>()
         {
             Stopwatch.Restart();
 
