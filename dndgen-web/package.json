@@ -18,7 +18,7 @@
     "test:cd:charactergen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/character/**/*.spec.ts' --output-file=./TestResults-CharacterGen-Website.xml",
     "test:cd:encountergen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/encounter/**/*.spec.ts' --output-file=./TestResults-EncounterGen-Website.xml",
     "test:cd:dungeongen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/dungeon/**/*.spec.ts' --output-file=./TestResults-DungeonGen-Website.xml",
-    "test:cd:web": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/**/*.spec.ts' --output-file=./TestResults-AllGenerators-Website.xml"
+    "test:cd:web": "ng test --no-watch --runner-config vitest.config.ci.ts --output-file=./TestResults-AllGenerators-Website.xml"
   },
   "private": true,
   "dependencies": {

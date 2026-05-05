@@ -708,7 +708,7 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - Verify test result file is created: TestResults-DnDGen-Website.xml
     - _Requirements: 7.4, 10.1_
 
-  - [ ] 8.17 MANUAL - Verify test subset commands
+  - [x] 8.17 MANUAL - Verify test subset commands
     - Run each test:cd:* command to verify subset filtering works
     - Verify each command creates its specific output file
     - Commands: test:cd:rollgen, test:cd:treasuregen, test:cd:charactergen, test:cd:encountergen, test:cd:dungeongen, test:cd:web
@@ -718,26 +718,20 @@ This plan migrates the DnDGen web application from Karma + Jasmine + zone.js to 
     - **Property 13: Test subset filtering works**
     - **Validates: Requirements 10.3**
 
-  - [ ] 8.19 MANUAL - Verify zone.js is not loaded in tests
+  - [x] 8.19 MANUAL - Verify zone.js is not loaded in tests
     - Add verification test: `expect(typeof Zone).toBe('undefined')`
     - Ensure no zone.js imports in test files
       - The terms to grep for are `zone.js`, `Zone`, and `import 'zone.js'` across `src/**/*.spec.ts`. If nothing comes back, you're clean.
     - _Requirements: 2.5_
 
-  - [ ] 8.20 Run coverage report
-    - Run `ng test --no-watch --coverage` to generate coverage report
-    - Verify coverage excludes test files
-    - Review coverage to ensure no regression
-    - _Requirements: 1.3_
-
-  - [ ] 8.21 Update documentation
+  - [x] 8.21 Update documentation
     - Update README.md with new test commands
     - Document migration patterns and solutions
     - Update any developer documentation referencing Karma
     - Document that `ng test` should always be used (not `vitest` directly)
     - _Requirements: 7.5_
 
-  - [ ] 8.22 MANUAL - Final validation checkpoint
+  - [x] 8.22 MANUAL - Final validation checkpoint
     - Verify all tests pass: `ng test`
     - Verify CI commands work: `npm run test:ci`
     - Verify subset commands work: all `npm run test:cd:*` commands

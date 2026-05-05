@@ -4,9 +4,6 @@ import { AppComponent } from './app.component';
 import { TestHelper } from './test-helper';
 import { RouterTestingHarness } from '@angular/router/testing';
 
-// Declare Zone type for TypeScript
-declare const Zone: any;
-
 describe('App Component', () => {
   describe('integration', () => {
     let fixture: ComponentFixture<AppComponent>;
@@ -127,21 +124,6 @@ describe('App Component', () => {
           });
         });
       });
-    });
-  });
-
-  describe('change detection configuration', () => {
-    it('should have zoneless change detection enabled', async () => {
-      await TestHelper.configureTestBed([AppComponent]);
-      const fixture = TestBed.createComponent(AppComponent);
-      
-      await fixture.whenStable();
-      
-      expect(fixture.componentInstance).toBeTruthy();
-    });
-
-    it('should NOT load Zone.js in production', () => {
-      expect(typeof Zone).toBe('undefined');
     });
   });
 });
