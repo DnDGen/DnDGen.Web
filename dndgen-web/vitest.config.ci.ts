@@ -18,9 +18,9 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.spec.ts'],
     watch: false,
-    testTimeout: 60000,  // 60 seconds (1000 * 60)
+    testTimeout: 60000,
     hookTimeout: 60000,
-    // No bail - run all tests (equivalent to disabling oneFailurePerSpec, etc.)
+    pool: 'forks',
     
     coverage: {
       provider: 'v8',
@@ -28,9 +28,6 @@ export default defineConfig({
       exclude: ['**/*.spec.ts', '**/*.config.ts']
     },
     
-    // JUnit reporter for CI
-    // Note: outputFile is specified via CLI argument (--outputFile.junit) in package.json scripts
-    // This allows each test command to specify its own output filename
     reporters: ['default', 'junit'],
     
     server: {
