@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Area } from '../models/area.model';
-import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
 
 @Injectable({
   providedIn: 'root',

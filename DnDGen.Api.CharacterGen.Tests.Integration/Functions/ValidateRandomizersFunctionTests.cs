@@ -23,7 +23,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         public void Setup()
         {
             var loggerFactory = new LoggerFactory();
-            var dependencyFactory = GetService<IDependencyFactory>();
+            var dependencyFactory = GetService<IDependencyFactory>()!;
             function = new ValidateRandomizersFunction(loggerFactory, dependencyFactory);
         }
 

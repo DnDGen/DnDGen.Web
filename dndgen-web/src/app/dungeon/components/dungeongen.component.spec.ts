@@ -1,48 +1,65 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DungeonGenComponent } from './dungeongen.component';
-import { SweetAlertService } from '../../shared/services/sweetAlert.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
-import { FileSaverService } from '../../shared/services/fileSaver.service';
-import * as FileSaver from 'file-saver';
+import { FileSaverService } from '../../shared/services/file-saver.service';
+import FileSaver from 'file-saver';
 import { DungeonService } from '../services/dungeon.service';
 import { DungeonPipe } from '../pipes/dungeon.pipe';
-import { DungeonGenViewModel } from '../models/dungeongenViewModel.model';
-import { TestHelper } from '../../testHelper.spec';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
+import { TestHelper } from '../../test-helper';
 import { Size } from '../../shared/components/size.enum';
-import { EncounterDefaults } from '../../encounter/models/encounterDefaults.model';
+import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
 import { EncounterService } from '../../encounter/services/encounter.service';
 import { Area } from '../models/area.model';
 
 describe('DungeonGen Component', () => {
   describe('unit', () => {
     let component: DungeonGenComponent;
-    let dungeonServiceSpy: jasmine.SpyObj<DungeonService>;
-    let encounterServiceSpy: jasmine.SpyObj<EncounterService>;
-    let dungeonPipeSpy: jasmine.SpyObj<DungeonPipe>;
-    let sweetAlertServiceSpy: jasmine.SpyObj<SweetAlertService>;
-    let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
-    let fileSaverServiceSpy: jasmine.SpyObj<FileSaverService>;
+    let dungeonServiceSpy: {
+        getViewModel: ReturnType<typeof vi.fn>,
+        generateAreasFromDoor: ReturnType<typeof vi.fn>,
+        generateAreasFromHall: ReturnType<typeof vi.fn>
+      };
+    let encounterServiceSpy: { validate: ReturnType<typeof vi.fn> };
+    let dungeonPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let sweetAlertServiceSpy: { showError: ReturnType<typeof vi.fn> };
+    let loggerServiceSpy: { logError: ReturnType<typeof vi.fn> };
+    let fileSaverServiceSpy: { save: ReturnType<typeof vi.fn> };
 
     const delay = 10;
   
     beforeEach(() => {
-      dungeonServiceSpy = jasmine.createSpyObj('DungeonService', ['getViewModel', 'generateAreasFromDoor', 'generateAreasFromHall']);
-      encounterServiceSpy = jasmine.createSpyObj('EncounterService', ['validate']);
-      dungeonPipeSpy = jasmine.createSpyObj('DungeonPipe', ['transform']);
-      sweetAlertServiceSpy = jasmine.createSpyObj('SweetAlertService', ['showError']);
-      loggerServiceSpy = jasmine.createSpyObj('LoggerService', ['logError']);
-      fileSaverServiceSpy = jasmine.createSpyObj('FileSaverService', ['save']);
+      vi.useFakeTimers();
 
-      component = new DungeonGenComponent(dungeonServiceSpy, encounterServiceSpy, dungeonPipeSpy, fileSaverServiceSpy, sweetAlertServiceSpy, loggerServiceSpy);
+      dungeonServiceSpy = { getViewModel: vi.fn(), generateAreasFromDoor: vi.fn(), generateAreasFromHall: vi.fn() };
+      encounterServiceSpy = { validate: vi.fn() };
+      dungeonPipeSpy = { transform: vi.fn() };
+      sweetAlertServiceSpy = { showError: vi.fn() };
+      loggerServiceSpy = { logError: vi.fn() };
+      fileSaverServiceSpy = { save: vi.fn() };
+
+      component = new DungeonGenComponent(
+        dungeonServiceSpy as unknown as DungeonService, 
+        encounterServiceSpy as unknown as EncounterService, 
+        dungeonPipeSpy as unknown as DungeonPipe, 
+        fileSaverServiceSpy as unknown as FileSaverService, 
+        sweetAlertServiceSpy as unknown as SweetAlertService, 
+        loggerServiceSpy as unknown as LoggerService);
+    });
+  
+    afterEach(() => {
+      vi.useRealTimers();
     });
   
     it(`should initialize the public properties`, () => {
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
-      expect(component.areas).toBeTruthy();
-      expect(component.areas.length).toBeFalsy();
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
+      expect(component.areas()).toBeTruthy();
+      expect(component.areas().length).toBeFalsy();
     });
   
     it(`should initialize the input values`, () => {
@@ -65,16 +82,16 @@ describe('DungeonGen Component', () => {
       expect(component.environment).toEqual('environment 2');
       expect(component.timeOfDay).toEqual('time of day 2');
       expect(component.level).toEqual(10);
-      expect(component.allowAquatic).toBeFalse();
-      expect(component.allowUnderground).toBeTrue();
+      expect(component.allowAquatic).toBe(false);
+      expect(component.allowUnderground).toBe(true);
 
       expect(component.creatureTypeFilters.length).toBe(2);
       expect(component.creatureTypeFilters[0].id).toBe('creature_type_1');
       expect(component.creatureTypeFilters[0].displayName).toBe('creature type 1');
-      expect(component.creatureTypeFilters[0].checked).toBeFalse();
+      expect(component.creatureTypeFilters[0].checked).toBe(false);
       expect(component.creatureTypeFilters[1].id).toBe('creature_type_2');
       expect(component.creatureTypeFilters[1].displayName).toBe('creature type 2');
-      expect(component.creatureTypeFilters[1].checked).toBeFalse();
+      expect(component.creatureTypeFilters[1].checked).toBe(false);
     }
 
     function getViewModel(): DungeonGenViewModel {
@@ -87,54 +104,55 @@ describe('DungeonGen Component', () => {
       );
     }
 
-    it('should be validating while fetching the dungeon model', fakeAsync(() => {
+    it('should be validating while fetching the dungeon model', async () => {
       const model = getViewModel();
-      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+      dungeonServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
 
-      expect(component.loading).toBeTrue();
-      expect(component.dungeonModel).toBeFalsy();
+      expect(component.loading()).toBe(true);
+      expect(component.dungeonModel()).toBeFalsy();
       
       expectInitialInputValues();
 
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
-      tick(delay - 1);
+      await vi.advanceTimersByTimeAsync(delay - 1);
 
-      expect(component.dungeonModel).toBeFalsy();
+      expect(component.dungeonModel()).toBeFalsy();
 
       expectInitialInputValues();
 
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
       
-      tick(1);
+      await vi.advanceTimersByTimeAsync(1);
       
-      expect(component.dungeonModel).toEqual(model);
-      
-      expectDefaultInputValues();
-      
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
-
-      tick(delay - 1);
-
-      expect(component.dungeonModel).toEqual(model);
+      const dungeonModel = component.dungeonModel();
+      expect(dungeonModel).toEqual(model);
       
       expectDefaultInputValues();
       
-      expect(component.loading).toBeTrue();
-      expect(component.valid).toBeFalse();
-      expect(component.validating).toBeTrue();
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
 
-      flush();
-    }));
+      await vi.advanceTimersByTimeAsync(delay - 1);
+
+      expect(component.dungeonModel()).toEqual(model);
+      
+      expectDefaultInputValues();
+      
+      expect(component.loading()).toBe(true);
+      expect(component.valid()).toBe(false);
+      expect(component.validating()).toBe(true);
+
+      await vi.runAllTimersAsync();
+    });
 
     function getFakeDelay<T>(response: T): Observable<T> {
       return new Observable((observer) => {
@@ -148,22 +166,22 @@ describe('DungeonGen Component', () => {
     let initValidations = [true, false];
 
     initValidations.forEach(test => {
-      it(`should set the dungeon model on init - validity: ${test}`, fakeAsync(() => {
+      it(`should set the dungeon model on init - validity: ${test}`, async () => {
         const model = getViewModel();
-        dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(test));
+        dungeonServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(test));
   
         component.ngOnInit();
   
-        expect(component.loading).toBeTrue();
-        expect(component.dungeonModel).toBeFalsy();
-        expect(component.validating).toBeTrue();
+        expect(component.loading()).toBe(true);
+        expect(component.dungeonModel()).toBeFalsy();
+        expect(component.validating()).toBe(true);
   
-        tick(delay * 2);
+        await vi.advanceTimersByTimeAsync(delay * 2);
   
-        expect(component.loading).toBeFalse();
-        expect(component.dungeonModel).toEqual(model);
-        expect(component.validating).toBeFalse();
+        expect(component.loading()).toBe(false);
+        expect(component.dungeonModel()).toEqual(model);
+        expect(component.validating()).toBe(false);
   
         expectDefaultInputValues();
       
@@ -177,49 +195,49 @@ describe('DungeonGen Component', () => {
           true,
         );
 
-        expect(component.valid).toEqual(test);
+        expect(component.valid()).toEqual(test);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
     });
 
-    it('should display error from getting dungeon model', fakeAsync(() => {
-      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeError('I failed'));
-      encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+    it('should display error from getting dungeon model', async () => {
+      dungeonServiceSpy.getViewModel.mockImplementation(() => getFakeError('I failed'));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
-      tick(delay * 2);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
-      expect(component.dungeonModel).toBeFalsy();
-      expect(component.areas).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
-      expect(component.loading).toBeFalse();
+      expect(component.dungeonModel()).toBeFalsy();
+      expect(component.areas()).toEqual([]);
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
+      expect(component.loading()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from validating on init', fakeAsync(() => {
+    it('should display error from validating on init', async () => {
       const model = getViewModel();
-      dungeonServiceSpy.getViewModel.and.callFake(() => getFakeDelay(model));
-      encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
+      encounterServiceSpy.validate.mockImplementation(() => getFakeError('I failed'));
 
       component.ngOnInit();
-      tick(delay * 2);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
-      expect(component.dungeonModel).toEqual(model);
-      expect(component.areas).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.valid).toBeFalse();
-      expect(component.loading).toBeFalse();
+      expect(component.dungeonModel()).toEqual(model);
+      expect(component.areas()).toEqual([]);
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.valid()).toBe(false);
+      expect(component.loading()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     function getFakeError<T>(message: string): Observable<T> {
       return new Observable((observer) => {
@@ -249,7 +267,7 @@ describe('DungeonGen Component', () => {
     ];
 
     function getCheckedFilters(c0: boolean, c1: boolean): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
 
       if (c0)
         checkedFilters.push(component.creatureTypeFilters[0].displayName);
@@ -261,38 +279,38 @@ describe('DungeonGen Component', () => {
     }
 
     parameterBooleans.forEach(test => {
-      it(`should show invalid when dungeon level is missing - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should show invalid when dungeon level is missing - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
   
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
   
         component.validate(0, 'my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
   
-        expect(component.validating).toBeFalse();
-        expect(component.valid).toBeFalse();
-      }));
+        expect(component.validating()).toBe(false);
+        expect(component.valid()).toBe(false);
+      });
       
-      it(`should show invalid when level is missing - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should show invalid when level is missing - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
   
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
   
         component.validate(90210, 'my environment', 'my temperature', 'my time of day', 0, test.a, test.u);
         
-        expect(component.validating).toBeFalse();
-        expect(component.valid).toBeFalse();
-      }));
+        expect(component.validating()).toBe(false);
+        expect(component.valid()).toBe(false);
+      });
 
-      it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should be validating while validating the parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
   
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
 
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -308,19 +326,19 @@ describe('DungeonGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBe(true);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
   
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBe(true);
   
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
   
-      it(`should validate valid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should validate valid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(true));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(true));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -336,51 +354,51 @@ describe('DungeonGen Component', () => {
           checkedFilters,
           test.a,
           test.u);
-        expect(component.validating).toBeTrue();
+        expect(component.validating()).toBe(true);
   
-        tick(delay);
+        await vi.advanceTimersByTimeAsync(delay);
   
-        expect(component.valid).toBeTrue();
-        expect(component.validating).toBeFalse();
-        
-        expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
-        expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
-  
-      it(`should validate invalid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
-        setupOnInit();
-
-        encounterServiceSpy.validate.and.callFake(() => getFakeDelay(false));
-  
-        component.creatureTypeFilters[0].checked = test.c0;
-        component.creatureTypeFilters[1].checked = test.c1;
-  
-        component.validate(90210, 'my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
-        const checkedFilters = getCheckedFilters(test.c0, test.c1);
-  
-        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
-          'my environment',
-          'my temperature',
-          'my time of day',
-          9266,
-          checkedFilters,
-          test.a,
-          test.u);
-        expect(component.validating).toBeTrue();
-  
-        tick(delay);
-  
-        expect(component.valid).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBe(true);
+        expect(component.validating()).toBe(false);
         
         expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
         expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-      }));
+      });
   
-      it(`should display error from validating parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should validate invalid parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
-        encounterServiceSpy.validate.and.callFake(() => getFakeError('I failed'));
+        encounterServiceSpy.validate.mockImplementation(() => getFakeDelay(false));
+  
+        component.creatureTypeFilters[0].checked = test.c0;
+        component.creatureTypeFilters[1].checked = test.c1;
+  
+        component.validate(90210, 'my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
+        const checkedFilters = getCheckedFilters(test.c0, test.c1);
+  
+        expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
+          'my environment',
+          'my temperature',
+          'my time of day',
+          9266,
+          checkedFilters,
+          test.a,
+          test.u);
+        expect(component.validating()).toBe(true);
+  
+        await vi.advanceTimersByTimeAsync(delay);
+  
+        expect(component.valid()).toBe(false);
+        expect(component.validating()).toBe(false);
+        
+        expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
+        expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
+      });
+  
+      it(`should display error from validating parameters - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
+        setupOnInit();
+
+        encounterServiceSpy.validate.mockImplementation(() => getFakeError('I failed'));
   
         component.creatureTypeFilters[0].checked = test.c0;
         component.creatureTypeFilters[1].checked = test.c1;
@@ -388,12 +406,12 @@ describe('DungeonGen Component', () => {
         component.validate(90210, 'my environment', 'my temperature', 'my time of day', 9266, test.a, test.u);
         const checkedFilters = getCheckedFilters(test.c0, test.c1);
 
-        tick(delay);
+        await vi.advanceTimersByTimeAsync(delay);
   
-        expect(component.valid).toBeFalse();
-        expect(component.areas).toEqual([]);
-        expect(component.generating).toBeFalse();
-        expect(component.validating).toBeFalse();
+        expect(component.valid()).toBe(false);
+        expect(component.areas()).toEqual([]);
+        expect(component.generating()).toBe(false);
+        expect(component.validating()).toBe(false);
         
         expect(encounterServiceSpy.validate).toHaveBeenCalledWith(
           'my environment',
@@ -405,16 +423,16 @@ describe('DungeonGen Component', () => {
           test.u);
         expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
         expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-      }));
+      });
       
-      it(`should be generating while generating from door - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should be generating while generating from door - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
         const areas = [
           new Area('my area type'),
           new Area('my other area type'),
         ];
-        dungeonServiceSpy.generateAreasFromDoor.and.callFake(() => getFakeDelay(areas));
+        dungeonServiceSpy.generateAreasFromDoor.mockImplementation(() => getFakeDelay(areas));
 
         component.dungeonLevel = 90210;
         component.environment = 'my environment';
@@ -439,26 +457,25 @@ describe('DungeonGen Component', () => {
           test.a,
           test.u);
 
-        expect(component.generating).toBeTrue();
-        expect(component.areas).toEqual([]);
+        expect(component.generating()).toBe(true);
+        expect(component.areas()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.areas).toEqual([]);
+        expect(component.generating()).toBe(true);
+        expect(component.areas()).toEqual([]);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
       
-      
-      it(`should be generating while generating from hall - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, fakeAsync(() => {
+      it(`should be generating while generating from hall - aquatic ${test.a}, underground ${test.u}, filter 0 ${test.c0}, filter 1 ${test.c1}`, async () => {
         setupOnInit();
 
         const areas = [
           new Area('my area type'),
           new Area('my other area type'),
         ];
-        dungeonServiceSpy.generateAreasFromHall.and.callFake(() => getFakeDelay(areas));
+        dungeonServiceSpy.generateAreasFromHall.mockImplementation(() => getFakeDelay(areas));
 
         component.dungeonLevel = 90210;
         component.environment = 'my environment';
@@ -483,47 +500,48 @@ describe('DungeonGen Component', () => {
           test.a,
           test.u);
 
-        expect(component.generating).toBeTrue();
-        expect(component.areas).toEqual([]);
+        expect(component.generating()).toBe(true);
+        expect(component.areas()).toEqual([]);
         
-        tick(delay - 1);
+        await vi.advanceTimersByTimeAsync(delay - 1);
 
-        expect(component.generating).toBeTrue();
-        expect(component.areas).toEqual([]);
+        expect(component.generating()).toBe(true);
+        expect(component.areas()).toEqual([]);
 
-        flush();
-      }));
+        await vi.runAllTimersAsync();
+      });
     });
 
     function setupOnInit() {
-      component.dungeonModel = getViewModel();
+      const model = getViewModel();
+      component.dungeonModel.set(model);
 
-      component.environment = component.dungeonModel.defaults.environment;
-      component.temperature = component.dungeonModel.defaults.temperature;
-      component.timeOfDay = component.dungeonModel.defaults.timeOfDay;
-      component.level = component.dungeonModel.defaults.level;
-      component.allowAquatic = component.dungeonModel.defaults.allowAquatic;
-      component.allowUnderground = component.dungeonModel.defaults.allowUnderground;
+      component.environment = model.defaults.environment;
+      component.temperature = model.defaults.temperature;
+      component.timeOfDay = model.defaults.timeOfDay;
+      component.level = model.defaults.level;
+      component.allowAquatic = model.defaults.allowAquatic;
+      component.allowUnderground = model.defaults.allowUnderground;
 
-      for (var i = 0; i < component.dungeonModel.creatureTypes.length; i++) {
+      for (var i = 0; i < model.creatureTypes.length; i++) {
         component.creatureTypeFilters.push({ 
-            id: component.dungeonModel.creatureTypes[i].replaceAll(' ', '_'),
-            displayName: component.dungeonModel.creatureTypes[i],
+            id: model.creatureTypes[i].replaceAll(' ', '_'),
+            displayName: model.creatureTypes[i],
             checked: false
         });
       }
 
-      component.valid = true;
+      component.valid.set(true);
     }
 
-    it('should generate the default dungeon area from door', fakeAsync(() => {
+    it('should generate the default dungeon area from door', async () => {
       setupOnInit();
 
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      dungeonServiceSpy.generateAreasFromDoor.and.callFake(() => getFakeDelay(areas));
+      dungeonServiceSpy.generateAreasFromDoor.mockImplementation(() => getFakeDelay(areas));
 
       component.generateFromDoor();
 
@@ -537,25 +555,25 @@ describe('DungeonGen Component', () => {
         false,
         true,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toBe(areas);
-      expect(component.generating).toBeFalse();
+      expect(component.areas()).toBe(areas);
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should generate the default dungeon area from hall', fakeAsync(() => {
+    it('should generate the default dungeon area from hall', async () => {
       setupOnInit();
 
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      dungeonServiceSpy.generateAreasFromHall.and.callFake(() => getFakeDelay(areas));
+      dungeonServiceSpy.generateAreasFromHall.mockImplementation(() => getFakeDelay(areas));
 
       component.generateFromHall();
 
@@ -569,33 +587,34 @@ describe('DungeonGen Component', () => {
         false,
         true,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toBe(areas);
-      expect(component.generating).toBeFalse();
+      expect(component.areas()).toBe(areas);
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default dungeon area from door`, fakeAsync(() => {
+    it(`should generate a non-default dungeon area from door`, async () => {
       setupOnInit();
 
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      dungeonServiceSpy.generateAreasFromDoor.and.callFake(() => getFakeDelay(areas));
+      dungeonServiceSpy.generateAreasFromDoor.mockImplementation(() => getFakeDelay(areas));
 
+      const model = component.dungeonModel()!;
       component.dungeonLevel = 2;
-      component.environment = component.dungeonModel.environments.find(e => e != component.dungeonModel.defaults.environment)!;
-      component.temperature = component.dungeonModel.temperatures.find(e => e != component.dungeonModel.defaults.temperature)!;
-      component.timeOfDay = component.dungeonModel.timesOfDay.find(e => e != component.dungeonModel.defaults.timeOfDay)!;
-      component.level = component.dungeonModel.defaults.level + 1;
-      component.allowAquatic = !component.dungeonModel.defaults.allowAquatic;
-      component.allowUnderground = !component.dungeonModel.defaults.allowUnderground;
+      component.environment = model.environments.find(e => e != model.defaults.environment)!;
+      component.temperature = model.temperatures.find(e => e != model.defaults.temperature)!;
+      component.timeOfDay = model.timesOfDay.find(e => e != model.defaults.timeOfDay)!;
+      component.level = model.defaults.level + 1;
+      component.allowAquatic = !model.defaults.allowAquatic;
+      component.allowUnderground = !model.defaults.allowUnderground;
       component.creatureTypeFilters[0].checked = true;
       component.creatureTypeFilters[1].checked = true;
 
@@ -611,33 +630,34 @@ describe('DungeonGen Component', () => {
         true,
         false,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toBe(areas);
-      expect(component.generating).toBeFalse();
+      expect(component.areas()).toBe(areas);
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it(`should generate a non-default dungeon area from hall`, fakeAsync(() => {
+    it(`should generate a non-default dungeon area from hall`, async () => {
       setupOnInit();
 
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      dungeonServiceSpy.generateAreasFromHall.and.callFake(() => getFakeDelay(areas));
+      dungeonServiceSpy.generateAreasFromHall.mockImplementation(() => getFakeDelay(areas));
 
+      const model = component.dungeonModel()!;
       component.dungeonLevel = 2;
-      component.environment = component.dungeonModel.environments.find(e => e != component.dungeonModel.defaults.environment)!;
-      component.temperature = component.dungeonModel.temperatures.find(e => e != component.dungeonModel.defaults.temperature)!;
-      component.timeOfDay = component.dungeonModel.timesOfDay.find(e => e != component.dungeonModel.defaults.timeOfDay)!;
-      component.level = component.dungeonModel.defaults.level + 1;
-      component.allowAquatic = !component.dungeonModel.defaults.allowAquatic;
-      component.allowUnderground = !component.dungeonModel.defaults.allowUnderground;
+      component.environment = model.environments.find(e => e != model.defaults.environment)!;
+      component.temperature = model.temperatures.find(e => e != model.defaults.temperature)!;
+      component.timeOfDay = model.timesOfDay.find(e => e != model.defaults.timeOfDay)!;
+      component.level = model.defaults.level + 1;
+      component.allowAquatic = !model.defaults.allowAquatic;
+      component.allowUnderground = !model.defaults.allowUnderground;
       component.creatureTypeFilters[0].checked = true;
       component.creatureTypeFilters[1].checked = true;
 
@@ -653,57 +673,57 @@ describe('DungeonGen Component', () => {
         true,
         false,
       );
-      expect(component.generating).toBeTrue();
+      expect(component.generating()).toBe(true);
 
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toBe(areas);
-      expect(component.generating).toBeFalse();
+      expect(component.areas()).toBe(areas);
+      expect(component.generating()).toBe(false);
       
       expect(loggerServiceSpy.logError).not.toHaveBeenCalled();
       expect(sweetAlertServiceSpy.showError).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should display error from generating dungeon area from door', fakeAsync(() => {
+    it('should display error from generating dungeon area from door', async () => {
       setupOnInit();
 
-      dungeonServiceSpy.generateAreasFromDoor.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.generateAreasFromDoor.mockImplementation(() => getFakeError('I failed'));
 
       component.generateFromDoor();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.areas()).toEqual([]);
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
-    it('should display error from generating dungeon area from hall', fakeAsync(() => {
+    it('should display error from generating dungeon area from hall', async () => {
       setupOnInit();
 
-      dungeonServiceSpy.generateAreasFromHall.and.callFake(() => getFakeError('I failed'));
+      dungeonServiceSpy.generateAreasFromHall.mockImplementation(() => getFakeError('I failed'));
 
       component.generateFromHall();
-      tick(delay);
+      await vi.advanceTimersByTimeAsync(delay);
 
-      expect(component.areas).toEqual([]);
-      expect(component.generating).toBeFalse();
-      expect(component.validating).toBeFalse();
+      expect(component.areas()).toEqual([]);
+      expect(component.generating()).toBe(false);
+      expect(component.validating()).toBe(false);
       
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith('I failed');
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
-    }));
+    });
 
     it('should download dungeon areas', () => {
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      component.areas = areas;
+      component.areas.set(areas);
 
-      dungeonPipeSpy.transform.and.returnValue('my formatted dungeon areas');
+      dungeonPipeSpy.transform.mockReturnValue('my formatted dungeon areas');
 
       component.download();
 
@@ -712,7 +732,7 @@ describe('DungeonGen Component', () => {
     });
 
     it('should not download missing dungeon areas', () => {
-      component.areas = [];
+      component.areas.set([]);
 
       component.download();
       
@@ -732,7 +752,7 @@ describe('DungeonGen Component', () => {
       helper = new TestHelper(fixture);
       
       //run ngOnInit
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
     });
 
     it('should create the component', () => {
@@ -740,20 +760,20 @@ describe('DungeonGen Component', () => {
       expect(component).toBeTruthy();
     });
   
-    it('should show the loading component when loading', () => {
+    it('should show the loading component when loading', async () => {
       const component = fixture.componentInstance;
-      component.loading = true;
+      component.loading.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', true, Size.Large);
     });
   
-    it('should hide the loading component when not loading', () => {
+    it('should hide the loading component when not loading', async () => {
       const component = fixture.componentInstance;
-      component.loading = false;
+      component.loading.set(false);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
@@ -762,46 +782,48 @@ describe('DungeonGen Component', () => {
 
     it(`should set the dungeon model on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.dungeonModel).toBeTruthy();
-      expect(component.dungeonModel.environments.length).toEqual(9);
-      expect(component.dungeonModel.environments).toContain(component.dungeonModel.defaults.environment);
-      expect(component.dungeonModel.temperatures.length).toEqual(3);
-      expect(component.dungeonModel.temperatures).toContain(component.dungeonModel.defaults.temperature);
-      expect(component.dungeonModel.timesOfDay.length).toEqual(2);
-      expect(component.dungeonModel.timesOfDay).toContain(component.dungeonModel.defaults.timeOfDay);
-      expect(component.dungeonModel.creatureTypes.length).toEqual(expectedCreatureTypeCount);
-      expect(component.dungeonModel.defaults.environment).toBe('Underground');
-      expect(component.dungeonModel.defaults.temperature).toBe('Temperate');
-      expect(component.dungeonModel.defaults.timeOfDay).toBe('Day');
-      expect(component.dungeonModel.defaults.level).toBe(1);
-      expect(component.dungeonModel.defaults.allowAquatic).toBeFalse();
-      expect(component.dungeonModel.defaults.allowUnderground).toBeTrue();
+      const model = component.dungeonModel();
+      expect(model).toBeTruthy();
+      expect(model!.environments.length).toEqual(9);
+      expect(model!.environments).toContain(model!.defaults.environment);
+      expect(model!.temperatures.length).toEqual(3);
+      expect(model!.temperatures).toContain(model!.defaults.temperature);
+      expect(model!.timesOfDay.length).toEqual(2);
+      expect(model!.timesOfDay).toContain(model!.defaults.timeOfDay);
+      expect(model!.creatureTypes.length).toEqual(expectedCreatureTypeCount);
+      expect(model!.defaults.environment).toBe('Underground');
+      expect(model!.defaults.temperature).toBe('Temperate');
+      expect(model!.defaults.timeOfDay).toBe('Day');
+      expect(model!.defaults.level).toBe(1);
+      expect(model!.defaults.allowAquatic).toBe(false);
+      expect(model!.defaults.allowUnderground).toBe(true);
     });
   
     it(`should set initial values on init`, () => {
       const component = fixture.componentInstance;
-      expect(component.environment).toEqual(component.dungeonModel.defaults.environment);
-      expect(component.temperature).toEqual(component.dungeonModel.defaults.temperature);
-      expect(component.timeOfDay).toEqual(component.dungeonModel.defaults.timeOfDay);
-      expect(component.level).toEqual(component.dungeonModel.defaults.level);
-      expect(component.allowAquatic).toEqual(component.dungeonModel.defaults.allowAquatic);
-      expect(component.allowUnderground).toEqual(component.dungeonModel.defaults.allowUnderground);
-      expect(component.creatureTypeFilters.length).toEqual(component.dungeonModel.creatureTypes.length);
+      const model = component.dungeonModel();
+      expect(component.environment).toEqual(model!.defaults.environment);
+      expect(component.temperature).toEqual(model!.defaults.temperature);
+      expect(component.timeOfDay).toEqual(model!.defaults.timeOfDay);
+      expect(component.level).toEqual(model!.defaults.level);
+      expect(component.allowAquatic).toEqual(model!.defaults.allowAquatic);
+      expect(component.allowUnderground).toEqual(model!.defaults.allowUnderground);
+      expect(component.creatureTypeFilters.length).toEqual(model!.creatureTypes.length);
 
-      for(let i = 0; i < component.dungeonModel.creatureTypes.length; i++) {
+      for(let i = 0; i < model!.creatureTypes.length; i++) {
         expect(component.creatureTypeFilters[i].id).not.toContain(' ');
-        expect(component.creatureTypeFilters[i].id).toBe(component.dungeonModel.creatureTypes[i].replaceAll(' ', '_'));
-        expect(component.creatureTypeFilters[i].displayName).toBe(component.dungeonModel.creatureTypes[i]);
-        expect(component.creatureTypeFilters[i].checked).toBeFalse();
+        expect(component.creatureTypeFilters[i].id).toBe(model!.creatureTypes[i].replaceAll(' ', '_'));
+        expect(component.creatureTypeFilters[i].displayName).toBe(model!.creatureTypes[i]);
+        expect(component.creatureTypeFilters[i].checked).toBe(false);
       }
     });
   
     it(`should initialize public properties`, async () => {
       const component = fixture.componentInstance;
-      expect(component.loading).toBeFalse();
-      expect(component.validating).toBeFalse();
-      expect(component.generating).toBeFalse();
-      expect(component.valid).toBeTrue();
+      expect(component.loading()).toBe(false);
+      expect(component.validating()).toBe(false);
+      expect(component.generating()).toBe(false);
+      expect(component.valid()).toBe(true);
     });
   
     it(`should be ready to generate dungeon areas on load`, async () => {
@@ -809,10 +831,10 @@ describe('DungeonGen Component', () => {
     });
 
     function expectReady() {
-      expect(fixture.componentInstance.loading).toBeFalse();
-      expect(fixture.componentInstance.validating).toBeFalse();
-      expect(fixture.componentInstance.generating).toBeFalse();
-      expect(fixture.componentInstance.valid).toBeTrue();
+      expect(fixture.componentInstance.loading()).toBe(false);
+      expect(fixture.componentInstance.validating()).toBe(false);
+      expect(fixture.componentInstance.generating()).toBe(false);
+      expect(fixture.componentInstance.valid()).toBe(true);
 
       helper.expectHasAttribute('#generateFromDoorButton', 'disabled', false);
       helper.expectHasAttribute('#generateFromHallButton', 'disabled', false);
@@ -836,254 +858,244 @@ describe('DungeonGen Component', () => {
       helper.expectLoading('#dungeonValidating', false, Size.Small);
     });
   
-    it(`should show when validating dungeon`, () => {
+    it(`should show when validating dungeon`, async () => {
       const component = fixture.componentInstance;
-      component.validating = true;
+      component.validating.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
     });
   
     it(`should show that dungeon is invalid - missing dungeon level`, async () => {
       helper.setInput('#dungeonLevel', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.dungeonLevel).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
-    it(`should show that dungeon is invalid - dungeon level invalid`, () => {
+    it(`should show that dungeon is invalid - dungeon level invalid`, async () => {
       helper.setInput('#dungeonLevel', 'wrong');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.dungeonLevel).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
-    it(`should show that dungeon is invalid - dungeon level too low`, () => {
+    it(`should show that dungeon is invalid - dungeon level too low`, async () => {
       helper.setInput('#dungeonLevel', '0');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.dungeonLevel).toEqual(0);
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
     it(`should show that dungeon is invalid - missing environment`, async () => {
       helper.setSelectByValue('#environment', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.environment).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
     it(`should show that dungeon is invalid - missing temperature`, async () => {
       helper.setSelectByValue('#temperature', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.temperature).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
     it(`should show that dungeon is invalid - missing time of day`, async () => {
       helper.setSelectByValue('#timeOfDay', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.timeOfDay).toEqual('');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
     it(`should show that dungeon is invalid - missing level`, async () => {
       helper.setInput('#level', '');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
-    it(`should show that dungeon is invalid - level invalid`, () => {
+    it(`should show that dungeon is invalid - level invalid`, async () => {
       helper.setInput('#level', 'wrong');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toBeNull();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
-    it(`should show that dungeon is invalid - level too low`, () => {
+    it(`should show that dungeon is invalid - level too low`, async () => {
       helper.setInput('#level', '0');
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.level).toEqual(0);
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
 
     const checkboxValues = [ true, false ];
 
     checkboxValues.forEach(v => {
-      it(`should validate when allow aquatic changes - value ${v}`, waitForAsync(async () => {
+      it(`should validate when allow aquatic changes - value ${v}`, async () => {
         helper.setCheckbox('#allowAquatic', v);
         
-        fixture.detectChanges();
-  
         helper.expectCheckboxInput('#allowAquatic', false, v);
-        helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-        helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
-      }));
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
+      });
       
-      it(`should validate when allow underground changes - value ${v}`, waitForAsync(async () => {
+      it(`should validate when allow underground changes - value ${v}`, async () => {
         helper.setCheckbox('#allowUnderground', v);
         
-        fixture.detectChanges();
-  
         helper.expectCheckboxInput('#allowUnderground', false, v);
-        helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-        helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
-      }));
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+        helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
+      });
       
       for(let i = 0; i < expectedCreatureTypeCount; i++) {
         it(`should validate when creature type filter changes - value ${v}, index ${i}`, async () => {
           const selector = `#${fixture.componentInstance.creatureTypeFilters[i].id}`;
           helper.setCheckbox(selector, v);
           
-          fixture.detectChanges();
-    
           helper.expectCheckboxInput(selector, false, v);
-          helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-          helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
+          helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+          helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
         });
       }
     });
 
-    it(`should show that dungeon is invalid - validation fails`, waitForAsync(async () => {
+    it(`should show that dungeon is invalid - validation fails`, async () => {
       helper.setCheckbox('#Ooze', true);
       
-      fixture.detectChanges();
-
       const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
-      expect(oozeFilter?.checked).toBeTrue();
+      expect(oozeFilter?.checked).toBe(true);
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
       
-      expect(fixture.componentInstance.valid).toBeFalse();
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectInvalid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
-    }));
+      expect(fixture.componentInstance.valid()).toBe(false);
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
+    });
   
     it(`should show that dungeon is valid - validation succeeds`, async () => {
       helper.setCheckbox('#Ooze', true);
       
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.setCheckbox('#allowUnderground', true);
       
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.setInput('#level', '7');
 
-      fixture.detectChanges();
-
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
       expect(fixture.componentInstance.level).toEqual(7);
 
       const oozeFilter = fixture.componentInstance.creatureTypeFilters.find(f => f.id == "Ooze");
       expect(oozeFilter).toBeTruthy();
-      expect(oozeFilter?.checked).toBeTrue();
+      expect(oozeFilter?.checked).toBe(true);
 
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectValidating(fixture.componentInstance.validating, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectValidating(fixture.componentInstance.validating(), '#generateFromHallButton', '#dungeonValidating');
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
-      helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromDoorButton', '#dungeonValidating');
-      helper.expectValid(fixture.componentInstance.validating, fixture.componentInstance.valid, '#generateFromHallButton', '#dungeonValidating');
+      helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromDoorButton', '#dungeonValidating');
+      helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.valid(), '#generateFromHallButton', '#dungeonValidating');
     });
   
-    it(`should bind allowing aquatic`, () => {
-      expect(fixture.componentInstance.allowAquatic).toBeFalse();
+    it(`should bind allowing aquatic`, async () => {
+      expect(fixture.componentInstance.allowAquatic).toBe(false);
 
       helper.clickCheckbox('#allowAquatic');
 
-      fixture.detectChanges();
-      expect(fixture.componentInstance.allowAquatic).toBeTrue();
+      await helper.waitForChangeDetection();
+      expect(fixture.componentInstance.allowAquatic).toBe(true);
 
       helper.clickCheckbox('#allowAquatic');
 
-      fixture.detectChanges();
-      expect(fixture.componentInstance.allowAquatic).toBeFalse();
+      await helper.waitForChangeDetection();
+      expect(fixture.componentInstance.allowAquatic).toBe(false);
     });
   
-    it(`should bind allowing underground`, () => {
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+    it(`should bind allowing underground`, async () => {
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
 
       helper.clickCheckbox('#allowUnderground');
 
-      fixture.detectChanges();
-      expect(fixture.componentInstance.allowUnderground).toBeFalse();
+      await helper.waitForChangeDetection();
+      expect(fixture.componentInstance.allowUnderground).toBe(false);
 
       helper.clickCheckbox('#allowUnderground');
 
-      fixture.detectChanges();
-      expect(fixture.componentInstance.allowUnderground).toBeTrue();
+      await helper.waitForChangeDetection();
+      expect(fixture.componentInstance.allowUnderground).toBe(true);
     });
 
     for(let i = 0; i < expectedCreatureTypeCount; i++) {
-      it(`should bind creature type filters - index ${i}`, () => {
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
+      it(`should bind creature type filters - index ${i}`, async () => {
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
-        fixture.detectChanges();
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeTrue();
+        await helper.waitForChangeDetection();
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(true);
   
         helper.clickCheckbox(`#${fixture.componentInstance.creatureTypeFilters[i].id}`);
   
-        fixture.detectChanges();
-        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBeFalse();
+        await helper.waitForChangeDetection();
+        expect(fixture.componentInstance.creatureTypeFilters[i].checked).toBe(false);
       });
     }
   
-    it(`should show when generating a dungeon area`, () => {
+    it(`should show when generating a dungeon area`, async () => {
       const component = fixture.componentInstance;
-      component.generating = true;
+      component.generating.set(true);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating', 
         '#downloadButton');
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1094,17 +1106,15 @@ describe('DungeonGen Component', () => {
     it(`should generate the default dungeon from door`, async () => {
       helper.clickButton('#generateFromDoorButton');
 
-      fixture.detectChanges();
-      
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating', 
         '#downloadButton');
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1112,17 +1122,17 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating',
         '#downloadButton');
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1137,17 +1147,15 @@ describe('DungeonGen Component', () => {
     it(`should generate the default dungeon from hall`, async () => {
       helper.clickButton('#generateFromHallButton');
 
-      fixture.detectChanges();
-      
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating', 
         '#downloadButton');
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1155,17 +1163,17 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating',
         '#downloadButton');
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1180,9 +1188,9 @@ describe('DungeonGen Component', () => {
     TestHelper.runFlakyTest(() => {
       it(`should generate non-default dungeon from door`, async () => {
         helper.setInput('#dungeonLevel', '3');
-        helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel.environments.indexOf('Mountain'));
-        helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel.temperatures.indexOf('Cold'));
-        helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel.timesOfDay.indexOf('Night'));
+        helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel()!.environments.indexOf('Mountain'));
+        helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel()!.temperatures.indexOf('Cold'));
+        helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel()!.timesOfDay.indexOf('Night'));
         helper.setInput('#level', '10');
         helper.setCheckbox('#allowAquatic', true);
         helper.setCheckbox('#allowUnderground', false);
@@ -1190,35 +1198,33 @@ describe('DungeonGen Component', () => {
         helper.setCheckbox('#Giant', true);
         helper.setCheckbox('#Humanoid', true);
         
-        fixture.detectChanges();
+        await helper.waitForChangeDetection();
   
         expect(fixture.componentInstance.dungeonLevel).toEqual(3);
         expect(fixture.componentInstance.environment).toEqual('Mountain');
         expect(fixture.componentInstance.temperature).toEqual('Cold');
         expect(fixture.componentInstance.timeOfDay).toEqual('Night');
         expect(fixture.componentInstance.level).toEqual(10);
-        expect(fixture.componentInstance.allowAquatic).toBeTrue();
-        expect(fixture.componentInstance.allowUnderground).toBeFalse();
+        expect(fixture.componentInstance.allowAquatic).toBe(true);
+        expect(fixture.componentInstance.allowUnderground).toBe(false);
   
         const checkedfilters = getCheckedFilters();
         expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
   
         //run validation
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.clickButton('#generateFromDoorButton');
   
-        fixture.detectChanges();
-        
         helper.expectGenerating(
-          fixture.componentInstance.generating,
+          fixture.componentInstance.generating(),
           '#generateFromDoorButton', 
           '#areasSection', 
           '#generatingSection', 
           '#dungeonValidating', 
           '#downloadButton');
         helper.expectGenerating(
-          fixture.componentInstance.generating,
+          fixture.componentInstance.generating(),
           '#generateFromHallButton', 
           '#areasSection', 
           '#generatingSection', 
@@ -1226,17 +1232,17 @@ describe('DungeonGen Component', () => {
           '#downloadButton');
   
         //run generate encounter
-        await helper.waitForService();
+        await helper.waitForChangeDetection();
   
         helper.expectGenerated(
-          fixture.componentInstance.generating,
+          fixture.componentInstance.generating(),
           '#generateFromDoorButton', 
           '#areasSection', 
           '#generatingSection', 
           '#dungeonValidating',
           '#downloadButton');
         helper.expectGenerated(
-          fixture.componentInstance.generating,
+          fixture.componentInstance.generating(),
           '#generateFromHallButton', 
           '#areasSection', 
           '#generatingSection', 
@@ -1245,14 +1251,14 @@ describe('DungeonGen Component', () => {
   
         helper.expectExists('#noAreas', false);
         helper.expectAreas('#areasSection dndgen-area', true);
-      });
+      }, 10000);
     });
   
     it(`should generate non-default dungeon from hall`, async () => {
       helper.setInput('#dungeonLevel', '3');
-      helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel.environments.indexOf('Mountain'));
-      helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel.temperatures.indexOf('Cold'));
-      helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel.timesOfDay.indexOf('Night'));
+      helper.setSelectByIndex('#environment', fixture.componentInstance.dungeonModel()!.environments.indexOf('Mountain'));
+      helper.setSelectByIndex('#temperature', fixture.componentInstance.dungeonModel()!.temperatures.indexOf('Cold'));
+      helper.setSelectByIndex('#timeOfDay', fixture.componentInstance.dungeonModel()!.timesOfDay.indexOf('Night'));
       helper.setInput('#level', '10');
       helper.setCheckbox('#allowAquatic', true);
       helper.setCheckbox('#allowUnderground', false);
@@ -1260,35 +1266,33 @@ describe('DungeonGen Component', () => {
       helper.setCheckbox('#Giant', true);
       helper.setCheckbox('#Humanoid', true);
       
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       expect(fixture.componentInstance.dungeonLevel).toEqual(3);
       expect(fixture.componentInstance.environment).toEqual('Mountain');
       expect(fixture.componentInstance.temperature).toEqual('Cold');
       expect(fixture.componentInstance.timeOfDay).toEqual('Night');
       expect(fixture.componentInstance.level).toEqual(10);
-      expect(fixture.componentInstance.allowAquatic).toBeTrue();
-      expect(fixture.componentInstance.allowUnderground).toBeFalse();
+      expect(fixture.componentInstance.allowAquatic).toBe(true);
+      expect(fixture.componentInstance.allowUnderground).toBe(false);
 
       const checkedfilters = getCheckedFilters();
       expect(checkedfilters).toEqual(['Dragon', 'Giant', 'Humanoid']);
 
       //run validation
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#generateFromHallButton');
 
-      fixture.detectChanges();
-      
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating', 
         '#downloadButton');
       helper.expectGenerating(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1296,17 +1300,17 @@ describe('DungeonGen Component', () => {
         '#downloadButton');
 
       //run generate encounter
-      await helper.waitForService();
+      await helper.waitForChangeDetection();
 
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromDoorButton', 
         '#areasSection', 
         '#generatingSection', 
         '#dungeonValidating',
         '#downloadButton');
       helper.expectGenerated(
-        fixture.componentInstance.generating,
+        fixture.componentInstance.generating(),
         '#generateFromHallButton', 
         '#areasSection', 
         '#generatingSection', 
@@ -1318,7 +1322,7 @@ describe('DungeonGen Component', () => {
     });
     
     function getCheckedFilters(): string[] {
-      var checkedFilters = [];
+      var checkedFilters: string[] = [];
   
       for (var i = 0; i < fixture.componentInstance.creatureTypeFilters.length; i++) {
           if (fixture.componentInstance.creatureTypeFilters[i].checked) {
@@ -1334,27 +1338,27 @@ describe('DungeonGen Component', () => {
       helper.expectExists('#areasSection dndgen-area', false);
     });
     
-    it(`should render 1 area`, () => {
+    it(`should render 1 area`, async () => {
       const areas = [
         new Area('my area type'),
       ];
-      fixture.componentInstance.areas = areas;
+      fixture.componentInstance.areas.set(areas);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#noAreas', false);
       helper.expectExists('#areasSection dndgen-area', true);
       helper.expectAreas('#areasSection dndgen-area', true, areas);
     });
     
-    it(`should render 2 areas`, () => {
+    it(`should render 2 areas`, async () => {
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      fixture.componentInstance.areas = areas;
+      fixture.componentInstance.areas.set(areas);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.expectExists('#noAreas', false);
       helper.expectExists('#areasSection dndgen-area', true);
@@ -1363,21 +1367,21 @@ describe('DungeonGen Component', () => {
     
     it(`should download dungeon`, async () => {
       //Even for an integration test, we don't want to create an actual file
-      let fileSaverSpy = spyOn(FileSaver, 'saveAs').and.stub();
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
 
       const areas = [
         new Area('my area type'),
         new Area('my other area type'),
       ];
-      fixture.componentInstance.areas = areas;
+      fixture.componentInstance.areas.set(areas);
 
-      fixture.detectChanges();
+      await helper.waitForChangeDetection();
 
       helper.clickButton('#downloadButton');
 
-      expect(FileSaver.saveAs).toHaveBeenCalledWith(jasmine.any(Blob), 'my area type.txt');
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'my area type.txt');
         
-      const blob = fileSaverSpy.calls.first().args[0] as Blob;
+      const blob = fileSaverSpy.mock.calls[0][0] as Blob;
       const text = await blob.text();
       expect(text).toMatch(/^my area type[\r\n]+my other area type[\r\n\s]+$/);
     });

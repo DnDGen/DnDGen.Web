@@ -26,7 +26,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
         public void Setup()
         {
             var loggerFactory = new LoggerFactory();
-            var dependencyFactory = GetService<IDependencyFactory>();
+            var dependencyFactory = GetService<IDependencyFactory>()!;
             function = new GenerateCharacterFunction(loggerFactory, dependencyFactory);
         }
 
@@ -2820,7 +2820,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Integration.Functions
                 Assert.That(character.Class.Summary, Is.Not.Empty);
                 Assert.That(character.Race.Summary, Is.Not.Empty);
                 Assert.That(character.Equipment.PrimaryHand, Is.Not.Null);
-                Assert.That(character.Equipment.PrimaryHand.DamageDescription, Is.Not.Empty);
+                Assert.That(character.Equipment.PrimaryHand.DamageSummary, Is.Not.Empty);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿import { TestHelper } from "../../testHelper.spec";
+﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { TestHelper } from "../../test-helper";
 import { Character } from "../models/character.model";
 import { Leadership } from "../models/leadership.model";
 import { CharacterPipe } from "./character.pipe";
@@ -7,7 +8,7 @@ import { LeadershipPipe } from "./leadership.pipe";
 describe('Leadership Pipe', () => {
     describe('unit', () => {
         let pipe: LeadershipPipe;
-        let characterPipeSpy: jasmine.SpyObj<CharacterPipe>;
+        let characterPipeSpy: { transform: ReturnType<typeof vi.fn> };
 
         let leadership: Leadership | null;
         let cohort: Character | null;
@@ -15,16 +16,16 @@ describe('Leadership Pipe', () => {
         let characterCount: number;
     
         beforeEach(() => {
-            characterPipeSpy = jasmine.createSpyObj('CharacterPipe', ['transform']);
+            characterPipeSpy = { transform: vi.fn() };
 
             characterCount = 0;
             leadership = null;
             cohort = null;
             followers = [];
 
-            pipe = new LeadershipPipe(characterPipeSpy);
+            pipe = new LeadershipPipe(characterPipeSpy as unknown as CharacterPipe);
 
-            characterPipeSpy.transform.and.callFake((character, prefix) => {
+            characterPipeSpy.transform.mockImplementation((character: Character, prefix: string) => {
                 if (!prefix)
                     prefix = '';
 

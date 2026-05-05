@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CharacterComponent } from './character.component';
 import { Item } from '../../treasure/models/item.model';
@@ -14,24 +15,24 @@ import { Measurement } from '../models/measurement.model';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { FeatComponent } from './feat.component';
 import { DebugElement } from '@angular/core';
-import { SpellQuantity } from '../models/spellQuantity.model';
+import { SpellQuantity } from '../models/spell-quantity.model';
 import { Spell } from '../models/spell.model';
-import { SpellGroupService } from '../services/spellGroup.service';
-import { SpellGroup } from '../models/spellGroup.model';
-import { SpellGroupComponent } from './spellGroup.component';
-import { TestHelper } from '../../testHelper.spec';
+import { SpellGroupService } from '../services/spell-group.service';
+import { SpellGroup } from '../models/spell-group.model';
+import { SpellGroupComponent } from './spell-group.component';
+import { TestHelper } from '../../test-helper';
 import { ItemComponent } from '../../treasure/components/item.component';
 
 describe('Character Component', () => {
   describe('unit', () => {
     let component: CharacterComponent;
-    let spellGroupServiceSpy: jasmine.SpyObj<SpellGroupService>;
+    let spellGroupServiceSpy: { sortIntoGroups: ReturnType<typeof vi.fn> };
 
     beforeEach(() => {
-      spellGroupServiceSpy = jasmine.createSpyObj('SpellGroupService', ['sortIntoGroups']);
-      component = new CharacterComponent(spellGroupServiceSpy);
+      spellGroupServiceSpy = { sortIntoGroups: vi.fn() };
+      component = new CharacterComponent(spellGroupServiceSpy as unknown as SpellGroupService);
       
-      spellGroupServiceSpy.sortIntoGroups.and.callFake((spells) => {
+      spellGroupServiceSpy.sortIntoGroups.mockImplementation((spells) => {
         if (!spells || spells.length == 0)
             return [];
 
@@ -45,7 +46,7 @@ describe('Character Component', () => {
             new SpellGroup('first spell group', spells.slice(0, 1)),
             new SpellGroup('other spell group', spells.slice(1)),
         ];
-    });
+      });
     });
   
     it(`should set the character `, () => {
@@ -62,7 +63,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeTrue();
+      expect(component.isTwoHanded()).toBe(true);
     });
 
     it('should say primary weapon is not two-handed - one-handed', () => {
@@ -72,7 +73,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeFalse();
+      expect(component.isTwoHanded()).toBe(false);
     });
 
     it('should say primary weapon is not two-handed - no primary weapon', () => {
@@ -81,7 +82,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.isTwoHanded()).toBeFalse();
+      expect(component.isTwoHanded()).toBe(false);
     });
 
     it('should sort spells into groups', () => {
@@ -174,7 +175,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeTrue();
+      expect(component.offHandDetails).toBe(true);
     });
 
     it('should return off-hand details - two-handed', () => {
@@ -186,7 +187,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeFalse();
+      expect(component.offHandDetails).toBe(false);
     });
 
     it('should return off-hand details - none', () => {
@@ -195,7 +196,7 @@ describe('Character Component', () => {
 
       component.character = character;
 
-      expect(component.offHandDetails).toBeFalse();
+      expect(component.offHandDetails).toBe(false);
     });
 
     it('should get skill display name', () => {

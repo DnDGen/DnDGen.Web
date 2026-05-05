@@ -1,25 +1,26 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { EncounterService } from './encounter.service'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import '@angular/compiler';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { EncounterGenViewModel } from '../models/encountergenViewModel.model';
-import { EncounterDefaults } from '../models/encounterDefaults.model';
+import { TestBed } from '@angular/core/testing';
+import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
+import { EncounterDefaults } from '../models/encounter-defaults.model';
 import { Encounter } from '../models/encounter.model';
-import { TestHelper } from '../../testHelper.spec';
+import { TestHelper } from '../../test-helper';
 
 describe('Encounter Service', () => {
     describe('unit', () => {
         let encounterService: EncounterService;
-        let httpClientSpy: jasmine.SpyObj<HttpClient>;
+        let httpClientSpy: { get: ReturnType<typeof vi.fn> };
     
         beforeEach(() => {
-            httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+            httpClientSpy = { get: vi.fn() };
     
-            encounterService = new EncounterService(httpClientSpy);
+            encounterService = new EncounterService(httpClientSpy as unknown as HttpClient);
         });
 
-        it('gets the encounter view model', done => {
+        it('gets the encounter view model', () => new Promise<void>(resolve => {
             const model = new EncounterGenViewModel(
                 ['environment 1', 'default environment', 'environment 2'],
                 ['default temp', 'temp 1', 'temp 2'],
@@ -32,14 +33,14 @@ describe('Encounter Service', () => {
                     9266
                 ),
             );
-            httpClientSpy.get.and.returnValue(of(model));
+            httpClientSpy.get.mockReturnValue(of(model));
     
             encounterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
                 expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/encounter/viewmodel');
-                done();
+                resolve();
             });
-        });
+        }));
     
         let parameters = [
             { f: [], a: true, u: true},
@@ -57,9 +58,9 @@ describe('Encounter Service', () => {
         ];
 
         parameters.forEach(test => {
-            it(`generates encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
+            it(`generates encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
                 const expected = new Encounter('my encounter description');
-                httpClientSpy.get.and.returnValue(of(expected));
+                httpClientSpy.get.mockReturnValue(of(expected));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -82,12 +83,12 @@ describe('Encounter Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/generate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
             
-            it(`validates a valid encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
-                httpClientSpy.get.and.returnValue(of(true));
+            it(`validates a valid encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                httpClientSpy.get.mockReturnValue(of(true));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -110,12 +111,12 @@ describe('Encounter Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/validate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
         
-            it(`validates an invalid encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, done => {
-                httpClientSpy.get.and.returnValue(of(false));
+            it(`validates an invalid encounter - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                httpClientSpy.get.mockReturnValue(of(false));
                 let params = new HttpParams({
                     fromObject: {
                       creatureTypeFilters: test.f,
@@ -138,9 +139,9 @@ describe('Encounter Service', () => {
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
                             `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/validate`, 
                             { params: params });
-                        done();
+                        resolve();
                     });
-            });
+            }));
         });
     });
     
@@ -153,7 +154,7 @@ describe('Encounter Service', () => {
             encounterService = TestBed.inject(EncounterService);
         });
 
-        it('gets the encounter view model', waitForAsync(() => {
+        it('gets the encounter view model', () => new Promise<void>(resolve => {
             encounterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBeTruthy();
                 expect(viewmodel.environments.length).toBe(9);
@@ -164,12 +165,13 @@ describe('Encounter Service', () => {
                 expect(viewmodel.defaults.temperature).toBe('Temperate');
                 expect(viewmodel.defaults.timeOfDay).toBe('Day');
                 expect(viewmodel.defaults.level).toBe(1);
-                expect(viewmodel.defaults.allowAquatic).toBeFalse();
-                expect(viewmodel.defaults.allowUnderground).toBeFalse();
+                expect(viewmodel.defaults.allowAquatic).toBe(false);
+                expect(viewmodel.defaults.allowUnderground).toBe(false);
+                resolve();
             });
         }));
     
-        it('generates default encounter', waitForAsync(() => {
+        it('generates default encounter', () => new Promise<void>(resolve => {
             encounterService
                 .generate(
                     'Plains',
@@ -183,10 +185,11 @@ describe('Encounter Service', () => {
                 .subscribe((encounter) => {
                     expect(encounter).toBeTruthy();
                     expect(encounter.description).toBeTruthy();
+                    resolve();
                 });
         }));
     
-        it('generates non-default encounter', waitForAsync(() => {
+        it('generates non-default encounter', () => new Promise<void>(resolve => {
             encounterService
                 .generate(
                     'Mountain',
@@ -199,10 +202,11 @@ describe('Encounter Service', () => {
                 .subscribe((encounter) => {
                     expect(encounter).toBeTruthy();
                     expect(encounter.description).toBeTruthy();
+                    resolve();
                 });
         }));
     
-        it('validates a valid encounter', done => {
+        it('validates a valid encounter', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -214,11 +218,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - empty environment', done => {
+        it('validates an invalid encounter - empty environment', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     '',
@@ -230,11 +234,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad environment', done => {
+        it('validates an invalid encounter - bad environment', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'BadEnvironment',
@@ -246,11 +250,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - empty temperature', done => {
+        it('validates an invalid encounter - empty temperature', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -262,11 +266,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad temperature', done => {
+        it('validates an invalid encounter - bad temperature', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -278,11 +282,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - empty time of day', done => {
+        it('validates an invalid encounter - empty time of day', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -294,11 +298,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad time of day', done => {
+        it('validates an invalid encounter - bad time of day', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -310,11 +314,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - level too low', done => {
+        it('validates an invalid encounter - level too low', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -326,11 +330,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - level too high', done => {
+        it('validates an invalid encounter - level too high', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -342,11 +346,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates a valid encounter - empty filter', done => {
+        it('validates a valid encounter - empty filter', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -358,11 +362,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('BUG - validates a valid encounter - oozes', done => {
+        it('BUG - validates a valid encounter - oozes', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Plains',
@@ -374,11 +378,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates a valid encounter - bad filter', done => {
+        it('validates a valid encounter - bad filter', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -390,11 +394,11 @@ describe('Encounter Service', () => {
                     true)
                 .subscribe((validity) => {
                     expect(validity).toBe(true);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad combo', done => {
+        it('validates an invalid encounter - bad combo', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -406,11 +410,11 @@ describe('Encounter Service', () => {
                     false)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad combo and empty filter', done => {
+        it('validates an invalid encounter - bad combo and empty filter', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -422,11 +426,11 @@ describe('Encounter Service', () => {
                     false)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     
-        it('validates an invalid encounter - bad combo and bad filter', done => {
+        it('validates an invalid encounter - bad combo and bad filter', () => new Promise<void>(resolve => {
             encounterService
                 .validate(
                     'Mountain',
@@ -438,8 +442,8 @@ describe('Encounter Service', () => {
                     false)
                 .subscribe((validity) => {
                     expect(validity).toBe(false);
-                    done();
+                    resolve();
                 });
-        });
+        }));
     });
 });

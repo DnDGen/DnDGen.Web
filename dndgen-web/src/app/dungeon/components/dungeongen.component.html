@@ -1,5 +1,5 @@
 <h1>DungeonGen</h1>
-<dndgen-loading [isLoading]="loading" [size]="sizes.Large">
+<dndgen-loading [isLoading]="loading()" [size]="sizes.Large">
   <div class="row top-buffer">
     <div class="col-sm-6">
         <form name="dungeonForm" #dungeonForm="ngForm" class="form-horizontal top-buffer" role="form">
@@ -20,14 +20,14 @@
             <div class="form-group row">
                 <label for="temperature" class="col-sm-4 col-form-label">Temperature:</label>
                 <div class="col-sm-4">
-                  @if (dungeonModel) {
+                  @if (dungeonModel()) {
                     <select id="temperature" 
                             name="temperature"
                             class="form-select" 
                             [(ngModel)]="temperature" 
                             (change)="validate(dungeonLevel, environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (temperature of dungeonModel.temperatures; track $index) {
+                      @for (temperature of dungeonModel()!.temperatures; track $index) {
                         <option [ngValue]="temperature">{{temperature}}</option>
                       }
                     </select>
@@ -37,14 +37,14 @@
             <div class="form-group row">
                 <label for="environment" class="col-sm-4 col-form-label">Environment:</label>
                 <div class="col-sm-4">
-                  @if (dungeonModel) {
+                  @if (dungeonModel()) {
                     <select id="environment" 
                             name="environment" 
                             class="form-select" 
                             [(ngModel)]="environment" 
                             (change)="validate(dungeonLevel, environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (environment of dungeonModel.environments; track $index) {
+                      @for (environment of dungeonModel()!.environments; track $index) {
                         <option [ngValue]="environment">{{environment}}</option>
                       }
                     </select>
@@ -54,14 +54,14 @@
             <div class="form-group row">
                 <label for="timeOfDay" class="col-sm-4 col-form-label">Time of Day:</label>
                 <div class="col-sm-4">
-                  @if (dungeonModel) {
+                  @if (dungeonModel()) {
                     <select id="timeOfDay" 
                             name="timeOfDay" 
                             class="form-select" 
                             [(ngModel)]="timeOfDay" 
                             (change)="validate(dungeonLevel, environment, temperature, timeOfDay, level, allowAquatic, allowUnderground)" 
                             required>
-                      @for (timeOfDay of dungeonModel.timesOfDay; track $index) {
+                      @for (timeOfDay of dungeonModel()!.timesOfDay; track $index) {
                         <option [ngValue]="timeOfDay">{{timeOfDay}}</option>
                       }
                     </select>
@@ -134,7 +134,7 @@
                           type="button" 
                           class="btn btn-success" 
                           (click)="generateFromDoor()" 
-                          [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
+                          [disabled]="!dungeonForm.form.valid || generating() || validating() || !valid()">
                     Generate From Door
                   </button>
                 </div>
@@ -145,28 +145,28 @@
                           type="button" 
                           class="btn btn-success" 
                           (click)="generateFromHall()" 
-                          [disabled]="!dungeonForm.form.valid || generating || validating || !valid">
+                          [disabled]="!dungeonForm.form.valid || generating() || validating() || !valid()">
                     Generate From Hall
                   </button>
                 </div>
               </div>
               <div class="col-sm-2">
-                <dndgen-loading id="dungeonValidating" [isLoading]="validating" [size]="sizes.Small"></dndgen-loading>
+                <dndgen-loading id="dungeonValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
               </div>
             </div>
         </form>
     </div>
     <div class="col-sm-6 clearfix">
-      @if (!generating) {
-        @if (areas.length) {
+      @if (!generating()) {
+        @if (areas().length) {
           <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
         }
         <div id="areasSection">
-          @if (!areas.length) {
+          @if (!areas().length) {
             <span id="noAreas" class="italicize">No dungeon areas have been generated</span>
           } @else {
             <ul>
-              @for (area of areas; track $index) {
+              @for (area of areas(); track $index) {
                 <li>
                   <dndgen-area [area]="area"></dndgen-area>
                 </li>
@@ -175,7 +175,7 @@
           }
         </div>
       }
-      <dndgen-loading id="generatingSection" [isLoading]="generating" [size]="sizes.Medium"></dndgen-loading>
+      <dndgen-loading id="generatingSection" [isLoading]="generating()" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

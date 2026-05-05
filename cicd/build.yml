@@ -301,7 +301,7 @@ jobs:
     displayName: 'Publish Test Results'
     condition: always()
     inputs:
-      testResultsFiles: '**/TESTS-*.xml'
+      testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'
       failTaskOnFailedTests: true
       failTaskOnMissingResultsFile: true
   - task: PublishBuildArtifacts@1

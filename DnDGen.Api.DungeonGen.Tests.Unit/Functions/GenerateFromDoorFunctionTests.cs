@@ -649,7 +649,7 @@ namespace DnDGen.Api.DungeonGen.Tests.Unit.Functions
                 Assert.That(areas[1].Contents.Encounters.Count(), Is.EqualTo(1));
                 Assert.That(areas[1].Contents.Encounters.Single().Characters.Count(), Is.EqualTo(1));
                 Assert.That(areas[1].Contents.Encounters.Single().Characters.Single().Equipment.PrimaryHand, Is.Not.Null);
-                Assert.That(areas[1].Contents.Encounters.Single().Characters.Single().Equipment.PrimaryHand.DamageDescription, Is.Not.Empty);
+                Assert.That(areas[1].Contents.Encounters.Single().Characters.Single().Equipment.PrimaryHand.DamageSummary, Is.Not.Empty);
             }
         }
     }

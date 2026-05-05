@@ -1,10 +1,11 @@
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemComponent } from './item.component';
 import { Item } from '../models/item.model';
 import { Armor } from '../models/armor.model';
 import { Weapon } from '../models/weapon.model';
-import { SpecialAbility } from '../models/specialAbility.model';
-import { TestHelper } from '../../testHelper.spec';
+import { SpecialAbility } from '../models/special-ability.model';
+import { TestHelper } from '../../test-helper';
 
 describe('Item Component', () => {
   describe('unit', () => {
@@ -61,42 +62,42 @@ describe('Item Component', () => {
       let item = new Item('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is armor when item is armor`, () => {
       let item = new Item('my item', 'Armor');
       component.item = item;
 
-      expect(component.isArmor()).toBeTrue();
+      expect(component.isArmor()).toBe(true);
     });
   
     it(`should say is not armor when weapon`, () => {
       let item = new Weapon('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is armor when armor`, () => {
       let item = new Armor('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isArmor()).toBeTrue();
+      expect(component.isArmor()).toBe(true);
     });
   
     it(`should say is not weapon when item`, () => {
       let item = new Item('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isWeapon()).toBeFalse();
+      expect(component.isWeapon()).toBe(false);
     });
   
     it(`should say is weapon when item is weapon`, () => {
       let item = new Item('my item', 'Weapon');
       component.item = item;
 
-      expect(component.isWeapon()).toBeTrue();
+      expect(component.isWeapon()).toBe(true);
     });
   
     it(`should say is weapon when item is rod with weapon properties`, () => {
@@ -106,7 +107,7 @@ describe('Item Component', () => {
 
       component.item = item as Item;
 
-      expect(component.isWeapon()).toBeTrue();
+      expect(component.isWeapon()).toBe(true);
     });
   
     it(`should say is not weapon when item is rod without weapon properties`, () => {
@@ -114,7 +115,7 @@ describe('Item Component', () => {
       item.canBeUsedAsWeaponOrArmor = false;
       component.item = item;
 
-      expect(component.isWeapon()).toBeFalse();
+      expect(component.isWeapon()).toBe(false);
     });
   
     it(`should say is weapon when item is staff with weapon properties`, () => {
@@ -124,7 +125,7 @@ describe('Item Component', () => {
 
       component.item = item as Item;
 
-      expect(component.isWeapon()).toBeTrue();
+      expect(component.isWeapon()).toBe(true);
     });
   
     it(`should say is not weapon when item is staff without weapon properties`, () => {
@@ -132,7 +133,7 @@ describe('Item Component', () => {
       item.canBeUsedAsWeaponOrArmor = false;
       component.item = item;
 
-      expect(component.isWeapon()).toBeFalse();
+      expect(component.isWeapon()).toBe(false);
     });
   
     it(`should say is not armor when item is rod with weapon properties`, () => {
@@ -142,7 +143,7 @@ describe('Item Component', () => {
 
       component.item = item as Item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is not armor when item is rod without weapon properties`, () => {
@@ -150,7 +151,7 @@ describe('Item Component', () => {
       item.canBeUsedAsWeaponOrArmor = false;
       component.item = item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is not armor when item is staff with weapon properties`, () => {
@@ -160,7 +161,7 @@ describe('Item Component', () => {
 
       component.item = item as Item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is not armor when item is staff without weapon properties`, () => {
@@ -168,25 +169,25 @@ describe('Item Component', () => {
       item.canBeUsedAsWeaponOrArmor = false;
       component.item = item;
 
-      expect(component.isArmor()).toBeFalse();
+      expect(component.isArmor()).toBe(false);
     });
   
     it(`should say is not weapon when armor`, () => {
       let item = new Armor('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isWeapon()).toBeFalse();
+      expect(component.isWeapon()).toBe(false);
     });
   
     it(`should say is weapon when weapon`, () => {
       let item = new Weapon('my item', 'MyItemType');
       component.item = item;
 
-      expect(component.isWeapon()).toBeTrue();
+      expect(component.isWeapon()).toBe(true);
     });
   
     it(`should say it has no details when no item`, () => {
-      expect(component.hasDetails()).toBeFalse();
+      expect(component.hasDetails()).toBe(false);
     });
   
     it(`should say it has no details when item is boring`, () => {
@@ -199,7 +200,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeFalse();
+      expect(component.hasDetails()).toBe(false);
     });
   
     it(`should say it has details when item has contents`, () => {
@@ -212,7 +213,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has traits`, () => {
@@ -225,7 +226,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has magic bonus`, () => {
@@ -238,7 +239,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has negative magic bonus`, () => {
@@ -251,7 +252,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has Charged attribute`, () => {
@@ -264,7 +265,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has a special ability`, () => {
@@ -277,7 +278,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has a curse`, () => {
@@ -290,7 +291,7 @@ describe('Item Component', () => {
       component.item.magic.curse = 'my curse';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when item has intelligence`, () => {
@@ -303,7 +304,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 1;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor is boring`, () => {
@@ -319,7 +320,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has contents`, () => {
@@ -335,7 +336,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has traits`, () => {
@@ -351,7 +352,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has magic bonus`, () => {
@@ -367,7 +368,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has negative magic bonus`, () => {
@@ -383,7 +384,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has Charged attribute`, () => {
@@ -399,7 +400,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has a special ability`, () => {
@@ -415,7 +416,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has a curse`, () => {
@@ -431,7 +432,7 @@ describe('Item Component', () => {
       component.item.magic.curse = 'my curse';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has intelligence`, () => {
@@ -447,7 +448,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 1;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when armor has armor bonus`, () => {
@@ -463,7 +464,7 @@ describe('Item Component', () => {
 
       component.item = armor;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`BUG - should say it has details when armor has cursed armor bonus`, () => {
@@ -479,7 +480,7 @@ describe('Item Component', () => {
 
       component.item = armor;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details weapon item is boring`, () => {
@@ -495,7 +496,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has contents`, () => {
@@ -511,7 +512,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has traits`, () => {
@@ -527,7 +528,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has magic bonus`, () => {
@@ -543,7 +544,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has negative magic bonus`, () => {
@@ -559,7 +560,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has Charged attribute`, () => {
@@ -575,7 +576,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has a special ability`, () => {
@@ -591,7 +592,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has a curse`, () => {
@@ -607,7 +608,7 @@ describe('Item Component', () => {
       component.item.magic.curse = 'my curse';
       component.item.magic.intelligence.ego = 0;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has intelligence`, () => {
@@ -623,7 +624,7 @@ describe('Item Component', () => {
       component.item.magic.curse = '';
       component.item.magic.intelligence.ego = 1;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has damage description`, () => {
@@ -639,7 +640,7 @@ describe('Item Component', () => {
 
       component.item = weapon;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   
     it(`should say it has details when weapon has damage summary`, () => {
@@ -655,7 +656,7 @@ describe('Item Component', () => {
 
       component.item = weapon;
 
-      expect(component.hasDetails()).toBeTrue();
+      expect(component.hasDetails()).toBe(true);
     });
   });
 
@@ -670,36 +671,36 @@ describe('Item Component', () => {
       helper = new TestHelper(fixture);
     });
   
-    it('should create the component', () => {
+    it('should create the component', async () => {
       const component = fixture.componentInstance;
       expect(component).toBeTruthy();
     });
   
-    it(`should render a boring item`, () => {
+    it(`should render a boring item`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', false);
     });
   
-    it(`should render a boring item with quantity of 2`, () => {
+    it(`should render a boring item with quantity of 2`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.quantity = 2;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x2)', false);
     });
   
-    it(`should render an item with contents`, () => {
+    it(`should render an item with contents`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.contents = ['my contents', 'my other contents'];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-contents');
@@ -727,12 +728,12 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon', selector == 'li.item-weapon');
     }
   
-    it(`should render an item with traits`, () => {
+    it(`should render an item with traits`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.traits = ['my trait', 'my other trait'];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-traits');
@@ -740,55 +741,55 @@ describe('Item Component', () => {
       helper.expectTextContents('li.item-traits > dndgen-details li.item-trait', ['my trait', 'my other trait']);
     });
   
-    it(`should render an item with magic bonus of 1`, () => {
+    it(`should render an item with magic bonus of 1`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.bonus = 1;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectTextContent('li.item-magic-bonus', 'Bonus: +1');
     });
   
-    it(`should render an item with magic bonus of 2`, () => {
+    it(`should render an item with magic bonus of 2`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.bonus = 2;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectTextContent('li.item-magic-bonus', 'Bonus: +2');
     });
   
-    it(`should render an item with magic bonus of -1`, () => {
+    it(`should render an item with magic bonus of -1`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.bonus = -1;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectTextContent('li.item-magic-bonus', 'Bonus: -1');
     });
   
-    it(`should render an item with magic bonus of -2`, () => {
+    it(`should render an item with magic bonus of -2`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.bonus = -2;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-bonus');
       helper.expectTextContent('li.item-magic-bonus', 'Bonus: -2');
     });
   
-    it(`should render an item with special abilities`, () => {
+    it(`should render an item with special abilities`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.specialAbilities = [
@@ -796,7 +797,7 @@ describe('Item Component', () => {
         new SpecialAbility('my other special ability'),
       ];
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-special-abilities');
@@ -804,38 +805,38 @@ describe('Item Component', () => {
       helper.expectTextContents('li.item-magic-special-abilities > dndgen-details li.item-magic-special-ability', ['my special ability', 'my other special ability']);
     });
   
-    it(`should render an item with magic charges`, () => {
+    it(`should render an item with magic charges`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.attributes = ['My Attribute', 'Charged', 'My Other Attribute'];
       component.item.magic.charges = 9266;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
       helper.expectTextContent('li.item-magic-charges', 'Charges: 9266');
     });
   
-    it(`should render an item with magic charges, but uncharged`, () => {
+    it(`should render an item with magic charges, but uncharged`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.attributes = ['My Attribute', 'Charged', 'My Other Attribute'];
       component.item.magic.charges = 0;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-charges');
       helper.expectTextContent('li.item-magic-charges', 'Charges: 0');
     });
   
-    it(`should render an item with magic curse`, () => {
+    it(`should render an item with magic curse`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.curse = 'my curse';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-curse');
@@ -850,7 +851,7 @@ describe('Item Component', () => {
       return item;
     }
   
-    it(`should render an item with magic intelligence`, () => {
+    it(`should render an item with magic intelligence`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.intelligence.ego = 9266;
@@ -863,7 +864,7 @@ describe('Item Component', () => {
       component.item.magic.intelligence.powers = ['flight', 'super strength'];
       component.item.magic.intelligence.personality = 'gregarious';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
@@ -905,7 +906,7 @@ describe('Item Component', () => {
       expect(listItems?.item(8).textContent).toEqual('Personality: gregarious');
     });
   
-    it(`should render an item with magic intelligence with languages`, () => {
+    it(`should render an item with magic intelligence with languages`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.intelligence.ego = 9266;
@@ -919,7 +920,7 @@ describe('Item Component', () => {
       component.item.magic.intelligence.powers = ['flight', 'super strength'];
       component.item.magic.intelligence.personality = 'gregarious';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
@@ -965,7 +966,7 @@ describe('Item Component', () => {
       expect(listItems?.item(8).textContent).toEqual('Personality: gregarious');
     });
   
-    it(`should render an item with magic intelligence with special purpose`, () => {
+    it(`should render an item with magic intelligence with special purpose`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.intelligence.ego = 9266;
@@ -980,7 +981,7 @@ describe('Item Component', () => {
       component.item.magic.intelligence.dedicatedPower = 'get really, really mad';
       component.item.magic.intelligence.personality = 'gregarious';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
@@ -1028,7 +1029,7 @@ describe('Item Component', () => {
       expect(listItems?.item(10).textContent).toEqual('Personality: gregarious');
     });
   
-    it(`should render an item with magic intelligence with no personality`, () => {
+    it(`should render an item with magic intelligence with no personality`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.magic.intelligence.ego = 9266;
@@ -1041,7 +1042,7 @@ describe('Item Component', () => {
       component.item.magic.intelligence.powers = ['flight', 'super strength'];
       component.item.magic.intelligence.personality = '';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x1)', true);
       expectOnlyToShow('li.item-magic-intelligence');
@@ -1084,11 +1085,11 @@ describe('Item Component', () => {
       expect(listItems?.item(8).textContent).toEqual('Personality: None');
     });
   
-    it(`should render armor`, () => {
+    it(`should render armor`, async () => {
       const component = fixture.componentInstance;
       component.item = getArmor();
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my armor summary (x1)', true);
       expectOnlyToShow('li.item-armor');
@@ -1118,14 +1119,14 @@ describe('Item Component', () => {
       return armor;
     }
   
-    it(`should render armor without max dexterity bonus`, () => {
+    it(`should render armor without max dexterity bonus`, async () => {
       const armor = getArmor();
       armor.totalMaxDexterityBonus = 100;
 
       const component = fixture.componentInstance;
       component.item = armor;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my armor summary (x1)', true);
       expectOnlyToShow('li.item-armor');
@@ -1141,11 +1142,11 @@ describe('Item Component', () => {
       helper.expectExists('li.item-armor-max-dex', false);
     });
   
-    it(`should render weapon v1`, () => {
+    it(`should render weapon v1`, async () => {
       const component = fixture.componentInstance;
       component.item = getWeapon();
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
@@ -1165,7 +1166,7 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon-ammo', false);
     });
   
-    it(`should render weapon v2`, () => {
+    it(`should render weapon v2`, async () => {
       const weapon = getWeapon();
       weapon.damageDescription = '';
       weapon.damageSummary = 'my damage summary';
@@ -1177,7 +1178,7 @@ describe('Item Component', () => {
       const component = fixture.componentInstance;
       component.item = weapon;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
@@ -1211,7 +1212,7 @@ describe('Item Component', () => {
       return weapon;
     }
   
-    it(`should render double weapon v1`, () => {
+    it(`should render double weapon v1`, async () => {
       const weapon = getWeapon();
       weapon.isDoubleWeapon = true;
       weapon.secondaryDamageDescription = 'my secondary damage description';
@@ -1220,7 +1221,7 @@ describe('Item Component', () => {
       const component = fixture.componentInstance;
       component.item = weapon;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
@@ -1240,7 +1241,7 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon-ammo', false);
     });
   
-    it(`should render double weapon v2`, () => {
+    it(`should render double weapon v2`, async () => {
       const weapon = getWeapon();
       weapon.damageDescription = '';
       weapon.damageSummary = 'my damage summary';
@@ -1257,7 +1258,7 @@ describe('Item Component', () => {
       const component = fixture.componentInstance;
       component.item = weapon;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
@@ -1277,14 +1278,14 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon-ammo', false);
     });
   
-    it(`should render weapon requiring ammunition`, () => {
+    it(`should render weapon requiring ammunition`, async () => {
       const weapon = getWeapon();
       weapon.ammunition = 'my ammo';
 
       const component = fixture.componentInstance;
       component.item = weapon;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x1)', true);
       expectOnlyToShow('li.item-weapon');
@@ -1304,7 +1305,7 @@ describe('Item Component', () => {
       expect(listItems?.item(5).textContent).toEqual('Ammunition Used: my ammo');
     });
   
-    it(`should render an item with everything`, () => {
+    it(`should render an item with everything`, async () => {
       const component = fixture.componentInstance;
       component.item = getItem();
       component.item.quantity = 9266;
@@ -1331,7 +1332,7 @@ describe('Item Component', () => {
       component.item.magic.intelligence.dedicatedPower = 'get really, really mad';
       component.item.magic.intelligence.personality = 'gregarious';
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my item summary (x9266)', true);
       helper.expectExists('li.item-contents', true);
@@ -1399,7 +1400,7 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon', false);
     });
   
-    it(`should render armor with everything`, () => {
+    it(`should render armor with everything`, async () => {
       const armor = getArmor();
       armor.quantity = 9266;
       armor.contents = ['my contents', 'my other contents'];
@@ -1431,7 +1432,7 @@ describe('Item Component', () => {
       const component = fixture.componentInstance;
       component.item = armor;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my armor summary (x9266)', true);
       helper.expectExists('li.item-contents', true);
@@ -1516,7 +1517,7 @@ describe('Item Component', () => {
       helper.expectExists('li.item-weapon', false);
     });
   
-    it(`should render weapon with everything`, () => {
+    it(`should render weapon with everything`, async () => {
       const weapon = getWeapon();
       weapon.quantity = 9266;
       weapon.contents = ['my contents', 'my other contents'];
@@ -1549,7 +1550,7 @@ describe('Item Component', () => {
       const component = fixture.componentInstance;
       component.item = weapon;
 
-      fixture.detectChanges();
+      await fixture.whenStable();
   
       helper.expectDetails('dndgen-details.item-header', 'my weapon summary (x9266)', true);
       helper.expectExists('li.item-contents', true);

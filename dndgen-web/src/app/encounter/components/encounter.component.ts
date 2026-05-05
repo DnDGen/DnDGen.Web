@@ -1,6 +1,6 @@
 import { Input, Component } from '@angular/core';
 import { Encounter } from '../models/encounter.model';
-import { EncounterCreaturePipe } from '../pipes/encounterCreature.pipe';
+import { EncounterCreaturePipe } from '../pipes/encounter-creature.pipe';
 import { CreaturePipe } from '../pipes/creature.pipe';
 import { CharacterComponent } from '../../character/components/character.component';
 import { TreasureComponent } from '../../treasure/components/treasure.component';
