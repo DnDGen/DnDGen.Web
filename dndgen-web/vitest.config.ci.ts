@@ -28,7 +28,7 @@ export default defineConfig({
       exclude: ['**/*.spec.ts', '**/*.config.ts']
     },
     
-    reporters: ['default', 'junit'],
+    reporters: ['verbose', 'junit'],
     
     server: {
       deps: {
