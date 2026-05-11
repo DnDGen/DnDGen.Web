@@ -252,7 +252,12 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
         [Test]
         public void GetValid_ReturnsInvalid_WithTemplates()
         {
-            var request = requestHelper.BuildRequest($"?templates=half-dragon (gold)&templates=invalid");
+            var query = new NameValueCollection
+            {
+                { "templates", "half-dragon (gold)" },
+                { "templates", "invalid" },
+            };
+            var request = requestHelper.BuildRequest(query);
             var (Valid, Error, creatureSpecifications) = CreatureValidator.GetValid(null, request);
 
             using (Assert.EnterMultipleScope())

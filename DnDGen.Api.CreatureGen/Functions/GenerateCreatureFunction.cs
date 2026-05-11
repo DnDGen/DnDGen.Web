@@ -27,11 +27,6 @@ namespace DnDGen.Api.CreatureGen.Functions
             Required = true,
             Type = typeof(string),
             Description = "The creature to generate")]
-        [OpenApiParameter(name: "alignment",
-            In = ParameterLocation.Query,
-            Required = false,
-            Type = typeof(string),
-            Description = "The desired alignment for the creature")]
         [OpenApiParameter(name: "templates",
             In = ParameterLocation.Query,
             Required = false,
@@ -67,7 +62,7 @@ namespace DnDGen.Api.CreatureGen.Functions
 
             var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
 
-            var creature = await _creatureGenerator.GenerateAsync(false, creatureName, templates: templates);
+            var creature = await _creatureGenerator.GenerateAsync(false, CreatureSpecifications!.Creature, templates: templates);
 
             _logger.LogInformation($"Generated Creature: {creature.Summary}");
 
