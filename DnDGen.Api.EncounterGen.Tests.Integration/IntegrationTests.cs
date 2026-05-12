@@ -23,7 +23,7 @@ namespace DnDGen.Api.EncounterGen.Tests.Integration
             return dependencyFactory.Get<T>();
         }
 
-        protected T GetService<T>()
+        protected T? GetService<T>()
         {
             return serviceProvider.GetService<T>();
         }

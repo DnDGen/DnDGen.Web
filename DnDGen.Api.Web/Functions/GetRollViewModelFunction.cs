@@ -8,14 +8,9 @@ using System.Net;
 
 namespace DnDGen.Api.Web.Functions
 {
-    public class GetRollViewModelFunction
+    public class GetRollViewModelFunction(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetRollViewModelFunction(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetRollViewModelFunction>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetRollViewModelFunction>();
 
         [Function("GetRollViewModelFunction")]
         [OpenApiOperation(operationId: "GetRollViewModelFunctionRun", tags: ["v1"],

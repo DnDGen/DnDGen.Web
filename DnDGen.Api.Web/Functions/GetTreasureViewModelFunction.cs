@@ -8,14 +8,9 @@ using System.Net;
 
 namespace DnDGen.Api.Web.Functions
 {
-    public class GetTreasureViewModelFunction
+    public class GetTreasureViewModelFunction(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetTreasureViewModelFunction(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetTreasureViewModelFunction>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetTreasureViewModelFunction>();
 
         [Function("GetTreasureViewModelFunction")]
         [OpenApiOperation(operationId: "GetTreasureViewModelFunctionRun", tags: ["v1"],
