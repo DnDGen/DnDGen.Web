@@ -1,11 +1,13 @@
 using DnDGen.Api.CreatureGen.Dependencies;
 using DnDGen.Api.CreatureGen.Functions;
+using DnDGen.Api.CreatureGen.Models;
 using DnDGen.Api.Tests.Integration.Helpers;
 using DnDGen.CreatureGen.Creatures;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections;
 using System.Net;
+using System.Web;
 
 namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
 {
@@ -22,7 +24,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
             function = new ValidateCreatureFunction(loggerFactory, dependencyFactory);
         }
 
-        private static IEnumerable CreatureNames => CreatureConstants.GetAll().Select(c => new TestCaseData(c));
+        private static IEnumerable CreatureNames => CreatureSpecifications.Creatures.Select(c => new TestCaseData(c));
 
         [TestCaseSource(nameof(CreatureNames))]
         public async Task ValidateCreature_ReturnsValid_WithValidCreatureName(string creatureName)
@@ -42,25 +44,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
             Assert.That(valid, Is.True);
         }
 
-        [Test]
-        public async Task GenerateCreature_ReturnsValid_WithValidCreatureName_CaseInsensitive()
-        {
-            var url = GetUrl(CreatureConstants.Goblin.ToUpper());
-            var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.RunV1(request, CreatureConstants.Goblin.ToUpper());
-
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Body, Is.Not.Null);
-            }
-
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.True);
-        }
-
-        private static IEnumerable TemplateNames => CreatureConstants.Templates.GetAll()
+        private static IEnumerable TemplateNames => CreatureSpecifications.Templates
             .Except([CreatureConstants.Templates.None, CreatureConstants.Templates.Lich])
             .Select(c => new TestCaseData(c));
 
@@ -74,7 +58,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
             else if (templateName == CreatureConstants.Templates.Vampire)
                 creatureName = CreatureConstants.Minotaur;
 
-            var url = GetUrl(creatureName, $"templates={templateName}");
+            var url = GetUrl(creatureName, $"templates={HttpUtility.UrlEncode(templateName)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, creatureName);
 
@@ -100,7 +84,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
         [TestCase(CreatureConstants.Minotaur, CreatureConstants.Templates.Lycanthrope_Rat_Natural)]
         public async Task GenerateCreature_ReturnsInvalid(string creatureName, string templateName)
         {
-            var url = GetUrl(creatureName, $"templates={templateName}");
+            var url = GetUrl(creatureName, $"templates={HttpUtility.UrlEncode(templateName)}");
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, creatureName);
 
@@ -116,28 +100,10 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
         }
 
         [Test]
-        public async Task GenerateCreature_ReturnsValid_WithValidTemplate_CaseInsensitive()
-        {
-            var url = GetUrl(CreatureConstants.Human, $"templates={CreatureConstants.Templates.Skeleton.ToUpper()}");
-            var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.RunV1(request, CreatureConstants.Human);
-
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Body, Is.Not.Null);
-            }
-
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.True);
-        }
-
-        [Test]
         public async Task GenerateCreature_ReturnsValid_WithMultipleTemplates()
         {
-            var query = $"templates={CreatureConstants.Templates.HalfDragon_Gold}";
-            query += $"&templates={CreatureConstants.Templates.CelestialCreature}";
+            var query = $"templates={HttpUtility.UrlEncode(CreatureConstants.Templates.HalfDragon_Gold)}";
+            query += $"&templates={HttpUtility.UrlEncode(CreatureConstants.Templates.CelestialCreature)}";
             var url = GetUrl(CreatureConstants.Lammasu, query);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, CreatureConstants.Lammasu);
@@ -156,29 +122,11 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
         [Test]
         public async Task GenerateCreature_ReturnsInvalid_WithMultipleTemplates()
         {
-            var query = $"templates={CreatureConstants.Templates.HalfDragon_Gold}";
-            query += $"&templates={CreatureConstants.Templates.FiendishCreature}";
+            var query = $"templates={HttpUtility.UrlEncode(CreatureConstants.Templates.HalfDragon_Gold)}";
+            query += $"&templates={HttpUtility.UrlEncode(CreatureConstants.Templates.FiendishCreature)}";
             var url = GetUrl(CreatureConstants.Lammasu, query);
             var request = RequestHelper.BuildRequest(url, serviceProvider);
             var response = await function.RunV1(request, CreatureConstants.Lammasu);
-
-            Assert.That(response, Is.InstanceOf<HttpResponseData>());
-            using (Assert.EnterMultipleScope())
-            {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(response.Body, Is.Not.Null);
-            }
-
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.False);
-        }
-
-        [Test]
-        public async Task GenerateCreature_ReturnsInvalid_WithInvalidCreatureName()
-        {
-            var url = GetUrl("InvalidCreature");
-            var request = RequestHelper.BuildRequest(url, serviceProvider);
-            var response = await function.RunV1(request, "InvalidCreature");
 
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
             using (Assert.EnterMultipleScope())

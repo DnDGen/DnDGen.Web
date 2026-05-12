@@ -1,5 +1,6 @@
 using DnDGen.Api.CreatureGen.Dependencies;
 using DnDGen.Api.CreatureGen.Functions;
+using DnDGen.Api.CreatureGen.Models;
 using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CreatureGen.Creatures;
@@ -80,7 +81,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.Count == 1 && f.Templates[0] == template)))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -111,7 +112,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.Count == 2 && f.Templates[0] == template1 && f.Templates[1] == template2)))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -146,7 +147,9 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             Assert.That(valid, Is.False);
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
-            mockLogger.AssertLog("Parameters are not a valid combination. Error: {Error}", LogLevel.Error);
+            mockLogger.AssertLog(
+                $"Parameters are not valid. Error: Creature is not valid. Should be one of: [{string.Join(", ", CreatureSpecifications.Creatures)}]",
+                LogLevel.Error);
         }
 
         [Test]
@@ -169,7 +172,9 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             Assert.That(valid, Is.False);
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
-            mockLogger.AssertLog("Parameters are not a valid combination. Error: {Error}", LogLevel.Error);
+            mockLogger.AssertLog(
+                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.Templates)}]",
+                LogLevel.Error);
         }
     }
 }

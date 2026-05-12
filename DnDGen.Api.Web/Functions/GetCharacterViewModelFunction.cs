@@ -8,14 +8,9 @@ using System.Net;
 
 namespace DnDGen.Api.Web.Functions
 {
-    public class GetCharacterViewModelFunction
+    public class GetCharacterViewModelFunction(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetCharacterViewModelFunction(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetCharacterViewModelFunction>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetCharacterViewModelFunction>();
 
         [Function("GetCharacterViewModelFunction")]
         [OpenApiOperation(operationId: "GetCharacterViewModelFunctionRun", tags: ["v1"],

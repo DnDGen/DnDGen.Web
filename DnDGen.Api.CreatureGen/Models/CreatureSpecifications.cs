@@ -94,7 +94,7 @@ namespace DnDGen.Api.CreatureGen.Models
 
             valid &= Filters?.CleanTemplates.Contains(badValue) != true;
             if (!valid)
-                return (false, $"Templates filter is not valid. Should be one of: [{string.Join(", ", Templates)}]");
+                return (false, $"Templates filter is not valid. Should be subset of: [{string.Join(", ", Templates)}]");
 
             valid &= Filters?.Alignment != badValue;
             if (!valid)

@@ -428,7 +428,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 var templates = CreatureConstants.Templates.GetAll();
 
                 Assert.That(Valid, Is.False);
-                Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be one of: [{string.Join(", ", templates)}]"));
+                Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be subset of: [{string.Join(", ", templates)}]"));
             }
         }
 

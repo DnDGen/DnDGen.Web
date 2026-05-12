@@ -40,7 +40,7 @@ namespace DnDGen.Api.CreatureGen.Functions
             var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(creatureName, req);
             if (!Valid)
             {
-                _logger.LogError($"Parameters are not a valid combination. Error: {Error}");
+                _logger.LogError($"Parameters are not valid. Error: {Error}");
 
                 var invalidResponse = req.CreateResponse(HttpStatusCode.OK);
                 await invalidResponse.WriteAsJsonAsync(false);

@@ -12,35 +12,43 @@ using System.Net;
 
 namespace DnDGen.Api.CreatureGen.Functions
 {
-    public class GenerateCreatureFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
+    public class GenerateRandomCreatureFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
     {
-        private readonly ILogger _logger = loggerFactory.CreateLogger<GenerateCreatureFunction>();
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GenerateRandomCreatureFunction>();
         private readonly ICreatureVerifier _creatureVerifier = dependencyFactory.Get<ICreatureVerifier>();
         private readonly ICreatureGenerator _creatureGenerator = dependencyFactory.Get<ICreatureGenerator>();
 
-        [Function("GenerateCreatureFunction")]
-        [OpenApiOperation(operationId: "GenerateCreatureFunctionRun", tags: ["v1"],
-            Summary = "Generate a creature",
-            Description = "Generate a creature")]
-        [OpenApiParameter(name: "creatureName",
-            In = ParameterLocation.Path,
-            Required = true,
-            Type = typeof(string),
-            Description = "The creature to generate")]
+        [Function("GenerateRandomCreatureFunction")]
+        [OpenApiOperation(operationId: "GenerateRandomCreatureFunctionRun", tags: ["v1"],
+            Summary = "Generate a random creature",
+            Description = "Generate a random creature")]
         [OpenApiParameter(name: "templates",
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string[]),
-            Description = "The desired templates to apply to the generated creature. Templates are applied in order set in query.")]
+            Description = "The desired templates to apply to the generated creature. Templates are applied in the order set in the query.")]
+        [OpenApiParameter(name: "alignment",
+            In = ParameterLocation.Query,
+            Required = true,
+            Type = typeof(string),
+            Description = "The desired alignment of the creature")]
+        [OpenApiParameter(name: "type",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string[]),
+            Description = "The desired type or subtype of the generated creature.")]
+        [OpenApiParameter(name: "cr",
+            In = ParameterLocation.Query,
+            Required = false,
+            Type = typeof(string[]),
+            Description = "The desired Challenge Rating of the generated creature.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Creature),
             Description = "The generated creature")]
-        public async Task<HttpResponseData> RunV1(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/{creatureName}/generate")] HttpRequestData req,
-            string creatureName)
+        public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/random/generate")] HttpRequestData req)
         {
-            _logger.LogInformation("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (GenerateRandomCreatureFunction.RunV1) processed a request.");
 
-            var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(creatureName, req);
+            var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(null, req);
             if (!Valid)
             {
                 _logger.LogError($"Parameters are not valid. Error: {Error}");
@@ -50,7 +58,7 @@ namespace DnDGen.Api.CreatureGen.Functions
             }
 
             var compatible = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications!.Creature, CreatureSpecifications.Filters);
-            _logger.LogInformation($"Compatible Creature = {compatible}");
+            _logger.LogInformation($"Compatible Parameters = {compatible}");
 
             if (!compatible)
             {
@@ -60,9 +68,7 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
-
-            var creature = await _creatureGenerator.GenerateAsync(false, CreatureSpecifications!.Creature, templates: templates);
+            var creature = await _creatureGenerator.GenerateRandomAsync(false, filters: CreatureSpecifications.Filters);
 
             _logger.LogInformation($"Generated Creature: {creature.Summary}");
 

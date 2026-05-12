@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DnDGen.CharacterGen" Version="16.0.4" />
+    <PackageReference Include="DnDGen.CreatureGen" Version="1.0.9" />
     <PackageReference Include="DnDGen.DungeonGen" Version="5.0.4" />
     <PackageReference Include="DnDGen.EncounterGen" Version="6.0.5" />
     <PackageReference Include="DnDGen.RollGen" Version="16.0.7" />

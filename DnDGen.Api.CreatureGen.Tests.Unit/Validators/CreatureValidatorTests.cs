@@ -256,6 +256,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
             {
                 { "templates", "half-dragon (gold)" },
                 { "templates", "invalid" },
+                { "templates", "ghost" },
             };
             var request = requestHelper.BuildRequest(query);
             var (Valid, Error, creatureSpecifications) = CreatureValidator.GetValid(null, request);
@@ -263,7 +264,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
             using (Assert.EnterMultipleScope())
             {
                 Assert.That(Valid, Is.False);
-                Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be one of: [{string.Join(", ", CreatureSpecifications.Templates)}]"));
+                Assert.That(Error, Is.EqualTo($"Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.Templates)}]"));
                 Assert.That(creatureSpecifications, Is.Null);
             }
         }
