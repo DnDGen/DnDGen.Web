@@ -18,7 +18,7 @@ namespace DnDGen.Api.DungeonGen.Tests.Integration.Functions
         public void Setup()
         {
             var loggerFactory = new LoggerFactory();
-            var dependencyFactory = GetService<IDependencyFactory>();
+            var dependencyFactory = GetService<IDependencyFactory>()!;
             function = new GenerateFromDoorFunction(loggerFactory, dependencyFactory);
         }
 

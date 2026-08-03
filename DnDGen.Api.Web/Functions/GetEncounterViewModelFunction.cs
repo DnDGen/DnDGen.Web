@@ -8,14 +8,9 @@ using System.Net;
 
 namespace DnDGen.Api.Web.Functions
 {
-    public class GetEncounterViewModelFunction
+    public class GetEncounterViewModelFunction(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetEncounterViewModelFunction(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetEncounterViewModelFunction>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetEncounterViewModelFunction>();
 
         [Function("GetEncounterViewModelFunction")]
         [OpenApiOperation(operationId: "GetEncounterViewModelFunctionRun", tags: ["v1"],

@@ -6,11 +6,11 @@ namespace DnDGen.Api.EncounterGen.Validators
 {
     public static class EncounterValidator
     {
-        public static IEnumerable<string> Temperatures = [
+        public static readonly IEnumerable<string> Temperatures = [
                 EnvironmentConstants.Temperatures.Temperate,
                 EnvironmentConstants.Temperatures.Warm,
                 EnvironmentConstants.Temperatures.Cold];
-        public static IEnumerable<string> Environments = [
+        public static readonly IEnumerable<string> Environments = [
                 EnvironmentConstants.Aquatic,
                 EnvironmentConstants.Civilized,
                 EnvironmentConstants.Desert,
@@ -20,10 +20,10 @@ namespace DnDGen.Api.EncounterGen.Validators
                 EnvironmentConstants.Mountain,
                 EnvironmentConstants.Plains,
                 EnvironmentConstants.Underground];
-        public static IEnumerable<string> TimesOfDay = [
+        public static readonly IEnumerable<string> TimesOfDay = [
                 EnvironmentConstants.TimesOfDay.Day,
                 EnvironmentConstants.TimesOfDay.Night];
-        public static IEnumerable<string> CreatureTypeFilters = [
+        public static readonly IEnumerable<string> CreatureTypeFilters = [
                 CreatureDataConstants.Types.Aberration,
                 CreatureDataConstants.Types.Animal,
                 CreatureDataConstants.Types.Construct,

@@ -8,14 +8,9 @@ using System.Net;
 
 namespace DnDGen.Api.Web.Functions
 {
-    public class GetDungeonViewModelFunction
+    public class GetDungeonViewModelFunction(ILoggerFactory loggerFactory)
     {
-        private readonly ILogger _logger;
-
-        public GetDungeonViewModelFunction(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<GetDungeonViewModelFunction>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<GetDungeonViewModelFunction>();
 
         [Function("GetDungeonViewModelFunction")]
         [OpenApiOperation(operationId: "GetDungeonViewModelFunctionRun", tags: ["v1"],
