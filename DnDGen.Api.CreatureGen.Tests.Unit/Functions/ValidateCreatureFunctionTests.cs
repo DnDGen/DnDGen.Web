@@ -80,7 +80,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -111,7 +111,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
