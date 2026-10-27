@@ -88,13 +88,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
@@ -124,13 +124,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My multi-templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
