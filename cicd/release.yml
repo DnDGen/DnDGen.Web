@@ -31,7 +31,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
           displayName: 'Run RollGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -110,7 +110,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
           displayName: 'Run TreasureGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -186,43 +186,43 @@ jobs:
             appType: 'functionApp'
             appName: 'creaturegen-api'
             package: '$(Pipeline.Workspace)/**/creaturegen-api/*.zip'
-        # TODO: need to implement the post-deployment tests and website tests
-        # - script: 'npm install -g newman'
-        #   workingDirectory: '$(Pipeline.Workspace)'
-        #   displayName: 'Install Newman'
-        # - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\CreatureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\creaturegen.junitReport.xml'
-        #   displayName: 'Run CreatureGen API Tests'
-        #   retryCountOnTaskFailure: 1
-        # - task: PublishTestResults@2
-        #   displayName: 'Publish Postman Test Results'
-        #   condition: always()
-        #   inputs:
-        #     testResultsFiles: '**/*.junitReport.xml'
-        #     failTaskOnFailedTests: true
-        #     failTaskOnMissingResultsFile: true
+        - script: 'npm install -g newman'
+          workingDirectory: '$(Pipeline.Workspace)'
+          displayName: 'Install Newman'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\CreatureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\creaturegen.junitReport.xml'
+          displayName: 'Run CreatureGen API Tests'
+          retryCountOnTaskFailure: 1
+        - task: PublishTestResults@2
+          displayName: 'Publish Postman Test Results'
+          condition: always()
+          inputs:
+            testResultsFiles: '**/*.junitReport.xml'
+            failTaskOnFailedTests: true
+            failTaskOnMissingResultsFile: true
+        # TODO: Add website tests when test:cd:creaturegen script is implemented
         # - task: UseNode@1
         #   displayName: 'Install node.js'
         #   inputs:
         #     version: '20.x'
-        # - task: Npm@1  
-        #   displayName: 'Install Angular CLI'  
-        #   inputs:  
-        #     command: custom  
-        #     verbose: true  
+        # - task: Npm@1
+        #   displayName: 'Install Angular CLI'
+        #   inputs:
+        #     command: custom
+        #     verbose: true
         #     customCommand: 'install -g @angular/cli'
-        # - task: Npm@1  
-        #   displayName: 'npm install'  
+        # - task: Npm@1
+        #   displayName: 'npm install'
         #   inputs:
         #     workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-        #     verbose: true  
+        #     verbose: true
         #     command: install
-        # - task: Npm@1  
+        # - task: Npm@1
         #   displayName: Run Website Tests
         #   retryCountOnTaskFailure: 1
-        #   inputs: 
+        #   inputs:
         #     command: custom
         #     workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-        #     verbose: true  
+        #     verbose: true
         #     customCommand: 'run test:cd:creaturegen'
         # - task: PublishTestResults@2
         #   displayName: 'Publish Website Test Results'
@@ -231,23 +231,23 @@ jobs:
         #     testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CreatureGen-Website.xml'
         #     failTaskOnFailedTests: true
         #     failTaskOnMissingResultsFile: true
-      # on:
-      #   failure:
-      #     steps:
-      #     - task: DownloadGitHubRelease@0
-      #       displayName: 'Download Rollback Release'
-      #       inputs:
-      #         connection: 'github.com_cidthecoatrack'
-      #         userRepository: 'DnDGen/DnDGen.Web'
-      #         downloadPath: '$(Pipeline.Workspace)\rollback'
-      #         itemPattern: DnDGen.Api.CreatureGen.zip
-      #     - task: AzureFunctionApp@2
-      #       displayName: 'Rollback Azure Function App'
-      #       inputs:
-      #         connectedServiceNameARM: 'Azure - DnDGen'
-      #         appType: 'functionApp'
-      #         appName: 'creaturegen-api'
-      #         package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.CreatureGen.zip'
+      on:
+        failure:
+          steps:
+          - task: DownloadGitHubRelease@0
+            displayName: 'Download Rollback Release'
+            inputs:
+              connection: 'github.com_cidthecoatrack'
+              userRepository: 'DnDGen/DnDGen.Web'
+              downloadPath: '$(Pipeline.Workspace)\rollback'
+              itemPattern: DnDGen.Api.CreatureGen.zip
+          - task: AzureFunctionApp@2
+            displayName: 'Rollback Azure Function App'
+            inputs:
+              connectedServiceNameARM: 'Azure - DnDGen'
+              appType: 'functionApp'
+              appName: 'creaturegen-api'
+              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.CreatureGen.zip'
 
 # The CharacterGen API       
 - deployment: CharacterGen_Api
@@ -269,7 +269,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
           displayName: 'Run CharacterGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -348,7 +348,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
           displayName: 'Run EncounterGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -427,7 +427,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
           displayName: 'Run DungeonGen API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -506,7 +506,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-api-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
           displayName: 'Run Web API Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2
@@ -596,7 +596,7 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-api-tests/DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results/website.junitReport.xml'
+        - script: 'newman run $(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results/website.junitReport.xml'
           displayName: 'Run DnDGen Website Tests'
           retryCountOnTaskFailure: 1
         - task: PublishTestResults@2

@@ -55,7 +55,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My creature name", HitPoints = new() };
@@ -88,7 +88,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My templated creature" };
@@ -124,7 +124,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My multi-templated creature" };
@@ -191,7 +191,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog(
-                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.Templates)}]",
+                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.AllTemplates)}]",
                 LogLevel.Error);
         }
 
@@ -202,7 +202,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => !t.Any())))
                 .Returns(false);
 
             var response = await function.RunV1(request, creatureName);

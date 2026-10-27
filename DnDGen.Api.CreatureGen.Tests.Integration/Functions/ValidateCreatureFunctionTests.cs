@@ -44,7 +44,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
             Assert.That(valid, Is.True);
         }
 
-        private static IEnumerable TemplateNames => CreatureSpecifications.Templates
+        private static IEnumerable TemplateNames => CreatureSpecifications.AllTemplates
             .Except([CreatureConstants.Templates.None, CreatureConstants.Templates.Lich])
             .Select(c => new TestCaseData(c));
 

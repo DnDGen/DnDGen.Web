@@ -370,13 +370,13 @@ jobs:
     displayName: 'Checkout Code'
     persistCredentials: true
 
-    # Post-Deployment Tests
+    # Smoke Tests
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Post-Deployment API Test Artifacts
+    displayName: Publish Smoke API Test Artifacts
     inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/cicd/post-deployment-tests' 
-      artifactName: 'dndgen-deployment-api-tests'
+      targetPath: '$(System.DefaultWorkingDirectory)/cicd/smoke-tests'
+      artifactName: 'dndgen-smoke-api-tests'
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: Publish Post-Deployment Website Test Artifacts
