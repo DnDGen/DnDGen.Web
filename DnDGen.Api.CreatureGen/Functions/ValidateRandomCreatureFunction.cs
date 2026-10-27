@@ -41,7 +41,7 @@ namespace DnDGen.Api.CreatureGen.Functions
             Description = "The desired Challenge Rating of the generated creature.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the parameter combination")]
-        public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/random/validate")] HttpRequestData req)
+        public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/validate")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function (ValidateRandomCreatureFunction.RunV1) processed a request.");
 

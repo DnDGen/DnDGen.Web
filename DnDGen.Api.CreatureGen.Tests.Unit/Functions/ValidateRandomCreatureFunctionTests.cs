@@ -37,7 +37,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CreatureGen.Functions.ValidateRandomCreatureFunction")).Returns(mockLogger.Object);
+            mockLoggerFactory.Setup(f => f.CreateLogger(typeof(ValidateRandomCreatureFunction).FullName)).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<ICreatureVerifier>()).Returns(mockCreatureVerifier.Object);

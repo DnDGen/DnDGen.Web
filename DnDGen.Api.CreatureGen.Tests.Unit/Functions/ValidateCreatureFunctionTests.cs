@@ -18,14 +18,14 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
     {
         private ValidateCreatureFunction function;
         private Mock<ICreatureVerifier> mockCreatureVerifier;
-        private Mock<ILogger<GenerateCreatureFunction>> mockLogger;
+        private Mock<ILogger<ValidateCreatureFunction>> mockLogger;
         private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
         {
             mockCreatureVerifier = new Mock<ICreatureVerifier>();
-            mockLogger = new Mock<ILogger<GenerateCreatureFunction>>();
+            mockLogger = new Mock<ILogger<ValidateCreatureFunction>>();
 
             var mockLoggerFactory = new Mock<ILoggerFactory>();
             mockLogger.Setup(l => l.Log(
@@ -35,7 +35,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CreatureGen.Functions.ValidateCreatureFunction")).Returns(mockLogger.Object);
+            mockLoggerFactory.Setup(f => f.CreateLogger(typeof(ValidateCreatureFunction).FullName)).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<ICreatureVerifier>()).Returns(mockCreatureVerifier.Object);

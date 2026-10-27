@@ -232,7 +232,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Integration.Functions
 
         private static string GetUrl(string query = "")
         {
-            var url = "https://creature.dndgen.com/api/v1/creature/random/generate";
+            var url = "https://creature.dndgen.com/api/v1/creature/validate";
             if (query.Length != 0)
                 url += "?" + query;
 
