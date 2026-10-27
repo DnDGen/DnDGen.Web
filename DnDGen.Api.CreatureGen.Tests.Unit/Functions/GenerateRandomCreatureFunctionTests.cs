@@ -87,13 +87,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -117,13 +117,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -430,7 +430,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             mockCreatureVerifier
                 .Setup(v => v.VerifyCompatibility(false, null, null,
                     It.Is<Filters>(f => f.Alignments.Contains(alignment) && f.Types.Contains(type) && f.ChallengeRatings.Contains(cr)),
-                    It.Is<string[]>(t => t.IsEqualTo([template]))))
+                    It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random filtered creature" };
@@ -438,7 +438,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             mockCreatureGenerator
                 .Setup(g => g.GenerateRandomAsync(false, null,
                     It.Is<Filters>(f => f.Alignments.Contains(alignment) && f.Types.Contains(type) && f.ChallengeRatings.Contains(cr)),
-                    It.Is<string[]>(t => t.IsEqualTo([template]))))
+                    It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);

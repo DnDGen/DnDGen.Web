@@ -148,7 +148,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetAlignmentFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo(new List<string> { expected! }));
+            Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo([expected!]));
         }
 
         [Test]
@@ -166,7 +166,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { CreatureConstants.Types.Humanoid }));
+                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo([CreatureConstants.Types.Humanoid]));
                 Assert.That(creatureSpecifications.Filters.Alignments, Is.Empty);
             }
         }
@@ -194,7 +194,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetTypeFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { expected! }));
+            Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo([expected!]));
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo(new List<string> { AlignmentConstants.ChaoticGood }));
+                Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo([AlignmentConstants.ChaoticGood]));
                 Assert.That(creatureSpecifications.Filters.Types, Is.Empty);
             }
         }
@@ -226,7 +226,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 creatureSpecifications = new CreatureSpecifications();
                 creatureSpecifications.SetTypeFilter(creatureType);
                 Assert.That(creatureSpecifications.Filters, Is.Not.Null, creatureType);
-                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { creatureType }), creatureType);
+                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo([creatureType]), creatureType);
             }
         }
 
@@ -239,7 +239,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 creatureSpecifications = new CreatureSpecifications();
                 creatureSpecifications.SetTypeFilter(creatureType);
                 Assert.That(creatureSpecifications.Filters, Is.Not.Null, creatureType);
-                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { creatureType }), creatureType);
+                Assert.That(creatureSpecifications.Filters.Types, Is.EqualTo([creatureType]), creatureType);
             }
         }
 
@@ -258,7 +258,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetChallengeRatingFilter(input);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.ChallengeRatings, Is.EqualTo(new List<string> { expected! }));
+            Assert.That(creatureSpecifications.Filters.ChallengeRatings, Is.EqualTo([expected!]));
         }
 
         [Test]
@@ -274,7 +274,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             creatureSpecifications.SetAlignmentFilter("true neutral");
             creatureSpecifications.SetChallengeRatingFilter(null);
             Assert.That(creatureSpecifications.Filters, Is.Not.Null);
-            Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo(new List<string> { AlignmentConstants.TrueNeutral }));
+            Assert.That(creatureSpecifications.Filters.Alignments, Is.EqualTo([AlignmentConstants.TrueNeutral]));
             Assert.That(creatureSpecifications.Filters.ChallengeRatings, Is.Empty);
         }
 
@@ -287,7 +287,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 creatureSpecifications = new CreatureSpecifications();
                 creatureSpecifications.SetChallengeRatingFilter(cr);
                 Assert.That(creatureSpecifications.Filters, Is.Not.Null, cr);
-                Assert.That(creatureSpecifications.Filters.ChallengeRatings, Is.EqualTo(new List<string> { cr }), cr);
+                Assert.That(creatureSpecifications.Filters.ChallengeRatings, Is.EqualTo([cr]), cr);
             }
         }
 

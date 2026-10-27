@@ -90,7 +90,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
             {
                 Assert.That(CreatureSpecifications.Creature, Is.Null);
                 Assert.That(CreatureSpecifications.Filters, Is.Not.Null);
-                Assert.That(CreatureSpecifications.Filters!.Alignments, Is.EqualTo(new List<string> { AlignmentConstants.NeutralEvil }));
+                Assert.That(CreatureSpecifications.Filters!.Alignments, Is.EqualTo([AlignmentConstants.NeutralEvil]));
                 Assert.That(CreatureSpecifications.Filters.Types, Is.Empty);
                 Assert.That(CreatureSpecifications.Templates, Is.Empty);
                 Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.Empty);
@@ -131,7 +131,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
                 Assert.That(CreatureSpecifications.Creature, Is.Null);
                 Assert.That(CreatureSpecifications.Filters, Is.Not.Null);
                 Assert.That(CreatureSpecifications.Filters!.Alignments, Is.Empty);
-                Assert.That(CreatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { CreatureConstants.Types.Dragon }));
+                Assert.That(CreatureSpecifications.Filters.Types, Is.EqualTo([CreatureConstants.Types.Dragon]));
                 Assert.That(CreatureSpecifications.Templates, Is.Empty);
                 Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.Empty);
                 Assert.That(CreatureSpecifications.AsCharacter, Is.False);
@@ -174,7 +174,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
                 Assert.That(CreatureSpecifications.Filters!.Alignments, Is.Empty);
                 Assert.That(CreatureSpecifications.Filters.Types, Is.Empty);
                 Assert.That(CreatureSpecifications.Templates, Is.Empty);
-                Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.EqualTo(new List<string> { ChallengeRatingConstants.CR9 }));
+                Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.EqualTo([ChallengeRatingConstants.CR9]));
                 Assert.That(CreatureSpecifications.AsCharacter, Is.False);
             }
         }
@@ -278,10 +278,10 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Validators
             {
                 Assert.That(CreatureSpecifications.Creature, Is.EqualTo(CreatureConstants.Ogre));
                 Assert.That(CreatureSpecifications.Filters, Is.Not.Null);
-                Assert.That(CreatureSpecifications.Filters!.Alignments, Is.EqualTo(new List<string> { AlignmentConstants.LawfulGood }));
-                Assert.That(CreatureSpecifications.Filters.Types, Is.EqualTo(new List<string> { CreatureConstants.Types.Giant }));
+                Assert.That(CreatureSpecifications.Filters!.Alignments, Is.EqualTo([AlignmentConstants.LawfulGood]));
+                Assert.That(CreatureSpecifications.Filters.Types, Is.EqualTo([CreatureConstants.Types.Giant]));
                 Assert.That(CreatureSpecifications.Templates, Is.EqualTo([CreatureConstants.Templates.CelestialCreature]));
-                Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.EqualTo(new List<string> { ChallengeRatingConstants.CR5 }));
+                Assert.That(CreatureSpecifications.Filters.ChallengeRatings, Is.EqualTo([ChallengeRatingConstants.CR5]));
                 Assert.That(CreatureSpecifications.AsCharacter, Is.False);
             }
         }
