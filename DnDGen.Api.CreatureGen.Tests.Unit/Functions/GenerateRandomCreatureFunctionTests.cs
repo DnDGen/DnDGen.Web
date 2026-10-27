@@ -152,13 +152,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random multi-templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
