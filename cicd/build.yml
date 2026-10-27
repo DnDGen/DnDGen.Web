@@ -379,7 +379,7 @@ jobs:
       artifactName: 'dndgen-smoke-api-tests'
   - task: PublishPipelineArtifact@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Post-Deployment Website Test Artifacts
+    displayName: Publish Website Smoke Test Artifacts
     inputs:
       targetPath: '$(System.DefaultWorkingDirectory)/dndgen-web' 
       artifactName: 'dndgen-deployment-website-tests'
