@@ -240,7 +240,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate",
+									"raw": "creature.dndgen.com/api/v1/creature/validate",
 									"host": [
 										"creature",
 										"dndgen",
@@ -277,7 +277,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?alignment=Neutral%20Good",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?alignment=Neutral%20Good",
 									"host": [
 										"creature",
 										"dndgen",
@@ -320,7 +320,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?alignment=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?alignment=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -363,7 +363,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?type=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?type=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -406,7 +406,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?cr=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?cr=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -449,7 +449,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Celestial%20Creature",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Celestial%20Creature",
 									"host": [
 										"creature",
 										"dndgen",
@@ -492,7 +492,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -535,7 +535,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
 									"host": [
 										"creature",
 										"dndgen",
@@ -582,7 +582,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
 									"host": [
 										"creature",
 										"dndgen",
@@ -629,7 +629,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Fiendish%20Creature&alignment=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -676,7 +676,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
 									"host": [
 										"creature",
 										"dndgen",
@@ -731,7 +731,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
+									"raw": "creature.dndgen.com/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
 									"host": [
 										"creature",
 										"dndgen",
@@ -999,7 +999,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate",
+									"raw": "creature.dndgen.com/api/v1/creature/generate",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1037,7 +1037,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?alignment=Neutral%20Good",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?alignment=Neutral%20Good",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1079,7 +1079,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?alignment=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?alignment=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1121,7 +1121,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?type=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?type=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1163,7 +1163,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?cr=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?cr=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1207,7 +1207,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Celestial%20Creature",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Celestial%20Creature",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1249,7 +1249,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1293,7 +1293,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1339,7 +1339,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1385,7 +1385,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Fiendish%20Creature&alignment=INVALID",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=INVALID",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1433,7 +1433,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1487,7 +1487,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "creature.dndgen.com/api/v1/creature/random/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
+									"raw": "creature.dndgen.com/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
 									"host": [
 										"creature",
 										"dndgen",
@@ -1576,9 +1576,9 @@
 							"    pm.expect(text).to.include('\"host\": \"creature.dndgen.com\"');\r",
 							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
-							"    pm.expect(text).to.include(\"/v1/creature/random/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/generate\");\r",
-							"    pm.expect(text).to.include(\"/v1/creature/random/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/generate\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1615,9 +1615,9 @@
 							"    var text = pm.response.text();\r",
 							"    pm.expect(text).to.include('\"url\": \"https://creature.dndgen.com/api\"');\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
-							"    pm.expect(text).to.include(\"/v1/creature/random/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/generate\");\r",
-							"    pm.expect(text).to.include(\"/v1/creature/random/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/generate\");\r",
 							"});"
 						],
 						"type": "text/javascript"
