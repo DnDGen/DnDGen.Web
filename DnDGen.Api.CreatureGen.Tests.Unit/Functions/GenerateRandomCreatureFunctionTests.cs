@@ -55,13 +55,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random creature name", HitPoints = new() };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, null))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -87,13 +87,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -117,13 +117,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -152,13 +152,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random multi-templated creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(g => g.GenerateRandomAsync(false, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -182,13 +182,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Alignment == alignment)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Alignments.Contains(alignment)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random aligned creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Alignment == alignment)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Alignments.Contains(alignment)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -212,13 +212,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Alignment == alignment)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Alignments.Contains(alignment)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random aligned creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Alignment == alignment)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Alignments.Contains(alignment)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -242,13 +242,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random typed creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -272,13 +272,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random typed creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -302,13 +302,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random typed creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -332,13 +332,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random typed creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Type == type)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Types.Contains(type)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -362,13 +362,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.ChallengeRating == cr)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.ChallengeRatings.Contains(cr)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random cr-scaled creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.ChallengeRating == cr)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.ChallengeRatings.Contains(cr)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -392,13 +392,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.ChallengeRating == cr)))
+                .Setup(v => v.VerifyCompatibility(false, null, null, It.Is<Filters>(f => f.ChallengeRatings.Contains(cr)), It.Is<string[]>(t => !t.Any())))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random cr-scaled creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.ChallengeRating == cr)))
+                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.ChallengeRatings.Contains(cr)), It.Is<string[]>(t => !t.Any())))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -428,19 +428,17 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template })
-                    && f.Alignment == alignment
-                    && f.Type == type
-                    && f.ChallengeRating == cr)))
+                .Setup(v => v.VerifyCompatibility(false, null, null,
+                    It.Is<Filters>(f => f.Alignments.Contains(alignment) && f.Types.Contains(type) && f.ChallengeRatings.Contains(cr)),
+                    It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(true);
 
             var expectedCreature = new Creature { Name = "My random filtered creature" };
 
             mockCreatureGenerator
-                .Setup(g => g.GenerateRandomAsync(false, null, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template })
-                    && f.Alignment == alignment
-                    && f.Type == type
-                    && f.ChallengeRating == cr)))
+                .Setup(g => g.GenerateRandomAsync(false, null,
+                    It.Is<Filters>(f => f.Alignments.Contains(alignment) && f.Types.Contains(type) && f.ChallengeRatings.Contains(cr)),
+                    It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request);
@@ -582,7 +580,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => !t.Any())))
                 .Returns(false);
 
             var response = await function.RunV1(request);

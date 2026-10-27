@@ -49,7 +49,7 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var compatible = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications!.Creature, CreatureSpecifications.Filters);
+            var compatible = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications!.Creature, null, CreatureSpecifications.Filters, CreatureSpecifications.TemplateFilters);
             _logger.LogInformation($"Compatible Creature = {compatible}");
 
             if (!compatible)
@@ -60,9 +60,7 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var templates = CreatureSpecifications.Filters?.CleanTemplates.ToArray() ?? [];
-
-            var creature = await _creatureGenerator.GenerateAsync(false, CreatureSpecifications!.Creature, templates: templates);
+            var creature = await _creatureGenerator.GenerateAsync(false, CreatureSpecifications!.Creature, null, CreatureSpecifications.TemplateFilters);
 
             _logger.LogInformation($"Generated Creature: {creature.Summary}");
 

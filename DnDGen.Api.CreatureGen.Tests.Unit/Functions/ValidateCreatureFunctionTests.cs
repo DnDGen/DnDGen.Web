@@ -4,7 +4,6 @@ using DnDGen.Api.CreatureGen.Models;
 using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CreatureGen.Creatures;
-using DnDGen.CreatureGen.Generators.Creatures;
 using DnDGen.CreatureGen.Verifiers;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -53,7 +52,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => !t.Any())))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -81,7 +80,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -112,7 +111,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, It.Is<Filters>(f => f.Templates.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
