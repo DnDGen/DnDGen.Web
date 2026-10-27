@@ -10,12 +10,12 @@ using System.Net;
 
 namespace DnDGen.Api.CreatureGen.Functions
 {
-    public class ValidateSpecificCreatureFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
+    public class ValidateCreatureFunction(ILoggerFactory loggerFactory, IDependencyFactory dependencyFactory)
     {
-        private readonly ILogger _logger = loggerFactory.CreateLogger<ValidateSpecificCreatureFunction>();
+        private readonly ILogger _logger = loggerFactory.CreateLogger<ValidateCreatureFunction>();
         private readonly ICreatureVerifier _creatureVerifier = dependencyFactory.Get<ICreatureVerifier>();
 
-        [Function("ValidateSpecificCreatureFunction")]
+        [Function("ValidateCreatureFunction")]
         [OpenApiOperation(operationId: "ValidateCreatureFunctionRun", tags: ["v1"],
             Summary = "Validate parameters for creature generation",
             Description = "Validates the parameters for creature generation")]
@@ -35,7 +35,7 @@ namespace DnDGen.Api.CreatureGen.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/{creatureName}/validate")] HttpRequestData req,
             string creatureName)
         {
-            _logger.LogInformation("C# HTTP trigger function (ValidateSpecificCreatureFunction.RunV1) processed a request.");
+            _logger.LogInformation("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
 
             var (Valid, Error, CreatureSpecifications) = CreatureValidator.GetValid(creatureName, req);
             if (!Valid)
