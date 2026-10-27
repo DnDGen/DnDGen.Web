@@ -15,12 +15,12 @@ using System.Net;
 namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 {
     [TestFixture]
-    public class GenerateCreatureFunctionTests
+    public class GenerateSpecificCreatureFunctionTests
     {
-        private GenerateCreatureFunction function;
+        private GenerateSpecificCreatureFunction function;
         private Mock<ICreatureVerifier> mockCreatureVerifier;
         private Mock<ICreatureGenerator> mockCreatureGenerator;
-        private Mock<ILogger<GenerateCreatureFunction>> mockLogger;
+        private Mock<ILogger<GenerateSpecificCreatureFunction>> mockLogger;
         private RequestHelper requestHelper;
 
         [SetUp]
@@ -28,7 +28,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
         {
             mockCreatureVerifier = new Mock<ICreatureVerifier>();
             mockCreatureGenerator = new Mock<ICreatureGenerator>();
-            mockLogger = new Mock<ILogger<GenerateCreatureFunction>>();
+            mockLogger = new Mock<ILogger<GenerateSpecificCreatureFunction>>();
 
             var mockLoggerFactory = new Mock<ILoggerFactory>();
             mockLogger.Setup(l => l.Log(
@@ -38,13 +38,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CreatureGen.Functions.GenerateCreatureFunction")).Returns(mockLogger.Object);
+            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CreatureGen.Functions.GenerateSpecificCreatureFunction")).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<ICreatureVerifier>()).Returns(mockCreatureVerifier.Object);
             mockDependencyFactory.Setup(f => f.Get<ICreatureGenerator>()).Returns(mockCreatureGenerator.Object);
 
-            function = new GenerateCreatureFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
+            function = new GenerateSpecificCreatureFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
             requestHelper = new RequestHelper();
         }
 
