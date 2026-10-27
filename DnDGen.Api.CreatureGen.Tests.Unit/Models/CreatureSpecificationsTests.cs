@@ -23,7 +23,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
                 Assert.That(creatureSpecifications.AsCharacter, Is.False);
                 Assert.That(creatureSpecifications.Creature, Is.Null);
                 Assert.That(creatureSpecifications.Filters, Is.Null);
-                Assert.That(creatureSpecifications.TemplateFilters, Is.Empty);
+                Assert.That(creatureSpecifications.Templates, Is.Empty);
             }
         }
 
@@ -38,7 +38,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         public void CreatureSpecification_AllTemplates()
         {
             var allTemplates = CreatureConstants.Templates.GetAll();
-            Assert.That(CreatureSpecifications.Templates, Is.EquivalentTo(allTemplates));
+            Assert.That(CreatureSpecifications.AllTemplates, Is.EquivalentTo(allTemplates));
         }
 
         [Test]
@@ -319,7 +319,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         public void SetTemplatesFilter_SetsTemplatesOnFilters(string? input, string? expected)
         {
             creatureSpecifications.SetTemplatesFilter([input]);
-            Assert.That(creatureSpecifications.TemplateFilters, Is.EqualTo(new[] { expected }));
+            Assert.That(creatureSpecifications.Templates, Is.EqualTo([expected]));
         }
 
         [Test]
@@ -327,7 +327,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         {
             creatureSpecifications.SetTemplatesFilter([]);
             Assert.That(creatureSpecifications.Filters, Is.Null);
-            Assert.That(creatureSpecifications.TemplateFilters, Is.Empty);
+            Assert.That(creatureSpecifications.Templates, Is.Empty);
         }
 
         [Test]
@@ -338,7 +338,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
             {
                 creatureSpecifications = new CreatureSpecifications();
                 creatureSpecifications.SetTemplatesFilter([template]);
-                Assert.That(creatureSpecifications.TemplateFilters, Is.EqualTo(new[] { template }), template);
+                Assert.That(creatureSpecifications.Templates, Is.EqualTo([template]), template);
             }
         }
 
@@ -346,7 +346,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         public void SetTemplatesFilter_MultipleTemplatesAreValid()
         {
             creatureSpecifications.SetTemplatesFilter([CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold]);
-            Assert.That(creatureSpecifications.TemplateFilters, Is.EquivalentTo(new[] { CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold }));
+            Assert.That(creatureSpecifications.Templates, Is.EquivalentTo([CreatureConstants.Templates.CelestialCreature, CreatureConstants.Templates.HalfDragon_Gold]));
         }
 
         [Test]

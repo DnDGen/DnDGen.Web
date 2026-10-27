@@ -55,7 +55,7 @@ namespace DnDGen.Api.CreatureGen.Functions
                 return invalidResponse;
             }
 
-            var valid = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications!.Creature, null, CreatureSpecifications.Filters, CreatureSpecifications.TemplateFilters);
+            var valid = _creatureVerifier.VerifyCompatibility(false, CreatureSpecifications!.Creature, null, CreatureSpecifications.Filters, CreatureSpecifications.Templates);
 
             _logger.LogInformation($"Compatible Parameters = {valid}");
 

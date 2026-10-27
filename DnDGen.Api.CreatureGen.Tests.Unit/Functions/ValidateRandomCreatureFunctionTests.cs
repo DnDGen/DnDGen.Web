@@ -80,7 +80,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request);
@@ -105,7 +105,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request);
@@ -135,7 +135,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, null, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request);
@@ -368,7 +368,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             mockCreatureVerifier
                 .Setup(v => v.VerifyCompatibility(false, null, null,
                     It.Is<Filters>(f => f.Alignments.Contains(alignment) && f.Types.Contains(type) && f.ChallengeRatings.Contains(cr)),
-                    It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                    It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request);
@@ -404,7 +404,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateRandomCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog(
-                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.Templates)}]",
+                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.AllTemplates)}]",
                 LogLevel.Error);
         }
 

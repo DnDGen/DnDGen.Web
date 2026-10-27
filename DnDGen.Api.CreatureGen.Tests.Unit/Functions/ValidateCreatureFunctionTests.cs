@@ -80,7 +80,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -111,7 +111,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             var request = requestHelper.BuildRequest(query);
 
             mockCreatureVerifier
-                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo([template1, template2]))))
                 .Returns(validity);
 
             var response = await function.RunV1(request, creatureName);
@@ -172,7 +172,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog(
-                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.Templates)}]",
+                $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.AllTemplates)}]",
                 LogLevel.Error);
         }
     }

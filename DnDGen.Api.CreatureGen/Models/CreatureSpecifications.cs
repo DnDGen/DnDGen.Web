@@ -9,11 +9,11 @@ namespace DnDGen.Api.CreatureGen.Models
         public bool AsCharacter { get; set; }
         public string? Creature { get; set; }
         public Filters? Filters { get; private set; }
-        public string[] TemplateFilters { get; private set; } = [];
+        public string[] Templates { get; private set; } = [];
 
         public static readonly IEnumerable<string> Creatures = CreatureConstants.GetAll();
 
-        public static readonly IEnumerable<string> Templates = CreatureConstants.Templates.GetAll();
+        public static readonly IEnumerable<string> AllTemplates = CreatureConstants.Templates.GetAll();
 
         public static readonly IEnumerable<string> ChallengeRatings = ChallengeRatingConstants.GetOrdered();
 
@@ -75,7 +75,7 @@ namespace DnDGen.Api.CreatureGen.Models
             if (templates.Length == 0)
                 return;
 
-            TemplateFilters = templates.Select(t => Templates.FirstOrDefault(x => x.Equals(t, StringComparison.CurrentCultureIgnoreCase)) ?? badValue).ToArray();
+            Templates = templates.Select(t => AllTemplates.FirstOrDefault(x => x.Equals(t, StringComparison.CurrentCultureIgnoreCase)) ?? badValue).ToArray();
         }
 
         public (bool Valid, string Error) IsValid()
@@ -86,9 +86,9 @@ namespace DnDGen.Api.CreatureGen.Models
             if (!valid)
                 return (false, $"Creature is not valid. Should be one of: [{string.Join(", ", Creatures)}]");
 
-            valid &= !TemplateFilters.Contains(badValue);
+            valid &= !Templates.Contains(badValue);
             if (!valid)
-                return (false, $"Templates filter is not valid. Should be subset of: [{string.Join(", ", Templates)}]");
+                return (false, $"Templates filter is not valid. Should be subset of: [{string.Join(", ", AllTemplates)}]");
 
             valid &= Filters?.Alignments.Contains(badValue) != true;
             if (!valid)
