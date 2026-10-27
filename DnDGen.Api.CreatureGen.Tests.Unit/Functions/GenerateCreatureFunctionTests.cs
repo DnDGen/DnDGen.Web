@@ -4,6 +4,7 @@ using DnDGen.Api.CreatureGen.Models;
 using DnDGen.Api.Tests.Unit;
 using DnDGen.Api.Tests.Unit.Helpers;
 using DnDGen.CreatureGen.Creatures;
+using DnDGen.CreatureGen.Generators.Creatures;
 using DnDGen.CreatureGen.Verifiers;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -14,18 +15,20 @@ using System.Net;
 namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 {
     [TestFixture]
-    public class ValidateSpecificCreatureFunctionTests
+    public class GenerateCreatureFunctionTests
     {
-        private ValidateSpecificCreatureFunction function;
+        private GenerateCreatureFunction function;
         private Mock<ICreatureVerifier> mockCreatureVerifier;
-        private Mock<ILogger<ValidateSpecificCreatureFunction>> mockLogger;
+        private Mock<ICreatureGenerator> mockCreatureGenerator;
+        private Mock<ILogger<GenerateCreatureFunction>> mockLogger;
         private RequestHelper requestHelper;
 
         [SetUp]
         public void Setup()
         {
             mockCreatureVerifier = new Mock<ICreatureVerifier>();
-            mockLogger = new Mock<ILogger<ValidateSpecificCreatureFunction>>();
+            mockCreatureGenerator = new Mock<ICreatureGenerator>();
+            mockLogger = new Mock<ILogger<GenerateCreatureFunction>>();
 
             var mockLoggerFactory = new Mock<ILoggerFactory>();
             mockLogger.Setup(l => l.Log(
@@ -35,25 +38,31 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()));
 
-            mockLoggerFactory.Setup(f => f.CreateLogger("DnDGen.Api.CreatureGen.Functions.ValidateSpecificCreatureFunction")).Returns(mockLogger.Object);
+            mockLoggerFactory.Setup(f => f.CreateLogger(typeof(GenerateCreatureFunction).FullName)).Returns(mockLogger.Object);
 
             var mockDependencyFactory = new Mock<IDependencyFactory>();
             mockDependencyFactory.Setup(f => f.Get<ICreatureVerifier>()).Returns(mockCreatureVerifier.Object);
+            mockDependencyFactory.Setup(f => f.Get<ICreatureGenerator>()).Returns(mockCreatureGenerator.Object);
 
-            function = new ValidateSpecificCreatureFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
+            function = new GenerateCreatureFunction(mockLoggerFactory.Object, mockDependencyFactory.Object);
             requestHelper = new RequestHelper();
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task RunV1_ReturnsTheCreatureValidity(bool validity)
+        [Test]
+        public async Task RunV1_ReturnsGeneratedCreature_WithValidCreatureName()
         {
             var creatureName = CreatureConstants.Goblin;
             var request = requestHelper.BuildRequest();
 
             mockCreatureVerifier
                 .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => !t.Any())))
-                .Returns(validity);
+                .Returns(true);
+
+            var expectedCreature = new Creature { Name = "My creature name", HitPoints = new() };
+
+            mockCreatureGenerator
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => !t.Any())))
+                .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
 
@@ -64,15 +73,14 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 Assert.That(response.Body, Is.Not.Null);
             }
 
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.EqualTo(validity));
+            var creature = StreamHelper.Read<Creature>(response.Body);
+            Assert.That(creature.Name, Is.EqualTo(expectedCreature.Name));
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task RunV1_ReturnsTheCreatureValidity_WithSingleTemplate(bool validity)
+        [Test]
+        public async Task RunV1_ReturnsGeneratedCreature_WithSingleTemplate()
         {
             var creatureName = CreatureConstants.Goblin;
             var template = CreatureConstants.Templates.Ghost;
@@ -81,7 +89,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockCreatureVerifier
                 .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
-                .Returns(validity);
+                .Returns(true);
+
+            var expectedCreature = new Creature { Name = "My templated creature" };
+
+            mockCreatureGenerator
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template }))))
+                .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
 
@@ -92,13 +106,12 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 Assert.That(response.Body, Is.Not.Null);
             }
 
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.EqualTo(validity));
+            var creature = StreamHelper.Read<Creature>(response.Body);
+            Assert.That(creature.Name, Is.EqualTo(expectedCreature.Name));
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public async Task RunV1_ReturnsTheCreatureValidity_WithMultipleTemplates(bool validity)
+        [Test]
+        public async Task RunV1_ReturnsGeneratedCreature_WithMultipleTemplates()
         {
             var creatureName = CreatureConstants.Goblin;
             var template1 = CreatureConstants.Templates.HalfDragon_Gold;
@@ -112,7 +125,13 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
 
             mockCreatureVerifier
                 .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
-                .Returns(validity);
+                .Returns(true);
+
+            var expectedCreature = new Creature { Name = "My multi-templated creature" };
+
+            mockCreatureGenerator
+                .Setup(g => g.GenerateAsync(false, creatureName, null, It.Is<string[]>(t => t.IsEqualTo(new[] { template1, template2 }))))
+                .ReturnsAsync(expectedCreature);
 
             var response = await function.RunV1(request, creatureName);
 
@@ -123,12 +142,12 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
                 Assert.That(response.Body, Is.Not.Null);
             }
 
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.EqualTo(validity));
+            var creature = StreamHelper.Read<Creature>(response.Body);
+            Assert.That(creature.Name, Is.EqualTo(expectedCreature.Name));
         }
 
         [Test]
-        public async Task RunV1_ReturnsInvalid_WithInvalidCreatureName()
+        public async Task RunV1_ReturnsBadRequest_WithInvalidCreatureName()
         {
             var creatureName = "InvalidCreature";
             var request = requestHelper.BuildRequest();
@@ -138,21 +157,21 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
                 Assert.That(response.Body, Is.Not.Null);
             }
 
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.False);
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog(
                 $"Parameters are not valid. Error: Creature is not valid. Should be one of: [{string.Join(", ", CreatureSpecifications.Creatures)}]",
                 LogLevel.Error);
         }
 
         [Test]
-        public async Task RunV1_ReturnsInvalid_WithInvalidTemplate()
+        public async Task RunV1_ReturnsBadRequest_WithInvalidTemplate()
         {
             var creatureName = CreatureConstants.Goblin;
             var query = "?templates=InvalidTemplate";
@@ -163,17 +182,36 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Functions
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
             using (Assert.EnterMultipleScope())
             {
-                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
                 Assert.That(response.Body, Is.Not.Null);
             }
 
-            var valid = StreamHelper.Read<bool>(response.Body);
-            Assert.That(valid, Is.False);
+            var responseBody = StreamHelper.Read(response.Body);
+            Assert.That(responseBody, Is.Empty);
 
-            mockLogger.AssertLog("C# HTTP trigger function (ValidateCreatureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
             mockLogger.AssertLog(
                 $"Parameters are not valid. Error: Templates filter is not valid. Should be subset of: [{string.Join(", ", CreatureSpecifications.AllTemplates)}]",
                 LogLevel.Error);
+        }
+
+        [Test]
+        public async Task RunV1_ReturnsBadRequest_WhenCreatureVerifierReturnsFalse()
+        {
+            var creatureName = CreatureConstants.Goblin;
+            var request = requestHelper.BuildRequest();
+
+            mockCreatureVerifier
+                .Setup(v => v.VerifyCompatibility(false, creatureName, null, null, It.Is<string[]>(t => !t.Any())))
+                .Returns(false);
+
+            var response = await function.RunV1(request, creatureName);
+
+            Assert.That(response, Is.InstanceOf<HttpResponseData>());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+
+            mockLogger.AssertLog("C# HTTP trigger function (GenerateCreatureFunction.RunV1) processed a request.");
+            mockLogger.AssertLog("Creature parameters are not compatible.", LogLevel.Error);
         }
     }
 }
