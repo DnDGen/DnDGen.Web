@@ -246,6 +246,7 @@ namespace DnDGen.Api.CreatureGen.Tests.Unit.Models
         [TestCase(ChallengeRatingConstants.CR1, ChallengeRatingConstants.CR1)]
         [TestCase(ChallengeRatingConstants.CR1_2nd, ChallengeRatingConstants.CR1_2nd)]
         [TestCase("-1", "BADVALUE")]
+        [TestCase("31", "BADVALUE")]
         [TestCase("1/5", "BADVALUE")]
         [TestCase("2/3", "BADVALUE")]
         [TestCase("0.5", "BADVALUE")]
