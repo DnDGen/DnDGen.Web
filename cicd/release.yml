@@ -182,7 +182,7 @@ jobs:
         - template: templates/api-deploy-steps.yml
           parameters:
             appName: creaturegen-api
-            artifactName: creaturegen-api
+            apiPrefix: creature
             smokeTestCollection: CreatureGen-API.postman_collection.json
             smokeTestJunitFile: creaturegen.junitReport.xml
             hasWebsiteTests: false

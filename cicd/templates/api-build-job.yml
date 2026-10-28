@@ -40,15 +40,12 @@ jobs:
       arguments: '-v normal --collect "Code Coverage"'
 
   - task: Npm@1
-    displayName: 'Install Azure Tools'
+    displayName: 'Install Smoke Test Tools'
     inputs:
       command: custom
-      verbose: false
-      customCommand: 'install -g azurite azure-functions-core-tools@4'
-
-  - script: 'npm install -g newman'
-    workingDirectory: '$(Build.SourcesDirectory)'
-    displayName: 'Install Newman'
+      verbose: true
+      customCommand: 'install -g azurite azure-functions-core-tools@4 newman'
+    workingDir: '$(Build.SourcesDirectory)'
 
   - bash: |
       mkdir azurite

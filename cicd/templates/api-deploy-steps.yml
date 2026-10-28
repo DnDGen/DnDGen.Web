@@ -1,7 +1,7 @@
 parameters:
 - name: appName
   type: string
-- name: artifactName
+- name: apiPrefix
   type: string
 - name: smokeTestCollection
   type: string
@@ -22,13 +22,13 @@ steps:
     connectedServiceNameARM: 'Azure - DnDGen'
     appType: 'functionApp'
     appName: '${{ parameters.appName }}'
-    package: '$(Pipeline.Workspace)/**/${{ parameters.artifactName }}/*.zip'
+    package: '$(Pipeline.Workspace)/**/${{ parameters.appName }}/*.zip'
 
 - script: 'npm install -g newman'
   workingDirectory: '$(Pipeline.Workspace)'
   displayName: 'Install Newman'
 
-- script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\${{ parameters.smokeTestCollection }} --reporters cli,junit --reporter-junit-export Results\${{ parameters.smokeTestJunitFile }}'
+- script: 'newman run "$(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\${{ parameters.smokeTestCollection }}" --env-var "host=${{parameters.apiPrefix}}.dndgen.com" --reporters cli,junit --reporter-junit-export "Results\${{ parameters.smokeTestJunitFile }}"'
   displayName: 'Run API Smoke Tests'
   retryCountOnTaskFailure: 1
 
