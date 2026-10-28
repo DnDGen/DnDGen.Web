@@ -131,7 +131,7 @@ jobs:
       azurite --silent --location azurite --debug azurite/debug.log &
     displayName: 'Start Azurite'
   - bash: |
-      cp $(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json $(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json
+      cp "$(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json" "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json"
     displayName: 'Copy local settings'
   - script: |
       func start --port 7071 &
