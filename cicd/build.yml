@@ -133,42 +133,36 @@ jobs:
   - bash: |
       cp "$(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json" "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json"
     displayName: 'Copy local settings'
-  - script: |
-      func start --port 7071 &
-      echo "Waiting for Azure Function to start..."
-      sleep 10
-    workingDirectory: '$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen'
-    displayName: 'Start local Azure Function'
-  # - powershell: |
-  #     $logFile = "$(Agent.TempDirectory)\func-output.log"
-  #     $proc = Start-Process `
-  #       -FilePath "func.cmd" `
-  #       -ArgumentList "start", "--port", "7071" `
-  #       -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
-  #       -RedirectStandardOutput $logFile `
-  #       -NoNewWindow -PassThru
+  - powershell: |
+      $logFile = "$(Agent.TempDirectory)\func-output.log"
+      $proc = Start-Process `
+        -FilePath "func.cmd" `
+        -ArgumentList "start", "--port", "7071" `
+        -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
+        -RedirectStandardOutput $logFile `
+        -NoNewWindow -PassThru
 
-  #     Write-Host "Function app starting (PID: $($proc.Id))..."
-  #     $timeout = 90; $elapsed = 0; $ready = $false
-  #     do {
-  #       Write-Host "Waiting 3s for function app to be ready..."
-  #       Start-Sleep -Seconds 3
-  #       $elapsed += 3
-  #       $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
-  #       $ready = $content -match "Worker process started and initialized"
-  #     } while (-not $ready -and $elapsed -lt $timeout)
+      Write-Host "Function app starting (PID: $($proc.Id))..."
+      $timeout = 90; $elapsed = 0; $ready = $false
+      do {
+        Write-Host "Waiting 3s for function app to be ready..."
+        Start-Sleep -Seconds 3
+        $elapsed += 3
+        $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
+        $ready = $content -match "Worker process started and initialized"
+      } while (-not $ready -and $elapsed -lt $timeout)
 
-  #     if ($ready) {
-  #       Write-Host "Function app ready after ${elapsed}s"
-  #       $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
-  #     } else {
-  #       Write-Host "=== Function App Output ==="
-  #       Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
-  #       $proc | Stop-Process -Force -ErrorAction SilentlyContinue
-  #       Write-Error "Function app failed to start within ${timeout}s"
-  #       exit 1
-  #     }
-  #   displayName: 'Start CreatureGen Function App'
+      if ($ready) {
+        Write-Host "Function app ready after ${elapsed}s"
+        $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
+      } else {
+        Write-Host "=== Function App Output ==="
+        Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
+        $proc | Stop-Process -Force -ErrorAction SilentlyContinue
+        Write-Error "Function app failed to start within ${timeout}s"
+        exit 1
+      }
+    displayName: 'Start local Function App'
 
   - script: 'newman run $(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json --env-var "host=localhost:7071" --reporters cli,junit --reporter-junit-export Results/creaturegen.junitReport.xml'
     displayName: 'Run Smoke Tests'
