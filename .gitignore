@@ -211,3 +211,6 @@ _out
 .DS_Store
 Thumbs.db
 .angular/
+
+# Azurite (local Azure Storage emulator)
+__azurite*

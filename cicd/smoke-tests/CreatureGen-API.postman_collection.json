@@ -1377,7 +1377,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"    var text = pm.response.text();\r",
 							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(text).to.include('/api/swagger.json\"');\r",
+							"    pm.expect(text).to.include(pm.variables.get(\"host\") + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1409,6 +1409,7 @@
 							"pm.test(\"Returns Swagger data\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"host\": \"' + pm.variables.get(\"host\") + '\"');\r",
 							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
 							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
@@ -1444,6 +1445,7 @@
 							"pm.test(\"Returns OpenAPI documentation\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include(pm.variables.get(\"host\") + '/api\"');\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
 							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
 							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/generate\");\r",
