@@ -1,0 +1,78 @@
+parameters:
+- name: appName
+  type: string
+- name: artifactName
+  type: string
+- name: smokeTestCollection
+  type: string
+- name: smokeTestJunitFile
+  type: string
+- name: websiteTestScript
+  type: string
+- name: websiteResultFile
+  type: string
+- name: hasWebsiteTests
+  type: boolean
+  default: true
+
+steps:
+- task: AzureFunctionApp@2
+  displayName: 'Deploy Azure Function App'
+  inputs:
+    connectedServiceNameARM: 'Azure - DnDGen'
+    appType: 'functionApp'
+    appName: '${{ parameters.appName }}'
+    package: '$(Pipeline.Workspace)/**/${{ parameters.artifactName }}/*.zip'
+
+- script: 'npm install -g newman'
+  workingDirectory: '$(Pipeline.Workspace)'
+  displayName: 'Install Newman'
+
+- script: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\${{ parameters.smokeTestCollection }} --reporters cli,junit --reporter-junit-export Results\${{ parameters.smokeTestJunitFile }}'
+  displayName: 'Run API Smoke Tests'
+  retryCountOnTaskFailure: 1
+
+- task: PublishTestResults@2
+  displayName: 'Publish API Smoke Test Results'
+  condition: always()
+  inputs:
+    testResultsFiles: '**/*.junitReport.xml'
+    failTaskOnFailedTests: true
+    failTaskOnMissingResultsFile: true
+
+- ${{ if parameters.hasWebsiteTests }}:
+  - task: UseNode@1
+    displayName: 'Install node.js'
+    inputs:
+      version: '20.x'
+
+  - task: Npm@1
+    displayName: 'Install Angular CLI'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: 'install -g @angular/cli'
+
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+      verbose: false
+      command: install
+
+  - task: Npm@1
+    displayName: Run Website Tests
+    retryCountOnTaskFailure: 1
+    inputs:
+      command: custom
+      workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+      verbose: false
+      customCommand: 'run ${{ parameters.websiteTestScript }}'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Website Test Results'
+    condition: always()
+    inputs:
+      testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\${{ parameters.websiteResultFile }}'
+      failTaskOnFailedTests: true
+      failTaskOnMissingResultsFile: true

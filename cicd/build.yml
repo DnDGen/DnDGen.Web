@@ -92,104 +92,13 @@ jobs:
       artifactName: 'treasuregen-api'
 
 # The CreatureGen API
-- job: CreatureGen_Api
-  displayName: CreatureGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.CreatureGen/DnDGen.Api.CreatureGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CreatureGen.Tests.Unit/DnDGen.Api.CreatureGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CreatureGen.Tests.Integration/DnDGen.Api.CreatureGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: Npm@1  
-    displayName: 'Install Azure Tools'  
-    inputs:  
-      command: custom  
-      verbose: true  
-      customCommand: 'install -g azurite azure-functions-core-tools@4'
-  - script: 'npm install -g newman'
-    workingDirectory: '$(Build.SourcesDirectory)'
-    displayName: 'Install Newman'
-  - bash: |
-      mkdir azurite
-      azurite --silent --location azurite --debug azurite/debug.log &
-    displayName: 'Start Azurite'
-  - bash: |
-      cp "$(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json" "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json"
-    displayName: 'Copy local settings'
-  - powershell: |
-      $logFile = "$(Agent.TempDirectory)\func-output.log"
-      $proc = Start-Process `
-        -FilePath "func.cmd" `
-        -ArgumentList "start", "--port", "7071" `
-        -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
-        -RedirectStandardOutput $logFile `
-        -NoNewWindow -PassThru
-
-      Write-Host "Function app starting (PID: $($proc.Id))..."
-      $timeout = 90; $elapsed = 0; $ready = $false
-      do {
-        Write-Host "Waiting 3s for function app to be ready..."
-        Start-Sleep -Seconds 3
-        $elapsed += 3
-        $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
-        $ready = $content -match "Worker process started and initialized"
-      } while (-not $ready -and $elapsed -lt $timeout)
-
-      if ($ready) {
-        Write-Host "Function app ready after ${elapsed}s"
-        $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
-      } else {
-        Write-Host "=== Function App Output ==="
-        Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
-        $proc | Stop-Process -Force -ErrorAction SilentlyContinue
-        Write-Error "Function app failed to start within ${timeout}s"
-        exit 1
-      }
-    displayName: 'Start local Function App'
-
-  - script: 'newman run $(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json --env-var "host=localhost:7071" --reporters cli,junit --reporter-junit-export Results/creaturegen.junitReport.xml'
-    displayName: 'Run Smoke Tests'
-    retryCountOnTaskFailure: 1
-  - task: PublishTestResults@2
-    displayName: 'Publish Smoke Test Results'
-    condition: always()
-    inputs:
-      testResultsFiles: '**/*.junitReport.xml'
-      failTaskOnFailedTests: true
-      failTaskOnMissingResultsFile: true
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.CreatureGen/DnDGen.Api.CreatureGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/CreatureGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/CreatureGen' 
-      artifactName: 'creaturegen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: CreatureGen API
+    projectPath: DnDGen.Api.CreatureGen
+    artifactName: creaturegen-api
+    smokeTestCollection: CreatureGen-API.postman_collection.json
+    smokeTestJunitFile: creaturegen.junitReport.xml
 
 # The CharacterGen API
 - job: CharacterGen_Api
