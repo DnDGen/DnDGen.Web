@@ -123,10 +123,16 @@ jobs:
       command: custom  
       verbose: true  
       customCommand: 'install -g azurite azure-functions-core-tools@4'
+  - script: 'npm install -g newman'
+    workingDirectory: '$(Build.SourcesDirectory)'
+    displayName: 'Install Newman'
   - bash: |
       mkdir azurite
       azurite --silent --location azurite --debug azurite/debug.log &
     displayName: 'Start Azurite'
+  - bash: |
+      cp $(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json $(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json
+    displayName: 'Copy local settings'
   - script: |
       func start --port 7071 &
       echo "Waiting for Azure Function to start..."
@@ -164,9 +170,6 @@ jobs:
   #     }
   #   displayName: 'Start CreatureGen Function App'
 
-  - script: 'npm install -g newman'
-    workingDirectory: '$(Pipeline.Workspace)'
-    displayName: 'Install Newman'
   - script: 'newman run $(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json --env-var "host=localhost:7071" --reporters cli,junit --reporter-junit-export Results/creaturegen.junitReport.xml'
     displayName: 'Run Smoke Tests'
     retryCountOnTaskFailure: 1
