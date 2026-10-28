@@ -45,7 +45,6 @@ jobs:
       command: custom
       verbose: true
       customCommand: 'install -g azurite azure-functions-core-tools@4 newman'
-    workingDir: '$(Build.SourcesDirectory)'
 
   - bash: |
       mkdir azurite
