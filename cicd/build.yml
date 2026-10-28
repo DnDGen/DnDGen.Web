@@ -128,6 +128,7 @@ jobs:
       azurite --silent --location azurite --debug azurite/debug.log &
     displayName: 'Start Azurite'
   - script: |
+      cd $(Build.SourcesDirectory)/DnDGen.Api.CreatureGen
       func start --port 7071 &
       echo "Waiting for Azure Function to start..."
       sleep 10
