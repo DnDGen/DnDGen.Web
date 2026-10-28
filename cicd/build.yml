@@ -165,7 +165,7 @@ jobs:
 
   - powershell: |
       npm install -g newman --silent
-      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.local.postman_collection.json" --bail
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json" --env-var "host=localhost:7071" --bail
     displayName: 'Run CreatureGen Local Smoke Tests'
 
   - powershell: |
