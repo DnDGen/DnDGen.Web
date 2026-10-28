@@ -1,4 +1,4 @@
-{
+﻿{
 	"info": {
 		"_postman_id": "c2f3d4e5-f6a7-4b8c-9d0e-1234567890ab",
 		"name": "CreatureGen API",
@@ -250,7 +250,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									]
 								}
@@ -287,7 +286,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -330,7 +328,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -373,7 +370,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -416,7 +412,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -459,7 +454,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -502,7 +496,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -545,7 +538,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -592,7 +584,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -639,7 +630,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -686,7 +676,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -741,7 +730,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"validate"
 									],
 									"query": [
@@ -1009,7 +997,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									]
 								}
@@ -1047,7 +1034,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1089,7 +1075,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1131,7 +1116,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1173,7 +1157,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1217,7 +1200,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1259,7 +1241,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1303,7 +1284,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1349,7 +1329,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1395,7 +1374,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1443,7 +1421,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
@@ -1497,7 +1474,6 @@
 										"api",
 										"v1",
 										"creature",
-										"random",
 										"generate"
 									],
 									"query": [
