@@ -467,26 +467,15 @@ jobs:
           displayName: 'Install node.js'
           inputs:
             version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
+        - script: 'npm install -g @angular/cli'
+          displayName: 'Install Angular CLI'
+        - script: 'npm install'
+          workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+          displayName: 'npm install'
+        - script: 'npm run test:cd:web'
+          workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+          displayName: 'Run Website Tests'
           retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:web'
         - task: PublishTestResults@2
           displayName: 'Publish Website Test Results'
           condition: always()
@@ -521,6 +510,7 @@ jobs:
   dependsOn:
   - RollGen_Api
   - TreasureGen_Api
+  - CreatureGen_Api
   - CharacterGen_Api
   - EncounterGen_Api
   - DungeonGen_Api
@@ -543,9 +533,15 @@ jobs:
         - script: 'npm install -g newman'
           workingDirectory: '$(Pipeline.Workspace)'
           displayName: 'Install Newman'
-        - script: 'newman run $(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/DnDGen-Website.postman_collection.json --reporters cli,junit --reporter-junit-export Results/website.junitReport.xml'
-          displayName: 'Run DnDGen Website Tests'
+        
+        - script: |
+            newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/DnDGen-Website.postman_collection.json" \
+            --env-var "host=dndgen.com" \
+            --reporters cli,junit \
+            --reporter-junit-export "Results/website.junitReport.xml"
+          displayName: 'Run Smoke Tests'
           retryCountOnTaskFailure: 1
+
         - task: PublishTestResults@2
           displayName: 'Publish Postman Test Results'
           condition: always()
@@ -566,6 +562,7 @@ jobs:
             assets: |
               $(Pipeline.Workspace)/**/rollgen-api/*.zip
               $(Pipeline.Workspace)/**/treasuregen-api/*.zip
+              $(Pipeline.Workspace)/**/creaturegen-api/*.zip
               $(Pipeline.Workspace)/**/charactergen-api/*.zip
               $(Pipeline.Workspace)/**/encountergen-api/*.zip
               $(Pipeline.Workspace)/**/dungeongen-api/*.zip

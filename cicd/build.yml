@@ -279,33 +279,18 @@ jobs:
     displayName: 'Install node.js'
     inputs:
       version: '20.x'
-  - task: Npm@1  
-    displayName: 'Install Angular CLI'  
-    inputs:  
-      command: custom  
-      verbose: true  
-      customCommand: 'install -g @angular/cli'
-  - task: Npm@1  
-    displayName: 'npm install'  
-    inputs:
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      command: install
-  - task: Npm@1  
-    displayName: Build
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run build:ci'
-  - task: Npm@1  
-    displayName: Run Tests
+  - script: 'npm install -g @angular/cli'
+    displayName: 'Install Angular CLI'
+  - script: 'npm install'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'npm install'
+  - script: 'npm run build:ci'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Build'
+  - script: 'npm run test:ci'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Run Tests'
     retryCountOnTaskFailure: 1
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run test:ci'
   - task: PublishTestResults@2
     displayName: 'Publish Test Results'
     condition: always()
