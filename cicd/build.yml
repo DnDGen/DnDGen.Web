@@ -137,27 +137,30 @@ jobs:
     displayName: 'Create local.settings.json'
 
   - powershell: |
-      $funcJob = Start-Job -Name "FuncApp" -ScriptBlock {
-        param($dir)
-        Set-Location $dir
-        & func.cmd start --port 7071 2>&1
-      } -ArgumentList "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen"
+      $logFile = "$(Agent.TempDirectory)\func-output.log"
+      $proc = Start-Process `
+        -FilePath "func.cmd" `
+        -ArgumentList "start", "--port", "7071" `
+        -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
+        -RedirectStandardOutput $logFile `
+        -NoNewWindow -PassThru
 
-      Write-Host "Function app starting..."
+      Write-Host "Function app starting (PID: $($proc.Id))..."
       $timeout = 90; $elapsed = 0; $ready = $false
       do {
         Start-Sleep -Seconds 3
         $elapsed += 3
-        $output = Receive-Job $funcJob -Keep 2>&1
-        $ready = ($output | Out-String) -match "Worker process started and initialized"
+        $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
+        $ready = $content -match "Worker process started and initialized"
       } while (-not $ready -and $elapsed -lt $timeout)
 
       if ($ready) {
         Write-Host "Function app ready after ${elapsed}s"
+        $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
       } else {
         Write-Host "=== Function App Output ==="
-        Receive-Job $funcJob -Keep | Write-Host
-        Stop-Job $funcJob; Remove-Job $funcJob -Force
+        Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
+        $proc | Stop-Process -Force -ErrorAction SilentlyContinue
         Write-Error "Function app failed to start within ${timeout}s"
         exit 1
       }
@@ -169,9 +172,12 @@ jobs:
     displayName: 'Run CreatureGen Local Smoke Tests'
 
   - powershell: |
+      $pidFile = "$(Agent.TempDirectory)\func-pid.txt"
+      if (Test-Path $pidFile) {
+        $savedPid = Get-Content $pidFile
+        Stop-Process -Id $savedPid -Force -ErrorAction SilentlyContinue
+      }
       Get-Process func -ErrorAction SilentlyContinue | Stop-Process -Force
-      Get-Job | Stop-Job -ErrorAction SilentlyContinue
-      Get-Job | Remove-Job -Force -ErrorAction SilentlyContinue
       Write-Host "Cleanup complete"
     displayName: 'Stop Function App and Azurite'
     condition: always()
