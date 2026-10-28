@@ -117,70 +117,65 @@ jobs:
       projects: 'DnDGen.Api.CreatureGen.Tests.Integration/DnDGen.Api.CreatureGen.Tests.Integration.csproj'
       arguments: '-v normal --collect "Code Coverage"'
 
-  - powershell: |
-      npm install -g azurite azure-functions-core-tools@4 --silent
-      $job = Start-Job -Name "Azurite" -ScriptBlock { & azurite.cmd 2>&1 }
-      Start-Sleep -Seconds 5
-      Write-Host "Azurite started"
+  - task: Npm@1  
+    displayName: 'Install Azure Tools'  
+    inputs:  
+      command: custom  
+      verbose: true  
+      customCommand: 'install -g azurite azure-functions-core-tools@4'
+  - bash: |
+      mkdir azurite
+      azurite --silent --location azurite --debug azurite/debug.log &
     displayName: 'Start Azurite'
+  - script: |
+      func start --port 7071 &
+      echo "Waiting for Azure Function to start..."
+      sleep 10
+    displayName: 'Start local Azure Function'
+  # - powershell: |
+  #     $logFile = "$(Agent.TempDirectory)\func-output.log"
+  #     $proc = Start-Process `
+  #       -FilePath "func.cmd" `
+  #       -ArgumentList "start", "--port", "7071" `
+  #       -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
+  #       -RedirectStandardOutput $logFile `
+  #       -NoNewWindow -PassThru
 
-  - powershell: |
-      $settings = @{
-        IsEncrypted = $false
-        Values = @{
-          AzureWebJobsStorage = "UseDevelopmentStorage=true"
-          FUNCTIONS_WORKER_RUNTIME = "dotnet-isolated"
-        }
-      } | ConvertTo-Json
-      $settings | Set-Content "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json"
-      Write-Host "Created local.settings.json"
-    displayName: 'Create local.settings.json'
+  #     Write-Host "Function app starting (PID: $($proc.Id))..."
+  #     $timeout = 90; $elapsed = 0; $ready = $false
+  #     do {
+  #       Write-Host "Waiting 3s for function app to be ready..."
+  #       Start-Sleep -Seconds 3
+  #       $elapsed += 3
+  #       $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
+  #       $ready = $content -match "Worker process started and initialized"
+  #     } while (-not $ready -and $elapsed -lt $timeout)
 
-  - powershell: |
-      $logFile = "$(Agent.TempDirectory)\func-output.log"
-      $proc = Start-Process `
-        -FilePath "func.cmd" `
-        -ArgumentList "start", "--port", "7071" `
-        -WorkingDirectory "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen" `
-        -RedirectStandardOutput $logFile `
-        -NoNewWindow -PassThru
+  #     if ($ready) {
+  #       Write-Host "Function app ready after ${elapsed}s"
+  #       $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
+  #     } else {
+  #       Write-Host "=== Function App Output ==="
+  #       Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
+  #       $proc | Stop-Process -Force -ErrorAction SilentlyContinue
+  #       Write-Error "Function app failed to start within ${timeout}s"
+  #       exit 1
+  #     }
+  #   displayName: 'Start CreatureGen Function App'
 
-      Write-Host "Function app starting (PID: $($proc.Id))..."
-      $timeout = 90; $elapsed = 0; $ready = $false
-      do {
-        Start-Sleep -Seconds 3
-        $elapsed += 3
-        $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
-        $ready = $content -match "Worker process started and initialized"
-      } while (-not $ready -and $elapsed -lt $timeout)
-
-      if ($ready) {
-        Write-Host "Function app ready after ${elapsed}s"
-        $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
-      } else {
-        Write-Host "=== Function App Output ==="
-        Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
-        $proc | Stop-Process -Force -ErrorAction SilentlyContinue
-        Write-Error "Function app failed to start within ${timeout}s"
-        exit 1
-      }
-    displayName: 'Start CreatureGen Function App'
-
-  - powershell: |
-      npm install -g newman --silent
-      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json" --env-var "host=localhost:7071" --bail
-    displayName: 'Run CreatureGen Local Smoke Tests'
-
-  - powershell: |
-      $pidFile = "$(Agent.TempDirectory)\func-pid.txt"
-      if (Test-Path $pidFile) {
-        $savedPid = Get-Content $pidFile
-        Stop-Process -Id $savedPid -Force -ErrorAction SilentlyContinue
-      }
-      Get-Process func -ErrorAction SilentlyContinue | Stop-Process -Force
-      Write-Host "Cleanup complete"
-    displayName: 'Stop Function App and Azurite'
+  - script: 'npm install -g newman'
+    workingDirectory: '$(Pipeline.Workspace)'
+    displayName: 'Install Newman'
+  - script: 'newman run $(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.postman_collection.json --env-var "host=localhost:7071" --reporters cli,junit --reporter-junit-export Results/creaturegen.junitReport.xml'
+    displayName: 'Run Smoke Tests'
+    retryCountOnTaskFailure: 1
+  - task: PublishTestResults@2
+    displayName: 'Publish Smoke Test Results'
     condition: always()
+    inputs:
+      testResultsFiles: '**/*.junitReport.xml'
+      failTaskOnFailedTests: true
+      failTaskOnMissingResultsFile: true
 
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
