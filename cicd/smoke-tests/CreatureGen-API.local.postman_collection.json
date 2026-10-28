@@ -1,0 +1,1475 @@
+﻿{
+	"info": {
+		"_postman_id": "c2f3d4e5-f6a7-4b8c-9d0e-1234567890ab",
+		"name": "CreatureGen API (Local)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28758235"
+	},
+	"item": [
+		{
+			"name": "V1",
+			"item": [
+				{
+					"name": "Validate Creature",
+					"item": [
+						{
+							"name": "Validate Human",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate Human returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/validate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Human with Ghost Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate Human with Ghost Template returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/validate?templates=Ghost",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Ghost"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Hill Giant with Vampire Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate Hill Giant with Vampire Template returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Hill%20Giant/validate?templates=Vampire",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Hill Giant",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Vampire"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Invalid Creature",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate invalid creature name returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/INVALID/validate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"INVALID",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Human with Invalid Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate Human with invalid template returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/validate?templates=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validate Random Creature",
+					"item": [
+						{
+							"name": "Validate Random Creature with No Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with no filters returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Neutral Good Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with Neutral Good alignment returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?alignment=Neutral%20Good",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Invalid Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with invalid alignment returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?alignment=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "alignment",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Invalid Type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with invalid type returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?type=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Invalid CR",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with invalid CR returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?cr=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "cr",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Celestial Creature Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with Celestial Creature template returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Celestial%20Creature",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Celestial Creature"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Invalid Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with invalid template returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Fiendish Template and Neutral Evil Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random Fiendish Creature with Neutral Evil alignment returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Evil"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Fiendish Template and Neutral Good Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random Fiendish Creature with Neutral Good alignment returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with Fiendish Template and Invalid Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random Fiendish Creature with invalid alignment returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with All Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with all compatible filters returns valid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(true);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Evil"
+										},
+										{
+											"key": "type",
+											"value": "Magical Beast"
+										},
+										{
+											"key": "cr",
+											"value": "1/2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Validate Random Creature with All Incompatible Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Validate random creature with all incompatible filters returns invalid\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(pm.response.json()).to.equal(false);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/validate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"validate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										},
+										{
+											"key": "type",
+											"value": "Magical Beast"
+										},
+										{
+											"key": "cr",
+											"value": "1/2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Generate Creature",
+					"item": [
+						{
+							"name": "Generate Human",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate Human returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/generate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Human with Ghost Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate Human with Ghost Template returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/generate?templates=Ghost",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Ghost"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Hill Giant with Vampire Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate Hill Giant with Vampire Template returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Hill%20Giant/generate?templates=Vampire",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Hill Giant",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Vampire"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Invalid Creature",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate invalid creature name returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/INVALID/generate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"INVALID",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Human with Invalid Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate Human with invalid template returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/Human/generate?templates=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"Human",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Generate Random Creature",
+					"item": [
+						{
+							"name": "Generate Random Creature with No Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with no filters returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Neutral Good Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with Neutral Good alignment returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?alignment=Neutral%20Good",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Invalid Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with invalid alignment returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?alignment=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "alignment",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Invalid Type",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with invalid type returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?type=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Invalid CR",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with invalid CR returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?cr=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "cr",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Celestial Creature Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with Celestial Creature template returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Celestial%20Creature",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Celestial Creature"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Invalid Template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with invalid template returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Fiendish Template and Neutral Evil Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random Fiendish Creature with Neutral Evil alignment returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Evil"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Fiendish Template and Neutral Good Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random Fiendish Creature with Neutral Good alignment returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with Fiendish Template and Invalid Alignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random Fiendish Creature with invalid alignment returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=INVALID",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "INVALID"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with All Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with all compatible filters returns creature\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var creature = pm.response.json();\r",
+											"    pm.expect(creature.summary).to.not.be.empty;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Evil&type=Magical%20Beast&cr=1%2F2",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Evil"
+										},
+										{
+											"key": "type",
+											"value": "Magical Beast"
+										},
+										{
+											"key": "cr",
+											"value": "1/2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Random Creature with All Incompatible Filters",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Generate random creature with all incompatible filters returns bad request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:7071/api/v1/creature/generate?templates=Fiendish%20Creature&alignment=Neutral%20Good&type=Magical%20Beast&cr=1%2F2",
+									"host": ["localhost"], "port": "7071",
+									"path": [
+										"api",
+										"v1",
+										"creature",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "templates",
+											"value": "Fiendish Creature"
+										},
+										{
+											"key": "alignment",
+											"value": "Neutral Good"
+										},
+										{
+											"key": "type",
+											"value": "Magical Beast"
+										},
+										{
+											"key": "cr",
+											"value": "1/2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Swagger UI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns Swagger UI\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
+							"    pm.expect(text).to.include('url: \"https://creature.dndgen.com/api/swagger.json\"');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7071/api/swagger/ui",
+					"host": ["localhost"], "port": "7071",
+					"path": [
+						"api",
+						"swagger",
+						"ui"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns Swagger data\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"host\": \"creature.dndgen.com\"');\r",
+							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
+							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/generate\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7071/api/swagger.json",
+					"host": ["localhost"], "port": "7071",
+					"path": [
+						"api",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OpenAPI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns OpenAPI documentation\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var text = pm.response.text();\r",
+							"    pm.expect(text).to.include('\"url\": \"https://creature.dndgen.com/api\"');\r",
+							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/validate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/{creatureName}/generate\");\r",
+							"    pm.expect(text).to.include(\"/v1/creature/generate\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7071/api/openapi/1.0",
+					"host": ["localhost"], "port": "7071",
+					"path": [
+						"api",
+						"openapi",
+						"1.0"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

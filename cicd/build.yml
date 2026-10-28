@@ -117,6 +117,65 @@ jobs:
       projects: 'DnDGen.Api.CreatureGen.Tests.Integration/DnDGen.Api.CreatureGen.Tests.Integration.csproj'
       arguments: '-v normal --collect "Code Coverage"'
 
+  - powershell: |
+      npm install -g azurite --silent
+      $job = Start-Job -Name "Azurite" -ScriptBlock { & azurite.cmd 2>&1 }
+      Start-Sleep -Seconds 5
+      Write-Host "Azurite started"
+    displayName: 'Start Azurite'
+
+  - powershell: |
+      $settings = @{
+        IsEncrypted = $false
+        Values = @{
+          AzureWebJobsStorage = "UseDevelopmentStorage=true"
+          FUNCTIONS_WORKER_RUNTIME = "dotnet-isolated"
+        }
+      } | ConvertTo-Json
+      $settings | Set-Content "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen/local.settings.json"
+      Write-Host "Created local.settings.json"
+    displayName: 'Create local.settings.json'
+
+  - powershell: |
+      $funcJob = Start-Job -Name "FuncApp" -ScriptBlock {
+        param($dir)
+        Set-Location $dir
+        & func start --port 7071 2>&1
+      } -ArgumentList "$(Build.SourcesDirectory)/DnDGen.Api.CreatureGen"
+
+      Write-Host "Function app starting..."
+      $timeout = 90; $elapsed = 0; $ready = $false
+      do {
+        Start-Sleep -Seconds 3
+        $elapsed += 3
+        $output = Receive-Job $funcJob -Keep 2>&1
+        $ready = ($output | Out-String) -match "Host started successfully"
+      } while (-not $ready -and $elapsed -lt $timeout)
+
+      if ($ready) {
+        Write-Host "Function app ready after ${elapsed}s"
+      } else {
+        Write-Host "=== Function App Output ==="
+        Receive-Job $funcJob -Keep | Write-Host
+        Stop-Job $funcJob; Remove-Job $funcJob -Force
+        Write-Error "Function app failed to start within ${timeout}s"
+        exit 1
+      }
+    displayName: 'Start CreatureGen Function App'
+
+  - powershell: |
+      npm install -g newman --silent
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/CreatureGen-API.local.postman_collection.json" --bail
+    displayName: 'Run CreatureGen Local Smoke Tests'
+
+  - powershell: |
+      Get-Process func -ErrorAction SilentlyContinue | Stop-Process -Force
+      Get-Job | Stop-Job -ErrorAction SilentlyContinue
+      Get-Job | Remove-Job -Force -ErrorAction SilentlyContinue
+      Write-Host "Cleanup complete"
+    displayName: 'Stop Function App and Azurite'
+    condition: always()
+
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: Publish API

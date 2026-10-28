@@ -12,9 +12,11 @@ namespace DnDGen.Api
     {
         public static void ConfigureDndgenServices(this IServiceCollection services)
         {
-            services.AddOpenTelemetry()
-                .UseFunctionsWorkerDefaults()
-                .UseAzureMonitorExporter();
+            var openTelemetry = services.AddOpenTelemetry()
+                .UseFunctionsWorkerDefaults();
+
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+                openTelemetry.UseAzureMonitorExporter();
 
             services.Configure<WorkerOptions>(workerOptions =>
             {
