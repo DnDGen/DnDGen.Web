@@ -91,13 +91,9 @@ jobs:
     displayName: 'Run Smoke Tests'
     retryCountOnTaskFailure: 1
 
-  - task: PublishTestResults@2
-    displayName: 'Publish Smoke Test Results'
-    condition: always()
-    inputs:
-      testResultsFiles: '**/*.junitReport.xml'
-      failTaskOnFailedTests: true
-      failTaskOnMissingResultsFile: true
+  - template: publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/Results/${{ parameters.smokeTestJunitFile }}'
 
   - task: DotNetCoreCLI@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))

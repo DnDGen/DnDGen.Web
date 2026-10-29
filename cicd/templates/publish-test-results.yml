@@ -1,0 +1,17 @@
+parameters:
+- name: resultFile
+  type: string
+- name: testType
+  type: string
+  default: JUnit
+
+steps:
+- bash: |
+    if [ ! -f "${{ parameters.resultFile }}" ]; then
+      echo "##vso[task.logissue type=error]Test result file not found: ${{ parameters.resultFile }}"
+      echo "##vso[task.complete result=Failed;]"
+      exit 1
+    fi
+    echo "##vso[results.publish type=${{ parameters.testType }};mergeResults=false;failTaskOnFailedTests=true;resultFiles=${{ parameters.resultFile }};]"
+  displayName: 'Publish Test Results'
+  condition: always()
