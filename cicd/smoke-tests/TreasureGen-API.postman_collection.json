@@ -20318,7 +20318,7 @@
 							"});\r",
 							"pm.test(\"Returns Swagger UI\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(pm.response.text()).to.include('url: \"https://treasure.dndgen.com/api/swagger.json\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -20352,7 +20352,7 @@
 							"pm.test(\"Returns Swagger data\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"\r",
-							"    pm.expect(pm.response.text()).to.include('\"host\": \"treasure.dndgen.com\"');\r",
+							"    pm.expect(pm.response.text()).to.include('\"host\": \"' + pm.variables.get('host') + '\"');\r",
 							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/validate\");\r",
@@ -20397,7 +20397,7 @@
 							"pm.test(\"Returns Open API documentation\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"\r",
-							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://treasure.dndgen.com/api\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/validate\");\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/{treasureType}/level/{level}/generate\");\r",

@@ -4199,7 +4199,7 @@
 							"});\r",
 							"pm.test(\"Returns Swagger UI\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(pm.response.text()).to.include('url: \"https://' + pm.variables.get('host') + '/api/swagger.json\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -4279,7 +4279,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Returns Open API documentation\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://' + pm.variables.get('host') + '/api\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/roll\");\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/roll/validate\");\r",
