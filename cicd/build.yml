@@ -279,15 +279,15 @@ jobs:
     displayName: 'Install node.js'
     inputs:
       version: '20.x'
-  - script: 'npm install -g @angular/cli'
+  - bash: 'npm install -g @angular/cli'
     displayName: 'Install Angular CLI'
-  - script: 'npm install'
+  - bash: 'npm install'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'npm install'
-  - script: 'npm run build:ci'
+  - bash: 'npm run build:ci'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Build'
-  - script: 'npm run test:ci'
+  - bash: 'npm run test:ci'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Tests'
     retryCountOnTaskFailure: 1
@@ -337,7 +337,7 @@ jobs:
       artifactName: 'dndgen-deployment-website-tests'
     
     # Tag the release
-  - script: |
+  - bash: |
       echo "Tagging with version $(Build.BuildNumber)"
       git tag $(Build.BuildNumber)
       git push origin $(Build.BuildNumber)

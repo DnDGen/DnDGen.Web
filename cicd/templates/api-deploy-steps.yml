@@ -24,15 +24,15 @@ steps:
     appName: '${{ parameters.appName }}'
     package: '$(Pipeline.Workspace)/**/${{ parameters.appName }}/*.zip'
 
-- script: 'npm install -g newman'
+- bash: 'npm install -g newman'
   workingDirectory: '$(Pipeline.Workspace)'
   displayName: 'Install Newman'
 
-- script: |
-    newman run "$(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\${{ parameters.smokeTestCollection }}" \
+- bash: |
+    newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/${{ parameters.smokeTestCollection }}" \
     --env-var "host=${{parameters.apiPrefix}}.dndgen.com" \
     --reporters cli,junit \
-    --reporter-junit-export "Results\${{ parameters.smokeTestJunitFile }}"
+    --reporter-junit-export "Results/${{ parameters.smokeTestJunitFile }}"
   displayName: 'Run Smoke Tests'
   retryCountOnTaskFailure: 1
 
@@ -50,19 +50,19 @@ steps:
     inputs:
       version: '20.x'
 
-  - script: 'npm install -g @angular/cli'
+  - bash: 'npm install -g @angular/cli'
     displayName: 'Install Angular CLI'
-  - script: 'npm install'
-    workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+  - bash: 'npm install'
+    workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
     displayName: 'npm install'
-  - script: 'npm run ${{ parameters.websiteTestScript }}'
-    workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
+  - bash: 'npm run ${{ parameters.websiteTestScript }}'
+    workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
     displayName: 'Run Website Tests'
 
   - task: PublishTestResults@2
     displayName: 'Publish Website Test Results'
     condition: always()
     inputs:
-      testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\${{ parameters.websiteResultFile }}'
+      testResultsFiles: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests/${{ parameters.websiteResultFile }}'
       failTaskOnFailedTests: true
       failTaskOnMissingResultsFile: true

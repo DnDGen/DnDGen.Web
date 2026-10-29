@@ -39,7 +39,7 @@ jobs:
       projects: '${{ parameters.projectPath }}.Tests.Integration/${{ parameters.projectPath }}.Tests.Integration.csproj'
       arguments: '-v normal --collect "Code Coverage"'
 
-  - script: 'npm install -g azurite azure-functions-core-tools@4 newman'
+  - bash: 'npm install -g azurite azure-functions-core-tools@4 newman'
     workingDirectory: '$(Pipeline.Workspace)'
     displayName: 'Install Smoke Test Tools'
 
@@ -83,7 +83,7 @@ jobs:
       }
     displayName: 'Start Function App'
 
-  - script: |
+  - bash: |
       newman run $(Build.SourcesDirectory)/cicd/smoke-tests/${{ parameters.smokeTestCollection }} \
       --env-var "host=localhost:7071" \
       --reporters cli,junit \
