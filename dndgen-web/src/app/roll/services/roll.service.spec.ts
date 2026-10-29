@@ -6,6 +6,7 @@ import '@angular/compiler';
 import { TestBed } from '@angular/core/testing';
 import { RollGenViewModel } from '../models/rollgen-view-model.model';
 import { TestHelper } from '../../test-helper';
+import { ApiUrls } from '../../../api-urls';
 
 describe('Roll Service', () => {
     describe('unit', () => {
@@ -24,7 +25,7 @@ describe('Roll Service', () => {
     
             rollService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/roll/viewmodel');
+                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.web}/api/v1/roll/viewmodel`);
                 resolve();
             });
         }));
@@ -34,7 +35,7 @@ describe('Roll Service', () => {
     
             rollService.getRoll(9266, 90210).subscribe((roll) => {
                 expect(roll).toBe(42);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/roll');
+                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.roll}/api/v2/9266/d/90210/roll`);
                 resolve();
             });
         }));
@@ -44,17 +45,17 @@ describe('Roll Service', () => {
     
             rollService.validateRoll(9266, 90210).subscribe((validity) => {
                 expect(validity).toBe(true);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.roll}/api/v2/9266/d/90210/validate`);
                 resolve();
             });
         }));
-    
+
         it('validates an invalid roll', () => new Promise<void>(resolve => {
             httpClientSpy.get.mockReturnValue(of(false));
-    
+
             rollService.validateRoll(9266, 90210).subscribe((validity) => {
                 expect(validity).toBe(false);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://roll.dndgen.com/api/v2/9266/d/90210/validate');
+                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.roll}/api/v2/9266/d/90210/validate`);
                 resolve();
             });
         }));
@@ -66,7 +67,7 @@ describe('Roll Service', () => {
             rollService.getExpressionRoll("my expression").subscribe((roll) => {
                 expect(roll).toBe(42);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/roll',
+                    `${ApiUrls.roll}/api/v2/expression/roll`,
                     { params: params });
                 resolve();
             });
@@ -79,20 +80,20 @@ describe('Roll Service', () => {
             rollService.validateExpression("my expression").subscribe((validity) => {
                 expect(validity).toBe(true);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/validate',
+                    `${ApiUrls.roll}/api/v2/expression/validate`,
                     { params: params });
                 resolve();
             });
         }));
-    
+
         it('validates an invalid expression', () => new Promise<void>(resolve => {
             httpClientSpy.get.mockReturnValue(of(false));
             let params = new HttpParams().set('expression', "my expression");
-    
+
             rollService.validateExpression("my expression").subscribe((validity) => {
                 expect(validity).toBe(false);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    'https://roll.dndgen.com/api/v2/expression/validate',
+                    `${ApiUrls.roll}/api/v2/expression/validate`,
                     { params: params });
                 resolve();
             });

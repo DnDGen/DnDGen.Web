@@ -18,7 +18,13 @@
     "test:cd:charactergen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/character/**/*.spec.ts' --output-file=./TestResults-CharacterGen-Website.xml",
     "test:cd:encountergen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/encounter/**/*.spec.ts' --output-file=./TestResults-EncounterGen-Website.xml",
     "test:cd:dungeongen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/dungeon/**/*.spec.ts' --output-file=./TestResults-DungeonGen-Website.xml",
-    "test:cd:web": "ng test --no-watch --runner-config vitest.config.ci.ts --output-file=./TestResults-AllGenerators-Website.xml"
+    "test:cd:web": "ng test --no-watch --runner-config vitest.config.ci.ts --output-file=./TestResults-AllGenerators-Website.xml",
+    "test:cd:rollgen:local": "ng test --no-watch --runner-config vitest.config.local.ts --include='src/app/roll/**/*.spec.ts' --output-file=./TestResults-RollGen-Website-Local.xml",
+    "test:cd:treasuregen:local": "ng test --no-watch --runner-config vitest.config.local.ts --include='src/app/treasure/**/*.spec.ts' --output-file=./TestResults-TreasureGen-Website-Local.xml",
+    "test:cd:charactergen:local": "ng test --no-watch --runner-config vitest.config.local.ts --include='src/app/character/**/*.spec.ts' --output-file=./TestResults-CharacterGen-Website-Local.xml",
+    "test:cd:encountergen:local": "ng test --no-watch --runner-config vitest.config.local.ts --include='src/app/encounter/**/*.spec.ts' --output-file=./TestResults-EncounterGen-Website-Local.xml",
+    "test:cd:dungeongen:local": "ng test --no-watch --runner-config vitest.config.local.ts --include='src/app/dungeon/**/*.spec.ts' --output-file=./TestResults-DungeonGen-Website-Local.xml",
+    "test:cd:all:local": "ng test --no-watch --runner-config vitest.config.local.ts --output-file=./TestResults-AllGenerators-Website-Local.xml"
   },
   "private": true,
   "dependencies": {

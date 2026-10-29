@@ -7,6 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { CharacterGenViewModel } from '../models/charactergen-view-model.model';
 import { Character } from '../models/character.model';
 import { TestHelper } from '../../test-helper';
+import { ApiUrls } from '../../../api-urls';
 
 describe('Character Service', () => {
     describe('unit', () => {
@@ -36,7 +37,7 @@ describe('Character Service', () => {
     
             characterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
-                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/character/viewmodel');
+                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.web}/api/v1/character/viewmodel`);
                 resolve();
             });
         }));
@@ -96,7 +97,7 @@ describe('Character Service', () => {
                         test.a)
                     .subscribe((character) => {
                         expect(character).toBe(expected);
-                        expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/generate', { params: params });
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.character}/api/v1/character/generate`, { params: params });
                         resolve();
                     });
             }));
@@ -131,7 +132,7 @@ describe('Character Service', () => {
                         'my metarace')
                     .subscribe((validity) => {
                         expect(validity).toBe(true);
-                        expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/validate', { params: params });
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.character}/api/v1/character/validate`, { params: params });
                         resolve();
                     });
             }));
@@ -166,7 +167,7 @@ describe('Character Service', () => {
                         'my metarace')
                     .subscribe((validity) => {
                         expect(validity).toBe(false);
-                        expect(httpClientSpy.get).toHaveBeenCalledWith('https://character.dndgen.com/api/v1/character/validate', { params: params });
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.character}/api/v1/character/validate`, { params: params });
                         resolve();
                     });
             }));

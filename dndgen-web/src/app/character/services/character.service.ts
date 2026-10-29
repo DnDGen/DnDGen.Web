@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Character } from '../models/character.model';
 import { CharacterGenViewModel } from '../models/charactergen-view-model.model';
+import { ApiUrls } from '../../../api-urls';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class CharacterService {
   }
 
   public getViewModel(): Observable<CharacterGenViewModel> {
-    var url = "https://web.dndgen.com/api/v1/character/viewmodel";
+    var url = `${ApiUrls.web}/api/v1/character/viewmodel`;
     return this.http.get<CharacterGenViewModel>(url);
   }
 
@@ -37,7 +38,7 @@ export class CharacterService {
     setCharisma: number,
     allowAbilityAdjustments: boolean
   ): Observable<Character> {
-    var url = "https://character.dndgen.com/api/v1/character/generate";
+    var url = `${ApiUrls.character}/api/v1/character/generate`;
 
     let params = new HttpParams()
       .set('alignmentRandomizerType', alignmentRandomizerType)
@@ -76,7 +77,7 @@ export class CharacterService {
     forceMetarace: boolean,
     setMetarace: string
   ): Observable<boolean> {
-    var url = "https://character.dndgen.com/api/v1/character/validate";
+    var url = `${ApiUrls.character}/api/v1/character/validate`;
 
     let params = new HttpParams()
       .set('alignmentRandomizerType', alignmentRandomizerType)
