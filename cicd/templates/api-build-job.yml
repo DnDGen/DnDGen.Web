@@ -84,10 +84,10 @@ jobs:
     displayName: 'Start Function App'
 
   - bash: |
-      newman run $(Build.SourcesDirectory)/cicd/smoke-tests/${{ parameters.smokeTestCollection }} \
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/${{ parameters.smokeTestCollection }}" \
       --env-var "host=localhost:7071" \
       --reporters cli,junit \
-      --reporter-junit-export Results/${{ parameters.smokeTestJunitFile }}
+      --reporter-junit-export "Results/${{ parameters.smokeTestJunitFile }}"
     displayName: 'Run Smoke Tests'
     retryCountOnTaskFailure: 1
 
