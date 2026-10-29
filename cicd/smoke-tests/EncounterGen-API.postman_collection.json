@@ -3553,9 +3553,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate",
 									"host": [
-										"encounter",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -3616,9 +3614,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/validate?creatureTypeFilters=ooze",
 									"host": [
-										"encounter",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -7492,9 +7488,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate",
 									"host": [
-										"encounter",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -7555,9 +7549,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/encounter/:temperature/:environment/:timeOfDay/level/:level/generate?creatureTypeFilters=ooze",
 									"host": [
-										"encounter",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
