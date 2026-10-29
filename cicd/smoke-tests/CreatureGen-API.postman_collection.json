@@ -1471,5 +1471,12 @@
 			},
 			"response": []
 		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "creature.dndgen.com",
+			"type": "default"
+		}
 	]
 }

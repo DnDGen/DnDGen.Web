@@ -9011,5 +9011,12 @@
 			},
 			"response": []
 		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "dungeon.dndgen.com",
+			"type": "default"
+		}
 	]
 }

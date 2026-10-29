@@ -358,5 +358,12 @@
 			},
 			"response": []
 		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "web.dndgen.com",
+			"type": "default"
+		}
 	]
 }

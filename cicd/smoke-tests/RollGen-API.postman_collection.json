@@ -4313,5 +4313,12 @@
 			},
 			"response": []
 		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "roll.dndgen.com",
+			"type": "default"
+		}
 	]
 }

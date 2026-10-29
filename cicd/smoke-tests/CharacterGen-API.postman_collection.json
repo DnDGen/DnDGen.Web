@@ -10199,9 +10199,7 @@
 				"url": {
 					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10243,9 +10241,7 @@
 				"url": {
 					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10285,9 +10281,7 @@
 				"url": {
 					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10297,6 +10291,13 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "character.dndgen.com",
+			"type": "default"
 		}
 	]
 }
