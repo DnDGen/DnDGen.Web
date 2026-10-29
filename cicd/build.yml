@@ -77,11 +77,38 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  - bash: 'npm install -g @angular/cli'
-    displayName: 'Install Angular CLI'
+  - bash: 'npm install -g @angular/cli newman'
+    displayName: 'Install Angular CLI and Newman'
   - bash: 'npm install'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'npm install'
+  - bash: |
+      ng serve &
+      echo $! > /tmp/ng-serve-pid.txt
+      echo "ng serve starting (PID: $(cat /tmp/ng-serve-pid.txt))..."
+      timeout=120; elapsed=0
+      until curl -s http://localhost:4200 > /dev/null 2>&1; do
+        echo "Waiting 3s for ng serve to be ready..."
+        sleep 3
+        elapsed=$((elapsed + 3))
+        if [ $elapsed -ge $timeout ]; then
+          echo "ng serve failed to start within ${timeout}s"
+          exit 1
+        fi
+      done
+      echo "ng serve ready after ${elapsed}s"
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Start Website'
+  - bash: |
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/DnDGen-Website.postman_collection.json" \
+      --env-var "host=localhost:4200" \
+      --reporters cli,junit \
+      --reporter-junit-export "$(Build.SourcesDirectory)/Results/website-smoke.junitReport.xml"
+    displayName: 'Run Website Smoke Tests'
+    retryCountOnTaskFailure: 1
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/Results/website-smoke.junitReport.xml'
   - bash: 'npm run build:ci'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Build'
