@@ -26,9 +26,9 @@ jobs:
             appName: rollgen-api
             apiPrefix: roll
             smokeTestCollection: RollGen-API.postman_collection.json
-            smokeTestJunitFile: rollgen.junitReport.xml
+            smokeTestJunitFile: rollgen.smoke.xml
             websiteTestScript: test:integration:ci:rollgen
-            websiteResultFile: TestResults-RollGen-Website.xml
+            websiteResultFile: rollgen.website.xml
       on:
         failure:
           steps:
@@ -52,9 +52,9 @@ jobs:
             appName: treasuregen-api
             apiPrefix: treasure
             smokeTestCollection: TreasureGen-API.postman_collection.json
-            smokeTestJunitFile: treasuregen.junitReport.xml
+            smokeTestJunitFile: treasuregen.smoke.xml
             websiteTestScript: test:integration:ci:treasuregen
-            websiteResultFile: TestResults-TreasureGen-Website.xml
+            websiteResultFile: treasuregen.website.xml
       on:
         failure:
           steps:
@@ -78,7 +78,7 @@ jobs:
             appName: creaturegen-api
             apiPrefix: creature
             smokeTestCollection: CreatureGen-API.postman_collection.json
-            smokeTestJunitFile: creaturegen.junitReport.xml
+            smokeTestJunitFile: creaturegen.smoke.xml
             hasWebsiteTests: false
             websiteTestScript: ''
             websiteResultFile: ''
@@ -105,9 +105,9 @@ jobs:
             appName: charactergen-api
             apiPrefix: character
             smokeTestCollection: CharacterGen-API.postman_collection.json
-            smokeTestJunitFile: charactergen.junitReport.xml
+            smokeTestJunitFile: charactergen.smoke.xml
             websiteTestScript: test:integration:ci:charactergen
-            websiteResultFile: TestResults-CharacterGen-Website.xml
+            websiteResultFile: charactergen.website.xml
       on:
         failure:
           steps:
@@ -131,9 +131,9 @@ jobs:
             appName: encountergen-api
             apiPrefix: encounter
             smokeTestCollection: EncounterGen-API.postman_collection.json
-            smokeTestJunitFile: encountergen.junitReport.xml
+            smokeTestJunitFile: encountergen.smoke.xml
             websiteTestScript: test:integration:ci:encountergen
-            websiteResultFile: TestResults-EncounterGen-Website.xml
+            websiteResultFile: encountergen.website.xml
       on:
         failure:
           steps:
@@ -157,9 +157,9 @@ jobs:
             appName: dungeongen-api
             apiPrefix: dungeon
             smokeTestCollection: DungeonGen-API.postman_collection.json
-            smokeTestJunitFile: dungeongen.junitReport.xml
+            smokeTestJunitFile: dungeongen.smoke.xml
             websiteTestScript: test:integration:ci:dungeongen
-            websiteResultFile: TestResults-DungeonGen-Website.xml
+            websiteResultFile: dungeongen.website.xml
       on:
         failure:
           steps:
@@ -183,9 +183,9 @@ jobs:
             appName: dndgen-web-api
             apiPrefix: web
             smokeTestCollection: Web-API.postman_collection.json
-            smokeTestJunitFile: web.junitReport.xml
+            smokeTestJunitFile: web.smoke.xml
             websiteTestScript: test:integration:ci
-            websiteResultFile: TestResults-AllGenerators-Website.xml
+            websiteResultFile: web.website.xml
       on:
         failure:
           steps:
@@ -231,13 +231,13 @@ jobs:
             newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/DnDGen-Website.postman_collection.json" \
             --env-var "host=dndgen.com" \
             --reporters cli,junit \
-            --reporter-junit-export "Results/website.junitReport.xml"
+            --reporter-junit-export "Results/website.smoke.xml"
           displayName: 'Run Smoke Tests'
           retryCountOnTaskFailure: 1
 
         - template: templates/publish-test-results.yml
           parameters:
-            resultFile: '$(Pipeline.Workspace)/Results/website.junitReport.xml'
+            resultFile: '$(Pipeline.Workspace)/Results/website.smoke.xml'
         - task: ArchiveFiles@2
           displayName: 'Zip Website Artifacts'
           inputs:
