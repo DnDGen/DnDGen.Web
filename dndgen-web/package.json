@@ -14,7 +14,7 @@
     "test:dungeongen": "ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'",
     "test:unit": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/**/*.unit.spec.ts' --output-file=./TestResults-Unit-DnDGen-Website.xml",
     "test:integration": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/**/*.integration.spec.ts' --output-file=./TestResults-Integration-DnDGen-Website.xml",
-    "test:ci": "npm run test:unit && npm run test:integration",
+    "test:all": "npm run test:unit && npm run test:integration",
     "test:cd:rollgen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/roll/**/*.integration.spec.ts' --output-file=./TestResults-RollGen-Website.xml",
     "test:cd:treasuregen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/treasure/**/*.integration.spec.ts' --output-file=./TestResults-TreasureGen-Website.xml",
     "test:cd:charactergen": "ng test --no-watch --runner-config vitest.config.ci.ts --include='src/app/character/**/*.integration.spec.ts' --output-file=./TestResults-CharacterGen-Website.xml",
