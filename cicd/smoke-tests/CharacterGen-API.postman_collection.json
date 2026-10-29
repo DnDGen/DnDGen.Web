@@ -1,4 +1,4 @@
-{
+﻿{
 	"info": {
 		"_postman_id": "34356649-7c5a-4b74-97c5-ede22477fa9d",
 		"name": "CharacterGen API",
@@ -4424,9 +4424,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/generate",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4483,9 +4481,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4548,9 +4544,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4614,9 +4608,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Any&classNameRandomizerType=Set&levelRandomizerType=medium&baseRaceRandomizerType=any Base&metaraceRandomizerType=any meta&forceMetarace=false&abilitiesRandomizerType=Ones as Sixes&setClassName=cleric",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9025,9 +9017,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9095,9 +9085,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Any Player&levelRandomizerType=Any&baseRaceRandomizerType=Set&abilitiesRandomizerType=Poor&alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend&setBaseRace=Ogre Mage",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9173,9 +9161,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/character/validate",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9262,9 +9248,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9311,9 +9295,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9372,9 +9354,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderCharismaBonus=5",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9432,9 +9412,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9489,9 +9467,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9547,9 +9523,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9605,9 +9579,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderClass=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9667,9 +9639,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=6&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9735,9 +9705,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9788,9 +9756,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9842,9 +9808,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9902,9 +9866,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9961,9 +9923,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10020,9 +9980,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10079,9 +10037,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10138,9 +10094,7 @@
 								"url": {
 									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
