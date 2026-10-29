@@ -82,6 +82,22 @@ jobs:
   - bash: 'npm install'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'npm install'
+  - bash: 'npm run build:ci'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Build'
+  - bash: 'npm run test:unit'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Run Unit Tests'
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/dndgen-web/TestResults-Unit-DnDGen-Website.xml'
+  - bash: 'npm run test:integration'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Run Integration Tests'
+    retryCountOnTaskFailure: 1
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/dndgen-web/TestResults-Integration-DnDGen-Website.xml'
   - bash: |
       ng serve &
       echo $! > /tmp/ng-serve-pid.txt
@@ -109,16 +125,6 @@ jobs:
   - template: templates/publish-test-results.yml
     parameters:
       resultFile: '$(Build.SourcesDirectory)/Results/website-smoke.junitReport.xml'
-  - bash: 'npm run build:ci'
-    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
-    displayName: 'Build'
-  - bash: 'npm run test:ci'
-    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
-    displayName: 'Run Tests'
-    retryCountOnTaskFailure: 1
-  - template: templates/publish-test-results.yml
-    parameters:
-      resultFile: '$(Build.SourcesDirectory)/dndgen-web/TestResults-DnDGen-Website.xml'
   - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: Publish Website Artifacts
