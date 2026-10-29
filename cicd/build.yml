@@ -14,7 +14,7 @@ jobs:
     projectPath: DnDGen.Api.RollGen
     artifactName: rollgen-api
     smokeTestCollection: RollGen-API.postman_collection.json
-    smokeTestJunitFile: rollgen.junitReport.xml
+    smokeTestJunitFile: rollgen.smoke.xml
 
 # The TreasureGen API
 - template: templates/api-build-job.yml
@@ -23,7 +23,7 @@ jobs:
     projectPath: DnDGen.Api.TreasureGen
     artifactName: treasuregen-api
     smokeTestCollection: TreasureGen-API.postman_collection.json
-    smokeTestJunitFile: treasuregen.junitReport.xml
+    smokeTestJunitFile: treasuregen.smoke.xml
 
 # The CreatureGen API
 - template: templates/api-build-job.yml
@@ -32,7 +32,7 @@ jobs:
     projectPath: DnDGen.Api.CreatureGen
     artifactName: creaturegen-api
     smokeTestCollection: CreatureGen-API.postman_collection.json
-    smokeTestJunitFile: creaturegen.junitReport.xml
+    smokeTestJunitFile: creaturegen.smoke.xml
 
 # The CharacterGen API
 - template: templates/api-build-job.yml
@@ -41,7 +41,7 @@ jobs:
     projectPath: DnDGen.Api.CharacterGen
     artifactName: charactergen-api
     smokeTestCollection: CharacterGen-API.postman_collection.json
-    smokeTestJunitFile: charactergen.junitReport.xml
+    smokeTestJunitFile: charactergen.smoke.xml
 
 # The EncounterGen API
 - template: templates/api-build-job.yml
@@ -50,7 +50,7 @@ jobs:
     projectPath: DnDGen.Api.EncounterGen
     artifactName: encountergen-api
     smokeTestCollection: EncounterGen-API.postman_collection.json
-    smokeTestJunitFile: encountergen.junitReport.xml
+    smokeTestJunitFile: encountergen.smoke.xml
 
 # The DungeonGen API
 - template: templates/api-build-job.yml
@@ -59,7 +59,7 @@ jobs:
     projectPath: DnDGen.Api.DungeonGen
     artifactName: dungeongen-api
     smokeTestCollection: DungeonGen-API.postman_collection.json
-    smokeTestJunitFile: dungeongen.junitReport.xml
+    smokeTestJunitFile: dungeongen.smoke.xml
 
 # The Web API
 - template: templates/api-build-job.yml
@@ -68,7 +68,7 @@ jobs:
     projectPath: DnDGen.Api.Web
     artifactName: dndgen-web-api
     smokeTestCollection: Web-API.postman_collection.json
-    smokeTestJunitFile: web.junitReport.xml
+    smokeTestJunitFile: web.smoke.xml
 
 # The DnDGen Website
 - job: DnDGen_Web
@@ -118,12 +118,12 @@ jobs:
       newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/DnDGen-Website.postman_collection.json" \
       --env-var "host=localhost:4200" \
       --reporters cli,junit \
-      --reporter-junit-export "$(Build.SourcesDirectory)/Results/website-smoke.junitReport.xml"
+      --reporter-junit-export "$(Build.SourcesDirectory)/Results/website.smoke.xml"
     displayName: 'Run Website Smoke Tests'
     retryCountOnTaskFailure: 1
   - template: templates/publish-test-results.yml
     parameters:
-      resultFile: '$(Build.SourcesDirectory)/Results/website-smoke.junitReport.xml'
+      resultFile: '$(Build.SourcesDirectory)/Results/website.smoke.xml'
   - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: Publish Website Artifacts
