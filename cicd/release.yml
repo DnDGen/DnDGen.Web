@@ -21,76 +21,23 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'rollgen-api'
-            package: '$(Pipeline.Workspace)/**/rollgen-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\RollGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\rollgen.junitReport.xml'
-          displayName: 'Run RollGen API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
-          retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:rollgen'
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-RollGen-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: rollgen-api
+            apiPrefix: roll
+            smokeTestCollection: RollGen-API.postman_collection.json
+            smokeTestJunitFile: rollgen.junitReport.xml
+            websiteTestScript: test:cd:rollgen
+            websiteResultFile: TestResults-RollGen-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.RollGen.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'rollgen-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.RollGen.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: rollgen-api
+              rollbackZip: DnDGen.Api.RollGen.zip
      
-# The TreasureGen API       
+# The TreasureGen API
 - deployment: TreasureGen_Api
   displayName: Deploy TreasureGen API
   pool:
@@ -100,74 +47,21 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'treasuregen-api'
-            package: '$(Pipeline.Workspace)/**/treasuregen-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\TreasureGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\treasuregen.junitReport.xml'
-          displayName: 'Run TreasureGen API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
-          retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:treasuregen'
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-TreasureGen-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: treasuregen-api
+            apiPrefix: treasure
+            smokeTestCollection: TreasureGen-API.postman_collection.json
+            smokeTestJunitFile: treasuregen.junitReport.xml
+            websiteTestScript: test:cd:treasuregen
+            websiteResultFile: TestResults-TreasureGen-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.TreasureGen.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'treasuregen-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.TreasureGen.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: treasuregen-api
+              rollbackZip: DnDGen.Api.TreasureGen.zip
 
 # The CreatureGen API
 - deployment: CreatureGen_Api
@@ -196,7 +90,7 @@ jobs:
               appName: creaturegen-api
               rollbackZip: DnDGen.Api.CreatureGen.zip
 
-# The CharacterGen API       
+# The CharacterGen API
 - deployment: CharacterGen_Api
   displayName: Deploy CharacterGen API
   pool:
@@ -206,76 +100,23 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'charactergen-api'
-            package: '$(Pipeline.Workspace)/**/charactergen-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\CharacterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\charactergen.junitReport.xml'
-          displayName: 'Run CharacterGen API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
-          retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:charactergen'
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-CharacterGen-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: charactergen-api
+            apiPrefix: character
+            smokeTestCollection: CharacterGen-API.postman_collection.json
+            smokeTestJunitFile: charactergen.junitReport.xml
+            websiteTestScript: test:cd:charactergen
+            websiteResultFile: TestResults-CharacterGen-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.CharacterGen.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'charactergen-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.CharacterGen.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: charactergen-api
+              rollbackZip: DnDGen.Api.CharacterGen.zip
 
-# The EncounterGen API       
+# The EncounterGen API
 - deployment: EncounterGen_Api
   displayName: Deploy EncounterGen API
   pool:
@@ -285,76 +126,23 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'encountergen-api'
-            package: '$(Pipeline.Workspace)/**/encountergen-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\EncounterGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\encountergen.junitReport.xml'
-          displayName: 'Run EncounterGen API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
-          retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:encountergen'
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-EncounterGen-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: encountergen-api
+            apiPrefix: encounter
+            smokeTestCollection: EncounterGen-API.postman_collection.json
+            smokeTestJunitFile: encountergen.junitReport.xml
+            websiteTestScript: test:cd:encountergen
+            websiteResultFile: TestResults-EncounterGen-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.EncounterGen.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'encountergen-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.EncounterGen.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: encountergen-api
+              rollbackZip: DnDGen.Api.EncounterGen.zip
 
-# The DungeonGen API       
+# The DungeonGen API
 - deployment: DungeonGen_Api
   displayName: Deploy DungeonGen API
   pool:
@@ -364,74 +152,21 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'dungeongen-api'
-            package: '$(Pipeline.Workspace)/**/dungeongen-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\DungeonGen-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\dungeongen.junitReport.xml'
-          displayName: 'Run DungeonGen API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - task: Npm@1  
-          displayName: 'Install Angular CLI'  
-          inputs:  
-            command: custom  
-            verbose: true  
-            customCommand: 'install -g @angular/cli'
-        - task: Npm@1  
-          displayName: 'npm install'  
-          inputs:
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            command: install
-        - task: Npm@1  
-          displayName: Run Website Tests
-          retryCountOnTaskFailure: 1
-          inputs: 
-            command: custom
-            workingDir: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-            verbose: true  
-            customCommand: 'run test:cd:dungeongen'
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-DungeonGen-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: dungeongen-api
+            apiPrefix: dungeon
+            smokeTestCollection: DungeonGen-API.postman_collection.json
+            smokeTestJunitFile: dungeongen.junitReport.xml
+            websiteTestScript: test:cd:dungeongen
+            websiteResultFile: TestResults-DungeonGen-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.DungeonGen.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'dungeongen-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.DungeonGen.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: dungeongen-api
+              rollbackZip: DnDGen.Api.DungeonGen.zip
 
 # The Web API
 - deployment: Web_Api
@@ -443,63 +178,21 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: AzureFunctionApp@2
-          displayName: 'Deploy Azure Function App'
-          inputs:
-            connectedServiceNameARM: 'Azure - DnDGen'
-            appType: 'functionApp'
-            appName: 'dndgen-web-api'
-            package: '$(Pipeline.Workspace)/**/dndgen-web-api/*.zip'
-        - bash: 'npm install -g newman'
-          workingDirectory: '$(Pipeline.Workspace)'
-          displayName: 'Install Newman'
-        - bash: 'newman run $(Pipeline.Workspace)\DnDGen.Web\dndgen-smoke-api-tests\Web-API.postman_collection.json --reporters cli,junit --reporter-junit-export Results\web.junitReport.xml'
-          displayName: 'Run Web API Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
-        - task: UseNode@1
-          displayName: 'Install node.js'
-          inputs:
-            version: '20.x'
-        - bash: 'npm install -g @angular/cli'
-          displayName: 'Install Angular CLI'
-        - bash: 'npm install'
-          workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-          displayName: 'npm install'
-        - bash: 'npm run test:cd:web'
-          workingDirectory: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests'
-          displayName: 'Run Website Tests'
-          retryCountOnTaskFailure: 1
-        - task: PublishTestResults@2
-          displayName: 'Publish Website Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '$(Pipeline.Workspace)\DnDGen.Web\dndgen-deployment-website-tests\TestResults-AllGenerators-Website.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/api-deploy-steps.yml
+          parameters:
+            appName: dndgen-web-api
+            apiPrefix: web
+            smokeTestCollection: Web-API.postman_collection.json
+            smokeTestJunitFile: web.junitReport.xml
+            websiteTestScript: test:cd:web
+            websiteResultFile: TestResults-AllGenerators-Website.xml
       on:
         failure:
           steps:
-          - task: DownloadGitHubRelease@0
-            displayName: 'Download Rollback Release'
-            inputs:
-              connection: 'github.com_cidthecoatrack'
-              userRepository: 'DnDGen/DnDGen.Web'
-              downloadPath: '$(Pipeline.Workspace)\rollback'
-              itemPattern: DnDGen.Api.Web.zip
-          - task: AzureFunctionApp@2
-            displayName: 'Rollback Azure Function App'
-            inputs:
-              connectedServiceNameARM: 'Azure - DnDGen'
-              appType: 'functionApp'
-              appName: 'dndgen-web-api'
-              package: '$(Pipeline.Workspace)/rollback/DnDGen.Api.Web.zip'
+          - template: templates/api-rollback-steps.yml
+            parameters:
+              appName: dndgen-web-api
+              rollbackZip: DnDGen.Api.Web.zip
      
 # The DnDGen Website
 - deployment: Website
@@ -542,13 +235,9 @@ jobs:
           displayName: 'Run Smoke Tests'
           retryCountOnTaskFailure: 1
 
-        - task: PublishTestResults@2
-          displayName: 'Publish Postman Test Results'
-          condition: always()
-          inputs:
-            testResultsFiles: '**/*.junitReport.xml'
-            failTaskOnFailedTests: true
-            failTaskOnMissingResultsFile: true
+        - template: templates/publish-test-results.yml
+          parameters:
+            resultFile: '$(Pipeline.Workspace)/Results/website.junitReport.xml'
         - task: ArchiveFiles@2
           displayName: 'Zip Website Artifacts'
           inputs:

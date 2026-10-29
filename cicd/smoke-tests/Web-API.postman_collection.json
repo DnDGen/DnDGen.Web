@@ -32,11 +32,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/roll/viewmodel",
+					"raw": "{{host}}/api/v1/roll/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -85,11 +83,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/treasure/viewmodel",
+					"raw": "{{host}}/api/v1/treasure/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -133,11 +129,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/character/viewmodel",
+					"raw": "{{host}}/api/v1/character/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -182,11 +176,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/encounter/viewmodel",
+					"raw": "{{host}}/api/v1/encounter/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -231,11 +223,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/dungeon/viewmodel",
+					"raw": "{{host}}/api/v1/dungeon/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -271,11 +261,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/swagger/ui",
+					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -316,11 +304,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/swagger.json",
+					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -359,11 +345,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/openapi/1.0",
+					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",

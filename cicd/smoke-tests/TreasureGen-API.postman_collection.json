@@ -34,9 +34,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -82,9 +82,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -130,9 +130,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -178,9 +178,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -226,9 +226,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -274,9 +274,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -322,9 +322,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -370,9 +370,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -417,9 +417,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -480,9 +480,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -538,9 +538,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -592,9 +592,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -645,9 +645,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -704,9 +704,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -762,9 +762,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -807,9 +807,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -852,9 +852,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -910,9 +910,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v1/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -966,9 +966,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1015,9 +1015,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1070,9 +1070,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1125,9 +1125,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1180,9 +1180,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1235,9 +1235,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1284,9 +1284,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1338,9 +1338,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1387,9 +1387,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1442,9 +1442,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1497,9 +1497,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1552,9 +1552,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1607,9 +1607,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1656,9 +1656,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1710,9 +1710,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1759,9 +1759,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1814,9 +1814,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1869,9 +1869,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1924,9 +1924,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1979,9 +1979,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2028,9 +2028,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2082,9 +2082,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2131,9 +2131,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2186,9 +2186,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2241,9 +2241,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2296,9 +2296,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2351,9 +2351,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2400,9 +2400,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2454,9 +2454,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2503,9 +2503,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2558,9 +2558,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2613,9 +2613,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2668,9 +2668,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2723,9 +2723,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2772,9 +2772,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2826,9 +2826,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2875,9 +2875,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=my%20scroll",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2930,9 +2930,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=my%20scroll",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2985,9 +2985,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3034,9 +3034,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3088,9 +3088,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3137,9 +3137,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3192,9 +3192,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3247,9 +3247,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3296,9 +3296,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3350,9 +3350,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3399,9 +3399,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3454,9 +3454,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3509,9 +3509,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3564,9 +3564,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3619,9 +3619,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3668,9 +3668,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3722,9 +3722,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3771,9 +3771,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3826,9 +3826,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3881,9 +3881,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3936,9 +3936,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3991,9 +3991,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4040,9 +4040,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4094,9 +4094,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4143,9 +4143,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4192,9 +4192,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4247,9 +4247,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4302,9 +4302,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4357,9 +4357,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4412,9 +4412,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4461,9 +4461,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4516,9 +4516,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4571,9 +4571,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4626,9 +4626,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4686,9 +4686,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4735,9 +4735,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4784,9 +4784,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4839,9 +4839,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4894,9 +4894,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4949,9 +4949,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5004,9 +5004,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5053,9 +5053,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5108,9 +5108,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5163,9 +5163,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5218,9 +5218,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5275,9 +5275,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -5324,9 +5324,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -5379,9 +5379,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -5428,9 +5428,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -5494,9 +5494,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5546,9 +5546,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5598,9 +5598,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5650,9 +5650,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5702,9 +5702,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5754,9 +5754,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5800,9 +5800,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5857,9 +5857,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5909,9 +5909,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5961,9 +5961,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6013,9 +6013,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6065,9 +6065,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6117,9 +6117,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6163,9 +6163,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6214,9 +6214,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6260,9 +6260,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6318,9 +6318,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6370,9 +6370,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6422,9 +6422,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6480,9 +6480,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6526,9 +6526,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6577,9 +6577,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6623,9 +6623,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6681,9 +6681,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6733,9 +6733,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6785,9 +6785,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6843,9 +6843,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6889,9 +6889,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6940,9 +6940,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6986,9 +6986,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7044,9 +7044,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7096,9 +7096,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7148,9 +7148,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7206,9 +7206,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7252,9 +7252,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7303,9 +7303,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7349,9 +7349,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=my%20scroll",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7408,9 +7408,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=my%20scroll",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7467,9 +7467,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7513,9 +7513,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7564,9 +7564,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7610,9 +7610,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7669,9 +7669,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7728,9 +7728,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7774,9 +7774,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7825,9 +7825,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7871,9 +7871,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7929,9 +7929,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7981,9 +7981,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8033,9 +8033,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8091,9 +8091,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8137,9 +8137,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8188,9 +8188,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8234,9 +8234,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8286,9 +8286,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8344,9 +8344,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8396,9 +8396,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8454,9 +8454,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8500,9 +8500,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8551,9 +8551,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8603,9 +8603,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8668,9 +8668,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8720,9 +8720,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8772,9 +8772,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8824,9 +8824,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8882,9 +8882,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8937,9 +8937,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8999,9 +8999,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=sword%20of%20the%20planes",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=sword%20of%20the%20planes",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9051,9 +9051,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9109,9 +9109,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9161,9 +9161,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9218,9 +9218,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9270,9 +9270,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9316,9 +9316,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9387,9 +9387,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9439,9 +9439,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9491,9 +9491,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9549,9 +9549,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9595,9 +9595,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9656,9 +9656,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9714,9 +9714,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9766,9 +9766,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9820,9 +9820,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9866,9 +9866,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9918,9 +9918,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9964,9 +9964,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
+									"raw": "{{host}}/api/v1/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10030,9 +10030,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10079,9 +10079,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10128,9 +10128,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10177,9 +10177,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10226,9 +10226,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10275,9 +10275,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10324,9 +10324,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10373,9 +10373,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10421,9 +10421,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/validate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10485,9 +10485,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10544,9 +10544,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10599,9 +10599,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10653,9 +10653,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10713,9 +10713,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10772,9 +10772,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10818,9 +10818,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10864,9 +10864,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10922,9 +10922,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/:treasureType/level/:level/generate",
+									"raw": "{{host}}/api/v2/:treasureType/level/:level/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10979,9 +10979,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11029,9 +11029,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11085,9 +11085,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11140,9 +11140,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11195,9 +11195,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11250,9 +11250,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11299,9 +11299,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v1/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v1/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11354,9 +11354,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11404,9 +11404,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11460,9 +11460,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=spyglass",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11516,9 +11516,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11572,9 +11572,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11628,9 +11628,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11678,9 +11678,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11733,9 +11733,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11783,9 +11783,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11839,9 +11839,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11895,9 +11895,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -11951,9 +11951,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12007,9 +12007,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12057,9 +12057,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12112,9 +12112,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12162,9 +12162,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12218,9 +12218,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12274,9 +12274,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12330,9 +12330,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12386,9 +12386,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12436,9 +12436,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12491,9 +12491,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12541,9 +12541,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12597,9 +12597,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12653,9 +12653,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12709,9 +12709,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12765,9 +12765,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12815,9 +12815,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12870,9 +12870,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12920,9 +12920,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=my%20scroll",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -12976,9 +12976,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=my%20scroll",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13032,9 +13032,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13082,9 +13082,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13137,9 +13137,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13187,9 +13187,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13243,9 +13243,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13299,9 +13299,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13349,9 +13349,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13404,9 +13404,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13454,9 +13454,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13510,9 +13510,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13566,9 +13566,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13622,9 +13622,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13678,9 +13678,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13728,9 +13728,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13783,9 +13783,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13833,9 +13833,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13889,9 +13889,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -13945,9 +13945,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14001,9 +14001,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14057,9 +14057,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14107,9 +14107,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14162,9 +14162,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14212,9 +14212,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14262,9 +14262,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14318,9 +14318,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14374,9 +14374,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14430,9 +14430,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14486,9 +14486,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14536,9 +14536,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14592,9 +14592,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14648,9 +14648,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=frost%20brand",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14704,9 +14704,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14765,9 +14765,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14815,9 +14815,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14865,9 +14865,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14921,9 +14921,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -14977,9 +14977,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15033,9 +15033,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15089,9 +15089,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15139,9 +15139,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15195,9 +15195,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15251,9 +15251,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15307,9 +15307,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15365,9 +15365,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -15415,9 +15415,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -15471,9 +15471,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -15521,9 +15521,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/validate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -15588,9 +15588,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15641,9 +15641,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15694,9 +15694,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15747,9 +15747,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15800,9 +15800,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15853,9 +15853,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15900,9 +15900,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -15958,9 +15958,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16011,9 +16011,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16064,9 +16064,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=spyglass",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16117,9 +16117,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=antitoxin",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16170,9 +16170,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16223,9 +16223,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16270,9 +16270,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16322,9 +16322,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16369,9 +16369,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16428,9 +16428,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16481,9 +16481,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16534,9 +16534,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16593,9 +16593,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16640,9 +16640,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16692,9 +16692,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16739,9 +16739,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16798,9 +16798,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=ring%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16851,9 +16851,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16904,9 +16904,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -16963,9 +16963,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17010,9 +17010,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17062,9 +17062,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17109,9 +17109,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17168,9 +17168,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=cloak%20of%20arachnida",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17221,9 +17221,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=potion%20of%20invisibility",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17274,9 +17274,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17333,9 +17333,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17380,9 +17380,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17432,9 +17432,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17479,9 +17479,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=my%20scroll",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17539,9 +17539,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=my%20scroll",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=my%20scroll",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17599,9 +17599,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17646,9 +17646,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17698,9 +17698,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17745,9 +17745,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17805,9 +17805,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=wand%20of%20spell",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=wand%20of%20spell",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17865,9 +17865,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17912,9 +17912,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -17964,9 +17964,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18011,9 +18011,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18069,9 +18069,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18122,9 +18122,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18175,9 +18175,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18234,9 +18234,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18281,9 +18281,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18340,9 +18340,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=rod of alertness",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=rod of alertness",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18398,9 +18398,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18445,9 +18445,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18498,9 +18498,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=immovable%20rod",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18557,9 +18557,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20size%20alteration",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18610,9 +18610,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18669,9 +18669,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18716,9 +18716,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18774,9 +18774,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20power",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=staff%20of%20power",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18832,9 +18832,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18885,9 +18885,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -18950,9 +18950,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19003,9 +19003,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19056,9 +19056,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=frost%20brand",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19109,9 +19109,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19168,9 +19168,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19224,9 +19224,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19287,9 +19287,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=sword%20of%20the%20planes",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=sword%20of%20the%20planes",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19340,9 +19340,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19399,9 +19399,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=frost%20brand",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=frost%20brand",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19452,9 +19452,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19510,9 +19510,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19563,9 +19563,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19610,9 +19610,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19681,9 +19681,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19734,9 +19734,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19787,9 +19787,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19846,9 +19846,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19893,9 +19893,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -19955,9 +19955,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=breastplate",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -20014,9 +20014,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=plate%20armor%20of%20the%20deep",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -20067,9 +20067,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
+											"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=invalid",
 											"host": [
-												"{{baseURL}}"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -20122,9 +20122,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -20169,9 +20169,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -20222,9 +20222,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -20269,9 +20269,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
+									"raw": "{{host}}/api/v2/item/:itemType/power/:power/generate?name=longsword",
 									"host": [
-										"{{baseURL}}"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -20329,9 +20329,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/api/swagger/ui",
+					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"{{baseURL}}"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -20375,9 +20375,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/api/swagger.json",
+					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"{{baseURL}}"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -20419,9 +20419,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}/api/openapi/1.0",
+					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"{{baseURL}}"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -20435,7 +20435,7 @@
 	],
 	"variable": [
 		{
-			"key": "baseURL",
+			"key": "host",
 			"value": "treasure.dndgen.com",
 			"type": "default"
 		}
