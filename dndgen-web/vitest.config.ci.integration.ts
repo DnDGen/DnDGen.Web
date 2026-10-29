@@ -10,7 +10,10 @@ export default defineConfig({
     testTimeout: 60000,
     hookTimeout: 60000,
     pool: 'forks',
-    retry: 1,
+    retry: {
+      count: 2,
+      delay: 5000,
+    },
 
     coverage: {
       provider: 'v8',
