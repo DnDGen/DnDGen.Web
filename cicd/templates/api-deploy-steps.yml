@@ -46,7 +46,7 @@ steps:
   - bash: 'npm install'
     workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
     displayName: 'npm install'
-  - bash: 'npm run ${{ parameters.websiteTestScript }}'
+  - bash: 'npm run ${{ parameters.websiteTestScript }} -- --output-file=${{ parameters.websiteResultFile }}'
     workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
     displayName: 'Run Website Tests'
 

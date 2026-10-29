@@ -85,13 +85,13 @@ jobs:
   - bash: 'npm run build:ci'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Build'
-  - bash: 'npm run test:unit:ci'
+  - bash: 'npm run test:unit:ci -- --output-file=./TestResults-Unit-DnDGen-Website.xml'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Unit Tests'
   - template: templates/publish-test-results.yml
     parameters:
       resultFile: '$(Build.SourcesDirectory)/dndgen-web/TestResults-Unit-DnDGen-Website.xml'
-  - bash: 'npm run test:integration:ci'
+  - bash: 'npm run test:integration:ci -- --output-file=./TestResults-Integration-DnDGen-Website.xml'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Integration Tests'
   - template: templates/publish-test-results.yml
