@@ -12,12 +12,22 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 
 ## Running tests
 
-Run `npm run test` to execute the tests via [vitest](https://vitest.dev/). You can also run tests for individual generators:
-* `npm run test:rollgen`
-* `npm run test:treasuregen`
-* `npm run test:charactergen`
-* `npm run test:encountergen`
-* `npm run test:dungeongen`
+Tests are split into unit (`.unit.spec.ts`) and integration (`.integration.spec.ts`) files, colocated with their source.
+
+Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or target a subset:
+
+| Script | Runs |
+|--------|------|
+| `npm run test` | All tests (unit + integration) |
+| `npm run test:unit` | Unit tests only |
+| `npm run test:integration` | Integration tests only |
+| `npm run test:rollgen` | All tests for RollGen |
+| `npm run test:treasuregen` | All tests for TreasureGen |
+| `npm run test:charactergen` | All tests for CharacterGen |
+| `npm run test:encountergen` | All tests for EncounterGen |
+| `npm run test:dungeongen` | All tests for DungeonGen |
+
+The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files.
 
 ## Further help
 
@@ -33,6 +43,7 @@ This project follows the [Angular style guide](https://angular.dev/style-guide) 
   - Services: `my-feature.service.ts`
   - Models: `my-feature.model.ts`
   - Pipes: `my-feature.pipe.ts`
-  - Specs: `my-feature.component.spec.ts`
+  - Unit specs: `my-feature.component.unit.spec.ts`
+  - Integration specs: `my-feature.component.integration.spec.ts`
 - Directories also use kebab-case (e.g., `navigation-menu/`, `spell-group/`)
 - Do **not** use camelCase in file names (e.g., avoid `spellGroup.service.ts`)

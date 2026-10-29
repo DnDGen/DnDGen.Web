@@ -27,7 +27,7 @@ jobs:
             apiPrefix: roll
             smokeTestCollection: RollGen-API.postman_collection.json
             smokeTestJunitFile: rollgen.junitReport.xml
-            websiteTestScript: test:integration:rollgen
+            websiteTestScript: test:integration:ci:rollgen
             websiteResultFile: TestResults-RollGen-Website.xml
       on:
         failure:
@@ -53,7 +53,7 @@ jobs:
             apiPrefix: treasure
             smokeTestCollection: TreasureGen-API.postman_collection.json
             smokeTestJunitFile: treasuregen.junitReport.xml
-            websiteTestScript: test:integration:treasuregen
+            websiteTestScript: test:integration:ci:treasuregen
             websiteResultFile: TestResults-TreasureGen-Website.xml
       on:
         failure:
@@ -106,7 +106,7 @@ jobs:
             apiPrefix: character
             smokeTestCollection: CharacterGen-API.postman_collection.json
             smokeTestJunitFile: charactergen.junitReport.xml
-            websiteTestScript: test:integration:charactergen
+            websiteTestScript: test:integration:ci:charactergen
             websiteResultFile: TestResults-CharacterGen-Website.xml
       on:
         failure:
@@ -132,7 +132,7 @@ jobs:
             apiPrefix: encounter
             smokeTestCollection: EncounterGen-API.postman_collection.json
             smokeTestJunitFile: encountergen.junitReport.xml
-            websiteTestScript: test:integration:encountergen
+            websiteTestScript: test:integration:ci:encountergen
             websiteResultFile: TestResults-EncounterGen-Website.xml
       on:
         failure:
@@ -158,7 +158,7 @@ jobs:
             apiPrefix: dungeon
             smokeTestCollection: DungeonGen-API.postman_collection.json
             smokeTestJunitFile: dungeongen.junitReport.xml
-            websiteTestScript: test:integration:dungeongen
+            websiteTestScript: test:integration:ci:dungeongen
             websiteResultFile: TestResults-DungeonGen-Website.xml
       on:
         failure:
@@ -184,7 +184,7 @@ jobs:
             apiPrefix: web
             smokeTestCollection: Web-API.postman_collection.json
             smokeTestJunitFile: web.junitReport.xml
-            websiteTestScript: test:integration:web
+            websiteTestScript: test:integration:ci
             websiteResultFile: TestResults-AllGenerators-Website.xml
       on:
         failure:
