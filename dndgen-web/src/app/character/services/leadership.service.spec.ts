@@ -8,7 +8,6 @@ import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
 import { FollowerQuantities } from '../models/follower-quantities.model';
 import { TestHelper } from '../../test-helper';
-import { ApiUrls } from '../../../api-urls';
 
 describe('Leadership Service', () => {
     describe('unit', () => {
@@ -35,7 +34,7 @@ describe('Leadership Service', () => {
             leadershipService.generate(9266, 90210, 'leader animal').subscribe((leadership) => {
                 expect(leadership).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    `${ApiUrls.character}/api/v1/leadership/level/9266/generate`,
+                    'https://character.dndgen.com/api/v1/leadership/level/9266/generate',
                     { params: params });
                 resolve();
             });
@@ -55,7 +54,7 @@ describe('Leadership Service', () => {
             leadershipService.generate(9266, 90210, '').subscribe((leadership) => {
                 expect(leadership).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    `${ApiUrls.character}/api/v1/leadership/level/9266/generate`,
+                    'https://character.dndgen.com/api/v1/leadership/level/9266/generate',
                     { params: params });
                 resolve();
             });
@@ -72,7 +71,7 @@ describe('Leadership Service', () => {
             leadershipService.generateCohort(9266, 90210, 'leader alignment', 'leader class').subscribe((cohort) => {
                 expect(cohort).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    `${ApiUrls.character}/api/v1/cohort/score/90210/generate`,
+                    'https://character.dndgen.com/api/v1/cohort/score/90210/generate',
                     { params: params });
                 resolve();
             });
@@ -88,7 +87,7 @@ describe('Leadership Service', () => {
             leadershipService.generateCohort(9266, 90210, 'leader alignment', 'leader class').subscribe((cohort) => {
                 expect(cohort).toBeFalsy();
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    `${ApiUrls.character}/api/v1/cohort/score/90210/generate`,
+                    'https://character.dndgen.com/api/v1/cohort/score/90210/generate',
                     { params: params });
                 resolve();
             });
@@ -104,7 +103,7 @@ describe('Leadership Service', () => {
             leadershipService.generateFollower(9266, 'leader alignment', 'leader class').subscribe((follower) => {
                 expect(follower).toBe(expected);
                 expect(httpClientSpy.get).toHaveBeenCalledWith(
-                    `${ApiUrls.character}/api/v1/follower/level/9266/generate`,
+                    'https://character.dndgen.com/api/v1/follower/level/9266/generate',
                     { params: params });
                 resolve();
             });

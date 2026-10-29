@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Area } from '../models/area.model';
 import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
-import { ApiUrls } from '../../../api-urls';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class DungeonService {
   }
 
   public getViewModel(): Observable<DungeonGenViewModel> {
-    var url = `${ApiUrls.web}/api/v1/dungeon/viewmodel`;
+    var url = "https://web.dndgen.com/api/v1/dungeon/viewmodel";
     return this.http.get<DungeonGenViewModel>(url);
   }
 
@@ -35,7 +34,7 @@ export class DungeonService {
       throwError(() => new Error('Invalid environment, temperature, or time of day'));
     }
 
-    var url = `${ApiUrls.dungeon}/api/v1/dungeon/level/${dungeonLevel}/hall/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
+    var url = `https://dungeon.dndgen.com/api/v1/dungeon/level/${dungeonLevel}/hall/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);
 
@@ -70,7 +69,7 @@ export class DungeonService {
       throwError(() => new Error('Invalid environment, temperature, or time of day'));
     }
 
-    var url = `${ApiUrls.dungeon}/api/v1/dungeon/level/${dungeonLevel}/door/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
+    var url = `https://dungeon.dndgen.com/api/v1/dungeon/level/${dungeonLevel}/door/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);
 

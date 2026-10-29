@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
 import { Encounter } from '../models/encounter.model';
-import { ApiUrls } from '../../../api-urls';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class EncounterService {
   }
 
   public getViewModel(): Observable<EncounterGenViewModel> {
-    var url = `${ApiUrls.web}/api/v1/encounter/viewmodel`;
+    var url = "https://web.dndgen.com/api/v1/encounter/viewmodel";
     return this.http.get<EncounterGenViewModel>(url);
   }
 
@@ -34,7 +33,7 @@ export class EncounterService {
       throwError(() => new Error('Invalid environment, temperature, or time of day'));
     }
 
-    var url = `${ApiUrls.encounter}/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
+    var url = `https://encounter.dndgen.com/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/generate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);
 
@@ -69,7 +68,7 @@ export class EncounterService {
       return of(false);
     }
 
-    var url = `${ApiUrls.encounter}/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/validate`;
+    var url = `https://encounter.dndgen.com/api/v1/encounter/${temperature}/${environment}/${timeOfDay}/level/${level}/validate`;
 
     let params = this.getParameters(filters, allowAquatic, allowUnderground);
 

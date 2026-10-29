@@ -6,7 +6,6 @@ import '@angular/compiler';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
 import { TestHelper } from '../../test-helper';
-import { ApiUrls } from '../../../api-urls';
 import { Area } from '../models/area.model';
 import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
 
@@ -38,7 +37,7 @@ describe('Dungeon Service', () => {
     
             dungeonService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
-                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.web}/api/v1/dungeon/viewmodel`);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/dungeon/viewmodel');
                 resolve();
             });
         }));
@@ -85,7 +84,7 @@ describe('Dungeon Service', () => {
                     .subscribe((areas) => {
                         expect(areas).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.dungeon}/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`,
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
                             { params: params });
                         resolve();
                     });
@@ -118,7 +117,7 @@ describe('Dungeon Service', () => {
                     .subscribe((areas) => {
                         expect(areas).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.dungeon}/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`,
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
                             { params: params });
                         resolve();
                     });
@@ -150,7 +149,7 @@ describe('Dungeon Service', () => {
                     .subscribe((areas) => {
                         expect(areas).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.dungeon}/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`,
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
                             { params: params });
                         resolve();
                     });
@@ -183,7 +182,7 @@ describe('Dungeon Service', () => {
                     .subscribe((areas) => {
                         expect(areas).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.dungeon}/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`,
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
                             { params: params });
                         resolve();
                     });

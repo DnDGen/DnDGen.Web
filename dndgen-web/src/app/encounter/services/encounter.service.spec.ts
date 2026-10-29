@@ -8,7 +8,6 @@ import { EncounterGenViewModel } from '../models/encountergen-view-model.model';
 import { EncounterDefaults } from '../models/encounter-defaults.model';
 import { Encounter } from '../models/encounter.model';
 import { TestHelper } from '../../test-helper';
-import { ApiUrls } from '../../../api-urls';
 
 describe('Encounter Service', () => {
     describe('unit', () => {
@@ -38,7 +37,7 @@ describe('Encounter Service', () => {
     
             encounterService.getViewModel().subscribe((viewmodel) => {
                 expect(viewmodel).toBe(model);
-                expect(httpClientSpy.get).toHaveBeenCalledWith(`${ApiUrls.web}/api/v1/encounter/viewmodel`);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/encounter/viewmodel');
                 resolve();
             });
         }));
@@ -82,7 +81,7 @@ describe('Encounter Service', () => {
                     .subscribe((encounter) => {
                         expect(encounter).toBe(expected);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.encounter}/api/v1/encounter/temp/env/time/level/9266/generate`,
+                            `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/generate`, 
                             { params: params });
                         resolve();
                     });
@@ -110,7 +109,7 @@ describe('Encounter Service', () => {
                     .subscribe((validity) => {
                         expect(validity).toBe(true);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.encounter}/api/v1/encounter/temp/env/time/level/9266/validate`,
+                            `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/validate`, 
                             { params: params });
                         resolve();
                     });
@@ -138,7 +137,7 @@ describe('Encounter Service', () => {
                     .subscribe((validity) => {
                         expect(validity).toBe(false);
                         expect(httpClientSpy.get).toHaveBeenCalledWith(
-                            `${ApiUrls.encounter}/api/v1/encounter/temp/env/time/level/9266/validate`,
+                            `https://encounter.dndgen.com/api/v1/encounter/temp/env/time/level/9266/validate`, 
                             { params: params });
                         resolve();
                     });

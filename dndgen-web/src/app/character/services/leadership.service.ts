@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Character } from '../models/character.model';
 import { Leadership } from '../models/leadership.model';
-import { ApiUrls } from '../../../api-urls';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class LeadershipService {
   }
 
   public generate(leaderLevel: number, leaderCharismaBonus: number, leaderAnimal: string): Observable<Leadership> {
-    var url = `${ApiUrls.character}/api/v1/leadership/level/${leaderLevel}/generate`;
+    var url = "https://character.dndgen.com/api/v1/leadership/level/" + leaderLevel + "/generate";
 
     let params = new HttpParams()
       .set('leaderCharismaBonus', leaderCharismaBonus)
@@ -23,7 +22,7 @@ export class LeadershipService {
   }
 
   public generateCohort(leaderLevel: number, cohortScore: number, leaderAlignment: string, leaderClass: string): Observable<Character | null> {
-    var url = `${ApiUrls.character}/api/v1/cohort/score/${cohortScore}/generate`;
+    var url = "https://character.dndgen.com/api/v1/cohort/score/" + cohortScore + "/generate";
 
     let params = new HttpParams()
       .set('leaderLevel', leaderLevel)
@@ -34,7 +33,7 @@ export class LeadershipService {
   }
 
   public generateFollower(followerLevel: number, leaderAlignment: string, leaderClass: string): Observable<Character> {
-    var url = `${ApiUrls.character}/api/v1/follower/level/${followerLevel}/generate`;
+    var url = "https://character.dndgen.com/api/v1/follower/level/" + followerLevel + "/generate";
 
     let params = new HttpParams()
       .set('leaderAlignment', leaderAlignment)
