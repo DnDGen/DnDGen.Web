@@ -94,7 +94,6 @@ jobs:
   - bash: 'npm run test:integration'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Integration Tests'
-    retryCountOnTaskFailure: 1
   - template: templates/publish-test-results.yml
     parameters:
       resultFile: '$(Build.SourcesDirectory)/dndgen-web/TestResults-Integration-DnDGen-Website.xml'
