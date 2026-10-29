@@ -6,7 +6,6 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'jsdom',
-    include: ['src/**/*.spec.ts'],
     watch: false,
     testTimeout: 60000,
     hookTimeout: 60000,
