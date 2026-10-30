@@ -104,7 +104,7 @@ jobs:
       command: 'publish'
       projects: '${{ parameters.projectPath }}/${{ parameters.projectPath }}.csproj'
       publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/${{ parameters.apiName }}'
+      arguments: '--no-build --configuration $(buildConfiguration) --output "$(Build.ArtifactStagingDirectory)/Api/${{ parameters.apiName }}"'
       zipAfterPublish: true
 
   - task: PublishPipelineArtifact@1
