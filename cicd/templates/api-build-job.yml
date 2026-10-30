@@ -11,7 +11,7 @@ parameters:
   type: string
 
 jobs:
-- job: ${{ replace(parameters.apiName, ' ', '_') }}
+- job: ${{ parameters.apiName }}_API
   displayName: ${{ parameters.apiName }}
   steps:
   - checkout: self
