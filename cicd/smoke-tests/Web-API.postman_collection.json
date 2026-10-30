@@ -32,11 +32,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/roll/viewmodel",
+					"raw": "{{host}}/api/v1/roll/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -85,11 +83,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/treasure/viewmodel",
+					"raw": "{{host}}/api/v1/treasure/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -133,11 +129,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/character/viewmodel",
+					"raw": "{{host}}/api/v1/character/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -182,11 +176,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/encounter/viewmodel",
+					"raw": "{{host}}/api/v1/encounter/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -231,11 +223,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/v1/dungeon/viewmodel",
+					"raw": "{{host}}/api/v1/dungeon/viewmodel",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -259,7 +249,7 @@
 							"\r",
 							"    var text = pm.response.text();\r",
 							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(text).to.include('url: \"https://web.dndgen.com/api/swagger.json\"');\r",
+							"    pm.expect(text).to.include(pm.variables.get('host') + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -271,11 +261,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/swagger/ui",
+					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -297,7 +285,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var text = pm.response.text();\r",
-							"    pm.expect(text).to.include('\"host\": \"web.dndgen.com\"');\r",
+							"    pm.expect(text).to.include('\"host\": \"' + pm.variables.get('host') + '\"');\r",
 							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
 							"    pm.expect(text).to.include(\"/v1/roll/viewmodel\");\r",
@@ -316,11 +304,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/swagger.json",
+					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -341,7 +327,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var text = pm.response.text();\r",
-							"    pm.expect(text).to.include('\"url\": \"https://web.dndgen.com/api\"');\r",
+							"    pm.expect(text).to.include(pm.variables.get('host') + '/api\"');\r",
 							"\r",
 							"    pm.expect(text).to.include(\"/v1/roll/viewmodel\");\r",
 							"    pm.expect(text).to.include(\"/v1/treasure/viewmodel\");\r",
@@ -359,11 +345,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "web.dndgen.com/api/openapi/1.0",
+					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"web",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -373,6 +357,13 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "web.dndgen.com",
+			"type": "default"
 		}
 	]
 }

@@ -1,0 +1,192 @@
+﻿import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { DungeonService } from './dungeon.service'
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { of } from 'rxjs';
+import '@angular/compiler';
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { DungeonGenViewModel } from '../models/dungeongen-view-model.model';
+import { TestHelper } from '../../test-helper';
+import { Area } from '../models/area.model';
+import { EncounterDefaults } from '../../encounter/models/encounter-defaults.model';
+
+describe('Dungeon Service', () => {
+    describe('unit', () => {
+        let dungeonService: DungeonService;
+        let httpClientSpy: { get: ReturnType<typeof vi.fn> };
+    
+        beforeEach(() => {
+            httpClientSpy = { get: vi.fn() };
+    
+            dungeonService = new DungeonService(httpClientSpy as unknown as HttpClient);
+        });
+
+        it('gets the dungeon view model', () => new Promise<void>(resolve => {
+            const model = new DungeonGenViewModel(
+                ['environment 1', 'default environment', 'environment 2'],
+                ['default temp', 'temp 1', 'temp 2'],
+                ['time of day 1', 'time of day 2', 'default time of day'],
+                ['creature type 1', 'creature type 2'],
+                new EncounterDefaults(
+                    'default environment',
+                    'default temp',
+                    'default time of day',
+                    9266
+                ),
+            );
+            httpClientSpy.get.mockReturnValue(of(model));
+    
+            dungeonService.getViewModel().subscribe((viewmodel) => {
+                expect(viewmodel).toBe(model);
+                expect(httpClientSpy.get).toHaveBeenCalledWith('https://web.dndgen.com/api/v1/dungeon/viewmodel');
+                resolve();
+            });
+        }));
+    
+        let parameters = [
+            { f: [], a: true, u: true},
+            { f: [], a: true, u: false},
+            { f: [], a: false, u: true},
+            { f: [], a: false, u: false},
+            { f: ['my filter'], a: true, u: true},
+            { f: ['my filter'], a: true, u: false},
+            { f: ['my filter'], a: false, u: true},
+            { f: ['my filter'], a: false, u: false},
+            { f: ['my filter', 'my other filter'], a: true, u: true},
+            { f: ['my filter', 'my other filter'], a: true, u: false},
+            { f: ['my filter', 'my other filter'], a: false, u: true},
+            { f: ['my filter', 'my other filter'], a: false, u: false},
+        ];
+
+        parameters.forEach(test => {
+            it(`generates 1 area from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                const expected = [
+                    new Area('my area'),
+                ];
+                httpClientSpy.get.mockReturnValue(of(expected));
+                let params = new HttpParams({
+                    fromObject: {
+                      creatureTypeFilters: test.f,
+                      allowAquatic: test.a,
+                      allowUnderground: test.u
+                    }
+                  });
+        
+                dungeonService
+                    .generateAreasFromDoor(
+                        90210,
+                        'env',
+                        'temp',
+                        'time',
+                        9266,
+                        test.f,
+                        test.a,
+                        test.u)
+                    .subscribe((areas) => {
+                        expect(areas).toBe(expected);
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
+                            { params: params });
+                        resolve();
+                    });
+            }));
+
+            it(`generates 2 areas from door - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                const expected = [
+                    new Area('my area'),
+                    new Area('my other area'),
+                ];
+                httpClientSpy.get.mockReturnValue(of(expected));
+                let params = new HttpParams({
+                    fromObject: {
+                      creatureTypeFilters: test.f,
+                      allowAquatic: test.a,
+                      allowUnderground: test.u
+                    }
+                  });
+        
+                dungeonService
+                    .generateAreasFromDoor(
+                        90210,
+                        'env',
+                        'temp',
+                        'time',
+                        9266,
+                        test.f,
+                        test.a,
+                        test.u)
+                    .subscribe((areas) => {
+                        expect(areas).toBe(expected);
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/door/temp/env/time/level/9266/generate`, 
+                            { params: params });
+                        resolve();
+                    });
+            }));
+            
+            it(`generates 1 area from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                const expected = [
+                    new Area('my area'),
+                ];
+                httpClientSpy.get.mockReturnValue(of(expected));
+                let params = new HttpParams({
+                    fromObject: {
+                      creatureTypeFilters: test.f,
+                      allowAquatic: test.a,
+                      allowUnderground: test.u
+                    }
+                  });
+        
+                dungeonService
+                    .generateAreasFromHall(
+                        90210,
+                        'env',
+                        'temp',
+                        'time',
+                        9266,
+                        test.f,
+                        test.a,
+                        test.u)
+                    .subscribe((areas) => {
+                        expect(areas).toBe(expected);
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
+                            { params: params });
+                        resolve();
+                    });
+            }));
+
+            it(`generates 2 areas from hall - aquatic ${test.a}, underground ${test.u}, filters x${test.f.length}`, () => new Promise<void>(resolve => {
+                const expected = [
+                    new Area('my area'),
+                    new Area('my other area'),
+                ];
+                httpClientSpy.get.mockReturnValue(of(expected));
+                let params = new HttpParams({
+                    fromObject: {
+                      creatureTypeFilters: test.f,
+                      allowAquatic: test.a,
+                      allowUnderground: test.u
+                    }
+                  });
+        
+                dungeonService
+                    .generateAreasFromHall(
+                        90210,
+                        'env',
+                        'temp',
+                        'time',
+                        9266,
+                        test.f,
+                        test.a,
+                        test.u)
+                    .subscribe((areas) => {
+                        expect(areas).toBe(expected);
+                        expect(httpClientSpy.get).toHaveBeenCalledWith(
+                            `https://dungeon.dndgen.com/api/v1/dungeon/level/90210/hall/temp/env/time/level/9266/generate`, 
+                            { params: params });
+                        resolve();
+                    });
+            }));
+        });
+    });
+});

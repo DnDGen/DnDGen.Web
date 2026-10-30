@@ -29,10 +29,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com",
+					"raw": "{{host}}",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					]
 				}
 			},
@@ -61,10 +60,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/error",
+					"raw": "{{host}}/error",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"error"
@@ -96,10 +94,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/roll",
+					"raw": "{{host}}/roll",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"roll"
@@ -131,10 +128,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/treasure",
+					"raw": "{{host}}/treasure",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"treasure"
@@ -166,10 +162,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/character",
+					"raw": "{{host}}/character",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"character"
@@ -201,10 +196,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/encounter",
+					"raw": "{{host}}/encounter",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"encounter"
@@ -236,10 +230,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dndgen.com/dungeon",
+					"raw": "{{host}}/dungeon",
 					"host": [
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"dungeon"
@@ -247,6 +240,13 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "dndgen.com",
+			"type": "default"
 		}
 	]
 }

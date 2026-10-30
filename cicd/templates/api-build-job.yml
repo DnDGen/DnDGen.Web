@@ -1,0 +1,115 @@
+parameters:
+- name: apiName
+  type: string
+- name: projectPath
+  type: string
+- name: artifactName
+  type: string
+- name: smokeTestCollection
+  type: string
+- name: smokeTestJunitFile
+  type: string
+
+jobs:
+- job: ${{ replace(parameters.apiName, ' ', '_') }}
+  displayName: ${{ parameters.apiName }}
+  steps:
+  - checkout: self
+    displayName: 'Checkout Code'
+    persistCredentials: true
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '${{ parameters.projectPath }}/${{ parameters.projectPath }}.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: Run Unit Tests
+    inputs:
+      command: test
+      projects: '${{ parameters.projectPath }}.Tests.Unit/${{ parameters.projectPath }}.Tests.Unit.csproj'
+      arguments: '-v normal --collect "Code Coverage"'
+      testRunTitle: '${{ parameters.apiName }} Unit Tests'
+
+  - task: DotNetCoreCLI@2
+    displayName: Run Integration Tests
+    inputs:
+      command: test
+      projects: '${{ parameters.projectPath }}.Tests.Integration/${{ parameters.projectPath }}.Tests.Integration.csproj'
+      arguments: '-v normal --collect "Code Coverage"'
+      testRunTitle: '${{ parameters.apiName }} Integration Tests'
+
+  - bash: 'npm install -g azurite azure-functions-core-tools@4 newman'
+    workingDirectory: '$(Pipeline.Workspace)'
+    displayName: 'Install Smoke Test Tools'
+
+  - bash: |
+      mkdir azurite
+      azurite --silent --location azurite --debug azurite/debug.log &
+    displayName: 'Start Azurite'
+
+  - bash: |
+      cp "$(Build.SourcesDirectory)/cicd/smoke-tests/local.settings.json" "$(Build.SourcesDirectory)/${{ parameters.projectPath }}/local.settings.json"
+    displayName: 'Copy local settings'
+
+  - powershell: |
+      $logFile = "$(Agent.TempDirectory)\func-output.log"
+      $proc = Start-Process `
+        -FilePath "func.cmd" `
+        -ArgumentList "start", "--port", "7071" `
+        -WorkingDirectory "$(Build.SourcesDirectory)/${{ parameters.projectPath }}" `
+        -RedirectStandardOutput $logFile `
+        -NoNewWindow -PassThru
+
+      Write-Host "Function app starting (PID: $($proc.Id))..."
+      $timeout = 90; $elapsed = 0; $ready = $false
+      do {
+        Write-Host "Waiting 3s for function app to be ready..."
+        Start-Sleep -Seconds 3
+        $elapsed += 3
+        $content = if (Test-Path $logFile) { Get-Content $logFile -Raw -ErrorAction SilentlyContinue } else { "" }
+        $ready = $content -match "Worker process started and initialized"
+      } while (-not $ready -and $elapsed -lt $timeout)
+
+      if ($ready) {
+        Write-Host "Function app ready after ${elapsed}s"
+        $proc.Id | Set-Content "$(Agent.TempDirectory)\func-pid.txt"
+      } else {
+        Write-Host "=== Function App Output ==="
+        Get-Content $logFile -ErrorAction SilentlyContinue | Write-Host
+        $proc | Stop-Process -Force -ErrorAction SilentlyContinue
+        Write-Error "Function app failed to start within ${timeout}s"
+        exit 1
+      }
+    displayName: 'Start Function App'
+
+  - bash: |
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/${{ parameters.smokeTestCollection }}" \
+      --env-var "host=localhost:7071" \
+      --reporters cli,junit \
+      --reporter-junit-export "Results/${{ parameters.smokeTestJunitFile }}"
+    displayName: 'Run Smoke Tests'
+    retryCountOnTaskFailure: 1
+
+  - template: publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/Results/${{ parameters.smokeTestJunitFile }}'
+
+  - task: DotNetCoreCLI@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    displayName: Publish API
+    inputs:
+      command: 'publish'
+      projects: '${{ parameters.projectPath }}/${{ parameters.projectPath }}.csproj'
+      publishWebProjects: false
+      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/${{ parameters.apiName }}'
+      zipAfterPublish: true
+
+  - task: PublishPipelineArtifact@1
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    displayName: Publish Artifacts
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/Api/${{ parameters.apiName }}'
+      artifactName: '${{ parameters.artifactName }}'

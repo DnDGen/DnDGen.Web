@@ -40,11 +40,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -110,11 +108,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -181,11 +177,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -252,11 +246,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -322,11 +314,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -398,11 +388,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -468,11 +456,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -539,11 +525,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -610,11 +594,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -681,11 +663,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -752,11 +732,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -823,11 +801,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -894,11 +870,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -965,11 +939,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1036,11 +1008,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1106,11 +1076,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1182,11 +1150,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1252,11 +1218,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1323,11 +1287,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1393,11 +1355,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1469,11 +1429,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1540,11 +1498,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1611,11 +1567,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1682,11 +1636,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1752,11 +1704,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1822,11 +1772,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1893,11 +1841,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1963,11 +1909,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2031,11 +1975,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2107,11 +2049,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2178,11 +2118,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=true",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=true",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2255,11 +2193,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=false",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=false",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2330,11 +2266,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2412,11 +2346,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2483,11 +2415,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=true",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=true",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2560,11 +2490,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2637,11 +2565,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=false",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=false",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2719,11 +2645,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2789,11 +2713,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2866,11 +2788,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=animal",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=animal",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2943,11 +2863,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=construct",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=construct",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3020,11 +2938,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=dragon",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=dragon",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3097,11 +3013,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=elemental",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=elemental",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3174,11 +3088,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=fey",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=fey",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3251,11 +3163,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=giant",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=giant",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3328,11 +3238,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3405,11 +3313,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=magical beast",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=magical beast",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3482,11 +3388,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=monstrous humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=monstrous humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3559,11 +3463,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=ooze",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=ooze",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3636,11 +3538,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=outsider",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=outsider",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3713,11 +3613,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=plant",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=plant",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3790,11 +3688,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=undead",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=undead",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3867,11 +3763,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=vermin",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=vermin",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3944,11 +3838,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4025,11 +3917,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4107,11 +3997,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4178,11 +4066,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4249,11 +4135,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4320,11 +4204,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4389,11 +4271,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4457,11 +4337,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4528,11 +4406,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+									"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/door/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 									"host": [
-										"dungeon",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4607,11 +4483,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4677,11 +4551,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4748,11 +4620,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4819,11 +4689,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4889,11 +4757,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4965,11 +4831,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5035,11 +4899,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5106,11 +4968,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5177,11 +5037,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5248,11 +5106,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5319,11 +5175,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5390,11 +5244,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5461,11 +5313,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5532,11 +5382,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5603,11 +5451,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5673,11 +5519,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5749,11 +5593,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5819,11 +5661,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5890,11 +5730,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5960,11 +5798,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6036,11 +5872,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6107,11 +5941,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6178,11 +6010,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6249,11 +6079,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6319,11 +6147,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6389,11 +6215,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6460,11 +6284,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6530,11 +6352,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6598,11 +6418,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6674,11 +6492,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6745,11 +6561,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=true",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=true",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6822,11 +6636,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=false",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=false",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6897,11 +6709,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowAquatic=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6979,11 +6789,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7050,11 +6858,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=true",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=true",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7127,11 +6933,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7204,11 +7008,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=false",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?allowUnderground=false",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7286,11 +7088,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7356,11 +7156,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7433,11 +7231,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=animal",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=animal",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7510,11 +7306,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=construct",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=construct",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7587,11 +7381,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=dragon",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=dragon",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7664,11 +7456,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=elemental",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=elemental",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7741,11 +7531,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=fey",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=fey",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7818,11 +7606,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=giant",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=giant",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7895,11 +7681,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7972,11 +7756,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=magical beast",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=magical beast",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8049,11 +7831,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=monstrous humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=monstrous humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8126,11 +7906,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=ooze",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=ooze",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8203,11 +7981,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=outsider",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=outsider",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8280,11 +8056,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=plant",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=plant",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8357,11 +8131,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=undead",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=undead",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8434,11 +8206,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=vermin",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=vermin",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8511,11 +8281,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=aberration&creatureTypeFilters=humanoid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8592,11 +8360,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=invalid",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate?creatureTypeFilters=invalid",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8674,11 +8440,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8745,11 +8509,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8816,11 +8578,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8887,11 +8647,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8956,11 +8714,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9024,11 +8780,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+											"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 											"host": [
-												"dungeon",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9095,11 +8849,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "dungeon.dndgen.com/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
+									"raw": "{{host}}/api/v1/dungeon/level/:dungeonLevel/hall/:temperature/:environment/:timeOfDay/level/:partyLevel/generate",
 									"host": [
-										"dungeon",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9156,7 +8908,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"    var text = pm.response.text();\r",
 							"    pm.expect(text).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(text).to.include('url: \"https://dungeon.dndgen.com/api/swagger.json\"');\r",
+							"    pm.expect(text).to.include(pm.variables.get('host') + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript",
@@ -9168,11 +8920,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dungeon.dndgen.com/api/swagger/ui",
+					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"dungeon",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -9194,7 +8944,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"    \r",
 							"    var text = pm.response.text();\r",
-							"    pm.expect(text).to.include('\"host\": \"dungeon.dndgen.com\"');\r",
+							"    pm.expect(text).to.include('\"host\": \"' + pm.variables.get('host') + '\"');\r",
 							"    pm.expect(text).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
 							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
@@ -9210,11 +8960,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dungeon.dndgen.com/api/swagger.json",
+					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"dungeon",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -9235,7 +8983,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"\r",
 							"    var text = pm.response.text();\r",
-							"    pm.expect(text).to.include('\"url\": \"https://dungeon.dndgen.com/api\"');\r",
+							"    pm.expect(text).to.include(pm.variables.get('host') + '/api\"');\r",
 							"\r",
 							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
 							"    pm.expect(text).to.include(\"/v1/dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate\");\r",
@@ -9250,11 +8998,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "dungeon.dndgen.com/api/openapi/1.0",
+					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"dungeon",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -9264,6 +9010,13 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "dungeon.dndgen.com",
+			"type": "default"
 		}
 	]
 }

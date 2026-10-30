@@ -8,298 +8,67 @@ variables:
 
 jobs:
 # The RollGen API
-- job: RollGen_Api
-  displayName: RollGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.RollGen/DnDGen.Api.RollGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.RollGen.Tests.Unit/DnDGen.Api.RollGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.RollGen.Tests.Integration/DnDGen.Api.RollGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.RollGen/DnDGen.Api.RollGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/RollGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/RollGen' 
-      artifactName: 'rollgen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: RollGen API
+    projectPath: DnDGen.Api.RollGen
+    artifactName: rollgen-api
+    smokeTestCollection: RollGen-API.postman_collection.json
+    smokeTestJunitFile: rollgen.smoke.xml
 
 # The TreasureGen API
-- job: TreasureGen_Api
-  displayName: TreasureGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.TreasureGen/DnDGen.Api.TreasureGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.TreasureGen.Tests.Unit/DnDGen.Api.TreasureGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.TreasureGen.Tests.Integration/DnDGen.Api.TreasureGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.TreasureGen/DnDGen.Api.TreasureGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/TreasureGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/TreasureGen' 
-      artifactName: 'treasuregen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: TreasureGen API
+    projectPath: DnDGen.Api.TreasureGen
+    artifactName: treasuregen-api
+    smokeTestCollection: TreasureGen-API.postman_collection.json
+    smokeTestJunitFile: treasuregen.smoke.xml
 
 # The CreatureGen API
-- job: CreatureGen_Api
-  displayName: CreatureGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.CreatureGen/DnDGen.Api.CreatureGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CreatureGen.Tests.Unit/DnDGen.Api.CreatureGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CreatureGen.Tests.Integration/DnDGen.Api.CreatureGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.CreatureGen/DnDGen.Api.CreatureGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/CreatureGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/CreatureGen' 
-      artifactName: 'creaturegen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: CreatureGen API
+    projectPath: DnDGen.Api.CreatureGen
+    artifactName: creaturegen-api
+    smokeTestCollection: CreatureGen-API.postman_collection.json
+    smokeTestJunitFile: creaturegen.smoke.xml
 
 # The CharacterGen API
-- job: CharacterGen_Api
-  displayName: CharacterGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.CharacterGen/DnDGen.Api.CharacterGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CharacterGen.Tests.Unit/DnDGen.Api.CharacterGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.CharacterGen.Tests.Integration/DnDGen.Api.CharacterGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.CharacterGen/DnDGen.Api.CharacterGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/CharacterGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/CharacterGen' 
-      artifactName: 'charactergen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: CharacterGen API
+    projectPath: DnDGen.Api.CharacterGen
+    artifactName: charactergen-api
+    smokeTestCollection: CharacterGen-API.postman_collection.json
+    smokeTestJunitFile: charactergen.smoke.xml
 
 # The EncounterGen API
-- job: EncounterGen_Api
-  displayName: EncounterGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.EncounterGen/DnDGen.Api.EncounterGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.EncounterGen.Tests.Unit/DnDGen.Api.EncounterGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.EncounterGen.Tests.Integration/DnDGen.Api.EncounterGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.EncounterGen/DnDGen.Api.EncounterGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/EncounterGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/EncounterGen' 
-      artifactName: 'encountergen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: EncounterGen API
+    projectPath: DnDGen.Api.EncounterGen
+    artifactName: encountergen-api
+    smokeTestCollection: EncounterGen-API.postman_collection.json
+    smokeTestJunitFile: encountergen.smoke.xml
 
 # The DungeonGen API
-- job: DungeonGen_Api
-  displayName: DungeonGen API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.DungeonGen/DnDGen.Api.DungeonGen.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.DungeonGen.Tests.Unit/DnDGen.Api.DungeonGen.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.DungeonGen.Tests.Integration/DnDGen.Api.DungeonGen.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.DungeonGen/DnDGen.Api.DungeonGen.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/DungeonGen'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/DungeonGen' 
-      artifactName: 'dungeongen-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: DungeonGen API
+    projectPath: DnDGen.Api.DungeonGen
+    artifactName: dungeongen-api
+    smokeTestCollection: DungeonGen-API.postman_collection.json
+    smokeTestJunitFile: dungeongen.smoke.xml
 
 # The Web API
-- job: Web_Api
-  displayName: Web API
-  steps:
-  - checkout: self
-    displayName: 'Checkout Code'
-    persistCredentials: true
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: 'DnDGen.Api.Web/DnDGen.Api.Web.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-  - task: DotNetCoreCLI@2
-    displayName: Run Unit Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.Web.Tests.Unit/DnDGen.Api.Web.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-  - task: DotNetCoreCLI@2
-    displayName: Run Integration Tests
-    inputs:
-      command: test
-      projects: 'DnDGen.Api.Web.Tests.Integration/DnDGen.Api.Web.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
-
-  - task: DotNetCoreCLI@2
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish API
-    inputs:
-      command: 'publish'
-      projects: 'DnDGen.Api.Web/DnDGen.Api.Web.csproj'
-      publishWebProjects: false
-      arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/Api/Web'
-      zipAfterPublish: true
-  - task: PublishPipelineArtifact@1
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    displayName: Publish Artifacts
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/Api/Web' 
-      artifactName: 'dndgen-web-api'
+- template: templates/api-build-job.yml
+  parameters:
+    apiName: Web API
+    projectPath: DnDGen.Api.Web
+    artifactName: dndgen-web-api
+    smokeTestCollection: Web-API.postman_collection.json
+    smokeTestJunitFile: web.smoke.xml
 
 # The DnDGen Website
 - job: DnDGen_Web
@@ -308,44 +77,53 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  - task: UseNode@1
-    displayName: 'Install node.js'
-    inputs:
-      version: '20.x'
-  - task: Npm@1  
-    displayName: 'Install Angular CLI'  
-    inputs:  
-      command: custom  
-      verbose: true  
-      customCommand: 'install -g @angular/cli'
-  - task: Npm@1  
-    displayName: 'npm install'  
-    inputs:
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      command: install
-  - task: Npm@1  
-    displayName: Build
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run build:ci'
-  - task: Npm@1  
-    displayName: Run Tests
+  - bash: 'npm install -g @angular/cli newman'
+    displayName: 'Install Angular CLI and Newman'
+  - bash: 'npm install'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'npm install'
+  - bash: 'npm run build:ci'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Build'
+  - bash: 'npm run test:unit:ci -- --output-file=./website-unit.xml'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Run Unit Tests'
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/dndgen-web/website-unit.xml'
+  - bash: 'npm run test:integration:ci -- --output-file=./website-integration.xml'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Run Integration Tests'
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/dndgen-web/website-integration.xml'
+  - bash: |
+      ng serve &
+      echo $! > /tmp/ng-serve-pid.txt
+      echo "ng serve starting (PID: $(cat /tmp/ng-serve-pid.txt))..."
+      timeout=120; elapsed=0
+      until curl -s http://localhost:4200 > /dev/null 2>&1; do
+        echo "Waiting 3s for ng serve to be ready..."
+        sleep 3
+        elapsed=$((elapsed + 3))
+        if [ $elapsed -ge $timeout ]; then
+          echo "ng serve failed to start within ${timeout}s"
+          exit 1
+        fi
+      done
+      echo "ng serve ready after ${elapsed}s"
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Start Website'
+  - bash: |
+      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/DnDGen-Website.postman_collection.json" \
+      --env-var "host=localhost:4200" \
+      --reporters cli,junit \
+      --reporter-junit-export "$(Build.SourcesDirectory)/Results/website.smoke.xml"
+    displayName: 'Run Website Smoke Tests'
     retryCountOnTaskFailure: 1
-    inputs: 
-      command: custom
-      workingDir: '$(Build.SourcesDirectory)/dndgen-web'
-      verbose: true  
-      customCommand: 'run test:ci'
-  - task: PublishTestResults@2
-    displayName: 'Publish Test Results'
-    condition: always()
-    inputs:
-      testResultsFiles: 'dndgen-web/TestResults-DnDGen-Website.xml'
-      failTaskOnFailedTests: true
-      failTaskOnMissingResultsFile: true
+  - template: templates/publish-test-results.yml
+    parameters:
+      resultFile: '$(Build.SourcesDirectory)/Results/website.smoke.xml'
   - task: PublishBuildArtifacts@1
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     displayName: Publish Website Artifacts
@@ -358,12 +136,13 @@ jobs:
   displayName: Publish Artifacts
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   dependsOn:
-  - RollGen_Api
-  - TreasureGen_Api
-  - CharacterGen_Api
-  - EncounterGen_Api
-  - DungeonGen_Api
-  - Web_Api
+  - RollGen_API
+  - TreasureGen_API
+  - CreatureGen_API
+  - CharacterGen_API
+  - EncounterGen_API
+  - DungeonGen_API
+  - Web_API
   - DnDGen_Web
   steps:
   - checkout: self
@@ -385,7 +164,7 @@ jobs:
       artifactName: 'dndgen-deployment-website-tests'
     
     # Tag the release
-  - script: |
+  - bash: |
       echo "Tagging with version $(Build.BuildNumber)"
       git tag $(Build.BuildNumber)
       git push origin $(Build.BuildNumber)

@@ -1,0 +1,55 @@
+parameters:
+- name: appName
+  type: string
+- name: apiPrefix
+  type: string
+- name: smokeTestCollection
+  type: string
+- name: smokeTestJunitFile
+  type: string
+- name: websiteTestScript
+  type: string
+- name: websiteResultFile
+  type: string
+- name: hasWebsiteTests
+  type: boolean
+  default: true
+
+steps:
+- task: AzureFunctionApp@2
+  displayName: 'Deploy Azure Function App'
+  inputs:
+    connectedServiceNameARM: 'Azure - DnDGen'
+    appType: 'functionApp'
+    appName: '${{ parameters.appName }}'
+    package: '$(Pipeline.Workspace)/**/${{ parameters.appName }}/*.zip'
+
+- bash: 'npm install -g newman'
+  workingDirectory: '$(Pipeline.Workspace)'
+  displayName: 'Install Newman'
+
+- bash: |
+    newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/${{ parameters.smokeTestCollection }}" \
+    --env-var "host=${{parameters.apiPrefix}}.dndgen.com" \
+    --reporters cli,junit \
+    --reporter-junit-export "Results/${{ parameters.smokeTestJunitFile }}"
+  displayName: 'Run Smoke Tests'
+  retryCountOnTaskFailure: 1
+
+- template: publish-test-results.yml
+  parameters:
+    resultFile: '$(Pipeline.Workspace)/Results/${{ parameters.smokeTestJunitFile }}'
+
+- ${{ if parameters.hasWebsiteTests }}:
+  - bash: 'npm install -g @angular/cli'
+    displayName: 'Install Angular CLI'
+  - bash: 'npm install'
+    workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
+    displayName: 'npm install'
+  - bash: 'npm run ${{ parameters.websiteTestScript }} -- --output-file=${{ parameters.websiteResultFile }}'
+    workingDirectory: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests'
+    displayName: 'Run Website Tests'
+
+  - template: publish-test-results.yml
+    parameters:
+      resultFile: '$(Pipeline.Workspace)/DnDGen.Web/dndgen-deployment-website-tests/${{ parameters.websiteResultFile }}'

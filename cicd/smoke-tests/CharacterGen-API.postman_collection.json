@@ -1,4 +1,4 @@
-{
+﻿{
 	"info": {
 		"_postman_id": "34356649-7c5a-4b74-97c5-ede22477fa9d",
 		"name": "CharacterGen API",
@@ -41,11 +41,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Any",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Any",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -89,11 +87,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Chaotic",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Chaotic",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -137,11 +133,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Evil",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Evil",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -185,11 +179,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Good",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -233,11 +225,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Lawful",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Lawful",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -281,11 +271,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Neutral",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Neutral",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -329,11 +317,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Chaotic",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Chaotic",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -377,11 +363,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Evil",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Evil",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -425,11 +409,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Good",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -473,11 +455,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Lawful",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Lawful",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -521,11 +501,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Neutral",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Neutral",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -569,11 +547,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Lawful Good",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Lawful Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -614,11 +590,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -655,11 +629,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Invalid Alignment",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Set&setAlignment=Invalid Alignment",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -700,11 +672,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -758,11 +728,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Fighter",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Fighter",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -810,11 +778,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Any Player",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Any Player",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -858,11 +824,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Spellcaster",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -899,11 +863,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -940,11 +902,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Set&setClassName=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -985,11 +945,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1038,11 +996,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Stealth",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Stealth",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1086,11 +1042,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Non-Spellcaster",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Non-Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1134,11 +1088,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Divine Spellcaster",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Divine Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1182,11 +1134,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Arcane Spellcaster",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Arcane Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1230,11 +1180,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Physical Combat",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Physical Combat",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1278,11 +1226,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?classNameRandomizerType=Any NPC",
+											"raw": "{{host}}/api/v1/character/generate?classNameRandomizerType=Any NPC",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1331,11 +1277,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Any",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Any",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1379,11 +1323,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Low",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Low",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1427,11 +1369,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Medium",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Medium",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1475,11 +1415,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=High",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=High",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1523,11 +1461,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Very High",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Very High",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1571,11 +1507,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set&setLevel=14",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Set&setLevel=14",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1616,11 +1550,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1657,11 +1589,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set&setLevel=666",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Set&setLevel=666",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1702,11 +1632,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?levelRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/generate?levelRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1762,11 +1690,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Any Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Any Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1812,11 +1738,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Aquatic Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Aquatic Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1863,11 +1787,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Monster Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Monster Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1914,11 +1836,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Non-Monster Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Non-Monster Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -1964,11 +1884,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Non-Standard Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Non-Standard Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2014,11 +1932,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Standard Base",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Standard Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2064,11 +1980,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Tiefling",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Tiefling",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2109,11 +2023,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2150,11 +2062,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Set&setBaseRace=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2195,11 +2105,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?baseRaceRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/generate?baseRaceRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2261,11 +2169,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Any Meta",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Any Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2316,11 +2222,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Any Meta&forceMetarace=true",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Any Meta&forceMetarace=true",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2373,11 +2277,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Genetic Meta",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Genetic Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2427,11 +2329,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Lycanthrope Meta",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Lycanthrope Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2481,11 +2381,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Undead Meta",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Undead Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2531,11 +2429,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=No Meta",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=No Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2581,11 +2477,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Half-Dragon",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Half-Dragon",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2635,11 +2529,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2680,11 +2572,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2721,11 +2611,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Set&setMetarace=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2775,11 +2663,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?metaraceRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/generate?metaraceRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2848,11 +2734,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Average&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Average&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -2931,11 +2815,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Poor&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Poor&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3014,11 +2896,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Good&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Good&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3097,11 +2977,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Heroic&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Heroic&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3180,11 +3058,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Best of four&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Best of four&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3263,11 +3139,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Ones as Sixes&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Ones as Sixes&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3346,11 +3220,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=2d10&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=2d10&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3429,11 +3301,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=false",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=No Meta&baseRaceRandomizerType=Set&setBaseRace=Human&levelRandomizerType=Set&setLevel=1&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=false",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3541,11 +3411,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=Set&baseRaceRandomizerType=Set&setBaseRace=Tiefling&levelRandomizerType=Set&setLevel=20&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=true&setMetarace=Half-Fiend",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=Set&baseRaceRandomizerType=Set&setBaseRace=Tiefling&levelRandomizerType=Set&setLevel=20&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=true&setMetarace=Half-Fiend",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3655,11 +3523,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=Set&baseRaceRandomizerType=Set&setBaseRace=Tiefling&levelRandomizerType=Set&setLevel=20&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=false&setMetarace=Half-Fiend",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&metaraceRandomizerType=Set&baseRaceRandomizerType=Set&setBaseRace=Tiefling&levelRandomizerType=Set&setLevel=20&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8&allowAbilityAdjustments=false&setMetarace=Half-Fiend",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3748,11 +3614,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3789,11 +3653,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=0&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=0&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3854,11 +3716,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=0&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=0&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3919,11 +3779,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=0&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=0&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -3984,11 +3842,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=0&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=0&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4049,11 +3905,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=0&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=0&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4114,11 +3968,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=0",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=0",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4179,11 +4031,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4245,11 +4095,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4311,11 +4159,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4377,11 +4223,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4443,11 +4287,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setStrength=10&setConstitution=12&setDexterity=14&setIntelligence=16&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4509,11 +4351,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/generate?abilitiesRandomizerType=Set&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
+											"raw": "{{host}}/api/v1/character/generate?abilitiesRandomizerType=Set&setConstitution=12&setDexterity=14&setIntelligence=16&setWisdom=18&setCharisma=8",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4582,11 +4422,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/generate",
+									"raw": "{{host}}/api/v1/character/generate",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4641,11 +4479,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
+									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4706,11 +4542,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend",
+									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4772,11 +4606,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/generate?alignmentRandomizerType=Any&classNameRandomizerType=Set&levelRandomizerType=medium&baseRaceRandomizerType=any Base&metaraceRandomizerType=any meta&forceMetarace=false&abilitiesRandomizerType=Ones as Sixes&setClassName=cleric",
+									"raw": "{{host}}/api/v1/character/generate?alignmentRandomizerType=Any&classNameRandomizerType=Set&levelRandomizerType=medium&baseRaceRandomizerType=any Base&metaraceRandomizerType=any meta&forceMetarace=false&abilitiesRandomizerType=Ones as Sixes&setClassName=cleric",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -4854,11 +4686,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Any",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Any",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -4930,11 +4760,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Chaotic",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Chaotic",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5006,11 +4834,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Evil",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Evil",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5082,11 +4908,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Good",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5158,11 +4982,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Lawful",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Lawful",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5234,11 +5056,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Neutral",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Neutral",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5310,11 +5130,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Chaotic",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Chaotic",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5386,11 +5204,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Evil",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Evil",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5462,11 +5278,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Good",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5538,11 +5352,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Lawful",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Lawful",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5614,11 +5426,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Neutral",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Neutral",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5690,11 +5500,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Set&setAlignment=Lawful Good",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Set&setAlignment=Lawful Good",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5770,11 +5578,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5846,11 +5652,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Set&setAlignment=Invalid Alignment",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Set&setAlignment=Invalid Alignment",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -5926,11 +5730,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6012,11 +5814,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Set&setClassName=Fighter",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Set&setClassName=Fighter",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6092,11 +5892,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Any Player",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Any Player",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6168,11 +5966,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Spellcaster",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6244,11 +6040,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6320,11 +6114,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Set&setClassName=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Set&setClassName=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6400,11 +6192,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6481,11 +6271,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Stealth",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Stealth",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6557,11 +6345,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Non-Spellcaster",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Non-Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6633,11 +6419,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Divine Spellcaster",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Divine Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6709,11 +6493,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Arcane Spellcaster",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Arcane Spellcaster",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6785,11 +6567,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Physical Combat",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Physical Combat",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6861,11 +6641,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Any NPC",
+											"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Any NPC",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -6942,11 +6720,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Any",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Any",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7018,11 +6794,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Low",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Low",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7094,11 +6868,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Medium",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Medium",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7170,11 +6942,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=High",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=High",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7246,11 +7016,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Very High",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Very High",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7322,11 +7090,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Set&setLevel=14",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Set&setLevel=14",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7402,11 +7168,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7478,11 +7242,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Set&setLevel=666",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Set&setLevel=666",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7558,11 +7320,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?levelRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/validate?levelRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7644,11 +7404,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Any Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Any Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7720,11 +7478,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Aquatic Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Aquatic Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7796,11 +7552,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Monster Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Monster Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7872,11 +7626,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Non-Monster Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Non-Monster Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -7948,11 +7700,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Non-Standard Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Non-Standard Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8024,11 +7774,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Standard Base",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Standard Base",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8100,11 +7848,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Set&setBaseRace=Tiefling",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Set&setBaseRace=Tiefling",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8180,11 +7926,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8256,11 +8000,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Set&setBaseRace=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Set&setBaseRace=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8336,11 +8078,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?baseRaceRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/validate?baseRaceRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8422,11 +8162,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Any Meta",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Any Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8493,11 +8231,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Any Meta&forceMetarace=true",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Any Meta&forceMetarace=true",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8568,11 +8304,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Any Meta&forceMetarace=false",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Any Meta&forceMetarace=false",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8643,11 +8377,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Genetic Meta",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Genetic Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8714,11 +8446,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Lycanthrope Meta",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Lycanthrope Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8785,11 +8515,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Undead Meta",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Undead Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8856,11 +8584,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=No Meta",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=No Meta",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -8927,11 +8653,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=Half-Dragon",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=Half-Dragon",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9002,11 +8726,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9077,11 +8799,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9148,11 +8868,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=Invalid",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Set&setMetarace=Invalid",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9222,11 +8940,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "character.dndgen.com/api/v1/character/validate?metaraceRandomizerType=Set",
+											"raw": "{{host}}/api/v1/character/validate?metaraceRandomizerType=Set",
 											"host": [
-												"character",
-												"dndgen",
-												"com"
+												"{{host}}"
 											],
 											"path": [
 												"api",
@@ -9299,11 +9015,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/validate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
+									"raw": "{{host}}/api/v1/character/validate?alignmentRandomizerType=Non-Evil&classNameRandomizerType=Physical Combat&levelRandomizerType=High&baseRaceRandomizerType=Standard Base&metaraceRandomizerType=Genetic Meta&forceMetarace=true&abilitiesRandomizerType=Ones as Sixes",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9369,11 +9083,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/validate?classNameRandomizerType=Any Player&levelRandomizerType=Any&baseRaceRandomizerType=Set&abilitiesRandomizerType=Poor&alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend&setBaseRace=Ogre Mage",
+									"raw": "{{host}}/api/v1/character/validate?classNameRandomizerType=Any Player&levelRandomizerType=Any&baseRaceRandomizerType=Set&abilitiesRandomizerType=Poor&alignmentRandomizerType=Good&metaraceRandomizerType=Set&forceMetarace=true&setMetarace=Half-Fiend&setBaseRace=Ogre Mage",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9447,11 +9159,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/character/validate",
+									"raw": "{{host}}/api/v1/character/validate",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9536,11 +9246,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
+									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9585,11 +9293,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
+									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderAnimal=Eagle",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9646,11 +9352,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/leadership/level/:leaderLevel/generate?leaderCharismaBonus=5",
+									"raw": "{{host}}/api/v1/leadership/level/:leaderLevel/generate?leaderCharismaBonus=5",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9706,11 +9410,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9763,11 +9465,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9821,11 +9521,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral",
+									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderAlignment=True Neutral",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9879,11 +9577,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderClass=Fighter",
+									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=20&leaderClass=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -9941,11 +9637,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/cohort/score/:cohortScore/generate?leaderLevel=6&leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/cohort/score/:cohortScore/generate?leaderLevel=6&leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10009,11 +9703,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10062,11 +9754,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10116,11 +9806,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10176,11 +9864,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10235,11 +9921,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10294,11 +9978,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10353,11 +10035,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10412,11 +10092,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "character.dndgen.com/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
+									"raw": "{{host}}/api/v1/follower/level/:followerLevel/generate?leaderAlignment=True Neutral&leaderClassName=Fighter",
 									"host": [
-										"character",
-										"dndgen",
-										"com"
+										"{{host}}"
 									],
 									"path": [
 										"api",
@@ -10462,7 +10140,7 @@
 							"});\r",
 							"pm.test(\"Returns Swagger UI\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"<title>OpenAPI Document on Azure Functions - Swagger UI</title>\");\r",
-							"    pm.expect(pm.response.text()).to.include('url: \"https://character.dndgen.com/api/swagger.json\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api/swagger.json\"');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -10473,11 +10151,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "character.dndgen.com/api/swagger/ui",
+					"raw": "{{host}}/api/swagger/ui",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10499,7 +10175,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Returns Swagger data\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"host\": \"character.dndgen.com\"');\r",
+							"    pm.expect(pm.response.text()).to.include('\"host\": \"' + pm.variables.get('host') + '\"');\r",
 							"    pm.expect(pm.response.text()).to.include('\"basePath\": \"/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/character/validate\");\r",
@@ -10517,11 +10193,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "character.dndgen.com/api/swagger.json",
+					"raw": "{{host}}/api/swagger.json",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10542,7 +10216,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"pm.test(\"Returns Open API documentation\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include('\"url\": \"https://character.dndgen.com/api\"');\r",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get('host') + '/api\"');\r",
 							"\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/character/validate\");\r",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/character/generate\");\r",
@@ -10559,11 +10233,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "character.dndgen.com/api/openapi/1.0",
+					"raw": "{{host}}/api/openapi/1.0",
 					"host": [
-						"character",
-						"dndgen",
-						"com"
+						"{{host}}"
 					],
 					"path": [
 						"api",
@@ -10573,6 +10245,13 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "character.dndgen.com",
+			"type": "default"
 		}
 	]
 }
