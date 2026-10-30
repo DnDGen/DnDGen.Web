@@ -231,7 +231,7 @@ jobs:
             newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/DnDGen-Website.postman_collection.json" \
             --env-var "host=dndgen.com" \
             --reporters cli,junit \
-            --reporter-junit-export "Results/website.smoke.xml"
+            --reporter-junit-export "$(Pipeline.Workspace)/Results/website.smoke.xml"
           displayName: 'Run Smoke Tests'
           retryCountOnTaskFailure: 1
 
