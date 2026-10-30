@@ -32,7 +32,7 @@ steps:
     newman run "$(Pipeline.Workspace)/DnDGen.Web/dndgen-smoke-api-tests/${{ parameters.smokeTestCollection }}" \
     --env-var "host=${{parameters.apiPrefix}}.dndgen.com" \
     --reporters cli,junit \
-    --reporter-junit-export "Results/${{ parameters.smokeTestJunitFile }}"
+    --reporter-junit-export "$(Pipeline.Workspace)/Results/${{ parameters.smokeTestJunitFile }}"
   displayName: 'Run Smoke Tests'
   retryCountOnTaskFailure: 1
 
