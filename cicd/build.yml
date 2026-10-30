@@ -10,7 +10,7 @@ jobs:
 # The RollGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: RollGen API
+    apiName: RollGen
     projectPath: DnDGen.Api.RollGen
     artifactName: rollgen-api
     smokeTestCollection: RollGen-API.postman_collection.json
@@ -19,7 +19,7 @@ jobs:
 # The TreasureGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: TreasureGen API
+    apiName: TreasureGen
     projectPath: DnDGen.Api.TreasureGen
     artifactName: treasuregen-api
     smokeTestCollection: TreasureGen-API.postman_collection.json
@@ -28,7 +28,7 @@ jobs:
 # The CreatureGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: CreatureGen API
+    apiName: CreatureGen
     projectPath: DnDGen.Api.CreatureGen
     artifactName: creaturegen-api
     smokeTestCollection: CreatureGen-API.postman_collection.json
@@ -37,7 +37,7 @@ jobs:
 # The CharacterGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: CharacterGen API
+    apiName: CharacterGen
     projectPath: DnDGen.Api.CharacterGen
     artifactName: charactergen-api
     smokeTestCollection: CharacterGen-API.postman_collection.json
@@ -46,7 +46,7 @@ jobs:
 # The EncounterGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: EncounterGen API
+    apiName: EncounterGen
     projectPath: DnDGen.Api.EncounterGen
     artifactName: encountergen-api
     smokeTestCollection: EncounterGen-API.postman_collection.json
@@ -55,7 +55,7 @@ jobs:
 # The DungeonGen API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: DungeonGen API
+    apiName: DungeonGen
     projectPath: DnDGen.Api.DungeonGen
     artifactName: dungeongen-api
     smokeTestCollection: DungeonGen-API.postman_collection.json
@@ -64,7 +64,7 @@ jobs:
 # The Web API
 - template: templates/api-build-job.yml
   parameters:
-    apiName: Web API
+    apiName: Web
     projectPath: DnDGen.Api.Web
     artifactName: dndgen-web-api
     smokeTestCollection: Web-API.postman_collection.json
