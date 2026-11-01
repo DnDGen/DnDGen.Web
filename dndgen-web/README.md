@@ -24,7 +24,7 @@ GET https://web.dndgen.com/api/v1/{feature}/viewmodel
 
 Live generation and validation calls go directly to each generator's API (`roll.dndgen.com`, `treasure.dndgen.com`, etc.). See the [main README](../README.md#apis) for the full route tables.
 
-Roll and Treasure use the V2 routes; Character, Encounter, and Dungeon use V1.
+The site always uses the latest version of each API's routes.
 
 ## Development server
 
