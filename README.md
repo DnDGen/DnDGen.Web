@@ -112,15 +112,15 @@ Base URL: `https://dungeon.dndgen.com/api` · [Swagger UI](https://dungeon.dndge
 
 Base URL: `https://web.dndgen.com/api` · [Swagger UI](https://web.dndgen.com/api/swagger/ui)
 
-Serves the Angular app's initial data on load. Not linked from DnDGen.com separately — this README is its reference.
+Serves the Angular app's initial data on load.
 
 **V1**
 
 | Method | Route | Returns |
 |--------|-------|---------|
-| GET | `v1/character/viewmodel` | `CharacterViewModel` |
-| GET | `v1/creature/viewmodel` | `CreatureViewModel` |
-| GET | `v1/dungeon/viewmodel` | `DungeonViewModel` |
-| GET | `v1/encounter/viewmodel` | `EncounterViewModel` |
 | GET | `v1/roll/viewmodel` | `RollViewModel` |
 | GET | `v1/treasure/viewmodel` | `TreasureViewModel` |
+| GET | `v1/creature/viewmodel` | `CreatureViewModel` |
+| GET | `v1/character/viewmodel` | `CharacterViewModel` |
+| GET | `v1/encounter/viewmodel` | `EncounterViewModel` |
+| GET | `v1/dungeon/viewmodel` | `DungeonViewModel` |
