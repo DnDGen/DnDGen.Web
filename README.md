@@ -1,20 +1,100 @@
 DnDGen.Web
 ==========
 
-This is the website through which people can use the dice roller (RollGen), the equipment generator (TreasureGen), the character generator (CharacterGen), the encounter generator (EncounterGen), and the dungeon generator (DungeonGen).
+This is the website through which people can use the dice roller (RollGen), the equipment generator (TreasureGen), the character generator (CharacterGen), the encounter generator (EncounterGen), the dungeon generator (DungeonGen), and the creature generator (CreatureGen).
 
 [![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=master)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=master)
 
-The website: [DnDGen.com](http://dndgen.com)
+## Website
 
-This also includes the code for the public-accessible APIs for the various generators:
+[DnDGen.com](http://dndgen.com) — Angular single-page application for all generators.
 
-* [RollGen API](https://roll.dndgen.com/api/swagger/ui)
-* [TreasureGen API](https://treasure.dndgen.com/api/swagger/ui)
-* [CharacterGen API](https://character.dndgen.com/api/swagger/ui)
-* [EncounterGen API](https://encounter.dndgen.com/api/swagger/ui)
-* [DungeonGen API](https://dungeon.dndgen.com/api/swagger/ui)
+## APIs
 
-APIs run as Azure Function Apps
+All APIs run as Azure Function Apps (isolated worker process). Swagger UI is the authoritative reference for request/response schemas, parameter constraints, and enum values.
 
-Website runs on Angular
+### RollGen
+
+Base URL: `https://roll.dndgen.com/api` · [Swagger UI](https://roll.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/roll` | `quantity` (int, query), `die` (int, query) | `int` |
+| GET | `v2/{quantity}/d/{die}/roll` | `quantity` (int, path), `die` (int, path) | `int` |
+| GET | `v1/roll/validate` | `quantity` (int, query), `die` (int, query) | `bool` |
+| GET | `v2/{quantity}/d/{die}/validate` | `quantity` (int, path), `die` (int, path) | `bool` |
+| GET | `v1/expression/roll` | `expression` (string, query) | `int` |
+| GET | `v2/expression/roll` | `expression` (string, query) | `int` |
+| GET | `v1/expression/validate` | `expression` (string, query) | `bool` |
+| GET | `v2/expression/validate` | `expression` (string, query) | `bool` |
+
+### TreasureGen
+
+Base URL: `https://treasure.dndgen.com/api` · [Swagger UI](https://treasure.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/{treasureType}/level/{level}/generate` | `treasureType` (string, path), `level` (int, path) | `Treasure` |
+| GET | `v2/{treasureType}/level/{level}/generate` | `treasureType` (string, path), `level` (int, path) | `Treasure` |
+| GET | `v1/{treasureType}/level/{level}/validate` | `treasureType` (string, path), `level` (int, path) | `bool` |
+| GET | `v2/{treasureType}/level/{level}/validate` | `treasureType` (string, path), `level` (int, path) | `bool` |
+| GET | `v1/item/{itemType}/power/{power}/generate` | `itemType` (string, path), `power` (string, path), `name` (string, query, optional) | `Item` |
+| GET | `v2/item/{itemType}/power/{power}/generate` | `itemType` (string, path), `power` (string, path), `name` (string, query, optional) | `Item` |
+| GET | `v1/item/{itemType}/power/{power}/validate` | `itemType` (string, path), `power` (string, path), `name` (string, query, optional) | `bool` |
+| GET | `v2/item/{itemType}/power/{power}/validate` | `itemType` (string, path), `power` (string, path), `name` (string, query, optional) | `bool` |
+
+### CharacterGen
+
+Base URL: `https://character.dndgen.com/api` · [Swagger UI](https://character.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/character/generate` | Randomizer params — see Swagger | `Character` |
+| GET | `v1/character/validate` | Randomizer params — see Swagger | `bool` |
+| GET | `v1/leadership/level/{level}/generate` | `level` (int, path), `leaderCharismaBonus` (int, query, optional), `leaderAnimal` (string, query, optional) | `Leadership` |
+| GET | `v1/cohort/score/{cohortScore}/generate` | `cohortScore` (int, path), `leaderLevel` (int, query), `leaderAlignment` (string, query), `leaderClassName` (string, query) | `Character` |
+| GET | `v1/follower/level/{followerLevel}/generate` | `followerLevel` (int, path), `leaderAlignment` (string, query), `leaderClassName` (string, query) | `Character` |
+
+Character generation accepts six randomizer type params (`alignmentRandomizerType`, `classNameRandomizerType`, `levelRandomizerType`, `baseRaceRandomizerType`, `metaraceRandomizerType`, `abilitiesRandomizerType`) plus corresponding `set*` values for each. See Swagger for all options.
+
+### EncounterGen
+
+Base URL: `https://encounter.dndgen.com/api` · [Swagger UI](https://encounter.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/generate` | `temperature`, `environment`, `timeOfDay` (string, path); `level` (int, path); `allowAquatic`, `allowUnderground` (bool, query, optional); `creatureTypeFilters` (string[], query, optional) | `Encounter` |
+| GET | `v1/encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/validate` | same as generate | `bool` |
+
+### DungeonGen
+
+Base URL: `https://dungeon.dndgen.com/api` · [Swagger UI](https://dungeon.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate` | `dungeonLevel`, `partyLevel` (int, path); `temperature`, `environment`, `timeOfDay` (string, path); `allowAquatic`, `allowUnderground` (bool, query, optional); `creatureTypeFilters` (string[], query, optional) | `Area[]` |
+| GET | `v1/dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate` | same as door | `Area[]` |
+
+### CreatureGen
+
+Base URL: `https://creature.dndgen.com/api` · [Swagger UI](https://creature.dndgen.com/api/swagger/ui)
+
+| Method | Route | Parameters | Returns |
+|--------|-------|------------|---------|
+| GET | `v1/creature/{creatureName}/generate` | `creatureName` (string, path), `templates` (string[], query, optional) | `Creature` |
+| GET | `v1/creature/generate` | `alignment` (string, query), `templates` (string[], query, optional), `type` (string[], query, optional), `cr` (string[], query, optional) | `Creature` |
+| GET | `v1/creature/{creatureName}/validate` | `creatureName` (string, path), `templates` (string[], query, optional) | `bool` |
+| GET | `v1/creature/validate` | `alignment` (string, query), `templates` (string[], query, optional), `type` (string[], query, optional), `cr` (string[], query, optional) | `bool` |
+
+### Web (BFF)
+
+Internal API used by DnDGen.com to fetch generator view models.
+
+| Method | Route | Returns |
+|--------|-------|---------|
+| GET | `v1/character/viewmodel` | `CharacterViewModel` |
+| GET | `v1/creature/viewmodel` | `CreatureViewModel` |
+| GET | `v1/dungeon/viewmodel` | `DungeonViewModel` |
+| GET | `v1/encounter/viewmodel` | `EncounterViewModel` |
+| GET | `v1/roll/viewmodel` | `RollViewModel` |
+| GET | `v1/treasure/viewmodel` | `TreasureViewModel` |
