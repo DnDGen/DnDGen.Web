@@ -14,10 +14,6 @@ The site exposes five of the six DnDGen generators:
 
 CreatureGen has an API but the website generator page is not yet implemented.
 
-## Tech
-
-Built with Angular 21 and TypeScript. Tests use Vitest and live alongside their components as `*.spec.ts` files.
-
 ## How It Calls the Backends
 
 On load, each generator page fetches its initial dropdown data from the **Web BFF**:
@@ -28,4 +24,46 @@ GET https://web.dndgen.com/api/v1/{feature}/viewmodel
 
 Live generation and validation calls go directly to each generator's API (`roll.dndgen.com`, `treasure.dndgen.com`, etc.). See the [main README](../README.md#apis) for the full route tables.
 
-The Roll generator uses the V2 routes; all others use V1.
+Roll and Treasure use the V2 routes; Character, Encounter, and Dungeon use V1.
+
+## Development server
+
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Build
+
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running tests
+
+Tests are split into unit (`.unit.spec.ts`) and integration (`.integration.spec.ts`) files, colocated with their source.
+
+Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or target a subset:
+
+| Script | Runs |
+|--------|------|
+| `npm run test` | All tests (unit + integration) |
+| `npm run test:unit` | Unit tests only |
+| `npm run test:integration` | Integration tests only |
+| `npm run test:rollgen` | All tests for RollGen |
+| `npm run test:treasuregen` | All tests for TreasureGen |
+| `npm run test:charactergen` | All tests for CharacterGen |
+| `npm run test:encountergen` | All tests for EncounterGen |
+| `npm run test:dungeongen` | All tests for DungeonGen |
+
+The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files.
+
+## File Naming Conventions
+
+This project follows the [Angular style guide](https://angular.dev/style-guide) for file naming:
+
+- All file names use **kebab-case** (e.g., `spell-group.service.ts`, `armor-class.model.ts`)
+- File names follow the pattern: `<feature-name>.<type>.ts`
+  - Components: `my-feature.component.ts`
+  - Services: `my-feature.service.ts`
+  - Models: `my-feature.model.ts`
+  - Pipes: `my-feature.pipe.ts`
+  - Unit specs: `my-feature.component.unit.spec.ts`
+  - Integration specs: `my-feature.component.integration.spec.ts`
+- Directories also use kebab-case (e.g., `navigation-menu/`, `spell-group/`)
+- Do **not** use camelCase in file names (e.g., avoid `spellGroup.service.ts`)
