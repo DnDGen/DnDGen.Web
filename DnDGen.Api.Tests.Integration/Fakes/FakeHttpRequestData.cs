@@ -16,13 +16,13 @@ namespace DnDGen.Api.Tests.Integration.Fakes
 
         public override HttpHeadersCollection Headers { get; } = new HttpHeadersCollection();
 
-        public override IReadOnlyCollection<IHttpCookie> Cookies { get; }
+        public override IReadOnlyCollection<IHttpCookie> Cookies { get; } = null!;
 
         public override Uri Url { get; }
 
-        public override IEnumerable<ClaimsIdentity> Identities { get; }
+        public override IEnumerable<ClaimsIdentity> Identities { get; } = null!;
 
-        public override string Method { get; }
+        public override string Method { get; } = null!;
 
         public override HttpResponseData CreateResponse()
         {
