@@ -51,8 +51,11 @@ namespace DnDGen.Web.Tests.Integration
             string[] recordSongs = [.. GetLinks(record).Where(IsSunoLink).Distinct()];
             string[] readmeSongs = [.. GetLinks(_readme).Where(IsSunoLink).Distinct()];
 
-            Assert.That(recordSongs, Has.Exactly(1).Items, "The record needs to link to one song");
-            Assert.That(readmeSongs, Is.EqualTo(recordSongs));
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(recordSongs, Has.Exactly(1).Items, "The record needs to link to one song");
+                Assert.That(readmeSongs, Is.EqualTo(recordSongs));
+            }
         }
 
         private static bool IsSunoLink(string link) => link.StartsWith("https://suno.com/");

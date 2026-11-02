@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
 {
-    internal partial class ReadmeTests
+    internal partial class ThemeSongReadmeTests
     {
         private const int SunoTitleLimit = 80;
         private const int SunoStyleLimit = 1000;
@@ -88,8 +88,11 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             string[] coverLinks = [.. lines.Select(line => CoverPartialRegex().Match(line)).Where(m => m.Success).Select(m => m.Groups[1].Value)];
             string[] listenLinks = [.. lines.Select(line => ListenPartialRegex().Match(line)).Where(m => m.Success).Select(m => m.Groups[1].Value)];
 
-            Assert.That(listenLinks, Has.Exactly(1).Items.And.All.StartsWith("https://suno.com/s/"), "Listen on Suno needs one share link to the song");
-            Assert.That(coverLinks, Is.EqualTo(listenLinks), "The cover needs to link to the same song as Listen on Suno");
+            using (Assert.EnterMultipleScope())
+            {
+                Assert.That(listenLinks, Has.Exactly(1).Items.And.All.StartsWith("https://suno.com/s/"), "Listen on Suno needs one share link to the song");
+                Assert.That(coverLinks, Is.EqualTo(listenLinks), "The cover needs to link to the same song as Listen on Suno");
+            }
         }
 
         [Test]
