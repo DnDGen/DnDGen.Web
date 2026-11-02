@@ -42,105 +42,120 @@ Royal court herald fanfare singalong, bright uptempo march in 4/4, Solo herald t
 ## Lyrics
 
 ```
-[Intro - Solo herald trumpet fanfare, brass and strings enter on the downbeat]
+[Intro - solo herald trumpet, full brass on the downbeat]
 Hear ye! Hear ye!
 
-[Verse 1 - First herald, rapid and breathless, one staccato brass punch per generator]
-The website through which people can use
-The dice roller!
-The equipment generator!
-The character generator!
-The encounter generator!
-The dungeon generator!
+[Verse 1 - The herald proclaims the homepage to the kingdom]
+Welcome to the kingdom — this page was built for thee!
+Generate anything for playing D&D!
+As always, getting started held the threat to be a bore:
+Creating treasure, characters, and dungeons to explore!
+And random encounters had the most expensive toll:
+The DM often said, "A character party?... Nope. Reroll."
 
-[Pre-Chorus 1 - building]
-All APIs run as Azure Function Apps!
-The Swagger UI — the authoritative reference!
-Generate!
-Validate!
+[Pre-Chorus 1 - the solution is revealed, building into the chorus]
+A computer generates in SECONDS — not in hours!
+ALL of the rules — every rich little facet — every power!
+Leaving you more time to PLAY!
+The fiddly bits out of the WAY!
+So, dear Dungeon Master, what have ye to say?
 
-[Chorus 1 - full ensemble enters, bright and triumphant]
-By command of the DM — generate!
-Roll the dice!
-(Roll the dice!)
-Generate!
-By command of the DM — generate!
-An Angular single-page application!
-At DnDGen.com!
-Generate!
+[Anticipatory drum roll]
 
-[Verse 2 - Second herald, rapid patter, the Web BFF]
-Serves the Angular app's initial data on load —
-The roll viewmodel! The treasure viewmodel!
-The character viewmodel! The encounter viewmodel!
-The dungeon viewmodel!
-All ready before you even ask!
+[Chorus 1 - full ensemble enters; RollGen and TreasureGen proclaimed]
+By command of the Dungeon Master: generate
+A twenty-sided die to see who's going first,
+Then four thirteen-sided dice, because real physics are the worst!
+One-d-two plus three-d-four minus five-d-six times seven-d-eight divided by nine-d-ten!
+(Who on earth would need to roll that nonsense? Just pretend!)
+
+By command of the Dungeon Master: generate
+Some Goods at level seven, or just Coin at level three,
+Or is it epic level thirty loot you want to see?
+A suit of Mundane half-plate, a sickle, or a Tool,
+Or Rings or Rods or Scrolls or Wondrous Items - with all rules!
+
+By command of the Dungeon Master: GENERATE!
+
+//[Verse 2 - Second herald, rapid patter, the Web BFF]
+//Serves the Angular app's initial data on load —
+//The roll viewmodel! The treasure viewmodel!
+//The character viewmodel! The encounter viewmodel!
+//The dungeon viewmodel!
+//All ready before you even ask!
+
+<TODO: Pre-Chorus 2>
+
+<TODO: Chorus 2 (CharacterGen and EncounterGen)>
 
 [Verse 3 - Third herald, rapid patter, the six character randomizers]
-Character generation accepts six randomizer type params —
-(Six!)
-The alignment randomizer type!
-The class name randomizer type!
-The level randomizer type!
-The base race randomizer type!
-The metarace randomizer type!
-The abilities randomizer type!
-Plus the set values for each!
-(Set them all!)
+<TODO: more stuff?>
 
-[Pre-Chorus 2]
-Five of the six generators!
-Roll, Treasure, Character,
-Encounter, and Dungeon!
-At DnDGen.com!
+But now, I must confess, I will give credit where credit is due
+Tales of the Sword Coast owns the content through and through!
+Oh wait, "TSR provides" is the statement that is true!
+Nope, the Wizards of the Coast are the source of what we do!
+No, it's Hasbro now that owns it - screw that up, and they might sue!
+You know what - it's Creative Commons, so it's basically me and you!
 
-[Chorus 2 - fuller, adds the first few parameters]
-By command of the DM — generate!
-Roll four-d-six!
-(Roll four-d-six!)
-Generate Goods, level five!
-Generate a character — alignment, class, level!
-Generate!
-By command of the DM — generate!
-An Angular single-page application!
-At DnDGen.com!
-Generate!
+<TODO: Pre-Chorus 3>
 
-[Bridge - conspiratorial, near-silence, just herald and pizzicato]
-(Each one builds upon the one before it!)
-(CreatureGen has an API but no generator page on the site yet!)
-(Five of the six on the site — all six through the APIs!)
-Six by Azure Function Apps!
-Generate!
-Validate!
+<TODO: Chorus 3/Final (DungeonGen)>
 
-[Final Chorus - full ensemble, absurdly extended proclamation, building to the end]
-By command of the DM — generate!
-Roll the quantity on the die!
-Validate the expression!
-Generate the treasure type at level five!
-Generate the item type by power!
-Generate the creature — alignment, templates, type, challenge rating!
-Generate the character —
-Alignment randomizer! Class name randomizer! Level randomizer!
-Base race randomizer! Metarace randomizer! Abilities randomizer!
-Generate the encounter —
-Temperature! Environment! Time of day!
-Level! Allow underground!
-Generate the dungeon through the door —
-Dungeon level! Party level!
-Temperature! Environment! Time of day!
-Generate!
-(Generate!)
-Generate!
-(Generate!)
-GENERATE!
-
-[Outro - brass pulls back to a solo trumpet]
-Hear ye! Hear ye!
-By command of the DM!
-At DnDGen.com!
-Generate!
+<TODO: Outro? Or just big instrumental finale? Or maybe the repeated Generates are the outro?>
+//[Pre-Chorus 2]
+//Five of the six generators!
+//Roll, Treasure, Character,
+//Encounter, and Dungeon!
+//At DnDGen.com!
+//
+//[Chorus 2 - fuller, adds the first few parameters]
+//By command of the DM — generate!
+//Roll four-d-six!
+//(Roll four-d-six!)
+//Generate Goods, level five!
+//Generate a character — alignment, class, level!
+//Generate!
+//By command of the DM — generate!
+//An Angular single-page application!
+//At DnDGen.com!
+//Generate!
+//
+//[Bridge - conspiratorial, near-silence, just herald and pizzicato]
+//(Each one builds upon the one before it!)
+//(CreatureGen has an API but no generator page on the site yet!)
+//(Five of the six on the site — all six through the APIs!)
+//Six by Azure Function Apps!
+//Generate!
+//Validate!
+//
+//[Final Chorus - full ensemble, absurdly extended proclamation, building to the end]
+//By command of the DM — generate!
+//Roll the quantity on the die!
+//Validate the expression!
+//Generate the treasure type at level five!
+//Generate the item type by power!
+//Generate the creature — alignment, templates, type, challenge rating!
+//Generate the character —
+//Alignment randomizer! Class name randomizer! Level randomizer!
+//Base race randomizer! Metarace randomizer! Abilities randomizer!
+//Generate the encounter —
+//Temperature! Environment! Time of day!
+//Level! Allow underground!
+//Generate the dungeon through the door —
+//Dungeon level! Party level!
+//Temperature! Environment! Time of day!
+//Generate!
+//(Generate!)
+//Generate!
+//(Generate!)
+//GENERATE!
+//
+//[Outro - brass pulls back to a solo trumpet]
+//Hear ye! Hear ye!
+//By command of the DM!
+//At DnDGen.com!
+//Generate!
 ```
 
 ## Sources
