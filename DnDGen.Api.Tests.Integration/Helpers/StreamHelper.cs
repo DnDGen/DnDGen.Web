@@ -15,7 +15,7 @@ namespace DnDGen.Api.Tests.Integration.Helpers
         {
             var content = Read(stream);
 
-            return JsonConvert.DeserializeObject<T>(content);
+            return JsonConvert.DeserializeObject<T>(content)!;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace DnDGen.Api.Tests.Unit.Fakes
 {
     public class FakeHttpRequestData : HttpRequestData
     {
-        public FakeHttpRequestData(FunctionContext functionContext, Uri url, Stream body = null) : base(functionContext)
+        public FakeHttpRequestData(FunctionContext functionContext, Uri url, Stream? body = null) : base(functionContext)
         {
             Url = url;
             Body = body ?? new MemoryStream();
