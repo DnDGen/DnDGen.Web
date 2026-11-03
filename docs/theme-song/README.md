@@ -1,4 +1,4 @@
-# Generate! -DnDGen.Web Theme-
+# Time to Generate! -DnDGen.Web Theme-
 
 [![DnDGen.Web](cover.png)](https://suno.com/s/PLACEHOLDER)
 
@@ -30,7 +30,7 @@ When the song needs updating, it happens in the same pull request:
 ## Title
 
 ```
-Generate! -DnDGen.Web Theme-
+Time to Generate! -DnDGen.Web Theme-
 ```
 
 ## Style
@@ -50,130 +50,131 @@ Welcome to the kingdom of D-N-D-Gen,
 For Dungeons and Dragons third edition.
 Starting a game could be a real bore:
 Rolling up characters and dungeons to explore.
-And random encounters had the heaviest toll:
+And random encounters could pay the highest toll:
 "A character party? Nope, reroll."
 
 [Pre-Chorus 1]
-This website makes in SECONDS, not in hours.
-ALL the rules, every facet, every power.
+This website makes in SECONDS what would take hours.
+ALL of the rules, every facet, every power.
 Leaving you more time for adventuring and play.
 So, dear Dungeon Master, what have ye to say?
 
 [Anticipatory drum roll]
 
 [Chorus 1]
-Dungeon Master says: generate!
+Time to generate!
 
 A 20-sided die to see who's going first,
-Then 4 13-sided dice, because physics are the worst.
-3-d-4 times 5-d-6 subtracting 9-d-10.
-(Why would you roll that nonsense? Just pretend!)
+Some 13-sided dice, because physics are the worst.
+Roll 4 8-sided dice, transform 2s into 3s.
+Any roll you can imagine, if you please.
 
-Dungeon Master says: generate!
+Time to generate!
 
 Some Goods at level 7, or just Coin at level 3,
 Or is it epic level 30 loot you want to see?
 A Major suit of half-plate, Mundane sickle, or a Tool,
 Or Rings or Rods or Wondrous Items - with all rules!
 
-Dungeon Master says: GENERATE!
+GENERATE!
 
 [Verse 2]
-All APIs are Azure Function Apps and serverless,
-Because that is much cheaper, and saves on stress.
+All APIs are Azure Function Apps and serverless.
+They're written in C-Sharp and compile with success.
 They are documented with Swagger and grace,
-Requests, response, and even their parameter constraints.
-A backend for the frontend (BFF, you may deduce),
-Providing useful view-models for the website to use.
+Request, response, and even their parameter constraints.
+A backend-for-the-frontend (BFF, you may deduce),
+Providing useful view-models for this website to use.
 
 [Pre-Chorus 2]
-But dice and gold are trifles — Random Number Deities
+But dice and gold are trifles - Random Number Deities
 Can summon characters and encounters, if you please.
-What level, class, and race? What temp? What time? Terrain?
-Dungeon Master (DUNGEON MASTER!) — bring forth the refrain!
+What level, class, and race? Temperature? Terrain?
+Dungeon Master (DUNGEON MASTER!) - bring forth the refrain!
 
 [Chorus 2 - asides worried and frantic]
-Dungeon Master says: generate!
+Time to generate!
 
-<TODO: pick up edit from here>
-A character, High-level, alignment's fine.
-Fighter, Bard, Spellcaster - Arcane or Divine.
+A character, High-level, alignment should be Good.
+Fighter, Bard, Spellcaster, or Stealthy, if you would.
 (But don't forget abilities, roll 4-d-6-k-3.)
 (And oh, they need equipment - weapons, armor, instantly.)
-Human, Elf, Non-Standard — even monsters, if you wish.
+Human, Elf, Non-Standard - even monsters, if you wish.
 No meta-race? Or Lycanthrope? Or Undead like a Lich.
 
-Dungeon Master says: generate!
+Time to generate!
 
-A Temperate Plains encounter — at the break of Day.
-Or Cold and Underground at Night — the monsters come to play.
-(You've found a rival party - before we take up arms,)
-(We roll up race and spells and give them armor and guisarmes.)
-Party level, creature type, aquatic or underground
-3 temperatures, 9 environments — possibilities astound!
+A Temperate Plains encounter - at the break of Day.
+Or Cold and Underground at Night - the monsters come to play.
+(You've found a rival party - before initiative,)
+(We roll up race and spells, and equipment we should give.)
+Party level, creature types, aquatic, underground -
+So many different options, variety astounds!
 
-Dungeon Master says: GENERATE! (GENERATE!)
+GENERATE! (GENERATE!)
 
 [Bridge - conspiratorial; hushed]
-... Should I even tell you this? There's 6 APIs,
-But website has the generator count at only 5.
-The CreatureGen has endpoints to make a foe or pet,
-But there's no user interface for it yet.
+... I'll share an open secret: there's creatures you could get.
+The CreatureGen API could make a foe or pet,
+But there isn't any page for it yet.
 
 [Full brass erupts]
 
 [Verse 3]
-An Angular application - well-structured, not uncouth.
-Components, models, services - vitest asserts the truth.
-C-Sharp in Azure Functions serves the serverless API.
-Integration, Unit, Smoke — each failure we can spy.
-The GitHub build badge stands in green, displayed upon the wall —
-And even THIS SONG has a test — the proudest badge of all!
+An Angular application is featured center-stage.
+Components, models, services, and pipes build every page.
+Automated tests abound, and coverage is complete.
+Integration, Unit, Smoke - a comprehensive suite.
+The build status badged in green: "I'm healthy!" it attests,
+And even THIS SONG will be covered by some tests!
 
 [Breakdown]
-But now, I must confess, I will give credit where credit is due:
-Tales of the Sword Coast owns the content through and through -
-Oh wait, "TSR provides" is the statement that is true -
-Nope, the Wizards of the Coast are the source of what we do -
-No, it's Hasbro now that owns it - screw that up, and they might sue -
-You know what? It's Creative Commons, so it's basically me and you.
+But now, I must confess, I will give credit where it's due:
+I do not own the content that I present to you.
+TSR Incorporated is the owner true -
+Nope! Wizards of the Coast is the owner, on review -
+Woops! Hasbro bought the rights - screw that up, and they might sue -
+Eh, it's Creative Commons, so it's really me and you!
 
 [Pre-Chorus 3]
-Roll, Treasure, Character, Encounter — what a boon.
+Roll, Treasure, Character, Encounter - what a boon.
 (And creature generation will be coming very soon.)
 But one more generator was forged to rule them all:
-DUNGEON MASTER! The DungeonGen shall heed your mighty call!
+DUN-GEON MAS-TER! The Dungeon heeds your call!
 
 [Final Chorus - asides panicked and frantic]
-Dungeon Master says: generate!
+Time to generate!
 
-A dungeon — through a DOOR — at dungeon level 8.
+An area - through a DOOR - at dungeon level 8.
 - Encounter now looms,
 Do the monsters spell doom? -
-Environment is Temperate Mountains, now a HALL we shall create.
-- A Wizard to fight
-With a Fighter for might -
-A party level 3 might meet a terrible, horrible fate.
+Within Cold Mountains, a HALL we shall create.
+- A Ranger to fight
+and a Druid with Blight -
+A party level 3 might meet a sneaky, stabby fate.
 - The trap is quite grave,
 Roll d-20 to save -
-Survive the Orcs or Elementals, and booty lays in wait.
+Survive the Orcs or Oozes, and booty shall await.
 - A treasure chest hides,
-Precious Goods are inside -
+Precious Goods inside -
+The incremental dungeon can ever propagate!
 
 [Coda - building to finale]
-And even though it's getting quite late,
-The adventurers will now debate
-If more exploring is on the plate.
-And maybe the level will escalate,
-And maybe that fight is a heavyweight,
-And TPK would infuriate —
-But have no fear — just recreate!
+And though it's getting quite late,
+The players huddle and debate
+If they should walk through the gate.
+And the DM doesn't wait:
+Maybe level escalates,
+Challenge Rating is too great,
+TPK's an awful fate -
+But have no fear - just recreate!
 
 [Finale]
-Dungeon Master says: 
-GENERATE!
-GENERATE!
-GENERATE!
+Generate!
+Generate!
+Generate!
+
+IT'S TIME TO GENERATE!
 ```
 
 ## Sources

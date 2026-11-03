@@ -121,7 +121,9 @@
                   <div class="col-sm-2">
                     <dndgen-loading id="expressionValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
                   </div>
+                  <!-- Expression examples: adding or modifying examples here also requires an update in roll.service.integration.spec.ts -->
                   <span class="roll-expression-example">3d6 - Roll 3 6-sided dice</span>
+                  <span class="roll-expression-example">5d13-4 - Roll 5 13-sided dice, then subtract 4</span>
                   <span class="roll-expression-example">4d4*1000 - Roll 4 4-sided dice, then multiply by 1000</span>
                   <span class="roll-expression-example">1d2+3 - Roll 1 2-sided die, then add 3</span>
                   <span class="roll-expression-example">4d6k3 - Roll 4 6-sided dice, keep the highest 3</span>
