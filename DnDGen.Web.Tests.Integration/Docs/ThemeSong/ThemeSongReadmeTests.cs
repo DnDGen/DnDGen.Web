@@ -141,7 +141,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
 
                 if (!inCodeBlock && line.StartsWith("## "))
                     inSection = line == $"## {heading}";
-                else if (inSection && !string.IsNullOrWhiteSpace(line))
+                else if (inSection && (inCodeBlock || !string.IsNullOrWhiteSpace(line)))
                     section.Add(line);
             }
 
