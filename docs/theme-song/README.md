@@ -1,4 +1,4 @@
-# Time to Generate! -DnDGen.Web Theme-
+# Generate! -DnDGen.Web Theme-
 
 [![DnDGen.Web](cover.png)](https://suno.com/s/PLACEHOLDER)
 
@@ -30,13 +30,13 @@ When the song needs updating, it happens in the same pull request:
 ## Title
 
 ```
-Time to Generate! -DnDGen.Web Theme-
+Generate! -DnDGen.Web Theme-
 ```
 
 ## Style
 
 ```
-Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre style ("The Prince Is Giving a Ball"), bright uptempo — 4/4 verses, 6/8 chorus refrains, Solo herald trumpet calling out proclamations over pizzicato strings, answered by a massed brass ensemble of muted trumpets, trombones and French horns, Crisply enunciated patter from a solo herald growing increasingly flustered and frantic while desperately maintaining royal dignity, each syllable precise even at full patter speed, A crowd of courtiers echoing every line back with growing delight, building call-and-response throughout, A conspiratorial bridge that drops to near-silence — just the herald and a quiet string pizzicato — before the full brass ensemble erupts louder than ever for the final chorus, Triumphant and playfully pompous, the comedy coming from great ceremony applied to increasingly technical parameter lists, Clear, regal, and deadly serious about generating everything by command of the DM
+Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre style ("The Prince Is Giving a Ball"), bright jaunty uptempo — 4/4 verses, 6/8 chorus refrains, Solo herald trumpet calling out proclamations over pizzicato strings, answered by a small muted brass fanfare — trumpets, trombone, French horn, A poised herald, completely in command: crisp diction, calm regal authority, effortless phrasing throughout — never flustered, never shouting, A crowd of courtiers echoing every line back with growing delight, building call-and-response throughout, A conspiratorial bridge that drops to near-silence — just the herald and a quiet string pizzicato — before the full brass ensemble erupts louder than ever for the final chorus, Triumphant and playfully pompous, the comedy coming from great ceremony applied to increasingly technical parameter lists, Clear, regal, stiff upper lip throughout.
 ```
 
 ## Lyrics
@@ -62,14 +62,14 @@ So, dear Dungeon Master, what have ye to say?
 [Anticipatory drum roll]
 
 [Chorus 1]
-Time to generate!
+Generate!
 
 A 20-sided die to see who's going first,
 Some 13-sided dice, because physics are the worst.
 Roll 4 8-sided dice, transform 2s into 3s.
 Any roll you can imagine, if you please.
 
-Time to generate!
+Generate!
 
 Some Goods at level 7, or just Coin at level 3,
 Or is it epic level 30 loot you want to see?
@@ -92,8 +92,8 @@ Can summon characters and encounters, if you please.
 What level, class, and race? Temperature? Terrain?
 Dungeon Master (DUNGEON MASTER!) - bring forth the refrain!
 
-[Chorus 2 - asides worried and frantic]
-Time to generate!
+[Chorus 2 - courtiers grow alarmed in the asides]
+Generate!
 
 A character, High-level, alignment should be Good.
 Fighter, Bard, Spellcaster, or Stealthy, if you would.
@@ -102,7 +102,7 @@ Fighter, Bard, Spellcaster, or Stealthy, if you would.
 Human, Elf, Non-Standard - even monsters, if you wish.
 No meta-race? Or Lycanthrope? Or Undead like a Lich.
 
-Time to generate!
+Generate!
 
 A Temperate Plains encounter - at the break of Day.
 Or Cold and Underground at Night - the monsters come to play.
@@ -142,22 +142,20 @@ Roll, Treasure, Character, Encounter - what a boon.
 But one more generator was forged to rule them all:
 DUN-GEON MAS-TER! The Dungeon heeds your call!
 
-[Final Chorus - asides panicked and frantic]
-Time to generate!
+[Final Chorus - herald impeccably regal, courtiers panicked in the asides]
+Generate!
 
 An area - through a DOOR - at dungeon level 8.
-- Encounter now looms,
-Do the monsters spell doom? -
+(Encounter now looms, do the monsters spell doom?)
 Within Cold Mountains, a HALL we shall create.
-- A Ranger to fight
-and a Druid with Blight -
+(A Ranger to fight, and a Druid with Blight.)
 A party level 3 might meet a sneaky, stabby fate.
-- The trap is quite grave,
-Roll d-20 to save -
+(The trap is quite grave, roll d-20 to save.)
 Survive the Orcs or Oozes, and booty shall await.
-- A treasure chest hides,
-Precious Goods inside -
+(A treasure chest hides, precious Goods inside.)
 The incremental dungeon can ever propagate!
+
+Generate! Generate! Generate!
 
 [Coda - building to finale]
 And though it's getting quite late,
@@ -169,12 +167,12 @@ Challenge Rating is too great,
 TPK's an awful fate -
 But have no fear - just recreate!
 
-[Finale]
-Generate!
-Generate!
-Generate!
+[Finale - full ensemble fortissimo, one final royal command]
+Generate! (Regenerate!)
+Generate! (Regenerate!)
+Generate! (Regenerate!)
 
-IT'S TIME TO GENERATE!
+GENERATE!
 ```
 
 ## Sources
