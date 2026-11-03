@@ -11,7 +11,7 @@ This is the website through which people can use the dice roller (RollGen), the 
 
 ## APIs
 
-All APIs run as Azure Function Apps. Swagger UI is the authoritative reference for request/response schemas, parameter constraints, and enum values.
+All APIs are written in C# and run as Azure Function Apps. Swagger UI is the authoritative reference for request/response schemas, parameter constraints, and enum values.
 
 ### RollGen
 
@@ -34,6 +34,8 @@ Base URL: `https://roll.dndgen.com/api` · [Swagger UI](https://roll.dndgen.com/
 | GET | `v2/{quantity}/d/{die}/validate` | `quantity` (int, path), `die` (int, path) | `bool` |
 | GET | `v2/expression/roll` | `expression` (string, query) | `int` |
 | GET | `v2/expression/validate` | `expression` (string, query) | `bool` |
+
+The expression endpoints accept any dice expression — standard `NdM` notation plus arithmetic, keep-highest (`k`), exploding (`!`), transform (`t`), and compound rolls. See the web app's [expression examples](dndgen-web/src/app/roll/components/rollgen.component.html) for the full syntax.
 
 ### TreasureGen
 
@@ -124,6 +126,16 @@ Serves the Angular app's initial data on load.
 | GET | `v1/character/viewmodel` | `CharacterViewModel` |
 | GET | `v1/encounter/viewmodel` | `EncounterViewModel` |
 | GET | `v1/dungeon/viewmodel` | `DungeonViewModel` |
+
+## Testing
+
+Tests run across three layers:
+
+- **Unit** — fast, isolated tests for each API; in each API's `*.Tests.Unit` project
+- **Integration** — end-to-end tests against the live deployed endpoints; in each API's `*.Tests.Integration` project
+- **Smoke** — Postman collections run with Newman after each deployment, one per API; in `cicd/smoke-tests/`
+
+For website (Angular) tests, see [dndgen-web/README.md](dndgen-web/README.md).
 
 ## Theme Song
 
