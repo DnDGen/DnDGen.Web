@@ -46,63 +46,64 @@ Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre st
 Hear ye! Hear ye!
 
 [Verse 1]
-Welcome to the kingdom — this page was built for thee.
-Generate anything for playing D&D.
-As always, getting started held the threat to be a bore:
-Creating treasure, characters, and dungeons to explore.
-And random encounters had the most expensive toll:
-The DM often said, "A character party? Nope, reroll."
+Welcome to the kingdom of D-N-D-Gen,
+For Dungeons and Dragons third edition.
+Starting a game could be a real bore:
+Rolling up characters and dungeons to explore.
+And random encounters had the heaviest toll:
+"A character party? Nope, reroll."
 
 [Pre-Chorus 1]
-A computer generates in SECONDS — not in hours.
-ALL of the rules — every little facet — every power.
+This website makes in SECONDS, not in hours.
+ALL the rules, every facet, every power.
 Leaving you more time for adventuring and play.
 So, dear Dungeon Master, what have ye to say?
 
 [Anticipatory drum roll]
 
 [Chorus 1]
-The DM commands: generate!
+Dungeon Master says: generate!
 
 A 20-sided die to see who's going first,
-Then 4 13-sided dice, because real physics are the worst.
-1-d-2 plus 3-d-4 minus 5-d-6 times 7-d-8 divided by 9-d-10.
-(Who on earth would need to roll that nonsense? Just pretend!)
+Then 4 13-sided dice, because physics are the worst.
+3-d-4 times 5-d-6 subtracting 9-d-10.
+(Why would you roll that nonsense? Just pretend!)
 
-The DM commands: generate!
+Dungeon Master says: generate!
 
 Some Goods at level 7, or just Coin at level 3,
 Or is it epic level 30 loot you want to see?
 A Major suit of half-plate, Mundane sickle, or a Tool,
-Or Rings or Rods or Scrolls or Wondrous Items - with all rules!
+Or Rings or Rods or Wondrous Items - with all rules!
 
-The DM commands: GENERATE!
+Dungeon Master says: GENERATE!
 
 [Verse 2]
-All APIs run as Azure Function Apps — 6, to be exact:
-Roll, Treasure, Creature, Character, Encounter, Dungeon — all intact.
-Swagger UI, the authoritative reference — schemas on parade.
-Request and response, parameter constraints — the whole cavalcade.
-And when a page first loads, the Web BFF answers the call:
-Roll, Treasure, Character, Encounter, Dungeon viewmodels — all.
+All APIs are Azure Function Apps and serverless,
+Because that is much cheaper, and saves on stress.
+They are documented with Swagger and grace,
+Requests, response, and even their parameter constraints.
+A backend for the frontend (BFF, you may deduce),
+Providing useful view-models for the website to use.
 
 [Pre-Chorus 2]
 But dice and gold are trifles — Random Number Deities
-Can summon forth characters and encounters, if you please.
-What alignment? What class? What race? What temp? What time? What terrain?
+Can summon characters and encounters, if you please.
+What level, class, and race? What temp? What time? Terrain?
 Dungeon Master (DUNGEON MASTER!) — bring forth the refrain!
 
 [Chorus 2 - asides worried and frantic]
-The DM commands: generate!
+Dungeon Master says: generate!
 
-A character, High-level, and Any alignment's fine.
+<TODO: pick up edit from here>
+A character, High-level, alignment's fine.
 Fighter, Bard, Spellcaster - Arcane or Divine.
 (But don't forget abilities, roll 4-d-6-k-3.)
 (And oh, they need equipment - weapons, armor, instantly.)
 Human, Elf, Non-Standard — even monsters, if you wish.
 No meta-race? Or Lycanthrope? Or Undead like a Lich.
 
-The DM commands: generate!
+Dungeon Master says: generate!
 
 A Temperate Plains encounter — at the break of Day.
 Or Cold and Underground at Night — the monsters come to play.
@@ -111,7 +112,7 @@ Or Cold and Underground at Night — the monsters come to play.
 Party level, creature type, aquatic or underground
 3 temperatures, 9 environments — possibilities astound!
 
-The DM commands: GENERATE! (GENERATE!)
+Dungeon Master says: GENERATE! (GENERATE!)
 
 [Bridge - conspiratorial; hushed]
 ... Should I even tell you this? There's 6 APIs,
@@ -144,7 +145,7 @@ But one more generator was forged to rule them all:
 DUNGEON MASTER! The DungeonGen shall heed your mighty call!
 
 [Final Chorus - asides panicked and frantic]
-The DM commands: generate!
+Dungeon Master says: generate!
 
 A dungeon — through a DOOR — at dungeon level 8.
 - Encounter now looms,
@@ -169,7 +170,7 @@ And TPK would infuriate —
 But have no fear — just recreate!
 
 [Finale]
-The DM commands: 
+Dungeon Master says: 
 GENERATE!
 GENERATE!
 GENERATE!
