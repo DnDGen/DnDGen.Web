@@ -36,7 +36,7 @@ Generate! -DnDGen.Web Theme-
 ## Style
 
 ```
-Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre style, bright uptempo march in 4/4, Solo herald trumpet calling out proclamations over pizzicato strings and a crisp military side-drum, answered by a massed brass ensemble of muted trumpets, trombones and French horns, Crisply enunciated delivery from a solo herald slowly losing composure as each proclamation grows more absurd, A crowd of courtiers echoing every line back with growing delight, building call-and-response throughout, The choruses grow longer and more absurdly specific with each pass, A conspiratorial bridge that drops to near-silence — just the herald and a quiet string pizzicato — before the full brass ensemble erupts louder than ever for the final chorus, Triumphant and playfully pompous, the comedy coming from great ceremony applied to increasingly technical parameter lists, Clear, regal, and deadly serious about generating everything by command of the DM
+Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre style ("The Prince Is Giving a Ball"), bright uptempo — 4/4 verses, 6/8 chorus refrains, Solo herald trumpet calling out proclamations over pizzicato strings, answered by a massed brass ensemble of muted trumpets, trombones and French horns, Crisply enunciated patter from a solo herald growing increasingly flustered and frantic while desperately maintaining royal dignity, each syllable precise even at full patter speed, A crowd of courtiers echoing every line back with growing delight, building call-and-response throughout, A conspiratorial bridge that drops to near-silence — just the herald and a quiet string pizzicato — before the full brass ensemble erupts louder than ever for the final chorus, Triumphant and playfully pompous, the comedy coming from great ceremony applied to increasingly technical parameter lists, Clear, regal, and deadly serious about generating everything by command of the DM
 ```
 
 ## Lyrics
@@ -46,68 +46,72 @@ Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre st
 Hear ye! Hear ye!
 
 [Verse 1]
-Welcome to the kingdom — this page was built for thee!
-Generate anything for playing D&D!
+Welcome to the kingdom — this page was built for thee.
+Generate anything for playing D&D.
 As always, getting started held the threat to be a bore:
-Creating treasure, characters, and dungeons to explore!
+Creating treasure, characters, and dungeons to explore.
 And random encounters had the most expensive toll:
 The DM often said, "A character party? Nope, reroll."
 
 [Pre-Chorus 1]
-A computer generates in SECONDS — not in hours!
-ALL of the rules — every little facet — every power!
-Leaving you more time for adventuring and play!
+A computer generates in SECONDS — not in hours.
+ALL of the rules — every little facet — every power.
+Leaving you more time for adventuring and play.
 So, dear Dungeon Master, what have ye to say?
 
 [Anticipatory drum roll]
 
 [Chorus 1]
-By command of the Dungeon Master: generate
+The DM commands: generate!
+
 A 20-sided die to see who's going first,
-Then 4 13-sided dice, because real physics are the worst!
-1-d-2 plus 3-d-4 minus 5-d-6 times 7-d-8 divided by 9-d-10!
+Then 4 13-sided dice, because real physics are the worst.
+1-d-2 plus 3-d-4 minus 5-d-6 times 7-d-8 divided by 9-d-10.
 (Who on earth would need to roll that nonsense? Just pretend!)
 
-By command of the Dungeon Master: generate
+The DM commands: generate!
+
 Some Goods at level 7, or just Coin at level 3,
 Or is it epic level 30 loot you want to see?
 A Major suit of half-plate, Mundane sickle, or a Tool,
 Or Rings or Rods or Scrolls or Wondrous Items - with all rules!
 
-By command of the Dungeon Master: GENERATE!
+The DM commands: GENERATE!
 
 [Verse 2]
 All APIs run as Azure Function Apps — 6, to be exact:
-Roll! Treasure! Creature! Character! Encounter! Dungeon! All intact!
-Swagger UI, the authoritative reference — schemas on parade!
-Request and response, parameter constraints — the whole cavalcade!
+Roll, Treasure, Creature, Character, Encounter, Dungeon — all intact.
+Swagger UI, the authoritative reference — schemas on parade.
+Request and response, parameter constraints — the whole cavalcade.
 And when a page first loads, the Web BFF answers the call:
-Roll, Treasure, Character, Encounter, Dungeon viewmodels — all!
+Roll, Treasure, Character, Encounter, Dungeon viewmodels — all.
 
 [Pre-Chorus 2]
 But dice and gold are trifles — Random Number Deities
-Can summon forth characters and encounters, if you please!
+Can summon forth characters and encounters, if you please.
 What alignment? What class? What race? What temp? What time? What terrain?
 Dungeon Master (DUNGEON MASTER!) — bring forth the refrain!
 
 [Chorus 2 - asides worried and frantic]
-By command of the Dungeon Master: generate
-A character, High-level, and Any alignment's fine!
-Fighter! Bard! Spellcaster - Arcane or Divine!
-(But don't forget abilities, roll 4-d-6-k-3!)
-(And oh, they need equipment - weapons, armor, instantly!)
-Human! Elf! Non-Standard! Even monsters, if you wish!
-No meta-race? Or Lycanthrope? Or Undead like a Lich!
+The DM commands: generate!
 
-By command of the Dungeon Master: generate
-A Temperate Plains encounter — at the break of Day!
-Or Cold and Underground at Night — the monsters come to play!
+A character, High-level, and Any alignment's fine.
+Fighter, Bard, Spellcaster - Arcane or Divine.
+(But don't forget abilities, roll 4-d-6-k-3.)
+(And oh, they need equipment - weapons, armor, instantly.)
+Human, Elf, Non-Standard — even monsters, if you wish.
+No meta-race? Or Lycanthrope? Or Undead like a Lich.
+
+The DM commands: generate!
+
+A Temperate Plains encounter — at the break of Day.
+Or Cold and Underground at Night — the monsters come to play.
 (You've found a rival party - before we take up arms,)
-(We roll up race and spells and give them armor and guisarmes!)
-Party level, creature type, allow underground or not —
-3 temperatures, 9 environments — the herald likes it hot!
+(We roll up race and spells and give them armor and guisarmes.)
+Party level, creature type, aquatic or underground
+3 temperatures, 9 environments — possibilities astound!
 
-By command of the Dungeon Master: GENERATE! (GENERATE!)
+The DM commands: GENERATE! (GENERATE!)
 
 [Bridge - conspiratorial; hushed]
 ... Should I even tell you this? There's 6 APIs,
@@ -120,49 +124,55 @@ But there's no user interface for it yet.
 [Verse 3]
 An Angular application - well-structured, not uncouth.
 Components, models, services - vitest asserts the truth.
-C-Sharp in Azure Functions serves the serverless API!
-Integration! Unit! Smoke! Each failure we can spy!
+C-Sharp in Azure Functions serves the serverless API.
+Integration, Unit, Smoke — each failure we can spy.
 The GitHub build badge stands in green, displayed upon the wall —
 And even THIS SONG has a test — the proudest badge of all!
 
 [Breakdown]
-But now, I must confess, I will give credit where credit is due
-Tales of the Sword Coast owns the content through and through!
-Oh wait, "TSR provides" is the statement that is true!
-Nope, the Wizards of the Coast are the source of what we do!
-No, it's Hasbro now that owns it - screw that up, and they might sue!
-You know what - it's Creative Commons, so it's basically me and you!
+But now, I must confess, I will give credit where credit is due:
+Tales of the Sword Coast owns the content through and through -
+Oh wait, "TSR provides" is the statement that is true -
+Nope, the Wizards of the Coast are the source of what we do -
+No, it's Hasbro now that owns it - screw that up, and they might sue -
+You know what? It's Creative Commons, so it's basically me and you.
 
 [Pre-Chorus 3]
-Roll! Treasure! Character! Encounter! What a boon!
-(And creature generation will be coming very soon!)
+Roll, Treasure, Character, Encounter — what a boon.
+(And creature generation will be coming very soon.)
 But one more generator was forged to rule them all:
 DUNGEON MASTER! The DungeonGen shall heed your mighty call!
 
-[Final Chorus - asides losing composure]
-By command of the Dungeon Master: generate
-A dungeon — through a DOOR — at dungeon level 8!
-(Encounter now looms, do the monsters spell doom?)
-Environment is Temperate Mountains, now a HALL we shall create!
-(A Wizard to fight with a Fighter for might)
-A party level 3 might meet a terrible, horrible fate!
-(The trap is quite grave, roll d-20 to save)
-Survive the Orcs or Elementals, and booty lays in wait!
-(A treasure chest hides, precious Goods are inside)
+[Final Chorus - asides panicked and frantic]
+The DM commands: generate!
+
+A dungeon — through a DOOR — at dungeon level 8.
+- Encounter now looms,
+Do the monsters spell doom? -
+Environment is Temperate Mountains, now a HALL we shall create.
+- A Wizard to fight
+With a Fighter for might -
+A party level 3 might meet a terrible, horrible fate.
+- The trap is quite grave,
+Roll d-20 to save -
+Survive the Orcs or Elementals, and booty lays in wait.
+- A treasure chest hides,
+Precious Goods are inside -
+
+[Coda - building to finale]
 And even though it's getting quite late,
 The adventurers will now debate
 If more exploring is on the plate.
 And maybe the level will escalate,
 And maybe that fight is a heavyweight,
-And TPK would infuriate - 
-But have no fear! Just recreate!
-
-By command of the Dungeon Master: 
-GENERATE!
-GENERATE!
-GENERATE!
+And TPK would infuriate —
+But have no fear — just recreate!
 
 [Finale]
+The DM commands: 
+GENERATE!
+GENERATE!
+GENERATE!
 ```
 
 ## Sources
