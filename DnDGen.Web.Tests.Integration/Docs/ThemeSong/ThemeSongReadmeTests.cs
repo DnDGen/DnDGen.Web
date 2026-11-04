@@ -58,7 +58,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             var sources = GetSection("Sources");
             var table = GetTable(sources);
             string[] columns = table.FirstOrDefault() ?? [];
-            Assert.That(columns, Is.EqualTo(["Lyric", "From the README"]));
+            Assert.That(columns, Is.EqualTo(["Lyric", "Sources"]));
 
             string[] sourcedLyrics = [.. table.Skip(1).SelectMany(row => row[0].Split("<br>"))];
             var lyrics = GetDistinctLyricLines();
@@ -66,19 +66,41 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         }
 
         [Test]
-        public void Sources_EveryQuotedPhraseIsStillInTheReadme()
+        public void Sources_EveryQuotedPhraseIsStillInFile()
         {
-            var readmePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "README.md");
-            var readme = WhitespacePartialRegex().Replace(File.ReadAllText(readmePath), " ");
+            var repoRoot = GetRepoRoot();
+            var missingPhrases = new List<string>();
 
-            var quotedPhrases = GetTable(GetSection("Sources"))
-                .Skip(1)
-                .Select(row => row[1])
-                .Where(source => !source.StartsWith("Not from the README:"))
-                .SelectMany(source => QuotePartialRegex().Matches(source).Select(match => match.Groups[1].Value));
-            string[] missingPhrases = [.. quotedPhrases.Where(phrase => !readme.Contains(phrase)).Distinct()];
+            foreach (var row in GetTable(GetSection("Sources")).Skip(1))
+            {
+                var source = row[1];
+                if (source.StartsWith("Not from source files"))
+                    continue;
 
-            Assert.That(missingPhrases, Is.Empty, "The README changed under the song. Follow the Updating section of docs/theme-song/README.md");
+                var fileNameMatch = BacktickPartialRegex().Match(source);
+                if (!fileNameMatch.Success)
+                    continue;
+
+                var fileName = fileNameMatch.Groups[1].Value;
+                if (!SourceFilePaths.TryGetValue(fileName, out var relativePath))
+                    continue;
+
+                var filePath = Path.Combine(repoRoot, relativePath);
+                if (!File.Exists(filePath))
+                    continue;
+
+                var content = WhitespacePartialRegex().Replace(File.ReadAllText(filePath), " ");
+                var rest = source[(fileNameMatch.Index + fileNameMatch.Length)..];
+
+                foreach (Match match in QuotePartialRegex().Matches(rest))
+                {
+                    var phrase = match.Groups[1].Value;
+                    if (!content.Contains(phrase))
+                        missingPhrases.Add($"{fileName}: \"{phrase}\"");
+                }
+            }
+
+            Assert.That(missingPhrases, Is.Empty, "Source files changed under the song. Follow the Updating section of docs/theme-song/README.md");
         }
 
         [Test]
@@ -109,7 +131,6 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
                 .Select(line => line.Trim())
                 .Where(line => line.Length > 0)
                 .Where(line => !line.StartsWith('['))
-                .Where(line => !(line.StartsWith('(') && line.EndsWith(')')))
                 .Distinct();
 
             return [.. lines];
@@ -213,5 +234,23 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
 
         [GeneratedRegex(@"\s+")]
         private static partial Regex WhitespacePartialRegex();
+
+        [GeneratedRegex("`([^`]+)`")]
+        private static partial Regex BacktickPartialRegex();
+
+        private static string GetRepoRoot()
+        {
+            var dir = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
+            while (dir != null && !dir.GetFiles("*.sln").Any())
+                dir = dir.Parent;
+            return dir?.FullName ?? string.Empty;
+        }
+
+        private static readonly Dictionary<string, string> SourceFilePaths = new()
+        {
+            ["README.md"] = "README.md",
+            ["home.component.html"] = Path.Combine("dndgen-web", "src", "app", "home", "home.component.html"),
+            ["rollgen.component.html"] = Path.Combine("dndgen-web", "src", "app", "roll", "components", "rollgen.component.html"),
+        };
     }
 }
