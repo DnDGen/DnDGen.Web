@@ -190,83 +190,72 @@ GENERATE!
 
 ## Sources
 
-| Lyric | Source |
+| Lyric | From the README |
 |---|---|
-| Willkommen, adventurers. | Not from source files: "Willkommen" is the opening number from Cabaret; Emcee's welcome into the show |
-| Welcome to the codebase of D-N-D-Gen | Not from source files: Emcee's framing; "D-N-D-Gen" refers to the GitHub org at github.com/DnDGen |
-| For Dungeons and Dragons third edition | `home.component.html`: Dungeons and Dragons 3.X |
-| Starting a game could be a real bore | `home.component.html`: the start was always the most arduous part of the adventure |
-| Rolling up characters and dungeons to explore | `home.component.html`: creating characters, building dungeons |
-| random encounters could pay the highest toll | `home.component.html`: randomly generated a battle; opponent was another character party |
+| Willkommen, adventurers. | Not from the README: Willkommen is the opening number from Cabaret; Emcee's welcome into the show |
+| Welcome to the codebase of D-N-D-Gen, | Not from the README: Emcee's framing; D-N-D-Gen refers to the GitHub org at github.com/DnDGen |
+| For Dungeons and Dragons third edition. | `home.component.html`: Dungeons and Dragons 3.X |
+| Starting a game could be a real bore: | `home.component.html`: the start was always the most arduous part of the adventure |
+| Rolling up characters and dungeons to explore. | `home.component.html`: creating characters, building dungeons |
+| And random encounters could pay the highest toll: | `home.component.html`: randomly generated a battle; opponent was another character party |
 | "A character party? Nope, reroll." | `home.component.html`: A character party? Nope, reroll. |
-| This website makes in SECONDS what would take hours | `home.component.html`: generate these things in seconds instead of hours |
-| ALL of the rules, every facet, every power | `home.component.html`: ALL of the rules, every rich little facet |
-| Leaving you more time for adventuring and play | `home.component.html`: leaving you more time to play |
-| So, dear Dungeon Master, what do you say? | Not from source files: Emcee's rhetorical address to the audience |
+| This website makes in SECONDS what would take hours. | `home.component.html`: generate these things in seconds instead of hours |
+| ALL of the rules, every facet, every power. | `home.component.html`: ALL of the rules, every rich little facet |
+| Leaving you more time for adventuring and play. | `home.component.html`: leaving you more time to play |
+| So, dear Dungeon Master, what do you say? | Not from the README: Emcee's rhetorical address to the audience |
 | Generate! | `README.md`: "generate" (route suffix throughout the API tables) |
-| A 20-sided die to see who's going first | `rollgen.component.html`: expression example `1d20!` (20-sided die) |
-| Some 13-sided dice, because physics are the worst | `rollgen.component.html`: expression example `5d13-4` (13-sided die) |
-| Roll 4 8-sided dice, transform 2s into 3s | `rollgen.component.html`: expression example `4d8t2:3` |
-| Any roll you can imagine, if you please | Not from source files: Emcee's characterisation of rollgen's flexibility |
-| Some Goods at level 7, or just Coin at level 3 | `README.md`: `treasureType` path parameter (Goods, Coin are enum values) and `level` in TreasureGen routes |
-| Or is it epic level 30 loot you want to see? | `README.md`: `level` parameter in TreasureGen routes; "epic level" is Emcee flair |
-| A Major suit of half-plate, Mundane sickle, or a Tool | `README.md`: `power` (Major, Mundane) and `itemType` (Tool) in TreasureGen item routes; half-plate and sickle are D&D item names, not from source files |
-| Or Rings or Rods or Wondrous Items - with all rules | `README.md`: `itemType` values (Rings, Rods, Wondrous Items) in TreasureGen item routes |
-| All APIs are Azure Function Apps and serverless / written in C-Sharp | `README.md`: "All APIs are written in C# and run as Azure Function Apps" |
-| documented with Swagger and grace / Request, response, and even their parameter constraints | `README.md`: "Swagger UI is the authoritative reference for request/response schemas, parameter constraints" |
-| A backend-for-the-frontend (BFF) | `README.md`: "Web BFF" section |
-| view-models for this website to use | `README.md`: RollViewModel through DungeonViewModel in "Web BFF" routes |
-| dice and gold are trifles - Random Number Deities / Can summon characters and encounters | Not from source files: Emcee's metaphor for the generators |
+| A 20-sided die to see who's going first, | `rollgen.component.html`: expression example `1d20!` (20-sided die) |
+| Some 13-sided dice, because physics are the worst. | `rollgen.component.html`: expression example `5d13-4` (13-sided die) |
+| Roll 4 8-sided dice, transform 2s into 3s. | `rollgen.component.html`: expression example `4d8t2:3` |
+| Any roll you can imagine, if you please. | Not from the README: Emcee's characterisation of rollgen's flexibility |
+| Some Goods at level 7, or just Coin at level 3, | `README.md`: `treasureType` path parameter (Goods, Coin are enum values) and `level` in TreasureGen routes |
+| Or is it epic level 30 loot you want to see? | `README.md`: `level` parameter in TreasureGen routes; epic level 30 is Emcee flair |
+| A Major suit of half-plate, Mundane sickle, or a Tool, | `README.md`: `power` (Major, Mundane) and `itemType` (Tool) in TreasureGen item routes; half-plate and sickle are D&D item names |
+| Or Rings or Rods or Wondrous Items - with all rules. | `README.md`: `itemType` values (Rings, Rods, Wondrous Items) in TreasureGen item routes |
+| GENERATE! | `README.md`: "generate" (emphatic chorus) |
+| All APIs are Azure Function Apps and serverless.<br>They're written in C-Sharp and compile with success. | `README.md`: "All APIs are written in C# and run as Azure Function Apps" |
+| They are documented with Swagger and grace,<br>Request, response, and even their parameter constraints. | `README.md`: "Swagger UI is the authoritative reference for request/response schemas, parameter constraints" |
+| A backend-for-the-frontend (BFF, you may deduce), | `README.md`: "Web BFF" section |
+| Providing useful view-models for this website to use. | `README.md`: RollViewModel through DungeonViewModel in "Web BFF" routes |
+| But dice and gold are trifles - Random Number Deities<br>Can summon characters and encounters, if you please. | Not from the README: Emcee's metaphor for the generators |
 | What level, class, and race? Temperature? Terrain? | `README.md`: `levelRandomizerType`, `classNameRandomizerType`, `baseRaceRandomizerType` (CharacterGen); `temperature`, `environment` (EncounterGen) |
-| Dungeon Master (DUNGEON MASTER!) - Sing us the refrain | Not from source files: Emcee's theatrical call to the Dungeon Master |
-| A character, High-level, alignment should be Good | `README.md`: `alignmentRandomizerType`, `levelRandomizerType` in CharacterGen; Good and High are specific enum values in Swagger |
-| Fighter, Bard, Spellcaster, or Stealthy, if you would | `README.md`: `classNameRandomizerType` in CharacterGen; Fighter and Bard are `setClassName` values, Spellcaster and Stealthy are `classNameRandomizerType` enum values in Swagger |
-| roll 4-d-6-k-3 | `rollgen.component.html`: expression example `4d6k3` |
-| they need equipment - weapons, armor, instantly | Not from source files: CharacterGen generates full equipment sets (covered by "ALL of the rules"), but not explicitly stated in source files |
-| Human, Elf, Non-Standard - even monsters, if you wish | `README.md`: `baseRaceRandomizerType` in CharacterGen; Human and Elf are `setBaseRace` values, Non-Standard is a `baseRaceRandomizerType` enum value, monsters reference non-human base race options in Swagger |
-| No meta-race? Or Lycanthrope? Or Undead like a Lich | `README.md`: `metaraceRandomizerType` in CharacterGen; No Meta-Race, Lycanthrope, and Undead are `metaraceRandomizerType` enum values in Swagger |
-| A Temperate Plains encounter - at the break of Day | `README.md`: `temperature` (Temperate), `environment` (Plains), `timeOfDay` (Day), `level` in EncounterGen routes |
-| Or Cold and Underground at Night - the monsters come to play | `README.md`: same EncounterGen parameters (Cold, Underground, Night) |
-| You've found a rival party - before initiative | `home.component.html`: randomly generated a battle; opponent was another character party (Emcee call-back) |
-| We roll up race and spells, and equipment we should give | Not from source files: Emcee's description of CharacterGen output for encounter creatures |
-| Party level, creature types, aquatic, underground | `README.md`: `level`, `creatureTypeFilters`, `allowAquatic`, `allowUnderground` in EncounterGen |
-| So many different options, variety astounds | Not from source files: Emcee's summary flourish |
-| I'll share an open secret: there's creatures you could get | Not from source files: Emcee's conspiratorial bridge transition |
-| The CreatureGen API could make a foe or pet / But there isn't any page for it yet | `README.md`: "CreatureGen has an API but no generator page on the site yet" |
-| An Angular application is featured center-stage | `README.md`: "an Angular single-page application" |
-| Components, models, services, and pipes build every page | Not from source files: Emcee's summary of Angular SPA architecture |
-| Automated tests abound, and coverage is complete | `README.md`: Testing section ("Tests run across three layers") |
-| Integration, Unit, Smoke - a comprehensive suite | `README.md`: "Unit", "Integration", "Smoke" in Testing section |
-| The build status badged in green: "I'm healthy!" it attests | `README.md`: Build Status badge in the header |
-| And even THIS SONG will be covered by some tests | Not from source files: self-referential — theme song test coverage is not stated in source files |
-| I must confess, I will give credit where it's due / I do not own the content | `home.component.html`: "Credit where credit is due: none of the generated things you see here belong to me" |
-| TSR Incorporated is the owner true / Nope. Wizards of the Coast is the owner, on review / Woops. Hasbro bought the rights | `home.component.html`: ownership/copyright attribution (TSR, Inc. → Wizards of the Coast → Hasbro, with strikethroughs) |
-| Creative Commons means it's me and you | `home.component.html`: used under Creative Commons |
-| Roll, Treasure, Character, Encounter - what a boon | `README.md`: "Roll, Treasure, Character, Encounter, and Dungeon" |
-| And creature generation will be coming very soon | `README.md`: "CreatureGen has an API but no generator page on the site yet" |
-| But one more generator was forged to rule them all | Not from source files: Emcee's buildup to DungeonGen reveal |
-| (DUN-GEON MAS-TER!) The Dungeon heeds your call | `README.md`: DungeonGen section; "Dungeon Master" is not from source files |
-| An area - through a DOOR - at dungeon level 8 | `README.md`: "door" route in DungeonGen, `dungeonLevel` parameter |
-| Encounter now looms, do the monsters spell doom? | Not from source files: Emcee's narration of a dungeon encounter |
-| Within Cold Mountains, a HALL we shall create | `README.md`: "hall" route in DungeonGen; Cold and Mountains are `temperature` and `environment` values in EncounterGen/DungeonGen |
-| A Ranger to fight, and a Druid with Blight | Not from source files: Ranger and Druid are D&D class names (available as `setClassName` values in Swagger); Blight is a D&D spell |
-| A party level 3 might meet a sneaky, stabby fate | `README.md`: `partyLevel` parameter in DungeonGen routes; "sneaky, stabby" is Emcee's characterisation |
-| The trap is quite grave, roll d-20 to save | Not from source files: traps are a D&D element in DungeonGen output; "roll d-20 to save" is a D&D saving throw |
-| Survive the Orcs or Oozes, and booty shall await | Not from source files: Orc and Ooze are D&D creature types in EncounterGen output |
-| (A treasure chest hides, precious Goods inside.) | `README.md`: `treasureType` = Goods in TreasureGen routes; treasure is embedded in DungeonGen output |
-| The incremental dungeon can ever propagate | Not from source files: Emcee's characterisation of progressive dungeon generation |
-| And though it's getting quite late / The players huddle and debate / If they should walk through the gate / And the DM doesn't wait | Not from source files: Emcee's coda |
-| Maybe level escalates | `README.md`: `level`/`partyLevel`/`dungeonLevel` parameters across the API tables |
-| Challenge Rating is too great | `README.md`: `cr` parameter in CreatureGen routes |
-| TPK's an awful fate | Not from source files: TPK (Total Party Kill) is D&D terminology |
-| But have no fear - just recreate | Not from source files: Emcee's closing line |
-| Generate a set of dice | `README.md`: RollGen routes |
-| Generate a treasure trove | `README.md`: TreasureGen routes |
-| Generate a character | `README.md`: CharacterGen routes |
-| Generate encounters | `README.md`: EncounterGen routes |
-| Generate the dungeon | `README.md`: DungeonGen routes |
-| Everyone will have a ball / Click, and you create it all | Not from source files: Emcee's finale |
-| GENERATE! | `README.md`: "generate" (emphatic finale) |
+| Dungeon Master (DUNGEON MASTER!) - Sing us the refrain. | Not from the README: Emcee's theatrical call to the Dungeon Master |
+| A character, High-level, alignment should be Good. | `README.md`: `alignmentRandomizerType`, `levelRandomizerType` in CharacterGen; Good and High are specific enum values in Swagger |
+| Fighter, Bard, Spellcaster, or Stealthy, if you would. | `README.md`: `classNameRandomizerType` in CharacterGen; Fighter and Bard are `setClassName` values, Spellcaster and Stealthy are `classNameRandomizerType` enum values in Swagger |
+| Human, Elf, Non-Standard - even monsters, if you wish. | `README.md`: `baseRaceRandomizerType` in CharacterGen; Human and Elf are `setBaseRace` values, Non-Standard is a `baseRaceRandomizerType` enum value, monsters reference non-human base race options in Swagger |
+| No meta-race? Or Lycanthrope? Or Undead like a Lich. | `README.md`: `metaraceRandomizerType` in CharacterGen; No Meta-Race, Lycanthrope, and Undead are `metaraceRandomizerType` enum values in Swagger |
+| A Temperate Plains encounter - at the break of Day. | `README.md`: `temperature` (Temperate), `environment` (Plains), `timeOfDay` (Day), `level` in EncounterGen routes |
+| Or Cold and Underground at Night - the monsters come to play. | `README.md`: same EncounterGen parameters (Cold, Underground, Night) |
+| Party level, creature types, aquatic, underground - | `README.md`: `level`, `creatureTypeFilters`, `allowAquatic`, `allowUnderground` in EncounterGen |
+| So many different options, variety astounds. | Not from the README: Emcee's summary flourish |
+| GENERATE! (GENERATE!) | `README.md`: "generate" (emphatic; crowd echoes the Emcee) |
+| ... I'll share an open secret: there's creatures you could get. | Not from the README: Emcee's conspiratorial bridge transition |
+| The CreatureGen API could make a foe or pet,<br>But there isn't any page for it yet. | `README.md`: "CreatureGen has an API but no generator page on the site yet" |
+| An Angular application is featured center-stage. | `README.md`: "an Angular single-page application" |
+| Components, models, services, and pipes build every page. | Not from the README: Emcee's summary of Angular SPA architecture |
+| Automated tests abound, and coverage is complete. | `README.md`: "Tests run across three layers" |
+| Integration, Unit, Smoke - a comprehensive suite. | `README.md`: "Unit", "Integration", "Smoke" in Testing section |
+| The build status badged in green: "I'm healthy!" it attests, | `README.md`: Build Status badge in the header |
+| And even THIS SONG will be covered by some tests. | Not from the README: self-referential — theme song test coverage is not stated in source files |
+| But now, I must confess, I will give credit where it's due:<br>I do not own the content that I present to you. | `home.component.html`: Credit where credit is due: none of the generated things you see here belong to me |
+| TSR Incorporated is the owner true -<br>Nope. Wizards of the Coast is the owner, on review -<br>Woops. Hasbro bought the rights - screw that up, and they might sue - | `home.component.html`: ownership/copyright attribution (TSR, Inc. → Wizards of the Coast → Hasbro, with strikethroughs) |
+| Actually, Creative Commons means it's me and you. | `home.component.html`: used under Creative Commons |
+| Roll, Treasure, Character, Encounter - what a boon. | `README.md`: "Roll, Treasure, Character, Encounter, and Dungeon" |
+| But one more generator was forged to rule them all: | Not from the README: Emcee's buildup to DungeonGen reveal |
+| (DUN-GEON MAS-TER!) The Dungeon heeds your call. | `README.md`: DungeonGen section; Dungeon Master is not from the README |
+| An area - through a DOOR - at dungeon level 8. | `README.md`: "door" route in DungeonGen, `dungeonLevel` parameter |
+| Within Cold Mountains, a HALL we shall create. | `README.md`: "hall" route in DungeonGen; Cold and Mountains are `temperature` and `environment` values in EncounterGen/DungeonGen |
+| A party level 3 might meet a sneaky, stabby fate. | `README.md`: `partyLevel` parameter in DungeonGen routes; sneaky, stabby is Emcee's characterisation |
+| Survive the Orcs or Oozes, and booty shall await. | Not from the README: Orc and Ooze are D&D creature types in EncounterGen output |
+| The incremental dungeon can ever propagate. | Not from the README: Emcee's characterisation of progressive dungeon generation |
+| Generate! Generate! Generate! | `README.md`: "generate" (triumphant repetition) |
+| And though it's getting quite late,<br>The players huddle and debate<br>If they should walk through the gate.<br>And the DM doesn't wait: | Not from the README: Emcee's coda |
+| Maybe level escalates, | `README.md`: `level`/`partyLevel`/`dungeonLevel` parameters across the API tables |
+| Challenge Rating is too great, | `README.md`: `cr` parameter in CreatureGen routes |
+| TPK's an awful fate - | Not from the README: TPK (Total Party Kill) is D&D terminology |
+| But have no fear - just recreate. | Not from the README: Emcee's closing line |
+| Generate a set of dice. (Generate!)<br>Generate a treasure trove. (Generate!)<br>Generate a character. (Generate!)<br>Generate encounters. (Generate!)<br>Generate the dungeon. (Generate!) | `README.md`: RollGen, TreasureGen, CharacterGen, EncounterGen, and DungeonGen routes |
+| Everyone will have a ball.<br>Click, and you create it all. | Not from the README: Emcee's finale |
 
 ## Suno Notes
 
