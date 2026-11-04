@@ -10,14 +10,14 @@ Its lyrics come from the [DnDGen.Web README](https://github.com/DnDGen/DnDGen.We
 This song draws from several source files in this repository:
 
 - [`README.md`](https://github.com/DnDGen/DnDGen.Web/blob/main/README.md) — API documentation
-- [`home.component.html`](https://github.com/DnDGen/DnDGen.Web/blob/main/dndgen-web/src/app/home/home.component.html) — the About page text
-- [`rollgen.component.html`](https://github.com/DnDGen/DnDGen.Web/blob/main/dndgen-web/src/app/roll/components/rollgen.component.html) — dice expression examples
+- [`dndgen-web/src/app/home/home.component.html`](https://github.com/DnDGen/DnDGen.Web/blob/main/dndgen-web/src/app/home/home.component.html) — the About page text
+- [`dndgen-web/src/app/roll/components/rollgen.component.html`](https://github.com/DnDGen/DnDGen.Web/blob/main/dndgen-web/src/app/roll/components/rollgen.component.html) — dice expression examples
 
 Every pull request that changes one of those files gets a song check:
 
 1. If the change rewords or removes a phrase in the Sources table below, the song needs updating.
    The tests automatically catch changes to `README.md` phrases: they fail and list every quoted phrase no longer in the README.
-   Changes to `home.component.html` or `rollgen.component.html` are not test-covered — check the Sources table manually.
+   Changes to `dndgen-web/src/app/home/home.component.html` or `dndgen-web/src/app/roll/components/rollgen.component.html` are not test-covered — check the Sources table manually.
 2. Otherwise, if the change alters the site's high-level ideas or vibe, the song needs updating.
 3. Otherwise, it doesn't. Changes to the README's Theme Song badge or section never need a song update.
 
@@ -193,26 +193,26 @@ GENERATE!
 | Lyric | Sources |
 |---|---|
 | Willkommen, adventurers. | Not from source files: Willkommen is the opening number from Cabaret; Emcee's welcome into the show |
-| Welcome to the codebase of D-N-D-Gen, | Not from source files: Emcee's framing; D-N-D-Gen refers to the GitHub org at github.com/DnDGen |
-| For Dungeons and Dragons third edition. | `home.component.html`: Dungeons and Dragons 3.X |
-| Starting a game could be a real bore: | `home.component.html`: the start was always the most arduous part of the adventure |
-| Rolling up characters and dungeons to explore. | `home.component.html`: creating characters, building dungeons |
-| And random encounters could pay the highest toll: | `home.component.html`: randomly generated a battle; opponent was another character party |
-| "A character party? Nope, reroll." | `home.component.html`: A character party? Nope, reroll. |
-| This website makes in SECONDS what would take hours. | `home.component.html`: generate these things in seconds instead of hours |
-| ALL of the rules, every facet, every power. | `home.component.html`: ALL of the rules, every rich little facet |
-| Leaving you more time for adventuring and play. | `home.component.html`: leaving you more time to play |
+| Welcome to the codebase of D-N-D-Gen, | `README.md`: [DnDGen.com](http://dndgen.com) |
+| For Dungeons and Dragons third edition. | `dndgen-web/src/app/home/home.component.html`: Dungeons and Dragons 3.X |
+| Starting a game could be a real bore: | `dndgen-web/src/app/home/home.component.html`: the start was always the most arduous part of the adventure |
+| Rolling up characters and dungeons to explore. | `dndgen-web/src/app/home/home.component.html`: creating characters, building dungeons |
+| And random encounters could pay the highest toll: | `dndgen-web/src/app/home/home.component.html`: if you randomly generated a battle, and the opponent was another character party |
+| "A character party? Nope, reroll." | `dndgen-web/src/app/home/home.component.html`: A character party? Nope, reroll. |
+| This website makes in SECONDS what would take hours. | `dndgen-web/src/app/home/home.component.html`: generate these things in seconds instead of hours |
+| ALL of the rules, every facet, every power. | `dndgen-web/src/app/home/home.component.html`: ALL of the rules, every rich little facet |
+| Leaving you more time for adventuring and play. | `dndgen-web/src/app/home/home.component.html`: leaving you more time to play |
 | So, dear Dungeon Master, what do you say? | Not from source files: Emcee's rhetorical address to the audience |
-| Generate! | `README.md`: "generate" (route suffix throughout the API tables) |
-| A 20-sided die to see who's going first, | `rollgen.component.html`: expression example `1d20!` (20-sided die) |
-| Some 13-sided dice, because physics are the worst. | `rollgen.component.html`: expression example `5d13-4` (13-sided die) |
-| Roll 4 8-sided dice, transform 2s into 3s. | `rollgen.component.html`: expression example `4d8t2:3` |
-| Any roll you can imagine, if you please. | Not from source files: Emcee's characterisation of rollgen's flexibility |
-| Some Goods at level 7, or just Coin at level 3, | `README.md`: `treasureType` path parameter (Goods, Coin are enum values) and `level` in TreasureGen routes |
+| Generate! | `README.md`: /generate |
+| A 20-sided die to see who's going first, | `rollgen.component.ts`: new StandardDie('20', 20) |
+| Some 13-sided dice, because physics are the worst. | `dndgen-web/src/app/roll/components/rollgen.component.html`: 5d13-4 - Roll 5 13-sided dice, then subtract 4 |
+| Roll 4 8-sided dice, transform 2s into 3s. | `dndgen-web/src/app/roll/components/rollgen.component.html`: 4d8t2:3 - Roll 4 8-sided dice, transform 2s into 3s |
+| Any roll you can imagine, if you please. | `README.md`: The expression endpoints accept any dice expression |
+| Some Goods at level 7, or just Coin at level 3, | `TreasureType.cs`: Goods,<br>`TreasureViewModel.cs`: MaxTreasureLevel = 100<br>`TreasureType.cs`: Coin, |
 | Or is it epic level 30 loot you want to see? | `README.md`: `level` parameter in TreasureGen routes; epic level 30 is Emcee flair |
 | A Major suit of half-plate, Mundane sickle, or a Tool, | `README.md`: `power` (Major, Mundane) and `itemType` (Tool) in TreasureGen item routes; half-plate and sickle are D&D item names |
 | Or Rings or Rods or Wondrous Items - with all rules. | `README.md`: `itemType` values (Rings, Rods, Wondrous Items) in TreasureGen item routes |
-| GENERATE! | `README.md`: "generate" (emphatic chorus) |
+| GENERATE! | `README.md`: /generate |
 | All APIs are Azure Function Apps and serverless.<br>They're written in C-Sharp and compile with success. | `README.md`: "All APIs are written in C# and run as Azure Function Apps" |
 | They are documented with Swagger and grace,<br>Request, response, and even their parameter constraints. | `README.md`: "Swagger UI is the authoritative reference for request/response schemas, parameter constraints" |
 | A backend-for-the-frontend (BFF, you may deduce), | `README.md`: "Web BFF" section |
@@ -222,13 +222,13 @@ GENERATE!
 | Dungeon Master (DUNGEON MASTER!) - Sing us the refrain. | Not from source files: Emcee's theatrical call to the Dungeon Master |
 | A character, High-level, alignment should be Good. | `README.md`: `alignmentRandomizerType`, `levelRandomizerType` in CharacterGen; Good and High are specific enum values in Swagger |
 | Fighter, Bard, Spellcaster, or Stealthy, if you would. | `README.md`: `classNameRandomizerType` in CharacterGen; Fighter and Bard are `setClassName` values, Spellcaster and Stealthy are `classNameRandomizerType` enum values in Swagger |
-| (But don't forget abilities, roll 4-d-6-k-3.) | `rollgen.component.html`: expression example `4d6k3`; CharacterGen ability rolls use this expression |
+| (But don't forget abilities, roll 4-d-6-k-3.) | `dndgen-web/src/app/roll/components/rollgen.component.html`: expression example `4d6k3`; CharacterGen ability rolls use this expression |
 | (And oh, they need equipment - weapons, armor, instantly.) | Not from source files: CharacterGen generates equipment as part of character generation |
 | Human, Elf, Non-Standard - even monsters, if you wish. | `README.md`: `baseRaceRandomizerType` in CharacterGen; Human and Elf are `setBaseRace` values, Non-Standard is a `baseRaceRandomizerType` enum value, monsters reference non-human base race options in Swagger |
 | No meta-race? Or Lycanthrope? Or Undead like a Lich. | `README.md`: `metaraceRandomizerType` in CharacterGen; No Meta-Race, Lycanthrope, and Undead are `metaraceRandomizerType` enum values in Swagger |
 | A Temperate Plains encounter - at the break of Day. | `README.md`: `temperature` (Temperate), `environment` (Plains), `timeOfDay` (Day), `level` in EncounterGen routes |
 | Or Cold and Underground at Night - the monsters come to play. | `README.md`: same EncounterGen parameters (Cold, Underground, Night) |
-| (You've found a rival party - before initiative,) | `home.component.html`: randomly generated a battle; opponent was another character party |
+| (You've found a rival party - before initiative,) | `dndgen-web/src/app/home/home.component.html`: randomly generated a battle; opponent was another character party |
 | (We roll up race and spells, and equipment we should give.) | Not from source files: CharacterGen generates race, spells, and equipment for encounter party characters |
 | Party level, creature types, aquatic, underground - | `README.md`: `level`, `creatureTypeFilters`, `allowAquatic`, `allowUnderground` in EncounterGen |
 | So many different options, variety astounds. | Not from source files: Emcee's summary flourish |
@@ -241,9 +241,9 @@ GENERATE!
 | Integration, Unit, Smoke - a comprehensive suite. | `README.md`: "Unit", "Integration", "Smoke" in Testing section |
 | The build status badged in green: "I'm healthy!" it attests, | `README.md`: Build Status badge in the header |
 | And even THIS SONG will be covered by some tests. | Not from source files: self-referential — theme song test coverage is not stated in source files |
-| But now, I must confess, I will give credit where it's due:<br>I do not own the content that I present to you. | `home.component.html`: Credit where credit is due: none of the generated things you see here belong to me |
-| TSR Incorporated is the owner true -<br>Nope. Wizards of the Coast is the owner, on review -<br>Woops. Hasbro bought the rights - screw that up, and they might sue - | `home.component.html`: ownership/copyright attribution (TSR, Inc. → Wizards of the Coast → Hasbro, with strikethroughs) |
-| Actually, Creative Commons means it's me and you. | `home.component.html`: used under Creative Commons |
+| But now, I must confess, I will give credit where it's due:<br>I do not own the content that I present to you. | `dndgen-web/src/app/home/home.component.html`: Credit where credit is due: none of the generated things you see here belong to me |
+| TSR Incorporated is the owner true -<br>Nope. Wizards of the Coast is the owner, on review -<br>Woops. Hasbro bought the rights - screw that up, and they might sue - | `dndgen-web/src/app/home/home.component.html`: ownership/copyright attribution (TSR, Inc. → Wizards of the Coast → Hasbro, with strikethroughs) |
+| Actually, Creative Commons means it's me and you. | `dndgen-web/src/app/home/home.component.html`: used under Creative Commons |
 | Roll, Treasure, Character, Encounter - what a boon. | `README.md`: "Roll, Treasure, Character, Encounter, and Dungeon" |
 | (And creature generation will be coming very soon.) | `README.md`: "CreatureGen has an API but no generator page on the site yet" |
 | But one more generator was forged to rule them all: | Not from source files: Emcee's buildup to DungeonGen reveal |

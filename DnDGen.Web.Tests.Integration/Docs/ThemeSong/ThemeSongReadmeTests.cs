@@ -73,30 +73,21 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
 
             foreach (var row in GetTable(GetSection("Sources")).Skip(1))
             {
-                var source = row[1];
-                if (source.StartsWith("Not from source files"))
-                    continue;
-
-                var fileNameMatch = BacktickPartialRegex().Match(source);
-                if (!fileNameMatch.Success)
-                    continue;
-
-                var fileName = fileNameMatch.Groups[1].Value;
-                if (!SourceFilePaths.TryGetValue(fileName, out var relativePath))
-                    continue;
-
-                var filePath = Path.Combine(repoRoot, relativePath);
-                if (!File.Exists(filePath))
-                    continue;
-
-                var content = WhitespacePartialRegex().Replace(File.ReadAllText(filePath), " ");
-                var rest = source[(fileNameMatch.Index + fileNameMatch.Length)..];
-
-                foreach (Match match in QuotePartialRegex().Matches(rest))
+                foreach (var source in row[1].Split("<br>"))
                 {
-                    var phrase = match.Groups[1].Value;
-                    if (!content.Contains(phrase))
-                        missingPhrases.Add($"{fileName}: \"{phrase}\"");
+                    if (source.StartsWith("Not from source files"))
+                        continue;
+
+                    var fileNameMatch = BacktickPartialRegex().Match(source);
+                    Assert.That(fileNameMatch.Success, Is.True, $"No source file in '{source}'");
+
+                    var filePath = Path.Combine(repoRoot, fileNameMatch.Groups[1].Value);
+                    Assert.That(File.Exists(filePath), Is.True, $"Source file '{filePath}' does not exist");
+
+                    var content = WhitespacePartialRegex().Replace(File.ReadAllText(filePath), " ");
+                    var citation = source[(fileNameMatch.Index + fileNameMatch.Length)..].Trim(':').Trim();
+                    if (!content.Contains(citation))
+                        missingPhrases.Add(source);
                 }
             }
 
@@ -229,9 +220,6 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         [GeneratedRegex(@"\*\*Listen on \[Suno\]\(([^)]+)\)\.\*\*")]
         private static partial Regex ListenPartialRegex();
 
-        [GeneratedRegex("\"([^\"]+)\"")]
-        private static partial Regex QuotePartialRegex();
-
         [GeneratedRegex(@"\s+")]
         private static partial Regex WhitespacePartialRegex();
 
@@ -241,16 +229,12 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         private static string GetRepoRoot()
         {
             var dir = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-            while (dir != null && !dir.GetFiles("*.sln").Any())
+
+            while (dir != null && dir.GetFiles("*.sln").Length == 0)
                 dir = dir.Parent;
+
             return dir?.FullName ?? string.Empty;
         }
 
-        private static readonly Dictionary<string, string> SourceFilePaths = new()
-        {
-            ["README.md"] = "README.md",
-            ["home.component.html"] = Path.Combine("dndgen-web", "src", "app", "home", "home.component.html"),
-            ["rollgen.component.html"] = Path.Combine("dndgen-web", "src", "app", "roll", "components", "rollgen.component.html"),
-        };
     }
 }
