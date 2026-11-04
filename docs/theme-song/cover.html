@@ -1,15 +1,9 @@
 <!doctype html>
 <!--
-  Album art for "Generate! -DnDGen.Web Theme-".
-  Open in a browser to view, or render to a 1500x1500 PNG with headless Edge or Chrome:
-    msedge --headless --hide-scrollbars --allow-file-access-from-files --window-size=1500,1500 --screenshot=cover.png cover.html
-  The d20 shape is the dndgen.com loading spinner (DnDGen.Web: dndgen-web/src/assets/loadingDice.svg),
-  originally from https://gist.github.com/hperantunes/f4c2fd407c2ea74c6c9d
-  Title font: Cinzel (Cinzel.ttf, SIL Open Font License - see Cinzel-OFL.txt).
-  Based on the main theme's cover in DnDGen/.github theme-song/cover.html, recoloured for the stage: a golden
-  d20 performs under the spotlight while the audience — a crowd of colourful dice sets — watches from the pit
-  below. The title is inscribed on the face of the conductor's prompt-box shell at the stage apron. The shell is
-  opaque, covering the footlights from the audience's view (as it would on a real stage).
+  Album art for "Generate! -DnDGen.Web Theme-" — VARIANT v4.
+  Arch peak at y=700: covers the bottom ~25% of the D20 (bolder shell presence).
+  Compare with cover.html (arch peak y=760, barely grazes D20 bottom).
+  Footlights at y=940, downstage of the arch base at y=920.
 -->
 <html>
 <head>
@@ -35,7 +29,6 @@
     <stop offset="0.4" stop-color="#f0c040"/>
     <stop offset="1" stop-color="#8a5808"/>
   </radialGradient>
-  <!-- Left curtain: alternating highlight/shadow stops simulate velvet folds -->
   <linearGradient id="curtain-l" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%"   stop-color="#9a1428"/>
     <stop offset="6%"   stop-color="#6a000e"/>
@@ -51,7 +44,6 @@
     <stop offset="93%"  stop-color="#200004"/>
     <stop offset="100%" stop-color="#200004" stop-opacity="0"/>
   </linearGradient>
-  <!-- Right curtain: same folds, mirrored -->
   <linearGradient id="curtain-r" x1="1" y1="0" x2="0" y2="0">
     <stop offset="0%"   stop-color="#9a1428"/>
     <stop offset="6%"   stop-color="#6a000e"/>
@@ -71,20 +63,17 @@
     <stop offset="0" stop-color="#1a0c08"/>
     <stop offset="1" stop-color="#0a0503"/>
   </linearGradient>
-  <!-- Footlight warm glow leaking upward above the shell (stage side) -->
   <linearGradient id="ftglow" x1="0" y1="1" x2="0" y2="0">
     <stop offset="0"   stop-color="#ffd080" stop-opacity="0.22"/>
     <stop offset="0.6" stop-color="#ffa840" stop-opacity="0.07"/>
     <stop offset="1"   stop-color="#ffa840" stop-opacity="0"/>
   </linearGradient>
-  <!-- Prompt-box shell: warm mahogany lacquer, clearly distinct from the dark backdrop -->
   <radialGradient id="shell" cx="50%" cy="38%" r="68%">
     <stop offset="0"    stop-color="#8a5020"/>
     <stop offset="0.45" stop-color="#5a3010"/>
     <stop offset="0.80" stop-color="#341a08"/>
     <stop offset="1"    stop-color="#1c0c04"/>
   </radialGradient>
-  <!-- Audience dice set colours — classic dice-set hues -->
   <radialGradient id="dice-red"    cx="38%" cy="30%" r="72%"><stop offset="0" stop-color="#ff7070"/><stop offset="1" stop-color="#8a0808"/></radialGradient>
   <radialGradient id="dice-blue"   cx="38%" cy="30%" r="72%"><stop offset="0" stop-color="#6090ff"/><stop offset="1" stop-color="#081070"/></radialGradient>
   <radialGradient id="dice-green"  cx="38%" cy="30%" r="72%"><stop offset="0" stop-color="#60e070"/><stop offset="1" stop-color="#0a4a14"/></radialGradient>
@@ -119,10 +108,10 @@
 <!-- Warm spotlight halo -->
 <circle cx="750" cy="420" r="600" fill="url(#halo)"/>
 
-<!-- Left curtain — velvet fold stripes -->
-<rect x="0" y="0" width="300" height="830" fill="url(#curtain-l)"/>
+<!-- Left curtain — velvet fold stripes, running full stage height to the footlight edge -->
+<rect x="0" y="0" width="300" height="940" fill="url(#curtain-l)"/>
 <!-- Right curtain -->
-<rect x="1200" y="0" width="300" height="830" fill="url(#curtain-r)"/>
+<rect x="1200" y="0" width="300" height="940" fill="url(#curtain-r)"/>
 
 <!-- Valance: horizontal fabric band across the very top -->
 <rect x="0" y="0" width="1500" height="48" fill="#6a000e"/>
@@ -134,50 +123,46 @@
   <use href="#d20" transform="scale(7.5) translate(-50 -46)" fill="url(#gold)" filter="url(#glow)"/>
 </g>
 
-<!-- Stage apron: dark wood strip — drawn before shell, hidden behind it from audience view -->
-<rect x="0" y="800" width="1500" height="40" fill="url(#wood)"/>
+<!-- Conductor's prompt-box arch: opaque mahogany arch rising from the audience pit.
+     The arch is the UPPER half of an ellipse centred at (750, 920), rx=440, ry=220.
+     Peak of arch: y=700 (covers the bottom ~25% of the D20 — bolder shell).
+     Base (flat bottom edge): y=920.
+     Footlights sit DOWNSTAGE of the arch (at y=940), visible to the audience. -->
+<path d="M 310,920 A 440,220 0 0 1 1190,920 L 310,920 Z" fill="url(#shell)"/>
+<!-- Golden arc along the arch face (the curved edge visible to the audience) -->
+<path d="M 310,920 A 440,220 0 0 1 1190,920" fill="none" stroke="#c8a030" stroke-width="2.5" opacity="0.85"/>
+<!-- Golden base line at the foot of the arch -->
+<line x1="310" y1="920" x2="1190" y2="920" stroke="#c8a030" stroke-width="2" opacity="0.70"/>
+<!-- Subtle inner arch suggesting panel depth -->
+<path d="M 390,920 A 360,172 0 0 1 1110,920" fill="none" stroke="#c8a030" stroke-width="1" opacity="0.28"/>
 
-<!-- Footlight trough and bulbs — drawn before shell so the shell hides them from the audience,
-     as on a real stage where the prompt box sits in front of the footlights. -->
-<rect x="70" y="800" width="1360" height="13" rx="5" fill="#6a5418" opacity="0.90"/>
-<rect x="70" y="801" width="1360" height="5"  rx="2" fill="#c8a040" opacity="0.50"/>
+<!-- Title text on the face of the arch, visible to the audience.
+     y=877 sits in the lower third of the arch (peak y=700, base y=920). -->
+<text x="750" y="877" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="100" letter-spacing="10" fill="#ffd060" filter="url(#tglow)">GENERATE!</text>
+
+<!-- Footlight trough and bulbs — DOWNSTAGE of the arch (y=940 > arch base y=920).
+     Drawn after the arch so they appear in front of it, as on a real stage. -->
+<rect x="70" y="940" width="1360" height="13" rx="5" fill="#6a5418" opacity="0.90"/>
+<rect x="70" y="941" width="1360" height="5"  rx="2" fill="#c8a040" opacity="0.50"/>
 <g filter="url(#bulb)">
-  <ellipse cx="175"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="315"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="455"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="595"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="735"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="875"  cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="1015" cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="1155" cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
-  <ellipse cx="1295" cy="800" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="175"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="315"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="455"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="595"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="735"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="875"  cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="1015" cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="1155" cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
+  <ellipse cx="1295" cy="940" rx="13" ry="7" fill="#fffae0" opacity="0.85"/>
 </g>
-
-<!-- Warm footlight glow leaking upward from behind shell onto the stage above -->
-<rect x="100" y="720" width="1300" height="80" fill="url(#ftglow)"/>
-
-<!-- Conductor's prompt-box shell: opaque mahogany dome hanging from the stage apron.
-     Its top edge sits at y=800 (footlight level), covering the footlights from the audience.
-     Ellipse: centre (750, 800), rx=440, ry=210. Bottom of shell: y = 1010.
-     Path: straight top edge, then clockwise arc curving down into the pit. -->
-<path d="M 310,800 L 1190,800 A 440,210 0 0 1 310,800 Z" fill="url(#shell)"/>
-<!-- Golden rim along the curved base of the shell -->
-<path d="M 310,800 A 440,210 0 0 1 1190,800" fill="none" stroke="#c8a030" stroke-width="2.5" opacity="0.85"/>
-<!-- Thin golden top edge -->
-<line x1="310" y1="800" x2="1190" y2="800" stroke="#c8a030" stroke-width="2.5" opacity="0.75"/>
-<!-- Subtle inner frame line to suggest panel depth -->
-<path d="M 390,800 A 360,165 0 0 1 1110,800" fill="none" stroke="#c8a030" stroke-width="1" opacity="0.28"/>
-
-<!-- Title text on the face of the shell, visible to the audience -->
-<text x="750" y="940" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="100" letter-spacing="10" fill="#ffd060" filter="url(#tglow)">GENERATE!</text>
+<!-- Warm footlight glow leaking upward onto the stage and over the arch base -->
+<rect x="100" y="860" width="1300" height="80" fill="url(#ftglow)"/>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════════
      Audience pit — three rows of colourful dice watching from below the shell.
-     Drawn in painter's order: very back (smallest) first, front (largest) last.
-     All rows extend below y=1500 — only tops are visible, like heads above seats.
      ═══════════════════════════════════════════════════════════════════════════════ -->
 
-<!-- Very back row: scale(4), 7 dice, tops at y≈1030 — faintest, furthest from stage -->
+<!-- Very back row: scale(4), 7 dice -->
 <use href="#d20" transform="translate(100  1202) scale(4) translate(-50 -46)" fill="url(#dice-green)"  opacity="0.55"/>
 <use href="#d20" transform="translate(320  1212) scale(4) translate(-50 -46)" fill="url(#dice-purple)" opacity="0.55"/>
 <use href="#d20" transform="translate(540  1207) scale(4) translate(-50 -46)" fill="url(#dice-red)"    opacity="0.55"/>
@@ -186,13 +171,13 @@
 <use href="#d20" transform="translate(1180 1204) scale(4) translate(-50 -46)" fill="url(#dice-teal)"   opacity="0.55"/>
 <use href="#d20" transform="translate(1400 1210) scale(4) translate(-50 -46)" fill="url(#dice-rose)"   opacity="0.55"/>
 
-<!-- Back row: scale(5), 4 dice, tops at y≈1105 — mid-distance -->
+<!-- Back row: scale(5), 4 dice -->
 <use href="#d20" transform="translate(255  1320) scale(5) translate(-50 -46)" fill="url(#dice-teal)"   opacity="0.72"/>
 <use href="#d20" transform="translate(620  1335) scale(5) translate(-50 -46)" fill="url(#dice-rose)"   opacity="0.72"/>
 <use href="#d20" transform="translate(880  1328) scale(5) translate(-50 -46)" fill="url(#dice-orange)" opacity="0.72"/>
 <use href="#d20" transform="translate(1245 1322) scale(5) translate(-50 -46)" fill="url(#dice-amber)"  opacity="0.72"/>
 
-<!-- Front row: scale(7), 5 dice, tops at y≈1200 — most visible, closest to audience -->
+<!-- Front row: scale(7), 5 dice -->
 <use href="#d20" transform="translate(120  1501) scale(7) translate(-50 -46)" fill="url(#dice-red)"    opacity="0.92"/>
 <use href="#d20" transform="translate(400  1518) scale(7) translate(-50 -46)" fill="url(#dice-blue)"   opacity="0.95"/>
 <use href="#d20" transform="translate(750  1505) scale(7) translate(-50 -46)" fill="url(#dice-green)"  opacity="1.00"/>
