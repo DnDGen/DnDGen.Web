@@ -36,16 +36,16 @@ Generate! -DnDGen.Web Theme-
 ## Style
 
 ```
-Royal court herald fanfare singalong, Rodgers and Hammerstein musical theatre style ("The Prince Is Giving a Ball"), bright jaunty uptempo — 4/4 verses, 6/8 chorus refrains, Solo herald trumpet calling out proclamations over pizzicato strings, answered by a small muted brass fanfare — trumpets, trombone, French horn, A poised herald, completely in command: crisp diction, calm regal authority, effortless phrasing throughout — never flustered, never shouting, A crowd of courtiers echoing every line back with growing delight, building call-and-response throughout, A conspiratorial bridge that drops to near-silence — just the herald and a quiet string pizzicato — before the full brass ensemble erupts louder than ever for the final chorus, Triumphant and playfully pompous, the comedy coming from great ceremony applied to increasingly technical parameter lists, Clear, regal, stiff upper lip throughout.
+Gilbert and Sullivan opening number singalong, a quick-witted Victorian showman welcoming the audience into his world, bright jaunty patter in the manner of the Major-General's Song, quick-tongued and lightly swung, A small pit orchestra: clarinet, oboe and flute leading the melody, light pizzicato strings, modest brass accents — bright and punchy, never symphonic, A crisp, dry, controlled baritone host presenting each wonder with professional gravity and the twinkle of a seasoned MC, never flustered, never shouting, A delighted crowd joining in with every chorus, their response growing warmer and more enthusiastic throughout, A hushed conspiratorial bridge where the host leans in to share a secret, before the full ensemble erupts for the finale, Warm and celebratory, the comedy coming from great ceremony lavished on increasingly technical parameter lists, Stiff upper lip throughout, whatever the parameter list demands
 ```
 
 ## Lyrics
 
 ```
-[Intro - solo herald trumpet]
-Hear ye! Hear ye!
+[Intro - bright pit orchestra, host steps forward to welcome]
+Welcome, adventurers!
 
-[Verse 1]
+[Verse 1 - quick patter, the problem is laid out]
 Welcome to the kingdom of D-N-D-Gen,
 For Dungeons and Dragons third edition.
 Starting a game could be a real bore:
@@ -53,7 +53,7 @@ Rolling up characters and dungeons to explore.
 And random encounters could pay the highest toll:
 "A character party? Nope, reroll."
 
-[Pre-Chorus 1]
+[Pre-Chorus 1 - building, the host turns to the crowd]
 This website makes in SECONDS what would take hours.
 ALL of the rules, every facet, every power.
 Leaving you more time for adventuring and play.
@@ -61,7 +61,7 @@ So, dear Dungeon Master, what have ye to say?
 
 [Anticipatory drum roll]
 
-[Chorus 1]
+[Chorus 1 - crowd joins in, the show is on]
 Generate!
 
 A 20-sided die to see who's going first,
@@ -78,7 +78,7 @@ Or Rings or Rods or Wondrous Items - with all rules!
 
 GENERATE!
 
-[Verse 2]
+[Verse 2 - faster patter, host rattles the technical details]
 All APIs are Azure Function Apps and serverless.
 They're written in C-Sharp and compile with success.
 They are documented with Swagger and grace,
@@ -86,13 +86,13 @@ Request, response, and even their parameter constraints.
 A backend-for-the-frontend (BFF, you may deduce),
 Providing useful view-models for this website to use.
 
-[Pre-Chorus 2]
+[Pre-Chorus 2 - anticipation building, the DM is called]
 But dice and gold are trifles - Random Number Deities
 Can summon characters and encounters, if you please.
 What level, class, and race? Temperature? Terrain?
 Dungeon Master (DUNGEON MASTER!) - bring forth the refrain!
 
-[Chorus 2 - courtiers grow alarmed in the asides]
+[Chorus 2 - crowd growing enthusiastic, chiming in with the asides]
 Generate!
 
 A character, High-level, alignment should be Good.
@@ -118,9 +118,9 @@ GENERATE! (GENERATE!)
 The CreatureGen API could make a foe or pet,
 But there isn't any page for it yet.
 
-[Full brass erupts]
+[Full ensemble erupts]
 
-[Verse 3]
+[Verse 3 - host proudly presents the craftsmanship]
 An Angular application is featured center-stage.
 Components, models, services, and pipes build every page.
 Automated tests abound, and coverage is complete.
@@ -128,7 +128,7 @@ Integration, Unit, Smoke - a comprehensive suite.
 The build status badged in green: "I'm healthy!" it attests,
 And even THIS SONG will be covered by some tests!
 
-[Breakdown]
+[Breakdown - comic aside, the ownership question spirals]
 But now, I must confess, I will give credit where it's due:
 I do not own the content that I present to you.
 TSR Incorporated is the owner true -
@@ -136,13 +136,13 @@ Nope! Wizards of the Coast is the owner, on review -
 Woops! Hasbro bought the rights - screw that up, and they might sue -
 Eh, it's Creative Commons, so it's really me and you!
 
-[Pre-Chorus 3]
+[Pre-Chorus 3 - grand buildup, one more generator remains]
 Roll, Treasure, Character, Encounter - what a boon.
 (And creature generation will be coming very soon.)
 But one more generator was forged to rule them all:
 DUN-GEON MAS-TER! The Dungeon heeds your call!
 
-[Final Chorus - herald impeccably regal, courtiers panicked in the asides]
+[Final Chorus - host poised, crowd's excitement building]
 Generate!
 
 An area - through a DOOR - at dungeon level 8.
@@ -167,10 +167,15 @@ Challenge Rating is too great,
 TPK's an awful fate -
 But have no fear - just recreate!
 
-[Finale - full ensemble fortissimo, one final royal command]
-Generate! (Regenerate!)
-Generate! (Regenerate!)
-Generate! (Regenerate!)
+[Finale - full ensemble fortissimo, the curtain call, everyone joins in]
+Generate a set of dice! (Generate!)
+Generate a treasure trove! (Generate!)
+Generate a character! (Generate!)
+Generate encounters! (Generate!)
+Generate the dungeon! (Generate!)
+
+Everyone will have a ball.
+Click, and you create it all!
 
 GENERATE!
 ```
@@ -179,7 +184,7 @@ GENERATE!
 
 | Lyric | From the README |
 |---|---|
-| Hear ye! Hear ye! | Not from the README: traditional herald opening |
+| Welcome, adventurers! | Not from the README: host's welcoming opening |
 | The website through which people can use | "the website through which people can use" |
 | The dice roller! | "the dice roller (RollGen)" |
 | The equipment generator! | "the equipment generator (TreasureGen)" |
