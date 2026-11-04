@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,13 +12,12 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         private const int SunoStyleLimit = 1000;
         private const int SunoLyricsLimit = 5000;
 
-        private string[] _record;
+        private static readonly string[] _record = GetRecord();
 
-        [OneTimeSetUp]
-        public void Setup()
+        private static string[] GetRecord()
         {
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "docs", "theme-song", "README.md");
-            _record = File.ReadAllLines(path);
+            return File.ReadAllLines(path);
         }
 
         [Test]
@@ -58,41 +58,42 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             var sources = GetSection("Sources");
             var table = GetTable(sources);
             string[] columns = table.FirstOrDefault() ?? [];
-            Assert.That(columns, Is.EqualTo(["Lyric", "Sources"]));
+            Assert.That(columns, Is.EqualTo(["#", "Lyric", "Sources"]));
 
-            string[] sourcedLyrics = [.. table.Skip(1).SelectMany(row => row[0].Split("<br>"))];
+            string[] sourcedLyrics = [.. table.Skip(1).SelectMany(row => row[1].Split("<br>"))];
             var lyrics = GetDistinctLyricLines();
             Assert.That(sourcedLyrics, Is.EqualTo(lyrics), "Each lyric line needs one Sources row, in the order it is first sung");
         }
 
-        [Test]
-        public void Sources_EveryQuotedPhraseIsStillInFile()
+        [TestCaseSource(nameof(SourcesRowNumbersTestCases))]
+        public void Sources_CitationIsValid(int rowIndex)
         {
-            var repoRoot = GetRepoRoot();
-            var missingPhrases = new List<string>();
+            var row = GetTable(GetSection("Sources"))[rowIndex];
+            var sources = row[2].Split("<br>");
 
-            foreach (var row in GetTable(GetSection("Sources")).Skip(1))
+            foreach (var source in sources)
             {
-                foreach (var source in row[1].Split("<br>"))
-                {
-                    if (source.StartsWith("Not from source files"))
-                        continue;
+                if (source.StartsWith("Not from source files"))
+                    Assert.Pass($"Source '{source}' is not from a source file");
 
-                    var fileNameMatch = BacktickPartialRegex().Match(source);
-                    Assert.That(fileNameMatch.Success, Is.True, $"No source file in '{source}'");
+                Assert.That(source, Contains.Substring(":"), "Source is not properly formatted");
 
-                    var filePath = Path.Combine(repoRoot, fileNameMatch.Groups[1].Value);
-                    Assert.That(File.Exists(filePath), Is.True, $"Source file '{filePath}' does not exist");
+                var sections = source.Split("`:");
+                Assert.That(sections, Has.Length.EqualTo(2), "Source is not properly formatted");
+                var fileName = sections[0].Trim('`').Trim();
+                var citation = sections[1].Trim();
 
-                    var content = WhitespacePartialRegex().Replace(File.ReadAllText(filePath), " ");
-                    var citation = source[(fileNameMatch.Index + fileNameMatch.Length)..].Trim(':').Trim();
-                    if (!content.Contains(citation))
-                        missingPhrases.Add(source);
-                }
+                var repoRoot = GetRepoRoot();
+                var filePath = Path.Combine(repoRoot, fileName);
+                Assert.That(File.Exists(filePath), Is.True, $"Source file '{filePath}' does not exist");
+
+                var rawContent = File.ReadAllText(filePath);
+                var content = WhitespacePartialRegex().Replace(rawContent, " ");
+                Assert.That(content, Contains.Substring(citation));
             }
-
-            Assert.That(missingPhrases, Is.Empty, "Source files changed under the song. Follow the Updating section of docs/theme-song/README.md");
         }
+
+        public static IEnumerable SourcesRowNumbersTestCases => Enumerable.Range(1, GetTable(GetSection("Sources")).Count - 1).Select(i => new TestCaseData(i));
 
         [Test]
         public void AlbumArt_LinksToTheSong()
@@ -140,7 +141,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             }
         }
 
-        private List<string> GetSection(string heading)
+        private static List<string> GetSection(string heading)
         {
             var section = new List<string>();
             var inSection = false;
