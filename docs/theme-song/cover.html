@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1500px; height: 1500px; overflow: hidden; }
+
+.stage {
+  width: 1500px;
+  height: 1500px;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 35%, #2a0415 0%, #120008 45%, #060004 100%);
+}
+
+/* Warm spotlight from above */
+.spotlight {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1100px;
+  height: 1500px;
+  background: radial-gradient(ellipse at top center,
+    rgba(255, 220, 130, 0.14) 0%,
+    rgba(200, 120, 60, 0.07) 35%,
+    transparent 65%);
+  pointer-events: none;
+}
+
+/* Side curtains */
+.curtain {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 200px;
+}
+.curtain-left {
+  left: 0;
+  background: linear-gradient(to right, #5a0000 0%, #420000 60%, transparent 100%);
+}
+.curtain-right {
+  right: 0;
+  background: linear-gradient(to left, #5a0000 0%, #420000 60%, transparent 100%);
+}
+/* Curtain fold shadow */
+.curtain-left::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 30px;
+  width: 25px; height: 100%;
+  background: rgba(0,0,0,0.35);
+  filter: blur(12px);
+}
+.curtain-right::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 30px;
+  width: 25px; height: 100%;
+  background: rgba(0,0,0,0.35);
+  filter: blur(12px);
+}
+
+/* Ornamental double border */
+.frame-outer {
+  position: absolute;
+  top: 55px; left: 55px; right: 55px; bottom: 55px;
+  border: 2px solid rgba(200, 168, 68, 0.55);
+  pointer-events: none;
+}
+.frame-inner {
+  position: absolute;
+  top: 68px; left: 68px; right: 68px; bottom: 68px;
+  border: 1px solid rgba(200, 168, 68, 0.28);
+  pointer-events: none;
+}
+
+/* Corner ornaments */
+.corner {
+  position: absolute;
+  width: 50px; height: 50px;
+  pointer-events: none;
+}
+.corner-tl { top: 65px;  left: 65px;  border-top: 2px solid #c8a844; border-left: 2px solid #c8a844; }
+.corner-tr { top: 65px;  right: 65px; border-top: 2px solid #c8a844; border-right: 2px solid #c8a844; }
+.corner-bl { bottom: 65px; left: 65px;  border-bottom: 2px solid #c8a844; border-left: 2px solid #c8a844; }
+.corner-br { bottom: 65px; right: 65px; border-bottom: 2px solid #c8a844; border-right: 2px solid #c8a844; }
+
+/* Content layout */
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.presents {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-size: 34px;
+  letter-spacing: 20px;
+  color: #c8a844;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-size: 162px;
+  font-weight: bold;
+  color: #ffd700;
+  letter-spacing: 10px;
+  line-height: 1;
+  text-shadow:
+    0 0 25px rgba(255, 215, 0, 0.9),
+    0 0 55px rgba(255, 200, 0, 0.5),
+    0 0 100px rgba(255, 180, 0, 0.2),
+    4px 5px 0 #7a5a0a,
+    8px 10px 12px rgba(0, 0, 0, 0.7);
+  margin-bottom: 0;
+}
+
+.divider {
+  width: 560px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #c8a844, transparent);
+  margin: 44px 0;
+}
+
+/* D20 — 3-face perspective view */
+.d20-wrap { position: relative; }
+
+.subtitle {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-size: 52px;
+  color: #f5f0e8;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  margin-top: 50px;
+  text-shadow: 1px 1px 20px rgba(0,0,0,0.9);
+  opacity: 0.92;
+}
+
+.brand {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-size: 32px;
+  color: #c8a844;
+  letter-spacing: 22px;
+  text-transform: uppercase;
+  margin-top: 18px;
+  opacity: 0.6;
+}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="spotlight"></div>
+  <div class="curtain curtain-left"></div>
+  <div class="curtain curtain-right"></div>
+
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="content">
+
+    <div class="presents">DnDGen Presents</div>
+    <div class="title">Generate!</div>
+    <div class="divider"></div>
+
+    <!-- D20: front face (equilateral triangle) + two receding faces -->
+    <div class="d20-wrap">
+      <svg width="380" height="340" viewBox="-190 -170 380 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="face-front" x1="30%" y1="0%" x2="70%" y2="100%">
+            <stop offset="0%"   stop-color="#ffe680"/>
+            <stop offset="50%"  stop-color="#c8a030"/>
+            <stop offset="100%" stop-color="#7a5808"/>
+          </linearGradient>
+          <linearGradient id="face-right" x1="0%" y1="0%" x2="100%" y2="80%">
+            <stop offset="0%"   stop-color="#b08820"/>
+            <stop offset="100%" stop-color="#4a3205"/>
+          </linearGradient>
+          <linearGradient id="face-left" x1="100%" y1="0%" x2="0%" y2="80%">
+            <stop offset="0%"   stop-color="#c09828"/>
+            <stop offset="100%" stop-color="#5a3c08"/>
+          </linearGradient>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="softshadow" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="6" dy="12" stdDeviation="14" flood-color="rgba(0,0,0,0.7)"/>
+          </filter>
+        </defs>
+
+        <!-- Right receding face -->
+        <polygon
+          points="0,-155  155,0  80,120"
+          fill="url(#face-right)"
+          stroke="#c8a030" stroke-width="1.5"
+          opacity="0.75"
+        />
+        <!-- Left receding face -->
+        <polygon
+          points="0,-155  -155,0  -80,120"
+          fill="url(#face-left)"
+          stroke="#c8a030" stroke-width="1.5"
+          opacity="0.75"
+        />
+        <!-- Front face (the visible d20 face) -->
+        <polygon
+          points="0,-155  155,0  -155,0"
+          fill="url(#face-front)"
+          stroke="#ffd700" stroke-width="2.5"
+          filter="url(#glow)"
+        />
+        <!-- Bottom edge line -->
+        <line x1="-155" y1="0" x2="155" y2="0" stroke="#ffd700" stroke-width="2.5"/>
+        <!-- Face number -->
+        <text x="0" y="-40"
+              text-anchor="middle"
+              font-family="Palatino Linotype, Book Antiqua, Georgia, serif"
+              font-size="72"
+              font-weight="bold"
+              fill="rgba(0,0,0,0.65)"
+              letter-spacing="4">20</text>
+      </svg>
+    </div>
+
+    <div class="divider"></div>
+    <div class="subtitle">DnDGen.Web Theme</div>
+    <div class="brand">DnDGen</div>
+
+  </div>
+
+</div>
+</body>
+</html>

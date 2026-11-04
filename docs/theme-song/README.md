@@ -1,6 +1,6 @@
 # Generate! -DnDGen.Web Theme-
 
-[![DnDGen.Web](cover.png)](https://suno.com/s/PLACEHOLDER)
+[![DnDGen.Web](cover.png)](https://suno.com/s/jGSFLt1kJPeaAA7K)
 
 The DnDGen.Web theme song: a cabaret opening number where the Emcee welcomes the audience into the world of DnDGen with brisk patter and a knowing smile.
 Its lyrics come from the [DnDGen.Web README](https://github.com/DnDGen/DnDGen.Web/blob/main/README.md), sung in plain English.
@@ -229,11 +229,35 @@ GENERATE!
 
 Lessons from generating this song, for the next update:
 
-_(To be filled in after the first generation.)_
+**Use positive descriptors — negative prompting is unreliable.**
+Phrases like "never belting" or "never symphonic" in the Style prompt can create gravity wells that pull the generation toward exactly what you wanted to avoid (musical theatre, full orchestra).
+Describe what you *do* want instead: "every word shaped for the front row of a small cabaret club" achieves vocal restraint without the word "never".
+
+**The Cabaret / Willkommen / Joel Grey archetype solved everything.**
+Previous styles (royal herald, medieval fanfare, Big Band swing) all struggled with the Rogante Marendor orchestral gravity well.
+The Kit Kat Club band instrumentation (upright piano, accordion, clarinet, muted trumpet, trap drums) is instrumentally specific enough that Suno doesn't reach for the orchestral library.
+As a bonus: the clarinet picked up the Rogante Marendor cinematic theme and played it beautifully.
+
+**"Half-spoken and half-sung" is clearer than any technical term.**
+"Sprechstimme" and "parlando" are plausible but carry connotations Suno may not handle well (Sprechstimme suggests Schoenberg/Berg; parlando is vaguer).
+"Half-spoken and half-sung, every word shaped for the front row of a small cabaret club" gives Suno both the technique and the room.
+
+**Dual enforcement: match the Style and the lyric tag for critical moments.**
+The bridge has *always* nailed its tone across every generation because "conspiratorial; hushed" appears in both the Style and the `[Bridge - conspiratorial; hushed]` tag.
+Apply the same rule wherever tone consistency matters: the Comic aside uses "comic aside" in both the Style and its tag; the half-spoken delivery is reinforced by the section tag.
+
+**The cinematic outro was completely accidental — keep it.**
+The winning take ended with the full Rogante Marendor cinematic theme as a closing flourish after the final GENERATE.
+This is serendipitous Suno magic. When regenerating, it may not reappear — that's fine.
+When it does: it's the take.
+
+**Pick the second take.**
+On both significant generation runs, the second take was the winner.
+No actionable lesson — just a fun fact for the next maintainer.
 
 ## Album Art
 
-**Listen on [Suno](https://suno.com/s/PLACEHOLDER).**
+**Listen on [Suno](https://suno.com/s/jGSFLt1kJPeaAA7K).**
 
 `cover.png` will be rendered from `cover.html`, which you can open in any browser.
 To render it again at 1500 × 1500, from this folder:
