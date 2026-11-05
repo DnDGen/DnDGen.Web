@@ -3,7 +3,7 @@ DnDGen.Web
 
 This is the website through which people can use the dice roller (RollGen), the equipment generator (TreasureGen), the character generator (CharacterGen), the encounter generator (EncounterGen), and the dungeon generator (DungeonGen), with a creature generator API (CreatureGen) also available.
 
-[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=main)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=main) [![Theme Song](https://img.shields.io/badge/theme_song-Suno-ff69b4)](https://suno.com/s/jGSFLt1kJPeaAA7K)
+[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=main)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=main) [![Theme Song](https://img.shields.io/badge/theme_song-Suno-ff69b4)](https://suno.com/s/UfzjIXCTb6RlZBt3)
 
 ## Website
 
@@ -110,11 +110,13 @@ Base URL: `https://dungeon.dndgen.com/api` · [Swagger UI](https://dungeon.dndge
 | GET | `v1/dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate` | `dungeonLevel`, `partyLevel` (int, path); `temperature`, `environment`, `timeOfDay` (string, path); `allowAquatic`, `allowUnderground` (bool, query, optional); `creatureTypeFilters` (string[], query, optional) | `Area[]` |
 | GET | `v1/dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate` | same as door | `Area[]` |
 
+This will incrementally generate a dungeon, allowing the DM to map-as-you-go or apply their own map constraints as they see fit.
+
 ### Web BFF
 
 Base URL: `https://web.dndgen.com/api` · [Swagger UI](https://web.dndgen.com/api/swagger/ui)
 
-Serves the Angular app's initial data on load.
+Serves the Angular app's initial view models.
 
 **V1**
 
@@ -139,4 +141,4 @@ For website (Angular) tests, see [dndgen-web/README.md](dndgen-web/README.md).
 
 ## Theme Song
 
-"By Command of the DM, Generate!" — a royal herald fanfare for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/jGSFLt1kJPeaAA7K).**
+"By Command of the DM, Generate!" — a royal herald fanfare for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/UfzjIXCTb6RlZBt3).**

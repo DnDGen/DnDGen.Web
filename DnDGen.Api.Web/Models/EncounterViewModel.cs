@@ -30,13 +30,13 @@ namespace DnDGen.Api.Web.Models
             [
                 EnvironmentConstants.Temperatures.Cold,
                 EnvironmentConstants.Temperatures.Temperate,
-                EnvironmentConstants.Temperatures.Warm
+                EnvironmentConstants.Temperatures.Warm,
             ];
 
             TimesOfDay =
             [
                 EnvironmentConstants.TimesOfDay.Day,
-                EnvironmentConstants.TimesOfDay.Night
+                EnvironmentConstants.TimesOfDay.Night,
             ];
 
             CreatureTypes =
@@ -55,7 +55,7 @@ namespace DnDGen.Api.Web.Models
                 CreatureDataConstants.Types.Outsider,
                 CreatureDataConstants.Types.Plant,
                 CreatureDataConstants.Types.Undead,
-                CreatureDataConstants.Types.Vermin
+                CreatureDataConstants.Types.Vermin,
             ];
 
             Defaults = new EncounterSpecifications

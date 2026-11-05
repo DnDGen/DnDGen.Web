@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,13 +12,15 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         private const int SunoTitleLimit = 80;
         private const int SunoStyleLimit = 1000;
         private const int SunoLyricsLimit = 5000;
+        private const int SourceTableRowCount = 81;
 
-        private static readonly string[] _record = GetRecord();
+        private string[] _record;
 
-        private static string[] GetRecord()
+        [OneTimeSetUp]
+        public void OneTimeSetup()
         {
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "docs", "theme-song", "README.md");
-            return File.ReadAllLines(path);
+            _record = File.ReadAllLines(path);
         }
 
         [Test]
@@ -60,6 +63,9 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             string[] columns = table.FirstOrDefault() ?? [];
             Assert.That(columns, Is.EqualTo(["#", "Lyric", "Sources"]));
 
+            int[] rowNumbers = [.. table.Skip(1).Select(row => Convert.ToInt32(row[0]))];
+            Assert.That(rowNumbers, Has.Length.EqualTo(SourceTableRowCount).And.EqualTo(Enumerable.Range(1, SourceTableRowCount)));
+
             string[] sourcedLyrics = [.. table.Skip(1).SelectMany(row => row[1].Split("<br>"))];
             var lyrics = GetDistinctLyricLines();
             Assert.That(sourcedLyrics, Is.EqualTo(lyrics), "Each lyric line needs one Sources row, in the order it is first sung");
@@ -93,7 +99,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             }
         }
 
-        public static IEnumerable SourcesRowNumbersTestCases => Enumerable.Range(1, GetTable(GetSection("Sources")).Count - 1).Select(i => new TestCaseData(i));
+        public static IEnumerable SourcesRowNumbersTestCases => Enumerable.Range(1, SourceTableRowCount).Select(i => new TestCaseData(i));
 
         [Test]
         public void AlbumArt_LinksToTheSong()
@@ -141,7 +147,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
             }
         }
 
-        private static List<string> GetSection(string heading)
+        private List<string> GetSection(string heading)
         {
             var section = new List<string>();
             var inSection = false;
@@ -223,9 +229,6 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
 
         [GeneratedRegex(@"\s+")]
         private static partial Regex WhitespacePartialRegex();
-
-        [GeneratedRegex("`([^`]+)`")]
-        private static partial Regex BacktickPartialRegex();
 
         private static string GetRepoRoot()
         {
