@@ -6,7 +6,8 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "vitest",
-      "@angular/localize"
+      "@angular/localize",
+      "node"
     ],
     "noImplicitAny": true
   },
