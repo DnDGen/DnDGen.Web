@@ -77,8 +77,6 @@ jobs:
   - checkout: self
     displayName: 'Checkout Code'
     persistCredentials: true
-  - bash: 'npm install -g @angular/cli newman'
-    displayName: 'Install Angular CLI and Newman'
   - bash: 'npm install'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'npm install'
@@ -98,7 +96,7 @@ jobs:
     parameters:
       resultFile: '$(Build.SourcesDirectory)/dndgen-web/website-integration.xml'
   - bash: |
-      ng serve &
+      npm run start &
       echo $! > /tmp/ng-serve-pid.txt
       echo "ng serve starting (PID: $(cat /tmp/ng-serve-pid.txt))..."
       timeout=120; elapsed=0
@@ -115,10 +113,11 @@ jobs:
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Start Website'
   - bash: |
-      newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/DnDGen-Website.postman_collection.json" \
+      npx newman run "$(Build.SourcesDirectory)/cicd/smoke-tests/DnDGen-Website.postman_collection.json" \
       --env-var "host=localhost:4200" \
       --reporters cli,junit \
       --reporter-junit-export "$(Build.SourcesDirectory)/Results/website.smoke.xml"
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Website Smoke Tests'
     retryCountOnTaskFailure: 1
   - template: templates/publish-test-results.yml
