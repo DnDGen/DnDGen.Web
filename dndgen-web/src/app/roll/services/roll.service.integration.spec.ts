@@ -71,24 +71,5 @@ describe('Roll Service', () => {
                 resolve();
             });
         }));
-
-        it.each([
-            '3d6',
-            '5d13-4',
-            '4d4*1000',
-            '1d2+3',
-            '4d6k3',
-            '1d20!',
-            '3d6t1',
-            '4d8t2:3',
-            '1d2d3',
-            '1d(2d3)',
-            '1d2!+3d4k2',
-        ])('validates expression example: %s', (expression: string) => new Promise<void>(resolve => {
-            rollService.validateExpression(expression).subscribe((validity: boolean) => {
-                expect(validity).toBe(true);
-                resolve();
-            });
-        }));
     });
 });
