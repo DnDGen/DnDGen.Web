@@ -24,6 +24,7 @@ describe('Nav-Menu Component', () => {
   
     it('should render the DnDGen brand', () => {
       helper.expectLink('#rootLink.navbar-brand', 'DnDGen', '/', false);
+      helper.expectAttribute('#rootLink img', 'src', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg');
     });
   
     it('should render the main page links', () => {
