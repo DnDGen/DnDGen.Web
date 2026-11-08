@@ -34,6 +34,17 @@ describe('App Component', () => {
       helper.expectAttribute('link[type="image/svg+xml"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg');
       helper.expectAttribute('link[rel="apple-touch-icon"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-180.png');
     });
+
+    describe('icon links', () => {
+      it.each([
+        ['favicon ICO (32x32)', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/favicon.ico'],
+        ['favicon SVG', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg'],
+        ['Apple touch icon PNG (180px)', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-180.png'],
+      ])('should be reachable: %s', async (_label: string, url: string) => {
+        const response = await fetch(url, { redirect: 'follow' });
+        expect(response.status).toBeLessThan(400);
+      }, 10000);
+    });
   
     it('should render the navigation bar', async () => {
       await fixture.whenStable();
