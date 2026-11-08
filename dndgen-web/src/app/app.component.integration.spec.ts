@@ -37,11 +37,15 @@ describe('App Component', () => {
 
     describe('icon links', () => {
       it.each([
-        ['favicon ICO (32x32)', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/favicon.ico'],
-        ['favicon SVG', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg'],
-        ['Apple touch icon PNG (180px)', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-180.png'],
-      ])('should be reachable: %s', async (_label: string, url: string) => {
-        const response = await fetch(url, { redirect: 'follow' });
+        ['favicon ICO (32x32)', 'link[sizes="32x32"]', 'href'],
+        ['favicon SVG', 'link[type="image/svg+xml"]', 'href'],
+        ['Apple touch icon PNG (180px)', 'link[rel="apple-touch-icon"]', 'href'],
+      ])('should be reachable: %s', async (_label: string, selector: string, attr: string) => {
+        await fixture.whenStable();
+        const element = helper.expectExists(selector);
+        const url = element!.getAttribute(attr);
+        expect(url).toBeTruthy();
+        const response = await fetch(url!, { redirect: 'follow' });
         expect(response.status).toBeLessThan(400);
       }, 10000);
     });

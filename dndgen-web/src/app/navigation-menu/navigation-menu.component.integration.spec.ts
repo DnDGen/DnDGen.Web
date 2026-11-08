@@ -86,22 +86,25 @@ describe('Nav-Menu Component', () => {
 
     describe('external links', () => {
       it.each([
-        ['navbar avatar image', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-transparent.svg'],
-        ['The DnDGen Project on GitHub', 'https://github.com/DnDGen'],
-        ['RollGen on GitHub', 'https://github.com/DnDGen/RollGen'],
-        ['TreasureGen on GitHub', 'https://github.com/DnDGen/TreasureGen'],
-        ['CharacterGen on GitHub', 'https://github.com/DnDGen/CharacterGen'],
-        ['EncounterGen on GitHub', 'https://github.com/DnDGen/EncounterGen'],
-        ['DungeonGen on GitHub', 'https://github.com/DnDGen/DungeonGen'],
-        ['DnDGen.Web on GitHub', 'https://github.com/DnDGen/DnDGen.Web'],
-        ['RollGen API Swagger UI', 'https://roll.dndgen.com/api/swagger/ui'],
-        ['TreasureGen API Swagger UI', 'https://treasure.dndgen.com/api/swagger/ui'],
-        ['CharacterGen API Swagger UI', 'https://character.dndgen.com/api/swagger/ui'],
-        ['EncounterGen API Swagger UI', 'https://encounter.dndgen.com/api/swagger/ui'],
-        ['DungeonGen API Swagger UI', 'https://dungeon.dndgen.com/api/swagger/ui'],
-        ['Official D&D Site', 'http://dnd.wizards.com/'],
-      ])('should be reachable: %s', async (_label: string, url: string) => {
-        const response = await fetch(url, { redirect: 'follow' });
+        ['navbar avatar image', '#rootLink img', 'src'],
+        ['The DnDGen Project on GitHub', '#dndgenCodeLink', 'href'],
+        ['RollGen on GitHub', '#rollgenCodeLink', 'href'],
+        ['TreasureGen on GitHub', '#treasuregenCodeLink', 'href'],
+        ['CharacterGen on GitHub', '#charactergenCodeLink', 'href'],
+        ['EncounterGen on GitHub', '#encountergenCodeLink', 'href'],
+        ['DungeonGen on GitHub', '#dungeongenCodeLink', 'href'],
+        ['DnDGen.Web on GitHub', '#websiteCodeLink', 'href'],
+        ['RollGen API Swagger UI', '#rollgenApiLink', 'href'],
+        ['TreasureGen API Swagger UI', '#treasuregenApiLink', 'href'],
+        ['CharacterGen API Swagger UI', '#charactergenApiLink', 'href'],
+        ['EncounterGen API Swagger UI', '#encountergenApiLink', 'href'],
+        ['DungeonGen API Swagger UI', '#dungeongenApiLink', 'href'],
+        ['Official D&D Site', '#dndOfficialLink', 'href'],
+      ])('should be reachable: %s', async (_label: string, selector: string, attr: string) => {
+        const element = helper.expectExists(selector);
+        const url = element!.getAttribute(attr);
+        expect(url).toBeTruthy();
+        const response = await fetch(url!, { redirect: 'follow' });
         expect(response.status).toBeLessThan(400);
       }, 10000);
     });
