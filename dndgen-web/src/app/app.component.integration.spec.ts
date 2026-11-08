@@ -28,10 +28,11 @@ describe('App Component', () => {
   
     it(`should have the 'DnDGen' icon`, async () => {
       await fixture.whenStable();
-      helper.expectAttribute('link', 'rel', 'icon');
-      helper.expectAttribute('link', 'type', 'image/png');
-      // helper.expectAttribute('link', 'href', '/assets/dndgen-icon.png');
-      helper.expectAttribute('link', 'href', 'https://theonlysheet.com/community/images/smilies/d20.png');
+      helper.expectAttribute('link[sizes="32x32"]', 'rel', 'icon');
+      helper.expectAttribute('link[sizes="32x32"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/favicon.ico');
+      helper.expectAttribute('link[type="image/svg+xml"]', 'rel', 'icon');
+      helper.expectAttribute('link[type="image/svg+xml"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg');
+      helper.expectAttribute('link[rel="apple-touch-icon"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-180.png');
     });
   
     it('should render the navigation bar', async () => {
