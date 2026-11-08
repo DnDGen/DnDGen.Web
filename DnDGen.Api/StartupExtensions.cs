@@ -5,6 +5,7 @@ using Microsoft.Azure.Functions.Worker.OpenTelemetry;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DnDGen.Api
