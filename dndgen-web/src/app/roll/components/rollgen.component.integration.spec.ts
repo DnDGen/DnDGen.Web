@@ -606,6 +606,7 @@ describe('RollGen Component', () => {
         helper.expectExists('#expression');
         helper.expectTextContents('#expression span.roll-expression-example', [
           '3d6 - Roll 3 6-sided dice',
+          '5d13-4 - Roll 5 13-sided dice, then subtract 4',
           '4d4*1000 - Roll 4 4-sided dice, then multiply by 1000',
           '1d2+3 - Roll 1 2-sided die, then add 3',
           '4d6k3 - Roll 4 6-sided dice, keep the highest 3',
@@ -620,6 +621,7 @@ describe('RollGen Component', () => {
 
       const exampleCases = [
         { e: '3d6', l: 3, u: 3 * 6 },
+        { e: '5d13-4', l: 1, u: 5 * 13 - 4 },
         { e: '4d4*1000', l: 4 * 1000, u: 4 * 4 * 1000 },
         { e: '1d2+3', l: 4, u: 5 },
         { e: '4d6k3', l: 3, u: 3 * 6 },

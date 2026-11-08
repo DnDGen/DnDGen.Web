@@ -18,7 +18,7 @@ describe('Roll Service', () => {
         });
 
         it('gets the roll view model', () => new Promise<void>(resolve => {
-            rollService.getViewModel().subscribe((viewmodel) => {
+            rollService.getViewModel().subscribe((viewmodel: RollGenViewModel) => {
                 expect(viewmodel).toBeDefined();
                 expect(viewmodel.quantityLimit_Lower).toBe(1);
                 expect(viewmodel.quantityLimit_Upper).toBe(10000);
@@ -29,7 +29,7 @@ describe('Roll Service', () => {
         }));
     
         it('gets a roll', () => new Promise<void>(resolve => {
-            rollService.getRoll(9266, 42).subscribe((roll) => {
+            rollService.getRoll(9266, 42).subscribe((roll: number) => {
                 expect(roll).toBeGreaterThanOrEqual(9266);
                 expect(roll).toBeLessThanOrEqual(9266 * 42);
                 resolve();
@@ -37,21 +37,21 @@ describe('Roll Service', () => {
         }));
     
         it('validates a valid roll', () => new Promise<void>(resolve => {
-            rollService.validateRoll(9266, 42).subscribe((validity) => {
+            rollService.validateRoll(9266, 42).subscribe((validity: boolean) => {
                 expect(validity).toBe(true);
                 resolve();
             });
         }));
     
         it('validates an invalid roll', () => new Promise<void>(resolve => {
-            rollService.validateRoll(9266, 90210).subscribe((validity) => {
+            rollService.validateRoll(9266, 90210).subscribe((validity: boolean) => {
                 expect(validity).toBe(false);
                 resolve();
             });
         }));
     
         it('gets an expression roll', () => new Promise<void>(resolve => {
-            rollService.getExpressionRoll("3d6t1").subscribe((roll) => {
+            rollService.getExpressionRoll("3d6t1").subscribe((roll: number) => {
                 expect(roll).toBeGreaterThanOrEqual(6);
                 expect(roll).toBeLessThanOrEqual(18);
                 resolve();
@@ -59,14 +59,14 @@ describe('Roll Service', () => {
         }));
     
         it('validates a valid expression', () => new Promise<void>(resolve => {
-            rollService.validateExpression("3d6t1").subscribe((validity) => {
+            rollService.validateExpression("3d6t1").subscribe((validity: boolean) => {
                 expect(validity).toBe(true);
                 resolve();
             });
         }));
     
         it('validates an invalid expression', () => new Promise<void>(resolve => {
-            rollService.validateExpression("invalid expression").subscribe((validity) => {
+            rollService.validateExpression("invalid expression").subscribe((validity: boolean) => {
                 expect(validity).toBe(false);
                 resolve();
             });

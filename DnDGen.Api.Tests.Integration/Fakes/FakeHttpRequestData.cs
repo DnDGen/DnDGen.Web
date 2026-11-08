@@ -6,7 +6,7 @@ namespace DnDGen.Api.Tests.Integration.Fakes
 {
     public class FakeHttpRequestData : HttpRequestData
     {
-        public FakeHttpRequestData(FunctionContext functionContext, Uri url, Stream body = null) : base(functionContext)
+        public FakeHttpRequestData(FunctionContext functionContext, Uri url, Stream? body = null) : base(functionContext)
         {
             Url = url;
             Body = body ?? new MemoryStream();
@@ -16,13 +16,13 @@ namespace DnDGen.Api.Tests.Integration.Fakes
 
         public override HttpHeadersCollection Headers { get; } = new HttpHeadersCollection();
 
-        public override IReadOnlyCollection<IHttpCookie> Cookies { get; }
+        public override IReadOnlyCollection<IHttpCookie> Cookies { get; } = null!;
 
         public override Uri Url { get; }
 
-        public override IEnumerable<ClaimsIdentity> Identities { get; }
+        public override IEnumerable<ClaimsIdentity> Identities { get; } = null!;
 
-        public override string Method { get; }
+        public override string Method { get; } = null!;
 
         public override HttpResponseData CreateResponse()
         {

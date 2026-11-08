@@ -11,86 +11,22 @@ namespace DnDGen.Api.TreasureGen.Validators
 {
     public static class ItemValidator
     {
-        private static IEnumerable<string> Powers => new[] { PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major };
+        private static IEnumerable<string> Powers => [PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major];
 
-        private static Dictionary<string, IEnumerable<string>> GetPowers()
+        private static Dictionary<string, IEnumerable<string>> GetPowers() => new()
         {
-            var powers = new Dictionary<string, IEnumerable<string>>();
-            powers[ItemTypeConstants.AlchemicalItem] = new[]
-            {
-                PowerConstants.Mundane
-            };
-
-            powers[ItemTypeConstants.Armor] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Potion] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Ring] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Rod] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Scroll] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Staff] = new[]
-            {
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Tool] = new[]
-            {
-                PowerConstants.Mundane
-            };
-
-            powers[ItemTypeConstants.Wand] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.Weapon] = new[]
-            {
-                PowerConstants.Mundane,
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            powers[ItemTypeConstants.WondrousItem] = new[]
-            {
-                PowerConstants.Minor,
-                PowerConstants.Medium,
-                PowerConstants.Major
-            };
-
-            return powers;
-        }
+            [ItemTypeConstants.AlchemicalItem] = [PowerConstants.Mundane],
+            [ItemTypeConstants.Armor] = [PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Potion] = [PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Ring] = [PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Rod] = [PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Scroll] = [PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Staff] = [PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Tool] = [PowerConstants.Mundane],
+            [ItemTypeConstants.Wand] = [PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.Weapon] = [PowerConstants.Mundane, PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major],
+            [ItemTypeConstants.WondrousItem] = [PowerConstants.Minor, PowerConstants.Medium, PowerConstants.Major]
+        };
 
         private static bool Validate(string itemType, string power)
         {

@@ -30,7 +30,7 @@ jobs:
     inputs:
       command: test
       projects: '${{ parameters.projectPath }}.Tests.Unit/${{ parameters.projectPath }}.Tests.Unit.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
+      arguments: '-v normal --collect "Code Coverage" --settings $(Build.SourcesDirectory)/cicd/coverage.runsettings'
       testRunTitle: '${{ parameters.apiName }} API Unit Tests'
 
   - task: DotNetCoreCLI@2
@@ -38,7 +38,7 @@ jobs:
     inputs:
       command: test
       projects: '${{ parameters.projectPath }}.Tests.Integration/${{ parameters.projectPath }}.Tests.Integration.csproj'
-      arguments: '-v normal --collect "Code Coverage"'
+      arguments: '-v normal --collect "Code Coverage" --settings $(Build.SourcesDirectory)/cicd/coverage.runsettings'
       testRunTitle: '${{ parameters.apiName }} API Integration Tests'
 
   - bash: 'npm install -g azurite azure-functions-core-tools@4 newman'

@@ -5,6 +5,8 @@ using Microsoft.Azure.Functions.Worker.OpenTelemetry;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DnDGen.Api
 {
@@ -15,8 +17,7 @@ namespace DnDGen.Api
             var openTelemetry = services.AddOpenTelemetry()
                 .UseFunctionsWorkerDefaults();
 
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
-                openTelemetry.UseAzureMonitorExporter();
+            ConfigureMonitoring(openTelemetry);
 
             services.Configure<WorkerOptions>(workerOptions =>
             {
@@ -32,6 +33,13 @@ namespace DnDGen.Api
 
                 workerOptions.Serializer = new NewtonsoftJsonObjectSerializer(settings);
             });
+        }
+
+        [ExcludeFromCodeCoverage(Justification = "Azure Monitor setup requires a live connection string")]
+        private static void ConfigureMonitoring(IOpenTelemetryBuilder openTelemetry)
+        {
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+                openTelemetry.UseAzureMonitorExporter();
         }
     }
 }

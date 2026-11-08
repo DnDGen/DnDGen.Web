@@ -4,14 +4,14 @@ namespace DnDGen.Api.Tests.Unit.Fakes
 {
     public class FakeFunctionContext : FunctionContext
     {
-        public override string InvocationId { get; }
-        public override string FunctionId { get; }
-        public override TraceContext TraceContext { get; }
-        public override BindingContext BindingContext { get; }
-        public override RetryContext RetryContext { get; }
-        public override IServiceProvider InstanceServices { get; set; }
-        public override FunctionDefinition FunctionDefinition { get; }
-        public override IDictionary<object, object> Items { get; set; }
-        public override IInvocationFeatures Features { get; }
+        public override string InvocationId { get; } = null!;
+        public override string FunctionId { get; } = null!;
+        public override TraceContext TraceContext { get; } = null!;
+        public override BindingContext BindingContext { get; } = null!;
+        public override RetryContext RetryContext { get; } = null!;
+        public override IServiceProvider InstanceServices { get; set; } = null!;
+        public override FunctionDefinition FunctionDefinition { get; } = null!;
+        public override IDictionary<object, object> Items { get; set; } = null!;
+        public override IInvocationFeatures Features { get; } = null!;
     }
 }

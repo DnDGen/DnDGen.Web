@@ -69,10 +69,9 @@ namespace DnDGen.Api.CharacterGen.Repositories
 
             var randomizer = justInTimeFactory.Build<RaceRandomizer>(metaraceRandomizerType);
 
-            if (randomizer is IForcableMetaraceRandomizer)
+            if (randomizer is IForcableMetaraceRandomizer forcableRandomizer)
             {
-                var forcableRandomizer = randomizer as IForcableMetaraceRandomizer;
-                forcableRandomizer!.ForceMetarace = forceMetarace;
+                forcableRandomizer.ForceMetarace = forceMetarace;
             }
 
             return randomizer;

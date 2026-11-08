@@ -28,10 +28,26 @@ describe('App Component', () => {
   
     it(`should have the 'DnDGen' icon`, async () => {
       await fixture.whenStable();
-      helper.expectAttribute('link', 'rel', 'icon');
-      helper.expectAttribute('link', 'type', 'image/png');
-      // helper.expectAttribute('link', 'href', '/assets/dndgen-icon.png');
-      helper.expectAttribute('link', 'href', 'https://theonlysheet.com/community/images/smilies/d20.png');
+      helper.expectAttribute('link[sizes="32x32"]', 'rel', 'icon');
+      helper.expectAttribute('link[sizes="32x32"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/favicon.ico');
+      helper.expectAttribute('link[type="image/svg+xml"]', 'rel', 'icon');
+      helper.expectAttribute('link[type="image/svg+xml"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar.svg');
+      helper.expectAttribute('link[rel="apple-touch-icon"]', 'href', 'https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-180.png');
+    });
+
+    describe('icon links', () => {
+      it.each([
+        ['favicon ICO (32x32)', 'link[sizes="32x32"]', 'href'],
+        ['favicon SVG', 'link[type="image/svg+xml"]', 'href'],
+        ['Apple touch icon PNG (180px)', 'link[rel="apple-touch-icon"]', 'href'],
+      ])('should be reachable: %s', async (_label: string, selector: string, attr: string) => {
+        await fixture.whenStable();
+        const element = helper.expectExists(selector);
+        const url = element!.getAttribute(attr);
+        expect(url).toBeTruthy();
+        const response = await fetch(url!, { redirect: 'follow' });
+        expect(response.status).toBeLessThan(400);
+      }, 10000);
     });
   
     it('should render the navigation bar', async () => {

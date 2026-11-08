@@ -46,8 +46,10 @@
     "@angular/cli": "^21.2.9",
     "@angular/compiler-cli": "^21.2.9",
     "@angular/localize": "^21.2.9",
+    "@types/node": "^26.6.6",
     "@vitest/ui": "^4.0.18",
     "jsdom": "^28.1.0",
+    "newman": "^6.2.3",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.0.18"

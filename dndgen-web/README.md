@@ -1,6 +1,30 @@
-# DndgenWeb
+# DnDGen Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+The Angular single-page application at [DnDGen.com](http://dndgen.com).
+
+## Generators
+
+The site exposes five of the six DnDGen generators:
+
+- **Roll** — Roll dice by quantity and die type (e.g. 3d6), or by arbitrary expression (e.g. 3d6+2)
+- **Treasure** — Generate treasure (coin, goods, items) by treasure type and level, or a specific item by type, power, and optional name
+- **Character** — Generate full D&D 3.5e characters with configurable randomizers for alignment, class, level, race, and ability scores; also generates leadership packages, cohorts, and followers
+- **Encounter** — Generate encounters by temperature, environment, time of day, and party level; supports creature type filters and aquatic/underground options
+- **Dungeon** — Generate dungeon areas entered from a door or a hall, by dungeon level, environment, and party level
+
+CreatureGen has an API but the website generator page is not yet implemented.
+
+## How It Calls the Backends
+
+On load, each generator page fetches its initial dropdown data from the **Web BFF**:
+
+```
+GET https://web.dndgen.com/api/v1/{feature}/viewmodel
+```
+
+Live generation and validation calls go directly to each generator's API (`roll.dndgen.com`, `treasure.dndgen.com`, etc.). See the [main README](../README.md#apis) for the full route tables.
+
+The site always uses the latest version of each API's routes.
 
 ## Development server
 
@@ -28,10 +52,6 @@ Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or ta
 | `npm run test:dungeongen` | All tests for DungeonGen |
 
 The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ## File Naming Conventions
 

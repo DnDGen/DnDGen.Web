@@ -89,7 +89,7 @@ namespace DnDGen.Api.CharacterGen.Tests.Unit.Functions
 
             mockLeadershipGenerator
                 .Setup(g => g.GenerateCohort(9266, 9, AlignmentConstants.ChaoticNeutral, CharacterClassConstants.Bard))
-                .Returns((Character)null);
+                .Returns((Character)null!);
 
             var response = await function.Run(request, 9266);
             Assert.That(response, Is.InstanceOf<HttpResponseData>());
