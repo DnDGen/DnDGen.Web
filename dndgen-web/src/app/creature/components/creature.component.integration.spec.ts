@@ -236,6 +236,7 @@ describe('Creature Component', () => {
         { name: 'Human', templates: ['Ghost'] },
         { name: 'Couatl', templates: [] },
         { name: 'Hill Giant', templates: [] },
+        { name: 'Red Dragon, Adult', templates: ['Half-Fiend'] },
       ];
 
       creatures.forEach(test => {
@@ -261,6 +262,15 @@ describe('Creature Component', () => {
 
         expect(texts('li.creature-abilities li')).toContain('Constitution: —');
         expect(texts('li.creature-combat-saves li')).toContain('Fortitude: —');
+      });
+
+      it('shows a generated creature with no level adjustment as —', async () => {
+        const creature = await firstValueFrom(TestBed.inject(CreatureService).generateCreature('Bat', []));
+        expect('levelAdjustment' in creature).toBe(false);
+
+        await render(creature);
+
+        helper.expectTextContent('li.creature-level-adjustment', 'Level Adjustment: —');
       });
 
       it('shows a generated Couatl with magic', async () => {

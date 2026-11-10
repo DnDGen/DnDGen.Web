@@ -49,8 +49,8 @@ export class CreatureFormatService {
     return templates.join(', ');
   }
 
-  public optionalBonus(value: number | null): string {
-    if (value === null)
+  public optionalBonus(value?: number | null): string {
+    if (value == null)
       return this.none;
 
     return this.bonusPipe.transform(value);

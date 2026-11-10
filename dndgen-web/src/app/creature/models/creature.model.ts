@@ -20,7 +20,7 @@ export class Creature {
     public size: string = '',
     public challengeRating: string = '',
     public alignment: Alignment = new Alignment(''),
-    public levelAdjustment: number | null = null,
+    public levelAdjustment?: number | null,
     public casterLevel: number = 0,
     public templates: string[] = [],
     public abilities: { [name: string]: CreatureAbility } = {},

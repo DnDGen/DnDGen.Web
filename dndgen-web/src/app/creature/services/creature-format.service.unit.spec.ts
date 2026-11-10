@@ -52,6 +52,7 @@ describe('Creature Format Service', () => {
 
     const optionalBonuses = [
       { value: null, expected: '—' },
+      { value: undefined, expected: '—' },
       { value: -2, expected: '-2' },
       { value: -1, expected: '-1' },
       { value: 0, expected: '+0' },
