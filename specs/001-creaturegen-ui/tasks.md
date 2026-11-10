@@ -27,7 +27,7 @@ description: "Task list for the CreatureGen page"
 **Purpose**: Folder skeleton and test scripts.
 
 - [ ] T001 Create folders `dndgen-web/src/app/creature/{components,models,pipes,services}/` (mirroring `dndgen-web/src/app/character/`)
-- [ ] T002 Add npm scripts to `dndgen-web/package.json`, matching the charactergen entries: `"test:creaturegen": "ng test --no-watch --include='src/app/creature/**/*.spec.ts'"` (after `test:treasuregen`) and `"test:integration:ci:creaturegen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/creature/**/*.integration.spec.ts'"` (after `test:integration:ci:treasuregen`)
+- [ ] T002 Add npm scripts to `dndgen-web/package.json`, matching the charactergen entries: `"test:creaturegen": "ng test --no-watch --include='src/app/creature/**/*.spec.ts'"` (after `test:treasuregen`) and `"test:integration:ci:creaturegen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/creature/**/*.integration.spec.ts'"` (after `test:integration:ci:treasuregen`). In the same task, add the row `` | `npm run test:creaturegen` | All tests for CreatureGen | `` after the TreasureGen row of the "Running tests" table in `dndgen-web/README.md`. `dndgen-web/src/app/readme.integration.spec.ts` requires every non-CI script to be documented: it fails when the script is added and passes once the row is in.
 
 ---
 
@@ -76,27 +76,33 @@ description: "Task list for the CreatureGen page"
   - `cr`, `alignment`, and `type` are sent when non-empty and omitted when empty, each individually and all together.
   - Results are returned unchanged.
 - [ ] T011 [P] Write failing integration tests in `dndgen-web/src/app/creature/services/creature.service.integration.spec.ts` (live APIs):
-  - The view model has non-empty `creatures`/`templates`/`alignments`/`creatureTypes`/`challengeRatings` and contains "Human", "Ghost", "None", "Neutral Evil", "Undead", "1/2".
+  - The view model has non-empty `creatures`/`templates`/`alignments`/`creatureTypes`/`challengeRatings` and contains "Human", "Ghost", "None", "Neutral Evil", "Aberration", "1/2".
   - `validateCreature` for Human + [] → true, Human + [Ghost] → true, Human + [Ghost, Lich] → false.
   - `generateCreature` Human + [] → name "Human", templates [].
   - `generateCreature` Human + [Ghost] → templates ["Ghost"].
   - `validateCreature` Human + [None, None] → true, Human + [None, Ghost] → true, Human + [Ghost, Ghost] → false.
   - `validateRandom` with no filters → true; [None] → true; [None, None] → true; [Ghost, Ghost] → false; Fiendish Creature + "Neutral Good" → false.
   - `generateRandom` with [None] → `templates` is [] (forcibly untemplated).
-  - `generateRandom` with cr "1", alignment "Neutral Evil", type "Undead" → a creature matching all three.
+  - `generateRandom` with cr "5", alignment "Neutral Evil", type "Aberration" (validates as true, verified 2026-11-11) → a creature matching all three (the type matched against `type.allTypes`).
+  - `generateRandom` with the same filters and [None] → a creature matching all three with `templates` []. This combination yields both templated and untemplated creatures (verified 2026-11-11: with no templates, 7 of 12 were untemplated, mostly Gibbering Mouther, and 5 were templated: Half-Fiend Ethereal Filcher, Fiendish Creature Mimic, Ghost Ettercap; [None] validates as true). Aberration is used because no template grants the Aberration type, unlike Undead (Ghost/Lich/Vampire/Zombie/Skeleton) or Outsider (Half-Fiend/Half-Celestial), which would skew results toward templates. So the no-template case asserts only the filters, never whether a template was applied.
 - [ ] T012 Implement `dndgen-web/src/app/creature/services/creature.service.ts` per the contract, using `HttpParams.append('templates', t)` in order and `.set` for non-empty filters, until T010–T011 pass
 
 ### Shared searchable select (new pattern, research R4)
 
 - [ ] T013 [P] Write failing unit and integration tests for `dndgen-web/src/app/shared/components/searchable-select.component.unit.spec.ts` and `.integration.spec.ts`:
-  - Typing "giant" lists only options containing "giant", case-insensitive.
+  - Typing a query lists exactly the options whose names contain it, case-insensitive, in view-model order (whole-list comparison, II.3.a). The integration spec uses the real creature list, verified 2026-11-11:
+    - "yuan-ti" → exactly the 6 Yuan-ti creatures: Abomination, Pureblood, and 4 Halfblood variants.
+    - "red dragon" → exactly the 12 Red Dragon ages (Wyrmling … Great Wyrm) plus "Chimera (Red Dragon head)".
+    - "colossal" → exactly the 15 creatures with "Colossal" in their name (11 Animated Objects, Monstrous Centipede, Monstrous Scorpion, and 2 Monstrous Spiders).
+    - Mixed case ("YUAN-TI") gives the same results.
+  - The unit spec uses a small fixed option list to cover the same behaviours.
   - Focus or click with empty text lists all options.
   - Choosing an option emits `valueChange`.
   - Free text that matches nothing emits nothing and keeps the previous value.
   - With `clearOnSelect`, the input empties after choosing.
   - Long names render in full.
   - The `id` is applied to the input.
-- [ ] T014 Implement `dndgen-web/src/app/shared/components/searchable-select.component.{ts,html}` (`dndgen-searchable-select`, standalone, `NgbTypeaheadModule`, `[editable]="false"`, focus/click streams merged into the search, `form-control` styling) until T013 passes
+- [ ] T014 Implement `dndgen-web/src/app/shared/components/searchable-select.component.{ts,html}` (`dndgen-searchable-select`, standalone, `NgbTypeaheadModule`, `[editable]="false"`, focus/click streams merged into the search, `form-control` styling, results not truncated and shown in a scrollable dropdown) until T013 passes. Filtering is local, so there is no `debounceTime` (research R4).
 
 ### Ordered template list (research R5)
 
@@ -141,20 +147,25 @@ description: "Task list for the CreatureGen page"
 
 ### Implementation for User Story 1
 
-- [ ] T020 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.ts` (`dndgen-creaturegen`, standalone, imports `LoadingComponent`, `FormsModule`, `NgbNavModule`, `SearchableSelectComponent`, `TemplateListComponent`, `CreatureComponent`), with:
+- [ ] T020 [US1] Create a minimal `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (`dndgen-creature`, input `creature`) rendering the top-level `dndgen-details` with `[heading]="creature.summary"`, so US1 is demonstrable. Add `creature.component.unit.spec.ts` and `.integration.spec.ts` with the heading case; US4 expands these.
+- [ ] T021 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.ts` (`dndgen-creaturegen`, standalone, imports `LoadingComponent`, `FormsModule`, `NgbNavModule`, `SearchableSelectComponent`, `TemplateListComponent`, `CreatureComponent`), with:
   - signals `creatureModel`, `loading`, `validating`, `generating`, `validCreature`, `validRandom`, `creature`, `generatingMessage`;
   - inputs `creatureName`, `creatureTemplates`;
   - methods `ngOnInit`, `setInitialValues`, `validateCreature(creatureName?, templates?)`, `generateCreature()`, `handleError`, `finishInit`, `finishGeneration`.
 
   Follow `treasuregen.component.ts` and `charactergen.component.ts`.
-- [ ] T021 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.html` with:
+- [ ] T022 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.html` with:
   - `<h1>CreatureGen</h1>`, then `dndgen-loading`;
-  - left `col-sm-6` holding `ngbNav` tabs "Set" (form with `dndgen-searchable-select` id `creatureName`, `dndgen-template-list` id `creatureTemplates`, and button `generateCreatureButton` "Generate") and "Random" (placeholder filled by US3);
+  - left `col-sm-6` holding `ngbNav` tabs "Set" (form with `dndgen-searchable-select` id `creatureName`, `dndgen-template-list` id `creatureTemplates`, button `generateCreatureButton` "Generate" disabled when `!validCreature() || validating() || generating()`, and `<dndgen-loading id="creatureValidating" [isLoading]="validating()" [size]="sizes.Small">` beside it, as in `treasuregen.component.html`) and "Random" (placeholder filled by US3);
   - right `col-sm-6` holding the `downloadButton` slot, `creatureSection` / `noCreature`, and `generatingSection`.
 
   Copy the layout and classes from `charactergen.component.html`.
-- [ ] T022 [US1] Create a minimal `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (`dndgen-creature`, input `creature`) rendering the top-level `dndgen-details` with `[heading]="creature.summary"`, so US1 is demonstrable. Add `creature.component.unit.spec.ts` and `.integration.spec.ts` with the heading case; US4 expands these.
-- [ ] T023 [US1] Add route `{ path: 'creature', component: CreatureGenComponent, pathMatch: 'full' }` between treasure and character in `dndgen-web/src/app/app.routes.ts`, with a failing-first case in `dndgen-web/src/app/app.routes.unit.spec.ts`
+- [ ] T023 [US1] Add route `{ path: 'creature', component: CreatureGenComponent, pathMatch: 'full' }` between treasure and character in `dndgen-web/src/app/app.routes.ts`, with a failing-first case in `dndgen-web/src/app/app.routes.unit.spec.ts`. In the same task, update `dndgen-web/README.md` "Generators":
+  - "five of the six" becomes "all six".
+  - Add a `**Creature**` bullet after Treasure: "Generate a specific creature with optional ordered templates, or a random creature filtered by challenge rating, alignment, creature type, and ordered templates (including None to force an untemplated creature); download as text".
+  - Remove "CreatureGen has an API but the website generator page is not yet implemented."
+
+  `readme.integration.spec.ts` requires a `**Name**` bullet for every generator route.
 
 **Checkpoint**: US1 works at `/creature`. This is the MVP.
 
@@ -188,7 +199,7 @@ description: "Task list for the CreatureGen page"
 
 **Goal**: The Random tab has optional ordered templates and single-value CR, alignment, and type filters ("Any" = omitted), validated on every change.
 
-**Independent Test**: No filters → generates. CR 1 + Neutral Evil + Undead → a matching creature.
+**Independent Test**: No filters → generates. CR 5 + Neutral Evil + Aberration → a matching creature.
 
 ### Tests for User Story 3 ⚠️
 
@@ -202,8 +213,8 @@ description: "Task list for the CreatureGen page"
   - Errors are handled as in US1.
 - [ ] T028 [P] [US3] Add failing integration cases to `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`:
   - Random with no filters generates a creature.
-  - Each filter alone (CR "1", alignment "Neutral Evil", type "Undead") yields a matching creature.
-  - All three together yield a matching creature.
+  - Each filter alone (CR "5", alignment "Neutral Evil", type "Aberration") yields a matching creature.
+  - All three together yield a matching creature. With [None] added, the creature also has no templates.
   - Fiendish Creature + Neutral Good is invalid, with Generate disabled.
   - With an empty template list, the label "Any templates" is shown. Adding "None" and generating shows a creature with no templates.
   - [None, None] is valid; [Ghost, Ghost] is invalid.
@@ -212,7 +223,7 @@ description: "Task list for the CreatureGen page"
 ### Implementation for User Story 3
 
 - [ ] T029 [US3] Add `randomTemplates`, `randomChallengeRating`, `randomAlignment`, `randomCreatureType` inputs and `validateRandom(templates?, cr?, alignment?, type?)` / `generateRandom()` methods to `dndgen-web/src/app/creature/components/creaturegen.component.ts`. Extend `ngOnInit` to `switchMap` into `validateRandom` after `validateCreature`. Do this until T027 passes.
-- [ ] T030 [US3] Fill the "Random" tab in `dndgen-web/src/app/creature/components/creaturegen.component.html`: three `form-select` dropdowns (`randomChallengeRating`, `randomAlignment`, `randomCreatureType`, each with "Any") laid out like the CharacterGen rows (`col-sm-2` label, `col-sm-4` input), `dndgen-template-list` id `randomTemplates`, and `generateRandomButton`. Do this until T028 passes.
+- [ ] T030 [US3] Fill the "Random" tab in `dndgen-web/src/app/creature/components/creaturegen.component.html`: three `form-select` dropdowns (`randomChallengeRating`, `randomAlignment`, `randomCreatureType`, each with "Any") laid out like the CharacterGen rows (`col-sm-2` label, `col-sm-4` input), `dndgen-template-list` id `randomTemplates`, `generateRandomButton`, and the `randomValidating` small loading indicator beside it. Do this until T028 passes.
 
 **Checkpoint**: US1–US3 work independently.
 
@@ -291,7 +302,7 @@ description: "Task list for the CreatureGen page"
 
 **Independent Test**: The release YAML and the Postman collections contain the CreatureGen entries, and the Newman collections run locally.
 
-- [ ] T042 [P] [US6] In `cicd/release.yml` job `CreatureGen_Api`, remove `hasWebsiteTests: false` and set `websiteTestScript: test:integration:ci:creaturegen` and `websiteResultFile: creaturegen.website.xml`, matching `CharacterGen_Api`. Check `cicd/templates/api-deploy-steps.yml` and `cicd/build.yml` for any other place where CharacterGen website results are listed (e.g. result publishing globs), and add CreatureGen alongside.
+- [ ] T042 [P] [US6] In `cicd/release.yml` job `CreatureGen_Api`, remove `hasWebsiteTests: false` (the template `cicd/templates/api-deploy-steps.yml` defaults it to `true`) and set `websiteTestScript: test:integration:ci:creaturegen` and `websiteResultFile: creaturegen.website.xml`, matching `CharacterGen_Api`
 - [ ] T043 [P] [US6] Add a "CreatureGen View Model" request to `cicd/smoke-tests/Web-API.postman_collection.json`, copying "CharacterGen View Model". URL: `v1/creature/viewmodel`. Tests: status 200, and the JSON has non-empty `creatures`, `templates`, `alignments`, `creatureTypes`, `challengeRatings`. Place it between TreasureGen and CharacterGen.
 - [ ] T044 [P] [US6] Add a "CreatureGen Page" request to `cicd/smoke-tests/DnDGen-Website.postman_collection.json`, copying "CharacterGen Page" with path `/creature`, between TreasureGen and CharacterGen
 - [ ] T045 [US6] Run both collections with Newman against production for the view model (the page route will 200 via the SPA fallback), and commit T042–T044 as "Add CreatureGen to release and smoke tests"
@@ -304,7 +315,7 @@ description: "Task list for the CreatureGen page"
   - The website section covers six generators.
   - Remove "CreatureGen has an API but no generator page on the site yet".
   - Line 4: list the creature generator alongside the others.
-- [ ] T047 [P] Update `dndgen-web/README.md`: add a **Creature** bullet in the same style as the others (set creature with ordered templates; random with CR, alignment, type, and template filters; download), and remove "CreatureGen has an API but the website generator page is not yet implemented."
+- [ ] T047 [P] Re-read `dndgen-web/README.md` against the finished page and correct anything the T002/T023 wording no longer matches
 - [ ] T048 Run the README phrase tests (`dndgen-web/src/app/readme.integration.spec.ts` and `DnDGen.Web.Tests.Integration`). Update `docs/theme-song/README.md` Lyrics and Sources for lines 45 and 58 (and any other phrase the tests list) per its "Updating" section, singing names as words. Record in the PR that **the maintainer must make the Suno cover and update the link**.
 - [ ] T049 Commit T046–T048 as "Document the CreatureGen page"
 - [ ] T050 Run `npm run test:unit` and `npm run test:integration` in `dndgen-web/` with coverage. Confirm 100% line and branch coverage for the website, and add the missing cases for any gap.

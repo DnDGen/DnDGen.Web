@@ -24,6 +24,23 @@ All findings were checked against this repository and the live services on 2026-
 - **No other set-creature parameters exist.** `asCharacter` is hard-coded `false` on purpose (the maintainer confirmed it is reserved for CharacterGen's future use of CreatureGen; FR-030).
 - **The validator also accepts the aliases `creatureType` and `challengeRating`.** The website uses the documented names `type` and `cr`.
 
+## R2a. Example random filters for tests
+
+Sampled 2026-11-11: 12 generates per creature type, with CR 5 + Neutral Evil + that type and no templates ("any"), plus a validate call with [None]:
+
+| Type | Templated | Untemplated | [None] valid |
+|------|-----------|-------------|--------------|
+| Undead | 11 | 1 | true |
+| Humanoid | 11 (all lycanthropes) | 0 | **false** |
+| Giant | 10 | 2 | true |
+| Monstrous Humanoid | 5 | 5 | true |
+| **Aberration** | 5 | 7 | true |
+| Magical Beast | 2 | 7 | true |
+| Outsider | 1 | 10 | true |
+
+- **Decision**: Tests use **CR 5 + Neutral Evil + Aberration**. No template grants the Aberration type, whereas Undead (Ghost, Lich, Vampire, Zombie, Skeleton), Outsider (Half-Fiend, Half-Celestial), Dragon (Half-Dragon) and Magical Beast (Celestial/Fiendish Creature on animals and vermin) can all be produced by templates. So Aberration doesn't skew toward templated results, and it produces both kinds.
+- **Observation for the maintainer**: Even outside template-granted types, "any templates" often comes back templated (e.g. Giant 10/12, mostly Ghost and Werewolf Merrow and Ogre), and no untemplated CR 5 Neutral Evil Humanoid exists. Whether random selection is meant to weight templated and untemplated results this way is a CreatureGen question, not website scope (III.3).
+
 ## R3. Swagger and README mismatches (FR-029)
 
 - **Decision**: Correct the documentation only; behaviour is right.
@@ -40,6 +57,8 @@ All findings were checked against this repository and the live services on 2026-
   - A plain `<select>`, which is unusable at 659 items.
   - A `<datalist>`: inconsistent across browsers, can't restrict to list values, and is hard to test in jsdom.
   - `ng-select`: a new dependency when ng-bootstrap already covers this.
+- **No keypress debounce.** RollGen's expression box waits 500 ms (`debounceTime(500)` in `rollgen.component.ts`) because each keystroke would otherwise call the validate API. Here, typing only filters the already-loaded list in the browser. Validation runs once, when an item is chosen, not per keystroke. NgbTypeahead doesn't debounce on its own (its docs add `debounceTime` in the search function); with local filtering there is nothing to throttle, so none is added.
+- **Results are not truncated.** NgbTypeahead's docs examples cap at 10, but a search like "colossal" has 15 legitimate matches. All matches show in a scrollable dropdown.
 - **Short lists** (alignment 9, CR 34, type 42) stay plain `<select class="form-select">` with a leading "Any" option, which is consistent with every other page.
 
 ## R5. Ordered template list
@@ -49,7 +68,13 @@ All findings were checked against this repository and the live services on 2026-
 - **Alternatives considered**: Drag-and-drop is harder to test, less accessible, and has no precedent; a multi-select `<select multiple>` cannot express order.
 - **"None"** is a real template (maintainer, 2026-11-10). For random creatures, `[]` means "any: may be templated" and `[None]` means "forcibly untemplated". It can be chained. When the list is empty the component shows "Any templates" on the Random tab and "No templates" on the Set tab. That matches the API: verified 2026-11-10, a set creature with no templates came back with `templates: []`, while a random creature with no templates may be templated.
 - **Repeats** are not filtered by the page. Verified 2026-11-10: Human + [None, None] → true, Human + [None, Ghost] → true, Human + [Ghost, Ghost] → false, random [None, None] → true, random [Ghost, Ghost] → false. Validation alone decides (I.1: the server is the source of truth, as on other pages).
-- **Seen while probing**: 1 of 8 random generates with no filters returned an empty body. If it recurs during integration testing, record it as a CreatureGen issue (III.3).
+- **Connection failures while probing (2026-11-11, investigated; not a CreatureGen defect)**: An early probe showed one empty result. That came from piping `curl -s` straight into a JSON parser, which hides transport errors. Re-probed with status codes:
+  - 40 sequential no-filter random generates: all `200`, 16–62 KB, 0.7–3.4 s.
+  - Under 6-way parallel load: 8 of 180 generate calls failed with curl exit 28, "Failed to connect to creature.dndgen.com:443 after ~19.5 s". That is a TCP connect timeout, with no HTTP response at all. One call failed with exit 35, "connection reset".
+  - The same failures appeared against CreatureGen **validate** (1 of 60) and **CharacterGen** validate (1 of 60), but not against `api.github.com` (0 of 60).
+  - **No request ever returned a successful status with an empty or missing body.**
+
+  Conclusion: these are intermittent connection failures between this machine (corporate network) and the Azure App Service front end. They hit every DnDGen API, not just generation. CI integration tests already retry (`retry.count: 2` in `vitest.config.ci.integration.ts`) for all generators, so CreatureGen needs nothing extra. If CI shows connect failures from the Azure pipeline agents too, that would be an infrastructure issue for all APIs and gets its own issue (III.3).
 
 ## R6. Validation flow
 

@@ -57,15 +57,15 @@ The Dungeon Master wants a Ghost Human, or a Lich that later became a Vampire. T
 1. **Given** a creature is selected, **When** the user adds a template from a searchable template selector, **Then** it is appended to the end of the ordered template list and the combination is re-validated.
 2. **Given** two or more templates are listed, **When** the user moves a template up or down, **Then** the displayed order changes, the new order is what is validated, and the new order is what is generated.
 3. **Given** templates are listed, **When** the user removes one, **Then** the remaining templates keep their relative order and the combination is re-validated.
-4. **Given** a template is already in the list, **When** the user adds it again, **Then** it is appended and the combination is re-validated (Human + [Ghost, Ghost] is shown as invalid; Human + [None, None] as valid).
-5. **Given** Human with templates [Ghost, Lich], **When** validation completes, **Then** the page shows the combination as invalid and generation is not possible.
+4. **Given** a template is already in the list, **When** the user adds it again, **Then** it is appended and the combination is re-validated (Human + [Ghost, Ghost] leaves Generate disabled; Human + [None, None] enables it).
+5. **Given** Human with templates [Ghost, Lich], **When** validation completes, **Then** the Generate button is disabled.
 6. **Given** a creature with templates [A, B] is generated, **Then** the displayed creature shows its templates in that same order.
 
 ---
 
 ### User Story 3 - Generate a random creature with filters (Priority: P2)
 
-The Dungeon Master wants "any CR 5 undead, neutral evil" for a random encounter. They switch to the Random tab, optionally choose a challenge rating, alignment, creature type, and templates, see whether a creature can satisfy those filters, and generate one.
+The Dungeon Master wants "any CR 5 aberration, neutral evil" for a random encounter. They switch to the Random tab, optionally choose a challenge rating, alignment, creature type, and templates, see whether a creature can satisfy those filters, and generate one.
 
 **Why this priority**: Valuable and requested, but the page is already useful without it.
 
@@ -78,7 +78,7 @@ The Dungeon Master wants "any CR 5 undead, neutral evil" for a random encounter.
 3. **Given** the user chooses an alignment, **When** they generate, **Then** the displayed creature has that alignment.
 4. **Given** the user chooses a creature type or subtype, **When** they generate, **Then** the displayed creature has that type or subtype.
 5. **Given** the user adds templates (ordered, as in User Story 2), **When** they generate, **Then** the displayed creature has those templates in that order.
-6. **Given** any filter or template changes, **Then** the combination is re-validated; an impossible combination (e.g., Fiendish Creature with a good alignment) is shown as invalid and cannot be generated.
+6. **Given** any filter or template changes, **Then** the combination is re-validated; an impossible combination (e.g., Fiendish Creature with a good alignment) leaves the Generate button disabled.
 7. **Given** a filter was chosen, **When** the user clears it back to "Any", **Then** that filter is no longer applied.
 8. **Given** the template list is empty, **When** the user generates, **Then** the creature may or may not have templates ("any").
 9. **Given** the template list is [None], **When** the user generates, **Then** the displayed creature has no templates.
@@ -173,13 +173,13 @@ The maintainer deploys a new build. The release verifies that the CreatureGen vi
 - **FR-010**: Users MUST be able to optionally choose one challenge rating, in the challenge-rating order the view model provides, or "Any".
 - **FR-011**: Users MUST be able to optionally choose one alignment, or "Any".
 - **FR-012**: Users MUST be able to optionally choose one creature type or subtype, or "Any".
-- **FR-013**: Users MUST be able to build an ordered template list exactly as in FR-006 to FR-008.
+- **FR-013**: Users MUST be able to build an ordered template list exactly as in FR-006 to FR-008a.
 - **FR-014**: With every filter at "Any" and no templates, random generation MUST be valid.
 
 **Validation and generation**
 
 - **FR-015**: After every input change on a tab, the page MUST re-validate that tab's full combination of inputs (including template order) with the CreatureGen service, following the existing generator pages' validation behaviour.
-- **FR-016**: The page MUST clearly indicate when a combination is invalid, and MUST prevent generation while it is invalid or while validation is in progress.
+- **FR-016**: As on the other generator pages, the page MUST show a small loading indicator next to the Generate button while validating, and MUST disable Generate while the combination is invalid or validation is in progress. The page shows no separate "invalid" message: the disabled button is the signal.
 - **FR-017**: Generating MUST send exactly the current tab's inputs, with templates in their displayed order, and filters only when chosen.
 - **FR-018**: The page MUST show loading indicators for loading options, validating, and generating, consistent with the other generator pages.
 - **FR-019**: Failures to load, validate, or generate MUST be handled the same way as on the other generator pages.
@@ -209,19 +209,16 @@ The maintainer deploys a new build. The release verifies that the CreatureGen vi
 - **CreatureGen View Model**: The option lists that populate the page: creatures, templates, alignments, creature types (types followed by subtypes), challenge ratings (in ascending order).
 - **Set Creature Request**: One creature plus an ordered list of templates.
 - **Random Creature Request**: Optional single challenge rating, alignment, and creature type, plus an ordered list of templates.
-- **Creature**: The generated result. Includes name and summary; size; type with subtypes; challenge rating; alignment; level adjustment; caster level; ordered templates; hit points (hit dice, total, conditional bonuses); speeds; armor class (total, touch, flat-footed, component bonuses, conditional); initiative; base attack and grapple bonuses; space and reach; saving throws; six abilities (some may have no score); skills; feats; special qualities; attacks (standard, full melee, full ranged, special); languages; magic (spells per day, known/prepared spells, domains, caster level, arcane spell failure); equipment (weapons, armor, shield, items); demographics (gender, age and maximum age, height/length/weight/wingspan, skin, hair, eyes, other); and whether it is advanced or can use equipment.
+- **Creature**: The generated result. Includes name and summary; size; type with subtypes; challenge rating; alignment; level adjustment; caster level; ordered templates; hit points (hit dice, total, conditional bonuses); speeds; armor class (total, touch, flat-footed, component bonuses, conditional); initiative; base attack and grapple bonuses; space and reach; saving throws; six abilities (some may have no score); skills; feats; special qualities; attacks (standard, full melee, full ranged, special); languages; magic (spells per day, known/prepared spells, domains, caster level, arcane spell failure); equipment (weapons, armor, shield, items); demographics (gender, age and maximum age, height/length/weight/wingspan, skin, hair, eyes, other). Whether it is advanced is shown through its summary (e.g., "Lamia [Advanced]"). Whether it can use equipment is not displayed: that is for CharacterGen's future use of CreatureGen.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: A user can find and select any of the 659 creatures by typing at most 5 characters of its name and choosing from the filtered list.
-- **SC-002**: A user can go from opening the page to viewing a generated creature with two ordered templates in under 1 minute.
-- **SC-003**: For every input change, the validity shown matches the service's answer for those inputs, verified across tested combinations including 0, 1, and 2+ templates in different orders.
-- **SC-004**: 100% of generated creatures from tested random filters match every chosen filter (challenge rating, alignment, type) and the chosen template order.
-- **SC-005**: Every field listed in User Story 4, Acceptance Scenario 1 appears both on the page and in the downloaded file.
-- **SC-006**: Website line and branch coverage remains at 100%, and every release runs and reports CreatureGen website tests just as it does for CharacterGen.
-- **SC-007**: The CreatureGen page matches the look and behaviour of the other generator pages closely enough that a user of CharacterGen needs no instructions to use it.
+- **SC-001**: For every input change, the validity shown matches the service's answer for those inputs, verified across tested combinations including 0, 1, and 2+ templates in different orders.
+- **SC-002**: 100% of generated creatures from tested random filters match every chosen filter (challenge rating, alignment, type) and the chosen template order.
+- **SC-003**: Every field listed in User Story 4, Acceptance Scenario 1 appears both on the page and in the downloaded file.
+- **SC-004**: Website line and branch coverage remains at 100%, and every release runs and reports CreatureGen website tests just as it does for CharacterGen.
 
 ## Assumptions
 

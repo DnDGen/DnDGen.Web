@@ -25,7 +25,7 @@
 
 # Contract: Element ids (for tests and smoke checks)
 
-Set tab: `creatureName`, `creatureTemplates`, `generateCreatureButton`, `creatureValidating`/invalid message. Random tab: `randomTemplates`, `randomChallengeRating`, `randomAlignment`, `randomCreatureType`, `generateRandomButton`. Output: `creatureSection`, `noCreature`, `generatingSection`, `downloadButton`. Navigation: `creaturegenCodeLink`, `creaturegenApiLink`, plus the nav link to `/creature`. Exact ids follow the neighbouring pages' naming during implementation.
+Set tab: `creatureName`, `creatureTemplates`, `generateCreatureButton`, `creatureValidating` (small `dndgen-loading` beside the button, as `treasureValidating`). Random tab: `randomTemplates`, `randomChallengeRating`, `randomAlignment`, `randomCreatureType`, `generateRandomButton`, `randomValidating`. Output: `creatureSection`, `noCreature`, `generatingSection`, `downloadButton`. Navigation: `creaturegenCodeLink`, `creaturegenApiLink`, plus the nav link to `/creature`. Exact ids follow the neighbouring pages' naming during implementation.
 
 # Contract: API documentation corrections (FR-029)
 

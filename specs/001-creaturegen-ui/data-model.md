@@ -41,8 +41,6 @@ All models live in `dndgen-web/src/app/creature/models/` unless marked **reused*
 | alignment | **reused** `Alignment` |
 | levelAdjustment, casterLevel | number \| null |
 | templates | string[] (ordered) |
-| isAdvanced, canUseEquipment, hasSkeleton | boolean |
-| numberOfHands | number |
 | abilities | `{ [name: string]: CreatureAbility }` (Strength … Charisma) |
 | hitPoints | HitPoints |
 | speeds | `{ [movement: string]: CreatureMeasurement }` (Land, Fly, Swim, Burrow, Climb…) |

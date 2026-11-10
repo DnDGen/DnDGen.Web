@@ -23,7 +23,7 @@ For API documentation changes: `dotnet test DnDGen.Apis.sln` (all API tests stil
 2. **US1 set**: On the Set tab, type `giant` and pick *Hill Giant*. The validity shows valid. Generate, and a Hill Giant is displayed.
 3. **US2 order**: Pick *Human*, add *Ghost* (valid), then add *Lich* (invalid, Generate disabled). Move *Lich* above *Ghost* and confirm that it re-validates. Remove *Lich* (valid). Add *Ghost* again ([Ghost, Ghost] → invalid). Replace with [None, None] → valid.
    - **Random "None"**: On the Random tab, the empty list reads "Any templates". Add *None* and generate several times: none of the results is templated.
-4. **US3 random**: No filters → Generate works. Choose CR `5`, alignment `Neutral Evil`, type `Undead` → the result matches. Choose template *Fiendish Creature* plus alignment *Neutral Good* → invalid.
+4. **US3 random**: No filters → Generate works. Choose CR `5`, alignment `Neutral Evil`, type `Aberration` → the result matches. Choose template *Fiendish Creature* plus alignment *Neutral Good* → the validating spinner shows, then Generate stays disabled.
 5. **US4 display/download**: Expand every section and confirm the fields listed in spec US4-AS1. Use a Ghost to see Constitution as "—". Download, and confirm `<summary>.txt` contains the same data.
 6. **Errors**: Block `creature.dndgen.com` in devtools. Changing an input logs the error, shows the error alert, and clears any creature.
 
