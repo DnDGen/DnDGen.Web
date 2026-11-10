@@ -152,6 +152,14 @@ describe('Creature Format Service', () => {
       expect(skills).toEqual(original);
     });
 
+    it('keeps skills with the same display name in their original order', () => {
+      const first = new CreatureSkill('Craft', 'Weaponsmithing', 4);
+      const second = new CreatureSkill('Craft', 'Weaponsmithing', 6);
+
+      expect(service.sortedSkills([first, second])).toEqual([first, second]);
+      expect(service.sortedSkills([second, first])).toEqual([second, first]);
+    });
+
     it('lists no skills', () => {
       expect(service.sortedSkills([])).toEqual([]);
     });

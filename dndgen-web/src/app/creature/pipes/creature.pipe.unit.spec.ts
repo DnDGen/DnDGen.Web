@@ -14,6 +14,8 @@ import { CreatureTestHelper } from '../creature.test-helper';
 import { Item } from '../../treasure/models/item.model';
 import { Weapon } from '../../treasure/models/weapon.model';
 import { TestHelper } from '../../test-helper';
+import { CreatureMagic } from '../models/creature-magic.model';
+import { Attack } from '../models/attack.model';
 
 describe('Creature Pipe', () => {
   describe('unit', () => {
@@ -239,6 +241,36 @@ describe('Creature Pipe', () => {
       ]);
 
       expect(itemPipeSpy.transform).not.toHaveBeenCalled();
+    });
+
+    it('formats a secondary natural attack', () => {
+      const creature = CreatureTestHelper.createMinimalCreature();
+      creature.attacks = [new Attack('Bite', 'melee', true, true, false, false, -2, [-2], [], '1d6 Piercing')];
+
+      const lines = pipe.transform(creature).split('\r\n');
+      const start = lines.indexOf('\t\tAttacks:');
+
+      expect(lines.slice(start, lines.indexOf('\t\tFull Melee Attack: None'))).toEqual([
+        '\t\tAttacks:',
+        '\t\t\tBite',
+        '\t\t\t\tType: Natural melee (Secondary)',
+        '\t\t\t\tAttack Bonus: -2',
+        '\t\t\t\tDamage: 1d6 Piercing',
+      ]);
+    });
+
+    it('formats a caster with no domains, spell failure, or spells', () => {
+      const creature = CreatureTestHelper.createMinimalCreature();
+      creature.magic = new CreatureMagic('Sorcerer', 1);
+
+      const lines = pipe.transform(creature).split('\r\n');
+      const start = lines.indexOf('\tMagic:');
+
+      expect(lines.slice(start, lines.indexOf('\tEquipment:'))).toEqual([
+        '\tMagic:',
+        '\t\tCaster: Sorcerer',
+        '\t\tCaster Level: 1',
+      ]);
     });
 
     it('formats feat power and many weapons', () => {

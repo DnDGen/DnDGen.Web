@@ -112,6 +112,45 @@ describe('Searchable Select Component', () => {
       helper.expectInput('#mySelect', false, 'Human');
     });
 
+    it('lists every option when the empty input is clicked', async () => {
+      type('');
+      const input = fixture.nativeElement.querySelector('#mySelect') as HTMLInputElement;
+      input.dispatchEvent(new Event('click'));
+      helper.triggerChangeDetection();
+      await helper.waitForChangeDetection();
+
+      expect(results()).toEqual(['Hill Giant', 'Frost Giant', 'Human', 'Giant Eagle']);
+    });
+
+    it('keeps the typed text when leaving the input while the list is open', async () => {
+      type('giant');
+      await helper.waitForChangeDetection();
+      expect(results()).toEqual(['Hill Giant', 'Frost Giant', 'Giant Eagle']);
+
+      const input = fixture.nativeElement.querySelector('#mySelect') as HTMLInputElement;
+      input.dispatchEvent(new Event('blur'));
+      helper.triggerChangeDetection();
+      await helper.waitForChangeDetection();
+
+      expect(emitted).toEqual([]);
+      helper.expectInput('#mySelect', false, 'giant');
+    });
+
+    it('empties the input when leaving it after typing text that was not chosen, when clearing on select', async () => {
+      fixture.componentRef.setInput('clearOnSelect', true);
+      await helper.waitForChangeDetection();
+      type('dragon');
+      await helper.waitForChangeDetection();
+
+      const input = fixture.nativeElement.querySelector('#mySelect') as HTMLInputElement;
+      input.dispatchEvent(new Event('blur'));
+      helper.triggerChangeDetection();
+      await helper.waitForChangeDetection();
+
+      expect(emitted).toEqual([]);
+      helper.expectInput('#mySelect', false, '');
+    });
+
     it('shows a long option name in full', async () => {
       const longName = 'Yuan-ti Halfblood (Snake Head, Snake Tail instead of Human Legs)';
       fixture.componentInstance.options = [longName];

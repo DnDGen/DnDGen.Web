@@ -23,6 +23,8 @@ describe('Creature Component', () => {
 
       fixture = TestBed.createComponent(CreatureComponent);
       helper = new TestHelper(fixture);
+
+      fixture.componentRef.setInput('creature', CreatureTestHelper.createMinimalCreature());
     });
 
     async function render(creature: Creature) {
