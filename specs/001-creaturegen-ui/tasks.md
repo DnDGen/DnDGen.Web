@@ -302,10 +302,10 @@ description: "Task list for the CreatureGen page"
 
 **Independent Test**: The release YAML and the Postman collections contain the CreatureGen entries, and the Newman collections run locally.
 
-- [ ] T042 [P] [US6] In `cicd/release.yml` job `CreatureGen_Api`, remove `hasWebsiteTests: false` (the template `cicd/templates/api-deploy-steps.yml` defaults it to `true`) and set `websiteTestScript: test:integration:ci:creaturegen` and `websiteResultFile: creaturegen.website.xml`, matching `CharacterGen_Api`
-- [ ] T043 [P] [US6] Add a "CreatureGen View Model" request to `cicd/smoke-tests/Web-API.postman_collection.json`, copying "CharacterGen View Model". URL: `v1/creature/viewmodel`. Tests: status 200, and the JSON has non-empty `creatures`, `templates`, `alignments`, `creatureTypes`, `challengeRatings`. Place it between TreasureGen and CharacterGen.
-- [ ] T044 [P] [US6] Add a "CreatureGen Page" request to `cicd/smoke-tests/DnDGen-Website.postman_collection.json`, copying "CharacterGen Page" with path `/creature`, between TreasureGen and CharacterGen
-- [ ] T045 [US6] Run both collections with Newman against production for the view model (the page route will 200 via the SPA fallback), and commit T042–T044 as "Add CreatureGen to release and smoke tests"
+- [X] T042 [P] [US6] In `cicd/release.yml` job `CreatureGen_Api`, remove `hasWebsiteTests: false` (the template `cicd/templates/api-deploy-steps.yml` defaults it to `true`) and set `websiteTestScript: test:integration:ci:creaturegen` and `websiteResultFile: creaturegen.website.xml`, matching `CharacterGen_Api`
+- [X] T043 [P] [US6] Add a "CreatureGen View Model" request to `cicd/smoke-tests/Web-API.postman_collection.json`, copying "CharacterGen View Model". URL: `v1/creature/viewmodel`. Tests: status 200, and the JSON has non-empty `creatures`, `templates`, `alignments`, `creatureTypes`, `challengeRatings`. Place it between TreasureGen and CharacterGen.
+- [X] T044 [P] [US6] Add a "CreatureGen Page" request to `cicd/smoke-tests/DnDGen-Website.postman_collection.json`, copying "CharacterGen Page" with path `/creature`, between TreasureGen and CharacterGen
+- [X] T045 [US6] Run both collections with Newman against production for the view model (the page route will 200 via the SPA fallback), and commit T042–T044 as "Add CreatureGen to release and smoke tests"
 
 ---
 

@@ -79,9 +79,8 @@ jobs:
             apiPrefix: creature
             smokeTestCollection: CreatureGen-API.postman_collection.json
             smokeTestJunitFile: creaturegen.smoke.xml
-            hasWebsiteTests: false
-            websiteTestScript: ''
-            websiteResultFile: ''
+            websiteTestScript: test:integration:ci:creaturegen
+            websiteResultFile: creaturegen.website.xml
       on:
         failure:
           steps:
