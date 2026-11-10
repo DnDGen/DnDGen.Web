@@ -69,8 +69,8 @@ Base URL: `https://creature.dndgen.com/api` · [Swagger UI](https://creature.dnd
 |--------|-------|------------|---------|
 | GET | `v1/creature/{creatureName}/generate` | `creatureName` (string, path), `templates` (string[], query, optional) | `Creature` |
 | GET | `v1/creature/{creatureName}/validate` | `creatureName` (string, path), `templates` (string[], query, optional) | `bool` |
-| GET | `v1/creature/generate` | `alignment` (string, query), `templates` (string[], query, optional), `type` (string[], query, optional), `cr` (string[], query, optional) | `Creature` |
-| GET | `v1/creature/validate` | `alignment` (string, query), `templates` (string[], query, optional), `type` (string[], query, optional), `cr` (string[], query, optional) | `bool` |
+| GET | `v1/creature/generate` | `alignment` (string, query, optional), `templates` (string[], query, optional), `type` (string, query, optional), `cr` (string, query, optional) | `Creature` |
+| GET | `v1/creature/validate` | `alignment` (string, query, optional), `templates` (string[], query, optional), `type` (string, query, optional), `cr` (string, query, optional) | `bool` |
 
 ### CharacterGen
 
