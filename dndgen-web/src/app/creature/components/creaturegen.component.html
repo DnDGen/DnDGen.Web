@@ -1,0 +1,152 @@
+<h1>CreatureGen</h1>
+<dndgen-loading [isLoading]="loading()" [size]="sizes.Large">
+  <div class="row top-buffer">
+    <div class="col-sm-6">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Set</a>
+          <ng-template ngbNavContent>
+            <div id="creature">
+              <form name="creatureForm" #creatureForm="ngForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group row">
+                  <label for="creatureName" class="col-sm-3 col-form-label">Creature:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <dndgen-searchable-select [id]="'creatureName'"
+                                                [options]="creatureModel()!.creatures"
+                                                [value]="creatureName"
+                                                placeholder="Search for a creature"
+                                                (valueChange)="setCreatureName($event)">
+                      </dndgen-searchable-select>
+                    }
+                  </div>
+                </div>
+                <div class="form-group row top-buffer">
+                  <label for="creatureTemplatesAdd" class="col-sm-3 col-form-label">Templates:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <dndgen-template-list [id]="'creatureTemplates'"
+                                            [templates]="creatureModel()!.templates"
+                                            [selected]="creatureTemplates"
+                                            emptyText="No templates"
+                                            (selectedChange)="setCreatureTemplates($event)">
+                      </dndgen-template-list>
+                    }
+                  </div>
+                </div>
+                <button id="creatureButton"
+                        type="button"
+                        class="btn btn-success d-flex justify-content-center top-buffer"
+                        (click)="generateCreature()"
+                        [disabled]="generating() || validating() || !validCreature()">
+                  Generate
+                </button>
+                <dndgen-loading id="creatureValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem [destroyOnHide]="false">
+          <a ngbNavLink>Random</a>
+          <ng-template ngbNavContent>
+            <div id="random">
+              <form name="randomForm" #randomForm="ngForm" class="form-horizontal top-buffer" role="form">
+                <div class="form-group row">
+                  <label for="randomChallengeRating" class="col-sm-3 col-form-label">Challenge Rating:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <select id="randomChallengeRating"
+                              name="randomChallengeRating"
+                              class="form-select"
+                              (change)="validateRandom(randomTemplates, randomChallengeRating, randomAlignment, randomCreatureType)"
+                              [(ngModel)]="randomChallengeRating">
+                        <option [ngValue]="''">Any</option>
+                        @for (challengeRating of creatureModel()!.challengeRatings; track $index) {
+                          <option [ngValue]="challengeRating">{{challengeRating}}</option>
+                        }
+                      </select>
+                    }
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="randomAlignment" class="col-sm-3 col-form-label">Alignment:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <select id="randomAlignment"
+                              name="randomAlignment"
+                              class="form-select"
+                              (change)="validateRandom(randomTemplates, randomChallengeRating, randomAlignment, randomCreatureType)"
+                              [(ngModel)]="randomAlignment">
+                        <option [ngValue]="''">Any</option>
+                        @for (alignment of creatureModel()!.alignments; track $index) {
+                          <option [ngValue]="alignment">{{alignment}}</option>
+                        }
+                      </select>
+                    }
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="randomCreatureType" class="col-sm-3 col-form-label">Creature Type:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <select id="randomCreatureType"
+                              name="randomCreatureType"
+                              class="form-select"
+                              (change)="validateRandom(randomTemplates, randomChallengeRating, randomAlignment, randomCreatureType)"
+                              [(ngModel)]="randomCreatureType">
+                        <option [ngValue]="''">Any</option>
+                        @for (creatureType of creatureModel()!.creatureTypes; track $index) {
+                          <option [ngValue]="creatureType">{{creatureType}}</option>
+                        }
+                      </select>
+                    }
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="randomTemplatesAdd" class="col-sm-3 col-form-label">Templates:</label>
+                  <div class="col-sm-9">
+                    @if (creatureModel()) {
+                      <dndgen-template-list [id]="'randomTemplates'"
+                                            [templates]="creatureModel()!.templates"
+                                            [selected]="randomTemplates"
+                                            emptyText="Any templates"
+                                            (selectedChange)="setRandomTemplates($event)">
+                      </dndgen-template-list>
+                    }
+                  </div>
+                </div>
+                <button id="randomButton"
+                        type="button"
+                        class="btn btn-success d-flex justify-content-center top-buffer"
+                        (click)="generateRandom()"
+                        [disabled]="generating() || validating() || !validRandom()">
+                  Generate
+                </button>
+                <dndgen-loading id="randomValidating" [isLoading]="validating()" [size]="sizes.Small"></dndgen-loading>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+    </div>
+    <div class="col-sm-6 clearfix">
+      @if (!generating()) {
+        <div id="creatureSection">
+          @if (!creature()) {
+            <span id="noCreature" class="italicize">No creature has been generated</span>
+          } @else {
+            <dndgen-creature [creature]="creature()!"></dndgen-creature>
+          }
+        </div>
+      } @else {
+        <div id="generatingSection">
+          <span>{{generatingMessage()}}</span>
+          <div>
+            <dndgen-loading [isLoading]="generating()" [size]="sizes.Medium"></dndgen-loading>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</dndgen-loading>

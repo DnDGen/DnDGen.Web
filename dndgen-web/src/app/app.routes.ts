@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { RollGenComponent } from './roll/components/rollgen.component';
 import { TreasureGenComponent } from './treasure/components/treasuregen.component';
+import { CreatureGenComponent } from './creature/components/creaturegen.component';
 import { CharacterGenComponent } from './character/components/charactergen.component';
 import { EncounterGenComponent } from './encounter/components/encountergen.component';
 import { DungeonGenComponent } from './dungeon/components/dungeongen.component';
@@ -13,6 +14,7 @@ export const routes: Routes = [
     { path: 'error', component: ErrorComponent, pathMatch: 'full' },
     { path: 'roll', component: RollGenComponent, pathMatch: 'full' },
     { path: 'treasure', component: TreasureGenComponent, pathMatch: 'full' },
+    { path: 'creature', component: CreatureGenComponent, pathMatch: 'full' },
     { path: 'character', component: CharacterGenComponent, pathMatch: 'full' },
     { path: 'encounter', component: EncounterGenComponent, pathMatch: 'full' },
     { path: 'dungeon', component: DungeonGenComponent, pathMatch: 'full' },

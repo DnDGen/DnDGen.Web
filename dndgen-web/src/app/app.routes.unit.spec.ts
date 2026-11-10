@@ -7,11 +7,12 @@ import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { RollGenComponent } from './roll/components/rollgen.component';
 import { TreasureGenComponent } from './treasure/components/treasuregen.component';
+import { CreatureGenComponent } from './creature/components/creaturegen.component';
 
 describe('App Routes', () => {
   describe('unit', () => {
     it('should contain all routes', () => {
-      expect(routes.length).toEqual(9);
+      expect(routes.length).toEqual(10);
     });
     
     it('should contain default route', () => {
@@ -51,6 +52,14 @@ describe('App Routes', () => {
       expect(route).toBeDefined();
       expect(route?.path).toEqual('treasure');
       expect(route?.component).toEqual(TreasureGenComponent);
+      expect(route?.pathMatch).toEqual('full');
+    });
+    
+    it('should contain creature route', () => {
+      let route = routes.find(r => r.path == 'creature');
+      expect(route).toBeDefined();
+      expect(route?.path).toEqual('creature');
+      expect(route?.component).toEqual(CreatureGenComponent);
       expect(route?.pathMatch).toEqual('full');
     });
     

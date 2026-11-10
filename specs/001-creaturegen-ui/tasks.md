@@ -130,8 +130,8 @@ description: "Task list for the CreatureGen page"
 
 ### Tests for User Story 1 ⚠️ (write first, see them fail)
 
-- [ ] T017 [P] [US1] Create `dndgen-web/src/app/creature/components/creaturegen.component.test-helper.ts` (mirroring `charactergen.component.test-helper.ts`) with helpers to set the creature, read validity, click generate, and wait for loading
-- [ ] T018 [P] [US1] Write failing unit tests in `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts` (mock `CreatureService`, `FileSaverService`, `SweetAlertService`, `LoggerService`):
+- [X] T017 [P] [US1] (Done inline: the helper functions live in `creaturegen.component.integration.spec.ts`, since only that spec uses them.) Create `dndgen-web/src/app/creature/components/creaturegen.component.test-helper.ts` (mirroring `charactergen.component.test-helper.ts`) with helpers to set the creature, read validity, click generate, and wait for loading
+- [X] T018 [P] [US1] Write failing unit tests in `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts` (mock `CreatureService`, `FileSaverService`, `SweetAlertService`, `LoggerService`):
   - Init loads the view model, sets `creatureName = creatures[0]`, validates the Set tab, and clears `loading`/`validating`.
   - Changing the creature calls `validateCreature` with the new name and current templates.
   - An empty creature is invalid without calling the service.
@@ -140,27 +140,27 @@ description: "Task list for the CreatureGen page"
   - `generateCreature()` sets `generating`, clears the old creature, then sets the new one.
   - Errors from init, validate, or generate log, clear the creature, reset flags, and call `showError`.
   - Rendering: tabs "Set" and "Random"; `noCreature` text "No creature has been generated"; generating section with message "Generating creature...".
-- [ ] T019 [P] [US1] Write failing integration tests in `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts` (live APIs, real child components):
+- [X] T019 [P] [US1] Write failing integration tests in `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts` (live APIs, real child components):
   - The page loads with a valid default creature.
   - Searching "giant" and choosing Hill Giant validates as valid.
   - Generate shows a creature whose summary contains "Hill Giant".
 
 ### Implementation for User Story 1
 
-- [ ] T020 [US1] Create a minimal `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (`dndgen-creature`, input `creature`) rendering the top-level `dndgen-details` with `[heading]="creature.summary"`, so US1 is demonstrable. Add `creature.component.unit.spec.ts` and `.integration.spec.ts` with the heading case; US4 expands these.
-- [ ] T021 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.ts` (`dndgen-creaturegen`, standalone, imports `LoadingComponent`, `FormsModule`, `NgbNavModule`, `SearchableSelectComponent`, `TemplateListComponent`, `CreatureComponent`), with:
+- [X] T020 [US1] Create a minimal `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (`dndgen-creature`, input `creature`) rendering the top-level `dndgen-details` with `[heading]="creature.summary"`, so US1 is demonstrable. Add `creature.component.unit.spec.ts` and `.integration.spec.ts` with the heading case; US4 expands these.
+- [X] T021 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.ts` (`dndgen-creaturegen`, standalone, imports `LoadingComponent`, `FormsModule`, `NgbNavModule`, `SearchableSelectComponent`, `TemplateListComponent`, `CreatureComponent`), with:
   - signals `creatureModel`, `loading`, `validating`, `generating`, `validCreature`, `validRandom`, `creature`, `generatingMessage`;
   - inputs `creatureName`, `creatureTemplates`;
   - methods `ngOnInit`, `setInitialValues`, `validateCreature(creatureName?, templates?)`, `generateCreature()`, `handleError`, `finishInit`, `finishGeneration`.
 
   Follow `treasuregen.component.ts` and `charactergen.component.ts`.
-- [ ] T022 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.html` with:
+- [X] T022 [US1] Implement `dndgen-web/src/app/creature/components/creaturegen.component.html` with:
   - `<h1>CreatureGen</h1>`, then `dndgen-loading`;
   - left `col-sm-6` holding `ngbNav` tabs "Set" (form with `dndgen-searchable-select` id `creatureName`, `dndgen-template-list` id `creatureTemplates`, button `generateCreatureButton` "Generate" disabled when `!validCreature() || validating() || generating()`, and `<dndgen-loading id="creatureValidating" [isLoading]="validating()" [size]="sizes.Small">` beside it, as in `treasuregen.component.html`) and "Random" (placeholder filled by US3);
   - right `col-sm-6` holding the `downloadButton` slot, `creatureSection` / `noCreature`, and `generatingSection`.
 
   Copy the layout and classes from `charactergen.component.html`.
-- [ ] T023 [US1] Add route `{ path: 'creature', component: CreatureGenComponent, pathMatch: 'full' }` between treasure and character in `dndgen-web/src/app/app.routes.ts`, with a failing-first case in `dndgen-web/src/app/app.routes.unit.spec.ts`. In the same task, update `dndgen-web/README.md` "Generators":
+- [X] T023 [US1] Add route `{ path: 'creature', component: CreatureGenComponent, pathMatch: 'full' }` between treasure and character in `dndgen-web/src/app/app.routes.ts`, with a failing-first case in `dndgen-web/src/app/app.routes.unit.spec.ts`. In the same task, update `dndgen-web/README.md` "Generators":
   - "five of the six" becomes "all six".
   - Add a `**Creature**` bullet after Treasure: "Generate a specific creature with optional ordered templates, or a random creature filtered by challenge rating, alignment, creature type, and ordered templates (including None to force an untemplated creature); download as text".
   - Remove "CreatureGen has an API but the website generator page is not yet implemented."
@@ -179,17 +179,17 @@ description: "Task list for the CreatureGen page"
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T024 [P] [US2] Add failing unit cases to `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts`:
+- [X] T024 [P] [US2] Add failing unit cases to `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts`:
   - Each `selectedChange` from `creatureTemplates` updates `creatureTemplates` and calls `validateCreature` with the exact ordered array (0, 1, 2, 3 templates; swapped order).
   - `generateCreature` sends templates in order.
-- [ ] T025 [P] [US2] Add failing integration cases to `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`:
+- [X] T025 [P] [US2] Add failing integration cases to `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`:
   - Human + Ghost → valid, and generating shows templates ["Ghost"] in the summary/output.
   - Human + Ghost + Lich → invalid, and Generate is disabled.
   - Removing Lich → valid again.
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Wire `(selectedChange)` of `creatureTemplates` in `creaturegen.component.html` to set `creatureTemplates` and call `validateCreature(creatureName, $event)`. Pass `creatureModel()!.templates` as options. Pass `creatureTemplates` to `creatureService.generateCreature`. Do this until T024–T025 pass.
+- [X] T026 [US2] Wire `(selectedChange)` of `creatureTemplates` in `creaturegen.component.html` to set `creatureTemplates` and call `validateCreature(creatureName, $event)`. Pass `creatureModel()!.templates` as options. Pass `creatureTemplates` to `creatureService.generateCreature`. Do this until T024–T025 pass.
 
 **Checkpoint**: US1 and US2 both work independently.
 
@@ -203,7 +203,7 @@ description: "Task list for the CreatureGen page"
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T027 [P] [US3] Add failing unit cases to `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts`:
+- [X] T027 [P] [US3] Add failing unit cases to `dndgen-web/src/app/creature/components/creaturegen.component.unit.spec.ts`:
   - Init also validates the Random tab with all filters empty.
   - Each of `randomChallengeRating`, `randomAlignment`, and `randomCreatureType` (`<select>` with first option "Any" = `''`, options in view-model order) triggers `validateRandom` with the exact args.
   - Template changes trigger `validateRandom` with the ordered array.
@@ -211,7 +211,7 @@ description: "Task list for the CreatureGen page"
   - `generateRandom()` passes all current values.
   - Switching tabs keeps each tab's inputs.
   - Errors are handled as in US1.
-- [ ] T028 [P] [US3] Add failing integration cases to `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`:
+- [X] T028 [P] [US3] Add failing integration cases to `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`:
   - Random with no filters generates a creature.
   - Each filter alone (CR "5", alignment "Neutral Evil", type "Aberration") yields a matching creature.
   - All three together yield a matching creature. With [None] added, the creature also has no templates.
@@ -222,8 +222,8 @@ description: "Task list for the CreatureGen page"
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] Add `randomTemplates`, `randomChallengeRating`, `randomAlignment`, `randomCreatureType` inputs and `validateRandom(templates?, cr?, alignment?, type?)` / `generateRandom()` methods to `dndgen-web/src/app/creature/components/creaturegen.component.ts`. Extend `ngOnInit` to `switchMap` into `validateRandom` after `validateCreature`. Do this until T027 passes.
-- [ ] T030 [US3] Fill the "Random" tab in `dndgen-web/src/app/creature/components/creaturegen.component.html`: three `form-select` dropdowns (`randomChallengeRating`, `randomAlignment`, `randomCreatureType`, each with "Any") laid out like the CharacterGen rows (`col-sm-2` label, `col-sm-4` input), `dndgen-template-list` id `randomTemplates`, `generateRandomButton`, and the `randomValidating` small loading indicator beside it. Do this until T028 passes.
+- [X] T029 [US3] Add `randomTemplates`, `randomChallengeRating`, `randomAlignment`, `randomCreatureType` inputs and `validateRandom(templates?, cr?, alignment?, type?)` / `generateRandom()` methods to `dndgen-web/src/app/creature/components/creaturegen.component.ts`. Extend `ngOnInit` to `switchMap` into `validateRandom` after `validateCreature`. Do this until T027 passes.
+- [X] T030 [US3] Fill the "Random" tab in `dndgen-web/src/app/creature/components/creaturegen.component.html`: three `form-select` dropdowns (`randomChallengeRating`, `randomAlignment`, `randomCreatureType`, each with "Any") laid out like the CharacterGen rows (`col-sm-2` label, `col-sm-4` input), `dndgen-template-list` id `randomTemplates`, `generateRandomButton`, and the `randomValidating` small loading indicator beside it. Do this until T028 passes.
 
 **Checkpoint**: US1–US3 work independently.
 
