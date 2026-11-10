@@ -9,6 +9,7 @@
         <ul class="navbar-nav">
           <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/roll']" (click)="isMenuCollapsed = true">RollGen</a></li>
           <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/treasure']" (click)="isMenuCollapsed = true">TreasureGen</a></li>
+          <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/creature']" (click)="isMenuCollapsed = true">CreatureGen</a></li>
           <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/character']" (click)="isMenuCollapsed = true">CharacterGen</a></li>
           <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/encounter']" (click)="isMenuCollapsed = true">EncounterGen</a></li>
           <li ngbNavItem [destroyOnHide]="false"><a ngbNavLink [routerLink]="['/dungeon']" (click)="isMenuCollapsed = true">DungeonGen</a></li>
@@ -23,6 +24,7 @@
               <hr class="dropdown-divider">
               <a id="rollgenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/RollGen">RollGen</a>
               <a id="treasuregenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/TreasureGen">TreasureGen</a>
+              <a id="creaturegenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/CreatureGen">CreatureGen</a>
               <a id="charactergenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/CharacterGen">CharacterGen</a>
               <a id="encountergenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/EncounterGen">EncounterGen</a>
               <a id="dungeongenCodeLink" ngbDropdownItem target="_blank" href="https://github.com/DnDGen/DungeonGen">DungeonGen</a>
@@ -34,6 +36,7 @@
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="apiLinks">
               <a id="rollgenApiLink" ngbDropdownItem target="_blank" href="https://roll.dndgen.com/api/swagger/ui">RollGen</a>
               <a id="treasuregenApiLink" ngbDropdownItem target="_blank" href="https://treasure.dndgen.com/api/swagger/ui">TreasureGen</a>
+              <a id="creaturegenApiLink" ngbDropdownItem target="_blank" href="https://creature.dndgen.com/api/swagger/ui">CreatureGen</a>
               <a id="charactergenApiLink" ngbDropdownItem target="_blank" href="https://character.dndgen.com/api/swagger/ui">CharacterGen</a>
               <a id="encountergenApiLink" ngbDropdownItem target="_blank" href="https://encounter.dndgen.com/api/swagger/ui">EncounterGen</a>
               <a id="dungeongenApiLink" ngbDropdownItem target="_blank" href="https://dungeon.dndgen.com/api/swagger/ui">DungeonGen</a>

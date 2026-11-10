@@ -288,11 +288,11 @@ description: "Task list for the CreatureGen page"
 
 **Independent Test**: The nav order is RollGen, TreasureGen, CreatureGen, CharacterGen, EncounterGen, DungeonGen; both menus have working CreatureGen links.
 
-- [ ] T040 [P] [US5] Add failing cases to `dndgen-web/src/app/navigation-menu/navigation-menu.component.unit.spec.ts` and `.integration.spec.ts`:
+- [X] T040 [P] [US5] Add failing cases to `dndgen-web/src/app/navigation-menu/navigation-menu.component.unit.spec.ts` and `.integration.spec.ts`:
   - The full ordered list of main links includes CreatureGen → `/creature`.
   - The GitHub menu, in full order, includes `creaturegenCodeLink` → `https://github.com/DnDGen/CreatureGen` with `target="_blank"`.
   - The API menu, in full order, includes `creaturegenApiLink` → `https://creature.dndgen.com/api/swagger/ui` with `target="_blank"`.
-- [ ] T041 [US5] Insert the three entries between TreasureGen and CharacterGen in `dndgen-web/src/app/navigation-menu/navigation-menu.component.html`, matching the neighbouring markup, until T040 passes. Also update any other spec that asserts the full nav or route list (e.g. `dndgen-web/src/app/app.component.integration.spec.ts`) if it fails.
+- [X] T041 [US5] Insert the three entries between TreasureGen and CharacterGen in `dndgen-web/src/app/navigation-menu/navigation-menu.component.html`, matching the neighbouring markup, until T040 passes. Also update any other spec that asserts the full nav or route list (e.g. `dndgen-web/src/app/app.component.integration.spec.ts`) if it fails.
 
 ---
 
