@@ -122,9 +122,9 @@ So many different options, variety astounds.
 GENERATE! (GENERATE!)
 
 [Bridge - conspiratorial; hushed]
-... I'll share an open secret: there's creatures you could get.
+... I'll share an open secret: there's creatures you can get.
 The CreatureGen API could make a foe or pet,
-But there isn't any page for it yet.
+And now it has a page, with templates stacked and set.
 
 [Full ensemble erupts]
 
@@ -145,8 +145,8 @@ Woops. Hasbro bought the rights - screw that up, and they might sue -
 Actually, Creative Commons means it's me and you.
 
 [Pre-Chorus 3 - grand buildup, slow and deliberate, hushed reverence before the final reveal]
-Roll, Treasure, Character, Encounter - what a boon.
-(And creature generation will be coming very soon.)
+Roll, Treasure, Creature, Character, Encounter - what a boon.
+(And creatures, too - a Ghost or Lich will haunt you very soon.)
 But one more generator was forged to rule them all:
 (DUN-GEON MAS-TER!) The Dungeon heeds your call.
 
@@ -178,6 +178,7 @@ But have no fear - just recreate.
 [Finale - full ensemble fortissimo, the curtain call, everyone joins in]
 (Generate!) A set of dice.
 (Generate!) A treasure trove.
+(Generate!) A creature.
 (Generate!) A character.
 (Generate!) Encounters.
 (Generate!) The dungeon.
@@ -234,9 +235,9 @@ GENERATE!
 | 40 | Party level, creature types, aquatic, underground - | `README.md`: /level/{level}/<br>`README.md`: `creatureTypeFilters` (string[], query, optional)<br>`README.md`: `allowAquatic`, `allowUnderground` (bool, query, optional) |
 | 41 | So many different options, variety astounds. | Not from source files |
 | 42 | GENERATE! (GENERATE!) | `README.md`: /generate |
-| 43 | ... I'll share an open secret: there's creatures you could get. | `README.md`: with a creature generator API (CreatureGen) also available |
+| 43 | ... I'll share an open secret: there's creatures you can get. | `README.md`: the creature generator (CreatureGen) |
 | 44 | The CreatureGen API could make a foe or pet, | `README.md`: /creature/{creatureName}/generate |
-| 45 | But there isn't any page for it yet. | `README.md`: CreatureGen has an API but no generator page on the site yet |
+| 45 | And now it has a page, with templates stacked and set. | `README.md`: covering all six generators<br>`dndgen-web/README.md`: optional ordered templates |
 | 46 | An Angular application is featured center-stage. | `README.md`: an Angular single-page application |
 | 47 | Components, models, services, and pipes build every page. | `dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureComponent } from './treasure.component';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureGenViewModel } from '../models/treasuregen-view-model.model';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureService } from '../services/treasure.service';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasurePipe } from '../pipes/treasure.pipe'; |
 | 48 | Automated tests abound, and coverage is complete. | `README.md`: Tests run across three layers |
@@ -248,10 +249,10 @@ GENERATE!
 | 54 | Nope. Wizards of the Coast is the owner, on review - | `dndgen-web/src/app/home/home.component.html`: <s>Wizards of the Coast</s> |
 | 55 | Woops. Hasbro bought the rights - screw that up, and they might sue - | `dndgen-web/src/app/home/home.component.html`: <b>Hasbro</b> |
 | 56 | Actually, Creative Commons means it's me and you. | `dndgen-web/src/app/home/home.component.html`: used under Creative Commons |
-| 57 | Roll, Treasure, Character, Encounter - what a boon. | `README.md`: Roll, Treasure, Character, Encounter, |
-| 58 | (And creature generation will be coming very soon.) | `README.md`: CreatureGen has an API but no generator page on the site yet |
+| 57 | Roll, Treasure, Creature, Character, Encounter - what a boon. | `README.md`: Roll, Treasure, Creature, Character, Encounter, |
+| 58 | (And creatures, too - a Ghost or Lich will haunt you very soon.) | `dndgen-web/src/app/creature/services/creature.service.integration.spec.ts`: templates: ['Ghost', 'Lich'] |
 | 59 | But one more generator was forged to rule them all: | Not from source files: Allusion to Tolkien's "The Lord of the Rings" |
-| 60 | (DUN-GEON MAS-TER!) The Dungeon heeds your call. | `README.md`: Roll, Treasure, Character, Encounter, and Dungeon |
+| 60 | (DUN-GEON MAS-TER!) The Dungeon heeds your call. | `README.md`: Roll, Treasure, Creature, Character, Encounter, and Dungeon |
 | 61 | An area - through a DOOR - at dungeon level 8. | `README.md`: /dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
 | 62 | (Encounter looms, do the monsters spell doom?) | `dndgen-web/src/app/dungeon/models/contents.model.ts`: public encounters: Encounter[] = [] |
 | 63 | Within Cold Mountains, a HALL we shall create. | `DnDGen.Api.Web/Models/DungeonViewModel.cs`: public class DungeonViewModel : EncounterViewModel<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Cold,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Mountain,<br>`README.md`: /dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
@@ -269,10 +270,11 @@ GENERATE!
 | 75 | But have no fear - just recreate. | Not from source files |
 | 76 | (Generate!) A set of dice. | `README.md`: RollGen |
 | 77 | (Generate!) A treasure trove. | `README.md`: TreasureGen |
-| 78 | (Generate!) A character. | `README.md`: CharacterGen |
-| 79 | (Generate!) Encounters. | `README.md`: EncounterGen |
-| 80 | (Generate!) The dungeon. | `README.md`: DungeonGen |
-| 81 | Everyone will have a ball.<br>Click, and you create it all. | Not from source files |
+| 78 | (Generate!) A creature. | `README.md`: CreatureGen |
+| 79 | (Generate!) A character. | `README.md`: CharacterGen |
+| 80 | (Generate!) Encounters. | `README.md`: EncounterGen |
+| 81 | (Generate!) The dungeon. | `README.md`: DungeonGen |
+| 82 | Everyone will have a ball.<br>Click, and you create it all. | Not from source files |
 
 ## Suno Notes
 

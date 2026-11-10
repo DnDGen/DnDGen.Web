@@ -311,13 +311,13 @@ description: "Task list for the CreatureGen page"
 
 ## Phase 9: Polish & Cross-Cutting Concerns
 
-- [ ] T046 [P] Update root `README.md`:
+- [X] T046 [P] Update root `README.md`:
   - The website section covers six generators.
   - Remove "CreatureGen has an API but no generator page on the site yet".
   - Line 4: list the creature generator alongside the others.
-- [ ] T047 [P] Re-read `dndgen-web/README.md` against the finished page and correct anything the T002/T023 wording no longer matches
-- [ ] T048 Run the README phrase tests (`dndgen-web/src/app/readme.integration.spec.ts` and `DnDGen.Web.Tests.Integration`). Update `docs/theme-song/README.md` Lyrics and Sources for lines 45 and 58 (and any other phrase the tests list) per its "Updating" section, singing names as words. Record in the PR that **the maintainer must make the Suno cover and update the link**.
-- [ ] T049 Commit T046–T048 as "Document the CreatureGen page"
+- [X] T047 [P] Re-read `dndgen-web/README.md` against the finished page and correct anything the T002/T023 wording no longer matches
+- [X] T048 Run the README phrase tests (`dndgen-web/src/app/readme.integration.spec.ts` and `DnDGen.Web.Tests.Integration`). Update `docs/theme-song/README.md` Lyrics and Sources for lines 45 and 58 (and any other phrase the tests list) per its "Updating" section, singing names as words. Record in the PR that **the maintainer must make the Suno cover and update the link**.
+- [X] T049 Commit T046–T048 as "Document the CreatureGen page"
 - [ ] T050 Run `npm run test:unit` and `npm run test:integration` in `dndgen-web/` with coverage. Confirm 100% line and branch coverage for the website, and add the missing cases for any gap.
 - [ ] T051 Run `dotnet test DnDGen.Apis.sln` and the quickstart manual scenarios ([quickstart.md](quickstart.md)) with `npm start`, including a 375px-wide check of the layout
 - [ ] T052 Open a PR to `main` with reviewer `cidthecoatrack`, linking DnDGen/DnDGen.Web#1963. Write the description from the diff, state what was and wasn't verified, and call out the theme-song re-record. If wanted, file issues for multi-value CR/type filters and for cancelling stale validations site-wide (III.3).
