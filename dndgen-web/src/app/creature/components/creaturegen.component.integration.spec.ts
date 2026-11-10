@@ -7,6 +7,9 @@ import { Creature } from '../models/creature.model';
 import { By } from '@angular/platform-browser';
 import { CreatureComponent } from './creature.component';
 import { NgbConfig } from '@ng-bootstrap/ng-bootstrap';
+import FileSaver from 'file-saver';
+import { CreatureTestHelper } from '../creature.test-helper';
+import { CreaturePipe } from '../pipes/creature.pipe';
 
 describe('CreatureGen Component', () => {
   describe('integration', () => {
@@ -127,6 +130,47 @@ describe('CreatureGen Component', () => {
       expect(displayedCreature()).toBe(creature);
     });
 
+    it('should not offer a download when no creature has been generated', () => {
+      helper.expectExists('#downloadButton', false);
+    });
+
+    it('should download the displayed creature', async () => {
+      //Even for an integration test, we don't want to create an actual file
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
+
+      fixture.componentInstance.creature.set(CreatureTestHelper.createMinimalCreature());
+      await helper.waitForChangeDetection();
+
+      helper.clickButton('#downloadButton');
+
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'Gelatinous Cube.txt');
+
+      const creaturePipe = fixture.debugElement.injector.get(CreaturePipe);
+      const text = await (fileSaverSpy.mock.calls[0][0] as Blob).text();
+      expect(text).toEqual(creaturePipe.transform(fixture.componentInstance.creature()!));
+      expect(text.startsWith('Gelatinous Cube:\r\n\tSize: Huge\r\n')).toBe(true);
+    });
+
+    it('should download a generated creature', async () => {
+      const fileSaverSpy = vi.spyOn(FileSaver, 'saveAs').mockImplementation(() => {});
+
+      await choose('#creatureName', 'human', 'Human');
+      await setTemplates('#creatureTemplates', ['Ghost']);
+      helper.clickButton('#creatureButton');
+      await helper.waitForChangeDetection();
+
+      helper.clickButton('#downloadButton');
+
+      expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'Ghost Human.txt');
+
+      const creaturePipe = fixture.debugElement.injector.get(CreaturePipe);
+      const creature = fixture.componentInstance.creature()!;
+      expect(creature.summary).toEqual('Ghost Human');
+
+      const text = await (fileSaverSpy.mock.calls[0][0] as Blob).text();
+      expect(text).toEqual(creaturePipe.transform(creature));
+    });
+
     it('should show when generating', async () => {
       fixture.componentInstance.generating.set(true);
       fixture.componentInstance.generatingMessage.set('Generating creature...');
@@ -136,6 +180,7 @@ describe('CreatureGen Component', () => {
       helper.expectTextContent('#generatingSection > span', 'Generating creature...');
       helper.expectLoading('#generatingSection dndgen-loading', true, Size.Medium);
       helper.expectHasAttribute('#creatureButton', 'disabled', true);
+      helper.expectExists('#downloadButton', false);
     });
 
     describe('the set tab', () => {

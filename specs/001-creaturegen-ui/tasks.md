@@ -237,13 +237,13 @@ description: "Task list for the CreatureGen page"
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T031 [P] [US4] Write failing tests for `dndgen-web/src/app/creature/components/attack.component.unit.spec.ts` and `.integration.spec.ts`:
+- [X] T031 [P] [US4] Write failing tests for `dndgen-web/src/app/creature/components/attack.component.unit.spec.ts` and `.integration.spec.ts`:
   - The name is shown with its type (melee/ranged, natural, primary/secondary, special).
   - The total attack bonus uses "+N" formatting, and full attack bonuses are shown as "+15/+10".
   - The damage summary and damage effect are shown.
   - Frequency comes from `FrequencyPipe`.
   - Conditional attack bonuses are marked.
-- [ ] T032 [P] [US4] Expand `dndgen-web/src/app/creature/components/creature.component.unit.spec.ts` with failing cases, one per section listed in spec US4-AS1:
+- [X] T032 [P] [US4] (Done as `creature-format.service.unit.spec.ts` + `creature.component.integration.spec.ts`: the display logic lives in `CreatureFormatService`, shared with `CreaturePipe` the way `SpellGroupService` is shared by Character, so the component itself has no logic to unit-test.) Expand `dndgen-web/src/app/creature/components/creature.component.unit.spec.ts` with failing cases, one per section listed in spec US4-AS1:
   - summary heading; size; type and subtypes; CR; alignment; level adjustment (including none); templates in order;
   - hit points (total, hit dice, conditional bonuses); speeds (each movement, with description); AC total, touch, and flat-footed, plus conditional; initiative; BAB and grapple;
   - space and reach via `MeasurementPipe`; saves (each, plus conditional, plus `hasSave` false → "—"); abilities (score and modifier; `hasScore` false → "—");
@@ -252,8 +252,8 @@ description: "Task list for the CreatureGen page"
   - magic (caster level, domains, spells per day, known/prepared spells grouped by source and level, including no magic);
   - equipment (weapons, armor, shield, items via `dndgen-item`, including none);
   - demographics (gender, age, max age, height/length/weight/wingspan; skin/hair/eyes/other omitted when empty).
-- [ ] T033 [P] [US4] Expand `dndgen-web/src/app/creature/components/creature.component.integration.spec.ts` with failing cases rendering real generated creatures: Human, Ghost Human (Constitution "—"), Couatl (magic), and Hill Giant (equipment).
-- [ ] T034 [P] [US4] Create `dndgen-web/src/app/creature/pipes/creature.pipe.test-helper.ts` and write failing tests in `dndgen-web/src/app/creature/pipes/creature.pipe.unit.spec.ts`. They assert the full expected text output (whole-string comparison, II.3.a) for:
+- [X] T033 [P] [US4] Expand `dndgen-web/src/app/creature/components/creature.component.integration.spec.ts` with failing cases rendering real generated creatures: Human, Ghost Human (Constitution "—"), Couatl (magic), and Hill Giant (equipment).
+- [X] T034 [P] [US4] Create `dndgen-web/src/app/creature/pipes/creature.pipe.test-helper.ts` and write failing tests in `dndgen-web/src/app/creature/pipes/creature.pipe.unit.spec.ts`. They assert the full expected text output (whole-string comparison, II.3.a) for:
   - a full creature, and a minimal creature;
   - each optional section empty;
   - no-score ability and no-save;
@@ -262,7 +262,7 @@ description: "Task list for the CreatureGen page"
   - equipment items formatted by `ItemPipe`.
 
   Copy the indentation and labelling conventions from `character.pipe.ts`.
-- [ ] T035 [P] [US4] Add failing cases to `creaturegen.component.unit.spec.ts` and `creaturegen.component.integration.spec.ts`:
+- [X] T035 [P] [US4] Add failing cases to `creaturegen.component.unit.spec.ts` and `creaturegen.component.integration.spec.ts`:
   - `downloadButton` is shown only when a creature exists.
   - `download()` calls `fileSaverService.save(creaturePipe.transform(creature), creature.summary)`.
   - `download()` does nothing with no creature.
@@ -270,13 +270,13 @@ description: "Task list for the CreatureGen page"
 
 ### Implementation for User Story 4
 
-- [ ] T036 [US4] Implement `dndgen-web/src/app/creature/components/attack.component.{ts,html}` (`dndgen-attack`, input `attack`) until T031 passes
-- [ ] T037 [US4] Complete `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (imports `DetailsComponent`, `FeatComponent`, `ItemComponent`, `AttackComponent`, `BonusPipe`, `BonusesPipe`, `MeasurementPipe`, `FrequencyPipe`, `DecimalPipe`; provides `DecimalPipe`, `InchesToFeetPipe`) with sections in this order:
+- [X] T036 [US4] Implement `dndgen-web/src/app/creature/components/attack.component.{ts,html}` (`dndgen-attack`, input `attack`) until T031 passes
+- [X] T037 [US4] Complete `dndgen-web/src/app/creature/components/creature.component.{ts,html}` (imports `DetailsComponent`, `FeatComponent`, `ItemComponent`, `AttackComponent`, `BonusPipe`, `BonusesPipe`, `MeasurementPipe`, `FrequencyPipe`, `DecimalPipe`; provides `DecimalPipe`, `InchesToFeetPipe`) with sections in this order:
   - Overview, Hit Points, Combat, Attacks, Abilities, Skills, Feats, Special Qualities, Languages, Magic, Equipment, Demographics.
 
   Use nested `dndgen-details` in the same style as `character.component.html`. Do this until T032–T033 pass.
-- [ ] T038 [US4] Implement `dndgen-web/src/app/creature/pipes/creature.pipe.ts` (`CreaturePipe`, standalone, injecting `ItemPipe`, `BonusPipe`, `BonusesPipe`, `MeasurementPipe`, `FrequencyPipe`) until T034 passes
-- [ ] T039 [US4] Add `download()` and the `downloadButton` to `creaturegen.component.{ts,html}`, providing `CreaturePipe` and its dependencies in the component `providers` like `charactergen.component.ts`. Do this until T035 passes.
+- [X] T038 [US4] Implement `dndgen-web/src/app/creature/pipes/creature.pipe.ts` (`CreaturePipe`, standalone, injecting `ItemPipe`, `BonusPipe`, `BonusesPipe`, `MeasurementPipe`, `FrequencyPipe`) until T034 passes
+- [X] T039 [US4] Add `download()` and the `downloadButton` to `creaturegen.component.{ts,html}`, providing `CreaturePipe` and its dependencies in the component `providers` like `charactergen.component.ts`. Do this until T035 passes.
 
 **Checkpoint**: US1–US4 complete; the page is feature-complete.
 

@@ -132,6 +132,9 @@
     </div>
     <div class="col-sm-6 clearfix">
       @if (!generating()) {
+        @if (creature()) {
+          <button id="downloadButton" class="btn btn-light btn-lg float-end" (click)="download()">Download</button>
+        }
         <div id="creatureSection">
           @if (!creature()) {
             <span id="noCreature" class="italicize">No creature has been generated</span>

@@ -12,12 +12,27 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select.component';
 import { TemplateListComponent } from './template-list.component';
 import { CreatureComponent } from './creature.component';
+import { FileSaverService } from '../../shared/services/file-saver.service';
+import { CreaturePipe } from '../pipes/creature.pipe';
+import { ItemPipe } from '../../treasure/pipes/item.pipe';
+import { DecimalPipe } from '@angular/common';
+import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
+import { InchesToFeetPipe } from '../../character/pipes/inches-to-feet.pipe';
+import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
+import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
 
 @Component({
     selector: 'dndgen-creaturegen',
     templateUrl: './creaturegen.component.html',
     providers: [
         CreatureService,
+        CreaturePipe,
+        ItemPipe,
+        DecimalPipe,
+        MeasurementPipe,
+        InchesToFeetPipe,
+        FrequencyPipe,
+        SpellQuantityPipe,
     ],
     standalone: true,
     imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, TemplateListComponent, CreatureComponent]
@@ -27,7 +42,9 @@ export class CreatureGenComponent implements OnInit {
   constructor(
     private creatureService: CreatureService,
     private sweetAlertService: SweetAlertService,
-    private logger: LoggerService) { }
+    private logger: LoggerService,
+    private fileSaverService: FileSaverService,
+    private creaturePipe: CreaturePipe) { }
 
   public creatureModel = signal<CreatureGenViewModel | undefined>(undefined);
   public sizes = Size;
@@ -180,5 +197,14 @@ export class CreatureGenComponent implements OnInit {
     this.creature.set(data);
     this.generating.set(false);
     this.generatingMessage.set('');
+  }
+
+  public download(): void {
+    const creatureSource = this.creature();
+    if (!creatureSource)
+      return;
+
+    const formattedCreature = this.creaturePipe.transform(creatureSource);
+    this.fileSaverService.save(formattedCreature, creatureSource.summary);
   }
 }

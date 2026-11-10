@@ -6,6 +6,8 @@ import { LoggerService } from '../../shared/services/logger.service';
 import { Observable } from 'rxjs';
 import { CreatureGenViewModel } from '../models/creaturegen-view-model.model';
 import { Creature } from '../models/creature.model';
+import { FileSaverService } from '../../shared/services/file-saver.service';
+import { CreaturePipe } from '../pipes/creature.pipe';
 
 describe('CreatureGen Component', () => {
   describe('unit', () => {
@@ -19,6 +21,8 @@ describe('CreatureGen Component', () => {
     };
     let sweetAlertServiceSpy: { showError: ReturnType<typeof vi.fn> };
     let loggerServiceSpy: { logError: ReturnType<typeof vi.fn> };
+    let fileSaverServiceSpy: { save: ReturnType<typeof vi.fn> };
+    let creaturePipeSpy: { transform: ReturnType<typeof vi.fn> };
 
     const delay = 10;
 
@@ -34,11 +38,15 @@ describe('CreatureGen Component', () => {
       };
       sweetAlertServiceSpy = { showError: vi.fn() };
       loggerServiceSpy = { logError: vi.fn() };
+      fileSaverServiceSpy = { save: vi.fn() };
+      creaturePipeSpy = { transform: vi.fn() };
 
       component = new CreatureGenComponent(
         creatureServiceSpy as unknown as CreatureService,
         sweetAlertServiceSpy as unknown as SweetAlertService,
-        loggerServiceSpy as unknown as LoggerService
+        loggerServiceSpy as unknown as LoggerService,
+        fileSaverServiceSpy as unknown as FileSaverService,
+        creaturePipeSpy as unknown as CreaturePipe
       );
     });
 
@@ -426,6 +434,24 @@ describe('CreatureGen Component', () => {
 
         expectError('I failed');
       });
+    });
+
+    it('should download the creature', () => {
+      const creature = new Creature('my creature summary');
+      component.creature.set(creature);
+      creaturePipeSpy.transform.mockReturnValue('my formatted creature');
+
+      component.download();
+
+      expect(creaturePipeSpy.transform).toHaveBeenCalledWith(creature);
+      expect(fileSaverServiceSpy.save).toHaveBeenCalledWith('my formatted creature', 'my creature summary');
+    });
+
+    it('should not download a missing creature', () => {
+      component.download();
+
+      expect(creaturePipeSpy.transform).not.toHaveBeenCalled();
+      expect(fileSaverServiceSpy.save).not.toHaveBeenCalled();
     });
   });
 });

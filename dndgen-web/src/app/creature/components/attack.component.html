@@ -1,0 +1,20 @@
+<dndgen-details class="attack-heading" [heading]="attack.name" [hasDetails]="true">
+  <ul>
+    <li class="attack-type">Type: {{attackType}}</li>
+    @if (!attack.isSpecial) {
+      <li class="attack-bonus">Attack Bonus: {{attack.totalAttackBonus | bonus: isConditional}}</li>
+      @if (attack.fullAttackBonuses.length > 1) {
+        <li class="attack-full-bonuses">Full Attack Bonuses: {{attack.fullAttackBonuses | bonuses: isConditional}}</li>
+      }
+    }
+    @if (attack.damageSummary) {
+      <li class="attack-damage">Damage: {{attack.damageSummary}}</li>
+    }
+    @if (attack.damageEffect) {
+      <li class="attack-effect">Effect: {{attack.damageEffect}}</li>
+    }
+    @if (attack.frequency.timePeriod) {
+      <li class="attack-frequency">Frequency: {{attack.frequency | frequency}}</li>
+    }
+  </ul>
+</dndgen-details>
