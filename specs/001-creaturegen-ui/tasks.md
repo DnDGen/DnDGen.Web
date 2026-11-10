@@ -26,8 +26,8 @@ description: "Task list for the CreatureGen page"
 
 **Purpose**: Folder skeleton and test scripts.
 
-- [ ] T001 Create folders `dndgen-web/src/app/creature/{components,models,pipes,services}/` (mirroring `dndgen-web/src/app/character/`)
-- [ ] T002 Add npm scripts to `dndgen-web/package.json`, matching the charactergen entries: `"test:creaturegen": "ng test --no-watch --include='src/app/creature/**/*.spec.ts'"` (after `test:treasuregen`) and `"test:integration:ci:creaturegen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/creature/**/*.integration.spec.ts'"` (after `test:integration:ci:treasuregen`). In the same task, add the row `` | `npm run test:creaturegen` | All tests for CreatureGen | `` after the TreasureGen row of the "Running tests" table in `dndgen-web/README.md`. `dndgen-web/src/app/readme.integration.spec.ts` requires every non-CI script to be documented: it fails when the script is added and passes once the row is in.
+- [X] T001 Create folders `dndgen-web/src/app/creature/{components,models,pipes,services}/` (mirroring `dndgen-web/src/app/character/`)
+- [X] T002 Add npm scripts to `dndgen-web/package.json`, matching the charactergen entries: `"test:creaturegen": "ng test --no-watch --include='src/app/creature/**/*.spec.ts'"` (after `test:treasuregen`) and `"test:integration:ci:creaturegen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/creature/**/*.integration.spec.ts'"` (after `test:integration:ci:treasuregen`). In the same task, add the row `` | `npm run test:creaturegen` | All tests for CreatureGen | `` after the TreasureGen row of the "Running tests" table in `dndgen-web/README.md`. `dndgen-web/src/app/readme.integration.spec.ts` requires every non-CI script to be documented: it fails when the script is added and passes once the row is in.
 
 ---
 
@@ -39,21 +39,21 @@ description: "Task list for the CreatureGen page"
 
 ### API documentation corrections (FR-029; own commit, III.2)
 
-- [ ] T003 [P] In `DnDGen.Api.CreatureGen/Functions/GenerateRandomCreatureFunction.cs` and `DnDGen.Api.CreatureGen/Functions/ValidateRandomCreatureFunction.cs`, change only the OpenAPI attributes: `alignment` → `Required = false`; `type` → `Type = typeof(string)`, Description "The desired type or subtype of the generated creature (single value)."; `cr` → `Type = typeof(string)`, Description "The desired Challenge Rating of the generated creature (single value)." No behaviour change.
-- [ ] T004 [P] In root `README.md` CreatureGen table rows `v1/creature/generate` and `v1/creature/validate`, change the parameters to `alignment` (string, query, optional), `templates` (string[], query, optional), `type` (string, query, optional), `cr` (string, query, optional)
-- [ ] T005 Run `dotnet test DnDGen.Apis.sln` to confirm all API tests still pass. Then commit T003–T004 as "Correct CreatureGen random route documentation"
+- [X] T003 [P] In `DnDGen.Api.CreatureGen/Functions/GenerateRandomCreatureFunction.cs` and `DnDGen.Api.CreatureGen/Functions/ValidateRandomCreatureFunction.cs`, change only the OpenAPI attributes: `alignment` → `Required = false`; `type` → `Type = typeof(string)`, Description "The desired type or subtype of the generated creature (single value)."; `cr` → `Type = typeof(string)`, Description "The desired Challenge Rating of the generated creature (single value)." No behaviour change.
+- [X] T004 [P] In root `README.md` CreatureGen table rows `v1/creature/generate` and `v1/creature/validate`, change the parameters to `alignment` (string, query, optional), `templates` (string[], query, optional), `type` (string, query, optional), `cr` (string, query, optional)
+- [X] T005 Run `dotnet test DnDGen.Apis.sln` to confirm all API tests still pass. Then commit T003–T004 as "Correct CreatureGen random route documentation"
 
 ### Models (data-model.md)
 
-- [ ] T006 [P] Create `dndgen-web/src/app/creature/models/creaturegen-view-model.model.ts`: `CreatureGenViewModel(creatures: string[], templates: string[], alignments: string[], creatureTypes: string[], challengeRatings: string[])`. Note: templates "Includes \"None\", which is selectable (forces no template)"
-- [ ] T007 [P] Create small creature models, each in its own file in `dndgen-web/src/app/creature/models/` with constructor defaults in the `character/models` style:
+- [X] T006 [P] Create `dndgen-web/src/app/creature/models/creaturegen-view-model.model.ts`: `CreatureGenViewModel(creatures: string[], templates: string[], alignments: string[], creatureTypes: string[], challengeRatings: string[])`. Note: templates "Includes \"None\", which is selectable (forces no template)"
+- [X] T007 [P] Create small creature models, each in its own file in `dndgen-web/src/app/creature/models/` with constructor defaults in the `character/models` style:
   - `bonus.model.ts` (`value`, `condition`, `isConditional`);
   - `creature-type.model.ts` (`name`, `subTypes`, `allTypes`);
   - `creature-ability.model.ts` (`name`, `fullScore`, `modifier`, `hasScore`);
   - `creature-measurement.model.ts` (`value`, `unit`, `description`);
   - `hit-dice.model.ts` (`hitDie`, `quantity`, `roundedQuantity`, `defaultRoll`);
   - `save.model.ts` (`totalBonus`, `isConditional`, `hasSave`, `bonuses: Bonus[]`).
-- [ ] T008 [P] Create the composite creature models in `dndgen-web/src/app/creature/models/`:
+- [X] T008 [P] Create the composite creature models in `dndgen-web/src/app/creature/models/`:
   - `hit-points.model.ts`;
   - `creature-armor-class.model.ts`;
   - `creature-skill.model.ts`;
@@ -65,17 +65,17 @@ description: "Task list for the CreatureGen page"
   - `demographics.model.ts`.
 
   All fields are exactly as listed in data-model.md "Nested models".
-- [ ] T009 Create `dndgen-web/src/app/creature/models/creature.model.ts` with every field in data-model.md "Creature" (reusing `Alignment` and `Feat`), with defaults so `new Creature('summary')` builds a complete empty creature for tests
+- [X] T009 Create `dndgen-web/src/app/creature/models/creature.model.ts` with every field in data-model.md "Creature" (reusing `Alignment` and `Feat`), with defaults so `new Creature('summary')` builds a complete empty creature for tests
 
 ### Service (contracts/creature-service.md)
 
-- [ ] T010 [P] Write failing unit tests in `dndgen-web/src/app/creature/services/creature.service.unit.spec.ts`. They use HttpClient mocks the same way as `character.service.unit.spec.ts`:
+- [X] T010 [P] Write failing unit tests in `dndgen-web/src/app/creature/services/creature.service.unit.spec.ts`. They use HttpClient mocks the same way as `character.service.unit.spec.ts`:
   - Each of the 5 methods calls the exact URL.
   - The creature name is URL-encoded, e.g. "Lycanthrope, Dire Wolf (Dire Werewolf, Natural)".
   - `templates` is sent once per entry in order, for 0, 1, 2, and 3 templates and for a swapped order.
   - `cr`, `alignment`, and `type` are sent when non-empty and omitted when empty, each individually and all together.
   - Results are returned unchanged.
-- [ ] T011 [P] Write failing integration tests in `dndgen-web/src/app/creature/services/creature.service.integration.spec.ts` (live APIs):
+- [X] T011 [P] Write failing integration tests in `dndgen-web/src/app/creature/services/creature.service.integration.spec.ts` (live APIs):
   - The view model has non-empty `creatures`/`templates`/`alignments`/`creatureTypes`/`challengeRatings` and contains "Human", "Ghost", "None", "Neutral Evil", "Aberration", "1/2".
   - `validateCreature` for Human + [] → true, Human + [Ghost] → true, Human + [Ghost, Lich] → false.
   - `generateCreature` Human + [] → name "Human", templates [].
@@ -85,11 +85,11 @@ description: "Task list for the CreatureGen page"
   - `generateRandom` with [None] → `templates` is [] (forcibly untemplated).
   - `generateRandom` with cr "5", alignment "Neutral Evil", type "Aberration" (validates as true, verified 2026-11-11) → a creature matching all three (the type matched against `type.allTypes`).
   - `generateRandom` with the same filters and [None] → a creature matching all three with `templates` []. This combination yields both templated and untemplated creatures (verified 2026-11-11: with no templates, 7 of 12 were untemplated, mostly Gibbering Mouther, and 5 were templated: Half-Fiend Ethereal Filcher, Fiendish Creature Mimic, Ghost Ettercap; [None] validates as true). Aberration is used because no template grants the Aberration type, unlike Undead (Ghost/Lich/Vampire/Zombie/Skeleton) or Outsider (Half-Fiend/Half-Celestial), which would skew results toward templates. So the no-template case asserts only the filters, never whether a template was applied.
-- [ ] T012 Implement `dndgen-web/src/app/creature/services/creature.service.ts` per the contract, using `HttpParams.append('templates', t)` in order and `.set` for non-empty filters, until T010–T011 pass
+- [X] T012 Implement `dndgen-web/src/app/creature/services/creature.service.ts` per the contract, using `HttpParams.append('templates', t)` in order and `.set` for non-empty filters, until T010–T011 pass
 
 ### Shared searchable select (new pattern, research R4)
 
-- [ ] T013 [P] Write failing unit and integration tests for `dndgen-web/src/app/shared/components/searchable-select.component.unit.spec.ts` and `.integration.spec.ts`:
+- [X] T013 [P] Write failing unit and integration tests for `dndgen-web/src/app/shared/components/searchable-select.component.unit.spec.ts` and `.integration.spec.ts`:
   - Typing a query lists exactly the options whose names contain it, case-insensitive, in view-model order (whole-list comparison, II.3.a). The integration spec uses the real creature list, verified 2026-11-11:
     - "yuan-ti" → exactly the 6 Yuan-ti creatures: Abomination, Pureblood, and 4 Halfblood variants.
     - "red dragon" → exactly the 12 Red Dragon ages (Wyrmling … Great Wyrm) plus "Chimera (Red Dragon head)".
@@ -102,11 +102,11 @@ description: "Task list for the CreatureGen page"
   - With `clearOnSelect`, the input empties after choosing.
   - Long names render in full.
   - The `id` is applied to the input.
-- [ ] T014 Implement `dndgen-web/src/app/shared/components/searchable-select.component.{ts,html}` (`dndgen-searchable-select`, standalone, `NgbTypeaheadModule`, `[editable]="false"`, focus/click streams merged into the search, `form-control` styling, results not truncated and shown in a scrollable dropdown) until T013 passes. Filtering is local, so there is no `debounceTime` (research R4).
+- [X] T014 Implement `dndgen-web/src/app/shared/components/searchable-select.component.{ts,html}` (`dndgen-searchable-select`, standalone, `NgbTypeaheadModule`, `[editable]="false"`, focus/click streams merged into the search, `form-control` styling, results not truncated and shown in a scrollable dropdown) until T013 passes. Filtering is local, so there is no `debounceTime` (research R4).
 
 ### Ordered template list (research R5)
 
-- [ ] T015 [P] Write failing unit and integration tests in `dndgen-web/src/app/creature/components/template-list.component.unit.spec.ts` and `.integration.spec.ts`:
+- [X] T015 [P] Write failing unit and integration tests in `dndgen-web/src/app/creature/components/template-list.component.unit.spec.ts` and `.integration.spec.ts`:
   - Adding appends to the end and emits the new array.
   - Every view-model template is offered, including "None".
   - Already-selected templates are still offered, and adding one again appends a repeat (e.g. [None, None], [Ghost, Ghost]).
@@ -116,7 +116,7 @@ description: "Task list for the CreatureGen page"
   - Remove keeps the others' order and emits.
   - The list shows 1-based positions.
   - Sampling at 0, 1, 2, and 3 templates.
-- [ ] T016 Implement `dndgen-web/src/app/creature/components/template-list.component.{ts,html}` (`dndgen-template-list`; inputs `id`, `templates`, `selected`, `emptyText`; output `selectedChange`) using `dndgen-searchable-select` with `clearOnSelect`, until T015 passes. Add an `//INFO:` comment explaining why the page never filters "None" or repeats: "None" forces an untemplated random creature, and the CreatureGen validation decides which repeats are valid.
+- [X] T016 Implement `dndgen-web/src/app/creature/components/template-list.component.{ts,html}` (`dndgen-template-list`; inputs `id`, `templates`, `selected`, `emptyText`; output `selectedChange`) using `dndgen-searchable-select` with `clearOnSelect`, until T015 passes. Add an `//INFO:` comment explaining why the page never filters "None" or repeats: "None" forces an untemplated random creature, and the CreatureGen validation decides which repeats are valid.
 
 **Checkpoint**: Foundation ready. User stories can begin.
 

@@ -1,0 +1,14 @@
+<input #input
+       #typeahead="ngbTypeahead"
+       [id]="id"
+       type="text"
+       class="form-control"
+       [placeholder]="placeholder"
+       [value]="clearOnSelect ? '' : value"
+       [ngbTypeahead]="search"
+       [editable]="false"
+       popupClass="dndgen-searchable-select-popup"
+       (selectItem)="select($event)"
+       (focus)="focus$.next($any($event).target.value)"
+       (click)="click$.next($any($event).target.value)"
+       (blur)="restoreValue()" />

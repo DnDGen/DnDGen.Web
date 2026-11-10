@@ -9,6 +9,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:rollgen": "ng test --no-watch --include='src/app/roll/**/*.spec.ts'",
     "test:treasuregen": "ng test --no-watch --include='src/app/treasure/**/*.spec.ts'",
+    "test:creaturegen": "ng test --no-watch --include='src/app/creature/**/*.spec.ts'",
     "test:charactergen": "ng test --no-watch --include='src/app/character/**/*.spec.ts'",
     "test:encountergen": "ng test --no-watch --include='src/app/encounter/**/*.spec.ts'",
     "test:dungeongen": "ng test --no-watch --include='src/app/dungeon/**/*.spec.ts'",
@@ -18,6 +19,7 @@
     "test:integration:ci": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/**/*.integration.spec.ts'",
     "test:integration:ci:rollgen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/roll/**/*.integration.spec.ts'",
     "test:integration:ci:treasuregen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/treasure/**/*.integration.spec.ts'",
+    "test:integration:ci:creaturegen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/creature/**/*.integration.spec.ts'",
     "test:integration:ci:charactergen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/character/**/*.integration.spec.ts'",
     "test:integration:ci:encountergen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/encounter/**/*.integration.spec.ts'",
     "test:integration:ci:dungeongen": "ng test --no-watch --runner-config vitest.config.ci.integration.ts --include='src/app/dungeon/**/*.integration.spec.ts'"

@@ -47,6 +47,7 @@ Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or ta
 | `npm run test:integration` | Integration tests only |
 | `npm run test:rollgen` | All tests for RollGen |
 | `npm run test:treasuregen` | All tests for TreasureGen |
+| `npm run test:creaturegen` | All tests for CreatureGen |
 | `npm run test:charactergen` | All tests for CharacterGen |
 | `npm run test:encountergen` | All tests for EncounterGen |
 | `npm run test:dungeongen` | All tests for DungeonGen |
