@@ -51,7 +51,7 @@ Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or ta
 | `npm run test:encountergen` | All tests for EncounterGen |
 | `npm run test:dungeongen` | All tests for DungeonGen |
 
-The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files.
+The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files. `test:unit:ci` and `test:integration:ci` also measure code coverage and write a Cobertura report to `coverage/dndgen-web/`; the build pipeline publishes both reports together as the website's code coverage.
 
 ## File Naming Conventions
 
