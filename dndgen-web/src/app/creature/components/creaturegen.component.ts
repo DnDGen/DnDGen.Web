@@ -4,7 +4,7 @@ import { SweetAlertService } from '../../shared/services/sweet-alert.service';
 import { LoggerService } from '../../shared/services/logger.service';
 import { Creature } from '../models/creature.model';
 import { CreatureGenViewModel } from '../models/creaturegen-view-model.model';
-import { switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap, tap } from 'rxjs';
 import { Size } from '../../shared/components/size.enum';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
@@ -14,6 +14,20 @@ import { OrderedMultiSelectComponent } from '../../shared/components/ordered-mul
 import { CreatureComponent } from './creature.component';
 import { FileSaverService } from '../../shared/services/file-saver.service';
 import { CreaturePipe } from '../pipes/creature.pipe';
+import { CreatureTypePipe } from '../pipes/creature-type.pipe';
+import { HitDicePipe } from '../pipes/hit-dice.pipe';
+import { SpeedPipe } from '../pipes/speed.pipe';
+import { ArmorClassPipe } from '../pipes/armor-class.pipe';
+import { OptionalBonusPipe } from '../pipes/optional-bonus.pipe';
+import { AttackPipe } from '../pipes/attack.pipe';
+import { AttackTypePipe } from '../pipes/attack-type.pipe';
+import { FullAttackPipe } from '../pipes/full-attack.pipe';
+import { SavesPipe } from '../pipes/saves.pipe';
+import { AbilitiesPipe } from '../pipes/abilities.pipe';
+import { SkillPipe } from '../pipes/skill.pipe';
+import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
 import { DecimalPipe } from '@angular/common';
 import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
@@ -33,6 +47,20 @@ import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
         InchesToFeetPipe,
         FrequencyPipe,
         SpellQuantityPipe,
+        BonusPipe,
+        BonusesPipe,
+        CreatureTypePipe,
+        HitDicePipe,
+        SpeedPipe,
+        ArmorClassPipe,
+        OptionalBonusPipe,
+        AttackPipe,
+        AttackTypePipe,
+        FullAttackPipe,
+        SavesPipe,
+        AbilitiesPipe,
+        SkillPipe,
+        ConditionalBonusPipe,
     ],
     standalone: true,
     imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, OrderedMultiSelectComponent, CreatureComponent]
@@ -72,6 +100,8 @@ export class CreatureGenComponent implements OnInit {
     this.creatureService.getViewModel()
       .pipe(
         tap(data => this.creatureModel.set(data)),
+        switchMap(() => this.getCreatureValidity(this.creatureName, this.creatureTemplates)),
+        tap(data => this.validCreature.set(data)),
         switchMap(() => this.creatureService.validateRandom(
           this.randomTemplates,
           this.randomChallengeRating,
@@ -123,16 +153,18 @@ export class CreatureGenComponent implements OnInit {
   public validateCreature(creatureName: string, templates: string[]): void {
     this.validating.set(true);
 
-    if (!creatureName) {
-      this.setCreatureValidity(false);
-      return;
-    }
-
-    this.creatureService.validateCreature(creatureName, templates)
+    this.getCreatureValidity(creatureName, templates)
       .subscribe({
         next: data => this.setCreatureValidity(data),
         error: error => this.handleValidationError(error)
       });
+  }
+
+  private getCreatureValidity(creatureName: string, templates: string[]): Observable<boolean> {
+    if (!creatureName)
+      return of(false);
+
+    return this.creatureService.validateCreature(creatureName, templates);
   }
 
   private setCreatureValidity(data: boolean): void {
