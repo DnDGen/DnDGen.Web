@@ -72,9 +72,6 @@ export class CreatureGenComponent implements OnInit {
     this.creatureService.getViewModel()
       .pipe(
         tap(data => this.creatureModel.set(data)),
-        tap(() => this.setInitialValues()),
-        switchMap(() => this.creatureService.validateCreature(this.creatureName, this.creatureTemplates)),
-        tap(data => this.validCreature.set(data)),
         switchMap(() => this.creatureService.validateRandom(
           this.randomTemplates,
           this.randomChallengeRating,
@@ -86,10 +83,6 @@ export class CreatureGenComponent implements OnInit {
         complete: () => this.finishInit(),
         error: error => this.handleError(error)
       });
-  }
-
-  private setInitialValues(): void {
-    this.creatureName = this.creatureModel()!.creatures[0];
   }
 
   private finishInit(): void {

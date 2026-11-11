@@ -113,7 +113,6 @@ describe('CreatureGen Component', () => {
 
     it('should be validating and loading while fetching the creature model', async () => {
       creatureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(getViewModel()));
-      creatureServiceSpy.validateCreature.mockImplementation(() => getFakeDelay(true));
       creatureServiceSpy.validateRandom.mockImplementation(() => getFakeDelay(true));
 
       component.ngOnInit();
@@ -122,7 +121,7 @@ describe('CreatureGen Component', () => {
       expect(component.loading()).toBe(true);
       expect(component.validating()).toBe(true);
 
-      await vi.advanceTimersByTimeAsync(delay * 3 - 1);
+      await vi.advanceTimersByTimeAsync(delay * 2 - 1);
 
       expect(component.loading()).toBe(true);
       expect(component.validating()).toBe(true);
@@ -133,34 +132,25 @@ describe('CreatureGen Component', () => {
       expect(component.validating()).toBe(false);
     });
 
-    const initValidations = [
-      { creature: true, random: true },
-      { creature: true, random: false },
-      { creature: false, random: true },
-      { creature: false, random: false },
-    ];
-
-    initValidations.forEach(test => {
-      it(`should set the creature model and defaults on init - validity: set ${test.creature}, random ${test.random}`, async () => {
+    [true, false].forEach(valid => {
+      it(`should set the creature model and defaults on init, with no creature chosen - random valid ${valid}`, async () => {
         const model = getViewModel();
         creatureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(model));
-        creatureServiceSpy.validateCreature.mockImplementation(() => getFakeDelay(test.creature));
-        creatureServiceSpy.validateRandom.mockImplementation(() => getFakeDelay(test.random));
+        creatureServiceSpy.validateRandom.mockImplementation(() => getFakeDelay(valid));
 
         component.ngOnInit();
-        await vi.advanceTimersByTimeAsync(delay * 3);
+        await vi.advanceTimersByTimeAsync(delay * 2);
 
         expect(component.creatureModel()).toBe(model);
-        expect(component.creatureName).toEqual('creature 1');
+        expect(component.creatureName).toEqual('');
         expect(component.creatureTemplates).toEqual([]);
         expect(component.randomTemplates).toEqual([]);
         expect(component.randomChallengeRating).toEqual('');
         expect(component.randomAlignment).toEqual('');
         expect(component.randomCreatureType).toEqual('');
-        expect(component.validCreature()).toBe(test.creature);
-        expect(component.validRandom()).toBe(test.random);
-        expect(creatureServiceSpy.validateCreature).toHaveBeenCalledWith('creature 1', []);
-        expect(creatureServiceSpy.validateCreature).toHaveBeenCalledTimes(1);
+        expect(component.validCreature()).toBe(false);
+        expect(component.validRandom()).toBe(valid);
+        expect(creatureServiceSpy.validateCreature).not.toHaveBeenCalled();
         expect(creatureServiceSpy.validateRandom).toHaveBeenCalledWith([], '', '', '');
         expect(creatureServiceSpy.validateRandom).toHaveBeenCalledTimes(1);
         expect(component.loading()).toBe(false);
@@ -179,24 +169,12 @@ describe('CreatureGen Component', () => {
       expectError('I failed');
     });
 
-    it('should display error from validating the set creature on init', async () => {
-      creatureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(getViewModel()));
-      creatureServiceSpy.validateCreature.mockImplementation(() => getFakeError('I failed'));
-
-      component.ngOnInit();
-      await vi.advanceTimersByTimeAsync(delay * 2);
-
-      expect(component.validCreature()).toBe(false);
-      expectError('I failed');
-    });
-
     it('should display error from validating the random creature on init', async () => {
       creatureServiceSpy.getViewModel.mockImplementation(() => getFakeDelay(getViewModel()));
-      creatureServiceSpy.validateCreature.mockImplementation(() => getFakeDelay(true));
       creatureServiceSpy.validateRandom.mockImplementation(() => getFakeError('I failed'));
 
       component.ngOnInit();
-      await vi.advanceTimersByTimeAsync(delay * 3);
+      await vi.advanceTimersByTimeAsync(delay * 2);
 
       expect(component.validRandom()).toBe(false);
       expectError('I failed');

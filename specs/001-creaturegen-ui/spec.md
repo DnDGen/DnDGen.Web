@@ -19,8 +19,8 @@ These were checked against the code in this repository and the live services on 
 - **"None" is a real, selectable template.** It matters most for random creatures:
   - An empty template list means "any": the random creature may or may not come out templated.
   - Choosing "None" forces a creature with no template.
-  - "None" can also be chained, for example [None, None] or [None, Ghost], which the API validates as valid.
-- **Repeats are decided by the API, not the page.** Human + [None, None] validates as valid; Human + [Ghost, Ghost] validates as invalid. So the page lets any template be added any number of times and shows the API's answer.
+  - "None" can also be combined with other templates, for example [None, Ghost], which the API validates as valid.
+- **A template can be chosen only once.** The API decides whether repeats are valid (Human + [None, None] valid, Human + [Ghost, Ghost] invalid), but a repeated template means nothing to a user, so once a template is chosen the page stops offering it.
 - **Set generation takes only a creature and templates.** No other set-creature parameters are exposed by the API. The underlying generator also supports generating a creature "as a character"; the standalone API intentionally always turns it off, because that flag is for CharacterGen's future use of CreatureGen (FR-030).
 - **Order matters to validity.** For example, Human + Ghost validates as valid, while Human + Ghost + Lich validates as invalid.
 - **Gaps found elsewhere**: the Web API smoke tests have no CreatureGen view model check; the website smoke tests have no CreatureGen page check; the deploy step for CreatureGen runs no website tests (CharacterGen's does); the root README states CreatureGen has no page on the site yet.
@@ -40,7 +40,7 @@ A Dungeon Master needs the full stats of a specific creature (e.g., a Hill Giant
 1. **Given** the CreatureGen page has loaded, **When** the user types "giant" into the creature selector, **Then** only creatures whose names contain "giant" (case-insensitive) are listed.
 2. **Given** a valid creature is selected and no templates, **When** the user generates, **Then** a creature with that name is displayed.
 3. **Given** the page is open, **When** the user changes the selected creature, **Then** the combination is re-validated and the generate action is enabled only if it is valid.
-4. **Given** the page first loads, **Then** the Set tab is shown with a default creature selected and the combination already validated.
+4. **Given** the page first loads, **Then** the Set tab is shown with no creature selected, and Generate is disabled until the user chooses one.
 
 ---
 
@@ -164,9 +164,9 @@ The maintainer deploys a new build. The release verifies that the CreatureGen vi
 - **FR-005**: Users MUST be able to choose exactly one creature from the full list via a selector that filters the list as they type (case-insensitive, matching anywhere in the name).
 - **FR-006**: Users MUST be able to build an ordered list of zero or more templates using a selector that filters as they type; added templates are appended to the end.
 - **FR-007**: Users MUST be able to reorder (move up/down) and remove templates in the list.
-- **FR-008**: Every template in the view model, including "None", MUST be selectable, and any template MAY be added more than once. Whether a list (including repeats) is valid is decided only by the service's validation, not by the page.
+- **FR-008**: Every template in the view model, including "None", MUST be selectable, but each template MAY be chosen only once: a chosen template MUST no longer be offered, and is offered again once removed. Whether a list is valid is decided only by the service's validation.
 - **FR-008a**: On the Random tab, an empty template list MUST be sent as no templates (the creature may be templated), and a list containing "None" MUST be sent as-is (the creature is forced to have no template). The empty list MUST be labelled so users can tell "any" apart from "None".
-- **FR-009**: The page MUST pre-select a sensible default creature on load so that the Set tab is immediately valid and generatable.
+- **FR-009**: The page MUST start with no creature selected, and the Set tab MUST be invalid (Generate disabled) until a creature is chosen. It MUST NOT default to whichever creature happens to be first in the list.
 
 **Random tab**
 
@@ -224,8 +224,8 @@ The maintainer deploys a new build. The release verifies that the CreatureGen vi
 
 - The existing, live CreatureGen view model and CreatureGen API (set and random generate/validate) are sufficient; no Web API changes are needed for the page itself.
 - Random filters are single-select because the API honours only one value of each; making them multi-select would be a separate API change, recorded as a GitHub issue if wanted.
-- The default selected creature on load is the first creature in the list; templates start empty and random filters start at "Any".
-- Repeated templates are allowed in the UI. The service decides whether they are valid (e.g., [None, None] valid, [Ghost, Ghost] invalid).
+- No creature is selected on load; templates start empty and random filters start at "Any".
+- Each template can be chosen once. The service still decides whether a list is valid.
 - The creature display reuses existing shared display pieces wherever the data has the same shape (e.g., feats, items, spells, bonuses), and adds creature-specific pieces only where needed.
 - The download is the same plain-text style as CharacterGen; other formats are out of scope.
 - The CreatureGen GitHub link points to https://github.com/DnDGen/CreatureGen and the API link to https://creature.dndgen.com/api/swagger/ui.

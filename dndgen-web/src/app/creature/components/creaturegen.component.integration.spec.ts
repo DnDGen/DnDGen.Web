@@ -164,11 +164,11 @@ describe('CreatureGen Component', () => {
       expect(fixture.componentInstance.creatureModel()).toEqual(expected);
     });
 
-    it('should validate both tabs on init', () => {
+    it('should validate the random tab on init, with no creature chosen on the set tab', () => {
       const component = fixture.componentInstance;
       expect(component.validating()).toBe(false);
       expect(component.generating()).toBe(false);
-      expect(component.validCreature()).toBe(true);
+      expect(component.validCreature()).toBe(false);
       expect(component.validRandom()).toBe(true);
     });
 
@@ -244,12 +244,12 @@ describe('CreatureGen Component', () => {
     });
 
     describe('the set tab', () => {
-      it('should render the set tab', () => {
+      it('should render the set tab with no creature chosen', () => {
         helper.expectExists('#creature');
-        helper.expectInput('#creature #creatureName', false, 'Aasimar');
+        helper.expectInput('#creature #creatureName', false, '');
         helper.expectAttribute('#creature #creatureName', 'placeholder', 'Search for a creature');
         helper.expectTextContent('#creature #creatureTemplates .selected-empty', 'No templates');
-        helper.expectHasAttribute('#creature #creatureButton', 'disabled', false);
+        helper.expectHasAttribute('#creature #creatureButton', 'disabled', true);
         helper.expectLoading('#creature #creatureValidating', false, Size.Small);
       });
 

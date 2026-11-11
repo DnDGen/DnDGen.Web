@@ -18,8 +18,8 @@ All models live in `dndgen-web/src/app/creature/models/` unless marked **reused*
 
 | State | Type | Initial | Rule |
 |-------|------|---------|------|
-| creatureName | string | `creatures[0]` | Required for Set |
-| creatureTemplates | string[] | `[]` | Ordered; repeats and "None" allowed; validity decided by the service |
+| creatureName | string | `''` (nothing chosen) | Required for Set; invalid until chosen |
+| creatureTemplates | string[] | `[]` | Ordered; "None" allowed; each template at most once; validity decided by the service |
 | randomTemplates | string[] | `[]` | Same rules. `[]` = any (may be templated); `[None]` = forcibly untemplated |
 | randomChallengeRating | string | `''` ("Any") | Sent only when non-empty |
 | randomAlignment | string | `''` | Sent only when non-empty |
@@ -76,5 +76,5 @@ All models live in `dndgen-web/src/app/creature/models/` unless marked **reused*
 ## Validation rules (from the spec)
 
 - The Set request requires a non-empty `creatureName` (local short-circuit to invalid; the server decides everything else).
-- Template lists are ordered and sent exactly as shown, including "None" and repeats. The page never filters them; the service's validation decides.
+- Template lists are ordered and sent exactly as shown, including "None". A chosen template is no longer offered, so a list never repeats; the service's validation decides validity.
 - Random filters are each a single value or empty. Empty means the filter is omitted from the request.
