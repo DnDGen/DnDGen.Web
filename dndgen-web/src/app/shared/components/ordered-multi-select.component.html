@@ -1,0 +1,22 @@
+<div [id]="id">
+  <dndgen-searchable-select [id]="id + 'Add'"
+                            [options]="available"
+                            [clearOnSelect]="true"
+                            [placeholder]="placeholder"
+                            (valueChange)="add($event)">
+  </dndgen-searchable-select>
+  @if (selected.length == 0) {
+    <span class="italicize selected-empty">{{emptyText}}</span>
+  } @else {
+    <ol class="list-group list-group-numbered selected-list">
+      @for (option of selected; track $index) {
+        <li class="list-group-item d-flex align-items-center">
+          <span class="selected-name ms-2 me-auto">{{option}}</span>
+          <button type="button" class="btn btn-sm btn-outline-dark selected-up" [attr.aria-label]="'Move ' + option + ' up'" [disabled]="$first" (click)="moveUp($index)"><i class="bi bi-arrow-up"></i></button>
+          <button type="button" class="btn btn-sm btn-outline-dark selected-down ms-1" [attr.aria-label]="'Move ' + option + ' down'" [disabled]="$last" (click)="moveDown($index)"><i class="bi bi-arrow-down"></i></button>
+          <button type="button" class="btn btn-sm btn-outline-danger selected-remove ms-1" [attr.aria-label]="'Remove ' + option" (click)="remove($index)"><i class="bi bi-x-lg"></i></button>
+        </li>
+      }
+    </ol>
+  }
+</div>

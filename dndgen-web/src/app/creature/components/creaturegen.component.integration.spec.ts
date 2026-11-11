@@ -248,7 +248,7 @@ describe('CreatureGen Component', () => {
         helper.expectExists('#creature');
         helper.expectInput('#creature #creatureName', false, 'Aasimar');
         helper.expectAttribute('#creature #creatureName', 'placeholder', 'Search for a creature');
-        helper.expectTextContent('#creature #creatureTemplates .template-list-empty', 'No templates');
+        helper.expectTextContent('#creature #creatureTemplates .selected-empty', 'No templates');
         helper.expectHasAttribute('#creature #creatureButton', 'disabled', false);
         helper.expectLoading('#creature #creatureValidating', false, Size.Small);
       });
@@ -307,7 +307,7 @@ describe('CreatureGen Component', () => {
         await startChoosing('#creatureTemplatesAdd', 'ghost', 'Ghost');
 
         expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
-        helper.expectTextContents('#creatureTemplates .template-name', ['Ghost']);
+        helper.expectTextContents('#creatureTemplates .selected-name', ['Ghost']);
         expectSetValidating();
 
         //run validation
@@ -336,7 +336,7 @@ describe('CreatureGen Component', () => {
         await setTemplates('#creatureTemplates', ['Ghost', 'Lich']);
         expectSetInvalid();
 
-        startClicking('#creatureTemplates li:nth-child(2) button.template-remove');
+        startClicking('#creatureTemplates li:nth-child(2) button.selected-remove');
 
         expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
         expectSetValidating();
@@ -352,34 +352,9 @@ describe('CreatureGen Component', () => {
         await setTemplates('#creatureTemplates', ['Ghost', 'Half-Dragon (Red)']);
         expectSetInvalid();
 
-        startClicking('#creatureTemplates li:nth-child(2) button.template-up');
+        startClicking('#creatureTemplates li:nth-child(2) button.selected-up');
 
         expect(fixture.componentInstance.creatureTemplates).toEqual(['Half-Dragon (Red)', 'Ghost']);
-        expectSetValidating();
-
-        //run validation
-        await helper.waitForChangeDetection();
-
-        expectSetValid();
-      });
-
-      it('should show that a repeated template is invalid', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['Ghost', 'Ghost']);
-
-        expectSetInvalid();
-      });
-
-      it('should show that a repeated None template is valid', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['None', 'None', 'Ghost', 'Ghost']);
-        expectSetInvalid();
-
-        helper.clickButton('#creatureTemplates li:nth-child(4) button.template-remove');
-        await helper.waitForChangeDetection();
-        startClicking('#creatureTemplates li:nth-child(3) button.template-remove');
-
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['None', 'None']);
         expectSetValidating();
 
         //run validation
@@ -421,7 +396,7 @@ describe('CreatureGen Component', () => {
         helper.expectSelect('#random #randomChallengeRating', false, 'Any', 35, ['Any', ...model.challengeRatings]);
         helper.expectSelect('#random #randomAlignment', false, 'Any', 10, ['Any', ...model.alignments]);
         helper.expectSelect('#random #randomCreatureType', false, 'Any', 43, ['Any', ...model.creatureTypes]);
-        helper.expectTextContent('#random #randomTemplates .template-list-empty', 'Any templates');
+        helper.expectTextContent('#random #randomTemplates .selected-empty', 'Any templates');
         helper.expectHasAttribute('#random #randomButton', 'disabled', false);
         helper.expectLoading('#random #randomValidating', false, Size.Small);
       });
@@ -526,29 +501,12 @@ describe('CreatureGen Component', () => {
       });
 
       it('should show that the random creature is valid again after removing a template', async () => {
-        await setTemplates('#randomTemplates', ['Ghost', 'Ghost']);
+        await setTemplates('#randomTemplates', ['Ghost', 'Lich']);
         expectRandomInvalid();
 
-        startClicking('#randomTemplates li:nth-child(2) button.template-remove');
+        startClicking('#randomTemplates li:nth-child(2) button.selected-remove');
 
         expect(fixture.componentInstance.randomTemplates).toEqual(['Ghost']);
-        expectRandomValidating();
-
-        //run validation
-        await helper.waitForChangeDetection();
-
-        expectRandomValid();
-      });
-
-      it('should show that a repeated None template is valid', async () => {
-        await setTemplates('#randomTemplates', ['None', 'None', 'Ghost', 'Ghost']);
-        expectRandomInvalid();
-
-        helper.clickButton('#randomTemplates li:nth-child(4) button.template-remove');
-        await helper.waitForChangeDetection();
-        startClicking('#randomTemplates li:nth-child(3) button.template-remove');
-
-        expect(fixture.componentInstance.randomTemplates).toEqual(['None', 'None']);
         expectRandomValidating();
 
         //run validation
@@ -645,8 +603,8 @@ describe('CreatureGen Component', () => {
         expect(component.creatureName).toEqual('Human');
         expect(component.creatureTemplates).toEqual(['Ghost']);
         helper.expectTextContent('#randomAlignment > option:checked', 'Neutral Evil');
-        helper.expectTextContents('#randomTemplates .template-name', ['None']);
-        helper.expectTextContents('#creatureTemplates .template-name', ['Ghost']);
+        helper.expectTextContents('#randomTemplates .selected-name', ['None']);
+        helper.expectTextContents('#creatureTemplates .selected-name', ['Ghost']);
       });
     });
   });

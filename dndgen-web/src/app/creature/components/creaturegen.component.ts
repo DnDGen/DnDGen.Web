@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../shared/components/loading.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchableSelectComponent } from '../../shared/components/searchable-select.component';
-import { TemplateListComponent } from './template-list.component';
+import { OrderedMultiSelectComponent } from '../../shared/components/ordered-multi-select.component';
 import { CreatureComponent } from './creature.component';
 import { FileSaverService } from '../../shared/services/file-saver.service';
 import { CreaturePipe } from '../pipes/creature.pipe';
@@ -35,7 +35,7 @@ import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
         SpellQuantityPipe,
     ],
     standalone: true,
-    imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, TemplateListComponent, CreatureComponent]
+    imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, OrderedMultiSelectComponent, CreatureComponent]
 })
 
 export class CreatureGenComponent implements OnInit {

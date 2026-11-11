@@ -20,7 +20,7 @@
 | `dndgen-creaturegen` (route `/creature`) | — | — | `creature/components/creaturegen.component.*` |
 | `dndgen-creature` | `creature: Creature` | — | `creature/components/creature.component.*` |
 | `dndgen-attack` | `attack: Attack` | — | `creature/components/attack.component.*` |
-| `dndgen-template-list` | `id: string`, `templates: string[]` (options, all of them, including "None"), `selected: string[]` (may repeat), `emptyText: string` | `selectedChange: string[]` | `creature/components/template-list.component.*` |
+| `dndgen-ordered-multi-select` | `id: string`, `options: string[]` (offered only while not selected), `selected: string[]` (no repeats), `placeholder: string`, `emptyText: string` | `selectedChange: string[]` | `shared/components/ordered-multi-select.component.*` |
 | `dndgen-searchable-select` | `id: string`, `options: string[]`, `value: string`, `placeholder?: string`, `clearOnSelect = false` | `valueChange: string` | `shared/components/searchable-select.component.*` |
 
 # Contract: Element ids (for tests and smoke checks)

@@ -40,7 +40,7 @@ Add a CreatureGen page to the Angular site. It has Set and Random tabs, a search
 |-----------|--------|-----|
 | **I.1 Emulate what exists** | ✅ | Page, service, pipe, model, and test structure copy CharacterGen and TreasureGen (per-tab validity like TreasureGen; download like CharacterGen; error handling via logger and sweet alert). Display copies `CharacterComponent`'s nested `dndgen-details`. Existing models and components are reused where the JSON shape matches (R7). |
 | **I.2 New pattern worth conforming to** | ✅ justified | `dndgen-searchable-select` (NgbTypeahead wrapper) is the site's first searchable select. Clearer for 659 items (I.2.a); one shared answer for long lists (I.2.c); no new dependency. Short lists stay as plain `<select>`. See R4. |
-| **I.3 Prose-like code, no comments** | ✅ | Only `//INFO:` where a choice could be undone (e.g., why the page never filters "None" or repeated templates). |
+| **I.3 Prose-like code, no comments** | ✅ | No comments added. |
 | **II.1 Tests first, consumer cases** | ✅ | Tasks write failing unit and integration specs before each component, service, and pipe. Cases are named as user outcomes. |
 | **II.2 Sampling** | ✅ | Templates at 0/1/2 (+ one chain of 3); each filter alone, "Any", and all together; order swapped; boundary of move-up/down at first/last. |
 | **II.2.c (Web) 100% coverage** | ✅ | Required for `dndgen-web`; API DLL coverage unchanged (attribute-only edits). |
@@ -88,7 +88,7 @@ dndgen-web/
         │   ├── creaturegen.component.{ts,html} (+ unit, integration specs, test-helper)
         │   ├── creature.component.{ts,html} (+ unit, integration specs)
         │   ├── attack.component.{ts,html} (+ unit, integration specs)
-        │   └── template-list.component.{ts,html} (+ unit, integration specs)
+        │   └── (template list: see shared/components/ordered-multi-select)
         ├── models/        # creaturegen-view-model, creature, creature-type, creature-ability,
         │                  # creature-measurement, bonus, hit-points, hit-dice, creature-armor-class,
         │                  # save, creature-skill, attack, creature-magic, creature-spell,
@@ -117,7 +117,7 @@ docs/theme-song/README.md                         # lyrics + sources (maintainer
 ## Implementation Order (for /speckit-tasks)
 
 1. **Docs-only API fix** (own commit): Swagger attributes and README route table.
-2. **Foundations**: models, `CreatureService` (tests first), `SearchableSelectComponent`, `TemplateListComponent`.
+2. **Foundations**: models, `CreatureService` (tests first), `SearchableSelectComponent`, `OrderedMultiSelectComponent`.
 3. **US1/US2 Set tab**, then **US3 Random tab**, in `CreatureGenComponent`.
 4. **US4 display/download**: `AttackComponent`, `CreatureComponent`, `CreaturePipe`, `download()`.
 5. **US5 chrome**: route, nav, GitHub/API links.

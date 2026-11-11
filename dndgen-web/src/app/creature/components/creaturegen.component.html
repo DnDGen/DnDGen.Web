@@ -25,12 +25,13 @@
                   <label for="creatureTemplatesAdd" class="col-sm-3 col-form-label">Templates:</label>
                   <div class="col-sm-9">
                     @if (creatureModel()) {
-                      <dndgen-template-list [id]="'creatureTemplates'"
-                                            [templates]="creatureModel()!.templates"
-                                            [selected]="creatureTemplates"
-                                            emptyText="No templates"
-                                            (selectedChange)="setCreatureTemplates($event)">
-                      </dndgen-template-list>
+                      <dndgen-ordered-multi-select [id]="'creatureTemplates'"
+                                                   [options]="creatureModel()!.templates"
+                                                   placeholder="Add a template"
+                                                   [selected]="creatureTemplates"
+                                                   emptyText="No templates"
+                                                   (selectedChange)="setCreatureTemplates($event)">
+                      </dndgen-ordered-multi-select>
                     }
                   </div>
                 </div>
@@ -106,12 +107,13 @@
                   <label for="randomTemplatesAdd" class="col-sm-3 col-form-label">Templates:</label>
                   <div class="col-sm-9">
                     @if (creatureModel()) {
-                      <dndgen-template-list [id]="'randomTemplates'"
-                                            [templates]="creatureModel()!.templates"
-                                            [selected]="randomTemplates"
-                                            emptyText="Any templates"
-                                            (selectedChange)="setRandomTemplates($event)">
-                      </dndgen-template-list>
+                      <dndgen-ordered-multi-select [id]="'randomTemplates'"
+                                                   [options]="creatureModel()!.templates"
+                                                   placeholder="Add a template"
+                                                   [selected]="randomTemplates"
+                                                   emptyText="Any templates"
+                                                   (selectedChange)="setRandomTemplates($event)">
+                      </dndgen-ordered-multi-select>
                     }
                   </div>
                 </div>
