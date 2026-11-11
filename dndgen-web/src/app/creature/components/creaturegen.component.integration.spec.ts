@@ -240,7 +240,7 @@ describe('CreatureGen Component', () => {
 
       const text = await (fileSaverSpy.mock.calls[0][0] as Blob).text();
       expect(text).toMatch(/^Ghost Human:[\r\n]+[\S\s]+[\r\n\s]+$/);
-      expect(text).toMatch(/[\r\n]+\tTemplates: Ghost[\r\n]+/);
+      expect(text).toMatch(/[\r\n]+\tSize\/Type: Medium Undead \([^\r\n]+\)[\r\n]+/);
     });
 
     describe('the set tab', () => {

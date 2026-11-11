@@ -1,149 +1,114 @@
 <dndgen-details class="creature-header" [heading]="creature.summary" [hasDetails]="true">
   <ul>
-    <li class="creature-size">Size: {{creature.size}}</li>
-    <li class="creature-type">Type: {{format.type(creature.type)}}</li>
-    <li class="creature-cr">Challenge Rating: {{creature.challengeRating}}</li>
-    <li class="creature-alignment">Alignment: {{creature.alignment.full}}</li>
-    <li class="creature-level-adjustment">Level Adjustment: {{format.optionalBonus(creature.levelAdjustment)}}</li>
-    <li class="creature-templates">Templates: {{format.templates(creature.templates)}}</li>
-    <li class="creature-hit-points">
-      <dndgen-details heading="Hit Points: {{creature.hitPoints.total | number}}" [hasDetails]="true">
+    <li class="creature-size-type">Size/Type: {{creature.size}} {{creature.type | creatureType}}</li>
+    <li class="creature-hit-dice">
+      <dndgen-details heading="Hit Dice: {{creature.hitPoints | hitDice}}" [hasDetails]="true">
         <ul>
-          <li class="creature-hit-dice">Hit Dice: {{creature.hitPoints.defaultRoll}}</li>
-          @for (bonus of format.conditionalBonuses(creature.hitPoints.conditionalBonuses); track $index) {
-            <li class="creature-hit-points-conditional">{{bonus}}</li>
+          <li class="creature-hit-points">Hit Points: {{creature.hitPoints.total | number}}</li>
+          @for (bonus of getConditionalBonuses(creature.hitPoints.conditionalBonuses); track $index) {
+            <li class="creature-hit-points-conditional">{{bonus | conditionalBonus}}</li>
           }
         </ul>
       </dndgen-details>
     </li>
-    <li class="creature-combat">
-      <dndgen-details heading="Combat" [hasDetails]="true">
+    <li class="creature-initiative">Initiative: {{creature.totalInitiativeBonus | bonus}}</li>
+    <li class="creature-speed">Speed: {{creature.speeds | speed}}</li>
+    <li class="creature-armor-class">
+      <dndgen-details heading="Armor Class: {{creature.armorClass | armorClass}}" [hasDetails]="true">
         <ul>
-          <li class="creature-combat-ac">
-            <span>Armor Class: {{creature.armorClass.totalBonus | bonus: creature.armorClass.isConditional: false}}</span>
-            <ul>
-              <li>Flat-Footed: {{creature.armorClass.flatFootedBonus}}</li>
-              <li>Touch: {{creature.armorClass.touchBonus}}</li>
-              @for (bonus of format.conditionalBonuses(creature.armorClass.bonuses); track $index) {
-                <li class="creature-combat-ac-conditional">{{bonus}}</li>
-              }
-            </ul>
-          </li>
-          <li class="creature-combat-initiative">Initiative Bonus: {{creature.totalInitiativeBonus | bonus}}</li>
-          <li class="creature-combat-ba">Base Attack: {{creature.baseAttackBonus | bonus}}</li>
-          <li class="creature-combat-grapple">Grapple: {{format.optionalBonus(creature.grappleBonus)}}</li>
-          <li class="creature-combat-space">Space: {{creature.space | measurement}}</li>
-          <li class="creature-combat-reach">Reach: {{creature.reach | measurement}}</li>
-          <li class="creature-combat-speeds">
-            <span>Speeds:</span>
-            <ul>
-              @for (speed of format.speeds(creature.speeds); track $index) {
-                <li>{{speed.label}}: {{speed.measurement | measurement}}</li>
-              }
-            </ul>
-          </li>
-          <li class="creature-combat-saves">
-            <span>Saving Throws:</span>
-            <ul>
-              @for (saveName of format.saveNames; track $index) {
-                <li>{{format.save(saveName, creature.saves[saveName])}}</li>
-                @for (bonus of format.conditionalBonuses(creature.saves[saveName].bonuses); track $index) {
-                  <li class="creature-combat-saves-conditional">{{bonus}}</li>
-                }
-              }
-            </ul>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="creature-attacks">
-      <dndgen-details heading="Attacks" [hasDetails]="true">
-        <ul>
-          <li class="creature-attacks-standard">
-            <dndgen-details heading="Attacks{{format.standardAttacks(creature.attacks).length ? '' : ': None'}}" [hasDetails]="format.standardAttacks(creature.attacks).length > 0">
-              <ul>
-                @for (attack of format.standardAttacks(creature.attacks); track $index) {
-                  <li><dndgen-attack [attack]="attack"></dndgen-attack></li>
-                }
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="creature-attacks-full-melee">
-            <dndgen-details heading="Full Melee Attack{{creature.fullMeleeAttack.length ? '' : ': None'}}" [hasDetails]="creature.fullMeleeAttack.length > 0">
-              <ul>
-                @for (attack of creature.fullMeleeAttack; track $index) {
-                  <li><dndgen-attack [attack]="attack"></dndgen-attack></li>
-                }
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="creature-attacks-full-ranged">
-            <dndgen-details heading="Full Ranged Attack{{creature.fullRangedAttack.length ? '' : ': None'}}" [hasDetails]="creature.fullRangedAttack.length > 0">
-              <ul>
-                @for (attack of creature.fullRangedAttack; track $index) {
-                  <li><dndgen-attack [attack]="attack"></dndgen-attack></li>
-                }
-              </ul>
-            </dndgen-details>
-          </li>
-          <li class="creature-attacks-special">
-            <dndgen-details heading="Special Attacks{{creature.specialAttacks.length ? '' : ': None'}}" [hasDetails]="creature.specialAttacks.length > 0">
-              <ul>
-                @for (attack of creature.specialAttacks; track $index) {
-                  <li><dndgen-attack [attack]="attack"></dndgen-attack></li>
-                }
-              </ul>
-            </dndgen-details>
-          </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="creature-abilities">
-      <dndgen-details heading="Abilities" [hasDetails]="true">
-        <ul>
-          @for (abilityName of format.abilityNames; track $index) {
-            <li>{{format.ability(abilityName, creature.abilities[abilityName])}}</li>
+          <li class="creature-armor-class-touch">Touch: {{creature.armorClass.touchBonus}}</li>
+          <li class="creature-armor-class-flat-footed">Flat-Footed: {{creature.armorClass.flatFootedBonus}}</li>
+          @for (bonus of getConditionalBonuses(creature.armorClass.bonuses); track $index) {
+            <li class="creature-armor-class-conditional">{{bonus | conditionalBonus}}</li>
           }
         </ul>
       </dndgen-details>
     </li>
-    <li class="creature-skills">
-      <dndgen-details heading="Skills{{creature.skills.length ? '' : ': None'}}" [hasDetails]="creature.skills.length > 0">
-        <table class="table table-striped">
-          <thead>
-            <th scope="col">Class Skill</th>
-            <th scope="col">Skill</th>
-            <th scope="col">Total Bonus</th>
-            <th scope="col">Ranks</th>
-            <th scope="col">Ability Bonus</th>
-            <th scope="col">Armor Check Penalty</th>
-          </thead>
-          <tbody>
-            @for (skill of format.sortedSkills(creature.skills); track $index) {
-              <tr>
-                <td>@if (skill.classSkill) { <i class="bi bi-check-lg"></i> }</td>
-                <td>{{format.skillName(skill)}}</td>
-                <td style="font-weight: bold;">{{skill.totalBonus | bonus: skill.circumstantialBonus}}</td>
-                <td>{{skill.effectiveRanks}}</td>
-                <td>{{skill.baseAbility.modifier}}</td>
-                <td>{{skill.armorCheckPenalty}}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
+    <li class="creature-base-attack-grapple">Base Attack/Grapple: {{creature.baseAttackBonus | bonus}}/{{creature.grappleBonus | optionalBonus}}</li>
+    <li class="creature-attack">
+      <dndgen-details heading="Attack ({{attackOptions.length}})" [hasDetails]="attackOptions.length > 0">
+        <ul>
+          @for (attack of attackOptions; track $index) {
+            <li><dndgen-attack [attack]="attack"></dndgen-attack></li>
+          }
+        </ul>
       </dndgen-details>
     </li>
-    <li class="creature-feats">
-      <dndgen-details heading="Feats{{creature.feats.length ? '' : ': None'}}" [hasDetails]="creature.feats.length > 0">
+    <li class="creature-full-attack">
+      <dndgen-details heading="Full Attack ({{fullAttackOptions.length}})" [hasDetails]="fullAttackOptions.length > 0">
         <ul>
-          @for (feat of creature.feats; track $index) {
-            <li><dndgen-feat [feat]="feat"></dndgen-feat></li>
+          @for (option of fullAttackOptions; track $index) {
+            <li class="creature-full-attack-option">
+              <dndgen-details [heading]="option | fullAttack" [hasDetails]="true">
+                <ul>
+                  @for (attack of option; track $index) {
+                    <li><dndgen-attack [attack]="attack" [full]="true"></dndgen-attack></li>
+                  }
+                </ul>
+              </dndgen-details>
+            </li>
+          }
+        </ul>
+      </dndgen-details>
+    </li>
+    <li class="creature-space-reach">Space/Reach: {{creature.space.value}} ft./{{creature.reach.value}} ft.</li>
+    <li class="creature-special-attacks">
+      <dndgen-details heading="Special Attacks ({{creature.specialAttacks.length}})" [hasDetails]="creature.specialAttacks.length > 0">
+        <ul>
+          @for (attack of creature.specialAttacks; track $index) {
+            <li>
+              <dndgen-attack [attack]="attack">
+                @if (attack.name == 'Spells') {
+                  <li class="creature-magic-caster">Caster: {{creature.magic.caster}}</li>
+                  <li class="creature-magic-caster-level">Caster Level: {{creature.magic.casterLevel}}</li>
+                  @if (creature.magic.domains.length) {
+                    <li class="creature-magic-domains">Domains: {{creature.magic.domains.join(', ')}}</li>
+                  }
+                  @if (creature.magic.arcaneSpellFailure) {
+                    <li class="creature-magic-failure">Arcane Spell Failure: {{creature.magic.arcaneSpellFailure}}%</li>
+                  }
+                  @if (creature.magic.spellsPerDay.length) {
+                    <li class="creature-magic-spells-per-day">
+                      <dndgen-details heading="Spells Per Day" [hasDetails]="true">
+                        <ul>
+                          @for (quantity of creature.magic.spellsPerDay; track $index) {
+                            <li>{{getSpellQuantity(quantity) | spellQuantity}}</li>
+                          }
+                        </ul>
+                      </dndgen-details>
+                    </li>
+                  }
+                  @if (creature.magic.knownSpells.length) {
+                    <li class="creature-magic-spells-known">
+                      <dndgen-details heading="Known Spells" [hasDetails]="true">
+                        <ul>
+                          @for (spellGroup of getSpellGroups(creature.magic.knownSpells); track $index) {
+                            <li><dndgen-spell-group [group]="spellGroup"></dndgen-spell-group></li>
+                          }
+                        </ul>
+                      </dndgen-details>
+                    </li>
+                  }
+                  @if (creature.magic.preparedSpells.length) {
+                    <li class="creature-magic-spells-prepared">
+                      <dndgen-details heading="Prepared Spells" [hasDetails]="true">
+                        <ul>
+                          @for (spellGroup of getSpellGroups(creature.magic.preparedSpells); track $index) {
+                            <li><dndgen-spell-group [group]="spellGroup"></dndgen-spell-group></li>
+                          }
+                        </ul>
+                      </dndgen-details>
+                    </li>
+                  }
+                }
+              </dndgen-attack>
+            </li>
           }
         </ul>
       </dndgen-details>
     </li>
     <li class="creature-special-qualities">
-      <dndgen-details heading="Special Qualities{{creature.specialQualities.length ? '' : ': None'}}" [hasDetails]="creature.specialQualities.length > 0">
+      <dndgen-details heading="Special Qualities ({{creature.specialQualities.length}})" [hasDetails]="creature.specialQualities.length > 0">
         <ul>
           @for (quality of creature.specialQualities; track $index) {
             <li><dndgen-feat [feat]="quality"></dndgen-feat></li>
@@ -151,58 +116,90 @@
         </ul>
       </dndgen-details>
     </li>
-    <li class="creature-languages">
-      <dndgen-details heading="Languages{{creature.languages.length ? '' : ': None'}}" [hasDetails]="creature.languages.length > 0">
+    <li class="creature-saves">
+      <dndgen-details heading="Saves: {{creature.saves | saves}}" [hasDetails]="hasConditionalSaves">
         <ul>
-          @for (language of creature.languages; track $index) {
-            <li>{{language}}</li>
+          @for (saveName of saveNames; track $index) {
+            @for (bonus of getConditionalBonuses(creature.saves[saveName].bonuses); track $index) {
+              <li class="creature-saves-conditional">{{saveName}}: {{bonus | conditionalBonus}}</li>
+            }
           }
         </ul>
       </dndgen-details>
     </li>
-    <li class="creature-magic">
-      <dndgen-details heading="Magic{{creature.magic.caster ? '' : ': None'}}" [hasDetails]="!!creature.magic.caster">
+    <li class="creature-abilities">Abilities: {{creature.abilities | abilities}}</li>
+    <li class="creature-skills">
+      <dndgen-details heading="Skills ({{creature.skills.length}})" [hasDetails]="creature.skills.length > 0">
         <ul>
-          <li class="creature-magic-caster">Caster: {{creature.magic.caster}}</li>
-          <li class="creature-magic-caster-level">Caster Level: {{creature.magic.casterLevel}}</li>
-          @if (creature.magic.domains.length) {
-            <li class="creature-magic-domains">Domains: {{creature.magic.domains.join(', ')}}</li>
-          }
-          @if (creature.magic.arcaneSpellFailure) {
-            <li class="creature-magic-failure">Arcane Spell Failure: {{creature.magic.arcaneSpellFailure}}%</li>
-          }
-          @if (creature.magic.spellsPerDay.length) {
-            <li class="creature-magic-spells-per-day">
-              <dndgen-details heading="Spells Per Day" [hasDetails]="true">
+          @for (skill of sortedSkills; track $index) {
+            <li>
+              <dndgen-details class="skill-heading" [heading]="skill | skill" [hasDetails]="true">
                 <ul>
-                  @for (quantity of creature.magic.spellsPerDay; track $index) {
-                    <li>{{format.spellQuantity(quantity) | spellQuantity}}</li>
+                  <li class="skill-ranks">Ranks: {{skill.effectiveRanks}}</li>
+                  <li class="skill-ability">Ability: {{skill.baseAbility.name}} ({{skill.baseAbility.modifier | bonus}})</li>
+                  @if (skill.hasArmorCheckPenalty) {
+                    <li class="skill-armor-check-penalty">Armor Check Penalty: {{skill.armorCheckPenalty}}</li>
+                  }
+                  @if (skill.classSkill) {
+                    <li class="skill-class-skill">Class Skill</li>
                   }
                 </ul>
               </dndgen-details>
             </li>
           }
-          @if (creature.magic.knownSpells.length) {
-            <li class="creature-magic-spells-known">
-              <dndgen-details heading="Known Spells" [hasDetails]="true">
-                <ul>
-                  @for (spellGroup of format.spellGroups(creature.magic.knownSpells); track $index) {
-                    <li><dndgen-spell-group [group]="spellGroup"></dndgen-spell-group></li>
-                  }
-                </ul>
-              </dndgen-details>
-            </li>
+        </ul>
+      </dndgen-details>
+    </li>
+    <li class="creature-feats">
+      <dndgen-details heading="Feats ({{creature.feats.length}})" [hasDetails]="creature.feats.length > 0">
+        <ul>
+          @for (feat of creature.feats; track $index) {
+            <li><dndgen-feat [feat]="feat"></dndgen-feat></li>
           }
-          @if (creature.magic.preparedSpells.length) {
-            <li class="creature-magic-spells-prepared">
-              <dndgen-details heading="Prepared Spells" [hasDetails]="true">
-                <ul>
-                  @for (spellGroup of format.spellGroups(creature.magic.preparedSpells); track $index) {
-                    <li><dndgen-spell-group [group]="spellGroup"></dndgen-spell-group></li>
-                  }
-                </ul>
-              </dndgen-details>
-            </li>
+        </ul>
+      </dndgen-details>
+    </li>
+    <li class="creature-challenge-rating">Challenge Rating: {{creature.challengeRating}}</li>
+    <li class="creature-alignment">Alignment: {{creature.alignment.full}}</li>
+    <li class="creature-level-adjustment">Level Adjustment: {{creature.levelAdjustment | optionalBonus}}</li>
+    <li class="creature-demographics">
+      <dndgen-details heading="Demographics" [hasDetails]="true">
+        <ul>
+          <li class="creature-demographics-gender">Gender: {{creature.demographics.gender}}</li>
+          <li class="creature-demographics-age">Age: {{creature.demographics.age | measurement}}</li>
+          <li class="creature-demographics-maximum-age">Maximum Age: {{creature.demographics.maximumAge | measurement}}</li>
+          @if (creature.demographics.height.value) {
+            <li class="creature-demographics-height">Height: {{creature.demographics.height | measurement}}</li>
+          }
+          @if (creature.demographics.length.value) {
+            <li class="creature-demographics-length">Length: {{creature.demographics.length | measurement}}</li>
+          }
+          @if (creature.demographics.weight.value) {
+            <li class="creature-demographics-weight">Weight: {{creature.demographics.weight | measurement}}</li>
+          }
+          @if (creature.demographics.wingspan.value) {
+            <li class="creature-demographics-wingspan">Wingspan: {{creature.demographics.wingspan | measurement}}</li>
+          }
+          @if (creature.demographics.skin) {
+            <li class="creature-demographics-skin">Skin: {{creature.demographics.skin}}</li>
+          }
+          @if (creature.demographics.hair) {
+            <li class="creature-demographics-hair">Hair: {{creature.demographics.hair}}</li>
+          }
+          @if (creature.demographics.eyes) {
+            <li class="creature-demographics-eyes">Eyes: {{creature.demographics.eyes}}</li>
+          }
+          @if (creature.demographics.other) {
+            <li class="creature-demographics-other">Other: {{creature.demographics.other}}</li>
+          }
+        </ul>
+      </dndgen-details>
+    </li>
+    <li class="creature-languages">
+      <dndgen-details heading="Languages ({{creature.languages.length}})" [hasDetails]="creature.languages.length > 0">
+        <ul>
+          @for (language of creature.languages; track $index) {
+            <li>{{language}}</li>
           }
         </ul>
       </dndgen-details>
@@ -211,7 +208,7 @@
       <dndgen-details heading="Equipment" [hasDetails]="true">
         <ul>
           <li class="creature-equipment-weapons">
-            <dndgen-details heading="Weapons{{creature.equipment.weapons.length ? '' : ': None'}}" [hasDetails]="creature.equipment.weapons.length > 0">
+            <dndgen-details heading="Weapons ({{creature.equipment.weapons.length}})" [hasDetails]="creature.equipment.weapons.length > 0">
               <ul>
                 @for (weapon of creature.equipment.weapons; track $index) {
                   <li><dndgen-item [item]="weapon"></dndgen-item></li>
@@ -234,7 +231,7 @@
             </dndgen-details>
           </li>
           <li class="creature-equipment-items">
-            <dndgen-details heading="Items{{creature.equipment.items.length ? '' : ': None'}}" [hasDetails]="creature.equipment.items.length > 0">
+            <dndgen-details heading="Items ({{creature.equipment.items.length}})" [hasDetails]="creature.equipment.items.length > 0">
               <ul>
                 @for (item of creature.equipment.items; track $index) {
                   <li><dndgen-item [item]="item"></dndgen-item></li>
@@ -242,19 +239,6 @@
               </ul>
             </dndgen-details>
           </li>
-        </ul>
-      </dndgen-details>
-    </li>
-    <li class="creature-demographics">
-      <dndgen-details heading="Demographics" [hasDetails]="true">
-        <ul>
-          <li class="creature-demographics-gender">Gender: {{creature.demographics.gender}}</li>
-          @for (measurement of format.demographicMeasurements(creature.demographics); track $index) {
-            <li class="creature-demographics-measurement">{{measurement.label}}: {{measurement.measurement | measurement}}</li>
-          }
-          @for (description of format.demographicDescriptions(creature.demographics); track $index) {
-            <li class="creature-demographics-description">{{description.label}}: {{description.text}}</li>
-          }
         </ul>
       </dndgen-details>
     </li>

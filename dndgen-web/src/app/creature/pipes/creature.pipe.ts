@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Creature } from '../models/creature.model';
-import { CreatureFormatService } from '../services/creature-format.service';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
-import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
 import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
 import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
@@ -12,6 +10,24 @@ import { Feat } from '../../character/models/feat.model';
 import { CreatureSpell } from '../models/creature-spell.model';
 import { Item } from '../../treasure/models/item.model';
 import { CreatureSkill } from '../models/creature-skill.model';
+import { Bonus } from '../models/bonus.model';
+import { CreatureMagic } from '../models/creature-magic.model';
+import { Demographics } from '../models/demographics.model';
+import { SpellGroupService } from '../../character/services/spell-group.service';
+import { Spell } from '../../character/models/spell.model';
+import { SpellQuantity } from '../../character/models/spell-quantity.model';
+import { CreatureTypePipe } from './creature-type.pipe';
+import { HitDicePipe } from './hit-dice.pipe';
+import { SpeedPipe } from './speed.pipe';
+import { ArmorClassPipe } from './armor-class.pipe';
+import { OptionalBonusPipe } from './optional-bonus.pipe';
+import { AttackPipe } from './attack.pipe';
+import { AttackTypePipe } from './attack-type.pipe';
+import { FullAttackPipe } from './full-attack.pipe';
+import { SavesPipe } from './saves.pipe';
+import { AbilitiesPipe } from './abilities.pipe';
+import { SkillPipe } from './skill.pipe';
+import { ConditionalBonusPipe } from './conditional-bonus.pipe';
 
 @Pipe({
     name: 'creature',
@@ -19,41 +35,67 @@ import { CreatureSkill } from '../models/creature-skill.model';
 })
 export class CreaturePipe implements PipeTransform {
     constructor(
-        private format: CreatureFormatService,
         private bonusPipe: BonusPipe,
-        private bonusesPipe: BonusesPipe,
         private measurementPipe: MeasurementPipe,
         private frequencyPipe: FrequencyPipe,
         private spellQuantityPipe: SpellQuantityPipe,
-        private itemPipe: ItemPipe) { }
+        private itemPipe: ItemPipe,
+        private spellGroupService: SpellGroupService,
+        private creatureTypePipe: CreatureTypePipe,
+        private hitDicePipe: HitDicePipe,
+        private speedPipe: SpeedPipe,
+        private armorClassPipe: ArmorClassPipe,
+        private optionalBonusPipe: OptionalBonusPipe,
+        private attackPipe: AttackPipe,
+        private attackTypePipe: AttackTypePipe,
+        private fullAttackPipe: FullAttackPipe,
+        private savesPipe: SavesPipe,
+        private abilitiesPipe: AbilitiesPipe,
+        private skillPipe: SkillPipe,
+        private conditionalBonusPipe: ConditionalBonusPipe) { }
+
+    private readonly saveNames = ['Fortitude', 'Reflex', 'Will'];
 
     transform(creature: Creature): string {
         let formatted = creature.summary + ':\r\n';
 
-        formatted += this.line('Size: ' + creature.size, '\t');
-        formatted += this.line('Type: ' + this.format.type(creature.type), '\t');
-        formatted += this.line('Challenge Rating: ' + creature.challengeRating, '\t');
-        formatted += this.line('Alignment: ' + creature.alignment.full, '\t');
-        formatted += this.line('Level Adjustment: ' + this.format.optionalBonus(creature.levelAdjustment), '\t');
-        formatted += this.line('Templates: ' + this.format.templates(creature.templates), '\t');
+        formatted += this.line(`Size/Type: ${creature.size} ${this.creatureTypePipe.transform(creature.type)}`, '\t');
 
-        formatted += this.line('Hit Points: ' + creature.hitPoints.total, '\t');
-        formatted += this.line('Hit Dice: ' + creature.hitPoints.defaultRoll, '\t\t');
-        formatted += this.lines(this.format.conditionalBonuses(creature.hitPoints.conditionalBonuses), '\t\t');
+        formatted += this.line('Hit Dice: ' + this.hitDicePipe.transform(creature.hitPoints), '\t');
+        formatted += this.line('Hit Points: ' + creature.hitPoints.total, '\t\t');
+        formatted += this.formatConditionalBonuses(creature.hitPoints.conditionalBonuses, '\t\t');
 
-        formatted += this.formatCombat(creature);
-        formatted += this.formatAttacks(creature);
+        formatted += this.line('Initiative: ' + this.bonusPipe.transform(creature.totalInitiativeBonus), '\t');
+        formatted += this.line('Speed: ' + this.speedPipe.transform(creature.speeds), '\t');
 
-        formatted += this.line('Abilities:', '\t');
-        formatted += this.lines(this.format.abilityNames.map(name => this.format.ability(name, creature.abilities[name])), '\t\t');
+        formatted += this.line('Armor Class: ' + this.armorClassPipe.transform(creature.armorClass), '\t');
+        formatted += this.line('Touch: ' + creature.armorClass.touchBonus, '\t\t');
+        formatted += this.line('Flat-Footed: ' + creature.armorClass.flatFootedBonus, '\t\t');
+        formatted += this.formatConditionalBonuses(creature.armorClass.bonuses, '\t\t');
 
+        formatted += this.line(`Base Attack/Grapple: ${this.bonusPipe.transform(creature.baseAttackBonus)}/${this.optionalBonusPipe.transform(creature.grappleBonus)}`, '\t');
+        formatted += this.formatAttackOptions(creature.attacks);
+        formatted += this.formatFullAttackOptions(creature);
+        formatted += this.line(`Space/Reach: ${creature.space.value} ft./${creature.reach.value} ft.`, '\t');
+        formatted += this.formatSpecialAttacks(creature);
+        formatted += this.formatFeats('Special Qualities', creature.specialQualities);
+
+        formatted += this.line('Saves: ' + this.savesPipe.transform(creature.saves), '\t');
+
+        for (const saveName of this.saveNames) {
+            formatted += this.lines(this.getConditionalBonuses(creature.saves[saveName].bonuses)
+                .map(bonus => `${saveName}: ${this.conditionalBonusPipe.transform(bonus)}`), '\t\t');
+        }
+
+        formatted += this.line('Abilities: ' + this.abilitiesPipe.transform(creature.abilities), '\t');
         formatted += this.formatSkills(creature.skills);
         formatted += this.formatFeats('Feats', creature.feats);
-        formatted += this.formatFeats('Special Qualities', creature.specialQualities);
+        formatted += this.line('Challenge Rating: ' + creature.challengeRating, '\t');
+        formatted += this.line('Alignment: ' + creature.alignment.full, '\t');
+        formatted += this.line('Level Adjustment: ' + this.optionalBonusPipe.transform(creature.levelAdjustment), '\t');
+        formatted += this.formatDemographics(creature.demographics);
         formatted += this.formatList('Languages', creature.languages);
-        formatted += this.formatMagic(creature);
         formatted += this.formatEquipment(creature);
-        formatted += this.formatDemographics(creature);
 
         return formatted;
     }
@@ -68,104 +110,130 @@ export class CreaturePipe implements PipeTransform {
             .join('');
     }
 
+    private getConditionalBonuses(bonuses: Bonus[]): Bonus[] {
+        return bonuses.filter(bonus => bonus.isConditional);
+    }
+
+    private formatConditionalBonuses(bonuses: Bonus[], prefix: string): string {
+        return this.lines(this.getConditionalBonuses(bonuses).map(bonus => this.conditionalBonusPipe.transform(bonus)), prefix);
+    }
+
     private formatList(title: string, list: string[]): string {
-        if (!list.length)
-            return this.line(title + ': None', '\t');
-
-        return this.line(title + ':', '\t') + this.lines(list, '\t\t');
+        return this.line(`${title} (${list.length}):`, '\t') + this.lines(list, '\t\t');
     }
 
-    private formatCombat(creature: Creature): string {
-        let formatted = this.line('Combat:', '\t');
+    private formatAttackOptions(attacks: Attack[]): string {
+        const options = attacks
+            .filter(attack => !attack.isSpecial)
+            .filter((attack, index, all) => all.findIndex(other => this.isSameAttack(attack, other)) == index);
 
-        const armorClass = creature.armorClass;
-        formatted += this.line('Armor Class: ' + this.bonusPipe.transform(armorClass.totalBonus, armorClass.isConditional, false), '\t\t');
-        formatted += this.line('Flat-Footed: ' + armorClass.flatFootedBonus, '\t\t\t');
-        formatted += this.line('Touch: ' + armorClass.touchBonus, '\t\t\t');
-        formatted += this.lines(this.format.conditionalBonuses(armorClass.bonuses), '\t\t\t');
+        let formatted = this.line(`Attack (${options.length}):`, '\t');
 
-        formatted += this.line('Initiative Bonus: ' + this.bonusPipe.transform(creature.totalInitiativeBonus), '\t\t');
-        formatted += this.line('Base Attack: ' + this.bonusPipe.transform(creature.baseAttackBonus), '\t\t');
-        formatted += this.line('Grapple: ' + this.format.optionalBonus(creature.grappleBonus), '\t\t');
-        formatted += this.line('Space: ' + this.measurementPipe.transform(creature.space), '\t\t');
-        formatted += this.line('Reach: ' + this.measurementPipe.transform(creature.reach), '\t\t');
-
-        formatted += this.line('Speeds:', '\t\t');
-        formatted += this.lines(this.format.speeds(creature.speeds).map(speed => `${speed.label}: ${this.measurementPipe.transform(speed.measurement)}`), '\t\t\t');
-
-        formatted += this.line('Saving Throws:', '\t\t');
-
-        for (const saveName of this.format.saveNames) {
-            const save = creature.saves[saveName];
-            formatted += this.line(this.format.save(saveName, save), '\t\t\t');
-            formatted += this.lines(this.format.conditionalBonuses(save.bonuses), '\t\t\t');
+        for (const attack of options) {
+            formatted += this.formatAttack(attack, false, '\t\t');
         }
 
         return formatted;
     }
 
-    private formatAttacks(creature: Creature): string {
-        let formatted = this.line('Attacks:', '\t');
-
-        formatted += this.formatAttackList('Attacks', this.format.standardAttacks(creature.attacks));
-        formatted += this.formatAttackList('Full Melee Attack', creature.fullMeleeAttack);
-        formatted += this.formatAttackList('Full Ranged Attack', creature.fullRangedAttack);
-        formatted += this.formatAttackList('Special Attacks', creature.specialAttacks);
-
-        return formatted;
+    private isSameAttack(attack: Attack, other: Attack): boolean {
+        return attack.name == other.name
+            && attack.attackType == other.attackType
+            && attack.totalAttackBonus == other.totalAttackBonus
+            && attack.damageSummary == other.damageSummary;
     }
 
-    private formatAttackList(title: string, attacks: Attack[]): string {
-        if (!attacks.length)
-            return this.line(title + ': None', '\t\t');
+    private formatFullAttackOptions(creature: Creature): string {
+        const options = [creature.fullMeleeAttack, creature.fullRangedAttack]
+            .filter(attacks => attacks.length > 0);
 
-        let formatted = this.line(title + ':', '\t\t');
+        let formatted = this.line(`Full Attack (${options.length}):`, '\t');
 
-        for (const attack of attacks) {
-            formatted += this.formatAttack(attack);
+        for (const option of options) {
+            formatted += this.line(this.fullAttackPipe.transform(option), '\t\t');
+
+            for (const attack of option) {
+                formatted += this.formatAttack(attack, true, '\t\t\t');
+            }
         }
 
         return formatted;
     }
 
-    private formatAttack(attack: Attack): string {
-        const prefix = '\t\t\t\t';
-        let formatted = this.line(attack.name, '\t\t\t');
+    private formatSpecialAttacks(creature: Creature): string {
+        let formatted = this.line(`Special Attacks (${creature.specialAttacks.length}):`, '\t');
 
-        const conditional = this.format.isConditional(attack.attackBonuses);
-        formatted += this.line('Type: ' + this.format.attackType(attack), prefix);
+        for (const attack of creature.specialAttacks) {
+            formatted += this.formatAttack(attack, false, '\t\t');
 
-        if (!attack.isSpecial) {
-            formatted += this.line('Attack Bonus: ' + this.bonusPipe.transform(attack.totalAttackBonus, conditional), prefix);
-
-            if (attack.fullAttackBonuses.length > 1)
-                formatted += this.line('Full Attack Bonuses: ' + this.bonusesPipe.transform(attack.fullAttackBonuses, conditional), prefix);
+            if (attack.name == 'Spells')
+                formatted += this.formatMagic(creature.magic, '\t\t\t');
         }
 
-        if (attack.damageSummary)
-            formatted += this.line('Damage: ' + attack.damageSummary, prefix);
+        return formatted;
+    }
 
-        if (attack.damageEffect)
-            formatted += this.line('Effect: ' + attack.damageEffect, prefix);
+    private formatAttack(attack: Attack, full: boolean, prefix: string): string {
+        let formatted = this.line(this.attackPipe.transform(attack, full), prefix);
+        formatted += this.line('Type: ' + this.attackTypePipe.transform(attack), prefix + '\t');
 
         if (attack.frequency.timePeriod)
-            formatted += this.line('Frequency: ' + this.frequencyPipe.transform(attack.frequency), prefix);
+            formatted += this.line('Frequency: ' + this.frequencyPipe.transform(attack.frequency), prefix + '\t');
+
+        if (attack.save)
+            formatted += this.line(`Save: ${attack.save.save} DC ${attack.save.dc} (${attack.save.baseAbility.name})`, prefix + '\t');
+
+        return formatted;
+    }
+
+    private formatMagic(magic: CreatureMagic, prefix: string): string {
+        let formatted = this.line('Caster: ' + magic.caster, prefix);
+        formatted += this.line('Caster Level: ' + magic.casterLevel, prefix);
+
+        if (magic.domains.length)
+            formatted += this.line('Domains: ' + magic.domains.join(', '), prefix);
+
+        if (magic.arcaneSpellFailure)
+            formatted += this.line('Arcane Spell Failure: ' + magic.arcaneSpellFailure + '%', prefix);
+
+        if (magic.spellsPerDay.length) {
+            formatted += this.line('Spells Per Day:', prefix);
+            formatted += this.lines(magic.spellsPerDay
+                .map(q => this.spellQuantityPipe.transform(new SpellQuantity(q.source, q.level, q.totalQuantity, q.hasDomainSpell))), prefix + '\t');
+        }
+
+        formatted += this.formatSpells('Known Spells', magic.knownSpells, prefix);
+        formatted += this.formatSpells('Prepared Spells', magic.preparedSpells, prefix);
+
+        return formatted;
+    }
+
+    private formatSpells(title: string, spells: CreatureSpell[], prefix: string): string {
+        if (!spells.length)
+            return '';
+
+        let formatted = this.line(title + ':', prefix);
+        const characterSpells = spells.map(spell => new Spell({ [spell.source]: spell.level }, spell.name, spell.metamagic));
+
+        for (const group of this.spellGroupService.sortIntoGroups(characterSpells)) {
+            formatted += this.line(group.name + ':', prefix + '\t');
+            formatted += this.lines(group.spells.map(spell => spell.name), prefix + '\t\t');
+        }
 
         return formatted;
     }
 
     private formatSkills(skills: CreatureSkill[]): string {
-        if (!skills.length)
-            return this.line('Skills: None', '\t');
+        let formatted = this.line(`Skills (${skills.length}):`, '\t');
+        const sorted = [...skills].sort((a, b) => this.compare(this.getSkillDisplayName(a), this.getSkillDisplayName(b)));
 
-        let formatted = this.line('Skills:', '\t');
-
-        for (const skill of this.format.sortedSkills(skills)) {
-            formatted += this.line(this.format.skillName(skill), '\t\t');
-            formatted += this.line('Total Bonus: ' + this.bonusPipe.transform(skill.totalBonus, skill.circumstantialBonus), '\t\t\t');
+        for (const skill of sorted) {
+            formatted += this.line(this.skillPipe.transform(skill), '\t\t');
             formatted += this.line('Ranks: ' + skill.effectiveRanks, '\t\t\t');
-            formatted += this.line('Ability Bonus: ' + skill.baseAbility.modifier, '\t\t\t');
-            formatted += this.line('Armor Check Penalty: ' + skill.armorCheckPenalty, '\t\t\t');
+            formatted += this.line(`Ability: ${skill.baseAbility.name} (${this.bonusPipe.transform(skill.baseAbility.modifier)})`, '\t\t\t');
+
+            if (skill.hasArmorCheckPenalty)
+                formatted += this.line('Armor Check Penalty: ' + skill.armorCheckPenalty, '\t\t\t');
 
             if (skill.classSkill)
                 formatted += this.line('Class Skill', '\t\t\t');
@@ -174,11 +242,28 @@ export class CreaturePipe implements PipeTransform {
         return formatted;
     }
 
-    private formatFeats(title: string, feats: Feat[]): string {
-        if (!feats.length)
-            return this.line(title + ': None', '\t');
+    private getSkillDisplayName(skill: CreatureSkill): string {
+        if (!skill.focus)
+            return skill.name;
 
-        let formatted = this.line(title + ':', '\t');
+        return `${skill.name} (${skill.focus})`;
+    }
+
+    private compare(a: string, b: string): number {
+        const aa = a.toLowerCase();
+        const bb = b.toLowerCase();
+
+        if (aa < bb)
+            return -1;
+
+        if (aa > bb)
+            return 1;
+
+        return 0;
+    }
+
+    private formatFeats(title: string, feats: Feat[]): string {
+        let formatted = this.line(`${title} (${feats.length}):`, '\t');
 
         for (const feat of feats) {
             formatted += this.line(feat.name, '\t\t');
@@ -188,53 +273,44 @@ export class CreaturePipe implements PipeTransform {
                 formatted += this.lines(feat.foci, '\t\t\t\t');
             }
 
-            if (feat.frequency.timePeriod)
-                formatted += this.line('Frequency: ' + this.frequencyPipe.transform(feat.frequency), '\t\t\t');
-
             if (feat.power > 0)
                 formatted += this.line('Power: ' + feat.power, '\t\t\t');
+
+            if (feat.frequency.timePeriod)
+                formatted += this.line('Frequency: ' + this.frequencyPipe.transform(feat.frequency), '\t\t\t');
         }
 
         return formatted;
     }
 
-    private formatMagic(creature: Creature): string {
-        const magic = creature.magic;
+    private formatDemographics(demographics: Demographics): string {
+        let formatted = this.line('Demographics:', '\t');
 
-        if (!magic.caster)
-            return this.line('Magic: None', '\t');
+        formatted += this.line('Gender: ' + demographics.gender, '\t\t');
+        formatted += this.line('Age: ' + this.measurementPipe.transform(demographics.age), '\t\t');
+        formatted += this.line('Maximum Age: ' + this.measurementPipe.transform(demographics.maximumAge), '\t\t');
 
-        let formatted = this.line('Magic:', '\t');
-        formatted += this.line('Caster: ' + magic.caster, '\t\t');
-        formatted += this.line('Caster Level: ' + magic.casterLevel, '\t\t');
+        const measurements = [
+            { label: 'Height', measurement: demographics.height },
+            { label: 'Length', measurement: demographics.length },
+            { label: 'Weight', measurement: demographics.weight },
+            { label: 'Wingspan', measurement: demographics.wingspan },
+        ];
 
-        if (magic.domains.length)
-            formatted += this.line('Domains: ' + magic.domains.join(', '), '\t\t');
+        formatted += this.lines(measurements
+            .filter(m => m.measurement.value)
+            .map(m => `${m.label}: ${this.measurementPipe.transform(m.measurement)}`), '\t\t');
 
-        if (magic.arcaneSpellFailure)
-            formatted += this.line('Arcane Spell Failure: ' + magic.arcaneSpellFailure + '%', '\t\t');
+        const descriptions = [
+            { label: 'Skin', text: demographics.skin },
+            { label: 'Hair', text: demographics.hair },
+            { label: 'Eyes', text: demographics.eyes },
+            { label: 'Other', text: demographics.other },
+        ];
 
-        if (magic.spellsPerDay.length) {
-            formatted += this.line('Spells Per Day:', '\t\t');
-            formatted += this.lines(magic.spellsPerDay.map(q => this.spellQuantityPipe.transform(this.format.spellQuantity(q))), '\t\t\t');
-        }
-
-        formatted += this.formatSpells('Known Spells', magic.knownSpells);
-        formatted += this.formatSpells('Prepared Spells', magic.preparedSpells);
-
-        return formatted;
-    }
-
-    private formatSpells(title: string, spells: CreatureSpell[]): string {
-        if (!spells.length)
-            return '';
-
-        let formatted = this.line(title + ':', '\t\t');
-
-        for (const group of this.format.spellGroups(spells)) {
-            formatted += this.line(group.name + ':', '\t\t\t');
-            formatted += this.lines(group.spells.map(spell => spell.name), '\t\t\t\t');
-        }
+        formatted += this.lines(descriptions
+            .filter(d => d.text)
+            .map(d => `${d.label}: ${d.text}`), '\t\t');
 
         return formatted;
     }
@@ -259,20 +335,6 @@ export class CreaturePipe implements PipeTransform {
     }
 
     private formatItems(title: string, items: Item[]): string {
-        if (!items.length)
-            return this.line(title + ': None', '\t\t');
-
-        return this.line(title + ':', '\t\t') + items.map(item => this.itemPipe.transform(item, '\t\t\t')).join('');
-    }
-
-    private formatDemographics(creature: Creature): string {
-        const demographics = creature.demographics;
-        let formatted = this.line('Demographics:', '\t');
-
-        formatted += this.line('Gender: ' + demographics.gender, '\t\t');
-        formatted += this.lines(this.format.demographicMeasurements(demographics).map(m => `${m.label}: ${this.measurementPipe.transform(m.measurement)}`), '\t\t');
-        formatted += this.lines(this.format.demographicDescriptions(demographics).map(d => `${d.label}: ${d.text}`), '\t\t');
-
-        return formatted;
+        return this.line(`${title} (${items.length}):`, '\t\t') + items.map(item => this.itemPipe.transform(item, '\t\t\t')).join('');
     }
 }

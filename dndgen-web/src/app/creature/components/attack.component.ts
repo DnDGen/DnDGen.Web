@@ -1,10 +1,9 @@
 import { Input, Component } from '@angular/core';
 import { Attack } from '../models/attack.model';
 import { DetailsComponent } from '../../shared/components/details.component';
-import { BonusPipe } from '../../shared/pipes/bonus.pipe';
-import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
-import { CreatureFormatService } from '../services/creature-format.service';
+import { AttackPipe } from '../pipes/attack.pipe';
+import { AttackTypePipe } from '../pipes/attack-type.pipe';
 
 @Component({
     selector: 'dndgen-attack',
@@ -12,14 +11,13 @@ import { CreatureFormatService } from '../services/creature-format.service';
     standalone: true,
     imports: [
       DetailsComponent,
-      BonusPipe,
-      BonusesPipe,
       FrequencyPipe,
+      AttackPipe,
+      AttackTypePipe,
     ]
 })
 
 export class AttackComponent {
-  constructor(public format: CreatureFormatService) { }
-
   @Input() attack!: Attack;
+  @Input() full: boolean = false;
 }

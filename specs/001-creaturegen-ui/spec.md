@@ -186,7 +186,7 @@ The maintainer deploys a new build. The release verifies that the CreatureGen vi
 
 **Creature display**
 
-- **FR-020**: The page MUST display a generated creature in full, covering every item in User Story 4, Acceptance Scenario 1, organised into sections in the same visual style as the character display (collapsible detail sections, consistent bonus formatting such as "+2").
+- **FR-020**: The page MUST display a generated creature in full, covering every item in User Story 4, Acceptance Scenario 1, in the order and format of the SRD monster stat blocks (e.g. https://www.d20srd.org/srd/monsters/elf.htm): Size/Type, Hit Dice as "roll (average hp)" with the rolled hit points beneath, Initiative, Speed, Armor Class with touch and flat-footed beneath, Base Attack/Grapple, Attack (N), Full Attack (N), Space/Reach, Special Attacks (N), Special Qualities (N), Saves, Abilities, Skills (N) with conditional totals in parentheses (e.g. "Disguise +7 (+9 acting)"), Feats (N), Challenge Rating, Alignment and Level Adjustment; then Demographics, Languages (N) and Equipment. Each counted row expands to its entries: each attack option, each full attack option (melee, ranged), each special attack (with its save DC when it has one, and the creature's magic under "Spells"), each quality, skill and feat.
 - **FR-021**: Where the creature's information has the same shape as information already displayed elsewhere on the site (e.g., abilities, feats, skills, spells/magic, equipment items, measurements), the display MUST look and behave the same as it does there.
 - **FR-022**: Conditional bonuses (e.g., on hit points, saves, skills, armor class) MUST be shown, marked as conditional, as they are for characters.
 

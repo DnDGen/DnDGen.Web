@@ -1,5 +1,5 @@
 import { Frequency } from "../../character/models/frequency.model";
-import { Bonus } from "./bonus.model";
+import { AttackSave } from "./attack-save.model";
 
 export class Attack {
   constructor(
@@ -11,10 +11,11 @@ export class Attack {
     public isSpecial: boolean = false,
     public totalAttackBonus: number = 0,
     public fullAttackBonuses: number[] = [],
-    public attackBonuses: Bonus[] = [],
+    public attackBonuses: number[] = [],
     public damageSummary: string = '',
     public damageEffect: string = '',
     public frequency: Frequency = new Frequency(),
-    public maxNumberOfAttacks: number = 1
+    public maxNumberOfAttacks: number = 1,
+    public save?: AttackSave | null
   ) { }
 }

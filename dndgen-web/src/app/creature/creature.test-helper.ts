@@ -5,6 +5,7 @@ import { Armor } from '../treasure/models/armor.model';
 import { Item } from '../treasure/models/item.model';
 import { Weapon } from '../treasure/models/weapon.model';
 import { Attack } from './models/attack.model';
+import { AttackSave } from './models/attack-save.model';
 import { Bonus } from './models/bonus.model';
 import { CreatureAbility } from './models/creature-ability.model';
 import { CreatureArmorClass } from './models/creature-armor-class.model';
@@ -23,6 +24,15 @@ import { Save } from './models/save.model';
 
 export class CreatureTestHelper {
   public static createFullCreature(): Creature {
+    const everyRound = new Frequency(1, 'Round (6 seconds)');
+    const greatclub = new Attack('Greatclub', 'melee', true, false, true, false, 16, [16, 11], [], '2d8+10 Bludgeoning', '', everyRound);
+    const offHandClub = new Attack('Club', 'melee', true, false, false, false, 11, [11], [], '1d6+3 Bludgeoning', '', everyRound);
+    const rock = new Attack('Rock', 'ranged', false, true, true, false, 8, [8], [], '2d6+7 Bludgeoning');
+    const corruptingTouch = new Attack('Corrupting Touch', 'supernatural ability', true, true, true, true, 8, [8], [], '1d6', '', everyRound);
+    const charisma = new CreatureAbility('Charisma', 13, 1);
+    const frightfulMoan = new Attack('Frightful Moan', 'supernatural ability', true, true, true, true, 8, [8], [], '', '', everyRound, 1, new AttackSave('Will', 17, 10, charisma));
+    const spells = new Attack('Spells', 'spell-like ability', false, true, true, true, 8, [8], [], '', '', everyRound);
+
     return new Creature(
       'Ghost Hill Giant',
       'Hill Giant',
@@ -60,7 +70,7 @@ export class CreatureTestHelper {
       },
       [
         new CreatureSkill('Spot', '', 6, 3, 3, true, false, 0, false, new CreatureAbility('Wisdom', 10, 0)),
-        new CreatureSkill('Climb', '', 9, 2, 2, true, true, -3, true, new CreatureAbility('Strength', 25, 7)),
+        new CreatureSkill('Climb', '', 9, 2, 2, true, true, -3, true, new CreatureAbility('Strength', 25, 7), [new Bonus(2), new Bonus(2, 'with rope', true)]),
         new CreatureSkill('Knowledge', 'Religion', -2, 0, 0, false, false, 0, false, new CreatureAbility('Intelligence', 6, -2)),
       ],
       [
@@ -72,17 +82,26 @@ export class CreatureTestHelper {
         new Feat('Spell-Like Ability', ['Ethereal jaunt'], 0, new Frequency(0, 'At Will')),
       ],
       [
-        new Attack('Greatclub', 'melee', true, false, true, false, 16, [16, 11], [], '2d8+10 Bludgeoning', '', new Frequency(1, 'Round (6 seconds)')),
-        new Attack('Corrupting Touch', 'supernatural ability', true, true, true, true, 8, [8], [], '1d6', '', new Frequency(1, 'Round (6 seconds)')),
+        greatclub,
+        offHandClub,
+        offHandClub,
+        rock,
+        corruptingTouch,
+        frightfulMoan,
+        spells,
       ],
       [
-        new Attack('Greatclub', 'melee', true, false, true, false, 16, [16, 11], [], '2d8+10 Bludgeoning', '', new Frequency(1, 'Round (6 seconds)')),
+        greatclub,
+        offHandClub,
+        offHandClub,
       ],
       [
-        new Attack('Rock', 'ranged', false, true, true, false, 8, [8], [new Bonus(1, 'within 30 feet', true)], '2d6+7 Bludgeoning'),
+        rock,
       ],
       [
-        new Attack('Corrupting Touch', 'supernatural ability', true, true, true, true, 8, [8], [], '1d6', '', new Frequency(1, 'Round (6 seconds)')),
+        corruptingTouch,
+        frightfulMoan,
+        spells,
       ],
       ['Giant', 'Common'],
       new CreatureMagic(
@@ -90,7 +109,7 @@ export class CreatureTestHelper {
         3,
         15,
         ['Air', 'Good'],
-        [new CreatureSpellQuantity('Sorcerer', 0, 6, 0, false, 6), new CreatureSpellQuantity('Sorcerer', 1, 5, 1, true, 7)],
+        [new CreatureSpellQuantity('Sorcerer', 0, 6, 0, false, 6), new CreatureSpellQuantity('Sorcerer', 1, 5, 1, true, 6)],
         [new CreatureSpell('Sorcerer', 1, 'Magic Missile'), new CreatureSpell('Sorcerer', 0, 'Light')],
         [new CreatureSpell('Sorcerer', 1, 'Shield')],
       ),
