@@ -95,10 +95,10 @@ export class CreatureTestHelper {
         [new CreatureSpell('Sorcerer', 1, 'Shield')],
       ),
       new CreatureEquipment(
-        [new Weapon('Greatclub', 'Weapon')],
+        [new Weapon('Greatclub', 'Weapon'), new Weapon('Rock', 'Weapon')],
         new Armor('Hide armor', 'Armor'),
         new Armor('Heavy wooden shield', 'Armor'),
-        [new Item('Potion of cure light wounds', 'Potion')],
+        [new Item('Potion of cure light wounds', 'Potion'), new Item('Rope', 'Tool')],
       ),
       new Demographics(
         'Male',

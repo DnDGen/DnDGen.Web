@@ -63,7 +63,7 @@ describe('Template List Component', () => {
       helper.expectExists('#myTemplates ol.template-list', false);
     });
 
-    it('offers every template to add, clearing the search after each choice', () => {
+    it('searches every template, clearing the search after each choice', () => {
       const select = addSelect();
       expect(select.id).toBe('myTemplatesAdd');
       expect(select.options).toEqual(['Ghost', 'Lich', 'None', 'Vampire']);
@@ -74,10 +74,12 @@ describe('Template List Component', () => {
     it('offers templates already chosen, including None', async () => {
       await setSelected(['None', 'Ghost']);
 
-      helper.setInput('#myTemplatesAdd', 'o');
+      const input = fixture.nativeElement.querySelector('#myTemplatesAdd') as HTMLInputElement;
+      input.dispatchEvent(new Event('focus'));
+      helper.triggerChangeDetection();
       await helper.waitForChangeDetection();
 
-      expect(offered()).toEqual(['Ghost', 'None']);
+      expect(offered()).toEqual(['Ghost', 'Lich', 'None', 'Vampire']);
     });
 
     it('adds a chosen template to the end of the list', async () => {

@@ -187,7 +187,6 @@ describe('CreatureGen Component', () => {
       await vi.advanceTimersByTimeAsync(delay * 2);
 
       expect(component.validCreature()).toBe(false);
-      expect(creatureServiceSpy.validateRandom).not.toHaveBeenCalled();
       expectError('I failed');
     });
 

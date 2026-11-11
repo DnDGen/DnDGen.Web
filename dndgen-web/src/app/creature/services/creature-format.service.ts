@@ -56,22 +56,14 @@ export class CreatureFormatService {
     return this.bonusPipe.transform(value);
   }
 
-  public ability(name: string, abilities: { [name: string]: CreatureAbility }): string | null {
-    const ability = abilities[name];
-    if (!ability)
-      return null;
-
+  public ability(name: string, ability: CreatureAbility): string {
     if (!ability.hasScore)
       return `${name}: ${this.none}`;
 
     return `${name}: ${ability.fullScore} (${this.bonusPipe.transform(ability.modifier)})`;
   }
 
-  public save(name: string, saves: { [name: string]: Save }): string | null {
-    const save = saves[name];
-    if (!save)
-      return null;
-
+  public save(name: string, save: Save): string {
     if (!save.hasSave)
       return `${name}: ${this.none}`;
 
@@ -97,6 +89,20 @@ export class CreatureFormatService {
 
   public speeds(speeds: { [movement: string]: CreatureMeasurement }): LabeledMeasurement[] {
     return Object.keys(speeds).map(movement => ({ label: movement, measurement: speeds[movement] }));
+  }
+
+  public attackType(attack: Attack): string {
+    if (attack.isSpecial)
+      return attack.attackType;
+
+    const natural = attack.isNatural ? 'Natural' : 'Manufactured';
+    const primary = attack.isPrimary ? 'Primary' : 'Secondary';
+
+    return `${natural} ${attack.attackType} (${primary})`;
+  }
+
+  public isConditional(bonuses: Bonus[]): boolean {
+    return bonuses.some(bonus => bonus.isConditional);
   }
 
   public standardAttacks(attacks: Attack[]): Attack[] {

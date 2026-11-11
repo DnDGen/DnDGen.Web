@@ -122,6 +122,13 @@ describe('Creature Service', () => {
             });
         }));
 
+        it('generates an untemplated random creature with only the None template', () => new Promise<void>(resolve => {
+            creatureService.generateRandom(['None'], '', '', '').subscribe((creature) => {
+                expect(creature.templates).toEqual([]);
+                resolve();
+            });
+        }));
+
         it('generates a random creature with the Ghost template', () => new Promise<void>(resolve => {
             creatureService.generateRandom(['Ghost'], '', '', '').subscribe((creature) => {
                 expect(creature.templates).toEqual(['Ghost']);

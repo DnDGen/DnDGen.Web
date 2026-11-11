@@ -1,10 +1,10 @@
 <dndgen-details class="attack-heading" [heading]="attack.name" [hasDetails]="true">
   <ul>
-    <li class="attack-type">Type: {{attackType}}</li>
+    <li class="attack-type">Type: {{format.attackType(attack)}}</li>
     @if (!attack.isSpecial) {
-      <li class="attack-bonus">Attack Bonus: {{attack.totalAttackBonus | bonus: isConditional}}</li>
+      <li class="attack-bonus">Attack Bonus: {{attack.totalAttackBonus | bonus: format.isConditional(attack.attackBonuses)}}</li>
       @if (attack.fullAttackBonuses.length > 1) {
-        <li class="attack-full-bonuses">Full Attack Bonuses: {{attack.fullAttackBonuses | bonuses: isConditional}}</li>
+        <li class="attack-full-bonuses">Full Attack Bonuses: {{attack.fullAttackBonuses | bonuses: format.isConditional(attack.attackBonuses)}}</li>
       }
     }
     @if (attack.damageSummary) {

@@ -66,48 +66,36 @@ describe('Creature Format Service', () => {
       });
     });
 
-    const abilities = {
-      Strength: new CreatureAbility('Strength', 24, 7),
-      Dexterity: new CreatureAbility('Dexterity', 8, -1),
-      Constitution: new CreatureAbility('Constitution', 0, 0, false),
-      Intelligence: new CreatureAbility('Intelligence', 10, 0),
-    };
-
     const abilityCases = [
-      { name: 'Strength', expected: 'Strength: 24 (+7)' },
-      { name: 'Dexterity', expected: 'Dexterity: 8 (-1)' },
-      { name: 'Intelligence', expected: 'Intelligence: 10 (+0)' },
-      { name: 'Constitution', expected: 'Constitution: —' },
-      { name: 'Wisdom', expected: null },
+      { name: 'Strength', ability: new CreatureAbility('Strength', 24, 7), expected: 'Strength: 24 (+7)' },
+      { name: 'Dexterity', ability: new CreatureAbility('Dexterity', 8, -1), expected: 'Dexterity: 8 (-1)' },
+      { name: 'Intelligence', ability: new CreatureAbility('Intelligence', 10, 0), expected: 'Intelligence: 10 (+0)' },
+      { name: 'Constitution', ability: new CreatureAbility('Constitution', 0, 0, false), expected: 'Constitution: —' },
     ];
 
     abilityCases.forEach(test => {
-      it(`formats the ${test.name} ability`, () => {
-        expect(service.ability(test.name, abilities)).toEqual(test.expected);
+      it(`formats ${test.expected}`, () => {
+        expect(service.ability(test.name, test.ability)).toEqual(test.expected);
       });
     });
 
-    it('lists abilities and saves in rules order', () => {
+    it('lists abilities in rules order', () => {
       expect(service.abilityNames).toEqual(['Strength', 'Constitution', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma']);
+    });
+
+    it('lists saves in rules order', () => {
       expect(service.saveNames).toEqual(['Fortitude', 'Reflex', 'Will']);
     });
 
-    const saves = {
-      Fortitude: new Save(5),
-      Reflex: new Save(-1, true),
-      Will: new Save(0, false, false),
-    };
-
     const saveCases = [
-      { name: 'Fortitude', expected: 'Fortitude: +5' },
-      { name: 'Reflex', expected: 'Reflex: -1 *' },
-      { name: 'Will', expected: 'Will: —' },
-      { name: 'Missing', expected: null },
+      { name: 'Fortitude', save: new Save(5), expected: 'Fortitude: +5' },
+      { name: 'Reflex', save: new Save(-1, true), expected: 'Reflex: -1 *' },
+      { name: 'Will', save: new Save(0, false, false), expected: 'Will: —' },
     ];
 
     saveCases.forEach(test => {
-      it(`formats the ${test.name} save`, () => {
-        expect(service.save(test.name, saves)).toEqual(test.expected);
+      it(`formats ${test.expected}`, () => {
+        expect(service.save(test.name, test.save)).toEqual(test.expected);
       });
     });
 
@@ -128,12 +116,15 @@ describe('Creature Format Service', () => {
       });
     });
 
-    it('names a skill without a focus', () => {
-      expect(service.skillName(new CreatureSkill('Climb'))).toEqual('Climb');
-    });
+    const skillNames = [
+      { skill: new CreatureSkill('Climb'), expected: 'Climb' },
+      { skill: new CreatureSkill('Knowledge', 'Arcana'), expected: 'Knowledge (Arcana)' },
+    ];
 
-    it('names a skill with a focus', () => {
-      expect(service.skillName(new CreatureSkill('Knowledge', 'Arcana'))).toEqual('Knowledge (Arcana)');
+    skillNames.forEach(test => {
+      it(`names the skill ${test.expected}`, () => {
+        expect(service.skillName(test.skill)).toEqual(test.expected);
+      });
     });
 
     it('sorts skills by display name without changing the original list', () => {
@@ -164,28 +155,69 @@ describe('Creature Format Service', () => {
       expect(service.sortedSkills([])).toEqual([]);
     });
 
-    it('lists speeds in the order given', () => {
-      const land = new CreatureMeasurement(20, 'feet per round');
-      const fly = new CreatureMeasurement(60, 'feet per round', 'Good Maneuverability (Wings)');
+    const land = new CreatureMeasurement(20, 'feet per round');
+    const fly = new CreatureMeasurement(60, 'feet per round', 'Good Maneuverability (Wings)');
+    const swim = new CreatureMeasurement(30, 'feet per round');
 
-      expect(service.speeds({ Land: land, Fly: fly })).toEqual([
-        { label: 'Land', measurement: land },
-        { label: 'Fly', measurement: fly },
-      ]);
+    const speeds: { name: string, speeds: { [movement: string]: CreatureMeasurement }, expected: { label: string, measurement: CreatureMeasurement }[] }[] = [
+      { name: 'no speeds', speeds: {}, expected: [] },
+      { name: '1 speed', speeds: { Land: land }, expected: [{ label: 'Land', measurement: land }] },
+      {
+        name: 'many speeds',
+        speeds: { Land: land, Fly: fly, Swim: swim },
+        expected: [{ label: 'Land', measurement: land }, { label: 'Fly', measurement: fly }, { label: 'Swim', measurement: swim }]
+      },
+    ];
+
+    speeds.forEach(test => {
+      it(`lists ${test.name} in the order given`, () => {
+        expect(service.speeds(test.speeds)).toEqual(test.expected);
+      });
     });
 
-    it('lists no speeds', () => {
-      expect(service.speeds({})).toEqual([]);
+    const greatclub = new Attack('Greatclub', 'melee');
+    const rock = new Attack('Rock', 'ranged');
+    const rockThrowing = new Attack('Rock Throwing', 'extraordinary ability', true, true, true, true);
+
+    const standardAttacks = [
+      { name: 'no attacks', attacks: [], expected: [] },
+      { name: 'only a special attack', attacks: [rockThrowing], expected: [] },
+      { name: '1 standard attack', attacks: [greatclub], expected: [greatclub] },
+      { name: 'standard and special attacks', attacks: [greatclub, rockThrowing, rock], expected: [greatclub, rock] },
+    ];
+
+    standardAttacks.forEach(test => {
+      it(`lists only the standard attacks from ${test.name}`, () => {
+        expect(service.standardAttacks(test.attacks)).toEqual(test.expected);
+      });
     });
 
-    it('lists only the standard attacks', () => {
-      const greatclub = new Attack('Greatclub', 'melee');
-      const rock = new Attack('Rock', 'ranged');
-      const rockThrowing = new Attack('Rock Throwing', 'extraordinary ability', true, true, true, true);
+    const attackTypes = [
+      { attack: new Attack('Greatclub', 'melee', true, false, true), expected: 'Manufactured melee (Primary)' },
+      { attack: new Attack('Greatclub', 'melee', true, false, false), expected: 'Manufactured melee (Secondary)' },
+      { attack: new Attack('Claw', 'melee', true, true, true), expected: 'Natural melee (Primary)' },
+      { attack: new Attack('Bite', 'melee', true, true, false), expected: 'Natural melee (Secondary)' },
+      { attack: new Attack('Longbow', 'ranged', false, false, true), expected: 'Manufactured ranged (Primary)' },
+      { attack: new Attack('Poison', 'extraordinary ability', true, true, false, true), expected: 'extraordinary ability' },
+    ];
 
-      expect(service.standardAttacks([greatclub, rockThrowing, rock])).toEqual([greatclub, rock]);
-      expect(service.standardAttacks([rockThrowing])).toEqual([]);
-      expect(service.standardAttacks([])).toEqual([]);
+    attackTypes.forEach(test => {
+      it(`describes the attack type as ${test.expected}`, () => {
+        expect(service.attackType(test.attack)).toEqual(test.expected);
+      });
+    });
+
+    const conditions = [
+      { name: 'no bonuses', bonuses: [], expected: false },
+      { name: '1 unconditional bonus', bonuses: [new Bonus(2)], expected: false },
+      { name: '1 conditional bonus', bonuses: [new Bonus(2, 'when charging', true)], expected: true },
+      { name: 'a mix of bonuses', bonuses: [new Bonus(2), new Bonus(1, 'when charging', true), new Bonus(3)], expected: true },
+    ];
+
+    conditions.forEach(test => {
+      it(`is conditional ${test.expected} with ${test.name}`, () => {
+        expect(service.isConditional(test.bonuses)).toBe(test.expected);
+      });
     });
 
     const quantities = [
@@ -259,6 +291,10 @@ describe('Creature Format Service', () => {
         { label: 'Age', measurement: demographics.age },
         { label: 'Maximum Age', measurement: demographics.maximumAge },
       ]);
+    });
+
+    it('lists no demographic descriptions when none have text', () => {
+      expect(service.demographicDescriptions(new Demographics())).toEqual([]);
     });
 
     it('lists every demographic description that has text', () => {

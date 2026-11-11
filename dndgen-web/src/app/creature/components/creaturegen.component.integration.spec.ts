@@ -9,7 +9,8 @@ import { CreatureComponent } from './creature.component';
 import { NgbConfig } from '@ng-bootstrap/ng-bootstrap';
 import FileSaver from 'file-saver';
 import { CreatureTestHelper } from '../creature.test-helper';
-import { CreaturePipe } from '../pipes/creature.pipe';
+import { CreatureService } from '../services/creature.service';
+import { firstValueFrom } from 'rxjs';
 
 describe('CreatureGen Component', () => {
   describe('integration', () => {
@@ -32,7 +33,7 @@ describe('CreatureGen Component', () => {
       vi.restoreAllMocks();
     });
 
-    async function choose(inputSelector: string, query: string, option: string) {
+    async function startChoosing(inputSelector: string, query: string, option: string) {
       helper.setInput(inputSelector, query);
       await helper.waitForChangeDetection();
 
@@ -42,6 +43,10 @@ describe('CreatureGen Component', () => {
 
       button!.click();
       helper.triggerChangeDetection();
+    }
+
+    async function choose(inputSelector: string, query: string, option: string) {
+      await startChoosing(inputSelector, query, option);
 
       //run validation
       await helper.waitForChangeDetection();
@@ -53,6 +58,10 @@ describe('CreatureGen Component', () => {
       }
     }
 
+    function startClicking(selector: string) {
+      helper.clickButton(selector);
+    }
+
     async function selectTab(index: number) {
       const tabs = fixture.nativeElement.querySelectorAll('ul.nav-tabs a.nav-link');
       (tabs.item(index) as HTMLAnchorElement).click();
@@ -60,12 +69,16 @@ describe('CreatureGen Component', () => {
       await helper.waitForChangeDetection();
     }
 
-    async function setSelect(selector: string, value: string) {
+    function startSelecting(selector: string, value: string) {
       const select = fixture.nativeElement.querySelector(selector) as HTMLSelectElement;
       const index = Array.from(select.options).findIndex(o => o.textContent == value);
       expect(index).toBeGreaterThanOrEqual(0);
 
       helper.setSelectByIndex(selector, index);
+    }
+
+    async function setSelect(selector: string, value: string) {
+      startSelecting(selector, value);
 
       //run validation
       await helper.waitForChangeDetection();
@@ -75,7 +88,63 @@ describe('CreatureGen Component', () => {
       const element = fixture.debugElement.query(By.css('#creatureSection dndgen-creature'));
       expect(element).toBeTruthy();
       expect(element.componentInstance).toBeInstanceOf(CreatureComponent);
-      return (element.componentInstance as CreatureComponent).creature;
+
+      const creature = (element.componentInstance as CreatureComponent).creature;
+      helper.expectDetails('#creatureSection dndgen-details.creature-header', creature.summary, true);
+
+      return creature;
+    }
+
+    function expectSetValidating() {
+      helper.expectValidating(fixture.componentInstance.validating(), '#creatureButton', '#creatureValidating');
+    }
+
+    function expectSetValid() {
+      helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+    }
+
+    function expectSetInvalid() {
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+    }
+
+    function expectRandomValidating() {
+      helper.expectValidating(fixture.componentInstance.validating(), '#randomButton', '#randomValidating');
+    }
+
+    function expectRandomValid() {
+      helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+    }
+
+    function expectRandomInvalid() {
+      helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+    }
+
+    async function generate(buttonSelector: string, validatingSelector: string): Promise<Creature> {
+      startClicking(buttonSelector);
+
+      helper.expectGenerating(
+        fixture.componentInstance.generating(),
+        buttonSelector,
+        '#creatureSection',
+        '#generatingSection dndgen-loading',
+        validatingSelector,
+        '#downloadButton');
+
+      //run generate
+      await helper.waitForChangeDetection();
+
+      helper.expectGenerated(
+        fixture.componentInstance.generating(),
+        buttonSelector,
+        '#creatureSection',
+        '#generatingSection',
+        validatingSelector,
+        '#downloadButton',
+        false);
+
+      helper.expectExists('#noCreature', false);
+
+      return displayedCreature();
     }
 
     it('should show the loading component when loading', async () => {
@@ -89,14 +158,10 @@ describe('CreatureGen Component', () => {
       helper.expectLoading('dndgen-loading', false, Size.Large);
     });
 
-    it('should set the creature model on init', () => {
-      const viewModel = fixture.componentInstance.creatureModel()!;
-      expect(viewModel).toBeTruthy();
-      expect(viewModel.creatures.length).toBe(659);
-      expect(viewModel.templates.length).toBe(44);
-      expect(viewModel.alignments.length).toBe(9);
-      expect(viewModel.creatureTypes.length).toBe(42);
-      expect(viewModel.challengeRatings.length).toBe(34);
+    it('should set the creature model on init', async () => {
+      const expected = await firstValueFrom(TestBed.inject(CreatureService).getViewModel());
+
+      expect(fixture.componentInstance.creatureModel()).toEqual(expected);
     });
 
     it('should validate both tabs on init', () => {
@@ -119,19 +184,32 @@ describe('CreatureGen Component', () => {
       helper.expectTextContent('#noCreature', 'No creature has been generated');
       helper.expectExists('#creatureSection dndgen-creature', false);
       helper.expectExists('#generatingSection', false);
+      helper.expectExists('#downloadButton', false);
     });
 
     it('should render a creature', async () => {
-      const creature = new Creature('my creature');
+      const creature = CreatureTestHelper.createMinimalCreature();
       fixture.componentInstance.creature.set(creature);
       await helper.waitForChangeDetection();
 
       helper.expectExists('#noCreature', false);
+      helper.expectExists('#downloadButton', true);
       expect(displayedCreature()).toBe(creature);
     });
 
-    it('should not offer a download when no creature has been generated', () => {
-      helper.expectExists('#downloadButton', false);
+    it('should show when generating', async () => {
+      fixture.componentInstance.generating.set(true);
+      fixture.componentInstance.generatingMessage.set('Generating creature...');
+      await helper.waitForChangeDetection();
+
+      helper.expectGenerating(
+        fixture.componentInstance.generating(),
+        '#creatureButton',
+        '#creatureSection',
+        '#generatingSection dndgen-loading',
+        '#creatureValidating',
+        '#downloadButton');
+      helper.expectTextContent('#generatingSection > span', 'Generating creature...');
     });
 
     it('should download the displayed creature', async () => {
@@ -145,10 +223,8 @@ describe('CreatureGen Component', () => {
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'Gelatinous Cube.txt');
 
-      const creaturePipe = fixture.debugElement.injector.get(CreaturePipe);
       const text = await (fileSaverSpy.mock.calls[0][0] as Blob).text();
-      expect(text).toEqual(creaturePipe.transform(fixture.componentInstance.creature()!));
-      expect(text.startsWith('Gelatinous Cube:\r\n\tSize: Huge\r\n')).toBe(true);
+      expect(text).toMatch(/^Gelatinous Cube:[\r\n]+[\S\s]+[\r\n\s]+$/);
     });
 
     it('should download a generated creature', async () => {
@@ -156,31 +232,15 @@ describe('CreatureGen Component', () => {
 
       await choose('#creatureName', 'human', 'Human');
       await setTemplates('#creatureTemplates', ['Ghost']);
-      helper.clickButton('#creatureButton');
-      await helper.waitForChangeDetection();
+      await generate('#creatureButton', '#creatureValidating');
 
       helper.clickButton('#downloadButton');
 
       expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.any(Blob), 'Ghost Human.txt');
 
-      const creaturePipe = fixture.debugElement.injector.get(CreaturePipe);
-      const creature = fixture.componentInstance.creature()!;
-      expect(creature.summary).toEqual('Ghost Human');
-
       const text = await (fileSaverSpy.mock.calls[0][0] as Blob).text();
-      expect(text).toEqual(creaturePipe.transform(creature));
-    });
-
-    it('should show when generating', async () => {
-      fixture.componentInstance.generating.set(true);
-      fixture.componentInstance.generatingMessage.set('Generating creature...');
-      await helper.waitForChangeDetection();
-
-      helper.expectExists('#creatureSection', false);
-      helper.expectTextContent('#generatingSection > span', 'Generating creature...');
-      helper.expectLoading('#generatingSection dndgen-loading', true, Size.Medium);
-      helper.expectHasAttribute('#creatureButton', 'disabled', true);
-      helper.expectExists('#downloadButton', false);
+      expect(text).toMatch(/^Ghost Human:[\r\n]+[\S\s]+[\r\n\s]+$/);
+      expect(text).toMatch(/[\r\n]+\tTemplates: Ghost[\r\n]+/);
     });
 
     describe('the set tab', () => {
@@ -197,85 +257,152 @@ describe('CreatureGen Component', () => {
         fixture.componentInstance.validating.set(true);
         await helper.waitForChangeDetection();
 
-        helper.expectValidating(fixture.componentInstance.validating(), '#creatureButton', '#creatureValidating');
+        expectSetValidating();
       });
 
-      it('should search for and choose a creature', async () => {
-        await choose('#creatureName', 'giant', 'Hill Giant');
+      it('should show that the creature is valid after choosing a creature', async () => {
+        await startChoosing('#creatureName', 'giant', 'Hill Giant');
 
         expect(fixture.componentInstance.creatureName).toEqual('Hill Giant');
         helper.expectInput('#creatureName', false, 'Hill Giant');
-        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
+      });
+
+      it('should show that the creature is invalid after choosing a creature the templates cannot apply to', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['Ghost']);
+        expectSetValid();
+
+        await startChoosing('#creatureName', 'iron golem', 'Iron Golem');
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetInvalid();
+      });
+
+      it('should show that the creature is valid again after choosing a creature the templates can apply to', async () => {
+        await choose('#creatureName', 'iron golem', 'Iron Golem');
+        await setTemplates('#creatureTemplates', ['Ghost']);
+        expectSetInvalid();
+
+        await startChoosing('#creatureName', 'human', 'Human');
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
+      });
+
+      it('should show that the creature is valid after adding a template', async () => {
+        await choose('#creatureName', 'human', 'Human');
+
+        await startChoosing('#creatureTemplatesAdd', 'ghost', 'Ghost');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
+        helper.expectTextContents('#creatureTemplates .template-name', ['Ghost']);
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
+      });
+
+      it('should show that the creature is invalid after adding a template in an invalid order', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['Ghost']);
+
+        await startChoosing('#creatureTemplatesAdd', 'lich', 'Lich');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost', 'Lich']);
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetInvalid();
+      });
+
+      it('should show that the creature is valid again after removing a template', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['Ghost', 'Lich']);
+        expectSetInvalid();
+
+        startClicking('#creatureTemplates li:nth-child(2) button.template-remove');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
+      });
+
+      it('should show that the creature is valid again after moving a template', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['Ghost', 'Half-Dragon (Red)']);
+        expectSetInvalid();
+
+        startClicking('#creatureTemplates li:nth-child(2) button.template-up');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Half-Dragon (Red)', 'Ghost']);
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
+      });
+
+      it('should show that a repeated template is invalid', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['Ghost', 'Ghost']);
+
+        expectSetInvalid();
+      });
+
+      it('should show that a repeated None template is valid', async () => {
+        await choose('#creatureName', 'human', 'Human');
+        await setTemplates('#creatureTemplates', ['None', 'None', 'Ghost', 'Ghost']);
+        expectSetInvalid();
+
+        helper.clickButton('#creatureTemplates li:nth-child(4) button.template-remove');
+        await helper.waitForChangeDetection();
+        startClicking('#creatureTemplates li:nth-child(3) button.template-remove');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['None', 'None']);
+        expectSetValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectSetValid();
       });
 
       it('should generate the chosen creature', async () => {
         await choose('#creatureName', 'giant', 'Hill Giant');
 
-        helper.clickButton('#creatureButton');
-        helper.expectHasAttribute('#creatureButton', 'disabled', true);
-        helper.expectExists('#creatureSection', false);
+        const creature = await generate('#creatureButton', '#creatureValidating');
 
-        //run generate
-        await helper.waitForChangeDetection();
-
-        helper.expectExists('#noCreature', false);
-        const creature = displayedCreature();
         expect(creature.name).toEqual('Hill Giant');
         expect(creature.templates).toEqual([]);
-        helper.expectHasAttribute('#creatureButton', 'disabled', false);
       });
 
-      it('should validate a valid template', async () => {
+      it('should generate the chosen creature with its template', async () => {
         await choose('#creatureName', 'human', 'Human');
         await setTemplates('#creatureTemplates', ['Ghost']);
 
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
-        helper.expectTextContents('#creatureTemplates .template-name', ['Ghost']);
-        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
-      });
+        const creature = await generate('#creatureButton', '#creatureValidating');
 
-      it('should validate templates in an invalid order', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['Ghost', 'Lich']);
-
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost', 'Lich']);
-        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
-      });
-
-      it('should validate again after removing a template', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['Ghost', 'Lich']);
-
-        helper.clickButton('#creatureTemplates li:nth-child(2) button.template-remove');
-        await helper.waitForChangeDetection();
-
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost']);
-        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
-      });
-
-      it('should validate a repeated template as invalid', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['Ghost', 'Ghost']);
-
-        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
-      });
-
-      it('should validate a repeated None template as valid', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['None', 'None']);
-
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['None', 'None']);
-        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
-      });
-
-      it('should generate the creature with its template', async () => {
-        await choose('#creatureName', 'human', 'Human');
-        await setTemplates('#creatureTemplates', ['Ghost']);
-
-        helper.clickButton('#creatureButton');
-        await helper.waitForChangeDetection();
-
-        const creature = displayedCreature();
         expect(creature.name).toEqual('Human');
         expect(creature.templates).toEqual(['Ghost']);
         expect(creature.summary).toEqual('Ghost Human');
@@ -303,58 +430,161 @@ describe('CreatureGen Component', () => {
         fixture.componentInstance.validating.set(true);
         await helper.waitForChangeDetection();
 
-        helper.expectValidating(fixture.componentInstance.validating(), '#randomButton', '#randomValidating');
+        expectRandomValidating();
+      });
+
+      it('should show when generating a random creature', async () => {
+        fixture.componentInstance.generating.set(true);
+        await helper.waitForChangeDetection();
+
+        helper.expectGenerating(
+          fixture.componentInstance.generating(),
+          '#randomButton',
+          '#creatureSection',
+          '#generatingSection dndgen-loading',
+          '#randomValidating',
+          '#downloadButton');
       });
 
       const filters = [
-        { name: 'challenge rating', selector: '#randomChallengeRating', value: '5', property: 'randomChallengeRating' },
-        { name: 'alignment', selector: '#randomAlignment', value: 'Neutral Evil', property: 'randomAlignment' },
-        { name: 'creature type', selector: '#randomCreatureType', value: 'Aberration', property: 'randomCreatureType' },
+        { name: 'a challenge rating', selector: '#randomChallengeRating', value: '5', property: 'randomChallengeRating' },
+        { name: 'an alignment', selector: '#randomAlignment', value: 'Neutral Evil', property: 'randomAlignment' },
+        { name: 'a creature type', selector: '#randomCreatureType', value: 'Aberration', property: 'randomCreatureType' },
       ];
 
       filters.forEach(test => {
-        it(`should validate the ${test.name} filter`, async () => {
-          await setSelect(test.selector, test.value);
+        it(`should show that the random creature is valid after choosing ${test.name}`, async () => {
+          startSelecting(test.selector, test.value);
 
           expect((fixture.componentInstance as any)[test.property]).toEqual(test.value);
-          helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
-        });
+          expectRandomValidating();
 
-        it(`should clear the ${test.name} filter back to Any`, async () => {
-          await setSelect(test.selector, test.value);
-          await setSelect(test.selector, 'Any');
+          //run validation
+          await helper.waitForChangeDetection();
+
+          expectRandomValid();
+        });
+      });
+
+      const invalidFilters = [
+        {
+          name: 'challenge rating',
+          selector: '#randomChallengeRating',
+          property: 'randomChallengeRating',
+          setup: [{ selector: '#randomChallengeRating', value: '27' }, { selector: '#randomCreatureType', value: 'Vermin' }],
+          templates: [],
+        },
+        {
+          name: 'creature type',
+          selector: '#randomCreatureType',
+          property: 'randomCreatureType',
+          setup: [{ selector: '#randomChallengeRating', value: '27' }, { selector: '#randomCreatureType', value: 'Vermin' }],
+          templates: [],
+        },
+        {
+          name: 'alignment',
+          selector: '#randomAlignment',
+          property: 'randomAlignment',
+          setup: [{ selector: '#randomAlignment', value: 'Neutral Good' }],
+          templates: ['Fiendish Creature'],
+        },
+      ];
+
+      invalidFilters.forEach(test => {
+        it(`should show that the random creature is valid again after clearing the ${test.name} back to Any`, async () => {
+          for (const filter of test.setup) {
+            await setSelect(filter.selector, filter.value);
+          }
+
+          await setTemplates('#randomTemplates', test.templates);
+          expectRandomInvalid();
+
+          startSelecting(test.selector, 'Any');
 
           expect((fixture.componentInstance as any)[test.property]).toEqual('');
-          helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+          expectRandomValidating();
+
+          //run validation
+          await helper.waitForChangeDetection();
+
+          expectRandomValid();
         });
       });
 
-      it('should validate an incompatible template and alignment as invalid', async () => {
+      it('should show that the random creature is invalid after adding an incompatible template', async () => {
         await setSelect('#randomAlignment', 'Neutral Good');
-        await setTemplates('#randomTemplates', ['Fiendish Creature']);
 
-        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+        await startChoosing('#randomTemplatesAdd', 'fiendish', 'Fiendish Creature');
+
+        expect(fixture.componentInstance.randomTemplates).toEqual(['Fiendish Creature']);
+        expectRandomValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectRandomInvalid();
       });
 
-      it('should validate a repeated template as invalid', async () => {
+      it('should show that the random creature is valid again after removing a template', async () => {
         await setTemplates('#randomTemplates', ['Ghost', 'Ghost']);
+        expectRandomInvalid();
 
-        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+        startClicking('#randomTemplates li:nth-child(2) button.template-remove');
+
+        expect(fixture.componentInstance.randomTemplates).toEqual(['Ghost']);
+        expectRandomValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectRandomValid();
       });
 
-      it('should validate a repeated None template as valid', async () => {
-        await setTemplates('#randomTemplates', ['None', 'None']);
+      it('should show that a repeated None template is valid', async () => {
+        await setTemplates('#randomTemplates', ['None', 'None', 'Ghost', 'Ghost']);
+        expectRandomInvalid();
 
-        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+        helper.clickButton('#randomTemplates li:nth-child(4) button.template-remove');
+        await helper.waitForChangeDetection();
+        startClicking('#randomTemplates li:nth-child(3) button.template-remove');
+
+        expect(fixture.componentInstance.randomTemplates).toEqual(['None', 'None']);
+        expectRandomValidating();
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        expectRandomValid();
       });
 
       it('should generate a random creature with no filters', async () => {
-        helper.clickButton('#randomButton');
-        await helper.waitForChangeDetection();
+        const creature = await generate('#randomButton', '#randomValidating');
 
-        const creature = displayedCreature();
-        expect(creature.name).toBeTruthy();
-        expect(creature.summary).toBeTruthy();
+        expect(creature.summary).toEqual(fixture.componentInstance.creature()!.summary);
+      });
+
+      it('should generate a random creature with the challenge rating', async () => {
+        await setSelect('#randomChallengeRating', '5');
+
+        const creature = await generate('#randomButton', '#randomValidating');
+
+        expect(creature.challengeRating).toEqual('5');
+      });
+
+      it('should generate a random creature with the alignment', async () => {
+        await setSelect('#randomAlignment', 'Neutral Evil');
+
+        const creature = await generate('#randomButton', '#randomValidating');
+
+        expect(creature.alignment.full).toEqual('Neutral Evil');
+      });
+
+      it('should generate a random creature with the creature type', async () => {
+        await setSelect('#randomCreatureType', 'Aberration');
+
+        const creature = await generate('#randomButton', '#randomValidating');
+
+        expect(creature.type.allTypes).toContain('Aberration');
       });
 
       it('should generate a random creature matching every filter', async () => {
@@ -362,29 +592,41 @@ describe('CreatureGen Component', () => {
         await setSelect('#randomAlignment', 'Neutral Evil');
         await setSelect('#randomCreatureType', 'Aberration');
 
-        helper.clickButton('#randomButton');
-        await helper.waitForChangeDetection();
+        const creature = await generate('#randomButton', '#randomValidating');
 
-        const creature = displayedCreature();
         expect(creature.challengeRating).toEqual('5');
         expect(creature.alignment.full).toEqual('Neutral Evil');
         expect(creature.type.allTypes).toContain('Aberration');
       });
 
       it('should generate an untemplated random creature with the None template', async () => {
+        await setTemplates('#randomTemplates', ['None']);
+
+        const creature = await generate('#randomButton', '#randomValidating');
+
+        expect(creature.templates).toEqual([]);
+      });
+
+      it('should generate an untemplated random creature matching every filter with the None template', async () => {
         await setSelect('#randomChallengeRating', '5');
         await setSelect('#randomAlignment', 'Neutral Evil');
         await setSelect('#randomCreatureType', 'Aberration');
         await setTemplates('#randomTemplates', ['None']);
 
-        helper.clickButton('#randomButton');
-        await helper.waitForChangeDetection();
+        const creature = await generate('#randomButton', '#randomValidating');
 
-        const creature = displayedCreature();
         expect(creature.challengeRating).toEqual('5');
         expect(creature.alignment.full).toEqual('Neutral Evil');
         expect(creature.type.allTypes).toContain('Aberration');
         expect(creature.templates).toEqual([]);
+      });
+
+      it('should generate a random creature with the template', async () => {
+        await setTemplates('#randomTemplates', ['Ghost']);
+
+        const creature = await generate('#randomButton', '#randomValidating');
+
+        expect(creature.templates).toEqual(['Ghost']);
       });
 
       it('should keep each tab\'s inputs when switching tabs', async () => {

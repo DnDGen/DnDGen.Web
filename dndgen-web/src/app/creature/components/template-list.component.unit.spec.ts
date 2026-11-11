@@ -84,15 +84,22 @@ describe('Template List Component', () => {
       });
     });
 
-    it('does not change the list it was given', () => {
-      const original = ['Ghost', 'Lich'];
-      component.selected = original;
+    const actions = [
+      { name: 'adding', act: (c: TemplateListComponent) => c.add('Vampire') },
+      { name: 'moving up', act: (c: TemplateListComponent) => c.moveUp(1) },
+      { name: 'moving down', act: (c: TemplateListComponent) => c.moveDown(0) },
+      { name: 'removing', act: (c: TemplateListComponent) => c.remove(0) },
+    ];
 
-      component.add('Vampire');
-      component.moveUp(1);
-      component.remove(0);
+    actions.forEach(test => {
+      it(`does not change the parent's list when ${test.name}`, () => {
+        const original = ['Ghost', 'Lich'];
+        component.selected = original;
 
-      expect(original).toEqual(['Ghost', 'Lich']);
+        test.act(component);
+
+        expect(original).toEqual(['Ghost', 'Lich']);
+      });
     });
   });
 });

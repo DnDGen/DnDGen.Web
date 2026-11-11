@@ -45,7 +45,7 @@ export class CreaturePipe implements PipeTransform {
         formatted += this.formatAttacks(creature);
 
         formatted += this.line('Abilities:', '\t');
-        formatted += this.lines(this.format.abilityNames.map(name => this.format.ability(name, creature.abilities)), '\t\t');
+        formatted += this.lines(this.format.abilityNames.map(name => this.format.ability(name, creature.abilities[name])), '\t\t');
 
         formatted += this.formatSkills(creature.skills);
         formatted += this.formatFeats('Feats', creature.feats);
@@ -62,10 +62,9 @@ export class CreaturePipe implements PipeTransform {
         return prefix + text + '\r\n';
     }
 
-    private lines(texts: (string | null)[], prefix: string): string {
+    private lines(texts: string[], prefix: string): string {
         return texts
-            .filter(text => text !== null)
-            .map(text => this.line(text!, prefix))
+            .map(text => this.line(text, prefix))
             .join('');
     }
 
@@ -97,11 +96,9 @@ export class CreaturePipe implements PipeTransform {
         formatted += this.line('Saving Throws:', '\t\t');
 
         for (const saveName of this.format.saveNames) {
-            formatted += this.lines([this.format.save(saveName, creature.saves)], '\t\t\t');
-
             const save = creature.saves[saveName];
-            if (save)
-                formatted += this.lines(this.format.conditionalBonuses(save.bonuses), '\t\t\t');
+            formatted += this.line(this.format.save(saveName, save), '\t\t\t');
+            formatted += this.lines(this.format.conditionalBonuses(save.bonuses), '\t\t\t');
         }
 
         return formatted;
@@ -135,14 +132,10 @@ export class CreaturePipe implements PipeTransform {
         const prefix = '\t\t\t\t';
         let formatted = this.line(attack.name, '\t\t\t');
 
-        const conditional = attack.attackBonuses.some(bonus => bonus.isConditional);
+        const conditional = this.format.isConditional(attack.attackBonuses);
+        formatted += this.line('Type: ' + this.format.attackType(attack), prefix);
 
-        if (attack.isSpecial) {
-            formatted += this.line('Type: ' + attack.attackType, prefix);
-        } else {
-            const natural = attack.isNatural ? 'Natural' : 'Manufactured';
-            const primary = attack.isPrimary ? 'Primary' : 'Secondary';
-            formatted += this.line(`Type: ${natural} ${attack.attackType} (${primary})`, prefix);
+        if (!attack.isSpecial) {
             formatted += this.line('Attack Bonus: ' + this.bonusPipe.transform(attack.totalAttackBonus, conditional), prefix);
 
             if (attack.fullAttackBonuses.length > 1)

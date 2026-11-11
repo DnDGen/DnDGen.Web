@@ -46,13 +46,9 @@
             <span>Saving Throws:</span>
             <ul>
               @for (saveName of format.saveNames; track $index) {
-                @if (format.save(saveName, creature.saves); as save) {
-                  <li>{{save}}</li>
-                }
-                @if (creature.saves[saveName]) {
-                  @for (bonus of format.conditionalBonuses(creature.saves[saveName].bonuses); track $index) {
-                    <li class="creature-combat-saves-conditional">{{bonus}}</li>
-                  }
+                <li>{{format.save(saveName, creature.saves[saveName])}}</li>
+                @for (bonus of format.conditionalBonuses(creature.saves[saveName].bonuses); track $index) {
+                  <li class="creature-combat-saves-conditional">{{bonus}}</li>
                 }
               }
             </ul>
@@ -106,9 +102,7 @@
       <dndgen-details heading="Abilities" [hasDetails]="true">
         <ul>
           @for (abilityName of format.abilityNames; track $index) {
-            @if (format.ability(abilityName, creature.abilities); as ability) {
-              <li>{{ability}}</li>
-            }
+            <li>{{format.ability(abilityName, creature.abilities[abilityName])}}</li>
           }
         </ul>
       </dndgen-details>
