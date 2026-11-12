@@ -216,7 +216,7 @@ describe('CreatureGen Component', () => {
       await setTemplates('#creatureTemplates', ['Ghost']);
       const creature = await generate('#creatureButton', '#creatureValidating');
 
-      expect(creature.summary).not.toEqual('');
+      expect(creature.summary).toBeTruthy();
 
       helper.clickButton('#downloadButton');
 
@@ -352,7 +352,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#creatureButton', '#creatureValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.name).toEqual('Hill Giant');
         expect(creature.templates).toEqual([]);
       });
@@ -363,7 +363,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#creatureButton', '#creatureValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.name).toEqual('Human');
         expect(creature.templates).toEqual(['Ghost']);
         expect(creature.summary).toEqual('Ghost Human');
@@ -504,7 +504,7 @@ describe('CreatureGen Component', () => {
       it('should generate a random creature with no filters', async () => {
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
       });
 
       it('should generate a random creature with the challenge rating', async () => {
@@ -512,7 +512,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.challengeRating).toEqual('5');
       });
 
@@ -521,7 +521,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.alignment.full).toEqual('Neutral Evil');
       });
 
@@ -530,7 +530,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.type.allTypes).toContain('Aberration');
       });
 
@@ -541,7 +541,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.challengeRating).toEqual('5');
         expect(creature.alignment.full).toEqual('Neutral Evil');
         expect(creature.type.allTypes).toContain('Aberration');
@@ -552,7 +552,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.templates).toEqual([]);
       });
 
@@ -564,7 +564,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.challengeRating).toEqual('5');
         expect(creature.alignment.full).toEqual('Neutral Evil');
         expect(creature.type.allTypes).toContain('Aberration');
@@ -576,7 +576,7 @@ describe('CreatureGen Component', () => {
 
         const creature = await generate('#randomButton', '#randomValidating');
 
-        expect(creature.summary).not.toEqual('');
+        expect(creature.summary).toBeTruthy();
         expect(creature.templates).toEqual(['Ghost']);
       });
 
