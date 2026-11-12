@@ -494,6 +494,28 @@ describe('Creature Pipe', () => {
       expectFormatted(expected);
     });
 
+    it('formats a spell-like ability with many foci on 1 line', () => {
+      creature.specialAttacks = [createAttack('Spell-Like Ability', 'spell-like ability', true)];
+      creature.specialQualities = [new Feat('Spell-Like Ability', ['Charm person', 'Suggestion'], 0, new Frequency(3, 'Day'))];
+      let expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
+        '\tSpecial Attacks (1):',
+        '\t\tSpell-Like Ability formatted attack',
+        '\t\t\tType: spell-like ability formatted attack type',
+        '\t\t\tFrequency: 1/Round formatted',
+        '\t\t\tCharm person, Suggestion (3/Day formatted)',
+      ]);
+      expected = replaceLines(expected, '\tSpecial Qualities (0):', [
+        '\tSpecial Qualities (1):',
+        '\t\tSpell-Like Ability',
+        '\t\t\tFoci:',
+        '\t\t\t\tCharm person',
+        '\t\t\t\tSuggestion',
+        '\t\t\tFrequency: 3/Day formatted',
+      ]);
+
+      expectFormatted(expected);
+    });
+
     it('formats no spell-like abilities without a Spell-Like Ability special attack', () => {
       creature.specialQualities = [new Feat('Spell-Like Ability', ['Detect thoughts'], 0, new Frequency(0, 'Constant'))];
       const expected = replaceLines(createCreatureLines(), '\tSpecial Qualities (0):', [

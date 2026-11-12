@@ -430,6 +430,20 @@ describe('Creature Component', () => {
         expectFeats('li.creature-special-qualities', creature.specialQualities);
       });
 
+      it('should render a spell-like ability with many foci on 1 line', async () => {
+        const everyRound = new Frequency(1, 'Round (6 seconds)');
+        const spellLikeAbility = new Attack('Spell-Like Ability', 'spell-like ability', false, true, true, true, 8, [8], [], '', '', everyRound);
+        creature.specialAttacks = [...creature.specialAttacks, spellLikeAbility];
+        creature.specialQualities = [new Feat('Spell-Like Ability', ['Charm person', 'Suggestion'], 0, new Frequency(3, 'Day'))];
+        await helper.waitForChangeDetection();
+
+        expect(attackDetails(3)).toEqual([
+          'Type: spell-like ability',
+          'Frequency: 1/Round (6 seconds)',
+          'Charm person, Suggestion (3/Day)',
+        ]);
+      });
+
       it('should render a Spell-Like Ability special attack without spell-like abilities', async () => {
         const everyRound = new Frequency(1, 'Round (6 seconds)');
         const spellLikeAbility = new Attack('Spell-Like Ability', 'spell-like ability', false, true, true, true, 8, [8], [], '', '', everyRound);
