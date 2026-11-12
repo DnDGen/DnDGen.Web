@@ -22,7 +22,8 @@ describe('ConditionalBonusPipe', () => {
       it(`formats a conditional bonus - ${test.expected}`, () => {
         const bonus = new Bonus(test.value, test.condition, true);
 
-        expect(pipe.transform(bonus)).toEqual(test.expected);
+        const formattedBonus = pipe.transform(bonus);
+        expect(formattedBonus).toEqual(test.expected);
       });
     });
   });

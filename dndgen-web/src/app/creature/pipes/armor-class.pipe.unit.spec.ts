@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ArmorClassPipe } from './armor-class.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { CreatureArmorClass } from '../models/creature-armor-class.model';
@@ -6,41 +6,51 @@ import { CreatureArmorClass } from '../models/creature-armor-class.model';
 describe('ArmorClassPipe', () => {
   describe('unit', () => {
     let pipe: ArmorClassPipe;
+    let bonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let armorClass: CreatureArmorClass;
 
     beforeEach(() => {
-      pipe = new ArmorClassPipe(new BonusPipe());
+      bonusPipeSpy = { transform: vi.fn() };
+      pipe = new ArmorClassPipe(bonusPipeSpy as unknown as BonusPipe);
+
       armorClass = new CreatureArmorClass();
-      armorClass.totalBonus = 10;
+      armorClass.totalBonus = 902;
+
+      bonusPipeSpy.transform.mockImplementation((input: number, conditional: boolean = false, includePlus: boolean = true) => {
+          return `${includePlus && input >= 0 ? '+' : ''}${input}${conditional ? ' *' : ''} formatted`;
+      });
     });
 
     it('formats an armor class with no components', () => {
-      expect(pipe.transform(armorClass)).toEqual('10');
+      const formattedArmorClass = pipe.transform(armorClass);
+      expect(formattedArmorClass).toEqual('902 formatted');
     });
 
     it('marks a conditional armor class', () => {
       armorClass.isConditional = true;
 
-      expect(pipe.transform(armorClass)).toEqual('10 *');
+      const formattedArmorClass = pipe.transform(armorClass);
+      expect(formattedArmorClass).toEqual('902 * formatted');
     });
 
     const components = [
-      { name: 'a negative size modifier', set: (ac: CreatureArmorClass) => ac.sizeModifier = -1, expected: '-1 size' },
-      { name: 'a positive size modifier', set: (ac: CreatureArmorClass) => ac.sizeModifier = 8, expected: '+8 size' },
-      { name: 'a dexterity bonus', set: (ac: CreatureArmorClass) => ac.dexterityBonus = 4, expected: '+4 Dex' },
-      { name: 'a negative dexterity bonus', set: (ac: CreatureArmorClass) => ac.dexterityBonus = -5, expected: '-5 Dex' },
-      { name: 'an armor bonus', set: (ac: CreatureArmorClass) => ac.armorBonus = 3, expected: '+3 armor' },
-      { name: 'a shield bonus', set: (ac: CreatureArmorClass) => ac.shieldBonus = 1, expected: '+1 shield' },
-      { name: 'a natural armor bonus', set: (ac: CreatureArmorClass) => ac.naturalArmorBonus = 16, expected: '+16 natural' },
-      { name: 'a deflection bonus', set: (ac: CreatureArmorClass) => ac.deflectionBonus = 2, expected: '+2 deflection' },
-      { name: 'a dodge bonus', set: (ac: CreatureArmorClass) => ac.dodgeBonus = 1, expected: '+1 dodge' },
+      { name: 'a negative size modifier', set: (ac: CreatureArmorClass) => ac.sizeModifier = -1, expected: '-1 formatted size' },
+      { name: 'a positive size modifier', set: (ac: CreatureArmorClass) => ac.sizeModifier = 8, expected: '+8 formatted size' },
+      { name: 'a dexterity bonus', set: (ac: CreatureArmorClass) => ac.dexterityBonus = 4, expected: '+4 formatted Dex' },
+      { name: 'a negative dexterity bonus', set: (ac: CreatureArmorClass) => ac.dexterityBonus = -5, expected: '-5 formatted Dex' },
+      { name: 'an armor bonus', set: (ac: CreatureArmorClass) => ac.armorBonus = 3, expected: '+3 formatted armor' },
+      { name: 'a shield bonus', set: (ac: CreatureArmorClass) => ac.shieldBonus = 1, expected: '+1 formatted shield' },
+      { name: 'a natural armor bonus', set: (ac: CreatureArmorClass) => ac.naturalArmorBonus = 16, expected: '+16 formatted natural' },
+      { name: 'a deflection bonus', set: (ac: CreatureArmorClass) => ac.deflectionBonus = 2, expected: '+2 formatted deflection' },
+      { name: 'a dodge bonus', set: (ac: CreatureArmorClass) => ac.dodgeBonus = 1, expected: '+1 formatted dodge' },
     ];
 
     components.forEach(test => {
       it(`formats an armor class with ${test.name}`, () => {
         test.set(armorClass);
 
-        expect(pipe.transform(armorClass)).toEqual(`10 (${test.expected})`);
+        const formattedArmorClass = pipe.transform(armorClass);
+        expect(formattedArmorClass).toEqual(`902 formatted (${test.expected})`);
       });
     });
 
@@ -54,7 +64,8 @@ describe('ArmorClassPipe', () => {
       armorClass.dexterityBonus = 4;
       armorClass.sizeModifier = -1;
 
-      expect(pipe.transform(armorClass)).toEqual('37 (-1 size, +4 Dex, +3 armor, +1 shield, +16 natural, +2 deflection, +1 dodge)');
+      const formattedArmorClass = pipe.transform(armorClass);
+      expect(formattedArmorClass).toEqual('37 formatted (-1 formatted size, +4 formatted Dex, +3 formatted armor, +1 formatted shield, +16 formatted natural, +2 formatted deflection, +1 formatted dodge)');
     });
 
     it('formats a conditional armor class with components', () => {
@@ -64,7 +75,8 @@ describe('ArmorClassPipe', () => {
       armorClass.dexterityBonus = 4;
       armorClass.naturalArmorBonus = 16;
 
-      expect(pipe.transform(armorClass)).toEqual('29 * (-1 size, +4 Dex, +16 natural)');
+      const formattedArmorClass = pipe.transform(armorClass);
+      expect(formattedArmorClass).toEqual('29 * formatted (-1 formatted size, +4 formatted Dex, +16 formatted natural)');
     });
   });
 });

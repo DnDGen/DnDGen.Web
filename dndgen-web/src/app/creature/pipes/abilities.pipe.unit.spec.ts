@@ -20,7 +20,8 @@ describe('AbilitiesPipe', () => {
     });
 
     it('formats every ability score, abbreviated, in stat block order', () => {
-      expect(pipe.transform(abilities)).toEqual('Str 29, Dex 19, Con 28, Int 18, Wis 3, Cha 24');
+      const formattedAbilities = pipe.transform(abilities);
+      expect(formattedAbilities).toEqual('Str 29, Dex 19, Con 28, Int 18, Wis 3, Cha 24');
     });
 
     const missing = [
@@ -36,15 +37,19 @@ describe('AbilitiesPipe', () => {
       it(`shows a missing ${test.ability} score as —`, () => {
         abilities[test.ability].hasScore = false;
 
-        expect(pipe.transform(abilities)).toEqual(test.expected);
+        const formattedAbilities = pipe.transform(abilities);
+        expect(formattedAbilities).toEqual(test.expected);
       });
     });
 
     it('shows many missing scores as —', () => {
+      abilities['Strength'].hasScore = false;
+      abilities['Dexterity'].hasScore = false;
       abilities['Constitution'].hasScore = false;
       abilities['Intelligence'].hasScore = false;
 
-      expect(pipe.transform(abilities)).toEqual('Str 29, Dex 19, Con —, Int —, Wis 3, Cha 24');
+      const formattedAbilities = pipe.transform(abilities);
+      expect(formattedAbilities).toEqual('Str —, Dex —, Con —, Int —, Wis 3, Cha 24');
     });
   });
 });

@@ -23,7 +23,7 @@ export class FullAttackPipe implements PipeTransform {
     }
 
     return groups
-      .map(group => group.count > 1 ? `${group.count} × ${group.summary}` : group.summary)
+      .map(group => group.count > 1 ? `${group.count} ${group.summary}` : group.summary)
       .join(' and ');
   }
 }

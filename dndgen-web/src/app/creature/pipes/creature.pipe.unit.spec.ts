@@ -48,38 +48,125 @@ import { createCreature, createCreatureLines, replaceLines } from './creature.pi
 describe('Creature Pipe', () => {
   describe('unit', () => {
     let pipe: CreaturePipe;
+    let bonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let measurementPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let frequencyPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let spellQuantityPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let itemPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let spellGroupServiceSpy: { sortIntoGroups: ReturnType<typeof vi.fn> };
+    let creatureTypePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let hitDicePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let speedPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let armorClassPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let optionalBonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let attackPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let attackTypePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let fullAttackPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let savesPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let abilitiesPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let skillPipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let conditionalBonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let creature: Creature;
     let expected: string[];
 
     const everyRound = new Frequency(1, 'Round');
 
     beforeEach(() => {
+      bonusPipeSpy = { transform: vi.fn() };
+      measurementPipeSpy = { transform: vi.fn() };
+      frequencyPipeSpy = { transform: vi.fn() };
+      spellQuantityPipeSpy = { transform: vi.fn() };
+      itemPipeSpy = { transform: vi.fn() };
       spellGroupServiceSpy = { sortIntoGroups: vi.fn() };
-
-      const spy = (implementation: (...args: any[]) => string) => ({ transform: vi.fn(implementation) });
+      creatureTypePipeSpy = { transform: vi.fn() };
+      hitDicePipeSpy = { transform: vi.fn() };
+      speedPipeSpy = { transform: vi.fn() };
+      armorClassPipeSpy = { transform: vi.fn() };
+      optionalBonusPipeSpy = { transform: vi.fn() };
+      attackPipeSpy = { transform: vi.fn() };
+      attackTypePipeSpy = { transform: vi.fn() };
+      fullAttackPipeSpy = { transform: vi.fn() };
+      savesPipeSpy = { transform: vi.fn() };
+      abilitiesPipeSpy = { transform: vi.fn() };
+      skillPipeSpy = { transform: vi.fn() };
+      conditionalBonusPipeSpy = { transform: vi.fn() };
 
       pipe = new CreaturePipe(
-        spy((value: number, conditional: boolean = false) => `${value}${conditional ? ' conditional' : ''} formatted`) as unknown as BonusPipe,
-        spy((measurement: Measurement) => `${measurement.value} ${measurement.unit} formatted`) as unknown as MeasurementPipe,
-        spy((frequency: Frequency) => `${frequency.quantity}/${frequency.timePeriod} formatted`) as unknown as FrequencyPipe,
-        spy((quantity: SpellQuantity) => `${quantity.source} ${quantity.level}: ${quantity.quantity}${quantity.hasDomainSpell ? ' + domain' : ''} formatted`) as unknown as SpellQuantityPipe,
-        spy((item: Item, prefix: string) => `${prefix}${item.name} formatted\r\n`) as unknown as ItemPipe,
+        bonusPipeSpy as unknown as BonusPipe,
+        measurementPipeSpy as unknown as MeasurementPipe,
+        frequencyPipeSpy as unknown as FrequencyPipe,
+        spellQuantityPipeSpy as unknown as SpellQuantityPipe,
+        itemPipeSpy as unknown as ItemPipe,
         spellGroupServiceSpy as unknown as SpellGroupService,
-        spy((type: CreatureType) => `${type.name} formatted type`) as unknown as CreatureTypePipe,
-        spy((hitPoints: HitPoints) => `${hitPoints.defaultRoll} formatted hit dice`) as unknown as HitDicePipe,
-        spy((speeds: { [movement: string]: CreatureMeasurement }) => `${Object.keys(speeds).map(m => `${m} ${speeds[m].value}`).join(', ')} formatted speed`) as unknown as SpeedPipe,
-        spy((armorClass: CreatureArmorClass) => `${armorClass.totalBonus} formatted armor class`) as unknown as ArmorClassPipe,
-        spy((value?: number | null) => `${value} formatted optional bonus`) as unknown as OptionalBonusPipe,
-        spy((attack: Attack, full: boolean = false) => `${attack.name}${full ? ' full' : ''} formatted attack`) as unknown as AttackPipe,
-        spy((attack: Attack) => `${attack.attackType} formatted attack type`) as unknown as AttackTypePipe,
-        spy((attacks: Attack[]) => `${attacks.map(a => a.name).join(' & ')} formatted full attack`) as unknown as FullAttackPipe,
-        spy((saves: { [name: string]: Save }) => `${saves['Fortitude'].totalBonus}/${saves['Reflex'].totalBonus}/${saves['Will'].totalBonus} formatted saves`) as unknown as SavesPipe,
-        spy((abilities: { [name: string]: CreatureAbility }) =>
-          `${['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(a => abilities[a].fullScore).join('/')} formatted abilities`) as unknown as AbilitiesPipe,
-        spy((skill: CreatureSkill) => `${skill.name}${skill.focus ? ` (${skill.focus})` : ''} formatted skill`) as unknown as SkillPipe,
-        spy((bonus: Bonus) => `${bonus.value} ${bonus.condition} formatted conditional bonus`) as unknown as ConditionalBonusPipe,
+        creatureTypePipeSpy as unknown as CreatureTypePipe,
+        hitDicePipeSpy as unknown as HitDicePipe,
+        speedPipeSpy as unknown as SpeedPipe,
+        armorClassPipeSpy as unknown as ArmorClassPipe,
+        optionalBonusPipeSpy as unknown as OptionalBonusPipe,
+        attackPipeSpy as unknown as AttackPipe,
+        attackTypePipeSpy as unknown as AttackTypePipe,
+        fullAttackPipeSpy as unknown as FullAttackPipe,
+        savesPipeSpy as unknown as SavesPipe,
+        abilitiesPipeSpy as unknown as AbilitiesPipe,
+        skillPipeSpy as unknown as SkillPipe,
+        conditionalBonusPipeSpy as unknown as ConditionalBonusPipe,
       );
+
+      bonusPipeSpy.transform.mockImplementation((value: number, conditional: boolean = false) => {
+        return `${value}${conditional ? ' conditional' : ''} formatted`;
+      });
+      measurementPipeSpy.transform.mockImplementation((measurement: Measurement) => {
+        return `${measurement.value} ${measurement.unit} formatted`;
+      });
+      frequencyPipeSpy.transform.mockImplementation((frequency: Frequency) => {
+        return `${frequency.quantity}/${frequency.timePeriod} formatted`;
+      });
+      spellQuantityPipeSpy.transform.mockImplementation((quantity: SpellQuantity) => {
+        return `${quantity.source} ${quantity.level}: ${quantity.quantity}${quantity.hasDomainSpell ? ' + domain' : ''} formatted`;
+      });
+      itemPipeSpy.transform.mockImplementation((item: Item, prefix: string) => {
+        return `${prefix}${item.name} formatted\r\n`;
+      });
+      creatureTypePipeSpy.transform.mockImplementation((type: CreatureType) => {
+        return `${type.name} formatted type`;
+      });
+      hitDicePipeSpy.transform.mockImplementation((hitPoints: HitPoints) => {
+        return `${hitPoints.defaultRoll} formatted hit dice`;
+      });
+      speedPipeSpy.transform.mockImplementation((speeds: { [movement: string]: CreatureMeasurement }) => {
+        const movements = Object.keys(speeds).map(movement => `${movement} ${speeds[movement].value}`);
+        return `${movements.join(', ')} formatted speed`;
+      });
+      armorClassPipeSpy.transform.mockImplementation((armorClass: CreatureArmorClass) => {
+        return `${armorClass.totalBonus} formatted armor class`;
+      });
+      optionalBonusPipeSpy.transform.mockImplementation((value?: number | null) => {
+        return `${value} formatted optional bonus`;
+      });
+      attackPipeSpy.transform.mockImplementation((attack: Attack, full: boolean = false) => {
+        return `${attack.name}${full ? ' full' : ''} formatted attack`;
+      });
+      attackTypePipeSpy.transform.mockImplementation((attack: Attack) => {
+        return `${attack.attackType} formatted attack type`;
+      });
+      fullAttackPipeSpy.transform.mockImplementation((attacks: Attack[]) => {
+        const names = attacks.map(attack => attack.name);
+        return `${names.join(' & ')} formatted full attack`;
+      });
+      savesPipeSpy.transform.mockImplementation((saves: { [name: string]: Save }) => {
+        return `${saves['Fortitude'].totalBonus}/${saves['Reflex'].totalBonus}/${saves['Will'].totalBonus} formatted saves`;
+      });
+      abilitiesPipeSpy.transform.mockImplementation((abilities: { [name: string]: CreatureAbility }) => {
+        const scores = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => abilities[name].fullScore);
+        return `${scores.join('/')} formatted abilities`;
+      });
+      skillPipeSpy.transform.mockImplementation((skill: CreatureSkill) => {
+        const name = skill.focus ? `${skill.name} (${skill.focus})` : skill.name;
+        return `${name} formatted skill`;
+      });
+      conditionalBonusPipeSpy.transform.mockImplementation((bonus: Bonus) => {
+        return `${bonus.value} ${bonus.condition} formatted conditional bonus`;
+      });
 
       creature = createCreature();
       expected = createCreatureLines();

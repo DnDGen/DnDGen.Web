@@ -21,7 +21,8 @@ describe('AttackTypePipe', () => {
       it(`formats the type of a standard attack - ${test.expected}`, () => {
         const attack = new Attack('Attack', test.attackType, true, test.natural, test.primary, false);
 
-        expect(pipe.transform(attack)).toEqual(test.expected);
+        const formattedAttack = pipe.transform(attack);
+        expect(formattedAttack).toEqual(test.expected);
       });
     });
 
@@ -31,7 +32,8 @@ describe('AttackTypePipe', () => {
       it(`formats the type of a special attack as its attack type - ${test}`, () => {
         const attack = new Attack('Attack', test, true, true, true, true);
 
-        expect(pipe.transform(attack)).toEqual(test);
+        const formattedAttack = pipe.transform(attack);
+        expect(formattedAttack).toEqual(test);
       });
     });
   });

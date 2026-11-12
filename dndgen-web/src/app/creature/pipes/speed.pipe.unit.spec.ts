@@ -22,7 +22,8 @@ describe('SpeedPipe', () => {
       it(`formats a land speed of ${test.value} with its squares`, () => {
         const speeds = { Land: new CreatureMeasurement(test.value, 'feet per round') };
 
-        expect(pipe.transform(speeds)).toEqual(test.expected);
+        const formattedSpeed = pipe.transform(speeds);
+        expect(formattedSpeed).toEqual(test.expected);
       });
     });
 
@@ -32,7 +33,8 @@ describe('SpeedPipe', () => {
         Fly: new CreatureMeasurement(60, 'feet per round', 'Good Maneuverability'),
       };
 
-      expect(pipe.transform(speeds)).toEqual('20 ft. (4 squares), fly 60 ft. (Good Maneuverability)');
+      const formattedSpeed = pipe.transform(speeds);
+      expect(formattedSpeed).toEqual('20 ft. (4 squares), fly 60 ft. (Good Maneuverability)');
     });
 
     it('formats another movement without a description', () => {
@@ -41,7 +43,8 @@ describe('SpeedPipe', () => {
         Swim: new CreatureMeasurement(40, 'feet per round'),
       };
 
-      expect(pipe.transform(speeds)).toEqual('20 ft. (4 squares), swim 40 ft.');
+      const formattedSpeed = pipe.transform(speeds);
+      expect(formattedSpeed).toEqual('20 ft. (4 squares), swim 40 ft.');
     });
 
     it('formats land first, then the other movements in their order', () => {
@@ -52,7 +55,8 @@ describe('SpeedPipe', () => {
         Burrow: new CreatureMeasurement(10, 'feet per round'),
       };
 
-      expect(pipe.transform(speeds)).toEqual('40 ft. (8 squares), swim 40 ft., fly 150 ft. (Poor Maneuverability), burrow 10 ft.');
+      const formattedSpeed = pipe.transform(speeds);
+      expect(formattedSpeed).toEqual('40 ft. (8 squares), swim 40 ft., fly 150 ft. (Poor Maneuverability), burrow 10 ft.');
     });
 
     it('formats movements without a land speed', () => {
@@ -60,7 +64,8 @@ describe('SpeedPipe', () => {
         Swim: new CreatureMeasurement(60, 'feet per round'),
       };
 
-      expect(pipe.transform(speeds)).toEqual('swim 60 ft.');
+      const formattedSpeed = pipe.transform(speeds);
+      expect(formattedSpeed).toEqual('swim 60 ft.');
     });
   });
 });

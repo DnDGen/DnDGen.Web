@@ -13,16 +13,20 @@ describe('OptionalBonusPipe', () => {
     const bonuses = [
       { value: null, expected: '—' },
       { value: undefined, expected: '—' },
+      { value: -10, expected: '-10' },
+      { value: -2, expected: '-2' },
+      { value: -1, expected: '-1' },
       { value: 0, expected: '+0' },
       { value: 1, expected: '+1' },
-      { value: 29, expected: '+29' },
-      { value: -1, expected: '-1' },
-      { value: -16, expected: '-16' },
+      { value: 2, expected: '+2' },
+      { value: 10, expected: '+10' },
+      { value: 100, expected: '+100' },
     ];
 
     bonuses.forEach(test => {
       it(`formats ${test.value} as ${test.expected}`, () => {
-        expect(pipe.transform(test.value)).toEqual(test.expected);
+        const formattedBonus = pipe.transform(test.value);
+        expect(formattedBonus).toEqual(test.expected);
       });
     });
   });

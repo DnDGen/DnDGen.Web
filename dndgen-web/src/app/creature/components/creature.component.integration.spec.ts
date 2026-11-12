@@ -186,7 +186,7 @@ describe('Creature Component', () => {
       it('should render each full attack option, with its attacks', () => {
         helper.expectDetails('li.creature-full-attack > dndgen-details', 'Full Attack (2)', true);
         helper.expectMultipleDetails('li.creature-full-attack-option > dndgen-details', [
-          { heading: 'Greatclub +16/+11 melee (2d8+10 Bludgeoning) and 2 × Club +11 melee (1d6+3 Bludgeoning)', hasDetails: true },
+          { heading: 'Greatclub +16/+11 melee (2d8+10 Bludgeoning) and 2 Club +11 melee (1d6+3 Bludgeoning)', hasDetails: true },
           { heading: 'Rock +8 ranged (2d6+7 Bludgeoning)', hasDetails: true },
         ]);
         expectAttacks('li.creature-full-attack-option:nth-child(1)', creature.fullMeleeAttack, true);
@@ -391,7 +391,7 @@ describe('Creature Component', () => {
 
         helper.expectDetails('li.creature-full-attack > dndgen-details', 'Full Attack (1)', true);
         helper.expectMultipleDetails('li.creature-full-attack-option > dndgen-details', [
-          { heading: 'Greatclub +16/+11 melee (2d8+10 Bludgeoning) and 2 × Club +11 melee (1d6+3 Bludgeoning)', hasDetails: true },
+          { heading: 'Greatclub +16/+11 melee (2d8+10 Bludgeoning) and 2 Club +11 melee (1d6+3 Bludgeoning)', hasDetails: true },
         ]);
         expectAttacks('li.creature-full-attack-option', creature.fullMeleeAttack, true);
       });

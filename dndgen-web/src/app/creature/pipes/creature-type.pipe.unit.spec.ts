@@ -20,7 +20,8 @@ describe('CreatureTypePipe', () => {
       it(`formats a type with ${test.name}`, () => {
         const type = new CreatureType(test.type, test.subTypes);
 
-        expect(pipe.transform(type)).toEqual(test.expected);
+        const formattedType = pipe.transform(type);
+        expect(formattedType).toEqual(test.expected);
       });
     });
   });
