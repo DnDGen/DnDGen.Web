@@ -473,7 +473,8 @@ describe('Creature Component', () => {
 
         const ages = [
           { name: 'an age', age: new CreatureMeasurement(45, 'years', 'Adulthood'), expected: 'Age: 45 years (Adulthood)' },
-          { name: 'a fractional age', age: new CreatureMeasurement(298.167, 'years', 'Adulthood'), expected: 'Age: 298.167 years (Adulthood)' },
+          { name: 'a low age', age: new CreatureMeasurement(0.333, 'years', 'Middle Age'), expected: 'Age: less than 1 years (Middle Age)' },
+          { name: 'a fractional age', age: new CreatureMeasurement(298.167, 'years', 'Old'), expected: 'Age: 298 years (Old)' },
           { name: 'an age in the thousands', age: new CreatureMeasurement(1337, 'years', 'Venerable'), expected: 'Age: 1,337 years (Venerable)' },
           { name: 'no age as its description', age: new CreatureMeasurement(0, 'years', 'Ageless'), expected: 'Age: Ageless' },
         ];
@@ -525,6 +526,13 @@ describe('Creature Component', () => {
             });
           });
 
+          it(`should show the ${line.property} descriptor`, async () => {
+            creature.demographics[line.property] = new CreatureMeasurement(123, 'inches', 'Kinda noticeable');
+            await helper.waitForChangeDetection();
+
+            helper.expectTextContent(line.selector, `${line.label}: 10' 3" (Kinda noticeable)`);
+          });
+
           it(`should hide no ${line.property}`, async () => {
             creature.demographics[line.property] = new CreatureMeasurement(0, 'inches', 'Average');
             await helper.waitForChangeDetection();
@@ -534,10 +542,11 @@ describe('Creature Component', () => {
         });
 
         const weights = [
-          { name: 'a weight', weight: new CreatureMeasurement(240, 'pounds', 'Heavy'), expected: 'Weight: 240 pounds (Heavy)' },
-          { name: 'a fractional weight', weight: new CreatureMeasurement(0.5, 'pounds', 'Light'), expected: 'Weight: 0.5 pounds (Light)' },
-          { name: 'a weight in the thousands', weight: new CreatureMeasurement(1100, 'pounds', 'Heavy'), expected: 'Weight: 1,100 pounds (Heavy)' },
-          { name: 'a weight in the hundreds of thousands', weight: new CreatureMeasurement(253000, 'pounds', 'Average'), expected: 'Weight: 253,000 pounds (Average)' },
+          { name: 'a weight', weight: new CreatureMeasurement(240, 'pounds', 'Light'), expected: 'Weight: 240 pounds (Light)' },
+          { name: 'a fractional weight', weight: new CreatureMeasurement(0.5, 'pounds', 'Very Light'), expected: 'Weight: 0.5 pounds (Very Light)' },
+          { name: 'a weight in the thousands', weight: new CreatureMeasurement(1100, 'pounds', 'Average'), expected: 'Weight: 1,100 pounds (Average)' },
+          { name: 'a weight in the hundreds of thousands', weight: new CreatureMeasurement(253000, 'pounds', 'Heavy'), expected: 'Weight: 253,000 pounds (Heavy)' },
+          { name: 'a weight in the millions', weight: new CreatureMeasurement(20000000, 'pounds', 'Very Heavy'), expected: 'Weight: 20,000,000 pounds (Very Heavy)' },
         ];
 
         weights.forEach(test => {

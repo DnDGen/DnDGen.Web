@@ -28,6 +28,7 @@ import { SavesPipe } from './saves.pipe';
 import { AbilitiesPipe } from './abilities.pipe';
 import { SkillPipe } from './skill.pipe';
 import { ConditionalBonusPipe } from './conditional-bonus.pipe';
+import { AgePipe } from './age.pipe';
 
 @Pipe({
     name: 'creature',
@@ -52,7 +53,8 @@ export class CreaturePipe implements PipeTransform {
         private savesPipe: SavesPipe,
         private abilitiesPipe: AbilitiesPipe,
         private skillPipe: SkillPipe,
-        private conditionalBonusPipe: ConditionalBonusPipe) { }
+        private conditionalBonusPipe: ConditionalBonusPipe,
+        private agePipe: AgePipe) { }
 
     private readonly saveNames = ['Fortitude', 'Reflex', 'Will'];
 
@@ -274,7 +276,7 @@ export class CreaturePipe implements PipeTransform {
         let formatted = this.line('Demographics:', '\t');
 
         formatted += this.line('Gender: ' + demographics.gender, '\t\t');
-        formatted += this.line('Age: ' + this.measurementPipe.transform(demographics.age), '\t\t');
+        formatted += this.line('Age: ' + this.agePipe.transform(demographics.age), '\t\t');
         formatted += this.line('Maximum Age: ' + this.measurementPipe.transform(demographics.maximumAge), '\t\t');
 
         const measurements = [

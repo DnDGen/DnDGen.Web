@@ -72,7 +72,7 @@ export function createCreatureLines(): string[] {
         '\tLevel Adjustment: 9266 formatted optional bonus',
         '\tDemographics:',
         '\t\tGender: gender',
-        '\t\tAge: 18 years formatted',
+        '\t\tAge: 18 years formatted age',
         '\t\tMaximum Age: 1800 years formatted',
         '\tLanguages (0):',
         '\tEquipment:',

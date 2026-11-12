@@ -30,6 +30,7 @@ import { AbilitiesPipe } from '../pipes/abilities.pipe';
 import { SkillPipe } from '../pipes/skill.pipe';
 import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
 import { AttackPipe } from '../pipes/attack.pipe';
+import { AgePipe } from '../pipes/age.pipe';
 
 @Component({
     selector: 'dndgen-creature',
@@ -60,6 +61,7 @@ import { AttackPipe } from '../pipes/attack.pipe';
       AbilitiesPipe,
       SkillPipe,
       ConditionalBonusPipe,
+      AgePipe,
     ]
 })
 
