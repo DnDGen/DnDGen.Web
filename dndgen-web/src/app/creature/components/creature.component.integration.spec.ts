@@ -273,20 +273,6 @@ describe('Creature Component', () => {
         helper.expectTextContent('li.creature-level-adjustment', 'Level Adjustment: +9');
       });
 
-      it('should render the demographics that have values', () => {
-        helper.expectDetails('li.creature-demographics > dndgen-details', 'Demographics', true);
-        helper.expectTextContents('li.creature-demographics li', [
-          'Gender: Male',
-          'Age: 45 years (Adulthood)',
-          'Maximum Age: Immortal',
-          'Height: 10\' 6" (Average)',
-          'Weight: 1,100 pounds (Heavy)',
-          'Skin: Deep ruddy-brown skin',
-          'Hair: Black hair',
-          'Other: Translucent',
-        ]);
-      });
-
       it('should render the languages', () => {
         helper.expectDetails('li.creature-languages > dndgen-details', 'Languages (2)', true);
         helper.expectTextContents('li.creature-languages li', ['Giant', 'Common']);
@@ -473,36 +459,167 @@ describe('Creature Component', () => {
         expectFeats('li.creature-feats', []);
       });
 
-      it('should render only the demographics that have values', async () => {
-        creature.demographics = new Demographics('Agender', new CreatureMeasurement(0, 'years', 'Ageless'), new CreatureMeasurement(0, 'years', 'Immortal'));
-        await helper.waitForChangeDetection();
+      describe('demographics', () => {
+        const genders = ['Male', 'Female', 'Agender'];
 
-        helper.expectTextContents('li.creature-demographics li', [
-          'Gender: Agender',
-          'Age: Ageless',
-          'Maximum Age: Immortal',
-        ]);
-      });
+        genders.forEach(gender => {
+          it(`should render the gender - ${gender}`, async () => {
+            creature.demographics.gender = gender;
+            await helper.waitForChangeDetection();
 
-      it('should render every demographic', async () => {
-        creature.demographics.length = new CreatureMeasurement(30, 'inches', 'Average');
-        creature.demographics.wingspan = new CreatureMeasurement(120, 'inches', 'Average');
-        creature.demographics.eyes = 'Red eyes';
-        await helper.waitForChangeDetection();
+            helper.expectTextContent('li.creature-demographics-gender', `Gender: ${gender}`);
+          });
+        });
 
-        helper.expectTextContents('li.creature-demographics li', [
-          'Gender: Male',
-          'Age: 45 years (Adulthood)',
-          'Maximum Age: Immortal',
-          'Height: 10\' 6" (Average)',
-          'Length: 2\' 6" (Average)',
-          'Weight: 1,100 pounds (Heavy)',
-          'Wingspan: 10\' (Average)',
-          'Skin: Deep ruddy-brown skin',
-          'Hair: Black hair',
-          'Eyes: Red eyes',
-          'Other: Translucent',
-        ]);
+        const ages = [
+          { name: 'an age', age: new CreatureMeasurement(45, 'years', 'Adulthood'), expected: 'Age: 45 years (Adulthood)' },
+          { name: 'a fractional age', age: new CreatureMeasurement(298.167, 'years', 'Adulthood'), expected: 'Age: 298.167 years (Adulthood)' },
+          { name: 'an age in the thousands', age: new CreatureMeasurement(1337, 'years', 'Venerable'), expected: 'Age: 1,337 years (Venerable)' },
+          { name: 'no age as its description', age: new CreatureMeasurement(0, 'years', 'Ageless'), expected: 'Age: Ageless' },
+        ];
+
+        ages.forEach(test => {
+          it(`should render ${test.name}`, async () => {
+            creature.demographics.age = test.age;
+            await helper.waitForChangeDetection();
+
+            helper.expectTextContent('li.creature-demographics-age', test.expected);
+          });
+        });
+
+        const maximumAges = [
+          { name: 'a maximum age', age: new CreatureMeasurement(400, 'years', 'Will die of natural causes'), expected: 'Maximum Age: 400 years (Will die of natural causes)' },
+          { name: 'a maximum age in the thousands', age: new CreatureMeasurement(1800, 'years', 'Will die of natural causes'), expected: 'Maximum Age: 1,800 years (Will die of natural causes)' },
+          { name: 'an immortal maximum age', age: new CreatureMeasurement(0, 'years', 'Immortal'), expected: 'Maximum Age: Immortal' },
+        ];
+
+        maximumAges.forEach(test => {
+          it(`should render ${test.name}`, async () => {
+            creature.demographics.maximumAge = test.age;
+            await helper.waitForChangeDetection();
+
+            helper.expectTextContent('li.creature-demographics-maximum-age', test.expected);
+          });
+        });
+
+        const lengths = [
+          { label: 'Height', property: 'height', selector: 'li.creature-demographics-height' },
+          { label: 'Length', property: 'length', selector: 'li.creature-demographics-length' },
+          { label: 'Wingspan', property: 'wingspan', selector: 'li.creature-demographics-wingspan' },
+        ] as const;
+
+        lengths.forEach(line => {
+          const values = [
+            { name: 'feet and inches', inches: 126, expected: `${line.label}: 10' 6" (Average)` },
+            { name: 'whole feet', inches: 72, expected: `${line.label}: 6' (Average)` },
+            { name: 'only inches', inches: 8, expected: `${line.label}: 8" (Average)` },
+            { name: 'thousands of feet', inches: 12000, expected: `${line.label}: 1,000' (Average)` },
+          ];
+
+          values.forEach(test => {
+            it(`should render the ${line.property} in ${test.name}`, async () => {
+              creature.demographics[line.property] = new CreatureMeasurement(test.inches, 'inches', 'Average');
+              await helper.waitForChangeDetection();
+
+              helper.expectTextContent(line.selector, test.expected);
+            });
+          });
+
+          it(`should hide no ${line.property}`, async () => {
+            creature.demographics[line.property] = new CreatureMeasurement(0, 'inches', 'Average');
+            await helper.waitForChangeDetection();
+
+            helper.expectExists(line.selector, false);
+          });
+        });
+
+        const weights = [
+          { name: 'a weight', weight: new CreatureMeasurement(240, 'pounds', 'Heavy'), expected: 'Weight: 240 pounds (Heavy)' },
+          { name: 'a fractional weight', weight: new CreatureMeasurement(0.5, 'pounds', 'Light'), expected: 'Weight: 0.5 pounds (Light)' },
+          { name: 'a weight in the thousands', weight: new CreatureMeasurement(1100, 'pounds', 'Heavy'), expected: 'Weight: 1,100 pounds (Heavy)' },
+          { name: 'a weight in the hundreds of thousands', weight: new CreatureMeasurement(253000, 'pounds', 'Average'), expected: 'Weight: 253,000 pounds (Average)' },
+        ];
+
+        weights.forEach(test => {
+          it(`should render ${test.name}`, async () => {
+            creature.demographics.weight = test.weight;
+            await helper.waitForChangeDetection();
+
+            helper.expectTextContent('li.creature-demographics-weight', test.expected);
+          });
+        });
+
+        it('should hide no weight', async () => {
+          creature.demographics.weight = new CreatureMeasurement(0, 'pounds', 'Average');
+          await helper.waitForChangeDetection();
+
+          helper.expectExists('li.creature-demographics-weight', false);
+        });
+
+        const descriptions = [
+          { label: 'Skin', property: 'skin', selector: 'li.creature-demographics-skin', value: 'Deep ruddy-brown skin' },
+          { label: 'Hair', property: 'hair', selector: 'li.creature-demographics-hair', value: 'Black hair' },
+          { label: 'Eyes', property: 'eyes', selector: 'li.creature-demographics-eyes', value: 'Red eyes' },
+          { label: 'Other', property: 'other', selector: 'li.creature-demographics-other', value: 'Translucent' },
+        ] as const;
+
+        descriptions.forEach(line => {
+          it(`should render the ${line.property}`, async () => {
+            creature.demographics[line.property] = line.value;
+            await helper.waitForChangeDetection();
+
+            helper.expectTextContent(line.selector, `${line.label}: ${line.value}`);
+          });
+
+          it(`should hide no ${line.property}`, async () => {
+            creature.demographics[line.property] = '';
+            await helper.waitForChangeDetection();
+
+            helper.expectExists(line.selector, false);
+          });
+        });
+
+        it('should render every demographic, in order', async () => {
+          creature.demographics = new Demographics(
+            'Female',
+            new CreatureMeasurement(45, 'years', 'Adulthood'),
+            new CreatureMeasurement(400, 'years', 'Will die of natural causes'),
+            new CreatureMeasurement(126, 'inches', 'Average'),
+            new CreatureMeasurement(30, 'inches', 'Average'),
+            new CreatureMeasurement(1100, 'pounds', 'Heavy'),
+            new CreatureMeasurement(120, 'inches', 'Average'),
+            'Deep ruddy-brown skin',
+            'Black hair',
+            'Red eyes',
+            'Translucent',
+          );
+          await helper.waitForChangeDetection();
+
+          helper.expectTextContents('li.creature-demographics li', [
+            'Gender: Female',
+            'Age: 45 years (Adulthood)',
+            'Maximum Age: 400 years (Will die of natural causes)',
+            'Height: 10\' 6" (Average)',
+            'Length: 2\' 6" (Average)',
+            'Weight: 1,100 pounds (Heavy)',
+            'Wingspan: 10\' (Average)',
+            'Skin: Deep ruddy-brown skin',
+            'Hair: Black hair',
+            'Eyes: Red eyes',
+            'Other: Translucent',
+          ]);
+        });
+
+        it('should render only the gender, age, and maximum age when there are no other demographics', async () => {
+          creature.demographics = new Demographics('Agender', new CreatureMeasurement(0, 'years', 'Ageless'), new CreatureMeasurement(0, 'years', 'Immortal'));
+          await helper.waitForChangeDetection();
+
+          helper.expectTextContents('li.creature-demographics li', [
+            'Gender: Agender',
+            'Age: Ageless',
+            'Maximum Age: Immortal',
+          ]);
+        });
       });
 
       it('should render no languages', async () => {
