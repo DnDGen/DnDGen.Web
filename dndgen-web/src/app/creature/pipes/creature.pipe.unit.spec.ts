@@ -67,7 +67,6 @@ describe('Creature Pipe', () => {
     let skillPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let conditionalBonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let creature: Creature;
-    let expected: string[];
 
     const everyRound = new Frequency(1, 'Round');
 
@@ -169,10 +168,9 @@ describe('Creature Pipe', () => {
       });
 
       creature = createCreature();
-      expected = createCreatureLines();
     });
 
-    function expectFormatted() {
+    function expectFormatted(expected: string[]) {
       const lines = pipe.transform(creature).split('\r\n');
       TestHelper.expectLines(lines, expected);
     }
@@ -193,42 +191,44 @@ describe('Creature Pipe', () => {
     }
 
     it('formats the creature basics in stat block order', () => {
-      expectFormatted();
+      const expected = createCreatureLines();
+
+      expectFormatted(expected);
     });
 
     it('formats no level adjustment', () => {
       creature.levelAdjustment = undefined;
-      expected = replaceLines(expected, '\tLevel Adjustment: 9266 formatted optional bonus', ['\tLevel Adjustment: undefined formatted optional bonus']);
+      const expected = replaceLines(createCreatureLines(), '\tLevel Adjustment: 9266 formatted optional bonus', ['\tLevel Adjustment: undefined formatted optional bonus']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats no grapple', () => {
       creature.grappleBonus = null;
-      expected = replaceLines(expected, '\tBase Attack/Grapple: 21 formatted/22 formatted optional bonus', ['\tBase Attack/Grapple: 21 formatted/null formatted optional bonus']);
+      const expected = replaceLines(createCreatureLines(), '\tBase Attack/Grapple: 21 formatted/22 formatted optional bonus', ['\tBase Attack/Grapple: 21 formatted/null formatted optional bonus']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the conditional hit point bonuses under the hit dice', () => {
       creature.hitPoints.conditionalBonuses = [new Bonus(1), new Bonus(2, 'when raging', true), new Bonus(3, 'at night', true)];
-      expected = replaceLines(expected, '\tHit Dice: hit dice roll formatted hit dice', [
+      const expected = replaceLines(createCreatureLines(), '\tHit Dice: hit dice roll formatted hit dice', [
         '\tHit Dice: hit dice roll formatted hit dice',
         '\t\t2 when raging formatted conditional bonus',
         '\t\t3 at night formatted conditional bonus',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the conditional armor class bonuses after touch and flat-footed', () => {
       creature.armorClass.bonuses = [new Bonus(9), new Bonus(2, 'against evil', true)];
-      expected = replaceLines(expected, '\t\tFlat-Footed: 12', [
+      const expected = replaceLines(createCreatureLines(), '\t\tFlat-Footed: 12', [
         '\t\tFlat-Footed: 12',
         '\t\t2 against evil formatted conditional bonus',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats every speed', () => {
@@ -236,34 +236,34 @@ describe('Creature Pipe', () => {
         Land: new CreatureMeasurement(40, 'feet per round'),
         Fly: new CreatureMeasurement(30, 'feet per round', 'Perfect Maneuverability'),
       };
-      expected = replaceLines(expected, '\tSpeed: Land 30 formatted speed', ['\tSpeed: Land 40, Fly 30 formatted speed']);
+      const expected = replaceLines(createCreatureLines(), '\tSpeed: Land 30 formatted speed', ['\tSpeed: Land 40, Fly 30 formatted speed']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats 1 attack option', () => {
       creature.attacks = [createAttack('Greatclub', 'melee')];
-      expected = replaceLines(expected, '\tAttack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tAttack (0):', [
         '\tAttack (1):',
         '\t\tGreatclub formatted attack',
         '\t\t\tType: melee formatted attack type',
         '\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats an attack option without a frequency', () => {
       const greatclub = createAttack('Greatclub', 'melee');
       greatclub.frequency = new Frequency();
       creature.attacks = [greatclub];
-      expected = replaceLines(expected, '\tAttack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tAttack (0):', [
         '\tAttack (1):',
         '\t\tGreatclub formatted attack',
         '\t\t\tType: melee formatted attack type',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats many attack options, identical attacks once, without special attacks', () => {
@@ -274,7 +274,7 @@ describe('Creature Pipe', () => {
         createAttack('Constrict', 'extraordinary ability', true),
         createAttack('Rock', 'ranged'),
       ];
-      expected = replaceLines(expected, '\tAttack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tAttack (0):', [
         '\tAttack (3):',
         '\t\tGreatclub formatted attack',
         '\t\t\tType: melee formatted attack type',
@@ -287,12 +287,12 @@ describe('Creature Pipe', () => {
         '\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the full melee attack as 1 option, with its full attacks', () => {
       creature.fullMeleeAttack = [createAttack('Greatclub', 'melee'), createAttack('Club', 'melee')];
-      expected = replaceLines(expected, '\tFull Attack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tFull Attack (0):', [
         '\tFull Attack (1):',
         '\t\tGreatclub & Club formatted full attack',
         '\t\t\tGreatclub full formatted attack',
@@ -303,12 +303,12 @@ describe('Creature Pipe', () => {
         '\t\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the full ranged attack as 1 option', () => {
       creature.fullRangedAttack = [createAttack('Rock', 'ranged')];
-      expected = replaceLines(expected, '\tFull Attack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tFull Attack (0):', [
         '\tFull Attack (1):',
         '\t\tRock formatted full attack',
         '\t\t\tRock full formatted attack',
@@ -316,13 +316,13 @@ describe('Creature Pipe', () => {
         '\t\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the full melee attack, then the full ranged attack, as 2 options', () => {
       creature.fullMeleeAttack = [createAttack('Greatclub', 'melee')];
       creature.fullRangedAttack = [createAttack('Rock', 'ranged')];
-      expected = replaceLines(expected, '\tFull Attack (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tFull Attack (0):', [
         '\tFull Attack (2):',
         '\t\tGreatclub formatted full attack',
         '\t\t\tGreatclub full formatted attack',
@@ -334,14 +334,14 @@ describe('Creature Pipe', () => {
         '\t\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats special attacks, with a save', () => {
       const moan = createAttack('Frightful Moan', 'supernatural ability', true);
       moan.save = new AttackSave('Will', 17, 10, new CreatureAbility('Charisma', 13, 1));
       creature.specialAttacks = [createAttack('Constrict', 'extraordinary ability', true), moan];
-      expected = replaceLines(expected, '\tSpecial Attacks (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
         '\tSpecial Attacks (2):',
         '\t\tConstrict formatted attack',
         '\t\t\tType: extraordinary ability formatted attack type',
@@ -352,7 +352,7 @@ describe('Creature Pipe', () => {
         '\t\t\tSave: Will DC 17 (Charisma)',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the magic under the Spells special attack', () => {
@@ -373,7 +373,7 @@ describe('Creature Pipe', () => {
         [new CreatureSpell('Sorcerer', 1, 'Magic Missile'), new CreatureSpell('Sorcerer', 0, 'Light'), new CreatureSpell('Sorcerer', 1, 'Mage Armor', ['Extended'])],
         [new CreatureSpell('Cleric', 1, 'Bless')],
       );
-      expected = replaceLines(expected, '\tSpecial Attacks (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
         '\tSpecial Attacks (2):',
         '\t\tSpells formatted attack',
         '\t\t\tType: spell-like ability formatted attack type',
@@ -399,7 +399,7 @@ describe('Creature Pipe', () => {
         '\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
 
       expect(spellGroupServiceSpy.sortIntoGroups).toHaveBeenCalledWith([
         new Spell({ Sorcerer: 1 }, 'Magic Missile'),
@@ -413,7 +413,7 @@ describe('Creature Pipe', () => {
     it('formats a caster with no domains, spell failure, or spells under the Spells special attack', () => {
       creature.specialAttacks = [createSpells()];
       creature.magic = new CreatureMagic('Sorcerer', 7);
-      expected = replaceLines(expected, '\tSpecial Attacks (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
         '\tSpecial Attacks (1):',
         '\t\tSpells formatted attack',
         '\t\t\tType: spell-like ability formatted attack type',
@@ -422,20 +422,20 @@ describe('Creature Pipe', () => {
         '\t\t\tCaster Level: 7',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats no magic without a Spells special attack', () => {
       creature.specialAttacks = [createAttack('Improved Grab', 'extraordinary ability', true)];
       creature.magic = new CreatureMagic('Sorcerer', 7);
-      expected = replaceLines(expected, '\tSpecial Attacks (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
         '\tSpecial Attacks (1):',
         '\t\tImproved Grab formatted attack',
         '\t\t\tType: extraordinary ability formatted attack type',
         '\t\t\tFrequency: 1/Round formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats special qualities, with their foci, power, and frequency', () => {
@@ -443,7 +443,7 @@ describe('Creature Pipe', () => {
         new Feat('Darkvision', [], 60),
         new Feat('Spell-Like Ability', ['Ethereal jaunt', 'Blink'], 0, new Frequency(0, 'At Will')),
       ];
-      expected = replaceLines(expected, '\tSpecial Qualities (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Qualities (0):', [
         '\tSpecial Qualities (2):',
         '\t\tDarkvision',
         '\t\t\tPower: 60',
@@ -454,19 +454,19 @@ describe('Creature Pipe', () => {
         '\t\t\tFrequency: 0/At Will formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats the conditional save bonuses, in save order', () => {
       creature.saves['Will'].bonuses = [new Bonus(4, 'against fear', true), new Bonus(1)];
       creature.saves['Fortitude'].bonuses = [new Bonus(2, 'against poison', true)];
-      expected = replaceLines(expected, '\tSaves: 56/78/67 formatted saves', [
+      const expected = replaceLines(createCreatureLines(), '\tSaves: 56/78/67 formatted saves', [
         '\tSaves: 56/78/67 formatted saves',
         '\t\tFortitude: 2 against poison formatted conditional bonus',
         '\t\tWill: 4 against fear formatted conditional bonus',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats skills sorted by name, with their details', () => {
@@ -475,7 +475,7 @@ describe('Creature Pipe', () => {
         new CreatureSkill('Knowledge', 'Religion', -2, 0, 0, false, false, 0, false, new CreatureAbility('Intelligence', 6, -2)),
         new CreatureSkill('Climb', '', 9, 2, 2, true, true, -3, true, new CreatureAbility('Strength', 25, 7)),
       ];
-      expected = replaceLines(expected, '\tSkills (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tSkills (0):', [
         '\tSkills (3):',
         '\t\tClimb formatted skill',
         '\t\t\tRanks: 2',
@@ -490,14 +490,14 @@ describe('Creature Pipe', () => {
         '\t\t\tAbility: Wisdom (0 formatted)',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats 1 feat', () => {
       creature.feats = [new Feat('Cleave')];
-      expected = replaceLines(expected, '\tFeats (0):', ['\tFeats (1):', '\t\tCleave']);
+      const expected = replaceLines(createCreatureLines(), '\tFeats (0):', ['\tFeats (1):', '\t\tCleave']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats many feats, with their foci, power, and frequency', () => {
@@ -507,7 +507,7 @@ describe('Creature Pipe', () => {
         new Feat('Combat Casting', [], 4),
         new Feat('Smite', [], 0, new Frequency(1, 'Day')),
       ];
-      expected = replaceLines(expected, '\tFeats (0):', [
+      const expected = replaceLines(createCreatureLines(), '\tFeats (0):', [
         '\tFeats (4):',
         '\t\tCleave',
         '\t\tWeapon Focus',
@@ -519,7 +519,7 @@ describe('Creature Pipe', () => {
         '\t\t\tFrequency: 1/Day formatted',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats every demographic', () => {
@@ -536,7 +536,7 @@ describe('Creature Pipe', () => {
         'Red eyes',
         'Translucent',
       );
-      expected = replaceLines(expected, '\t\tGender: gender', ['\t\tGender: Male']);
+      let expected = replaceLines(createCreatureLines(), '\t\tGender: gender', ['\t\tGender: Male']);
       expected = replaceLines(expected, '\t\tAge: 18 years formatted', ['\t\tAge: 45 years formatted']);
       expected = replaceLines(expected, '\t\tMaximum Age: 1800 years formatted', [
         '\t\tMaximum Age: 400 years formatted',
@@ -550,75 +550,75 @@ describe('Creature Pipe', () => {
         '\t\tOther: Translucent',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats some demographics', () => {
       creature.demographics.weight = new CreatureMeasurement(1100, 'pounds', 'Heavy');
       creature.demographics.hair = 'Black hair';
-      expected = replaceLines(expected, '\t\tMaximum Age: 1800 years formatted', [
+      const expected = replaceLines(createCreatureLines(), '\t\tMaximum Age: 1800 years formatted', [
         '\t\tMaximum Age: 1800 years formatted',
         '\t\tWeight: 1100 pounds formatted',
         '\t\tHair: Black hair',
       ]);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats 1 language', () => {
       creature.languages = ['Common'];
-      expected = replaceLines(expected, '\tLanguages (0):', ['\tLanguages (1):', '\t\tCommon']);
+      const expected = replaceLines(createCreatureLines(), '\tLanguages (0):', ['\tLanguages (1):', '\t\tCommon']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats many languages', () => {
       creature.languages = ['Giant', 'Common', 'Draconic'];
-      expected = replaceLines(expected, '\tLanguages (0):', ['\tLanguages (3):', '\t\tGiant', '\t\tCommon', '\t\tDraconic']);
+      const expected = replaceLines(createCreatureLines(), '\tLanguages (0):', ['\tLanguages (3):', '\t\tGiant', '\t\tCommon', '\t\tDraconic']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats 1 weapon', () => {
       creature.equipment.weapons = [new Weapon('Greatclub', 'Weapon')];
-      expected = replaceLines(expected, '\t\tWeapons (0):', ['\t\tWeapons (1):', '\t\t\tGreatclub formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tWeapons (0):', ['\t\tWeapons (1):', '\t\t\tGreatclub formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats many weapons', () => {
       creature.equipment.weapons = [new Weapon('Greatclub', 'Weapon'), new Weapon('Rock', 'Weapon')];
-      expected = replaceLines(expected, '\t\tWeapons (0):', ['\t\tWeapons (2):', '\t\t\tGreatclub formatted', '\t\t\tRock formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tWeapons (0):', ['\t\tWeapons (2):', '\t\t\tGreatclub formatted', '\t\t\tRock formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats armor', () => {
       creature.equipment.armor = new Armor('Hide armor', 'Armor');
-      expected = replaceLines(expected, '\t\tArmor: None', ['\t\tArmor:', '\t\t\tHide armor formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tArmor: None', ['\t\tArmor:', '\t\t\tHide armor formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats a shield', () => {
       creature.equipment.shield = new Armor('Heavy wooden shield', 'Armor');
-      expected = replaceLines(expected, '\t\tShield: None', ['\t\tShield:', '\t\t\tHeavy wooden shield formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tShield: None', ['\t\tShield:', '\t\t\tHeavy wooden shield formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats 1 item', () => {
       creature.equipment.items = [new Item('Rope', 'Tool')];
-      expected = replaceLines(expected, '\t\tItems (0):', ['\t\tItems (1):', '\t\t\tRope formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tItems (0):', ['\t\tItems (1):', '\t\t\tRope formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
 
     it('formats many items', () => {
       creature.equipment.items = [new Item('Potion of cure light wounds', 'Potion'), new Item('Rope', 'Tool')];
-      expected = replaceLines(expected, '\t\tItems (0):', ['\t\tItems (2):', '\t\t\tPotion of cure light wounds formatted', '\t\t\tRope formatted']);
+      const expected = replaceLines(createCreatureLines(), '\t\tItems (0):', ['\t\tItems (2):', '\t\t\tPotion of cure light wounds formatted', '\t\t\tRope formatted']);
 
-      expectFormatted();
+      expectFormatted(expected);
     });
   });
 });
