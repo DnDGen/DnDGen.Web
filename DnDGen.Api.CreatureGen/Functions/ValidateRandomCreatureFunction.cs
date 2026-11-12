@@ -33,12 +33,12 @@ namespace DnDGen.Api.CreatureGen.Functions
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string),
-            Description = "The desired type or subtype of the generated creature (single value).")]
+            Description = "The desired type or subtype of the generated creature.")]
         [OpenApiParameter(name: "cr",
             In = ParameterLocation.Query,
             Required = false,
             Type = typeof(string),
-            Description = "The desired Challenge Rating of the generated creature (single value).")]
+            Description = "The desired Challenge Rating of the generated creature.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the parameter combination")]
         public async Task<HttpResponseData> RunV1([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/creature/validate")] HttpRequestData req)
