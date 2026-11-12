@@ -247,27 +247,12 @@ describe('Creature Component', () => {
         helper.expectTextContent('li.creature-abilities', 'Abilities: Str 25, Dex 8, Con —, Int 6, Wis 10, Cha 13');
       });
 
-      it('should render the skills sorted by name, with their details', () => {
+      it('should render the skills sorted by name, with their conditional totals', () => {
         helper.expectDetails('li.creature-skills > dndgen-details', 'Skills (3)', true);
-        helper.expectMultipleDetails('li.creature-skills dndgen-details.skill-heading', [
-          { heading: 'Climb +9 (+11 with rope)', hasDetails: true },
-          { heading: 'Knowledge (Religion) -2', hasDetails: true },
-          { heading: 'Spot +6', hasDetails: true },
-        ]);
-        helper.expectTextContents('li.creature-skills > dndgen-details li:nth-child(1) dndgen-details.skill-heading li', [
-          'Ranks: 2',
-          'Ability: Strength (+7)',
-          'Armor Check Penalty: -3',
-          'Class Skill',
-        ]);
-        helper.expectTextContents('li.creature-skills > dndgen-details li:nth-child(2) dndgen-details.skill-heading li', [
-          'Ranks: 0',
-          'Ability: Intelligence (-2)',
-        ]);
-        helper.expectTextContents('li.creature-skills > dndgen-details li:nth-child(3) dndgen-details.skill-heading li', [
-          'Ranks: 3',
-          'Ability: Wisdom (+0)',
-          'Class Skill',
+        helper.expectTextContents('li.creature-skills li.creature-skill', [
+          'Climb +9 (+11 with rope)',
+          'Knowledge (Religion) -2',
+          'Spot +6',
         ]);
       });
 
@@ -469,7 +454,7 @@ describe('Creature Component', () => {
         await helper.waitForChangeDetection();
 
         helper.expectDetails('li.creature-skills > dndgen-details', 'Skills (0)', false);
-        helper.expectCount('li.creature-skills dndgen-details.skill-heading', 0);
+        helper.expectTextContents('li.creature-skills li.creature-skill', []);
       });
 
       it('should render 1 skill', async () => {
@@ -477,9 +462,7 @@ describe('Creature Component', () => {
         await helper.waitForChangeDetection();
 
         helper.expectDetails('li.creature-skills > dndgen-details', 'Skills (1)', true);
-        helper.expectMultipleDetails('li.creature-skills dndgen-details.skill-heading', [
-          { heading: 'Spot +6', hasDetails: true },
-        ]);
+        helper.expectTextContents('li.creature-skills li.creature-skill', ['Spot +6']);
       });
 
       it('should render no feats', async () => {

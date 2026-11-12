@@ -469,7 +469,7 @@ describe('Creature Pipe', () => {
       expectFormatted(expected);
     });
 
-    it('formats skills sorted by name, with their details', () => {
+    it('formats skills sorted by name', () => {
       creature.skills = [
         new CreatureSkill('Spot', '', 6, 3, 3, false, false, 0, false, new CreatureAbility('Wisdom', 10, 0)),
         new CreatureSkill('Knowledge', 'Religion', -2, 0, 0, false, false, 0, false, new CreatureAbility('Intelligence', 6, -2)),
@@ -478,16 +478,8 @@ describe('Creature Pipe', () => {
       const expected = replaceLines(createCreatureLines(), '\tSkills (0):', [
         '\tSkills (3):',
         '\t\tClimb formatted skill',
-        '\t\t\tRanks: 2',
-        '\t\t\tAbility: Strength (7 formatted)',
-        '\t\t\tArmor Check Penalty: -3',
-        '\t\t\tClass Skill',
         '\t\tKnowledge (Religion) formatted skill',
-        '\t\t\tRanks: 0',
-        '\t\t\tAbility: Intelligence (-2 formatted)',
         '\t\tSpot formatted skill',
-        '\t\t\tRanks: 3',
-        '\t\t\tAbility: Wisdom (0 formatted)',
       ]);
 
       expectFormatted(expected);

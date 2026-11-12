@@ -131,20 +131,7 @@
       <dndgen-details heading="Skills ({{creature.skills.length}})" [hasDetails]="creature.skills.length > 0">
         <ul>
           @for (skill of sortedSkills; track $index) {
-            <li>
-              <dndgen-details class="skill-heading" [heading]="skill | skill" [hasDetails]="true">
-                <ul>
-                  <li class="skill-ranks">Ranks: {{skill.effectiveRanks}}</li>
-                  <li class="skill-ability">Ability: {{skill.baseAbility.name}} ({{skill.baseAbility.modifier | bonus}})</li>
-                  @if (skill.hasArmorCheckPenalty) {
-                    <li class="skill-armor-check-penalty">Armor Check Penalty: {{skill.armorCheckPenalty}}</li>
-                  }
-                  @if (skill.classSkill) {
-                    <li class="skill-class-skill">Class Skill</li>
-                  }
-                </ul>
-              </dndgen-details>
-            </li>
+            <li class="creature-skill">{{skill | skill}}</li>
           }
         </ul>
       </dndgen-details>

@@ -223,22 +223,10 @@ export class CreaturePipe implements PipeTransform {
     }
 
     private formatSkills(skills: CreatureSkill[]): string {
-        let formatted = this.line(`Skills (${skills.length}):`, '\t');
+        const formatted = this.line(`Skills (${skills.length}):`, '\t');
         const sorted = [...skills].sort((a, b) => this.compare(this.getSkillDisplayName(a), this.getSkillDisplayName(b)));
 
-        for (const skill of sorted) {
-            formatted += this.line(this.skillPipe.transform(skill), '\t\t');
-            formatted += this.line('Ranks: ' + skill.effectiveRanks, '\t\t\t');
-            formatted += this.line(`Ability: ${skill.baseAbility.name} (${this.bonusPipe.transform(skill.baseAbility.modifier)})`, '\t\t\t');
-
-            if (skill.hasArmorCheckPenalty)
-                formatted += this.line('Armor Check Penalty: ' + skill.armorCheckPenalty, '\t\t\t');
-
-            if (skill.classSkill)
-                formatted += this.line('Class Skill', '\t\t\t');
-        }
-
-        return formatted;
+        return formatted + this.lines(sorted.map(skill => this.skillPipe.transform(skill)), '\t\t');
     }
 
     private getSkillDisplayName(skill: CreatureSkill): string {
