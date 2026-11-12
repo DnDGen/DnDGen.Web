@@ -141,4 +141,4 @@ For website (Angular) tests, see [dndgen-web/README.md](dndgen-web/README.md).
 
 ## Theme Song
 
-"By Command of the DM, Generate!" — a royal herald fanfare for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/ragoh4wenmvNWsgv).**
+"Generate!" — a cabaret opening number for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/ragoh4wenmvNWsgv).**
