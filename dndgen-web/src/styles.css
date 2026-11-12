@@ -35,3 +35,8 @@ html, body {
   background-color: #dec9a2 !important;
   border-color: black;
 }
+
+.dndgen-searchable-select-popup {
+  max-height: 300px;
+  overflow-y: auto;
+}

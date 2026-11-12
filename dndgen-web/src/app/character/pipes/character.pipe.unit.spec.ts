@@ -12,7 +12,7 @@ import { SpellGroup } from "../models/spell-group.model";
 import { BonusPipe } from "../../shared/pipes/bonus.pipe";
 import { BonusesPipe } from "../../shared/pipes/bonuses.pipe";
 import { MeasurementPipe } from "./measurement.pipe";
-import { Measurement } from "../models/measurement.model";
+import { Measurement } from "../../shared/models/measurement.model";
 import { Frequency } from "../models/frequency.model";
 import { FrequencyPipe } from "./frequency.pipe";
 import { SpellQuantityPipe } from "./spell-quantity.pipe";

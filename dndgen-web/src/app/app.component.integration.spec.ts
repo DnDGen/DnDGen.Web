@@ -108,6 +108,14 @@ describe('App Component', () => {
           });
         });
         
+        it('routes to the CreatureGen page', async () => {
+          await harness.navigateByUrl('/creature');
+          await vi.waitFor(() => {
+            const heading = harness.routeNativeElement?.querySelector('h1');
+            expect(heading?.textContent).toBe('CreatureGen');
+          });
+        });
+
         it('routes to the CharacterGen page', async () => {
           await harness.navigateByUrl('/character');
           await vi.waitFor(() => {

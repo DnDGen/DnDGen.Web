@@ -89,12 +89,22 @@ jobs:
   - template: templates/publish-test-results.yml
     parameters:
       resultFile: '$(Build.SourcesDirectory)/dndgen-web/website-unit.xml'
+  - bash: 'mv coverage/dndgen-web coverage/unit'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Keep Unit Test Coverage'
   - bash: 'npm run test:integration:ci -- --output-file=./website-integration.xml'
     workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
     displayName: 'Run Integration Tests'
   - template: templates/publish-test-results.yml
     parameters:
       resultFile: '$(Build.SourcesDirectory)/dndgen-web/website-integration.xml'
+  - bash: 'mv coverage/dndgen-web coverage/integration'
+    workingDirectory: '$(Build.SourcesDirectory)/dndgen-web'
+    displayName: 'Keep Integration Test Coverage'
+  - task: PublishCodeCoverageResults@2
+    displayName: 'Publish Website Code Coverage'
+    inputs:
+      summaryFileLocation: '$(Build.SourcesDirectory)/dndgen-web/coverage/*/cobertura-coverage.xml'
   - bash: |
       npm run start &
       echo $! > /tmp/ng-serve-pid.txt

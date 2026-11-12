@@ -12,7 +12,7 @@ namespace DnDGen.Web.Tests.Integration.Docs.ThemeSong
         private const int SunoTitleLimit = 80;
         private const int SunoStyleLimit = 1000;
         private const int SunoLyricsLimit = 5000;
-        private const int SourceTableRowCount = 81;
+        private const int SourceTableRowCount = 86;
 
         private string[] _record;
 

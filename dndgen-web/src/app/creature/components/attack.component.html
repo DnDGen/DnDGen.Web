@@ -1,0 +1,12 @@
+<dndgen-details class="attack-heading" [heading]="attack | attack: full" [hasDetails]="true">
+  <ul>
+    <li class="attack-type">Type: {{attack | attackType}}</li>
+    @if (attack.frequency.timePeriod) {
+      <li class="attack-frequency">Frequency: {{attack.frequency | frequency}}</li>
+    }
+    @if (attack.save) {
+      <li class="attack-save">Save: {{attack.save | attackSave}}</li>
+    }
+    <ng-content></ng-content>
+  </ul>
+</dndgen-details>

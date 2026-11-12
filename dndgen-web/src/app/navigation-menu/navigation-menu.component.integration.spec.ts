@@ -31,6 +31,7 @@ describe('Nav-Menu Component', () => {
       helper.expectTextContents('#mainLinks a', [
         'RollGen',
         'TreasureGen',
+        'CreatureGen',
         'CharacterGen',
         'EncounterGen',
         'DungeonGen',
@@ -38,9 +39,10 @@ describe('Nav-Menu Component', () => {
       
       helper.expectLink('#mainLinks li:nth-of-type(1) a', 'RollGen', '/roll', false);
       helper.expectLink('#mainLinks li:nth-of-type(2) a', 'TreasureGen', '/treasure', false);
-      helper.expectLink('#mainLinks li:nth-of-type(3) a', 'CharacterGen', '/character', false);
-      helper.expectLink('#mainLinks li:nth-of-type(4) a', 'EncounterGen', '/encounter', false);
-      helper.expectLink('#mainLinks li:nth-of-type(5) a', 'DungeonGen', '/dungeon', false);
+      helper.expectLink('#mainLinks li:nth-of-type(3) a', 'CreatureGen', '/creature', false);
+      helper.expectLink('#mainLinks li:nth-of-type(4) a', 'CharacterGen', '/character', false);
+      helper.expectLink('#mainLinks li:nth-of-type(5) a', 'EncounterGen', '/encounter', false);
+      helper.expectLink('#mainLinks li:nth-of-type(6) a', 'DungeonGen', '/dungeon', false);
     });
   
     it('should render the GitHub project links', () => {
@@ -49,6 +51,7 @@ describe('Nav-Menu Component', () => {
         'The DnDGen Project',
         'RollGen',
         'TreasureGen',
+        'CreatureGen',
         'CharacterGen',
         'EncounterGen',
         'DungeonGen',
@@ -58,6 +61,7 @@ describe('Nav-Menu Component', () => {
       helper.expectExists('#githubLinks div.dropdown-menu:nth-child(2) hr.dropdown-divider');
       helper.expectLink('#githubLinks #rollgenCodeLink.dropdown-item', 'RollGen', 'https://github.com/DnDGen/RollGen', true);
       helper.expectLink('#githubLinks #treasuregenCodeLink.dropdown-item', 'TreasureGen', 'https://github.com/DnDGen/TreasureGen', true);
+      helper.expectLink('#githubLinks #creaturegenCodeLink.dropdown-item', 'CreatureGen', 'https://github.com/DnDGen/CreatureGen', true);
       helper.expectLink('#githubLinks #charactergenCodeLink.dropdown-item', 'CharacterGen', 'https://github.com/DnDGen/CharacterGen', true);
       helper.expectLink('#githubLinks #encountergenCodeLink.dropdown-item', 'EncounterGen', 'https://github.com/DnDGen/EncounterGen', true);
       helper.expectLink('#githubLinks #dungeongenCodeLink.dropdown-item', 'DungeonGen', 'https://github.com/DnDGen/DungeonGen', true);
@@ -69,12 +73,14 @@ describe('Nav-Menu Component', () => {
       helper.expectTextContents('#apiLinks div.dropdown-menu a.dropdown-item', [
         'RollGen',
         'TreasureGen',
+        'CreatureGen',
         'CharacterGen',
         'EncounterGen',
         'DungeonGen',
       ]);
       helper.expectLink('#apiLinks #rollgenApiLink.dropdown-item', 'RollGen', 'https://roll.dndgen.com/api/swagger/ui', true);
       helper.expectLink('#apiLinks #treasuregenApiLink.dropdown-item', 'TreasureGen', 'https://treasure.dndgen.com/api/swagger/ui', true);
+      helper.expectLink('#apiLinks #creaturegenApiLink.dropdown-item', 'CreatureGen', 'https://creature.dndgen.com/api/swagger/ui', true);
       helper.expectLink('#apiLinks #charactergenApiLink.dropdown-item', 'CharacterGen', 'https://character.dndgen.com/api/swagger/ui', true);
       helper.expectLink('#apiLinks #encountergenApiLink.dropdown-item', 'EncounterGen', 'https://encounter.dndgen.com/api/swagger/ui', true);
       helper.expectLink('#apiLinks #dungeongenApiLink.dropdown-item', 'DungeonGen', 'https://dungeon.dndgen.com/api/swagger/ui', true);
@@ -90,12 +96,14 @@ describe('Nav-Menu Component', () => {
         ['The DnDGen Project on GitHub', '#dndgenCodeLink', 'href'],
         ['RollGen on GitHub', '#rollgenCodeLink', 'href'],
         ['TreasureGen on GitHub', '#treasuregenCodeLink', 'href'],
+        ['CreatureGen on GitHub', '#creaturegenCodeLink', 'href'],
         ['CharacterGen on GitHub', '#charactergenCodeLink', 'href'],
         ['EncounterGen on GitHub', '#encountergenCodeLink', 'href'],
         ['DungeonGen on GitHub', '#dungeongenCodeLink', 'href'],
         ['DnDGen.Web on GitHub', '#websiteCodeLink', 'href'],
         ['RollGen API Swagger UI', '#rollgenApiLink', 'href'],
         ['TreasureGen API Swagger UI', '#treasuregenApiLink', 'href'],
+        ['CreatureGen API Swagger UI', '#creaturegenApiLink', 'href'],
         ['CharacterGen API Swagger UI', '#charactergenApiLink', 'href'],
         ['EncounterGen API Swagger UI', '#encountergenApiLink', 'href'],
         ['DungeonGen API Swagger UI', '#dungeongenApiLink', 'href'],
@@ -182,9 +190,9 @@ describe('Nav-Menu Component', () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
     });
 
-    it('should collapse the menu when the charactergen link is clicked', async () => {
+    it('should collapse the menu when the creaturegen link is clicked', async () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
-      helper.expectLink('#mainLinks li:nth-of-type(3) a', 'CharacterGen', '/character', false);
+      helper.expectLink('#mainLinks li:nth-of-type(3) a', 'CreatureGen', '/creature', false);
       
       helper.clickLink('#mainLinks li:nth-of-type(3) a');
       await helper.waitForChangeDetection();
@@ -197,6 +205,26 @@ describe('Nav-Menu Component', () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
       helper.clickLink('#mainLinks li:nth-of-type(3) a');
+      await helper.waitForChangeDetection();
+      
+      expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
+    });
+
+    it('should collapse the menu when the charactergen link is clicked', async () => {
+      expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
+      helper.expectLink('#mainLinks li:nth-of-type(4) a', 'CharacterGen', '/character', false);
+      
+      helper.clickLink('#mainLinks li:nth-of-type(4) a');
+      await helper.waitForChangeDetection();
+      
+      expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
+      
+      helper.clickButton('button.navbar-toggler');
+      await helper.waitForChangeDetection();
+      
+      expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
+      
+      helper.clickLink('#mainLinks li:nth-of-type(4) a');
       await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
@@ -204,9 +232,9 @@ describe('Nav-Menu Component', () => {
 
     it('should collapse the menu when the encountergen link is clicked', async () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
-      helper.expectLink('#mainLinks li:nth-of-type(4) a', 'EncounterGen', '/encounter', false);
+      helper.expectLink('#mainLinks li:nth-of-type(5) a', 'EncounterGen', '/encounter', false);
       
-      helper.clickLink('#mainLinks li:nth-of-type(4) a');
+      helper.clickLink('#mainLinks li:nth-of-type(5) a');
       await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
@@ -216,7 +244,7 @@ describe('Nav-Menu Component', () => {
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
-      helper.clickLink('#mainLinks li:nth-of-type(4) a');
+      helper.clickLink('#mainLinks li:nth-of-type(5) a');
       await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
@@ -224,9 +252,9 @@ describe('Nav-Menu Component', () => {
 
     it('should collapse the menu when the dungeongen link is clicked', async () => {
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
-      helper.expectLink('#mainLinks li:nth-of-type(5) a', 'DungeonGen', '/dungeon', false);
+      helper.expectLink('#mainLinks li:nth-of-type(6) a', 'DungeonGen', '/dungeon', false);
       
-      helper.clickLink('#mainLinks li:nth-of-type(5) a');
+      helper.clickLink('#mainLinks li:nth-of-type(6) a');
       await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);
@@ -236,7 +264,7 @@ describe('Nav-Menu Component', () => {
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(false);
       
-      helper.clickLink('#mainLinks li:nth-of-type(5) a');
+      helper.clickLink('#mainLinks li:nth-of-type(6) a');
       await helper.waitForChangeDetection();
       
       expect(fixture.componentInstance.isMenuCollapsed).toBe(true);

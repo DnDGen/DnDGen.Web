@@ -1,6 +1,6 @@
 ﻿# Generate! -DnDGen.Web Theme-
 
-[![DnDGen.Web](cover.png)](https://suno.com/s/UfzjIXCTb6RlZBt3)
+[![DnDGen.Web](cover.png)](https://suno.com/s/ragoh4wenmvNWsgv)
 
 The DnDGen.Web theme song: a cabaret opening number where the Emcee welcomes the audience into the world of DnDGen with brisk patter and a knowing smile.
 Its lyrics come from the [DnDGen.Web README](https://github.com/DnDGen/DnDGen.Web/blob/main/README.md), sung in plain English.
@@ -59,15 +59,15 @@ Rolling up characters and dungeons to explore.
 And random encounters could pay the highest toll:
 "A character party? Nope, reroll."
 
-[Pre-Chorus 1 - building, the Emcee turns to the crowd]
+[Pre-Chorus 1 - building]
 This website makes in SECONDS what would take hours.
 ALL of the rules, every facet, every power.
 Leaving you more time for adventuring and play.
 So, dear Dungeon Master, what do you say?
 
-[Anticipatory drum roll]
+[Drum roll]
 
-[Chorus 1 - crowd joins in, the show is on]
+[Chorus 1 - crowd joins in]
 Generate!
 
 A 20-sided die to see who's going first,
@@ -84,7 +84,7 @@ A Wondrous Item, Minor ring, or Major scroll?
 
 GENERATE!
 
-[Verse 2 - faster patter, Emcee rattles the technical details]
+[Verse 2 - faster patter, rattled off nonchalantly]
 All APIs are Azure Function Apps and serverless.
 They're written in C-Sharp and compile with success.
 They are documented with Swagger and grace,
@@ -92,15 +92,24 @@ Request, response, and even their parameter constraints.
 A backend-for-the-frontend (BFF, you may deduce),
 Providing useful view-models for this website to use.
 
-[Pre-Chorus 2 - anticipation building, the DM is called]
+[Pre-Chorus 2 - anticipation building]
 But dice and gold are trifles - Random Number Deities
-Can summon characters and encounters, if you please.
-What level, class, and race? Temperature? Terrain?
-Dungeon Master (DUNGEON MASTER!) - Sing us the refrain.
+Can summon creatures, characters, anything you please.
+Player class and level? Template of Half-Dragon Black?
+Dungeon Master (DUNGEON MASTER!) - Bring the chorus back.
 
-[Anticipatory music swell]
+[Music swell]
 
-[Chorus 2 - crowd growing enthusiastic, chiming in with the asides]
+[Chorus 2 - crowd more enthusiastic, chiming in with the asides]
+Generate!
+
+A creature, Neutral Evil, at Challenge Rating 5,
+An Aberration, maybe? Or Undead, not alive.
+(Roll up the hit dice: 4-d-8-plus-24,)
+(And maybe it already has some armor, shield, and sword.)
+Chain a couple templates, if you need it to be tough.
+Or "None" to keep it plain - Mariliths are hard enough.
+
 Generate!
 
 A character, High-level, alignment should be Good.
@@ -110,6 +119,38 @@ Fighter, Bard, Spellcaster, or Stealthy, if you would.
 Human, Elf, Non-Standard - even monsters, if you wish.
 No meta-race? Or Lycanthrope? Or Undead like a Lich.
 
+GENERATE! (GENERATE!)
+
+[Bridge - conspiratorial; hushed]
+... Sneak a peek backstage, there's tons to show:
+The code is open-source, each file and workflow,
+So if you want to know, there you go.
+
+[Full ensemble erupts]
+
+[Verse 3 - proud patter]
+An Angular application is featured center-stage.
+Components, models, services, and pipes build every page.
+Automated tests abound, and coverage is complete.
+Integration, Unit, Smoke - a comprehensive suite.
+The build status badged in green: "I'm healthy!" it attests,
+And even THIS SONG is covered like the rest.
+
+[Comic aside - the Emcee gets derailed, deadpan recovery]
+But now, I must confess, I will give credit where it's due:
+I do not own the content that I present to you.
+TSR Incorporated is the owner true -
+Nope. Wizards of the Coast is the owner, on review -
+Woops. Hasbro bought the rights - screw that up, and they might sue -
+Actually, Creative Commons means it's me and you.
+
+[Pre-Chorus 3 - grand buildup, slow and deliberate, hushed reverence]
+Roll, Treasure, Creature, Character - a lot to do,
+And then we make Encounters, and chaos will ensue.
+But one more generator was forged to rule them all:
+(DUN-GEON MAS-TER!) The Dungeon heeds your call.
+
+[Final Chorus - Emcee poised, crowd in full voice]
 Generate!
 
 A Temperate Plains encounter - at the break of Day.
@@ -119,53 +160,20 @@ Or Cold and Underground at Night - the monsters come to play.
 Party level, creature types, aquatic, underground -
 So many different options, variety astounds.
 
-GENERATE! (GENERATE!)
-
-[Bridge - conspiratorial; hushed]
-... I'll share an open secret: there's creatures you could get.
-The CreatureGen API could make a foe or pet,
-But there isn't any page for it yet.
-
-[Full ensemble erupts]
-
-[Verse 3 - Emcee proudly presents the craftsmanship]
-An Angular application is featured center-stage.
-Components, models, services, and pipes build every page.
-Automated tests abound, and coverage is complete.
-Integration, Unit, Smoke - a comprehensive suite.
-The build status badged in green: "I'm healthy!" it attests,
-And even THIS SONG will be covered by some tests.
-
-[Comic aside - the Emcee's credits derail, deadpan recovery]
-But now, I must confess, I will give credit where it's due:
-I do not own the content that I present to you.
-TSR Incorporated is the owner true -
-Nope. Wizards of the Coast is the owner, on review -
-Woops. Hasbro bought the rights - screw that up, and they might sue -
-Actually, Creative Commons means it's me and you.
-
-[Pre-Chorus 3 - grand buildup, slow and deliberate, hushed reverence before the final reveal]
-Roll, Treasure, Character, Encounter - what a boon.
-(And creature generation will be coming very soon.)
-But one more generator was forged to rule them all:
-(DUN-GEON MAS-TER!) The Dungeon heeds your call.
-
-[Final Chorus - Emcee poised, crowd's excitement building]
 Generate!
 
 An area - through a DOOR - at dungeon level 8.
-(Encounter looms, do the monsters spell doom?)
 Within Cold Mountains, a HALL we shall create.
-(A Sorcerer Kobold, who is very, very old.)
+(The room ahead has a chest with Goods inside,)
+(But it's trapped - roll d-20 to save or hide.)
 A party level 3 might meet a sneaky, stabby fate.
-(The trap is quite grave, roll d-20 to save.)
-Survive the Orcs or Oozes, and booty shall await.
-(A treasure chest hides, precious Goods inside.)
+Survive the Orcs or Oozes, and treasure shall await.
+
 The incremental dungeon can ever propagate.
 
 Generate! Generate! Generate!
 
-[Coda - building to finale]
+[Coda - building]
 And though it's getting quite late,
 The players huddle and debate
 If they should walk through the gate.
@@ -175,9 +183,10 @@ Challenge Rating is too great,
 TPK's an awful fate -
 But have no fear - just recreate.
 
-[Finale - full ensemble fortissimo, the curtain call, everyone joins in]
+[Finale - full ensemble fortissimo, everyone joins in]
 (Generate!) A set of dice.
 (Generate!) A treasure trove.
+(Generate!) A creature.
 (Generate!) A character.
 (Generate!) Encounters.
 (Generate!) The dungeon.
@@ -218,61 +227,66 @@ GENERATE!
 | 24 | A backend-for-the-frontend (BFF, you may deduce), | `README.md`: Web BFF |
 | 25 | Providing useful view-models for this website to use. | `README.md`: Serves the Angular app's initial view models. |
 | 26 | But dice and gold are trifles - Random Number Deities | Not from source files: Pun on Random Number Gods, or Random Number Generators, or RNGs |
-| 27 | Can summon characters and encounters, if you please. | `README.md`: /character/generate<br>`README.md`: /encounter/{temperature}/{environment}/{timeOfDay}/level/{level}/generate |
-| 28 | What level, class, and race? Temperature? Terrain? | `README.md`: `classNameRandomizerType`, `levelRandomizerType`, `baseRaceRandomizerType`<br>`README.md`: /encounter/{temperature}/{environment}/ |
-| 29 | Dungeon Master (DUNGEON MASTER!) - Sing us the refrain. | Not from source files |
-| 30 | A character, High-level, alignment should be Good. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: LevelRandomizerTypeConstants.High,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: AlignmentRandomizerTypeConstants.Good |
-| 31 | Fighter, Bard, Spellcaster, or Stealthy, if you would. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: CharacterClassConstants.Fighter,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: CharacterClassConstants.Bard,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: ClassNameRandomizerTypeConstants.Spellcaster,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: ClassNameRandomizerTypeConstants.Stealth, |
-| 32 | (But don't forget abilities, roll 4-d-6-k-3.) | `dndgen-web/src/app/roll/components/rollgen.component.html`: 4d6k3 - Roll 4 6-sided dice, keep the highest 3 |
-| 33 | (And oh, they need equipment - weapons, armor, instantly.) | `dndgen-web/src/app/character/models/equipment.model.ts`: public primaryHand: Weapon | null = null<br>`dndgen-web/src/app/character/models/equipment.model.ts`: public armor: Armor | null = null |
-| 34 | Human, Elf, Non-Standard - even monsters, if you wish. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.Human,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.HighElf,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.BaseRace.NonStandardBase,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.BaseRace.MonsterBase, |
-| 35 | No meta-race? Or Lycanthrope? Or Undead like a Lich. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.NoMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.LycanthropeMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.UndeadMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.Metaraces.Lich, |
-| 36 | A Temperate Plains encounter - at the break of Day. | `DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Temperate,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Plains,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.TimesOfDay.Day, |
-| 37 | Or Cold and Underground at Night - the monsters come to play. | `DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Cold,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Underground,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.TimesOfDay.Night, |
-| 38 | (You've found a rival party - before initiative,) | `dndgen-web/src/app/home/home.component.html`: if you randomly generated a battle, and the opponent was another character party |
-| 39 | (We roll up race and spells, and equipment we should give.) | `dndgen-web/src/app/character/models/character.model.ts`: public race: Race = new Race(''),<br>`dndgen-web/src/app/character/models/magic.model.ts`: public knownSpells: Spell[]<br>`dndgen-web/src/app/character/models/equipment.model.ts`: export class Equipment |
-| 40 | Party level, creature types, aquatic, underground - | `README.md`: /level/{level}/<br>`README.md`: `creatureTypeFilters` (string[], query, optional)<br>`README.md`: `allowAquatic`, `allowUnderground` (bool, query, optional) |
-| 41 | So many different options, variety astounds. | Not from source files |
+| 27 | Can summon creatures, characters, anything you please. | `README.md`: v1/creature/{creatureName}/generate<br>`README.md`: /character/generate |
+| 28 | Player class and level? Template of Half-Dragon Black? | `README.md`: `classNameRandomizerType`, `levelRandomizerType`<br>`README.md`: `templates` (string[], query, optional) |
+| 29 | Dungeon Master (DUNGEON MASTER!) - Bring the chorus back. | Not from source files |
+| 30 | A creature, Neutral Evil, at Challenge Rating 5, | `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: setSelect('#randomAlignment', 'Neutral Evil');<br>`dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: setSelect('#randomChallengeRating', '5'); |
+| 31 | An Aberration, maybe? Or Undead, not alive. | `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: setSelect('#randomCreatureType', 'Aberration');<br>`dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: toContain('Undead') |
+| 32 | (Roll up the hit dice: 4-d-8-plus-24,) | `dndgen-web/src/app/roll/components/rollgen.component.html`: 4d8+24 - Roll 4 8-sided dice, then add 24 |
+| 33 | (And maybe it already has some armor, shield, and sword.) | `dndgen-web/src/app/creature/models/creature-equipment.model.ts`: public armor: Armor<br>`dndgen-web/src/app/creature/models/creature-equipment.model.ts`: public shield: Armor<br>`dndgen-web/src/app/creature/models/creature-equipment.model.ts`: public weapons: Weapon[] = [] |
+| 34 | Chain a couple templates, if you need it to be tough. | `README.md`: `templates` (string[], query, optional) |
+| 35 | Or "None" to keep it plain - Mariliths are hard enough. | `dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: setTemplates('#randomTemplates', ['None']);<br>`dndgen-web/src/app/creature/components/creaturegen.component.integration.spec.ts`: toContain('Marilith') |
+| 36 | A character, High-level, alignment should be Good. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: LevelRandomizerTypeConstants.High,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: AlignmentRandomizerTypeConstants.Good |
+| 37 | Fighter, Bard, Spellcaster, or Stealthy, if you would. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: CharacterClassConstants.Fighter,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: CharacterClassConstants.Bard,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: ClassNameRandomizerTypeConstants.Spellcaster,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: ClassNameRandomizerTypeConstants.Stealth, |
+| 38 | (But don't forget abilities, roll 4-d-6-k-3.) | `dndgen-web/src/app/roll/components/rollgen.component.html`: 4d6k3 - Roll 4 6-sided dice, keep the highest 3 |
+| 39 | (And oh, they need equipment - weapons, armor, instantly.) | `dndgen-web/src/app/character/models/equipment.model.ts`: public primaryHand: Weapon | null = null<br>`dndgen-web/src/app/character/models/equipment.model.ts`: public armor: Armor | null = null |
+| 40 | Human, Elf, Non-Standard - even monsters, if you wish. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.Human,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.HighElf,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.BaseRace.NonStandardBase,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.BaseRace.MonsterBase, |
+| 41 | No meta-race? Or Lycanthrope? Or Undead like a Lich. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.NoMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.LycanthropeMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceRandomizerTypeConstants.Metarace.UndeadMeta,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.Metaraces.Lich, |
 | 42 | GENERATE! (GENERATE!) | `README.md`: /generate |
-| 43 | ... I'll share an open secret: there's creatures you could get. | `README.md`: with a creature generator API (CreatureGen) also available |
-| 44 | The CreatureGen API could make a foe or pet, | `README.md`: /creature/{creatureName}/generate |
-| 45 | But there isn't any page for it yet. | `README.md`: CreatureGen has an API but no generator page on the site yet |
+| 43 | ... Sneak a peek backstage, there's tons to show: | `dndgen-web/src/app/navigation-menu/navigation-menu.component.html`: href="https://github.com/DnDGen" |
+| 44 | The code is open-source, each file and workflow, | `LICENSE.md`: Permission is hereby granted, free of charge |
+| 45 | So if you want to know, there you go. | Not from source files |
 | 46 | An Angular application is featured center-stage. | `README.md`: an Angular single-page application |
 | 47 | Components, models, services, and pipes build every page. | `dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureComponent } from './treasure.component';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureGenViewModel } from '../models/treasuregen-view-model.model';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureService } from '../services/treasure.service';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasurePipe } from '../pipes/treasure.pipe'; |
 | 48 | Automated tests abound, and coverage is complete. | `README.md`: Tests run across three layers |
 | 49 | Integration, Unit, Smoke - a comprehensive suite. | `README.md`: **Integration** — end-to-end tests against the live deployed endpoints<br>`README.md`: **Unit** — fast, isolated tests<br>`README.md`: **Smoke** — Postman collections run with Newman after each deployment |
 | 50 | The build status badged in green: "I'm healthy!" it attests, | `README.md`: [![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=main)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=main) |
-| 51 | And even THIS SONG will be covered by some tests. | `DnDGen.Web.Tests.Integration/Docs/ThemeSong/ThemeSongReadmeTests.cs`: SunoField_FitsSunoLimit |
+| 51 | And even THIS SONG is covered like the rest. | `DnDGen.Web.Tests.Integration/Docs/ThemeSong/ThemeSongReadmeTests.cs`: SunoField_FitsSunoLimit |
 | 52 | But now, I must confess, I will give credit where it's due:<br>I do not own the content that I present to you. | `dndgen-web/src/app/home/home.component.html`: Credit where credit is due: none of the generated things you see here belong to me |
 | 53 | TSR Incorporated is the owner true - | `dndgen-web/src/app/home/home.component.html`: <s>TSR, Inc.</s> |
 | 54 | Nope. Wizards of the Coast is the owner, on review - | `dndgen-web/src/app/home/home.component.html`: <s>Wizards of the Coast</s> |
 | 55 | Woops. Hasbro bought the rights - screw that up, and they might sue - | `dndgen-web/src/app/home/home.component.html`: <b>Hasbro</b> |
 | 56 | Actually, Creative Commons means it's me and you. | `dndgen-web/src/app/home/home.component.html`: used under Creative Commons |
-| 57 | Roll, Treasure, Character, Encounter - what a boon. | `README.md`: Roll, Treasure, Character, Encounter, |
-| 58 | (And creature generation will be coming very soon.) | `README.md`: CreatureGen has an API but no generator page on the site yet |
+| 57 | Roll, Treasure, Creature, Character - a lot to do, | `README.md`: Roll, Treasure, Creature, Character, |
+| 58 | And then we make Encounters, and chaos will ensue. | `dndgen-web/src/app/encounter/models/encounter.model.ts`: public creatures: EncounterCreature[] = [],<br>`dndgen-web/src/app/encounter/models/encounter.model.ts`: public characters: Character[] = [], |
 | 59 | But one more generator was forged to rule them all: | Not from source files: Allusion to Tolkien's "The Lord of the Rings" |
-| 60 | (DUN-GEON MAS-TER!) The Dungeon heeds your call. | `README.md`: Roll, Treasure, Character, Encounter, and Dungeon |
-| 61 | An area - through a DOOR - at dungeon level 8. | `README.md`: /dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
-| 62 | (Encounter looms, do the monsters spell doom?) | `dndgen-web/src/app/dungeon/models/contents.model.ts`: public encounters: Encounter[] = [] |
-| 63 | Within Cold Mountains, a HALL we shall create. | `DnDGen.Api.Web/Models/DungeonViewModel.cs`: public class DungeonViewModel : EncounterViewModel<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Cold,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Mountain,<br>`README.md`: /dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
-| 64 | (A Sorcerer Kobold, who is very, very old.) | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: CharacterClassConstants.Sorcerer,<br>`DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.Kobold,<br>`dndgen-web/src/app/character/models/race.model.ts`: public age: Measurement |
-| 65 | A party level 3 might meet a sneaky, stabby fate. | `README.md`: /level/{partyLevel} |
-| 66 | (The trap is quite grave, roll d-20 to save.) | `dndgen-web/src/app/dungeon/models/contents.model.ts`: public traps: Trap[] = []<br>`dndgen-web/src/app/roll/components/rollgen.component.ts`: new StandardDie('20', 20) |
-| 67 | Survive the Orcs or Oozes, and booty shall await. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.Orc,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: CreatureDataConstants.Types.Ooze, |
-| 68 | (A treasure chest hides, precious Goods inside.) | `dndgen-web/src/app/dungeon/models/dungeon-treasure.model.ts`: public container: string = ''<br>`dndgen-web/src/app/dungeon/models/dungeon-treasure.model.ts`: public concealment: string = ''<br>`DnDGen.Api.Web/Models/Treasures/TreasureTypes.cs`: public enum TreasureTypes { Treasure, Coin, Goods, Items, } |
-| 69 | The incremental dungeon can ever propagate. | `README.md`: This will incrementally generate a dungeon |
-| 70 | Generate! Generate! Generate! | `README.md`: /generate |
-| 71 | And though it's getting quite late,<br>The players huddle and debate<br>If they should walk through the gate.<br>And the DM doesn't wait: | Not from source files: Description of gameplay |
-| 72 | Maybe level escalates, | `README.md`: /level/{level} |
-| 73 | Challenge Rating is too great, | `dndgen-web/src/app/encounter/models/encounter-creature.model.ts`: public challengeRating: string |
-| 74 | TPK's an awful fate - | Not from source files: TPK (Total Party Kill) is D&D terminology |
-| 75 | But have no fear - just recreate. | Not from source files |
-| 76 | (Generate!) A set of dice. | `README.md`: RollGen |
-| 77 | (Generate!) A treasure trove. | `README.md`: TreasureGen |
-| 78 | (Generate!) A character. | `README.md`: CharacterGen |
-| 79 | (Generate!) Encounters. | `README.md`: EncounterGen |
-| 80 | (Generate!) The dungeon. | `README.md`: DungeonGen |
-| 81 | Everyone will have a ball.<br>Click, and you create it all. | Not from source files |
+| 60 | (DUN-GEON MAS-TER!) The Dungeon heeds your call. | `README.md`: Roll, Treasure, Creature, Character, Encounter, and Dungeon |
+| 61 | A Temperate Plains encounter - at the break of Day. | `DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Temperate,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Plains,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.TimesOfDay.Day, |
+| 62 | Or Cold and Underground at Night - the monsters come to play. | `DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Cold,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Underground,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.TimesOfDay.Night, |
+| 63 | (You've found a rival party - before initiative,) | `dndgen-web/src/app/home/home.component.html`: if you randomly generated a battle, and the opponent was another character party |
+| 64 | (We roll up race and spells, and equipment we should give.) | `dndgen-web/src/app/character/models/character.model.ts`: public race: Race = new Race(''),<br>`dndgen-web/src/app/character/models/magic.model.ts`: public knownSpells: Spell[]<br>`dndgen-web/src/app/character/models/equipment.model.ts`: export class Equipment |
+| 65 | Party level, creature types, aquatic, underground - | `README.md`: /level/{level}/<br>`README.md`: `creatureTypeFilters` (string[], query, optional)<br>`README.md`: `allowAquatic`, `allowUnderground` (bool, query, optional) |
+| 66 | So many different options, variety astounds. | Not from source files |
+| 67 | An area - through a DOOR - at dungeon level 8. | `README.md`: /dungeon/level/{dungeonLevel}/door/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
+| 68 | Within Cold Mountains, a HALL we shall create. | `DnDGen.Api.Web/Models/DungeonViewModel.cs`: public class DungeonViewModel : EncounterViewModel<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Temperatures.Cold,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: EnvironmentConstants.Mountain,<br>`README.md`: /dungeon/level/{dungeonLevel}/hall/{temperature}/{environment}/{timeOfDay}/level/{partyLevel}/generate |
+| 69 | (The room ahead has a chest with Goods inside,) | `dndgen-web/src/app/dungeon/models/dungeon-treasure.model.ts`: public container: string = ''<br>`dndgen-web/src/app/dungeon/models/dungeon-treasure.model.ts`: public concealment: string = ''<br>`DnDGen.Api.Web/Models/Treasures/TreasureTypes.cs`: public enum TreasureTypes { Treasure, Coin, Goods, Items, } |
+| 70 | (But it's trapped - roll d-20 to save or hide.) | `dndgen-web/src/app/dungeon/models/contents.model.ts`: public traps: Trap[] = []<br>`dndgen-web/src/app/roll/components/rollgen.component.ts`: new StandardDie('20', 20) |
+| 71 | A party level 3 might meet a sneaky, stabby fate. | `README.md`: /level/{partyLevel} |
+| 72 | Survive the Orcs or Oozes, and treasure shall await. | `DnDGen.Api.Web/Models/CharacterViewModel.cs`: RaceConstants.BaseRaces.Orc,<br>`DnDGen.Api.Web/Models/EncounterViewModel.cs`: CreatureDataConstants.Types.Ooze, |
+| 73 | The incremental dungeon can ever propagate. | `README.md`: This will incrementally generate a dungeon |
+| 74 | Generate! Generate! Generate! | `README.md`: /generate |
+| 75 | And though it's getting quite late,<br>The players huddle and debate<br>If they should walk through the gate.<br>And the DM doesn't wait: | Not from source files: Description of gameplay |
+| 76 | Maybe level escalates, | `README.md`: /level/{level} |
+| 77 | Challenge Rating is too great, | `dndgen-web/src/app/encounter/models/encounter-creature.model.ts`: public challengeRating: string |
+| 78 | TPK's an awful fate - | Not from source files: TPK (Total Party Kill) is D&D terminology |
+| 79 | But have no fear - just recreate. | Not from source files |
+| 80 | (Generate!) A set of dice. | `README.md`: RollGen |
+| 81 | (Generate!) A treasure trove. | `README.md`: TreasureGen |
+| 82 | (Generate!) A creature. | `README.md`: CreatureGen |
+| 83 | (Generate!) A character. | `README.md`: CharacterGen |
+| 84 | (Generate!) Encounters. | `README.md`: EncounterGen |
+| 85 | (Generate!) The dungeon. | `README.md`: DungeonGen |
+| 86 | Everyone will have a ball.<br>Click, and you create it all. | Not from source files |
 
 ## Suno Notes
 
@@ -304,21 +318,9 @@ When it does: it's the take.
 On both significant generation runs, the second take was the winner.
 No actionable lesson - just a fun fact for the next maintainer.
 
-**Future note**
-Next time the song is updated, change the Finale lyric structure to follow this style:
-
-```
-[Finale - full ensemble fortissimo, the curtain call, everyone joins in]
-(Generate!) A set of dice.
-(Generate!) A treasure trove.
-(Generate!) A character.
-(Generate!) Encounters.
-(Generate!) The dungeon.
-```
-
 ## Album Art
 
-**Listen on [Suno](https://suno.com/s/UfzjIXCTb6RlZBt3).**
+**Listen on [Suno](https://suno.com/s/ragoh4wenmvNWsgv).**
 
 `cover.png` will be rendered from `cover.html`, which you can open in any browser.
 To render it again at 1500 x 1500, from this folder:

@@ -26,18 +26,18 @@ namespace DnDGen.Api.CreatureGen.Functions
             Description = "The desired templates to apply to the generated creature. Templates are applied in the order set in the query.")]
         [OpenApiParameter(name: "alignment",
             In = ParameterLocation.Query,
-            Required = true,
+            Required = false,
             Type = typeof(string),
             Description = "The desired alignment of the creature")]
         [OpenApiParameter(name: "type",
             In = ParameterLocation.Query,
             Required = false,
-            Type = typeof(string[]),
+            Type = typeof(string),
             Description = "The desired type or subtype of the generated creature.")]
         [OpenApiParameter(name: "cr",
             In = ParameterLocation.Query,
             Required = false,
-            Type = typeof(string[]),
+            Type = typeof(string),
             Description = "The desired Challenge Rating of the generated creature.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(bool),
             Description = "The OK response containing the validity of the parameter combination")]

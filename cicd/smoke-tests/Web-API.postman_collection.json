@@ -98,6 +98,47 @@
 			"response": []
 		},
 		{
+			"name": "CreatureGen View Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Returns CreatureGen view model\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    \r",
+							"    var model = pm.response.json();\r",
+							"    pm.expect(model.creatures.length).to.equal(659);\r",
+							"    pm.expect(model.templates.length).to.equal(44);\r",
+							"    pm.expect(model.alignments.length).to.equal(9);\r",
+							"    pm.expect(model.creatureTypes.length).to.equal(42);\r",
+							"    pm.expect(model.challengeRatings.length).to.equal(34);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/creature/viewmodel",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"creature",
+						"viewmodel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "CharacterGen View Model",
 			"event": [
 				{

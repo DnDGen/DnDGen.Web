@@ -4,15 +4,14 @@ The Angular single-page application at [DnDGen.com](http://dndgen.com).
 
 ## Generators
 
-The site exposes five of the six DnDGen generators:
+The site exposes all six DnDGen generators:
 
 - **Roll** — Roll dice by quantity and die type (e.g. 3d6), or by arbitrary expression (e.g. 3d6+2)
 - **Treasure** — Generate treasure (coin, goods, items) by treasure type and level, or a specific item by type, power, and optional name
+- **Creature** — Generate a specific creature with optional templates, or a random creature by challenge rating, alignment, creature type, and templates
 - **Character** — Generate full D&D 3.5e characters with configurable randomizers for alignment, class, level, race, and ability scores; also generates leadership packages, cohorts, and followers
 - **Encounter** — Generate encounters by temperature, environment, time of day, and party level; supports creature type filters and aquatic/underground options
 - **Dungeon** — Generate dungeon areas entered from a door or a hall, by dungeon level, environment, and party level
-
-CreatureGen has an API but the website generator page is not yet implemented.
 
 ## How It Calls the Backends
 
@@ -47,11 +46,12 @@ Run `npm run test` to execute all tests via [vitest](https://vitest.dev/), or ta
 | `npm run test:integration` | Integration tests only |
 | `npm run test:rollgen` | All tests for RollGen |
 | `npm run test:treasuregen` | All tests for TreasureGen |
+| `npm run test:creaturegen` | All tests for CreatureGen |
 | `npm run test:charactergen` | All tests for CharacterGen |
 | `npm run test:encountergen` | All tests for EncounterGen |
 | `npm run test:dungeongen` | All tests for DungeonGen |
 
-The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files.
+The `:ci` variants (`test:unit:ci`, `test:integration:ci`, `test:integration:ci:*`) are used by the CI/CD pipelines — they add a JUnit reporter and write XML output files. `test:unit:ci` and `test:integration:ci` also measure code coverage and write a Cobertura report to `coverage/dndgen-web/`; the build pipeline publishes both reports together as the website's code coverage.
 
 ## File Naming Conventions
 

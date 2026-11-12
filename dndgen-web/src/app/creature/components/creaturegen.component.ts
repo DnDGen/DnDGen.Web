@@ -1,0 +1,237 @@
+import { Input, Component, OnInit, signal } from '@angular/core';
+import { CreatureService } from '../services/creature.service';
+import { SweetAlertService } from '../../shared/services/sweet-alert.service';
+import { LoggerService } from '../../shared/services/logger.service';
+import { Creature } from '../models/creature.model';
+import { CreatureGenViewModel } from '../models/creaturegen-view-model.model';
+import { Observable, of, switchMap, tap } from 'rxjs';
+import { Size } from '../../shared/components/size.enum';
+import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../shared/components/loading.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { SearchableSelectComponent } from '../../shared/components/searchable-select.component';
+import { OrderedMultiSelectComponent } from '../../shared/components/ordered-multi-select.component';
+import { CreatureComponent } from './creature.component';
+import { FileSaverService } from '../../shared/services/file-saver.service';
+import { CreaturePipe } from '../pipes/creature.pipe';
+import { CreatureTypePipe } from '../pipes/creature-type.pipe';
+import { HitDicePipe } from '../pipes/hit-dice.pipe';
+import { SpeedPipe } from '../pipes/speed.pipe';
+import { ArmorClassPipe } from '../pipes/armor-class.pipe';
+import { OptionalBonusPipe } from '../pipes/optional-bonus.pipe';
+import { AttackPipe } from '../pipes/attack.pipe';
+import { AttackTypePipe } from '../pipes/attack-type.pipe';
+import { FullAttackPipe } from '../pipes/full-attack.pipe';
+import { SavesPipe } from '../pipes/saves.pipe';
+import { AbilitiesPipe } from '../pipes/abilities.pipe';
+import { SkillPipe } from '../pipes/skill.pipe';
+import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
+import { AgePipe } from '../pipes/age.pipe';
+import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
+import { AttackSavePipe } from '../pipes/attack-save.pipe';
+import { BonusPipe } from '../../shared/pipes/bonus.pipe';
+import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
+import { ItemPipe } from '../../treasure/pipes/item.pipe';
+import { DecimalPipe } from '@angular/common';
+import { MeasurementPipe } from '../../character/pipes/measurement.pipe';
+import { InchesToFeetPipe } from '../../character/pipes/inches-to-feet.pipe';
+import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
+import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
+
+@Component({
+    selector: 'dndgen-creaturegen',
+    templateUrl: './creaturegen.component.html',
+    providers: [
+        CreatureService,
+        CreaturePipe,
+        ItemPipe,
+        DecimalPipe,
+        MeasurementPipe,
+        InchesToFeetPipe,
+        FrequencyPipe,
+        SpellQuantityPipe,
+        BonusPipe,
+        BonusesPipe,
+        CreatureTypePipe,
+        HitDicePipe,
+        SpeedPipe,
+        ArmorClassPipe,
+        OptionalBonusPipe,
+        AttackPipe,
+        AttackTypePipe,
+        FullAttackPipe,
+        SavesPipe,
+        AbilitiesPipe,
+        SkillPipe,
+        ConditionalBonusPipe,
+        AgePipe,
+        MaximumAgePipe,
+        AttackSavePipe,
+    ],
+    standalone: true,
+    imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, OrderedMultiSelectComponent, CreatureComponent]
+})
+
+export class CreatureGenComponent implements OnInit {
+  constructor(
+    private creatureService: CreatureService,
+    private sweetAlertService: SweetAlertService,
+    private logger: LoggerService,
+    private fileSaverService: FileSaverService,
+    private creaturePipe: CreaturePipe) { }
+
+  public creatureModel = signal<CreatureGenViewModel | undefined>(undefined);
+  public sizes = Size;
+
+  @Input() creatureName = '';
+  @Input() creatureTemplates: string[] = [];
+
+  @Input() randomTemplates: string[] = [];
+  @Input() randomChallengeRating = '';
+  @Input() randomAlignment = '';
+  @Input() randomCreatureType = '';
+
+  public loading = signal(false);
+  public validating = signal(false);
+  public generating = signal(false);
+  public validCreature = signal(false);
+  public validRandom = signal(false);
+  public creature = signal<Creature | null>(null);
+
+  ngOnInit(): void {
+    this.loading.set(true);
+    this.validating.set(true);
+
+    this.creatureService.getViewModel()
+      .pipe(
+        tap(data => this.creatureModel.set(data)),
+        switchMap(() => this.getCreatureValidity(this.creatureName, this.creatureTemplates)),
+        tap(data => this.validCreature.set(data)),
+        switchMap(() => this.creatureService.validateRandom(
+          this.randomTemplates,
+          this.randomChallengeRating,
+          this.randomAlignment,
+          this.randomCreatureType)),
+        tap(data => this.validRandom.set(data)),
+      )
+      .subscribe({
+        complete: () => this.finishInit(),
+        error: error => this.handleError(error)
+      });
+  }
+
+  private finishInit(): void {
+    this.validating.set(false);
+    this.loading.set(false);
+  }
+
+  private handleError(error: any): void {
+    this.logger.logError(error.message);
+
+    this.creature.set(null);
+
+    this.loading.set(false);
+    this.generating.set(false);
+    this.validating.set(false);
+
+    this.sweetAlertService.showError();
+  }
+
+  private handleValidationError(error: any): void {
+    this.validCreature.set(false);
+    this.validRandom.set(false);
+
+    this.handleError(error);
+  }
+
+  public setCreatureName(creatureName: string): void {
+    this.creatureName = creatureName;
+    this.validateCreature(creatureName, this.creatureTemplates);
+  }
+
+  public setCreatureTemplates(templates: string[]): void {
+    this.creatureTemplates = templates;
+    this.validateCreature(this.creatureName, templates);
+  }
+
+  public validateCreature(creatureName: string, templates: string[]): void {
+    this.validating.set(true);
+
+    this.getCreatureValidity(creatureName, templates)
+      .subscribe({
+        next: data => this.setCreatureValidity(data),
+        error: error => this.handleValidationError(error)
+      });
+  }
+
+  private getCreatureValidity(creatureName: string, templates: string[]): Observable<boolean> {
+    if (!creatureName)
+      return of(false);
+
+    return this.creatureService.validateCreature(creatureName, templates);
+  }
+
+  private setCreatureValidity(data: boolean): void {
+    this.validCreature.set(data);
+    this.validating.set(false);
+  }
+
+  public setRandomTemplates(templates: string[]): void {
+    this.randomTemplates = templates;
+    this.validateRandom(templates, this.randomChallengeRating, this.randomAlignment, this.randomCreatureType);
+  }
+
+  public validateRandom(templates: string[], challengeRating: string, alignment: string, creatureType: string): void {
+    this.validating.set(true);
+
+    this.creatureService.validateRandom(templates, challengeRating, alignment, creatureType)
+      .subscribe({
+        next: data => this.setRandomValidity(data),
+        error: error => this.handleValidationError(error)
+      });
+  }
+
+  private setRandomValidity(data: boolean): void {
+    this.validRandom.set(data);
+    this.validating.set(false);
+  }
+
+  public generateCreature(): void {
+    this.startGenerating();
+
+    this.creatureService.generateCreature(this.creatureName, this.creatureTemplates)
+      .subscribe({
+        next: data => this.setCreature(data),
+        error: error => this.handleError(error)
+      });
+  }
+
+  public generateRandom(): void {
+    this.startGenerating();
+
+    this.creatureService.generateRandom(this.randomTemplates, this.randomChallengeRating, this.randomAlignment, this.randomCreatureType)
+      .subscribe({
+        next: data => this.setCreature(data),
+        error: error => this.handleError(error)
+      });
+  }
+
+  private startGenerating(): void {
+    this.generating.set(true);
+    this.creature.set(null);
+  }
+
+  private setCreature(data: Creature): void {
+    this.creature.set(data);
+    this.generating.set(false);
+  }
+
+  public download(): void {
+    const creatureSource = this.creature();
+    if (!creatureSource)
+      return;
+
+    const formattedCreature = this.creaturePipe.transform(creatureSource);
+    this.fileSaverService.save(formattedCreature, creatureSource.summary);
+  }
+}
