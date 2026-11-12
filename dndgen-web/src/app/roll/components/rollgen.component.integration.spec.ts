@@ -606,6 +606,7 @@ describe('RollGen Component', () => {
         helper.expectExists('#expression');
         helper.expectTextContents('#expression span.roll-expression-example', [
           '3d6 - Roll 3 6-sided dice',
+          '4d8+24 - Roll 4 8-sided dice, then add 24',
           '5d13-4 - Roll 5 13-sided dice, then subtract 4',
           '4d4*1000 - Roll 4 4-sided dice, then multiply by 1000',
           '1d2+3 - Roll 1 2-sided die, then add 3',
