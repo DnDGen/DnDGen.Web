@@ -304,15 +304,48 @@ describe('CreatureGen Component', () => {
         await choose('#creatureName', 'human', 'Human');
         await setTemplates('#creatureTemplates', ['Ghost']);
 
-        await startChoosing('#creatureTemplatesAdd', 'lich', 'Lich');
+        await startChoosing('#creatureTemplatesAdd', 'red', 'Half-Dragon (Red)');
 
-        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost', 'Lich']);
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Ghost', 'Half-Dragon (Red)']);
         helper.expectValidating(fixture.componentInstance.validating(), '#creatureButton', '#creatureValidating');
 
         //run validation
         await helper.waitForChangeDetection();
 
         helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+      });
+
+      it('should show that the creature is invalid after adding a template that only applies to characters', async () => {
+        await choose('#creatureName', 'human', 'Human');
+
+        await startChoosing('#creatureTemplatesAdd', 'lich', 'Lich');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Lich']);
+        helper.expectValidating(fixture.componentInstance.validating(), '#creatureButton', '#creatureValidating');
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+      });
+
+      it('should show that the creature is valid again after replacing a template with a compatible one', async () => {
+        await choose('#creatureName', 'high elf', 'High Elf');
+        await setTemplates('#creatureTemplates', ['Lycanthrope, Rat (Wererat, Natural)']);
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
+
+        helper.clickButton('#creatureTemplates button.selected-remove');
+        await helper.waitForChangeDetection();
+
+        await startChoosing('#creatureTemplatesAdd', 'Dire Rat (Wererat, Natural)', 'Lycanthrope, Dire Rat (Wererat, Natural)');
+
+        expect(fixture.componentInstance.creatureTemplates).toEqual(['Lycanthrope, Dire Rat (Wererat, Natural)']);
+        helper.expectValidating(fixture.componentInstance.validating(), '#creatureButton', '#creatureValidating');
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validCreature(), '#creatureButton', '#creatureValidating');
       });
 
       it('should show that the creature is valid again after removing a template', async () => {
@@ -434,6 +467,7 @@ describe('CreatureGen Component', () => {
           property: 'randomChallengeRating',
           setup: [{ selector: '#randomChallengeRating', value: '27' }, { selector: '#randomCreatureType', value: 'Vermin' }],
           templates: [],
+          compatible: '1',
         },
         {
           name: 'creature type',
@@ -441,6 +475,7 @@ describe('CreatureGen Component', () => {
           property: 'randomCreatureType',
           setup: [{ selector: '#randomChallengeRating', value: '27' }, { selector: '#randomCreatureType', value: 'Vermin' }],
           templates: [],
+          compatible: 'Dragon',
         },
         {
           name: 'alignment',
@@ -448,6 +483,7 @@ describe('CreatureGen Component', () => {
           property: 'randomAlignment',
           setup: [{ selector: '#randomAlignment', value: 'Neutral Good' }],
           templates: ['Fiendish Creature'],
+          compatible: 'Neutral Evil',
         },
       ];
 
@@ -470,6 +506,37 @@ describe('CreatureGen Component', () => {
 
           helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
         });
+
+        it(`should show that the random creature is valid again after changing the ${test.name} to a compatible one`, async () => {
+          for (const filter of test.setup) {
+            await setSelect(filter.selector, filter.value);
+          }
+
+          await setTemplates('#randomTemplates', test.templates);
+          helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+
+          startSelecting(test.selector, test.compatible);
+
+          expect((fixture.componentInstance as any)[test.property]).toEqual(test.compatible);
+          helper.expectValidating(fixture.componentInstance.validating(), '#randomButton', '#randomValidating');
+
+          //run validation
+          await helper.waitForChangeDetection();
+
+          helper.expectValid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
+        });
+      });
+
+      it('should show that the random creature is invalid after adding a template that only applies to characters', async () => {
+        await startChoosing('#randomTemplatesAdd', 'lich', 'Lich');
+
+        expect(fixture.componentInstance.randomTemplates).toEqual(['Lich']);
+        helper.expectValidating(fixture.componentInstance.validating(), '#randomButton', '#randomValidating');
+
+        //run validation
+        await helper.waitForChangeDetection();
+
+        helper.expectInvalid(fixture.componentInstance.validating(), fixture.componentInstance.validRandom(), '#randomButton', '#randomValidating');
       });
 
       it('should show that the random creature is invalid after adding an incompatible template', async () => {
