@@ -11,7 +11,7 @@ import { CreatureAbility } from './models/creature-ability.model';
 import { CreatureArmorClass } from './models/creature-armor-class.model';
 import { CreatureEquipment } from './models/creature-equipment.model';
 import { CreatureMagic } from './models/creature-magic.model';
-import { CreatureMeasurement } from './models/creature-measurement.model';
+import { Measurement } from '../shared/models/measurement.model';
 import { CreatureSkill } from './models/creature-skill.model';
 import { CreatureSpellQuantity } from './models/creature-spell-quantity.model';
 import { CreatureSpell } from './models/creature-spell.model';
@@ -53,16 +53,16 @@ export class CreatureTestHelper {
       },
       new HitPoints(102, 117, 12, 12, [new HitDice(12, 12, 12, '12d12')], '12d12', [new Bonus(2, 'when raging', true), new Bonus(1)]),
       {
-        Land: new CreatureMeasurement(40, 'feet per round', 'Base'),
-        Fly: new CreatureMeasurement(30, 'feet per round', 'Perfect Maneuverability'),
+        Land: new Measurement(40, 'feet per round', 'Base'),
+        Fly: new Measurement(30, 'feet per round', 'Perfect Maneuverability'),
       },
       new CreatureArmorClass(20, 8, 21, true, -1, -1, 3, 0, 9, 1, 0, [new Bonus(3), new Bonus(9), new Bonus(2, 'against evil', true)]),
       -1,
       -1,
       9,
       20,
-      new CreatureMeasurement(10, 'feet'),
-      new CreatureMeasurement(10, 'feet'),
+      new Measurement(10, 'feet'),
+      new Measurement(10, 'feet'),
       {
         Fortitude: new Save(0, false, false),
         Reflex: new Save(3),
@@ -121,12 +121,12 @@ export class CreatureTestHelper {
       ),
       new Demographics(
         'Male',
-        new CreatureMeasurement(45, 'years', 'Adulthood'),
-        new CreatureMeasurement(0, 'years', 'Immortal'),
-        new CreatureMeasurement(126, 'inches', 'Average'),
-        new CreatureMeasurement(0, 'inches', 'Average'),
-        new CreatureMeasurement(1100, 'pounds', 'Heavy'),
-        new CreatureMeasurement(0, 'inches', 'Average'),
+        new Measurement(45, 'years', 'Adulthood'),
+        new Measurement(0, 'years', 'Immortal'),
+        new Measurement(126, 'inches', 'Average'),
+        new Measurement(0, 'inches', 'Average'),
+        new Measurement(1100, 'pounds', 'Heavy'),
+        new Measurement(0, 'inches', 'Average'),
         'Deep ruddy-brown skin',
         'Black hair',
         '',
@@ -155,14 +155,14 @@ export class CreatureTestHelper {
         Charisma: new CreatureAbility('Charisma', 1, -5),
       },
       new HitPoints(84, 84, 4, 4, [new HitDice(10, 4, 4, '4d10')], '4d10+32'),
-      { Land: new CreatureMeasurement(15, 'feet per round') },
+      { Land: new Measurement(15, 'feet per round') },
       new CreatureArmorClass(3, 3, 3),
       -5,
       -5,
       3,
       null,
-      new CreatureMeasurement(15, 'feet'),
-      new CreatureMeasurement(10, 'feet'),
+      new Measurement(15, 'feet'),
+      new Measurement(10, 'feet'),
       {
         Fortitude: new Save(9),
         Reflex: new Save(-4),
@@ -178,7 +178,7 @@ export class CreatureTestHelper {
       [],
       new CreatureMagic(),
       new CreatureEquipment(),
-      new Demographics('Agender', new CreatureMeasurement(0, 'years', 'Ageless'), new CreatureMeasurement(0, 'years', 'Immortal')),
+      new Demographics('Agender', new Measurement(0, 'years', 'Ageless'), new Measurement(0, 'years', 'Immortal')),
     );
   }
 }

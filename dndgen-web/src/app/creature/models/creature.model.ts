@@ -5,7 +5,7 @@ import { CreatureAbility } from "./creature-ability.model";
 import { CreatureArmorClass } from "./creature-armor-class.model";
 import { CreatureEquipment } from "./creature-equipment.model";
 import { CreatureMagic } from "./creature-magic.model";
-import { CreatureMeasurement } from "./creature-measurement.model";
+import { Measurement } from "../../shared/models/measurement.model";
 import { CreatureSkill } from "./creature-skill.model";
 import { CreatureType } from "./creature-type.model";
 import { Demographics } from "./demographics.model";
@@ -25,14 +25,14 @@ export class Creature {
     public templates: string[] = [],
     public abilities: { [name: string]: CreatureAbility } = {},
     public hitPoints: HitPoints = new HitPoints(),
-    public speeds: { [movement: string]: CreatureMeasurement } = {},
+    public speeds: { [movement: string]: Measurement } = {},
     public armorClass: CreatureArmorClass = new CreatureArmorClass(),
     public initiativeBonus: number = 0,
     public totalInitiativeBonus: number = 0,
     public baseAttackBonus: number = 0,
     public grappleBonus: number | null = null,
-    public space: CreatureMeasurement = new CreatureMeasurement(),
-    public reach: CreatureMeasurement = new CreatureMeasurement(),
+    public space: Measurement = new Measurement(),
+    public reach: Measurement = new Measurement(),
     public saves: { [name: string]: Save } = {},
     public skills: CreatureSkill[] = [],
     public feats: Feat[] = [],

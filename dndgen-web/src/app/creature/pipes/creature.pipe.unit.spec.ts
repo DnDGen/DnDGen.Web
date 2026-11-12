@@ -28,7 +28,7 @@ import { CreatureAbility } from '../models/creature-ability.model';
 import { Save } from '../models/save.model';
 import { Bonus } from '../models/bonus.model';
 import { CreatureSkill } from '../models/creature-skill.model';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 import { HitPoints } from '../models/hit-points.model';
 import { CreatureArmorClass } from '../models/creature-armor-class.model';
 import { Attack } from '../models/attack.model';
@@ -40,7 +40,6 @@ import { Demographics } from '../models/demographics.model';
 import { SpellQuantity } from '../../character/models/spell-quantity.model';
 import { SpellGroup } from '../../character/models/spell-group.model';
 import { Spell } from '../../character/models/spell.model';
-import { Measurement } from '../../character/models/measurement.model';
 import { Frequency } from '../../character/models/frequency.model';
 import { Feat } from '../../character/models/feat.model';
 import { Item } from '../../treasure/models/item.model';
@@ -144,7 +143,7 @@ describe('Creature Pipe', () => {
       hitDicePipeSpy.transform.mockImplementation((hitPoints: HitPoints) => {
         return `${hitPoints.defaultRoll} formatted hit dice`;
       });
-      speedPipeSpy.transform.mockImplementation((speeds: { [movement: string]: CreatureMeasurement }) => {
+      speedPipeSpy.transform.mockImplementation((speeds: { [movement: string]: Measurement }) => {
         const movements = Object.keys(speeds).map(movement => `${movement} ${speeds[movement].value}`);
         return `${movements.join(', ')} formatted speed`;
       });
@@ -179,7 +178,7 @@ describe('Creature Pipe', () => {
         return `${bonus.value} ${bonus.condition} formatted conditional bonus`;
       });
 
-      agePipeSpy.transform.mockImplementation((age: CreatureMeasurement) => {
+      agePipeSpy.transform.mockImplementation((age: Measurement) => {
         return `${age.value} ${age.unit} formatted age`;
       });
 
@@ -257,8 +256,8 @@ describe('Creature Pipe', () => {
 
     it('formats every speed', () => {
       creature.speeds = {
-        Land: new CreatureMeasurement(40, 'feet per round'),
-        Fly: new CreatureMeasurement(30, 'feet per round', 'Perfect Maneuverability'),
+        Land: new Measurement(40, 'feet per round'),
+        Fly: new Measurement(30, 'feet per round', 'Perfect Maneuverability'),
       };
       const expected = replaceLines(createCreatureLines(), '\tSpeed: Land 30 formatted speed', ['\tSpeed: Land 40, Fly 30 formatted speed']);
 
@@ -608,12 +607,12 @@ describe('Creature Pipe', () => {
     it('formats every demographic', () => {
       creature.demographics = new Demographics(
         'Male',
-        new CreatureMeasurement(45, 'years', 'Adulthood'),
-        new CreatureMeasurement(400, 'years', 'Natural causes'),
-        new CreatureMeasurement(126, 'inches', 'Average'),
-        new CreatureMeasurement(30, 'inches', 'Average'),
-        new CreatureMeasurement(1100, 'pounds', 'Heavy'),
-        new CreatureMeasurement(120, 'inches', 'Average'),
+        new Measurement(45, 'years', 'Adulthood'),
+        new Measurement(400, 'years', 'Natural causes'),
+        new Measurement(126, 'inches', 'Average'),
+        new Measurement(30, 'inches', 'Average'),
+        new Measurement(1100, 'pounds', 'Heavy'),
+        new Measurement(120, 'inches', 'Average'),
         'Deep ruddy-brown skin',
         'Black hair',
         'Red eyes',
@@ -637,7 +636,7 @@ describe('Creature Pipe', () => {
     });
 
     it('formats some demographics', () => {
-      creature.demographics.weight = new CreatureMeasurement(1100, 'pounds', 'Heavy');
+      creature.demographics.weight = new Measurement(1100, 'pounds', 'Heavy');
       creature.demographics.hair = 'Black hair';
       const expected = replaceLines(createCreatureLines(), '\t\tMaximum Age: 1800 years formatted maximum age', [
         '\t\tMaximum Age: 1800 years formatted maximum age',

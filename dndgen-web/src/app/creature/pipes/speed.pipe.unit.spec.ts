@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { SpeedPipe } from './speed.pipe';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 
 describe('SpeedPipe', () => {
   describe('unit', () => {
@@ -20,7 +20,7 @@ describe('SpeedPipe', () => {
 
     landSpeeds.forEach(test => {
       it(`formats a land speed of ${test.value} with its squares`, () => {
-        const speeds = { Land: new CreatureMeasurement(test.value, 'feet per round') };
+        const speeds = { Land: new Measurement(test.value, 'feet per round') };
 
         const formattedSpeed = pipe.transform(speeds);
         expect(formattedSpeed).toEqual(test.expected);
@@ -29,8 +29,8 @@ describe('SpeedPipe', () => {
 
     it('formats another movement with its description', () => {
       const speeds = {
-        Land: new CreatureMeasurement(20, 'feet per round'),
-        Fly: new CreatureMeasurement(60, 'feet per round', 'Good Maneuverability'),
+        Land: new Measurement(20, 'feet per round'),
+        Fly: new Measurement(60, 'feet per round', 'Good Maneuverability'),
       };
 
       const formattedSpeed = pipe.transform(speeds);
@@ -39,8 +39,8 @@ describe('SpeedPipe', () => {
 
     it('formats another movement without a description', () => {
       const speeds = {
-        Land: new CreatureMeasurement(20, 'feet per round'),
-        Swim: new CreatureMeasurement(40, 'feet per round'),
+        Land: new Measurement(20, 'feet per round'),
+        Swim: new Measurement(40, 'feet per round'),
       };
 
       const formattedSpeed = pipe.transform(speeds);
@@ -49,10 +49,10 @@ describe('SpeedPipe', () => {
 
     it('formats land first, then the other movements in their order', () => {
       const speeds = {
-        Swim: new CreatureMeasurement(40, 'feet per round'),
-        Fly: new CreatureMeasurement(150, 'feet per round', 'Poor Maneuverability'),
-        Land: new CreatureMeasurement(40, 'feet per round'),
-        Burrow: new CreatureMeasurement(10, 'feet per round'),
+        Swim: new Measurement(40, 'feet per round'),
+        Fly: new Measurement(150, 'feet per round', 'Poor Maneuverability'),
+        Land: new Measurement(40, 'feet per round'),
+        Burrow: new Measurement(10, 'feet per round'),
       };
 
       const formattedSpeed = pipe.transform(speeds);
@@ -61,7 +61,7 @@ describe('SpeedPipe', () => {
 
     it('formats movements without a land speed', () => {
       const speeds = {
-        Swim: new CreatureMeasurement(60, 'feet per round'),
+        Swim: new Measurement(60, 'feet per round'),
       };
 
       const formattedSpeed = pipe.transform(speeds);

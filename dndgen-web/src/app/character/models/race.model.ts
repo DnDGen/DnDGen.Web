@@ -1,4 +1,4 @@
-import { Measurement } from "./measurement.model";
+import { Measurement } from "../../shared/models/measurement.model";
 
 export class Race {
   constructor(

@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 
 @Pipe({
   name: 'speed',
   standalone: true
 })
 export class SpeedPipe implements PipeTransform {
-  transform(speeds: { [movement: string]: CreatureMeasurement }): string {
+  transform(speeds: { [movement: string]: Measurement }): string {
     const movements = Object.keys(speeds);
     const ordered = [
       ...movements.filter(movement => movement == 'Land'),
@@ -25,7 +25,7 @@ export class SpeedPipe implements PipeTransform {
     return `${squares} squares`;
   }
 
-  private formatSpeed(movement: string, speed: CreatureMeasurement): string {
+  private formatSpeed(movement: string, speed: Measurement): string {
     if (movement == 'Land' && speed.value == 0)
       return '0 ft.';
 

@@ -11,7 +11,7 @@ import { Skill } from '../models/skill.model';
 import { Feat } from '../models/feat.model';
 import { Treasure } from '../../treasure/models/treasure.model';
 import { Good } from '../../treasure/models/good.model';
-import { Measurement } from '../models/measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { FeatComponent } from './feat.component';
 import { DebugElement } from '@angular/core';

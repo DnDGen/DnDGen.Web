@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MaximumAgePipe } from './maximum-age.pipe';
 import { AgePipe } from './age.pipe';
 import { Demographics } from '../models/demographics.model';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 
 describe('MaximumAgePipe', () => {
   describe('unit', () => {
@@ -14,11 +14,11 @@ describe('MaximumAgePipe', () => {
       agePipeSpy = { transform: vi.fn() };
       pipe = new MaximumAgePipe(agePipeSpy as unknown as AgePipe);
 
-      agePipeSpy.transform.mockImplementation((age: CreatureMeasurement) => {
+      agePipeSpy.transform.mockImplementation((age: Measurement) => {
         return `${age.value} ${age.unit} (${age.description}) formatted`;
       });
 
-      demographics = new Demographics('Male', new CreatureMeasurement(45, 'years', 'Adulthood'));
+      demographics = new Demographics('Male', new Measurement(45, 'years', 'Adulthood'));
     });
 
     const greaterOrEqual = [
@@ -29,7 +29,7 @@ describe('MaximumAgePipe', () => {
 
     greaterOrEqual.forEach(test => {
       it(`formats a maximum age ${test.name}`, () => {
-        demographics.maximumAge = new CreatureMeasurement(test.maximum, 'years', 'Will die of natural causes');
+        demographics.maximumAge = new Measurement(test.maximum, 'years', 'Will die of natural causes');
 
         const formattedAge = pipe.transform(demographics);
         expect(formattedAge).toEqual(`${test.maximum} years (Will die of natural causes) formatted`);
@@ -46,8 +46,8 @@ describe('MaximumAgePipe', () => {
 
     below.forEach(test => {
       it(`formats a maximum age ${test.name} as its description`, () => {
-        demographics.age = new CreatureMeasurement(test.age, 'years', test.description);
-        demographics.maximumAge = new CreatureMeasurement(test.maximum, 'years', test.description);
+        demographics.age = new Measurement(test.age, 'years', test.description);
+        demographics.maximumAge = new Measurement(test.maximum, 'years', test.description);
 
         const formattedAge = pipe.transform(demographics);
         expect(formattedAge).toEqual(test.description);

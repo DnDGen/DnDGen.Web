@@ -1,7 +1,7 @@
 import { Alignment } from "../../character/models/alignment.model";
 import { CreatureAbility } from "../models/creature-ability.model";
 import { CreatureArmorClass } from "../models/creature-armor-class.model";
-import { CreatureMeasurement } from "../models/creature-measurement.model";
+import { Measurement } from "../../shared/models/measurement.model";
 import { CreatureType } from "../models/creature-type.model";
 import { Creature } from "../models/creature.model";
 import { Demographics } from "../models/demographics.model";
@@ -26,13 +26,13 @@ export function createCreature(): Creature {
         Charisma: new CreatureAbility('Charisma', 15, 2),
     };
     creature.hitPoints = new HitPoints(3456, 3500, 42, 42, [], 'hit dice roll');
-    creature.speeds = { Land: new CreatureMeasurement(30, 'feet per round') };
+    creature.speeds = { Land: new Measurement(30, 'feet per round') };
     creature.armorClass = new CreatureArmorClass(7, 34, 12);
     creature.totalInitiativeBonus = 4567;
     creature.baseAttackBonus = 21;
     creature.grappleBonus = 22;
-    creature.space = new CreatureMeasurement(5, 'feet');
-    creature.reach = new CreatureMeasurement(10, 'feet');
+    creature.space = new Measurement(5, 'feet');
+    creature.reach = new Measurement(10, 'feet');
     creature.saves = {
         Fortitude: new Save(56),
         Reflex: new Save(78),
@@ -40,8 +40,8 @@ export function createCreature(): Creature {
     };
     creature.demographics = new Demographics(
         'gender',
-        new CreatureMeasurement(18, 'years', 'adult'),
-        new CreatureMeasurement(1800, 'years', 'natural causes'),
+        new Measurement(18, 'years', 'adult'),
+        new Measurement(1800, 'years', 'natural causes'),
     );
 
     return creature;

@@ -1,14 +1,14 @@
-import { CreatureMeasurement } from "./creature-measurement.model";
+import { Measurement } from "../../shared/models/measurement.model";
 
 export class Demographics {
   constructor(
     public gender: string = '',
-    public age: CreatureMeasurement = new CreatureMeasurement(),
-    public maximumAge: CreatureMeasurement = new CreatureMeasurement(),
-    public height: CreatureMeasurement = new CreatureMeasurement(),
-    public length: CreatureMeasurement = new CreatureMeasurement(),
-    public weight: CreatureMeasurement = new CreatureMeasurement(),
-    public wingspan: CreatureMeasurement = new CreatureMeasurement(),
+    public age: Measurement = new Measurement(),
+    public maximumAge: Measurement = new Measurement(),
+    public height: Measurement = new Measurement(),
+    public length: Measurement = new Measurement(),
+    public weight: Measurement = new Measurement(),
+    public wingspan: Measurement = new Measurement(),
     public skin: string = '',
     public hair: string = '',
     public eyes: string = '',

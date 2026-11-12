@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { DecimalPipe } from '@angular/common';
 import { AgePipe } from './age.pipe';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 
 describe('AgePipe', () => {
   describe('unit', () => {
@@ -28,7 +28,7 @@ describe('AgePipe', () => {
 
     ages.forEach(test => {
       it(`formats an age of ${test.value}, rounded down`, () => {
-        const age = new CreatureMeasurement(test.value, 'years', 'Adulthood');
+        const age = new Measurement(test.value, 'years', 'Adulthood');
 
         const formattedAge = pipe.transform(age);
         expect(formattedAge).toEqual(test.expected);
@@ -39,7 +39,7 @@ describe('AgePipe', () => {
 
     lowAges.forEach(test => {
       it(`formats an age of ${test} as less than 1`, () => {
-        const age = new CreatureMeasurement(test, 'years', 'Middle Age');
+        const age = new Measurement(test, 'years', 'Middle Age');
 
         const formattedAge = pipe.transform(age);
         expect(formattedAge).toEqual('less than 1 years (Middle Age)');
@@ -47,14 +47,14 @@ describe('AgePipe', () => {
     });
 
     it('formats no age as its description', () => {
-      const age = new CreatureMeasurement(0, 'years', 'Ageless');
+      const age = new Measurement(0, 'years', 'Ageless');
 
       const formattedAge = pipe.transform(age);
       expect(formattedAge).toEqual('Ageless');
     });
 
     it('formats an age without a description', () => {
-      const age = new CreatureMeasurement(45, 'years');
+      const age = new Measurement(45, 'years');
 
       const formattedAge = pipe.transform(age);
       expect(formattedAge).toEqual('45 formatted years');

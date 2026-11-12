@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 
 @Pipe({
   name: 'age',
@@ -9,7 +9,7 @@ import { CreatureMeasurement } from '../models/creature-measurement.model';
 export class AgePipe implements PipeTransform {
   constructor(private numberPipe: DecimalPipe) { }
 
-  transform(age: CreatureMeasurement): string {
+  transform(age: Measurement): string {
     if (age.value == 0)
       return age.description;
 

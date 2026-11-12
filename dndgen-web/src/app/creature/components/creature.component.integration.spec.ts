@@ -18,7 +18,7 @@ import { Spell } from '../../character/models/spell.model';
 import { Item } from '../../treasure/models/item.model';
 import { CreatureMagic } from '../models/creature-magic.model';
 import { Demographics } from '../models/demographics.model';
-import { CreatureMeasurement } from '../models/creature-measurement.model';
+import { Measurement } from '../../shared/models/measurement.model';
 import { Bonus } from '../models/bonus.model';
 
 describe('Creature Component', () => {
@@ -524,11 +524,11 @@ describe('Creature Component', () => {
         });
 
         const ages = [
-          { name: 'an age', age: new CreatureMeasurement(45, 'years', 'Adulthood'), expected: 'Age: 45 years (Adulthood)' },
-          { name: 'a low age', age: new CreatureMeasurement(0.333, 'years', 'Middle Age'), expected: 'Age: less than 1 years (Middle Age)' },
-          { name: 'a fractional age', age: new CreatureMeasurement(298.167, 'years', 'Old'), expected: 'Age: 298 years (Old)' },
-          { name: 'an age in the thousands', age: new CreatureMeasurement(1337, 'years', 'Venerable'), expected: 'Age: 1,337 years (Venerable)' },
-          { name: 'no age as its description', age: new CreatureMeasurement(0, 'years', 'Ageless'), expected: 'Age: Ageless' },
+          { name: 'an age', age: new Measurement(45, 'years', 'Adulthood'), expected: 'Age: 45 years (Adulthood)' },
+          { name: 'a low age', age: new Measurement(0.333, 'years', 'Middle Age'), expected: 'Age: less than 1 years (Middle Age)' },
+          { name: 'a fractional age', age: new Measurement(298.167, 'years', 'Old'), expected: 'Age: 298 years (Old)' },
+          { name: 'an age in the thousands', age: new Measurement(1337, 'years', 'Venerable'), expected: 'Age: 1,337 years (Venerable)' },
+          { name: 'no age as its description', age: new Measurement(0, 'years', 'Ageless'), expected: 'Age: Ageless' },
         ];
 
         ages.forEach(test => {
@@ -543,38 +543,38 @@ describe('Creature Component', () => {
         const maximumAges = [
           {
             name: 'a maximum age',
-            age: new CreatureMeasurement(45, 'years', 'Adulthood'),
-            maximumAge: new CreatureMeasurement(400, 'years', 'Will die of natural causes'),
+            age: new Measurement(45, 'years', 'Adulthood'),
+            maximumAge: new Measurement(400, 'years', 'Will die of natural causes'),
             expected: 'Maximum Age: 400 years (Will die of natural causes)',
           },
           {
             name: 'a maximum age in the thousands',
-            age: new CreatureMeasurement(45, 'years', 'Adulthood'),
-            maximumAge: new CreatureMeasurement(1800, 'years', 'Will die of natural causes'),
+            age: new Measurement(45, 'years', 'Adulthood'),
+            maximumAge: new Measurement(1800, 'years', 'Will die of natural causes'),
             expected: 'Maximum Age: 1,800 years (Will die of natural causes)',
           },
           {
             name: 'a maximum age equal to the age',
-            age: new CreatureMeasurement(86, 'years', 'Venerable'),
-            maximumAge: new CreatureMeasurement(86, 'years', 'Will die of natural causes'),
+            age: new Measurement(86, 'years', 'Venerable'),
+            maximumAge: new Measurement(86, 'years', 'Will die of natural causes'),
             expected: 'Maximum Age: 86 years (Will die of natural causes)',
           },
           {
             name: 'a maximum age of -1 as its description',
-            age: new CreatureMeasurement(2150.5, 'years', 'Undead'),
-            maximumAge: new CreatureMeasurement(-1, 'years', 'Undead'),
+            age: new Measurement(2150.5, 'years', 'Undead'),
+            maximumAge: new Measurement(-1, 'years', 'Undead'),
             expected: 'Maximum Age: Undead',
           },
           {
             name: 'a maximum age rounded down from the age as its description',
-            age: new CreatureMeasurement(3014.833, 'years', 'Undead'),
-            maximumAge: new CreatureMeasurement(3014, 'years', 'Undead'),
+            age: new Measurement(3014.833, 'years', 'Undead'),
+            maximumAge: new Measurement(3014, 'years', 'Undead'),
             expected: 'Maximum Age: Undead',
           },
           {
             name: 'an immortal maximum age as its description',
-            age: new CreatureMeasurement(490.583, 'years', 'Adulthood'),
-            maximumAge: new CreatureMeasurement(490, 'years', 'Immortal'),
+            age: new Measurement(490.583, 'years', 'Adulthood'),
+            maximumAge: new Measurement(490, 'years', 'Immortal'),
             expected: 'Maximum Age: Immortal',
           },
         ];
@@ -605,7 +605,7 @@ describe('Creature Component', () => {
 
           values.forEach(test => {
             it(`should render the ${line.property} in ${test.name}`, async () => {
-              creature.demographics[line.property] = new CreatureMeasurement(test.inches, 'inches', 'Average');
+              creature.demographics[line.property] = new Measurement(test.inches, 'inches', 'Average');
               await helper.waitForChangeDetection();
 
               helper.expectTextContent(line.selector, test.expected);
@@ -613,14 +613,14 @@ describe('Creature Component', () => {
           });
 
           it(`should show the ${line.property} descriptor`, async () => {
-            creature.demographics[line.property] = new CreatureMeasurement(123, 'inches', 'Kinda noticeable');
+            creature.demographics[line.property] = new Measurement(123, 'inches', 'Kinda noticeable');
             await helper.waitForChangeDetection();
 
             helper.expectTextContent(line.selector, `${line.label}: 10' 3" (Kinda noticeable)`);
           });
 
           it(`should hide no ${line.property}`, async () => {
-            creature.demographics[line.property] = new CreatureMeasurement(0, 'inches', 'Average');
+            creature.demographics[line.property] = new Measurement(0, 'inches', 'Average');
             await helper.waitForChangeDetection();
 
             helper.expectExists(line.selector, false);
@@ -628,11 +628,11 @@ describe('Creature Component', () => {
         });
 
         const weights = [
-          { name: 'a weight', weight: new CreatureMeasurement(240, 'pounds', 'Light'), expected: 'Weight: 240 pounds (Light)' },
-          { name: 'a fractional weight', weight: new CreatureMeasurement(0.5, 'pounds', 'Very Light'), expected: 'Weight: 0.5 pounds (Very Light)' },
-          { name: 'a weight in the thousands', weight: new CreatureMeasurement(1100, 'pounds', 'Average'), expected: 'Weight: 1,100 pounds (Average)' },
-          { name: 'a weight in the hundreds of thousands', weight: new CreatureMeasurement(253000, 'pounds', 'Heavy'), expected: 'Weight: 253,000 pounds (Heavy)' },
-          { name: 'a weight in the millions', weight: new CreatureMeasurement(20000000, 'pounds', 'Very Heavy'), expected: 'Weight: 20,000,000 pounds (Very Heavy)' },
+          { name: 'a weight', weight: new Measurement(240, 'pounds', 'Light'), expected: 'Weight: 240 pounds (Light)' },
+          { name: 'a fractional weight', weight: new Measurement(0.5, 'pounds', 'Very Light'), expected: 'Weight: 0.5 pounds (Very Light)' },
+          { name: 'a weight in the thousands', weight: new Measurement(1100, 'pounds', 'Average'), expected: 'Weight: 1,100 pounds (Average)' },
+          { name: 'a weight in the hundreds of thousands', weight: new Measurement(253000, 'pounds', 'Heavy'), expected: 'Weight: 253,000 pounds (Heavy)' },
+          { name: 'a weight in the millions', weight: new Measurement(20000000, 'pounds', 'Very Heavy'), expected: 'Weight: 20,000,000 pounds (Very Heavy)' },
         ];
 
         weights.forEach(test => {
@@ -645,7 +645,7 @@ describe('Creature Component', () => {
         });
 
         it('should hide no weight', async () => {
-          creature.demographics.weight = new CreatureMeasurement(0, 'pounds', 'Average');
+          creature.demographics.weight = new Measurement(0, 'pounds', 'Average');
           await helper.waitForChangeDetection();
 
           helper.expectExists('li.creature-demographics-weight', false);
@@ -677,12 +677,12 @@ describe('Creature Component', () => {
         it('should render every demographic, in order', async () => {
           creature.demographics = new Demographics(
             'Female',
-            new CreatureMeasurement(45, 'years', 'Adulthood'),
-            new CreatureMeasurement(400, 'years', 'Will die of natural causes'),
-            new CreatureMeasurement(126, 'inches', 'Average'),
-            new CreatureMeasurement(30, 'inches', 'Average'),
-            new CreatureMeasurement(1100, 'pounds', 'Heavy'),
-            new CreatureMeasurement(120, 'inches', 'Average'),
+            new Measurement(45, 'years', 'Adulthood'),
+            new Measurement(400, 'years', 'Will die of natural causes'),
+            new Measurement(126, 'inches', 'Average'),
+            new Measurement(30, 'inches', 'Average'),
+            new Measurement(1100, 'pounds', 'Heavy'),
+            new Measurement(120, 'inches', 'Average'),
             'Deep ruddy-brown skin',
             'Black hair',
             'Red eyes',
@@ -706,7 +706,7 @@ describe('Creature Component', () => {
         });
 
         it('should render only the gender, age, and maximum age when there are no other demographics', async () => {
-          creature.demographics = new Demographics('Agender', new CreatureMeasurement(0, 'years', 'Ageless'), new CreatureMeasurement(0, 'years', 'Immortal'));
+          creature.demographics = new Demographics('Agender', new Measurement(0, 'years', 'Ageless'), new Measurement(0, 'years', 'Immortal'));
           await helper.waitForChangeDetection();
 
           helper.expectTextContents('li.creature-demographics li', [
