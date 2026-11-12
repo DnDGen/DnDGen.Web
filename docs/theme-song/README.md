@@ -237,7 +237,7 @@ GENERATE!
 | 42 | GENERATE! (GENERATE!) | `README.md`: /generate |
 | 43 | ... I'll share an open secret: there's creatures you can get. | `README.md`: the creature generator (CreatureGen) |
 | 44 | The CreatureGen API could make a foe or pet, | `README.md`: /creature/{creatureName}/generate |
-| 45 | And now it has a page, with templates stacked and set. | `README.md`: covering all six generators<br>`dndgen-web/README.md`: optional ordered templates |
+| 45 | And now it has a page, with templates stacked and set. | `README.md`: covering all six generators<br>`dndgen-web/README.md`: optional templates |
 | 46 | An Angular application is featured center-stage. | `README.md`: an Angular single-page application |
 | 47 | Components, models, services, and pipes build every page. | `dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureComponent } from './treasure.component';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureGenViewModel } from '../models/treasuregen-view-model.model';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasureService } from '../services/treasure.service';<br>`dndgen-web/src/app/treasure/components/treasuregen.component.ts`: import { TreasurePipe } from '../pipes/treasure.pipe'; |
 | 48 | Automated tests abound, and coverage is complete. | `README.md`: Tests run across three layers |
