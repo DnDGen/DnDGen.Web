@@ -52,7 +52,6 @@ import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
       BonusPipe,
       MeasurementPipe,
       SpellQuantityPipe,
-      DecimalPipe,
       CreatureTypePipe,
       HitDicePipe,
       SpeedPipe,
