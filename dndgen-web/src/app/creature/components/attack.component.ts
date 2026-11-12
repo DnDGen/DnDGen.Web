@@ -4,6 +4,7 @@ import { DetailsComponent } from '../../shared/components/details.component';
 import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
 import { AttackPipe } from '../pipes/attack.pipe';
 import { AttackTypePipe } from '../pipes/attack-type.pipe';
+import { AttackSavePipe } from '../pipes/attack-save.pipe';
 
 @Component({
     selector: 'dndgen-attack',
@@ -14,6 +15,7 @@ import { AttackTypePipe } from '../pipes/attack-type.pipe';
       FrequencyPipe,
       AttackPipe,
       AttackTypePipe,
+      AttackSavePipe,
     ]
 })
 

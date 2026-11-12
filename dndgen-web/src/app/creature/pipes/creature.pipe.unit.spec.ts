@@ -20,6 +20,7 @@ import { SkillPipe } from './skill.pipe';
 import { ConditionalBonusPipe } from './conditional-bonus.pipe';
 import { AgePipe } from './age.pipe';
 import { MaximumAgePipe } from './maximum-age.pipe';
+import { AttackSavePipe } from './attack-save.pipe';
 import { TestHelper } from '../../test-helper';
 import { Creature } from '../models/creature.model';
 import { CreatureType } from '../models/creature-type.model';
@@ -70,6 +71,7 @@ describe('Creature Pipe', () => {
     let conditionalBonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let agePipeSpy: { transform: ReturnType<typeof vi.fn> };
     let maximumAgePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let attackSavePipeSpy: { transform: ReturnType<typeof vi.fn> };
     let creature: Creature;
 
     const everyRound = new Frequency(1, 'Round');
@@ -95,6 +97,7 @@ describe('Creature Pipe', () => {
       conditionalBonusPipeSpy = { transform: vi.fn() };
       agePipeSpy = { transform: vi.fn() };
       maximumAgePipeSpy = { transform: vi.fn() };
+      attackSavePipeSpy = { transform: vi.fn() };
 
       pipe = new CreaturePipe(
         bonusPipeSpy as unknown as BonusPipe,
@@ -117,6 +120,7 @@ describe('Creature Pipe', () => {
         conditionalBonusPipeSpy as unknown as ConditionalBonusPipe,
         agePipeSpy as unknown as AgePipe,
         maximumAgePipeSpy as unknown as MaximumAgePipe,
+        attackSavePipeSpy as unknown as AttackSavePipe,
       );
 
       bonusPipeSpy.transform.mockImplementation((value: number, conditional: boolean = false) => {
@@ -181,6 +185,10 @@ describe('Creature Pipe', () => {
 
       maximumAgePipeSpy.transform.mockImplementation((demographics: Demographics) => {
         return `${demographics.maximumAge.value} ${demographics.maximumAge.unit} formatted maximum age`;
+      });
+
+      attackSavePipeSpy.transform.mockImplementation((save: AttackSave) => {
+        return `${save.save} DC ${save.dc} formatted save`;
       });
 
       creature = createCreature();
@@ -365,7 +373,7 @@ describe('Creature Pipe', () => {
         '\t\tFrightful Moan formatted attack',
         '\t\t\tType: supernatural ability formatted attack type',
         '\t\t\tFrequency: 1/Round formatted',
-        '\t\t\tSave: Will DC 17 (Charisma)',
+        '\t\t\tSave: Will DC 17 formatted save',
       ]);
 
       expectFormatted(expected);

@@ -30,6 +30,7 @@ import { SkillPipe } from './skill.pipe';
 import { ConditionalBonusPipe } from './conditional-bonus.pipe';
 import { AgePipe } from './age.pipe';
 import { MaximumAgePipe } from './maximum-age.pipe';
+import { AttackSavePipe } from './attack-save.pipe';
 
 @Pipe({
     name: 'creature',
@@ -56,7 +57,8 @@ export class CreaturePipe implements PipeTransform {
         private skillPipe: SkillPipe,
         private conditionalBonusPipe: ConditionalBonusPipe,
         private agePipe: AgePipe,
-        private maximumAgePipe: MaximumAgePipe) { }
+        private maximumAgePipe: MaximumAgePipe,
+        private attackSavePipe: AttackSavePipe) { }
 
     private readonly saveNames = ['Fortitude', 'Reflex', 'Will'];
 
@@ -184,7 +186,7 @@ export class CreaturePipe implements PipeTransform {
             formatted += this.line('Frequency: ' + this.frequencyPipe.transform(attack.frequency), prefix + '\t');
 
         if (attack.save)
-            formatted += this.line(`Save: ${attack.save.save} DC ${attack.save.dc} (${attack.save.baseAbility.name})`, prefix + '\t');
+            formatted += this.line('Save: ' + this.attackSavePipe.transform(attack.save), prefix + '\t');
 
         return formatted;
     }

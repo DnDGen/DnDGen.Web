@@ -5,6 +5,6 @@ export class AttackSave {
     public save: string = '',
     public dc: number = 0,
     public baseValue: number = 0,
-    public baseAbility: CreatureAbility = new CreatureAbility()
+    public baseAbility?: CreatureAbility | null
   ) { }
 }

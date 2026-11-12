@@ -162,5 +162,42 @@ describe('Attack Component', () => {
         'Save: Fortitude DC 15 (Charisma)',
       ]);
     });
+
+    it('should render a save without an ability', async () => {
+      attack.name = 'Special Arrow (Sleep)';
+      attack.attackType = 'extraordinary ability';
+      attack.isSpecial = true;
+      attack.isNatural = false;
+      attack.damageSummary = '';
+      attack.save = new AttackSave('Fortitude', 12, 12);
+
+      await helper.waitForChangeDetection();
+
+      helper.expectDetails('dndgen-details.attack-heading', 'Special Arrow (Sleep)', true);
+      helper.expectTextContents('dndgen-details.attack-heading li', [
+        'Type: extraordinary ability',
+        'Frequency: 1/Round (6 seconds)',
+        'Save: Fortitude DC 12',
+      ]);
+    });
+
+    it('should render a save without a save type', async () => {
+      const constitution = new CreatureAbility('Constitution', 22, 6);
+
+      attack.name = 'Web';
+      attack.attackType = 'extraordinary ability';
+      attack.isSpecial = true;
+      attack.damageSummary = '';
+      attack.save = new AttackSave('', 24, 16, constitution);
+
+      await helper.waitForChangeDetection();
+
+      helper.expectDetails('dndgen-details.attack-heading', 'Web', true);
+      helper.expectTextContents('dndgen-details.attack-heading li', [
+        'Type: extraordinary ability',
+        'Frequency: 1/Round (6 seconds)',
+        'Save: DC 24 (Constitution)',
+      ]);
+    });
   });
 });

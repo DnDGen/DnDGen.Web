@@ -5,7 +5,7 @@
       <li class="attack-frequency">Frequency: {{attack.frequency | frequency}}</li>
     }
     @if (attack.save) {
-      <li class="attack-save">Save: {{attack.save.save}} DC {{attack.save.dc}} ({{attack.save.baseAbility.name}})</li>
+      <li class="attack-save">Save: {{attack.save | attackSave}}</li>
     }
     <ng-content></ng-content>
   </ul>
