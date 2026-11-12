@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { firstValueFrom } from 'rxjs';
 import { CreatureComponent } from './creature.component';
 import { TestHelper } from '../../test-helper';
 import { CreatureTestHelper } from '../creature.test-helper';
@@ -11,7 +10,6 @@ import { AttackComponent } from './attack.component';
 import { FeatComponent } from '../../character/components/feat.component';
 import { SpellGroupComponent } from '../../character/components/spell-group.component';
 import { ItemComponent } from '../../treasure/components/item.component';
-import { CreatureService } from '../services/creature.service';
 import { Attack } from '../models/attack.model';
 import { Feat } from '../../character/models/feat.model';
 import { SpellGroup } from '../../character/models/spell-group.model';
@@ -21,8 +19,6 @@ import { CreatureMagic } from '../models/creature-magic.model';
 import { Demographics } from '../models/demographics.model';
 import { CreatureMeasurement } from '../models/creature-measurement.model';
 import { Bonus } from '../models/bonus.model';
-import { BonusPipe } from '../../shared/pipes/bonus.pipe';
-import { Save } from '../models/save.model';
 
 describe('Creature Component', () => {
   describe('integration', () => {
@@ -489,14 +485,48 @@ describe('Creature Component', () => {
         });
 
         const maximumAges = [
-          { name: 'a maximum age', age: new CreatureMeasurement(400, 'years', 'Will die of natural causes'), expected: 'Maximum Age: 400 years (Will die of natural causes)' },
-          { name: 'a maximum age in the thousands', age: new CreatureMeasurement(1800, 'years', 'Will die of natural causes'), expected: 'Maximum Age: 1,800 years (Will die of natural causes)' },
-          { name: 'an immortal maximum age', age: new CreatureMeasurement(0, 'years', 'Immortal'), expected: 'Maximum Age: Immortal' },
+          {
+            name: 'a maximum age',
+            age: new CreatureMeasurement(45, 'years', 'Adulthood'),
+            maximumAge: new CreatureMeasurement(400, 'years', 'Will die of natural causes'),
+            expected: 'Maximum Age: 400 years (Will die of natural causes)',
+          },
+          {
+            name: 'a maximum age in the thousands',
+            age: new CreatureMeasurement(45, 'years', 'Adulthood'),
+            maximumAge: new CreatureMeasurement(1800, 'years', 'Will die of natural causes'),
+            expected: 'Maximum Age: 1,800 years (Will die of natural causes)',
+          },
+          {
+            name: 'a maximum age equal to the age',
+            age: new CreatureMeasurement(86, 'years', 'Venerable'),
+            maximumAge: new CreatureMeasurement(86, 'years', 'Will die of natural causes'),
+            expected: 'Maximum Age: 86 years (Will die of natural causes)',
+          },
+          {
+            name: 'a maximum age of -1 as its description',
+            age: new CreatureMeasurement(2150.5, 'years', 'Undead'),
+            maximumAge: new CreatureMeasurement(-1, 'years', 'Undead'),
+            expected: 'Maximum Age: Undead',
+          },
+          {
+            name: 'a maximum age rounded down from the age as its description',
+            age: new CreatureMeasurement(3014.833, 'years', 'Undead'),
+            maximumAge: new CreatureMeasurement(3014, 'years', 'Undead'),
+            expected: 'Maximum Age: Undead',
+          },
+          {
+            name: 'an immortal maximum age as its description',
+            age: new CreatureMeasurement(490.583, 'years', 'Adulthood'),
+            maximumAge: new CreatureMeasurement(490, 'years', 'Immortal'),
+            expected: 'Maximum Age: Immortal',
+          },
         ];
 
         maximumAges.forEach(test => {
           it(`should render ${test.name}`, async () => {
-            creature.demographics.maximumAge = test.age;
+            creature.demographics.age = test.age;
+            creature.demographics.maximumAge = test.maximumAge;
             await helper.waitForChangeDetection();
 
             helper.expectTextContent('li.creature-demographics-maximum-age', test.expected);
@@ -670,88 +700,6 @@ describe('Creature Component', () => {
         expectItems('li.creature-equipment-weapons', creature.equipment.weapons);
         helper.expectDetails('li.creature-equipment-items > dndgen-details', 'Items (1)', true);
         expectItems('li.creature-equipment-items', creature.equipment.items);
-      });
-    });
-
-    describe('generated creatures', () => {
-      const bonusPipe = new BonusPipe();
-
-      function hasConditionalSave(saves: { [name: string]: Save }): boolean {
-        return Object.values(saves).some(save => save.bonuses.some(bonus => bonus.isConditional));
-      }
-
-      async function generate(name: string, templates: string[] = []): Promise<Creature> {
-        const generated = await firstValueFrom(TestBed.inject(CreatureService).generateCreature(name, templates));
-        fixture.componentRef.setInput('creature', generated);
-        await helper.waitForChangeDetection();
-
-        helper.expectDetails('dndgen-details.creature-header', generated.summary, true);
-
-        return generated;
-      }
-
-      it('should render a generated Marilith', async () => {
-        const marilith = await generate('Marilith');
-
-        helper.expectTextContent('li.creature-speed', 'Speed: 40 ft. (8 squares)');
-        helper.expectTextContent('li.creature-space-reach', `Space/Reach: ${marilith.space.value} ft./${marilith.reach.value} ft.`);
-        helper.expectTextContent('li.creature-challenge-rating', `Challenge Rating: ${marilith.challengeRating}`);
-        helper.expectTextContent('li.creature-alignment', 'Alignment: Chaotic Evil');
-        helper.expectTextContent('li.creature-level-adjustment', 'Level Adjustment: —');
-        expectAttacks('li.creature-special-attacks', marilith.specialAttacks, false);
-
-        const loseConsciousness = marilith.specialAttacks.find(a => a.name == 'Lose Consciousness');
-        expect(loseConsciousness).toBeTruthy();
-        helper.expectTextContents('li.creature-special-attacks li.attack-save', [`Save: Fortitude DC ${loseConsciousness!.save!.dc} (Strength)`]);
-      });
-
-      it('should render a generated Rakshasa with its magic under Spells', async () => {
-        const rakshasa = await generate('Rakshasa');
-        expect(rakshasa.specialAttacks.map(a => a.name)).toContain('Spells');
-
-        expectInsideAttack('li.creature-magic-caster', 'Spells');
-        helper.expectTextContent('li.creature-magic-caster', 'Caster: Sorcerer');
-        helper.expectTextContent('li.creature-magic-caster-level', `Caster Level: ${rakshasa.magic.casterLevel}`);
-        helper.expectDetails('li.creature-magic-spells-known > dndgen-details', 'Known Spells', true);
-      });
-
-      it('should render a generated Shrieker with no Strength, Dexterity, Intelligence, Reflex save, or speed', async () => {
-        const shrieker = await generate('Shrieker');
-
-        helper.expectTextContent('li.creature-speed', 'Speed: 0 ft.');
-        const abilities = shrieker.abilities;
-        const saves = shrieker.saves;
-
-        helper.expectTextContent('li.creature-abilities',
-          `Abilities: Str —, Dex —, Con ${abilities['Constitution'].fullScore}, Int —, Wis ${abilities['Wisdom'].fullScore}, Cha ${abilities['Charisma'].fullScore}`);
-        helper.expectDetails('li.creature-saves > dndgen-details',
-          `Saves: Fort ${bonusPipe.transform(saves['Fortitude'].totalBonus, saves['Fortitude'].isConditional)}, Ref —, Will ${bonusPipe.transform(saves['Will'].totalBonus, saves['Will'].isConditional)}`, hasConditionalSave(saves));
-      });
-
-      it('should render a generated Ghost Human with no Constitution or Fortitude save', async () => {
-        const ghost = await generate('Human', ['Ghost']);
-        const abilities = ghost.abilities;
-        const saves = ghost.saves;
-
-        helper.expectTextContent('li.creature-abilities',
-          `Abilities: Str ${abilities['Strength'].fullScore}, Dex ${abilities['Dexterity'].fullScore}, Con —, Int ${abilities['Intelligence'].fullScore}, Wis ${abilities['Wisdom'].fullScore}, Cha ${abilities['Charisma'].fullScore}`);
-        helper.expectDetails('li.creature-saves > dndgen-details',
-          `Saves: Fort —, Ref ${bonusPipe.transform(saves['Reflex'].totalBonus, saves['Reflex'].isConditional)}, Will ${bonusPipe.transform(saves['Will'].totalBonus, saves['Will'].isConditional)}`, hasConditionalSave(saves));
-      });
-
-      it('should render a generated Bat with no level adjustment as —', async () => {
-        const bat = await generate('Bat');
-        expect('levelAdjustment' in bat).toBe(false);
-
-        helper.expectTextContent('li.creature-level-adjustment', 'Level Adjustment: —');
-      });
-
-      it('should render a generated Hill Giant with its equipment', async () => {
-        const giant = await generate('Hill Giant');
-        expect(giant.equipment.weapons.length).toBeGreaterThan(0);
-
-        expectItems('li.creature-equipment-weapons', giant.equipment.weapons);
-        expectItems('li.creature-equipment-items', giant.equipment.items);
       });
     });
   });

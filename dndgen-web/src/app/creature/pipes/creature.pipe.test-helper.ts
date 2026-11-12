@@ -73,7 +73,7 @@ export function createCreatureLines(): string[] {
         '\tDemographics:',
         '\t\tGender: gender',
         '\t\tAge: 18 years formatted age',
-        '\t\tMaximum Age: 1800 years formatted',
+        '\t\tMaximum Age: 1800 years formatted maximum age',
         '\tLanguages (0):',
         '\tEquipment:',
         '\t\tWeapons (0):',

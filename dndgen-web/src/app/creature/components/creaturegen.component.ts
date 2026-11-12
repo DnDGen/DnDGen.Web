@@ -27,6 +27,7 @@ import { AbilitiesPipe } from '../pipes/abilities.pipe';
 import { SkillPipe } from '../pipes/skill.pipe';
 import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
 import { AgePipe } from '../pipes/age.pipe';
+import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
 import { BonusPipe } from '../../shared/pipes/bonus.pipe';
 import { BonusesPipe } from '../../shared/pipes/bonuses.pipe';
 import { ItemPipe } from '../../treasure/pipes/item.pipe';
@@ -63,6 +64,7 @@ import { SpellQuantityPipe } from '../../character/pipes/spell-quantity.pipe';
         SkillPipe,
         ConditionalBonusPipe,
         AgePipe,
+        MaximumAgePipe,
     ],
     standalone: true,
     imports: [LoadingComponent, FormsModule, NgbNavModule, SearchableSelectComponent, OrderedMultiSelectComponent, CreatureComponent]

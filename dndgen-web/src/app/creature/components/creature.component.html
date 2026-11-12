@@ -153,7 +153,7 @@
         <ul>
           <li class="creature-demographics-gender">Gender: {{creature.demographics.gender}}</li>
           <li class="creature-demographics-age">Age: {{creature.demographics.age | age}}</li>
-          <li class="creature-demographics-maximum-age">Maximum Age: {{creature.demographics.maximumAge | measurement}}</li>
+          <li class="creature-demographics-maximum-age">Maximum Age: {{creature.demographics | maximumAge}}</li>
           @if (creature.demographics.height.value) {
             <li class="creature-demographics-height">Height: {{creature.demographics.height | measurement}}</li>
           }

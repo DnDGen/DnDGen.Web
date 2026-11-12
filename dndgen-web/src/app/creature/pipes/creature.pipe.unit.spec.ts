@@ -19,6 +19,7 @@ import { AbilitiesPipe } from './abilities.pipe';
 import { SkillPipe } from './skill.pipe';
 import { ConditionalBonusPipe } from './conditional-bonus.pipe';
 import { AgePipe } from './age.pipe';
+import { MaximumAgePipe } from './maximum-age.pipe';
 import { TestHelper } from '../../test-helper';
 import { Creature } from '../models/creature.model';
 import { CreatureType } from '../models/creature-type.model';
@@ -68,6 +69,7 @@ describe('Creature Pipe', () => {
     let skillPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let conditionalBonusPipeSpy: { transform: ReturnType<typeof vi.fn> };
     let agePipeSpy: { transform: ReturnType<typeof vi.fn> };
+    let maximumAgePipeSpy: { transform: ReturnType<typeof vi.fn> };
     let creature: Creature;
 
     const everyRound = new Frequency(1, 'Round');
@@ -92,6 +94,7 @@ describe('Creature Pipe', () => {
       skillPipeSpy = { transform: vi.fn() };
       conditionalBonusPipeSpy = { transform: vi.fn() };
       agePipeSpy = { transform: vi.fn() };
+      maximumAgePipeSpy = { transform: vi.fn() };
 
       pipe = new CreaturePipe(
         bonusPipeSpy as unknown as BonusPipe,
@@ -113,6 +116,7 @@ describe('Creature Pipe', () => {
         skillPipeSpy as unknown as SkillPipe,
         conditionalBonusPipeSpy as unknown as ConditionalBonusPipe,
         agePipeSpy as unknown as AgePipe,
+        maximumAgePipeSpy as unknown as MaximumAgePipe,
       );
 
       bonusPipeSpy.transform.mockImplementation((value: number, conditional: boolean = false) => {
@@ -173,6 +177,10 @@ describe('Creature Pipe', () => {
 
       agePipeSpy.transform.mockImplementation((age: CreatureMeasurement) => {
         return `${age.value} ${age.unit} formatted age`;
+      });
+
+      maximumAgePipeSpy.transform.mockImplementation((demographics: Demographics) => {
+        return `${demographics.maximumAge.value} ${demographics.maximumAge.unit} formatted maximum age`;
       });
 
       creature = createCreature();
@@ -538,8 +546,8 @@ describe('Creature Pipe', () => {
       );
       let expected = replaceLines(createCreatureLines(), '\t\tGender: gender', ['\t\tGender: Male']);
       expected = replaceLines(expected, '\t\tAge: 18 years formatted age', ['\t\tAge: 45 years formatted age']);
-      expected = replaceLines(expected, '\t\tMaximum Age: 1800 years formatted', [
-        '\t\tMaximum Age: 400 years formatted',
+      expected = replaceLines(expected, '\t\tMaximum Age: 1800 years formatted maximum age', [
+        '\t\tMaximum Age: 400 years formatted maximum age',
         '\t\tHeight: 126 inches formatted',
         '\t\tLength: 30 inches formatted',
         '\t\tWeight: 1100 pounds formatted',
@@ -556,8 +564,8 @@ describe('Creature Pipe', () => {
     it('formats some demographics', () => {
       creature.demographics.weight = new CreatureMeasurement(1100, 'pounds', 'Heavy');
       creature.demographics.hair = 'Black hair';
-      const expected = replaceLines(createCreatureLines(), '\t\tMaximum Age: 1800 years formatted', [
-        '\t\tMaximum Age: 1800 years formatted',
+      const expected = replaceLines(createCreatureLines(), '\t\tMaximum Age: 1800 years formatted maximum age', [
+        '\t\tMaximum Age: 1800 years formatted maximum age',
         '\t\tWeight: 1100 pounds formatted',
         '\t\tHair: Black hair',
       ]);

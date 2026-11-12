@@ -31,6 +31,7 @@ import { SkillPipe } from '../pipes/skill.pipe';
 import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
 import { AttackPipe } from '../pipes/attack.pipe';
 import { AgePipe } from '../pipes/age.pipe';
+import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
 
 @Component({
     selector: 'dndgen-creature',
@@ -40,6 +41,7 @@ import { AgePipe } from '../pipes/age.pipe';
       DecimalPipe,
       InchesToFeetPipe,
       AttackPipe,
+      AgePipe,
     ],
     imports: [
       DetailsComponent,
@@ -62,6 +64,7 @@ import { AgePipe } from '../pipes/age.pipe';
       SkillPipe,
       ConditionalBonusPipe,
       AgePipe,
+      MaximumAgePipe,
     ]
 })
 
