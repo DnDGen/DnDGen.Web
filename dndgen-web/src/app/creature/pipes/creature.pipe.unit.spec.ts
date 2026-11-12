@@ -462,6 +462,51 @@ describe('Creature Pipe', () => {
       expectFormatted(expected);
     });
 
+    it('formats the spell-like abilities under the Spell-Like Ability special attack', () => {
+      creature.specialAttacks = [createAttack('Spell-Like Ability', 'spell-like ability', true)];
+      creature.specialQualities = [
+        new Feat('Spell-Like Ability', ['Charm monster'], 0, new Frequency(3, 'Day')),
+        new Feat('Darkvision', [], 60),
+        new Feat('Spell-Like Ability', ['Disguise self'], 0, new Frequency(0, 'At Will')),
+      ];
+      let expected = replaceLines(createCreatureLines(), '\tSpecial Attacks (0):', [
+        '\tSpecial Attacks (1):',
+        '\t\tSpell-Like Ability formatted attack',
+        '\t\t\tType: spell-like ability formatted attack type',
+        '\t\t\tFrequency: 1/Round formatted',
+        '\t\t\tCharm monster (3/Day formatted)',
+        '\t\t\tDisguise self (0/At Will formatted)',
+      ]);
+      expected = replaceLines(expected, '\tSpecial Qualities (0):', [
+        '\tSpecial Qualities (3):',
+        '\t\tSpell-Like Ability',
+        '\t\t\tFoci:',
+        '\t\t\t\tCharm monster',
+        '\t\t\tFrequency: 3/Day formatted',
+        '\t\tDarkvision',
+        '\t\t\tPower: 60',
+        '\t\tSpell-Like Ability',
+        '\t\t\tFoci:',
+        '\t\t\t\tDisguise self',
+        '\t\t\tFrequency: 0/At Will formatted',
+      ]);
+
+      expectFormatted(expected);
+    });
+
+    it('formats no spell-like abilities without a Spell-Like Ability special attack', () => {
+      creature.specialQualities = [new Feat('Spell-Like Ability', ['Detect thoughts'], 0, new Frequency(0, 'Constant'))];
+      const expected = replaceLines(createCreatureLines(), '\tSpecial Qualities (0):', [
+        '\tSpecial Qualities (1):',
+        '\t\tSpell-Like Ability',
+        '\t\t\tFoci:',
+        '\t\t\t\tDetect thoughts',
+        '\t\t\tFrequency: 0/Constant formatted',
+      ]);
+
+      expectFormatted(expected);
+    });
+
     it('formats special qualities, with their foci, power, and frequency', () => {
       creature.specialQualities = [
         new Feat('Darkvision', [], 60),

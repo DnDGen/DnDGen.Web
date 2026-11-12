@@ -57,6 +57,11 @@
           @for (attack of creature.specialAttacks; track $index) {
             <li>
               <dndgen-attack [attack]="attack">
+                @if (attack.name == 'Spell-Like Ability') {
+                  @for (ability of spellLikeAbilities; track $index) {
+                    <li class="creature-spell-like-ability">{{ability.foci.join(', ')}} ({{ability.frequency | frequency}})</li>
+                  }
+                }
                 @if (attack.name == 'Spells') {
                   <li class="creature-magic-caster">Caster: {{creature.magic.caster}}</li>
                   <li class="creature-magic-caster-level">Caster Level: {{creature.magic.casterLevel}}</li>

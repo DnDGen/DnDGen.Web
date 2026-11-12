@@ -12,6 +12,7 @@ import { SpellGroupComponent } from '../../character/components/spell-group.comp
 import { ItemComponent } from '../../treasure/components/item.component';
 import { Attack } from '../models/attack.model';
 import { Feat } from '../../character/models/feat.model';
+import { Frequency } from '../../character/models/frequency.model';
 import { SpellGroup } from '../../character/models/spell-group.model';
 import { Spell } from '../../character/models/spell.model';
 import { Item } from '../../treasure/models/item.model';
@@ -406,6 +407,47 @@ describe('Creature Component', () => {
 
         helper.expectCount('li.creature-magic-caster', 0);
         helper.expectCount('li.creature-magic-caster-level', 0);
+      });
+
+      it('should render the spell-like abilities under the Spell-Like Ability special attack', async () => {
+        const everyRound = new Frequency(1, 'Round (6 seconds)');
+        const spellLikeAbility = new Attack('Spell-Like Ability', 'spell-like ability', false, true, true, true, 8, [8], [], '', '', everyRound);
+        creature.specialAttacks = [...creature.specialAttacks, spellLikeAbility];
+        creature.specialQualities = [
+          ...creature.specialQualities,
+          new Feat('Spell-Like Ability', ['Charm monster'], 0, new Frequency(3, 'Day')),
+          new Feat('Spell-Like Ability', ['Detect thoughts'], 0, new Frequency(0, 'Constant')),
+        ];
+        await helper.waitForChangeDetection();
+
+        expect(attackDetails(3)).toEqual([
+          'Type: spell-like ability',
+          'Frequency: 1/Round (6 seconds)',
+          'Ethereal jaunt (At Will)',
+          'Charm monster (3/Day)',
+          'Detect thoughts (Constant)',
+        ]);
+        expectFeats('li.creature-special-qualities', creature.specialQualities);
+      });
+
+      it('should render a Spell-Like Ability special attack without spell-like abilities', async () => {
+        const everyRound = new Frequency(1, 'Round (6 seconds)');
+        const spellLikeAbility = new Attack('Spell-Like Ability', 'spell-like ability', false, true, true, true, 8, [8], [], '', '', everyRound);
+        creature.specialAttacks = [...creature.specialAttacks, spellLikeAbility];
+        creature.specialQualities = creature.specialQualities.filter(quality => quality.name != 'Spell-Like Ability');
+        await helper.waitForChangeDetection();
+
+        expect(attackDetails(3)).toEqual([
+          'Type: spell-like ability',
+          'Frequency: 1/Round (6 seconds)',
+        ]);
+      });
+
+      it('should render no spell-like abilities without a Spell-Like Ability special attack', async () => {
+        await helper.waitForChangeDetection();
+
+        helper.expectCount('li.creature-spell-like-ability', 0);
+        expectFeats('li.creature-special-qualities', creature.specialQualities);
       });
 
       it('should render no special qualities', async () => {

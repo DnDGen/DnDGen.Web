@@ -32,6 +32,8 @@ import { ConditionalBonusPipe } from '../pipes/conditional-bonus.pipe';
 import { AttackPipe } from '../pipes/attack.pipe';
 import { AgePipe } from '../pipes/age.pipe';
 import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
+import { FrequencyPipe } from '../../character/pipes/frequency.pipe';
+import { Feat } from '../../character/models/feat.model';
 
 @Component({
     selector: 'dndgen-creature',
@@ -64,6 +66,7 @@ import { MaximumAgePipe } from '../pipes/maximum-age.pipe';
       ConditionalBonusPipe,
       AgePipe,
       MaximumAgePipe,
+      FrequencyPipe,
     ]
 })
 
@@ -85,6 +88,10 @@ export class CreatureComponent {
       && attack.attackType == other.attackType
       && attack.totalAttackBonus == other.totalAttackBonus
       && attack.damageSummary == other.damageSummary;
+  }
+
+  public get spellLikeAbilities(): Feat[] {
+    return this.creature.specialQualities.filter(quality => quality.name == 'Spell-Like Ability');
   }
 
   public get fullAttackOptions(): Attack[][] {

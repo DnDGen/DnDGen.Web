@@ -171,6 +171,11 @@ export class CreaturePipe implements PipeTransform {
         for (const attack of creature.specialAttacks) {
             formatted += this.formatAttack(attack, false, '\t\t');
 
+            if (attack.name == 'Spell-Like Ability')
+                formatted += this.lines(creature.specialQualities
+                    .filter(quality => quality.name == 'Spell-Like Ability')
+                    .map(ability => `${ability.foci.join(', ')} (${this.frequencyPipe.transform(ability.frequency)})`), '\t\t\t');
+
             if (attack.name == 'Spells')
                 formatted += this.formatMagic(creature.magic, '\t\t\t');
         }

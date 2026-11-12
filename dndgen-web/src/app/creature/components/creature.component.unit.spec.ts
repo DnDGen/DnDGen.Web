@@ -3,6 +3,8 @@ import { CreatureComponent } from './creature.component';
 import { SpellGroupService } from '../../character/services/spell-group.service';
 import { Creature } from '../models/creature.model';
 import { Attack } from '../models/attack.model';
+import { Feat } from '../../character/models/feat.model';
+import { Frequency } from '../../character/models/frequency.model';
 import { CreatureSkill } from '../models/creature-skill.model';
 import { Bonus } from '../models/bonus.model';
 import { Save } from '../models/save.model';
@@ -168,6 +170,20 @@ describe('Creature Component', () => {
 
           expect(component.hasConditionalSaves).toBe(true);
         });
+      });
+    });
+
+    describe('spell-like abilities', () => {
+      it('should have no spell-like abilities when there are no special qualities', () => {
+        expect(component.spellLikeAbilities).toEqual([]);
+      });
+
+      it('should have only the spell-like abilities from the special qualities, in order', () => {
+        const charmMonster = new Feat('Spell-Like Ability', ['Charm monster'], 0, new Frequency(3, 'Day'));
+        const disguiseSelf = new Feat('Spell-Like Ability', ['Disguise self'], 0, new Frequency(0, 'At Will'));
+        component.creature.specialQualities = [new Feat('Darkvision', [], 60), charmMonster, new Feat('Spell Resistance', [], 25), disguiseSelf];
+
+        expect(component.spellLikeAbilities).toEqual([charmMonster, disguiseSelf]);
       });
     });
 
