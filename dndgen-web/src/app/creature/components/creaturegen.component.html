@@ -144,14 +144,8 @@
             <dndgen-creature [creature]="creature()!"></dndgen-creature>
           }
         </div>
-      } @else {
-        <div id="generatingSection">
-          <span>{{generatingMessage()}}</span>
-          <div>
-            <dndgen-loading [isLoading]="generating()" [size]="sizes.Medium"></dndgen-loading>
-          </div>
-        </div>
       }
+      <dndgen-loading id="generatingSection" [isLoading]="generating()" [size]="sizes.Medium"></dndgen-loading>
     </div>
   </div>
 </dndgen-loading>

@@ -96,7 +96,7 @@ describe('CreatureGen Component', () => {
         fixture.componentInstance.generating(),
         buttonSelector,
         '#creatureSection',
-        '#generatingSection dndgen-loading',
+        '#generatingSection',
         validatingSelector,
         '#downloadButton');
 
@@ -109,8 +109,7 @@ describe('CreatureGen Component', () => {
         '#creatureSection',
         '#generatingSection',
         validatingSelector,
-        '#downloadButton',
-        false);
+        '#downloadButton');
 
       helper.expectExists('#noCreature', false);
 
@@ -179,7 +178,7 @@ describe('CreatureGen Component', () => {
     it('should render no creature on initial load', () => {
       helper.expectTextContent('#noCreature', 'No creature has been generated');
       helper.expectExists('#creatureSection dndgen-creature', false);
-      helper.expectExists('#generatingSection', false);
+      helper.expectLoading('#generatingSection', false, Size.Medium);
       helper.expectExists('#downloadButton', false);
     });
 
@@ -195,17 +194,15 @@ describe('CreatureGen Component', () => {
 
     it('should show when generating', async () => {
       fixture.componentInstance.generating.set(true);
-      fixture.componentInstance.generatingMessage.set('Generating creature...');
       await helper.waitForChangeDetection();
 
       helper.expectGenerating(
         fixture.componentInstance.generating(),
         '#creatureButton',
         '#creatureSection',
-        '#generatingSection dndgen-loading',
+        '#generatingSection',
         '#creatureValidating',
         '#downloadButton');
-      helper.expectTextContent('#generatingSection > span', 'Generating creature...');
     });
 
     it('should download a generated creature', async () => {
@@ -435,7 +432,7 @@ describe('CreatureGen Component', () => {
           fixture.componentInstance.generating(),
           '#randomButton',
           '#creatureSection',
-          '#generatingSection dndgen-loading',
+          '#generatingSection',
           '#randomValidating',
           '#downloadButton');
       });

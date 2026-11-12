@@ -85,7 +85,6 @@ describe('CreatureGen Component', () => {
       expect(component.loading()).toBe(false);
       expect(component.validating()).toBe(false);
       expect(component.generating()).toBe(false);
-      expect(component.generatingMessage()).toEqual('');
       expect(component.creature()).toBeNull();
       expect(loggerServiceSpy.logError).toHaveBeenCalledWith(message);
       expect(sweetAlertServiceSpy.showError).toHaveBeenCalledTimes(1);
@@ -99,7 +98,6 @@ describe('CreatureGen Component', () => {
       expect(component.validCreature()).toBe(false);
       expect(component.validRandom()).toBe(false);
       expect(component.creature()).toBeNull();
-      expect(component.generatingMessage()).toEqual('');
     });
 
     it('should initialize the input values', () => {
@@ -282,7 +280,6 @@ describe('CreatureGen Component', () => {
         component.generateCreature();
 
         expect(component.generating()).toBe(true);
-        expect(component.generatingMessage()).toEqual('Generating creature...');
         expect(component.creature()).toBeNull();
 
         await vi.advanceTimersByTimeAsync(delay - 1);
@@ -293,7 +290,6 @@ describe('CreatureGen Component', () => {
         await vi.advanceTimersByTimeAsync(1);
 
         expect(component.generating()).toBe(false);
-        expect(component.generatingMessage()).toEqual('');
         expect(component.creature()).toBe(creature);
       });
 
@@ -393,13 +389,11 @@ describe('CreatureGen Component', () => {
         component.generateRandom();
 
         expect(component.generating()).toBe(true);
-        expect(component.generatingMessage()).toEqual('Generating creature...');
         expect(component.creature()).toBeNull();
 
         await vi.advanceTimersByTimeAsync(delay);
 
         expect(component.generating()).toBe(false);
-        expect(component.generatingMessage()).toEqual('');
         expect(component.creature()).toBe(creature);
       });
 

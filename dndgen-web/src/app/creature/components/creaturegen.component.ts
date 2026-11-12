@@ -97,7 +97,6 @@ export class CreatureGenComponent implements OnInit {
   public validCreature = signal(false);
   public validRandom = signal(false);
   public creature = signal<Creature | null>(null);
-  public generatingMessage = signal('');
 
   ngOnInit(): void {
     this.loading.set(true);
@@ -134,7 +133,6 @@ export class CreatureGenComponent implements OnInit {
     this.loading.set(false);
     this.generating.set(false);
     this.validating.set(false);
-    this.generatingMessage.set('');
 
     this.sweetAlertService.showError();
   }
@@ -221,13 +219,11 @@ export class CreatureGenComponent implements OnInit {
   private startGenerating(): void {
     this.generating.set(true);
     this.creature.set(null);
-    this.generatingMessage.set('Generating creature...');
   }
 
   private setCreature(data: Creature): void {
     this.creature.set(data);
     this.generating.set(false);
-    this.generatingMessage.set('');
   }
 
   public download(): void {
