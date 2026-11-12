@@ -246,7 +246,7 @@ describe('CreatureGen Component', () => {
         });
       });
 
-      it('should set and validate the creature name, keeping the templates', async () => {
+      it('should set the creature name and validate it with the templates already chosen', async () => {
         creatureServiceSpy.validateCreature.mockImplementation(() => getFakeDelay(false));
         component.creatureTemplates = ['template 2', 'template 1'];
 
@@ -356,7 +356,7 @@ describe('CreatureGen Component', () => {
         });
       });
 
-      it('should set and validate the templates, keeping the filters', async () => {
+      it('should set the random templates and validate them with the filters already chosen', async () => {
         creatureServiceSpy.validateRandom.mockImplementation(() => getFakeDelay(true));
         component.randomChallengeRating = 'my cr';
         component.randomAlignment = 'my alignment';
@@ -425,6 +425,8 @@ describe('CreatureGen Component', () => {
     });
 
     it('should not download a missing creature', () => {
+      component.creature.set(null);
+
       component.download();
 
       expect(creaturePipeSpy.transform).not.toHaveBeenCalled();

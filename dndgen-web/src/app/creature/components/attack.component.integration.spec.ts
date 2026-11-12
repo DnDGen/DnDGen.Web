@@ -125,6 +125,40 @@ describe('Attack Component', () => {
       ]);
     });
 
+    it('should render a standard attack with an effect but no damage', async () => {
+      attack.name = 'Touch';
+      attack.attackType = 'melee touch';
+      attack.isNatural = true;
+      attack.totalAttackBonus = 12;
+      attack.fullAttackBonuses = [12];
+      attack.damageSummary = 'Wisdom Drain';
+      attack.damageEffect = 'Wisdom Drain';
+
+      await helper.waitForChangeDetection();
+
+      helper.expectDetails('dndgen-details.attack-heading', 'Touch +12 melee touch (Wisdom Drain)', true);
+      helper.expectTextContents('dndgen-details.attack-heading li', [
+        'Type: Natural melee touch (Primary)',
+        'Frequency: 1/Round (6 seconds)',
+      ]);
+    });
+
+    it('should render a special attack with an effect but no damage, attack bonus, or save', async () => {
+      attack.name = 'Eye ray';
+      attack.attackType = 'supernatural ability';
+      attack.isSpecial = true;
+      attack.damageSummary = 'Dispel magic';
+      attack.damageEffect = 'Dispel magic';
+
+      await helper.waitForChangeDetection();
+
+      helper.expectDetails('dndgen-details.attack-heading', 'Eye ray (Dispel magic)', true);
+      helper.expectTextContents('dndgen-details.attack-heading li', [
+        'Type: supernatural ability',
+        'Frequency: 1/Round (6 seconds)',
+      ]);
+    });
+
     it('should render a special attack with a save', async () => {
       const strength = new CreatureAbility('Strength', 28, 9);
 
