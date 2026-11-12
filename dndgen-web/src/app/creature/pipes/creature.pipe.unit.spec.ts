@@ -210,10 +210,10 @@ describe('Creature Pipe', () => {
       expectFormatted();
     });
 
-    it('formats the conditional hit point bonuses under the rolled hit points', () => {
+    it('formats the conditional hit point bonuses under the hit dice', () => {
       creature.hitPoints.conditionalBonuses = [new Bonus(1), new Bonus(2, 'when raging', true), new Bonus(3, 'at night', true)];
-      expected = replaceLines(expected, '\t\tHit Points: 3456', [
-        '\t\tHit Points: 3456',
+      expected = replaceLines(expected, '\tHit Dice: hit dice roll formatted hit dice', [
+        '\tHit Dice: hit dice roll formatted hit dice',
         '\t\t2 when raging formatted conditional bonus',
         '\t\t3 at night formatted conditional bonus',
       ]);

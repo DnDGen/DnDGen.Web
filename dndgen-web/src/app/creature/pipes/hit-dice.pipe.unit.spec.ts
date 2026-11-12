@@ -11,17 +11,18 @@ describe('HitDicePipe', () => {
     });
 
     const hitDice = [
-      { roll: '1d8', defaultTotal: 4, total: 6, expected: '1d8 (4 hp)' },
-      { roll: '16d8+144', defaultTotal: 216, total: 226, expected: '16d8+144 (216 hp)' },
-      { roll: '48d12+528', defaultTotal: 840, total: 1337, expected: '48d12+528 (840 hp)' },
+      { roll: '1d8', total: 6, expected: '1d8 (6 hp)' },
+      { roll: '16d8+144', total: 226, expected: '16d8+144 (226 hp)' },
+      { roll: '48d12+528', total: 1337, expected: '48d12+528 (1337 hp)' },
     ];
 
     hitDice.forEach(test => {
-      it(`formats the roll with its average hit points, not the rolled total - ${test.roll}`, () => {
-        const hitPoints = new HitPoints(test.total, test.defaultTotal);
+      it(`formats the roll with its rolled hit points - ${test.roll}`, () => {
+        const hitPoints = new HitPoints(test.total);
         hitPoints.defaultRoll = test.roll;
 
-        expect(pipe.transform(hitPoints)).toEqual(test.expected);
+        const formattedHitDice = pipe.transform(hitPoints);
+        expect(formattedHitDice).toEqual(test.expected);
       });
     });
   });

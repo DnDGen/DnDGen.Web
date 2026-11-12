@@ -149,12 +149,9 @@ describe('Creature Component', () => {
         helper.expectTextContent('li.creature-size-type', 'Size/Type: Large Undead (Incorporeal, Augmented)');
       });
 
-      it('should render the hit dice, with the rolled hit points and conditional bonuses as details', () => {
-        helper.expectDetails('li.creature-hit-dice > dndgen-details', 'Hit Dice: 12d12 (117 hp)', true);
-        helper.expectTextContents('li.creature-hit-dice li', [
-          'Hit Points: 102',
-          '+2 when raging',
-        ]);
+      it('should render the hit dice with the rolled hit points, and conditional bonuses as details', () => {
+        helper.expectDetails('li.creature-hit-dice > dndgen-details', 'Hit Dice: 12d12 (102 hp)', true);
+        helper.expectTextContents('li.creature-hit-dice li', ['+2 when raging']);
       });
 
       it('should render the initiative', () => {
@@ -338,19 +335,20 @@ describe('Creature Component', () => {
         helper.expectTextContent('li.creature-base-attack-grapple', 'Base Attack/Grapple: +9/—');
       });
 
-      it('should render the rolled hit points without conditional bonuses', async () => {
+      it('should render the hit dice without conditional bonuses', async () => {
         creature.hitPoints.conditionalBonuses = [new Bonus(1)];
         await helper.waitForChangeDetection();
 
-        helper.expectDetails('li.creature-hit-dice > dndgen-details', 'Hit Dice: 12d12 (117 hp)', true);
-        helper.expectTextContents('li.creature-hit-dice li', ['Hit Points: 102']);
+        helper.expectDetails('li.creature-hit-dice > dndgen-details', 'Hit Dice: 12d12 (102 hp)', false);
+        helper.expectTextContents('li.creature-hit-dice li', []);
       });
 
-      it('should render the rolled hit points in the thousands', async () => {
-        creature.hitPoints.total = 1337;
+      it('should render many conditional hit point bonuses', async () => {
+        creature.hitPoints.conditionalBonuses = [new Bonus(2, 'when raging', true), new Bonus(1), new Bonus(3, 'at night', true)];
         await helper.waitForChangeDetection();
 
-        helper.expectTextContents('li.creature-hit-dice li', ['Hit Points: 1,337', '+2 when raging']);
+        helper.expectDetails('li.creature-hit-dice > dndgen-details', 'Hit Dice: 12d12 (102 hp)', true);
+        helper.expectTextContents('li.creature-hit-dice li', ['+2 when raging', '+3 at night']);
       });
 
       it('should render the touch and flat-footed armor class without conditional bonuses', async () => {

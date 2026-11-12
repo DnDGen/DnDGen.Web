@@ -62,7 +62,6 @@ export class CreaturePipe implements PipeTransform {
         formatted += this.line(`Size/Type: ${creature.size} ${this.creatureTypePipe.transform(creature.type)}`, '\t');
 
         formatted += this.line('Hit Dice: ' + this.hitDicePipe.transform(creature.hitPoints), '\t');
-        formatted += this.line('Hit Points: ' + creature.hitPoints.total, '\t\t');
         formatted += this.formatConditionalBonuses(creature.hitPoints.conditionalBonuses, '\t\t');
 
         formatted += this.line('Initiative: ' + this.bonusPipe.transform(creature.totalInitiativeBonus), '\t');

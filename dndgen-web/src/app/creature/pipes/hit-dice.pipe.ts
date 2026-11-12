@@ -7,6 +7,6 @@ import { HitPoints } from '../models/hit-points.model';
 })
 export class HitDicePipe implements PipeTransform {
   transform(hitPoints: HitPoints): string {
-    return `${hitPoints.defaultRoll} (${hitPoints.defaultTotal} hp)`;
+    return `${hitPoints.defaultRoll} (${hitPoints.total} hp)`;
   }
 }

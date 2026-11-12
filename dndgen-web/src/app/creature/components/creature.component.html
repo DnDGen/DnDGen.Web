@@ -2,9 +2,8 @@
   <ul>
     <li class="creature-size-type">Size/Type: {{creature.size}} {{creature.type | creatureType}}</li>
     <li class="creature-hit-dice">
-      <dndgen-details heading="Hit Dice: {{creature.hitPoints | hitDice}}" [hasDetails]="true">
+      <dndgen-details heading="Hit Dice: {{creature.hitPoints | hitDice}}" [hasDetails]="getConditionalBonuses(creature.hitPoints.conditionalBonuses).length > 0">
         <ul>
-          <li class="creature-hit-points">Hit Points: {{creature.hitPoints.total | number}}</li>
           @for (bonus of getConditionalBonuses(creature.hitPoints.conditionalBonuses); track $index) {
             <li class="creature-hit-points-conditional">{{bonus | conditionalBonus}}</li>
           }

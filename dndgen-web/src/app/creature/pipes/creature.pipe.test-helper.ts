@@ -52,7 +52,6 @@ export function createCreatureLines(): string[] {
         'creature summary:',
         '\tSize/Type: size creature type formatted type',
         '\tHit Dice: hit dice roll formatted hit dice',
-        '\t\tHit Points: 3456',
         '\tInitiative: 4567 formatted',
         '\tSpeed: Land 30 formatted speed',
         '\tArmor Class: 7 formatted armor class',
