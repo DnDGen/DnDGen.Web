@@ -1,6 +1,6 @@
 ﻿# Generate! -DnDGen.Web Theme-
 
-[![DnDGen.Web](cover.png)](https://suno.com/s/UfzjIXCTb6RlZBt3)
+[![DnDGen.Web](cover.png)](https://suno.com/s/ragoh4wenmvNWsgv)
 
 The DnDGen.Web theme song: a cabaret opening number where the Emcee welcomes the audience into the world of DnDGen with brisk patter and a knowing smile.
 Its lyrics come from the [DnDGen.Web README](https://github.com/DnDGen/DnDGen.Web/blob/main/README.md), sung in plain English.
@@ -320,7 +320,7 @@ No actionable lesson - just a fun fact for the next maintainer.
 
 ## Album Art
 
-**Listen on [Suno](https://suno.com/s/UfzjIXCTb6RlZBt3).**
+**Listen on [Suno](https://suno.com/s/ragoh4wenmvNWsgv).**
 
 `cover.png` will be rendered from `cover.html`, which you can open in any browser.
 To render it again at 1500 x 1500, from this folder:

@@ -3,7 +3,7 @@ DnDGen.Web
 
 This is the website through which people can use the dice roller (RollGen), the equipment generator (TreasureGen), the creature generator (CreatureGen), the character generator (CharacterGen), the encounter generator (EncounterGen), and the dungeon generator (DungeonGen).
 
-[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=main)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=main) [![Theme Song](https://img.shields.io/badge/theme_song-Suno-ff69b4)](https://suno.com/s/UfzjIXCTb6RlZBt3)
+[![Build Status](https://dev.azure.com/dndgen/DnDGen/_apis/build/status%2FDnDGen.Web%20-%20Build?branchName=main)](https://dev.azure.com/dndgen/DnDGen/_build/latest?definitionId=7&branchName=main) [![Theme Song](https://img.shields.io/badge/theme_song-Suno-ff69b4)](https://suno.com/s/ragoh4wenmvNWsgv)
 
 ## Website
 
@@ -141,4 +141,4 @@ For website (Angular) tests, see [dndgen-web/README.md](dndgen-web/README.md).
 
 ## Theme Song
 
-"By Command of the DM, Generate!" — a royal herald fanfare for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/UfzjIXCTb6RlZBt3).**
+"By Command of the DM, Generate!" — a royal herald fanfare for DnDGen.Web. [Record](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | **Listen on [Suno](https://suno.com/s/ragoh4wenmvNWsgv).**
